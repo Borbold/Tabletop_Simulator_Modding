@@ -31,7 +31,7 @@ function Confer(savedData)
   currentEXP = loadedData and loadedData.currentEXP or 0
   infoGUID = loadedData.infoGUID
   maxEXP = currentLVL*50
-  ChangeUI()
+  --ChangeUI()
 end
 -- Уровень
 function MinusLVL(player)
@@ -71,19 +71,6 @@ function ChangeEXP(value, playerColor)
   end
 end
 
-function ResetInfo(player)
-  if not infoGUID then SearchInfo() end
-  getObjectFromGUID(infoGUID).call("Reset", player)
-end
-function SearchInfo()
-  for _,obj in pairs(getObjects()) do
-    if obj.getName() == "Info" and obj.getColorTint() == self.getColorTint() then
-      infoGUID = obj.getGUID()
-      return
-    end
-  end
-end
-
 function Reset(player)
   if CheckPlayer(player.color, true) then
     ResetInfo(player)
@@ -105,36 +92,6 @@ end
 function InputRatioEXP(player, input)
   if input == "" then input = "0" end
   self.UI.setAttribute("ratioEXP", "text", input)
-end
-
-function CheckPlayer(playerColor, onlyGM)
-	if DenoteSth(playerColor, onlyGM) then return true end
-  broadcastToColor("Не тр-рогай СвечУу-у!!! Пидор", playerColor, {1, 0.52, 0.45})
-end
-function DenoteSth(playerColor, onlyGM)
-  if playerColor == "Black" then return true
-  elseif onlyGM then return false end
-
-  for iColor,_ in pairs(colorPlayer) do
-    if CheckColor(iColor) and iColor == playerColor then
-	    return true
-    end
-  end
-end
-function CheckColor(color)
-  local colorObject = {
-    ["R"] = Round(self.getColorTint()[1], 2),
-    ["G"] = Round(self.getColorTint()[2], 2),
-    ["B"] = Round(self.getColorTint()[3], 2)
-  }
-	if colorObject.R == colorPlayer[color].r and
-     colorObject.G == colorPlayer[color].g and
-     colorObject.B == colorPlayer[color].b then
-    return true
-  end
-end
-function Round(num, idp)
-  return math.ceil(num*(10^idp))/10^idp
 end
 
 function RebuildAssets()

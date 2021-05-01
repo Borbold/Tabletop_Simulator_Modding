@@ -11,22 +11,22 @@
 	<TableLayout image='uiBackGrou'>
 		<!-- Здоровье -->
 		<Row>
-			<Cell columnSpan='4' />
+			<Cell columnSpan='6' />
 			
 			<Cell columnSpan='1'>
 				<Panel>
-					<Button image='uiMinus' onClick='MinusLVL' offsetXY='0 -15' />
+					<Button image='uiMinus' onClick='MinusLVL' offsetXY='0 -5' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='1'>
 				<Panel>
-					<Text id='LVL' alignment='LowerCenter' text='1' offsetXY='-20 -10'
+					<Text id='LVL' text='1' offsetXY='-20 0'
 						outline='#94877355'/>
 				</Panel>
 			</Cell>
 			<Cell columnSpan='1'>
 				<Panel>
-					<Button image='uiPlus' onClick='PlusLVL' offsetXY='-40 -15' />
+					<Button image='uiPlus' onClick='PlusLVL' offsetXY='-40 -5' />
 				</Panel>
 			</Cell>
 			
@@ -34,35 +34,53 @@
 		</Row>
 		<!-- Очки действий -->
 		<Row>
-			<Cell columnSpan='4' />
+			<Cell columnSpan='6' />
 			
-			<Cell columnSpan='13'>
-				<InputField id='ratioEXP' onEndEdit='InputRatioEXP' color='#00000000'
-					characterValidation='Integer' text='10' textOutline='#94877355' />
-			</Cell>
-		</Row>
-		<!-- Лампы под ОД -->
-		<Row>
 			<Cell columnSpan='1'>
-				<Button image='uiMinus' onClick='MinusEXP' />
-			</Cell>
-			
-			<Cell columnSpan='15'>
 				<Panel>
-					<ProgressBar id='barEXP' image='uiBarBackG' fillImageColor='#ffffff00'
-						percentage='50' showPercentageText='false' height='54' width='900' />
-					<Mask>
-						<Image id='fillProgressBarImage' height='54' width='900' offsetXY='-800 0' image='uiBarFillImage' />
-					</Mask>
+					<Button image='uiMinus' onClick='MinusLVL' offsetXY='0 -5' />
 				</Panel>
 			</Cell>
-			<Text id='EXP' text='25/50' fontStyle='Bold'
-				shadow='#94877355' shadowDistance='4 -4'
-				outline='#000000' outlineSize='1 1' />
-			
 			<Cell columnSpan='1'>
-				<Button image='uiPlus' onClick='PlusEXP' />
+				<Panel>
+					<Text id='LVL' text='3' offsetXY='-20 0'
+						outline='#94877355'/>
+				</Panel>
 			</Cell>
+			<Cell columnSpan='1'>
+				<Panel>
+					<Button image='uiPlus' onClick='PlusLVL' offsetXY='-40 -5' />
+				</Panel>
+			</Cell>
+			
+			<Cell columnSpan='8' />
+		</Row>
+		<!-- Лампы под ОД -->
+		<Row preferredHeight='50'>
+			<Cell columnSpan='1' />
+			
+			<Cell columnSpan='1' image='uiLampOn' />
+			<Cell columnSpan='1' image='uiLampOn' />
+			<Cell columnSpan='1' image='uiLampOn' />
+			<Cell columnSpan='1' image='uiLampOff' />
+			<Cell columnSpan='1' image='uiLampOff' />
+			<Cell columnSpan='1' image='uiLampOff' />
+			<Cell columnSpan='1' image='uiLampOff' />
+			<Cell columnSpan='1' image='uiLampOff' />
+			<Cell columnSpan='1' image='uiLampOff' />
+			<Cell columnSpan='1' image='uiLampOff' />
+			<Cell columnSpan='1' image='uiLampOff' />
+			<Cell columnSpan='1' image='uiLampOff' />
+			<Cell columnSpan='1' image='uiLampOff' />
+			<Cell columnSpan='1' image='uiLampOff' />
+			<Cell columnSpan='1' image='uiLampOff' />
+			<Cell columnSpan='1' image='uiLampOff' />
+			<Cell columnSpan='1' image='uiLampOff' />
+			<Cell columnSpan='1' image='uiLampOff' />
+			<Cell columnSpan='1' image='uiLampOff' />
+			<Cell columnSpan='1' image='uiLampOff' />
+			
+			<Cell columnSpan='1' />
 		</Row>
 	</TableLayout>
 </Panel>
