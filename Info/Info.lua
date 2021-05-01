@@ -115,9 +115,10 @@ function ChangeMaxSkillPoint(player, input)
   ChangeUI()
 end
 
-function CheckPlayer(playerColor)
+function CheckPlayer(playerColor, onlyGM)
+  local args = {playerColor = playerColor, onlyGM = onlyGM}
   if not levelGUID then SearchLevel() end
-  if getObjectFromGUID(levelGUID).call("CheckPlayer", playerColor) then return true end
+  if getObjectFromGUID(levelGUID).call("CheckPlayer", args) then return true end
 end
 function SearchLevel()
   for _,obj in pairs(getObjects()) do

@@ -67,11 +67,15 @@ function ChangeAP(value, playerColor)
 end
 
 function ChangeMaxHP(player, input)
+  if not CheckPlayer(player.color, true) then return end
+
   if input == "" then input = "0" end
   maxHP = tonumber(input)
   ChangeUI()
 end
 function ChangeMaxAP(player, input)
+  if not CheckPlayer(player.color, true) then return end
+
   if input == "" then input = "0" end
   maxAP = tonumber(input)
   maxAP = maxAP <= 20 and maxAP or 20
@@ -87,9 +91,10 @@ function InputRatioAP(player, input)
   self.UI.setAttribute("ratioAP", "text", input)
 end
 
-function CheckPlayer(playerColor)
+function CheckPlayer(playerColor, onlyGM)
   if not levelGUID then SearchLevel() end
-  if getObjectFromGUID(levelGUID).call("CheckPlayer", playerColor) then return true end
+  local args = {playerColor = playerColor, onlyGM = onlyGM}
+  if getObjectFromGUID(levelGUID).call("CheckPlayer", args) then return true end
 end
 function SearchLevel()
   for _,obj in pairs(getObjects()) do

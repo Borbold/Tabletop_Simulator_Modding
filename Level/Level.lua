@@ -44,7 +44,8 @@ function PlusLVL(player)
   ChangeLVL(1, _, player.color)
 end
 function ChangeLVL(value, remainingEXP, playerColor)
-  if not CheckPlayer(playerColor) then return end
+  local args = {playerColor = playerColor}
+  if not CheckPlayer(args) then return end
 
   currentLVL = currentLVL + value
   if currentLVL <= 0 then currentLVL = 1 end
@@ -60,7 +61,8 @@ function PlusEXP(player)
   ChangeEXP(1, player.color)
 end
 function ChangeEXP(value, playerColor)
-  if not CheckPlayer(playerColor) then return end
+  local args = {playerColor = playerColor}
+  if not CheckPlayer(args) then return end
 
   currentEXP = currentEXP + self.UI.getAttribute("ratioEXP", "text")*value
   if currentEXP < maxEXP and currentEXP >= 0 then
@@ -101,7 +103,8 @@ function SearchLife()
 end
 
 function Reset(player)
-  if CheckPlayer(player.color, true) then
+  local args = {playerColor = player.color, onlyGM = true}
+  if CheckPlayer(args) then
     ResetInfo(player) ResetLife(player)
     currentLVL, currentEXP = 1, 0
     ChangeUI()
@@ -122,16 +125,16 @@ function InputRatioEXP(player, input)
   self.UI.setAttribute("ratioEXP", "text", input)
 end
 
-function CheckPlayer(playerColor, onlyGM)
-	if DenoteSth(playerColor, onlyGM) then return true end
-  broadcastToColor("Не тр-рогай СвечУу-у!!! Пидор", playerColor, {1, 0.52, 0.45})
+function CheckPlayer(args)
+	if DenoteSth(args) then return true end
+  broadcastToColor("Не тр-рогай СвечУу-у!!! Пидор", args.playerColor, {1, 0.52, 0.45})
 end
-function DenoteSth(playerColor, onlyGM)
-  if playerColor == "Black" then return true
-  elseif onlyGM then return false end
+function DenoteSth(args)
+  if args.playerColor == "Black" then return true
+  elseif args.onlyGM then return false end
 
   for iColor,_ in pairs(colorPlayer) do
-    if CheckColor(iColor) and iColor == playerColor then
+    if CheckColor(iColor) and iColor == args.playerColor then
 	    return true
     end
   end
