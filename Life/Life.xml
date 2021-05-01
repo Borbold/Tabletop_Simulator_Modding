@@ -1,0 +1,68 @@
+<Defaults>
+	<Cell dontUseTableCellBackground='true' />
+	<Button resizeTextForBestFit='true' resizeTextMaxSize='50'/>
+	<InputField resizeTextForBestFit='true' resizeTextMaxSize='50'
+		textColor='#948773'/>
+	<Text resizeTextForBestFit='true' resizeTextMaxSize='50'
+		color='#948773'/>
+</Defaults>
+
+<Panel position='0 50 -21' height='190' width='1000'>
+	<TableLayout image='uiBackGrou'>
+		<!-- Здоровье -->
+		<Row>
+			<Cell columnSpan='4' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Button image='uiMinus' onClick='MinusLVL' offsetXY='0 -15' />
+				</Panel>
+			</Cell>
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='LVL' alignment='LowerCenter' text='1' offsetXY='-20 -10'
+						outline='#94877355'/>
+				</Panel>
+			</Cell>
+			<Cell columnSpan='1'>
+				<Panel>
+					<Button image='uiPlus' onClick='PlusLVL' offsetXY='-40 -15' />
+				</Panel>
+			</Cell>
+			
+			<Cell columnSpan='8' />
+		</Row>
+		<!-- Очки действий -->
+		<Row>
+			<Cell columnSpan='4' />
+			
+			<Cell columnSpan='13'>
+				<InputField id='ratioEXP' onEndEdit='InputRatioEXP' color='#00000000'
+					characterValidation='Integer' text='10' textOutline='#94877355' />
+			</Cell>
+		</Row>
+		<!-- Лампы под ОД -->
+		<Row>
+			<Cell columnSpan='1'>
+				<Button image='uiMinus' onClick='MinusEXP' />
+			</Cell>
+			
+			<Cell columnSpan='15'>
+				<Panel>
+					<ProgressBar id='barEXP' image='uiBarBackG' fillImageColor='#ffffff00'
+						percentage='50' showPercentageText='false' height='54' width='900' />
+					<Mask>
+						<Image id='fillProgressBarImage' height='54' width='900' offsetXY='-800 0' image='uiBarFillImage' />
+					</Mask>
+				</Panel>
+			</Cell>
+			<Text id='EXP' text='25/50' fontStyle='Bold'
+				shadow='#94877355' shadowDistance='4 -4'
+				outline='#000000' outlineSize='1 1' />
+			
+			<Cell columnSpan='1'>
+				<Button image='uiPlus' onClick='PlusEXP' />
+			</Cell>
+		</Row>
+	</TableLayout>
+</Panel>

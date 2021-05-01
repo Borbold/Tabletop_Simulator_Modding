@@ -1,0 +1,315 @@
+<Defaults>
+	<Cell class='plugForInputField' columnSpan='5' />
+
+	<Cell class='plugFirst' columnSpan='4' />
+	<Cell class='plugSecond' columnSpan='5' />
+	<Cell class='plugThird' columnSpan='5' />
+
+	<Button class='minusSkills' image='uiMinus' onClick='Minus' width='50' />
+	<Button class='plusSkills' image='uiPlus' onClick='Plus' width='50' />
+
+	<Text class='majorValue' text='10' width='100' offsetXY='23 0' outline='#94877355' />
+	<Text class='baffValue' color='#9487ff' resizeTextMaxSize='40' text='1' offsetXY='80 0' width='50' />
+	<Text class='debaffValue' color='#ff8773' resizeTextMaxSize='40' text='1' offsetXY='160 0' width='50' />
+	<Text class='startValue' color='#94ff73' resizeTextMaxSize='40' text='1' offsetXY='240 0' width='50' />
+
+	<InputField class='inputInformation' onEndEdit='InputBasicInformation' />
+
+	<Cell dontUseTableCellBackground='true' />
+	<Button resizeTextForBestFit='true' resizeTextMaxSize='50'/>
+	<InputField resizeTextForBestFit='true' resizeTextMaxSize='50'
+		color='#9487a90a'
+		textColor='#948773' textOutline='#94877355'/>
+	<Text resizeTextForBestFit='true' resizeTextMaxSize='50'
+		color='#948773'/>
+</Defaults>
+
+<Panel position='0 400 -21' height='800' width='1200'>
+	<TableLayout image='uiBackGro'>
+		<Row>
+		</Row>
+		<Row>
+		</Row>
+		<!-- Строка: Имя/Сила -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell class='plugForInputField'>
+				<InputField id='info1' class='inputInformation' />
+			</Cell>
+			
+			<Cell class='plugSecond' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major1' class='majorValue' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusBaff1' class='minusSkills' offsetXY='50 0' />
+					<Text id='baff1' class='baffValue' />
+					<Button id='plusBaff1' class='plusSkills' offsetXY='115 0' />
+				</Panel>
+				<Panel>
+					<Button id='minusDebaff1' class='minusSkills' offsetXY='130 0' />
+					<Text id='debaff1' class='debaffValue' />
+					<Button id='plusDebaff1' class='plusSkills' offsetXY='195 0' />
+				</Panel>
+				<Panel>
+					<Button id='minusStart1' class='minusSkills' offsetXY='210 0' />
+					<Text id='start1' class='startValue' />
+					<Button id='plusStart1' class='plusSkills' offsetXY='275 0' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Возраст/Восприятие -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell class='plugForInputField'>
+				<InputField id='info2' class='inputInformation' />
+			</Cell>
+			
+			<Cell class='plugSecond' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major2' class='majorValue' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusBaff2' class='minusSkills' offsetXY='50 0' />
+					<Text id='baff2' class='baffValue' />
+					<Button id='plusBaff2' class='plusSkills' offsetXY='115 0' />
+				</Panel>
+				<Panel>
+					<Button id='minusDebaff2' class='minusSkills' offsetXY='130 0' />
+					<Text id='debaff2' class='debaffValue' />
+					<Button id='plusDebaff2' class='plusSkills' offsetXY='195 0' />
+				</Panel>
+				<Panel>
+					<Button id='minusStart2' class='minusSkills' offsetXY='210 0' />
+					<Text id='start2' class='startValue' />
+					<Button id='plusStart2' class='plusSkills' offsetXY='275 0' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Пол/Выносливость -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell class='plugForInputField'>
+				<InputField id='info3' class='inputInformation' />
+			</Cell>
+			
+			<Cell class='plugSecond' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major3' class='majorValue' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusBaff3' class='minusSkills' offsetXY='50 0' />
+					<Text id='baff3' class='baffValue' />
+					<Button id='plusBaff3' class='plusSkills' offsetXY='115 0' />
+				</Panel>
+				<Panel>
+					<Button id='minusDebaff3' class='minusSkills' offsetXY='130 0' />
+					<Text id='debaff3' class='debaffValue' />
+					<Button id='plusDebaff3' class='plusSkills' offsetXY='195 0' />
+				</Panel>
+				<Panel>
+					<Button id='minusStart3' class='minusSkills' offsetXY='210 0' />
+					<Text id='start3' class='startValue' />
+					<Button id='plusStart3' class='plusSkills' offsetXY='275 0' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Раса/Харизма -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell class='plugForInputField'>
+				<InputField id='info4' class='inputInformation' />
+			</Cell>
+			
+			<Cell class='plugSecond' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major4' class='majorValue' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusBaff4' class='minusSkills' offsetXY='50 0' />
+					<Text id='baff4' class='baffValue' />
+					<Button id='plusBaff4' class='plusSkills' offsetXY='115 0' />
+				</Panel>
+				<Panel>
+					<Button id='minusDebaff4' class='minusSkills' offsetXY='130 0' />
+					<Text id='debaff4' class='debaffValue' />
+					<Button id='plusDebaff4' class='plusSkills' offsetXY='195 0' />
+				</Panel>
+				<Panel>
+					<Button id='minusStart4' class='minusSkills' offsetXY='210 0' />
+					<Text id='start4' class='startValue' />
+					<Button id='plusStart4' class='plusSkills' offsetXY='275 0' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Фракция/Интелект -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell class='plugForInputField'>
+				<InputField id='info5' class='inputInformation' />
+			</Cell>
+			
+			<Cell class='plugSecond' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major5' class='majorValue' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusBaff5' class='minusSkills' offsetXY='50 0' />
+					<Text id='baff5' class='baffValue' />
+					<Button id='plusBaff5' class='plusSkills' offsetXY='115 0' />
+				</Panel>
+				<Panel>
+					<Button id='minusDebaff5' class='minusSkills' offsetXY='130 0' />
+					<Text id='debaff5' class='debaffValue' />
+					<Button id='plusDebaff5' class='plusSkills' offsetXY='195 0' />
+				</Panel>
+				<Panel>
+					<Button id='minusStart5' class='minusSkills' offsetXY='210 0' />
+					<Text id='start5' class='startValue' />
+					<Button id='plusStart5' class='plusSkills' offsetXY='275 0' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Профессия/Ловкость -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell class='plugForInputField'>
+				<InputField id='info6' class='inputInformation' />
+			</Cell>
+			
+			<Cell class='plugSecond' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major6' class='majorValue' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusBaff6' class='minusSkills' offsetXY='50 0' />
+					<Text id='baff6' class='baffValue' />
+					<Button id='plusBaff6' class='plusSkills' offsetXY='115 0' />
+				</Panel>
+				<Panel>
+					<Button id='minusDebaff6' class='minusSkills' offsetXY='130 0' />
+					<Text id='debaff6' class='debaffValue' />
+					<Button id='plusDebaff6' class='plusSkills' offsetXY='195 0' />
+				</Panel>
+				<Panel>
+					<Button id='minusStart6' class='minusSkills' offsetXY='210 0' />
+					<Text id='start6' class='startValue' />
+					<Button id='plusStart6' class='plusSkills' offsetXY='275 0' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Ранг/Удача -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell class='plugForInputField'>
+				<InputField id='info7' class='inputInformation' />
+			</Cell>
+			
+			<Cell class='plugSecond' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major7' class='majorValue' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusBaff7' class='minusSkills' offsetXY='50 0' />
+					<Text id='baff7' class='baffValue' />
+					<Button id='plusBaff7' class='plusSkills' offsetXY='115 0' />
+				</Panel>
+				<Panel>
+					<Button id='minusDebaff7' class='minusSkills' offsetXY='130 0' />
+					<Text id='debaff7' class='debaffValue' />
+					<Button id='plusDebaff7' class='plusSkills' offsetXY='195 0' />
+				</Panel>
+				<Panel>
+					<Button id='minusStart7' class='minusSkills' offsetXY='210 0' />
+					<Text id='start7' class='startValue' />
+					<Button id='plusStart7' class='plusSkills' offsetXY='275 0' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка:  -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell class='plugForInputField'>
+				<InputField id='info7' class='inputInformation' />
+			</Cell>
+			
+			<Cell class='plugSecond' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major7' class='majorValue' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusBaff7' class='minusSkills' offsetXY='50 0' />
+					<Text id='baff7' class='baffValue' />
+					<Button id='plusBaff7' class='plusSkills' offsetXY='115 0' />
+				</Panel>
+				<Panel>
+					<Button id='minusDebaff7' class='minusSkills' offsetXY='130 0' />
+					<Text id='debaff7' class='debaffValue' />
+					<Button id='plusDebaff7' class='plusSkills' offsetXY='195 0' />
+				</Panel>
+				<Panel>
+					<Button id='minusStart7' class='minusSkills' offsetXY='210 0' />
+					<Text id='start7' class='startValue' />
+					<Button id='plusStart7' class='plusSkills' offsetXY='275 0' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		
+		<Row>
+		</Row>
+		<Row>
+		</Row>
+		<Row>
+		</Row>
+		<Row>
+		</Row>
+	</TableLayout>
+</Panel>
