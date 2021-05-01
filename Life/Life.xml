@@ -63,7 +63,9 @@
 		</Row>
 		<!-- Лампы под ОД -->
 		<Row preferredHeight='50'>
-			<Cell columnSpan='1' />
+			<Cell columnSpan='1'>
+				<Button image='uiMinus' onClick='' />
+			</Cell>
 			
 			<Cell columnSpan='1' image='uiLampOn' />
 			<Cell columnSpan='1' image='uiLampOn' />
@@ -86,7 +88,9 @@
 			<Cell columnSpan='1' image='uiLampOff' />
 			<Cell columnSpan='1' image='uiLampOff' />
 			
-			<Cell columnSpan='1' />
+			<Cell columnSpan='1'>
+				<Button image='uiPlus' onClick='' />
+			</Cell>
 		</Row>
 	</TableLayout>
 </Panel>
