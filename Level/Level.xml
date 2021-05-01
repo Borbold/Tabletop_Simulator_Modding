@@ -2,7 +2,8 @@
 	<Cell dontUseTableCellBackground='true' />
 	<Button resizeTextForBestFit='true' resizeTextMaxSize='50'/>
 	<InputField resizeTextForBestFit='true' resizeTextMaxSize='50'
-		textColor='#948773'/>
+		color='#9487a90a'
+		textColor='#948773' textOutline='#94877355'/>
 	<Text resizeTextForBestFit='true' resizeTextMaxSize='50'
 		color='#948773'/>
 </Defaults>
@@ -42,10 +43,12 @@
 		<Row>
 			<Cell columnSpan='4' />
 			
-			<Cell columnSpan='14'>
-				<InputField id='ratioEXP' onEndEdit='InputRatioEXP' color='#00000000'
-					characterValidation='Integer' text='10' textOutline='#94877355' />
+			<Cell columnSpan='4'>
+				<InputField id='ratioEXP' onEndEdit='InputRatioEXP'
+					characterValidation='Integer' text='10' />
 			</Cell>
+			
+			<Cell columnSpan='10' />
 		</Row>
 		<!-- Прогресс бар -->
 		<Row>

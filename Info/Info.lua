@@ -29,7 +29,7 @@ function Confer(savedData)
 end
 -- Базовая инфа
 function InputBasicInformation(player, input, id)
-  if not CheckColor(player.color) then return end
+  if not CheckPlayer(player.color) then return end
 
   local currentDescription = {}
   for word in self.getDescription():gmatch("%S+") do
@@ -67,7 +67,7 @@ function Plus(player, value, id)
   ChangeSkills(1, id:sub(5), player.color)
 end
 function ChangeSkills(value, id, playerColor)
-  if not CheckColor(playerColor) then return end
+  if not CheckPlayer(playerColor) then return end
 
   if id:sub(0, #id - 1) == "baff" then
     id = tonumber(id:sub(5))
@@ -115,7 +115,7 @@ function ChangeMaxSkillPoint(player, input)
   ChangeUI()
 end
 
-function CheckColor(playerColor)
+function CheckPlayer(playerColor)
   if not levelGUID then SearchLevel() end
   if getObjectFromGUID(levelGUID).call("CheckPlayer", playerColor) then return true end
 end

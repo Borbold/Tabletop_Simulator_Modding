@@ -1,6 +1,7 @@
 ﻿function UpdateSave()
   local dataToSave = {
-    ["currentLVL"] = currentLVL, ["currentEXP"] = currentEXP, ["infoGUID"] = infoGUID
+    ["currentLVL"] = currentLVL, ["currentEXP"] = currentEXP,
+    ["infoGUID"] = infoGUID, ["lifeGUID"] = lifeGUID
   }
   local savedData = JSON.encode(dataToSave)
   self.script_state = savedData
@@ -31,6 +32,7 @@ function Confer(savedData)
   currentLVL = loadedData and loadedData.currentLVL or 1
   currentEXP = loadedData and loadedData.currentEXP or 0
   infoGUID = loadedData.infoGUID
+  lifeGUID = loadedData.lifeGUID
   maxEXP = currentLVL*50
   ChangeUI()
 end
@@ -71,7 +73,7 @@ function ChangeEXP(value, playerColor)
     end
   end
 end
-
+-- Подключение и сброс плашки Info
 function ResetInfo(player)
   if not infoGUID then SearchInfo() end
   getObjectFromGUID(infoGUID).call("Reset", player)
@@ -84,21 +86,33 @@ function SearchInfo()
     end
   end
 end
+-- Подключение и сброс плашки Life
+function ResetLife(player)
+  if not lifeGUID then SearchLife() end
+  getObjectFromGUID(lifeGUID).call("Reset", player)
+end
+function SearchLife()
+  for _,obj in pairs(getObjects()) do
+    if obj.getName() == "Life" and obj.getColorTint() == self.getColorTint() then
+      lifeGUID = obj.getGUID()
+      return
+    end
+  end
+end
 
 function Reset(player)
   if CheckPlayer(player.color, true) then
-    ResetInfo(player)
+    ResetInfo(player) ResetLife(player)
     currentLVL, currentEXP = 1, 0
     ChangeUI()
   end
 end
 function ChangeUI()
-  local avarageValueEXP = currentEXP*100/maxEXP
+  local avarageValue = currentEXP*100/maxEXP
 
   self.UI.setAttribute("LVL", "text", currentLVL)
   self.UI.setAttribute("EXP", "text", currentEXP .. "/" .. maxEXP)
-  self.UI.setAttribute("barEXP", "percentage", avarageValueEXP)
-  local newPositionFillImage = (avarageValueEXP - 100)/100*self.UI.getAttribute("barEXP", "width")
+  local newPositionFillImage = (avarageValue - 100)/100*self.UI.getAttribute("barEXP", "width")
   self.UI.setAttribute("fillProgressBarImage", "offsetXY", newPositionFillImage .. " 0")
   UpdateSave()
 end
@@ -142,7 +156,7 @@ function RebuildAssets()
   local root = 'https://raw.githubusercontent.com/RobMayer/TTSLibrary/master/ui/'
   local rootIn = 'https://img2.freepng.ru/20180418/hlw/kisspng-computer-icons-adventure-hotel-luggage-5ad725017cc0f8.903043971524049153511.jpg'
   local rootB = 'https://img2.freepng.ru/20180320/tze/kisspng-artist-s-book-scalable-vector-graphics-clip-art-gray-books-cliparts-5ab10db5d03c32.1930740015215528218529.jpg'
-  local backG = 'https://cdn.discordapp.com/attachments/800324103848198174/836256234524901416/lvl2.png'
+  local backG = 'https://cdn.discordapp.com/attachments/800324103848198174/837975149025296424/lvl2.png'
   local plus = 'https://cdn.discordapp.com/attachments/800324103848198174/836251236700258344/plus.png'
   local minus = 'https://cdn.discordapp.com/attachments/800324103848198174/836251227884486676/minus.png'
   local reset = 'https://cdn.discordapp.com/attachments/800324103848198174/836632332978094130/resetl1.png'
