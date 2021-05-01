@@ -30,7 +30,13 @@
 				</Panel>
 			</Cell>
 			
-			<Cell columnSpan='8' />
+			<Cell columnSpan='8'>
+				<ProgressBar id='barEXP' image='uiBarBackG' fillImageColor='#ffffff00'
+					percentage='50' showPercentageText='false' height='54' width='900' />
+				<Mask>
+					<Image id='fillProgressBarImage' height='54' width='900' offsetXY='-800 0' image='uiBarFillImage' />
+				</Mask>
+			</Cell>
 		</Row>
 		<!-- Очки действий -->
 		<Row>
