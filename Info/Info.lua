@@ -2,7 +2,7 @@
   local dataToSave = {
     ["majorValue"] = majorValue, ["maxSkillPoint"] = maxSkillPoint,
     ["baffValue"] = baffValue, ["levelGUID"] = levelGUID,
-    ["debaffValue"] = debaffValue,
+    ["debaffValue"] = debaffValue, ["karma"] = karma,
     ["startValue"] = startValue,
   }
   local savedData = JSON.encode(dataToSave)
@@ -23,6 +23,7 @@ function Confer(savedData)
   debaffValue = loadedData.debaffValue or {0, 0, 0, 0, 0, 0, 0}
   startValue = loadedData.startValue or {5, 5, 5, 5, 5, 5, 5}
   maxSkillPoint = loadedData.maxSkillPoint or 40
+  karma = loadedData.karma or 0
   levelGUID = loadedData.levelGUID
   ChangeUI()
   SetBasicInformation()
@@ -106,12 +107,20 @@ function ChangeUI()
   self.UI.setAttribute("rateDevelopment", "text", majorValue[5]*2 + 5)
   self.UI.setAttribute("currentSkillPoint", "text", maxSkillPoint - currentSkillPoint)
   self.UI.setAttribute("maxSkillPoint", "text", maxSkillPoint)
+  self.UI.setAttribute("karma", "text", karma)
   UpdateSave()
 end
 
 function ChangeMaxSkillPoint(player, input)
   if input == "" then return end
   maxSkillPoint = tonumber(input)
+  ChangeUI()
+end
+
+function ChangeKarma(player, input)
+  if not CheckPlayer(playerColor) then return end
+  if input == "" then input = "0" end
+  karma = input
   ChangeUI()
 end
 
@@ -143,7 +152,7 @@ function Reset(player)
 end
 
 function RebuildAssets()
-  local backG = 'https://cdn.discordapp.com/attachments/800324103848198174/836970662971047986/info.png'
+  local backG = 'https://cdn.discordapp.com/attachments/800324103848198174/838061145720881162/info1.png'
   local assets = {
     {name = 'uiBackGr', url = backG},
   }

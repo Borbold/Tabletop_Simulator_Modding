@@ -28,6 +28,8 @@ end
 
 function Confer(savedData)
   RebuildAssets()
+  resetDie = {}
+  resetDie[1], resetDie[2], resetDie[3] = ResetInfo, ResetLife, ResetStatus
   local loadedData = JSON.decode(savedData or "")
   currentLVL = loadedData and loadedData.currentLVL or 1
   currentEXP = loadedData and loadedData.currentEXP or 0
@@ -77,27 +79,23 @@ function ChangeEXP(value, playerColor)
 end
 -- Подключение и сброс плашки Info
 function ResetInfo(player)
-  if not infoGUID then SearchInfo() end
+  if not infoGUID then infoGUID = SearchDie("Info") end
   getObjectFromGUID(infoGUID).call("Reset", player)
-end
-function SearchInfo()
-  for _,obj in pairs(getObjects()) do
-    if obj.getName() == "Info" and obj.getColorTint() == self.getColorTint() then
-      infoGUID = obj.getGUID()
-      return
-    end
-  end
 end
 -- Подключение и сброс плашки Life
 function ResetLife(player)
-  if not lifeGUID then SearchLife() end
+  if not lifeGUID then lifeGUID = SearchDie("Life") end
   getObjectFromGUID(lifeGUID).call("Reset", player)
 end
-function SearchLife()
+-- Подключение и сброс плашки Status
+function ResetStatus(player)
+  if not statusGUID then statusGUID = SearchDie("Status") end
+  getObjectFromGUID(statusGUID).call("Reset", player)
+end
+function SearchDie(name)
   for _,obj in pairs(getObjects()) do
-    if obj.getName() == "Life" and obj.getColorTint() == self.getColorTint() then
-      lifeGUID = obj.getGUID()
-      return
+    if obj.getName() == name and obj.getColorTint() == self.getColorTint() then
+      return obj.getGUID()
     end
   end
 end
@@ -105,7 +103,9 @@ end
 function Reset(player)
   local args = {playerColor = player.color, onlyGM = true}
   if CheckPlayer(args) then
-    ResetInfo(player) ResetLife(player)
+    for _,reset in ipairs(resetDie) do
+      reset(player)
+    end
     currentLVL, currentEXP = 1, 0
     ChangeUI()
   end

@@ -323,9 +323,20 @@
 			
 			<Cell class='plugThird' />
 		</Row>
-		
+		<!-- Строка: карма -->
 		<Row>
+			<Cell columnSpan='9' />
+			
+			<Cell>
+				<Panel>
+					<InputField id='karma' text='40'
+						offsetXY='30 0' outline='#94877355' width='170' height='70'
+						characterValidation='Integer' textAlignment='MiddleCenter'
+						onEndEdit='ChangeKarma' />
+				</Panel>
+			</Cell>
 		</Row>
+		
 		<Row>
 		</Row>
 	</TableLayout>
