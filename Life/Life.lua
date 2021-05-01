@@ -106,9 +106,10 @@ function Reset(player)
   ChangeUI()
 end
 function ChangeUI()
-  self.UI.setAttribute("HP", "text", currentHP .. "/" .. maxHP)
+  self.UI.setAttribute("currentHP", "text", currentHP)
   self.UI.setAttribute("maxHP", "text", maxHP)
   local avarageValue = currentHP*100/maxHP
+  self.UI.setAttribute("HP", "text", avarageValue .. "%")
   self.UI.setAttribute("barHP", "percentage", avarageValue)
 
   self.UI.setAttribute("currentAP", "text", currentAP)

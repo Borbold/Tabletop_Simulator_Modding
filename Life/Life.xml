@@ -9,7 +9,7 @@
 		color='#948773'/>
 </Defaults>
 
-<Panel position='0 50 -21' height='230' width='1000'>
+<Panel position='0 50 -21' height='230' width='1200'>
 	<TableLayout image='uiBackGrou'>
 		<!-- ProgressBar здоровья -->
 		<Row>
@@ -18,10 +18,10 @@
 			<Cell columnSpan='22'>
 				<Panel>
 					<Button image='uiMinus' onClick='MinusHP'
-						offsetXY='-370 -20' />
+						offsetXY='-430 -20' />
 						
 					<ProgressBar id='barHP' fillImageColor='#948773' color='#9487a90a'
-						percentage='50' showPercentageText='false' height='50' width='690'
+						percentage='50' showPercentageText='false' height='50' width='790'
 						offsetXY='-5 -15' />
 					<Text id='HP' text='25/50' fontStyle='Bold'
 						shadow='#94877355' shadowDistance='4 -4'
@@ -29,7 +29,7 @@
 						offsetXY='5 -15' />
 						
 					<Button image='uiPlus' onClick='PlusHP'
-						offsetXY='360 -20' />
+						offsetXY='420 -20' />
 				</Panel>
 			</Cell>
 		</Row>
@@ -46,6 +46,9 @@
 			
 			<Cell columnSpan='2'>
 				<Panel>
+					<Text id='currentHP' offsetXY='-105 -5' outline='#94877355' height='40' width='60'
+						text='3' alignment='MiddleRight' />
+					<Text text='/' offsetXY='-68 -5' outline='#94877355' height='40' />
 					<InputField id='ratioHP' text='10'
 						offsetXY='70 -5' outline='#94877355'
 						characterValidation='Integer' textAlignment='MiddleCenter'
@@ -56,7 +59,7 @@
 			<Cell columnSpan='24' />
 		</Row>
 		<!-- Лампы под ОД -->
-		<Row preferredHeight='37'>
+		<Row preferredHeight='40'>
 			<Cell columnSpan='7' />
 			
 			<Cell columnSpan='1'>
@@ -92,7 +95,7 @@
 		<Row>			
 			<Cell columnSpan='3'>
 				<Panel>
-					<Text id='currentAP' offsetXY='0 10' outline='#94877355' height='40' width='60'
+					<Text id='currentAP' offsetXY='-2 10' outline='#94877355' height='40' width='60'
 						text='3' alignment='MiddleRight' />
 					<Text text='/' offsetXY='35 10' outline='#94877355' height='40' />
 					<InputField id='maxAP' text='20'
