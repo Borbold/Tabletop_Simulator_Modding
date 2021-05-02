@@ -1,5 +1,9 @@
 ﻿function UpdateSave()
   local dataToSave = {
+    ["majorValue"] = majorValue,
+    ["baffValue"] = baffValue,
+    ["debaffValue"] = debaffValue,
+    ["startValue"] = startValue,
   }
   local savedData = JSON.encode(dataToSave)
   self.script_state = savedData
