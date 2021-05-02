@@ -1,6 +1,6 @@
 ﻿function UpdateSave()
   local dataToSave = {
-    ["levelGUID"] = levelGUID, ["infoMajorValue"] = infoMajorValue,
+    ["levelGUID"] = levelGUID,
     ["currentHP"] = currentHP, ["maxHP"] = maxHP,
     ["currentAP"] = currentAP, ["maxAP"] = maxAP,
   }
@@ -35,7 +35,7 @@ function Confer(savedData)
   currentAP = loadedData.currentAP or 3
   maxAP = loadedData.maxAP or 10
   levelGUID = loadedData.levelGUID
-  infoMajorValue = loadedData.infoMajorValue or {}
+  GetInfoMajorValue()
   ChangeUI()
 end
 -- Здоровье
