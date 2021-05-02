@@ -162,8 +162,9 @@ function Round(num, idp)
 end
 
 function ChangeBoundValues()
-  getObjectFromGUID(skillsGUID).call("ChangeMaxHP", {currentLVL = currentLVL})
-  getObjectFromGUID(skillsGUID).call("ChangeMaxAP")
+  if not lifeGUID then lifeGUID = SearchDie("Life") end
+  getObjectFromGUID(lifeGUID).call("ChangeMaxHP", {currentLVL = currentLVL})
+  getObjectFromGUID(lifeGUID).call("ChangeMaxAP")
 end
 
 function RebuildAssets()

@@ -131,7 +131,7 @@ end
 function CheckPlayer(playerColor, onlyGM)
   local args = {playerColor = playerColor, onlyGM = onlyGM}
   if not levelGUID then SearchLevel() end
-  getObjectFromGUID(levelGUID).call("ChangeBoundValues")
+  Wait.time(|| getObjectFromGUID(levelGUID).call("ChangeBoundValues"), 0.01)
   if getObjectFromGUID(levelGUID).call("CheckPlayer", args) then return true end
 end
 function SearchLevel()

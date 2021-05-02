@@ -40,7 +40,7 @@
 					<InputField id='maxHP' text='50'
 						offsetXY='60 -5' outline='#94877355'
 						characterValidation='Integer' textAlignment='MiddleCenter'
-						onEndEdit='ChangeMaxHP' />
+						interactable='false' />
 				</Panel>
 			</Cell>
 			
@@ -110,7 +110,7 @@
 					<InputField id='ratioAP' text='1'
 						offsetXY='70 10' outline='#94877355'
 						characterValidation='Integer' textAlignment='MiddleCenter'
-						onEndEdit='InputRatioAP' />
+						interactable='false' />
 				</Panel>
 			</Cell>
 			

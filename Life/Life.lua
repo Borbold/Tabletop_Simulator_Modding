@@ -3,6 +3,7 @@
     ["levelGUID"] = levelGUID, ["infoGUID"] = infoGUID,
     ["currentHP"] = currentHP, ["startMaxHP"] = startMaxHP,
     ["currentAP"] = currentAP, ["maxAP"] = maxAP,
+    ["currentLVL"] = currentLVL
   }
   local savedData = JSON.encode(dataToSave)
   self.script_state = savedData
@@ -23,8 +24,8 @@ function Confer(savedData)
   maxAP = loadedData.maxAP or 10
   levelGUID = loadedData.levelGUID
   infoGUID = loadedData.infoGUID
-  infoMajorValue = GetInfoMajorValue()
-  ChangeUI()
+  GetInfoMajorValue()
+  ChangeMaxHP({currentLVL = loadedData.currentLVL or 1})
 end
 -- Здоровье
 function MinusHP(player)
@@ -56,16 +57,19 @@ function ChangeAP(value, playerColor)
 end
 
 function ChangeMaxHP(args)
+  GetInfoMajorValue()
   if args.currentLVL == 1 then
     startMaxHP = 15 + infoMajorValue[1] + infoMajorValue[3]*2
+    maxHP = startMaxHP
   else
-    for i = 1, args.currentLVL do
+    for i = 2, args.currentLVL do
       maxHP = startMaxHP + math.ceil(infoMajorValue[3]/2) + 2
     end
   end
   ChangeUI()
 end
 function ChangeMaxAP()
+  GetInfoMajorValue()
   maxAP = 5 + math.floor(infoMajorValue[6]/2)
   ChangeUI()
 end
@@ -80,12 +84,15 @@ function InputRatioAP(player, input)
 end
 
 function GetInfoMajorValue()
-  if not levelGUID then SearchDie("Level") end
-  if not infoGUID then SearchDie("Info") end
-  return getObjectFromGUID(infoGUID).call("GetMajorValue", args)
+  if not levelGUID then levelGUID = SearchDie("Level") end
+  if not infoGUID then infoGUID = SearchDie("Info") end
+  infoMajorValue = {}
+  for i,value in ipairs(getObjectFromGUID(infoGUID).call("GetMajorValue")) do
+    infoMajorValue[i] = value
+  end
 end
 function CheckPlayer(playerColor, onlyGM)
-  if not levelGUID then SearchDie("Level") end
+  if not levelGUID then levelGUID = SearchDie("Level") end
   local args = {playerColor = playerColor, onlyGM = onlyGM}
   if getObjectFromGUID(levelGUID).call("CheckPlayer", args) then return true end
 end
@@ -106,7 +113,7 @@ function ChangeUI()
   self.UI.setAttribute("currentHP", "text", currentHP)
   self.UI.setAttribute("maxHP", "text", maxHP)
   local avarageValue = currentHP*100/maxHP
-  self.UI.setAttribute("HP", "text", avarageValue .. "%")
+  self.UI.setAttribute("HP", "text", math.ceil(avarageValue) .. "%")
   self.UI.setAttribute("barHP", "percentage", avarageValue)
 
   self.UI.setAttribute("currentAP", "text", currentAP)
