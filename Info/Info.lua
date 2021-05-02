@@ -124,6 +124,10 @@ function ChangeKarma(player, input)
   ChangeUI()
 end
 
+function GetMajorValue()
+  return majorValue
+end
+
 function CheckPlayer(playerColor, onlyGM)
   local args = {playerColor = playerColor, onlyGM = onlyGM}
   if not levelGUID then SearchLevel() end
