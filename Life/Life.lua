@@ -1,7 +1,7 @@
 ﻿function UpdateSave()
   local dataToSave = {
     ["levelGUID"] = levelGUID, ["infoGUID"] = infoGUID,
-    ["currentHP"] = currentHP, ["maxHP"] = maxHP,
+    ["currentHP"] = currentHP, ["startMaxHP"] = startMaxHP,
     ["currentAP"] = currentAP, ["maxAP"] = maxAP,
   }
   local savedData = JSON.encode(dataToSave)
@@ -18,7 +18,7 @@ function Confer(savedData)
   RebuildAssets()
   local loadedData = JSON.decode(savedData or "")
   currentHP = loadedData.currentHP or 25
-  maxHP = loadedData.maxHP or 50
+  startMaxHP = loadedData.startMaxHP or 50
   currentAP = loadedData.currentAP or 3
   maxAP = loadedData.maxAP or 10
   levelGUID = loadedData.levelGUID
@@ -56,16 +56,13 @@ function ChangeAP(value, playerColor)
 end
 
 function ChangeMaxHP(args)
-  -- Высчитываем стартовое ОЗ (и именно его сохраняем)
-  --TODO: сделать сохранение
   if args.currentLVL == 1 then
-    maxHP = 15 + infoMajorValue[1] + infoMajorValue[3]*2
+    startMaxHP = 15 + infoMajorValue[1] + infoMajorValue[3]*2
   else
     for i = 1, args.currentLVL do
-      maxHP = maxHP + infoMajorValue[3]/2 + 2
+      maxHP = startMaxHP + infoMajorValue[3]/2 + 2
     end
   end
-  
   ChangeUI()
 end
 function ChangeMaxAP(player, input)
@@ -106,7 +103,7 @@ end
 
 function Reset(player)
   currentHP, currentAP = 25, 3
-  maxHP, maxAP = 50, 10
+  startMaxHP, maxHP, maxAP = 50, 0, 10
   ChangeUI()
 end
 function ChangeUI()
