@@ -1,6 +1,6 @@
 ﻿function UpdateSave()
   local dataToSave = {
-    ["levelGUID"] = levelGUID,
+    ["levelGUID"] = levelGUID, ["infoMajorValue"] = infoMajorValue,
     ["currentHP"] = currentHP, ["maxHP"] = maxHP,
     ["currentAP"] = currentAP, ["maxAP"] = maxAP,
   }
@@ -35,6 +35,7 @@ function Confer(savedData)
   currentAP = loadedData.currentAP or 3
   maxAP = loadedData.maxAP or 10
   levelGUID = loadedData.levelGUID
+  infoMajorValue = loadedData.infoMajorValue or {}
   ChangeUI()
 end
 -- Здоровье
@@ -91,20 +92,20 @@ function InputRatioAP(player, input)
   self.UI.setAttribute("ratioAP", "text", input)
 end
 
-function SearchInfo()
-  if not levelGUID then SearchLevel() end
-  if not infoGUID then infoGUID = getObjectFromGUID(levelGUID).call("SearchDie", "Info") end
+function GetInfoMajorValue()
+  if not levelGUID then SearchLevel("Level") end
+  if not infoGUID then SearchLevel("Info") end
+  infoMajorValue = getObjectFromGUID(infoGUID).call("GetMajorValue", args)
 end
 function CheckPlayer(playerColor, onlyGM)
-  if not levelGUID then SearchLevel() end
+  if not levelGUID then SearchDie("Level") end
   local args = {playerColor = playerColor, onlyGM = onlyGM}
   if getObjectFromGUID(levelGUID).call("CheckPlayer", args) then return true end
 end
-function SearchLevel()
+function SearchDie(name)
   for _,obj in pairs(getObjects()) do
-    if obj.getName() == "Level" and obj.getColorTint() == self.getColorTint() then
-      levelGUID = obj.getGUID()
-      return
+    if obj.getName() == name and obj.getColorTint() == self.getColorTint() then
+      return obj.getGUID()
     end
   end
 end
