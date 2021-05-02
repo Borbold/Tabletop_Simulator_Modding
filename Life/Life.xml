@@ -37,18 +37,13 @@
 		<Row>
 			<Cell columnSpan='3'>
 				<Panel>
-					<InputField id='maxHP' text='50'
-						offsetXY='60 -5' outline='#94877355'
-						characterValidation='Integer' textAlignment='MiddleCenter'
-						interactable='false' />
+					<Text id='currentHP' text='3/3'
+						offsetXY='0 -5' outline='#94877355' height='40' width='100'/>
 				</Panel>
 			</Cell>
 			
 			<Cell columnSpan='2'>
 				<Panel>
-					<Text id='currentHP' offsetXY='-105 -5' outline='#94877355' height='40' width='60'
-						text='3' alignment='MiddleRight' />
-					<Text text='/' offsetXY='-68 -5' outline='#94877355' height='40' />
 					<InputField id='ratioHP' text='10'
 						offsetXY='70 -5' outline='#94877355'
 						characterValidation='Integer' textAlignment='MiddleCenter'
@@ -95,13 +90,13 @@
 		<Row>			
 			<Cell columnSpan='3'>
 				<Panel>
-					<Text id='currentAP' offsetXY='-2 10' outline='#94877355' height='40' width='60'
+					<Text id='currentAP' offsetXY='-42 10' outline='#94877355' height='40' width='60'
 						text='3' alignment='MiddleRight' />
-					<Text text='/' offsetXY='35 10' outline='#94877355' height='40' />
+					<Text text='/' offsetXY='-5 10' outline='#94877355' height='40' />
 					<InputField id='maxAP' text='20'
-						offsetXY='60 10' outline='#94877355'
+						offsetXY='20 10' outline='#94877355'
 						characterValidation='Integer'
-						onEndEdit='ChangeMaxAP' />
+						interactable='false' />
 				</Panel>
 			</Cell>
 			
@@ -110,7 +105,7 @@
 					<InputField id='ratioAP' text='1'
 						offsetXY='70 10' outline='#94877355'
 						characterValidation='Integer' textAlignment='MiddleCenter'
-						interactable='false' />
+						onEndEdit='InputRatioAP' />
 				</Panel>
 			</Cell>
 			

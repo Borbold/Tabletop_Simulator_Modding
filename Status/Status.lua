@@ -41,6 +41,7 @@ function InputStatusInformation(player, input, id)
   newDescription = newDescription .. (id:find("5") and input or currentDescription[5] or "0") .. "\n"
   newDescription = newDescription .. (id:find("6") and input or currentDescription[6] or "0") .. "\n"
   self.setDescription(newDescription)
+  SetStatusInformation()
 end
 function SetStatusInformation()
   local currentDescription = {}

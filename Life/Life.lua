@@ -1,7 +1,7 @@
 ﻿function UpdateSave()
   local dataToSave = {
     ["levelGUID"] = levelGUID, ["infoGUID"] = infoGUID,
-    ["currentHP"] = currentHP, ["startMaxHP"] = startMaxHP,
+    ["currentHP"] = currentHP,
     ["currentAP"] = currentAP, ["maxAP"] = maxAP,
     ["currentLVL"] = currentLVL
   }
@@ -19,7 +19,6 @@ function Confer(savedData)
   RebuildAssets()
   local loadedData = JSON.decode(savedData or "")
   currentHP = loadedData.currentHP or 25
-  startMaxHP = loadedData.startMaxHP or 50
   currentAP = loadedData.currentAP or 3
   maxAP = loadedData.maxAP or 10
   levelGUID = loadedData.levelGUID
@@ -37,7 +36,11 @@ end
 function ChangeHP(value, playerColor)
   if not CheckPlayer(playerColor) then return end
 
-  currentHP = currentHP + self.UI.getAttribute("ratioHP", "text")*value
+  if currentHP + self.UI.getAttribute("ratioHP", "text")*value > maxHP then
+    currentHP = maxHP
+  else
+    currentHP = currentHP + self.UI.getAttribute("ratioHP", "text")*value
+  end
   ChangeUI()
 end
 -- Очки действий
@@ -58,13 +61,11 @@ end
 
 function ChangeMaxHP(args)
   GetInfoMajorValue()
+  startMaxHP = 15 + infoMajorValue[1] + infoMajorValue[3]*2
   if args.currentLVL == 1 then
-    startMaxHP = 15 + infoMajorValue[1] + infoMajorValue[3]*2
     maxHP = startMaxHP
   else
-    for i = 2, args.currentLVL do
-      maxHP = startMaxHP + math.ceil(infoMajorValue[3]/2) + 2
-    end
+    maxHP = startMaxHP + (math.floor(infoMajorValue[3]/2) + 2)*args.currentLVL
   end
   ChangeUI()
 end
@@ -105,13 +106,12 @@ function SearchDie(name)
 end
 
 function Reset(player)
-  currentHP, currentAP = 25, 3
-  startMaxHP, maxHP, maxAP = 50, 50, 10
-  ChangeUI()
+  currentHP, currentAP = 15, 3
+  startMaxHP, maxAP = 50, 10
+  ChangeMaxHP({currentLVL = 1})
 end
 function ChangeUI()
-  self.UI.setAttribute("currentHP", "text", currentHP)
-  self.UI.setAttribute("maxHP", "text", maxHP)
+  self.UI.setAttribute("currentHP", "text", currentHP .. "/" .. maxHP)
   local avarageValue = currentHP*100/maxHP
   self.UI.setAttribute("HP", "text", math.ceil(avarageValue) .. "%")
   self.UI.setAttribute("barHP", "percentage", avarageValue)
@@ -129,7 +129,6 @@ function ChangeUI()
       self.UI.setAttribute("lamp" .. i, "color", "#ffffff44")
     end
   end
-
   UpdateSave()
 end
 

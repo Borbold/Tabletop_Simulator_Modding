@@ -46,6 +46,7 @@ function InputBasicInformation(player, input, id)
   newDescription = newDescription .. (id:find("6") and input or currentDescription[6] or "...") .. "\n"
   newDescription = newDescription .. (id:find("7") and input or currentDescription[7] or "...") .. "\n"
   self.setDescription(newDescription)
+  SetBasicInformation()
 end
 function SetBasicInformation()
   local currentDescription = {}
@@ -108,6 +109,13 @@ function ChangeUI()
   self.UI.setAttribute("currentSkillPoint", "text", maxSkillPoint - currentSkillPoint)
   self.UI.setAttribute("maxSkillPoint", "text", maxSkillPoint)
   self.UI.setAttribute("karma", "text", karma)
+  if karma < -249 then
+    self.UI.setAttribute("karma", "textColor", "#ff8773")
+  elseif karma > 249 then
+    self.UI.setAttribute("karma", "textColor", "#9487ff")
+  else
+    self.UI.setAttribute("karma", "textColor", "#948773")
+  end
   UpdateSave()
 end
 
@@ -118,9 +126,9 @@ function ChangeMaxSkillPoint(player, input)
 end
 
 function ChangeKarma(player, input)
-  if not CheckPlayer(playerColor) then return end
+  if not CheckPlayer(player.color) then return end
   if input == "" then input = "0" end
-  karma = input
+  karma = tonumber(input)
   ChangeUI()
 end
 
@@ -131,7 +139,7 @@ end
 function CheckPlayer(playerColor, onlyGM)
   local args = {playerColor = playerColor, onlyGM = onlyGM}
   if not levelGUID then SearchLevel() end
-  Wait.time(|| getObjectFromGUID(levelGUID).call("ChangeBoundValues"), 0.01)
+  getObjectFromGUID(levelGUID).call("ChangeBoundValues")
   if getObjectFromGUID(levelGUID).call("CheckPlayer", args) then return true end
 end
 function SearchLevel()

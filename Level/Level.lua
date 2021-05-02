@@ -163,8 +163,11 @@ end
 
 function ChangeBoundValues()
   if not lifeGUID then lifeGUID = SearchDie("Life") end
-  getObjectFromGUID(lifeGUID).call("ChangeMaxHP", {currentLVL = currentLVL})
-  getObjectFromGUID(lifeGUID).call("ChangeMaxAP")
+  Wait.time(
+  function()
+    getObjectFromGUID(lifeGUID).call("ChangeMaxHP", {currentLVL = currentLVL})
+    getObjectFromGUID(lifeGUID).call("ChangeMaxAP")
+  end, 0.05)
 end
 
 function RebuildAssets()
