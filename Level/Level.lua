@@ -37,7 +37,7 @@ function Confer(savedData)
   statusGUID = loadedData.statusGUID
   skillsGUID = loadedData.skillsGUID
   maxEXP = currentLVL*50
-  ChangeUI() ChangeMaxHP()
+  ChangeUI() ChangeBoundValues()
 end
 -- Уровень
 function MinusLVL(player)
@@ -54,7 +54,7 @@ function ChangeLVL(value, remainingEXP, playerColor)
   if currentLVL <= 0 then currentLVL = 1 end
   maxEXP = currentLVL*50
   if remainingEXP then currentEXP = remainingEXP end
-  ChangeUI() ChangeMaxHP()
+  ChangeUI() ChangeBoundValues()
 end
 -- Опыт
 function MinusEXP(player)
