@@ -4,7 +4,6 @@
     ["baffValue"] = baffValue,
     ["debaffValue"] = debaffValue,
     ["startValue"] = startValue,
-    ["baffValue"] = baffValue,
   }
   local savedData = JSON.encode(dataToSave)
   self.script_state = savedData
