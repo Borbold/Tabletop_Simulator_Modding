@@ -91,6 +91,10 @@ function InputRatioAP(player, input)
   self.UI.setAttribute("ratioAP", "text", input)
 end
 
+function SearchInfo()
+  if not levelGUID then SearchLevel() end
+  if not infoGUID then infoGUID = getObjectFromGUID(levelGUID).call("SearchDie", "Info") end
+end
 function CheckPlayer(playerColor, onlyGM)
   if not levelGUID then SearchLevel() end
   local args = {playerColor = playerColor, onlyGM = onlyGM}
