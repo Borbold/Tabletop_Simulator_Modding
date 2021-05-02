@@ -116,6 +116,7 @@ function SetTableValue(args)
   majorValue[7] = args.majorValue[3]*5
   majorValue[2] = args.majorValue[6]
   majorValue[8] = args.majorValue[7]
+  majorValue[1] = args.majorValue[2]*2
   ChangeUI()
 end
 

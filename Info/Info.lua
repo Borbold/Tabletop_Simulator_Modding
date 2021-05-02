@@ -3,7 +3,7 @@
     ["majorValue"] = majorValue, ["maxSkillPoint"] = maxSkillPoint,
     ["baffValue"] = baffValue, ["levelGUID"] = levelGUID,
     ["debaffValue"] = debaffValue, ["karma"] = karma,
-    ["startValue"] = startValue, ["statusGUID"] = statusGUID, ["lifeGUID"] = lifeGUID,
+    ["startValue"] = startValue, ["statusGUID"] = statusGUID, ["lifeGUID"] = lifeGUID, ["skillsGUID"] = skillsGUID,
   }
   local savedData = JSON.encode(dataToSave)
   self.script_state = savedData
@@ -27,6 +27,7 @@ function Confer(savedData)
   levelGUID = loadedData.levelGUID
   statusGUID = loadedData.statusGUID
   lifeGUID = loadedData.lifeGUID
+  skillsGUID = loadedData.skillsGUID
   ChangeUI()
   SetBasicInformation()
   ChangeDependentVariables()
@@ -141,6 +142,12 @@ function ChangeDependentVariables()
     majorValue = majorValue
   }
   getObjectFromGUID(statusGUID).call("SetTableValue", args)
+
+  if not skillsGUID then skillsGUID = SearchDie("Skills") end
+  args = {
+    majorValue = majorValue
+  }
+  getObjectFromGUID(skillsGUID).call("SetTableValue", args)
   
   if not levelGUID then levelGUID = SearchDie("Level") end
   if not lifeGUID then lifeGUID = SearchDie("Life") end

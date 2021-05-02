@@ -8,12 +8,12 @@
 	<Button class='minusSkills1' image='uiMinus' onClick='Minus' offsetXY='35 0' width='80' height='80' />
 	<Button class='plusSkills1' image='uiPlus' onClick='Plus' offsetXY='135 0' width='80' height='80' />
 	<Text class='startValue1' color='#94ff73' text='1' offsetXY='85 0' width='100' />
-	<Text class='majorValue1' text='10' width='100' offsetXY='0 0' outline='#94877355' alignment='MiddleLeft' />
+	<Text class='majorValue1' text='10' width='100' offsetXY='5 0' outline='#94877355' alignment='MiddleLeft' />
 
 	<Button class='minusSkills' image='uiMinus' onClick='Minus' offsetXY='160 0' width='80' height='80' />
 	<Button class='plusSkills' image='uiPlus' onClick='Plus' offsetXY='270 0' width='80' height='80' />
 	<Text class='startValue' color='#94ff73' text='1' offsetXY='215 0' width='100' />
-	<Text class='majorValue' text='10' width='100' offsetXY='130 0' outline='#94877355' alignment='MiddleLeft' />
+	<Text class='majorValue' text='10' width='100' offsetXY='133 0' outline='#94877355' alignment='MiddleLeft' />
 
 	<InputField class='inputInformation' onEndEdit='InputBasicInformation' />
 
