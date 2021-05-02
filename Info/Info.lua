@@ -145,7 +145,8 @@ function ChangeDependentVariables()
 
   if not skillsGUID then skillsGUID = SearchDie("Skills") end
   args = {
-    majorValue = majorValue
+    majorValue = majorValue,
+    freeSkillPoints = (majorValue[5]*2 + 5)*getObjectFromGUID(levelGUID).call("GetCurrentLVL"),
   }
   getObjectFromGUID(skillsGUID).call("SetTableValue", args)
   

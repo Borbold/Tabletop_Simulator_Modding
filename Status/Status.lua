@@ -112,11 +112,11 @@ function SearchDie(name)
 end
 
 function SetTableValue(args)
-  majorValue[6] = args.majorValue[3]*2
-  majorValue[7] = args.majorValue[3]*5
-  majorValue[2] = args.majorValue[6]
-  majorValue[8] = args.majorValue[7]
-  majorValue[1] = args.majorValue[2]*2
+  baffValue[6] = args.majorValue[3]*2
+  baffValue[7] = args.majorValue[3]*5
+  baffValue[2] = args.majorValue[6]
+  baffValue[8] = args.majorValue[7]
+  baffValue[1] = args.majorValue[2]*2
   ChangeUI()
 end
 

@@ -15,6 +15,8 @@
 	<Text class='startValue' color='#94ff73' text='1' offsetXY='215 0' width='100' />
 	<Text class='majorValue' text='10' width='100' offsetXY='133 0' outline='#94877355' alignment='MiddleLeft' />
 
+	<Button class='favoritRight' onClick='SetFavoritSkills' color='#ffffff00' offsetXY='200 0' />
+
 	<InputField class='inputInformation' onEndEdit='InputBasicInformation' />
 
 	<Image class='leftStars' image='uiStars' width='40' height='40' offsetXY='-140 0' active='false' />
@@ -39,7 +41,8 @@
 		<Row>
 			<Cell class='plugFirst'>
 				<Panel>
-					<Image class='leftStars' id='specialSkill' />
+					<Button id='favorit1' onClick='SetFavoritSkills' color='#ffffff00' />
+					<Image class='leftStars' id='specialSkill1' />
 				</Panel>
 			</Cell>
 			
@@ -57,7 +60,8 @@
 			
 			<Cell class='plugSecond'>
 				<Panel>
-					<Image class='rightStars' id='specialSkill' />
+					<Button id='favorit11' class='favoritRight' />
+					<Image class='rightStars' id='specialSkill11' />
 				</Panel>
 			</Cell>
 			
@@ -79,7 +83,8 @@
 		<Row>
 			<Cell class='plugFirst'>
 				<Panel>
-					<Image class='leftStars' id='specialSkill' />
+					<Button id='favorit2' onClick='SetFavoritSkills' color='#ffffff00' />
+					<Image class='leftStars' id='specialSkill2' />
 				</Panel>
 			</Cell>
 			
@@ -97,7 +102,8 @@
 			
 			<Cell class='plugSecond'>
 				<Panel>
-					<Image class='rightStars' id='specialSkill' />
+					<Button id='favorit12' class='favoritRight' />
+					<Image class='rightStars' id='specialSkill12' />
 				</Panel>
 			</Cell>
 			
@@ -119,7 +125,8 @@
 		<Row>
 			<Cell class='plugFirst'>
 				<Panel>
-					<Image class='leftStars' id='specialSkill' />
+					<Button id='favorit3' onClick='SetFavoritSkills' color='#ffffff00' />
+					<Image class='leftStars' id='specialSkill3' />
 				</Panel>
 			</Cell>
 			
@@ -137,7 +144,8 @@
 			
 			<Cell class='plugSecond'>
 				<Panel>
-					<Image class='rightStars' id='specialSkill' />
+					<Button id='favorit13' class='favoritRight' />
+					<Image class='rightStars' id='specialSkill13' />
 				</Panel>
 			</Cell>
 			
@@ -159,7 +167,8 @@
 		<Row>
 			<Cell class='plugFirst'>
 				<Panel>
-					<Image class='leftStars' id='specialSkill' />
+					<Button id='favorit4' onClick='SetFavoritSkills' color='#ffffff00' />
+					<Image class='leftStars' id='specialSkill4' />
 				</Panel>
 			</Cell>
 			
@@ -177,7 +186,8 @@
 			
 			<Cell class='plugSecond'>
 				<Panel>
-					<Image class='rightStars' id='specialSkill' />
+					<Button id='favorit14' class='favoritRight' />
+					<Image class='rightStars' id='specialSkill14' />
 				</Panel>
 			</Cell>
 			
@@ -199,7 +209,8 @@
 		<Row>
 			<Cell class='plugFirst'>
 				<Panel>
-					<Image class='leftStars' id='specialSkill' />
+					<Button id='favorit5' onClick='SetFavoritSkills' color='#ffffff00' />
+					<Image class='leftStars' id='specialSkill5' />
 				</Panel>
 			</Cell>
 			
@@ -217,7 +228,8 @@
 			
 			<Cell class='plugSecond'>
 				<Panel>
-					<Image class='rightStars' id='specialSkill' />
+					<Button id='favorit15' class='favoritRight' />
+					<Image class='rightStars' id='specialSkill15' />
 				</Panel>
 			</Cell>
 			
@@ -239,7 +251,8 @@
 		<Row>
 			<Cell class='plugFirst'>
 				<Panel>
-					<Image class='leftStars' id='specialSkill' />
+					<Button id='favorit6' onClick='SetFavoritSkills' color='#ffffff00' />
+					<Image  class='leftStars' id='specialSkill6' />
 				</Panel>
 			</Cell>
 			
@@ -257,7 +270,8 @@
 			
 			<Cell class='plugSecond'>
 				<Panel>
-					<Image class='rightStars' id='specialSkill' />
+					<Button id='favorit16' class='favoritRight' />
+					<Image class='rightStars' id='specialSkill16' />
 				</Panel>
 			</Cell>
 			
@@ -279,7 +293,8 @@
 		<Row>
 			<Cell class='plugFirst'>
 				<Panel>
-					<Image class='leftStars' id='specialSkill' />
+					<Button id='favorit7' onClick='SetFavoritSkills' color='#ffffff00' />
+					<Image  class='leftStars' id='specialSkill7' />
 				</Panel>
 			</Cell>
 			
@@ -297,7 +312,8 @@
 			
 			<Cell class='plugSecond'>
 				<Panel>
-					<Image class='rightStars' id='specialSkill' />
+					<Button id='favorit17' class='favoritRight' />
+					<Image class='rightStars' id='specialSkill17' />
 				</Panel>
 			</Cell>
 			
@@ -319,7 +335,8 @@
 		<Row>
 			<Cell class='plugFirst'>
 				<Panel>
-					<Image class='leftStars' id='specialSkill' />
+					<Button id='favorit8' onClick='SetFavoritSkills' color='#ffffff00' />
+					<Image  class='leftStars' id='specialSkill8' />
 				</Panel>
 			</Cell>
 			
@@ -337,7 +354,8 @@
 			
 			<Cell class='plugSecond'>
 				<Panel>
-					<Image class='rightStars' id='specialSkill' />
+					<Button id='favorit18' class='favoritRight' />
+					<Image class='rightStars' id='specialSkill18' />
 				</Panel>
 			</Cell>
 			
@@ -360,7 +378,8 @@
 		<Row>
 			<Cell class='plugFirst'>
 				<Panel>
-					<Image class='leftStars' id='specialSkill' />
+					<Button id='favorit9' onClick='SetFavoritSkills' color='#ffffff00' />
+					<Image class='leftStars' id='specialSkill9' />
 				</Panel>
 			</Cell>
 			
@@ -378,7 +397,8 @@
 			
 			<Cell class='plugSecond'>
 				<Panel>
-					<Image class='rightStars' id='specialSkill' />
+					<Button id='favorit19' class='favoritRight' />
+					<Image class='rightStars' id='specialSkill19' />
 				</Panel>
 			</Cell>
 			
@@ -401,7 +421,8 @@
 		<Row>
 			<Cell class='plugFirst'>
 				<Panel>
-					<Image class='leftStars' id='specialSkill' />
+					<Button id='favorit10' onClick='SetFavoritSkills' color='#ffffff00' />
+					<Image class='leftStars' id='specialSkill10' />
 				</Panel>
 			</Cell>
 			
@@ -419,7 +440,8 @@
 			
 			<Cell class='plugSecond'>
 				<Panel>
-					<Image class='rightStars' id='specialSkill' />
+					<Button id='favorit20' class='favoritRight' />
+					<Image class='rightStars' id='specialSkill20' />
 				</Panel>
 			</Cell>
 			
@@ -437,8 +459,11 @@
 			
 			<Cell class='plugThird' />
 		</Row>
+		
 		<Row>
+			<Text id='freeSkillPoints' text='Свободные очки навыков: 25' />
 		</Row>
+		
 		<Row>
 		</Row>
 	</TableLayout>
