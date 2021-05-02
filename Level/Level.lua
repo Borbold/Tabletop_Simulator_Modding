@@ -132,7 +132,7 @@ function InputRatioEXP(player, input)
 end
 
 function CheckPlayer(args)
-	if DenoteSth(args) then return true end
+  if DenoteSth(args) then return true end
   broadcastToColor("Не тр-рогай СвечУу-у!!! Пидор", args.playerColor, {1, 0.52, 0.45})
 end
 function DenoteSth(args)
@@ -141,7 +141,7 @@ function DenoteSth(args)
 
   for iColor,_ in pairs(colorPlayer) do
     if CheckColor(iColor) and iColor == args.playerColor then
-	    return true
+      return true
     end
   end
 end
@@ -151,7 +151,7 @@ function CheckColor(color)
     ["G"] = Round(self.getColorTint()[2], 2),
     ["B"] = Round(self.getColorTint()[3], 2)
   }
-	if colorObject.R == colorPlayer[color].r and
+  if colorObject.R == colorPlayer[color].r and
      colorObject.G == colorPlayer[color].g and
      colorObject.B == colorPlayer[color].b then
     return true
@@ -159,6 +159,10 @@ function CheckColor(color)
 end
 function Round(num, idp)
   return math.ceil(num*(10^idp))/10^idp
+end
+
+function GetCurrentLevel()
+  return currentLVL
 end
 
 function RebuildAssets()
