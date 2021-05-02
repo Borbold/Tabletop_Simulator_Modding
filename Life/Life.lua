@@ -24,9 +24,6 @@ function Confer(savedData)
   levelGUID = loadedData.levelGUID
   infoGUID = loadedData.infoGUID
   infoMajorValue = GetInfoMajorValue()
-  -- Высчитываем стартовое ОЗ (и именно его сохраняем)
-  --TODO: сделать сохранение
-  maxHP = 15 + infoMajorValue[1] + infoMajorValue[3]*2
   ChangeUI()
 end
 -- Здоровье
@@ -58,11 +55,17 @@ function ChangeAP(value, playerColor)
   ChangeUI()
 end
 
-function ChangeMaxHP(player, input)
-  if not CheckPlayer(player.color, true) then return end
-
-  if input == "" then input = "0" end
-  maxHP = tonumber(input)
+function ChangeMaxHP(args)
+  -- Высчитываем стартовое ОЗ (и именно его сохраняем)
+  --TODO: сделать сохранение
+  if args.currentLVL == 1 then
+    maxHP = 15 + infoMajorValue[1] + infoMajorValue[3]*2
+  else
+    for i = 1, args.currentLVL do
+      maxHP = maxHP + infoMajorValue[3]/2 + 2
+    end
+  end
+  
   ChangeUI()
 end
 function ChangeMaxAP(player, input)
