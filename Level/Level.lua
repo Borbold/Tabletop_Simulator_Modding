@@ -1,7 +1,7 @@
 ﻿function UpdateSave()
   local dataToSave = {
     ["currentLVL"] = currentLVL, ["currentEXP"] = currentEXP,
-    ["infoGUID"] = infoGUID, ["lifeGUID"] = lifeGUID, ["statusGUID"] = statusGUID,
+    ["infoGUID"] = infoGUID, ["lifeGUID"] = lifeGUID, ["statusGUID"] = statusGUID, ["skillsGUID"] = skillsGUID,
   }
   local savedData = JSON.encode(dataToSave)
   self.script_state = savedData
@@ -29,13 +29,14 @@ end
 function Confer(savedData)
   RebuildAssets()
   resetDie = {}
-  resetDie[1], resetDie[2], resetDie[3] = ResetInfo, ResetLife, ResetStatus
+  resetDie[1], resetDie[2], resetDie[3], resetDie[4] = ResetInfo, ResetLife, ResetStatus, ResetStatus
   local loadedData = JSON.decode(savedData or "")
   currentLVL = loadedData and loadedData.currentLVL or 1
   currentEXP = loadedData and loadedData.currentEXP or 0
   infoGUID = loadedData.infoGUID
   lifeGUID = loadedData.lifeGUID
   statusGUID = loadedData.statusGUID
+  skillsGUID = loadedData.skillsGUID
   maxEXP = currentLVL*50
   ChangeUI()
 end
@@ -92,6 +93,11 @@ end
 function ResetStatus(player)
   if not statusGUID then statusGUID = SearchDie("Status") end
   getObjectFromGUID(statusGUID).call("Reset", player)
+end
+-- Подключение и сброс плашки Skills
+function ResetStatus(player)
+  if not skillsGUID then skillsGUID = SearchDie("Skills") end
+  getObjectFromGUID(skillsGUID).call("Reset", player)
 end
 function SearchDie(name)
   for _,obj in pairs(getObjects()) do
