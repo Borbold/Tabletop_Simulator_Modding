@@ -24,6 +24,9 @@ function Confer(savedData)
   levelGUID = loadedData.levelGUID
   infoGUID = loadedData.infoGUID
   infoMajorValue = GetInfoMajorValue()
+  -- Высчитываем стартовое ОЗ (и именно его сохраняем)
+  --TODO: сделать сохранение
+  maxHP = 15 + infoMajorValue[1] + infoMajorValue[3]*2
   ChangeUI()
 end
 -- Здоровье
