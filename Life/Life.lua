@@ -23,7 +23,7 @@ function Confer(savedData)
   maxAP = loadedData.maxAP or 10
   levelGUID = loadedData.levelGUID
   infoGUID = loadedData.infoGUID
-  GetInfoMajorValue()
+  infoMajorValue = GetInfoMajorValue()
   ChangeUI()
 end
 -- Здоровье
@@ -83,7 +83,7 @@ end
 function GetInfoMajorValue()
   if not levelGUID then SearchLevel("Level") end
   if not infoGUID then SearchLevel("Info") end
-  infoMajorValue = getObjectFromGUID(infoGUID).call("GetMajorValue", args)
+  return getObjectFromGUID(infoGUID).call("GetMajorValue", args)
 end
 function CheckPlayer(playerColor, onlyGM)
   if not levelGUID then SearchDie("Level") end
