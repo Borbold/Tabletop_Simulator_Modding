@@ -60,17 +60,13 @@ function ChangeMaxHP(args)
     startMaxHP = 15 + infoMajorValue[1] + infoMajorValue[3]*2
   else
     for i = 1, args.currentLVL do
-      maxHP = startMaxHP + infoMajorValue[3]/2 + 2
+      maxHP = startMaxHP + math.ceil(infoMajorValue[3]/2) + 2
     end
   end
   ChangeUI()
 end
-function ChangeMaxAP(player, input)
-  if not CheckPlayer(player.color, true) then return end
-
-  if input == "" then input = "0" end
-  maxAP = tonumber(input)
-  maxAP = maxAP <= 20 and maxAP or 20
+function ChangeMaxAP()
+  maxAP = 5 + math.floor(infoMajorValue[6]/2)
   ChangeUI()
 end
 
