@@ -63,6 +63,14 @@ function ChangeUI()
   UpdateSave()
 end
 
+function Reset(player)
+  majorValue = FillingTable(5)
+  baffValue = FillingTable(0)
+  debaffValue = FillingTable(0)
+  startValue = FillingTable(5)
+  ChangeUI()
+end
+
 function RebuildAssets()
   local backG = 'https://cdn.discordapp.com/attachments/800324103848198174/838068682998415380/navyki22.png'
   local stars = 'https://cdn.discordapp.com/attachments/800324103848198174/838075678124408872/stare.png'
