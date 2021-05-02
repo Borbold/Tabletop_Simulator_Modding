@@ -3,7 +3,7 @@
     ["majorValue"] = majorValue, ["maxSkillPoint"] = maxSkillPoint,
     ["baffValue"] = baffValue, ["levelGUID"] = levelGUID,
     ["debaffValue"] = debaffValue, ["karma"] = karma,
-    ["startValue"] = startValue,
+    ["startValue"] = startValue, ["statusGUID"] = statusGUID, ["lifeGUID"] = lifeGUID,
   }
   local savedData = JSON.encode(dataToSave)
   self.script_state = savedData
@@ -11,7 +11,7 @@ end
 
 function onLoad(savedData)
   Wait.time(function()
-    Wait.time(|| Confer(savedData), 0.2)
+    Wait.time(|| Confer(savedData), 0.25)
   end, 0.5)
 end
 
@@ -25,8 +25,11 @@ function Confer(savedData)
   maxSkillPoint = loadedData.maxSkillPoint or 40
   karma = loadedData.karma or 0
   levelGUID = loadedData.levelGUID
+  statusGUID = loadedData.statusGUID
+  lifeGUID = loadedData.lifeGUID
   ChangeUI()
   SetBasicInformation()
+  ChangeDependentVariables()
 end
 -- Базовая инфа
 function InputBasicInformation(player, input, id)
@@ -92,8 +95,8 @@ function ChangeSkills(value, id, playerColor)
   for i = 1, 7 do
     majorValue[i] = baffValue[i] - debaffValue[i] + startValue[i]
   end
-
   ChangeUI()
+  ChangeDependentVariables()
 end
 
 function ChangeUI()
@@ -132,21 +135,31 @@ function ChangeKarma(player, input)
   ChangeUI()
 end
 
-function GetMajorValue()
-  return majorValue
+function ChangeDependentVariables()
+  if not statusGUID then statusGUID = SearchDie("Status") end
+  local args = {
+    majorValue = majorValue
+  }
+  getObjectFromGUID(statusGUID).call("SetTableValue", args)
+  
+  if not levelGUID then levelGUID = SearchDie("Level") end
+  if not lifeGUID then lifeGUID = SearchDie("Life") end
+  args = {
+    majorValue = majorValue,
+    currentLVL = getObjectFromGUID(levelGUID).call("GetCurrentLVL"),
+  }
+  getObjectFromGUID(lifeGUID).call("SetTableValue", args)
 end
 
 function CheckPlayer(playerColor, onlyGM)
+  if not levelGUID then levelGUID = SearchDie("Level") end
   local args = {playerColor = playerColor, onlyGM = onlyGM}
-  if not levelGUID then SearchLevel() end
-  getObjectFromGUID(levelGUID).call("ChangeBoundValues")
   if getObjectFromGUID(levelGUID).call("CheckPlayer", args) then return true end
 end
-function SearchLevel()
+function SearchDie(name)
   for _,obj in pairs(getObjects()) do
-    if obj.getName() == "Level" and obj.getColorTint() == self.getColorTint() then
-      levelGUID = obj.getGUID()
-      return
+    if obj.getName() == name and obj.getColorTint() == self.getColorTint() then
+      return obj.getGUID()
     end
   end
 end

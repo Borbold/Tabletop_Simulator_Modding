@@ -23,8 +23,6 @@ function Confer(savedData)
   maxAP = loadedData.maxAP or 10
   levelGUID = loadedData.levelGUID
   infoGUID = loadedData.infoGUID
-  GetInfoMajorValue()
-  ChangeMaxHP({currentLVL = loadedData.currentLVL or 1})
 end
 -- Здоровье
 function MinusHP(player)
@@ -60,18 +58,20 @@ function ChangeAP(value, playerColor)
 end
 
 function ChangeMaxHP(args)
-  GetInfoMajorValue()
-  startMaxHP = 15 + infoMajorValue[1] + infoMajorValue[3]*2
+  args.majorValue = args.majorValue or {5, 5, 5, 5, 5, 5, 5}
+
+  startMaxHP = 15 + args.majorValue[1] + args.majorValue[3]*2
   if args.currentLVL == 1 then
     maxHP = startMaxHP
   else
-    maxHP = startMaxHP + (math.floor(infoMajorValue[3]/2) + 2)*args.currentLVL
+    maxHP = startMaxHP + (math.floor(args.majorValue[3]/2) + 2)*args.currentLVL
   end
   ChangeUI()
 end
-function ChangeMaxAP()
-  GetInfoMajorValue()
-  maxAP = 5 + math.floor(infoMajorValue[6]/2)
+function ChangeMaxAP(args)
+  args.majorValue = args.majorValue or {5, 5, 5, 5, 5, 5, 5}
+
+  maxAP = 5 + math.floor(args.majorValue[6]/2)
   ChangeUI()
 end
 
@@ -84,14 +84,10 @@ function InputRatioAP(player, input)
   self.UI.setAttribute("ratioAP", "text", input)
 end
 
-function GetInfoMajorValue()
-  if not levelGUID then levelGUID = SearchDie("Level") end
-  if not infoGUID then infoGUID = SearchDie("Info") end
-  infoMajorValue = {}
-  for i,value in ipairs(getObjectFromGUID(infoGUID).call("GetMajorValue")) do
-    infoMajorValue[i] = value
-  end
+function SetTableValue(args)
+  ChangeMaxHP(args) ChangeMaxAP(args)
 end
+
 function CheckPlayer(playerColor, onlyGM)
   if not levelGUID then levelGUID = SearchDie("Level") end
   local args = {playerColor = playerColor, onlyGM = onlyGM}
@@ -107,8 +103,8 @@ end
 
 function Reset(player)
   currentHP, currentAP = 15, 3
-  startMaxHP, maxAP = 50, 10
-  ChangeMaxHP({currentLVL = 1})
+  startMaxHP = 50
+  ChangeMaxHP({currentLVL = 1, majorValue}) ChangeMaxAP({majorValue})
 end
 function ChangeUI()
   self.UI.setAttribute("currentHP", "text", currentHP .. "/" .. maxHP)

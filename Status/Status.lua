@@ -17,17 +17,20 @@ end
 
 function Confer(savedData)
   RebuildAssets()
+  countStatus = 8
   maxInfoStatus = {1000, 1000, 1000, 1000, 1000, 1000}
   local loadedData = JSON.decode(savedData or "")
-  majorValue = loadedData.majorValue or {5, 5, 5, 5, 5, 5, 5, 5}
+  majorValue = loadedData.majorValue or {0, 0, 0, 0, 0, 0, 0, 0}
   baffValue = loadedData.baffValue or {0, 0, 0, 0, 0, 0, 0, 0}
   debaffValue = loadedData.debaffValue or {0, 0, 0, 0, 0, 0, 0, 0}
-  startValue = loadedData.startValue or {5, 5, 5, 5, 5, 5, 5, 5}
+  startValue = loadedData.startValue or {0, 0, 0, 0, 0, 0, 0, 0}
   ChangeUI()
   SetStatusInformation()
 end
 -- Статусная информация
 function InputStatusInformation(player, input, id)
+  if not CheckPlayer(player.color) then return end
+
   local currentDescription = {}
   for word in self.getDescription():gmatch("%S+") do
     table.insert(currentDescription, word)
@@ -58,13 +61,15 @@ end
 -- Статус
 function Minus(player, value, id)
   id = id:lower()
-  ChangeStatus(-1, id:sub(6))
+  ChangeStatus(-1, id:sub(6), player.color)
 end
 function Plus(player, value, id)
   id = id:lower()
-  ChangeStatus(1, id:sub(5))
+  ChangeStatus(1, id:sub(5), player.color)
 end
-function ChangeStatus(value, id)
+function ChangeStatus(value, id, playerColor)
+  if not CheckPlayer(playerColor) then return end
+
   if id:sub(0, #id - 1) == "baff" then
     id = tonumber(id:sub(5))
     baffValue[id] = baffValue[id] + value
@@ -76,7 +81,7 @@ function ChangeStatus(value, id)
     startValue[id] = startValue[id] + value
   end
 
-  for i = 1, 8 do
+  for i = 1, countStatus do
     majorValue[i] = baffValue[i] - debaffValue[i] + startValue[i]
   end
 
@@ -84,7 +89,7 @@ function ChangeStatus(value, id)
 end
 
 function ChangeUI()
-  for i = 1, 8 do
+  for i = 1, countStatus do
     self.UI.setAttribute("major" .. i, "text", majorValue[i])
     self.UI.setAttribute("baff" .. i, "text", baffValue[i])
     self.UI.setAttribute("debaff" .. i, "text", debaffValue[i])
@@ -93,11 +98,32 @@ function ChangeUI()
   UpdateSave()
 end
 
+function CheckPlayer(playerColor, onlyGM)
+  if not levelGUID then levelGUID = SearchDie("Level") end
+  local args = {playerColor = playerColor, onlyGM = onlyGM}
+  if getObjectFromGUID(levelGUID).call("CheckPlayer", args) then return true end
+end
+function SearchDie(name)
+  for _,obj in pairs(getObjects()) do
+    if obj.getName() == name and obj.getColorTint() == self.getColorTint() then
+      return obj.getGUID()
+    end
+  end
+end
+
+function SetTableValue(args)
+  majorValue[6] = args.majorValue[3]*2
+  majorValue[7] = args.majorValue[3]*5
+  majorValue[2] = args.majorValue[6]
+  majorValue[8] = args.majorValue[7]
+  ChangeUI()
+end
+
 function Reset(player)
-  majorValue = {5, 5, 5, 5, 5, 5, 5, 5}
+  majorValue = {0, 0, 0, 0, 0, 0, 0, 0}
   baffValue = {0, 0, 0, 0, 0, 0, 0, 0}
   debaffValue = {0, 0, 0, 0, 0, 0, 0, 0}
-  startValue = {5, 5, 5, 5, 5, 5, 5, 5}
+  startValue = {0, 0, 0, 0, 0, 0, 0, 0}
   for i = 1, 6 do
     InputStatusInformation(player, "0", tostring(i))
   end

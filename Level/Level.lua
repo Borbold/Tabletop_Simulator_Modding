@@ -28,7 +28,7 @@ end
 function Confer(savedData)
   RebuildAssets()
   resetDie = {}
-  resetDie[1], resetDie[2], resetDie[3], resetDie[4] = ResetInfo, ResetLife, ResetStatus, ResetStatus
+  resetDie[1], resetDie[2], resetDie[3], resetDie[4] = ResetInfo, ResetLife, ResetStatus, ResetSkills
   local loadedData = JSON.decode(savedData or "")
   currentLVL = loadedData and loadedData.currentLVL or 1
   currentEXP = loadedData and loadedData.currentEXP or 0
@@ -94,7 +94,7 @@ function ResetStatus(player)
   getObjectFromGUID(statusGUID).call("Reset", player)
 end
 -- Подключение и сброс плашки Skills
-function ResetStatus(player)
+function ResetSkills(player)
   if not skillsGUID then skillsGUID = SearchDie("Skills") end
   getObjectFromGUID(skillsGUID).call("Reset", player)
 end
@@ -112,6 +112,7 @@ function Reset(player)
     for _,reset in ipairs(resetDie) do
       reset(player)
     end
+    ChangeBoundValues()
     currentLVL, currentEXP = 1, 0
     ChangeUI()
   end
@@ -162,12 +163,15 @@ function Round(num, idp)
 end
 
 function ChangeBoundValues()
-  if not lifeGUID then lifeGUID = SearchDie("Life") end
+  if not infoGUID then infoGUID = SearchDie("Info") end
   Wait.time(
   function()
-    getObjectFromGUID(lifeGUID).call("ChangeMaxHP", {currentLVL = currentLVL})
-    getObjectFromGUID(lifeGUID).call("ChangeMaxAP")
+    getObjectFromGUID(infoGUID).call("ChangeDependentVariables")
   end, 0.05)
+end
+
+function GetCurrentLVL()
+  return currentLVL
 end
 
 function RebuildAssets()
