@@ -161,6 +161,11 @@ function Round(num, idp)
   return math.ceil(num*(10^idp))/10^idp
 end
 
+function ChangeMaxHP()
+  -- TODO: Переделать прием данных
+  getObjectFromGUID(skillsGUID).call("ChangeMaxHP", {})
+end
+
 function RebuildAssets()
   local root = 'https://raw.githubusercontent.com/RobMayer/TTSLibrary/master/ui/'
   local rootIn = 'https://img2.freepng.ru/20180418/hlw/kisspng-computer-icons-adventure-hotel-luggage-5ad725017cc0f8.903043971524049153511.jpg'
