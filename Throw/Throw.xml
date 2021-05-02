@@ -1,0 +1,331 @@
+<Defaults>
+	<Cell class='plugForInputField' columnSpan='5' />
+
+	<Cell class='plugFirst' columnSpan='1' />
+	<Cell class='plugThird' columnSpan='1' />
+
+	<InputField class='successful' textColor='#94ff73' />
+	<InputField class='baff' textColor='#9487ff' />
+	<InputField class='deBaff' textColor='#ff8773' />
+
+	<Cell dontUseTableCellBackground='true' />
+	<Button resizeTextForBestFit='true' resizeTextMaxSize='50'
+		color='#948773' />
+	<InputField resizeTextForBestFit='true' resizeTextMaxSize='50'
+		color='#9487a90a' textAlignment='MiddleCenter'
+		textColor='#948773' textOutline='#94877355'
+		onEndEdit='ChangeValue' characterValidation='Integer' />
+	<Text resizeTextForBestFit='true' resizeTextMaxSize='50'
+		color='#948773'/>
+</Defaults>
+
+<Panel position='0 400 -21' height='800' width='1200'>
+	<TableLayout image='uiBackGround' cellSpacing='10'>
+		<Row preferredHeight='20'>
+		</Row>
+		<!-- Строка: 1 -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='5'>
+				<InputField id='successful1' class='successful' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='baff1' class='baff' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='deBaff1' class='deBaff' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='maxValue1' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='countThrow1' />
+			</Cell>
+			
+			<Cell columnSpan='2'>
+				<Button id='throw1' onClick='Throw' />
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: 2 -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='5'>
+				<InputField id='successful2' class='successful' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='baff2' class='baff' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='deBaff2' class='deBaff' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='maxValue2' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='countThrow2' />
+			</Cell>
+			
+			<Cell columnSpan='2'>
+				<Button id='throw2' onClick='Throw' />
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: 3 -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='5'>
+				<InputField id='successful3' class='successful' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='baff3' class='baff' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='deBaff3' class='deBaff' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='maxValue3' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='countThrow3' />
+			</Cell>
+			
+			<Cell columnSpan='2'>
+				<Button id='throw3' onClick='Throw' />
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: 4 -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='5'>
+				<InputField id='successful4' class='successful' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='baff4' class='baff' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='deBaff4' class='deBaff' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='maxValue4' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='countThrow4' />
+			</Cell>
+			
+			<Cell columnSpan='2'>
+				<Button id='throw4' onClick='Throw' />
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: 5 -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='5'>
+				<InputField id='successful5' class='successful' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='baff5' class='baff' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='deBaff5' class='deBaff' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='maxValue5' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='countThrow5' />
+			</Cell>
+			
+			<Cell columnSpan='2'>
+				<Button id='throw5' onClick='Throw' />
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: 6 -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='5'>
+				<InputField id='successful6' class='successful' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='baff6' class='baff' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='deBaff6' class='deBaff' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='maxValue6' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='countThrow6' />
+			</Cell>
+			
+			<Cell columnSpan='2'>
+				<Button id='throw6' onClick='Throw' />
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: 7 -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='5'>
+				<InputField id='successful7' class='successful' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='baff7' class='baff' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='deBaff7' class='deBaff' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='maxValue7' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='countThrow7' />
+			</Cell>
+			
+			<Cell columnSpan='2'>
+				<Button id='throw7' onClick='Throw' />
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: 8 -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='5'>
+				<InputField id='successful8' class='successful' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='baff8' class='baff' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='deBaff8' class='deBaff' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='maxValue8' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='countThrow8' />
+			</Cell>
+			
+			<Cell columnSpan='2'>
+				<Button id='throw8' onClick='Throw' />
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		
+		<!-- Строка: 9 -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='5'>
+				<InputField id='successful9' class='successful' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='baff9' class='baff' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='deBaff9' class='deBaff' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='maxValue9' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='countThrow9' />
+			</Cell>
+			
+			<Cell columnSpan='2'>
+				<Button id='throw9' onClick='Throw' />
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		
+		<!-- Строка: 10 -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='5'>
+				<InputField id='successful10' class='successful' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='baff10' class='baff' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='deBaff10' class='deBaff' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='maxValue10' />
+			</Cell>
+			
+			<Cell columnSpan='5'>
+				<InputField id='countThrow10' />
+			</Cell>
+			
+			<Cell columnSpan='2'>
+				<Button id='throw10' onClick='Throw' />
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<Row preferredHeight='20'>
+		</Row>
+	</TableLayout>
+</Panel>
