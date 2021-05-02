@@ -163,7 +163,7 @@ end
 
 function ChangeMaxHP()
   -- TODO: Переделать прием данных
-  getObjectFromGUID(skillsGUID).call("ChangeMaxHP", {})
+  getObjectFromGUID(skillsGUID).call("ChangeMaxHP", {currentLVL = currentLVL})
 end
 
 function RebuildAssets()
