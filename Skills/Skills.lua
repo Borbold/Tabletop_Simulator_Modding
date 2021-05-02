@@ -17,6 +17,7 @@ end
 
 function Confer(savedData)
   RebuildAssets()
+  countSkills = 20
   local loadedData = JSON.decode(savedData or "")
   majorValue = loadedData.majorValue or FillingTable(5)
   baffValue = loadedData.baffValue or FillingTable(0)
@@ -26,7 +27,7 @@ function Confer(savedData)
 end
 function FillingTable(value)
   local locTable = {}
-  for i = 1, 20 do
+  for i = 1, countSkills do
     table.insert(locTable, value)
   end
   return locTable
@@ -41,17 +42,10 @@ function Plus(player, value, id)
   ChangeSkills(1, id:sub(5))
 end
 function ChangeSkills(value, id)
-  if id:sub(0, #id - 1) == "baff" then
-    id = tonumber(id:sub(5))
-    baffValue[id] = baffValue[id] + value
-  elseif id:sub(0, #id - 1) == "debaff" then
-    id = tonumber(id:sub(7))
-    debaffValue[id] = debaffValue[id] + value
-  elseif id:sub(0, #id - 1) == "start" then
-    id = tonumber(id:sub(6))
-  end
+  id = tonumber(id:sub(6))
+  startValue[id] = startValue[id] + value
 
-  for i = 1, 7 do
+  for i = 1, countSkills do
     majorValue[i] = baffValue[i] - debaffValue[i] + startValue[i]
   end
 
@@ -59,7 +53,7 @@ function ChangeSkills(value, id)
 end
 
 function ChangeUI()
-  for i = 1, 20 do
+  for i = 1, countSkills do
     self.UI.setAttribute("major" .. i, "text", majorValue[i])
     self.UI.setAttribute("start" .. i, "text", startValue[i])
   end
