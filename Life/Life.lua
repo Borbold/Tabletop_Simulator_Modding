@@ -81,8 +81,8 @@ function InputRatioAP(player, input)
 end
 
 function GetInfoMajorValue()
-  if not levelGUID then SearchLevel("Level") end
-  if not infoGUID then SearchLevel("Info") end
+  if not levelGUID then SearchDie("Level") end
+  if not infoGUID then SearchDie("Info") end
   return getObjectFromGUID(infoGUID).call("GetMajorValue", args)
 end
 function CheckPlayer(playerColor, onlyGM)
