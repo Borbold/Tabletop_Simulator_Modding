@@ -54,7 +54,7 @@ function ChangeLVL(value, remainingEXP, playerColor)
   if currentLVL <= 0 then currentLVL = 1 end
   maxEXP = currentLVL*50
   if remainingEXP then currentEXP = remainingEXP end
-  ChangeUI()
+  ChangeUI() ChangeMaxHP()
 end
 -- Опыт
 function MinusEXP(player)
@@ -162,7 +162,6 @@ function Round(num, idp)
 end
 
 function ChangeMaxHP()
-  -- TODO: Переделать прием данных
   getObjectFromGUID(skillsGUID).call("ChangeMaxHP", {currentLVL = currentLVL})
 end
 
