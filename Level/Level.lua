@@ -1,7 +1,7 @@
 ﻿function UpdateSave()
   local dataToSave = {
     ["currentLVL"] = currentLVL, ["currentEXP"] = currentEXP,
-    ["infoGUID"] = infoGUID, ["lifeGUID"] = lifeGUID
+    ["infoGUID"] = infoGUID, ["lifeGUID"] = lifeGUID, ["statusGUID"] = statusGUID,
   }
   local savedData = JSON.encode(dataToSave)
   self.script_state = savedData
@@ -35,6 +35,7 @@ function Confer(savedData)
   currentEXP = loadedData and loadedData.currentEXP or 0
   infoGUID = loadedData.infoGUID
   lifeGUID = loadedData.lifeGUID
+  statusGUID = loadedData.statusGUID
   maxEXP = currentLVL*50
   ChangeUI()
 end
