@@ -103,7 +103,7 @@ end
 
 function Reset(player)
   currentHP, currentAP = 25, 3
-  startMaxHP, maxHP, maxAP = 50, 0, 10
+  startMaxHP, maxHP, maxAP = 50, 50, 10
   ChangeUI()
 end
 function ChangeUI()
