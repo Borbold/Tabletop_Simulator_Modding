@@ -161,8 +161,9 @@ function Round(num, idp)
   return math.ceil(num*(10^idp))/10^idp
 end
 
-function ChangeMaxHP()
+function ChangeBoundValues()
   getObjectFromGUID(skillsGUID).call("ChangeMaxHP", {currentLVL = currentLVL})
+  getObjectFromGUID(skillsGUID).call("ChangeMaxAP")
 end
 
 function RebuildAssets()
