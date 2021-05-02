@@ -131,6 +131,7 @@ end
 function CheckPlayer(playerColor, onlyGM)
   local args = {playerColor = playerColor, onlyGM = onlyGM}
   if not levelGUID then SearchLevel() end
+  getObjectFromGUID(levelGUID).call("ChangeMaxHP")
   if getObjectFromGUID(levelGUID).call("CheckPlayer", args) then return true end
 end
 function SearchLevel()
