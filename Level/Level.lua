@@ -27,15 +27,14 @@ end
 
 function Confer(savedData)
   RebuildAssets()
-  resetDie = {}
-  resetDie[1], resetDie[2], resetDie[3], resetDie[4] = ResetInfo, ResetLife, ResetStatus, ResetSkills
+  resetDieGUID = {}
   local loadedData = JSON.decode(savedData or "")
   currentLVL = loadedData and loadedData.currentLVL or 1
   currentEXP = loadedData and loadedData.currentEXP or 0
-  infoGUID = loadedData.infoGUID
-  lifeGUID = loadedData.lifeGUID
-  statusGUID = loadedData.statusGUID
-  skillsGUID = loadedData.skillsGUID
+  resetDieGUID["Info"] = loadedData.infoGUID
+  resetDieGUID["Life"] = loadedData.infoGUID
+  resetDieGUID["Status"] = loadedData.infoGUID
+  resetDieGUID["Skills"] = loadedData.infoGUID
   maxEXP = currentLVL*50
   ChangeUI() ChangeBoundValues()
 end
@@ -78,26 +77,7 @@ function ChangeEXP(value, playerColor)
     end
   end
 end
--- Подключение и сброс плашки Info
-function ResetInfo(player)
-  if not infoGUID then infoGUID = SearchDie("Info") end
-  getObjectFromGUID(infoGUID).call("Reset", player)
-end
--- Подключение и сброс плашки Life
-function ResetLife(player)
-  if not lifeGUID then lifeGUID = SearchDie("Life") end
-  getObjectFromGUID(lifeGUID).call("Reset", player)
-end
--- Подключение и сброс плашки Status
-function ResetStatus(player)
-  if not statusGUID then statusGUID = SearchDie("Status") end
-  getObjectFromGUID(statusGUID).call("Reset", player)
-end
--- Подключение и сброс плашки Skills
-function ResetSkills(player)
-  if not skillsGUID then skillsGUID = SearchDie("Skills") end
-  getObjectFromGUID(skillsGUID).call("Reset", player)
-end
+
 function SearchDie(name)
   for _,obj in pairs(getObjects()) do
     if obj.getName() == name and obj.getColorTint() == self.getColorTint() then
@@ -109,8 +89,9 @@ end
 function Reset(player)
   local args = {playerColor = player.color, onlyGM = true}
   if CheckPlayer(args) then
-    for _,reset in ipairs(resetDie) do
-      reset(player)
+    for name,guid in ipairs(resetDieGUID) do
+      if not guid then guid = SearchDie(name) end
+      getObjectFromGUID(guid).call("Reset", player)
     end
     ChangeBoundValues()
     currentLVL, currentEXP = 1, 0
