@@ -141,21 +141,20 @@ end
 function ChangeDependentVariables(params)
   currentLVL = params and params.currentLVL or currentLVL
   
-  if not statusGUID then statusGUID = SearchDie("Status") end
+  statusGUID = statusGUID or SearchDie("Status")
   local args = {
     majorValue = majorValue
   }
   getObjectFromGUID(statusGUID).call("SetTableValue", args)
 
-  if not skillsGUID then skillsGUID = SearchDie("Skills") end
+  skillsGUID = skillsGUID or SearchDie("Skills")
   args = {
     majorValue = majorValue,
     freeSkillPoints = (majorValue[5]*2 + 5)*currentLVL,
   }
   getObjectFromGUID(skillsGUID).call("SetTableValue", args)
   
-  if not levelGUID then levelGUID = SearchDie("Level") end
-  if not lifeGUID then lifeGUID = SearchDie("Life") end
+  lifeGUID = lifeGUID or SearchDie("Life")
   args = {
     majorValue = majorValue,
     currentLVL = currentLVL,
@@ -164,7 +163,7 @@ function ChangeDependentVariables(params)
 end
 
 function CheckPlayer(playerColor, onlyGM)
-  if not levelGUID then levelGUID = SearchDie("Level") end
+  levelGUID = levelGUID or SearchDie("Level")
   local args = {playerColor = playerColor, onlyGM = onlyGM}
   if getObjectFromGUID(levelGUID).call("CheckPlayer", args) then return true end
 end
