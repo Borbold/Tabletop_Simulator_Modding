@@ -3,7 +3,8 @@
     ["majorValue"] = majorValue, ["maxSkillPoint"] = maxSkillPoint,
     ["baffValue"] = baffValue, ["levelGUID"] = levelGUID,
     ["debaffValue"] = debaffValue, ["karma"] = karma,
-    ["startValue"] = startValue, ["statusGUID"] = statusGUID, ["lifeGUID"] = lifeGUID, ["skillsGUID"] = skillsGUID,
+    ["startValue"] = startValue,
+    ["statusGUID"] = statusGUID, ["lifeGUID"] = lifeGUID, ["skillsGUID"] = skillsGUID,
     ["currentLVL"] = currentLVL,
   }
   local savedData = JSON.encode(dataToSave)
