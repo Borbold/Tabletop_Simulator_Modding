@@ -85,6 +85,19 @@ function ChangeUI()
   UpdateSave()
 end
 
+function CheckPlayer(playerColor, onlyGM)
+  levelGUID = levelGUID or SearchDie("Level")
+  local args = {playerColor = playerColor, onlyGM = onlyGM}
+  if getObjectFromGUID(levelGUID).call("CheckPlayer", args) then return true end
+end
+function SearchDie(name)
+  for _,obj in pairs(getObjects()) do
+    if obj.getName() == name and obj.getColorTint() == self.getColorTint() then
+      return obj.getGUID()
+    end
+  end
+end
+
 function SetFavoritSkills(player, alt_click, id)
   if not CheckPlayer(player.color) then return end
   
@@ -97,19 +110,6 @@ function SetFavoritSkills(player, alt_click, id)
   
   ChangeSkills(0, "skill" .. id, player.color)
   ChangeUI()
-end
-
-function CheckPlayer(playerColor, onlyGM)
-  levelGUID = levelGUID or SearchDie("Level")
-  local args = {playerColor = playerColor, onlyGM = onlyGM}
-  if getObjectFromGUID(levelGUID).call("CheckPlayer", args) then return true end
-end
-function SearchDie(name)
-  for _,obj in pairs(getObjects()) do
-    if obj.getName() == name and obj.getColorTint() == self.getColorTint() then
-      return obj.getGUID()
-    end
-  end
 end
 
 function SetTableValue(args)
@@ -142,8 +142,6 @@ function SetTableValue(args)
   baffValue[17] = enum.Харизма*5
   baffValue[18] = enum.Харизма*4
   baffValue[19] = enum.Удача*5
-  -- Пустой слот под навык
-  --baffValue[20] = 
 
   freeSkillPoints = args.freeSkillPoints
 
