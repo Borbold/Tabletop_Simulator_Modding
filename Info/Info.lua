@@ -30,7 +30,6 @@ function Confer(savedData)
   skillsGUID = loadedData.skillsGUID
   ChangeUI()
   SetBasicInformation()
-  ChangeDependentVariables()
 end
 -- Базовая инфа
 function InputBasicInformation(player, input, id)
@@ -97,7 +96,6 @@ function ChangeSkills(value, id, playerColor)
     majorValue[i] = baffValue[i] - debaffValue[i] + startValue[i]
   end
   ChangeUI()
-  ChangeDependentVariables()
 end
 
 function ChangeUI()
@@ -121,6 +119,7 @@ function ChangeUI()
     self.UI.setAttribute("karma", "textColor", "#948773")
   end
   UpdateSave()
+  ChangeDependentVariables()
 end
 
 function ChangeMaxSkillPoint(player, input)
