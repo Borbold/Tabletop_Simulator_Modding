@@ -145,8 +145,7 @@ end
 
 function ChangeBoundValues()
   if not infoGUID then infoGUID = SearchDie("Info") end
-  Wait.time(
-  function()
+  Wait.time(function()
     getObjectFromGUID(infoGUID).call("ChangeDependentVariables")
   end, 0.05)
 end
