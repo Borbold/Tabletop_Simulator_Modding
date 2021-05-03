@@ -144,7 +144,7 @@ function Round(num, idp)
 end
 
 function ChangeBoundValues()
-  if not infoGUID then infoGUID = SearchDie("Info") end
+  infoGUID = infoGUID or SearchDie("Info")
   Wait.time(function()
     getObjectFromGUID(infoGUID).call("ChangeDependentVariables", {currentLVL = currentLVL})
   end, 0.05)
