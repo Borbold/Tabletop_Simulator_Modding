@@ -10,7 +10,7 @@
 <Panel position='0 800 -21' height='1600' width='1200'>
 	<TableLayout image='uiBackGroundW' cellSpacing='10'>
 		<Row preferredHeight='10' />
-		
+		<!-- 1 -->
 		<Row>
 			<Cell>
 				<Panel>
@@ -63,112 +63,718 @@
 				</Panel>
 			</Cell>
 		</Row>
-		
+		<!-- 2 -->
 		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='37 -5' icon='uiDice' />
+				</Panel>
+			</Cell>
+			<Cell />
+			<Cell />
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
 			<Cell>
 				<Panel>
 					<Button offsetXY='0 0' />
 				</Panel>
 			</Cell>
 		</Row>
-		
+		<!-- 3 -->
 		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='37 -5' icon='uiDice' />
+				</Panel>
+			</Cell>
+			<Cell />
+			<Cell />
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
 			<Cell>
 				<Panel>
 					<Button offsetXY='0 0' />
 				</Panel>
 			</Cell>
 		</Row>
-		
+		<!-- 4 -->
 		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='37 -5' icon='uiDice' />
+				</Panel>
+			</Cell>
+			<Cell />
+			<Cell />
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
 			<Cell>
 				<Panel>
 					<Button offsetXY='0 0' />
 				</Panel>
 			</Cell>
 		</Row>
-		
+		<!-- 5 -->
 		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='37 -5' icon='uiDice' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='50 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
 			<Cell>
 				<Panel>
 					<Button offsetXY='0 0' />
 				</Panel>
 			</Cell>
 		</Row>
-		
+		<!-- 6 -->
 		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='37 -5' icon='uiDice' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='50 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
 			<Cell>
 				<Panel>
 					<Button offsetXY='0 0' />
 				</Panel>
 			</Cell>
 		</Row>
-		
+		<!-- 7 -->
 		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='37 -5' icon='uiDice' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='50 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
 			<Cell>
 				<Panel>
 					<Button offsetXY='0 0' />
 				</Panel>
 			</Cell>
 		</Row>
-		
+		<!-- 8 -->
 		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='37 -5' icon='uiDice' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='50 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
 			<Cell>
 				<Panel>
 					<Button offsetXY='0 0' />
 				</Panel>
 			</Cell>
 		</Row>
-		
+		<!-- 9 -->
 		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='37 -5' icon='uiDice' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='50 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
 			<Cell>
 				<Panel>
 					<Button offsetXY='0 0' />
 				</Panel>
 			</Cell>
 		</Row>
-		
+		<!-- 10 -->
 		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='37 -5' icon='uiDice' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='50 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
 			<Cell>
 				<Panel>
 					<Button offsetXY='0 0' />
 				</Panel>
 			</Cell>
 		</Row>
-		
+		<!-- 11 -->
 		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='37 -5' icon='uiDice' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='50 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
 			<Cell>
 				<Panel>
 					<Button offsetXY='0 0' />
 				</Panel>
 			</Cell>
 		</Row>
-		
+		<!-- 12 -->
 		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='37 -5' icon='uiDice' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='50 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
 			<Cell>
 				<Panel>
 					<Button offsetXY='0 0' />
 				</Panel>
 			</Cell>
 		</Row>
-		
+		<!-- 13 -->
 		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='37 -5' icon='uiDice' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='50 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
 			<Cell>
 				<Panel>
 					<Button offsetXY='0 0' />
 				</Panel>
 			</Cell>
 		</Row>
-		
+		<!-- 14 -->
 		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='37 -5' icon='uiDice' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='50 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
 			<Cell>
 				<Panel>
 					<Button offsetXY='0 0' />
 				</Panel>
 			</Cell>
 		</Row>
-		
+		<!-- 15 -->
 		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='37 -5' icon='uiDice' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='50 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
 			<Cell>
 				<Panel>
 					<Button offsetXY='0 0' />

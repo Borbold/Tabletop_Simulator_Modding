@@ -1,6 +1,7 @@
 ﻿function UpdateSave()
   local dataToSave = {
     ["currentLVL"] = currentLVL, ["currentEXP"] = currentEXP,
+    ["infoGUID"] = infoGUID
   }
   local savedData = JSON.encode(dataToSave)
   self.script_state = savedData
@@ -30,6 +31,7 @@ function Confer(savedData)
   local loadedData = JSON.decode(savedData or "")
   currentLVL = loadedData and loadedData.currentLVL or 1
   currentEXP = loadedData and loadedData.currentEXP or 0
+  infoGUID = loadedData.infoGUID
   maxEXP = currentLVL*50
   ChangeUI()
 end
@@ -138,8 +140,9 @@ function Round(num, idp)
 end
 
 function ChangeBoundValues()
+  infoGUID = infoGUID or SearchDie("Info")
   Wait.time(function()
-    getObjectFromGUID(SearchDie("Info")).call("ChangeDependentVariables", {currentLVL = currentLVL})
+    getObjectFromGUID(infoGUID).call("ChangeDependentVariables", {currentLVL = currentLVL})
   end, 0.05)
 end
 
