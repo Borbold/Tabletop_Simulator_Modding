@@ -89,7 +89,7 @@ end
 function Reset(player)
   local args = {playerColor = player.color, onlyGM = true}
   if CheckPlayer(args) then
-    for name,guid in ipairs(resetDieGUID) do
+    for name,guid in pairs(resetDieGUID) do
       if not guid then guid = SearchDie(name) end
       getObjectFromGUID(guid).call("Reset", player)
     end
