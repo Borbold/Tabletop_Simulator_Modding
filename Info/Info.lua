@@ -4,6 +4,7 @@
     ["baffValue"] = baffValue, ["levelGUID"] = levelGUID,
     ["debaffValue"] = debaffValue, ["karma"] = karma,
     ["startValue"] = startValue, ["statusGUID"] = statusGUID, ["lifeGUID"] = lifeGUID, ["skillsGUID"] = skillsGUID,
+    ["currentLVL"] = currentLVL,
   }
   local savedData = JSON.encode(dataToSave)
   self.script_state = savedData
@@ -24,6 +25,7 @@ function Confer(savedData)
   startValue = loadedData.startValue or {5, 5, 5, 5, 5, 5, 5}
   maxSkillPoint = loadedData.maxSkillPoint or 40
   karma = loadedData.karma or 0
+  currentLVL = loadedData.currentLVL or 1
   levelGUID = loadedData.levelGUID
   statusGUID = loadedData.statusGUID
   lifeGUID = loadedData.lifeGUID
@@ -118,8 +120,8 @@ function ChangeUI()
   else
     self.UI.setAttribute("karma", "textColor", "#948773")
   end
-  UpdateSave()
   ChangeDependentVariables()
+  UpdateSave()
 end
 
 function ChangeMaxSkillPoint(player, input)
@@ -135,7 +137,9 @@ function ChangeKarma(player, input)
   ChangeUI()
 end
 
-function ChangeDependentVariables()
+function ChangeDependentVariables(params)
+  currentLVL = params and params.currentLVL or currentLVL
+  
   if not statusGUID then statusGUID = SearchDie("Status") end
   local args = {
     majorValue = majorValue
@@ -145,7 +149,7 @@ function ChangeDependentVariables()
   if not skillsGUID then skillsGUID = SearchDie("Skills") end
   args = {
     majorValue = majorValue,
-    freeSkillPoints = (majorValue[5]*2 + 5)*getObjectFromGUID(levelGUID).call("GetCurrentLVL"),
+    freeSkillPoints = (majorValue[5]*2 + 5)*currentLVL,
   }
   getObjectFromGUID(skillsGUID).call("SetTableValue", args)
   
@@ -153,7 +157,7 @@ function ChangeDependentVariables()
   if not lifeGUID then lifeGUID = SearchDie("Life") end
   args = {
     majorValue = majorValue,
-    currentLVL = getObjectFromGUID(levelGUID).call("GetCurrentLVL"),
+    currentLVL = currentLVL,
   }
   getObjectFromGUID(lifeGUID).call("SetTableValue", args)
 end
