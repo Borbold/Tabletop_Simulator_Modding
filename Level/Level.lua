@@ -150,10 +150,6 @@ function ChangeBoundValues()
   end, 0.05)
 end
 
-function GetCurrentLVL()
-  return currentLVL
-end
-
 function RebuildAssets()
   local root = 'https://raw.githubusercontent.com/RobMayer/TTSLibrary/master/ui/'
   local rootIn = 'https://img2.freepng.ru/20180418/hlw/kisspng-computer-icons-adventure-hotel-luggage-5ad725017cc0f8.903043971524049153511.jpg'
