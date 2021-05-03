@@ -1,6 +1,4 @@
 <Defaults>
-	<Button class='giveMaxValue' text='max' color='#ffffff00' onClick='MaxValue' fontStyle='Bold' />
-
 	<Cell dontUseTableCellBackground='true' />
 	<Button resizeTextForBestFit='true' resizeTextMaxSize='50'
 		width='60' height='60'
@@ -10,6 +8,9 @@
 		textColor='#948773' textOutline='#94877355'/>
 	<Text resizeTextForBestFit='true' resizeTextMaxSize='50'
 		color='#948773'/>
+		
+	<Button class='giveMaxValue' color='#ffffff00' onClick='MaxValue'
+		fontStyle='Bold' text='max' width='80' />
 </Defaults>
 
 <Panel position='0 50 -21' height='230' width='1200'>

@@ -10,7 +10,7 @@
 
 	<Cell dontUseTableCellBackground='true' />
 	<Button resizeTextForBestFit='true' resizeTextMaxSize='50'
-		color='#948773' />
+		color='#948773' icon='uiDice' />
 	<InputField resizeTextForBestFit='true' resizeTextMaxSize='50'
 		color='#9487a90a' textAlignment='MiddleCenter'
 		textColor='#948773' textOutline='#94877355'

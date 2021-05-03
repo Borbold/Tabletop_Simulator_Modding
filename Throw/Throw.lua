@@ -92,8 +92,10 @@ end
 
 function RebuildAssets()
   local backG = 'https://cdn.discordapp.com/attachments/800324103848198174/838062391127441428/brosok.png'
+  local dice = 'https://cdn.discordapp.com/attachments/731036309245919292/838722801493213184/dice.png'
   local assets = {
     {name = 'uiBackGround', url = backG},
+    {name = 'uiDice', url = dice},
   }
   self.UI.setCustomAssets(assets)
 end
