@@ -95,7 +95,7 @@ function SetFavoritSkills(player, alt_click, id)
 end
 
 function CheckPlayer(playerColor, onlyGM)
-  if not levelGUID then levelGUID = SearchDie("Level") end
+  levelGUID = levelGUID or SearchDie("Level")
   local args = {playerColor = playerColor, onlyGM = onlyGM}
   if getObjectFromGUID(levelGUID).call("CheckPlayer", args) then return true end
 end
