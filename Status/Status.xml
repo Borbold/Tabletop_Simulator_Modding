@@ -26,12 +26,9 @@
 		color='#948773'/>
 </Defaults>
 
-<Panel position='0 400 -21' height='800' width='1200'>
+<Panel position='0 400 -21' height='700' width='1200'>
 	<TableLayout image='uiBackGro'>
-		<Row>
-		</Row>
-		<Row>
-		</Row>
+		<Row preferredHeight='140' />
 		<!-- Строка: Облучение/Реакция -->
 		<Row>
 			<Cell class='plugFirst' />
@@ -307,13 +304,6 @@
 			<Cell class='plugThird' />
 		</Row>
 		
-		<Row>
-		</Row>
-		<Row>
-		</Row>
-		<Row>
-		</Row>
-		<Row>
-		</Row>
+		<Row preferredHeight='40' />
 	</TableLayout>
 </Panel>

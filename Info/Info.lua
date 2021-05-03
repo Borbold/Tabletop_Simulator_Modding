@@ -38,11 +38,16 @@ end
 function InputBasicInformation(player, input, id)
   if not CheckPlayer(player.color) then return end
 
+  for word in input:gmatch("%S+") do
+    input = word
+    break
+  end
+
   local currentDescription = {}
   for word in self.getDescription():gmatch("%S+") do
     table.insert(currentDescription, word)
   end
-
+  
   local newDescription = ""
   newDescription = newDescription .. (id:find("1") and input or currentDescription[1] or "...") .. "\n"
   newDescription = newDescription .. (id:find("2") and input or currentDescription[2] or "...") .. "\n"

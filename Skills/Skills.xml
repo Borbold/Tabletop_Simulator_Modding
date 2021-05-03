@@ -205,7 +205,7 @@
 			
 			<Cell class='plugThird' />
 		</Row>
-		<!-- Строка: Холодное оружие/Взрывчатка -->
+		<!-- Строка: Холодное оружие/Наука -->
 		<Row>
 			<Cell class='plugFirst'>
 				<Panel>
@@ -247,7 +247,7 @@
 			
 			<Cell class='plugThird' />
 		</Row>
-		<!-- Строка: Метание/Наука -->
+		<!-- Строка: Метание/Ремонт -->
 		<Row>
 			<Cell class='plugFirst'>
 				<Panel>
@@ -289,7 +289,7 @@
 			
 			<Cell class='plugThird' />
 		</Row>
-		<!-- Строка: Первая помощь/Ремонт -->
+		<!-- Строка: Первая помощь/Красноречие -->
 		<Row>
 			<Cell class='plugFirst'>
 				<Panel>
@@ -331,7 +331,7 @@
 			
 			<Cell class='plugThird' />
 		</Row>
-		<!-- Строка: Доктор/Красноречие -->
+		<!-- Строка: Доктор/Бартер -->
 		<Row>
 			<Cell class='plugFirst'>
 				<Panel>
@@ -374,7 +374,7 @@
 			<Cell class='plugThird' />
 		</Row>
 		
-		<!-- Строка: Натуралист/Бартер -->
+		<!-- Строка: Натуралист/Азартные игры  -->
 		<Row>
 			<Cell class='plugFirst'>
 				<Panel>
@@ -417,7 +417,7 @@
 			<Cell class='plugThird' />
 		</Row>
 		
-		<!-- Строка: Пилот/Азартные игры -->
+		<!-- Строка: Пилот/"Свободное место под навык" -->
 		<Row>
 			<Cell class='plugFirst'>
 				<Panel>
@@ -446,6 +446,7 @@
 			</Cell>
 			
 			<Cell columnSpan='1'>
+				<!--
 				<Panel>
 					<Text id='major20' class='majorValue' />
 				</Panel>
@@ -455,6 +456,7 @@
 					<Text id='start20' class='startValue' />
 					<Button id='plusStart20' class='plusSkills' />
 				</Panel>
+				-->
 			</Cell>
 			
 			<Cell class='plugThird' />

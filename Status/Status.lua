@@ -133,7 +133,7 @@ function Reset(player)
 end
 
 function RebuildAssets()
-  local backG = 'https://cdn.discordapp.com/attachments/800324103848198174/838078518155411466/status2.png'
+  local backG = 'https://cdn.discordapp.com/attachments/800324103848198174/838703500652314685/statusykr.png'
   local assets = {
     {name = 'uiBackGro', url = backG},
   }

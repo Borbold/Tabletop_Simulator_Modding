@@ -17,7 +17,7 @@ end
 
 function Confer(savedData)
   RebuildAssets()
-  countSkills = 20
+  countSkills = 19
   local loadedData = JSON.decode(savedData or "")
   majorValue = loadedData.majorValue or FillingTable(0)
   baffValue = loadedData.baffValue or FillingTable(0)
@@ -52,7 +52,9 @@ function ChangeSkills(value, id, playerColor)
     majorValue[i] = baffValue[i] - debaffValue[i] + startValue[i] + startValue[i]*favoritSkills[i]
   end
 
-  ChangeUI()
+  if tostring(value) ~= "0" then
+    ChangeUI()
+  end
 end
 
 function ChangeUI()
@@ -94,6 +96,7 @@ function SetFavoritSkills(player, alt_click, id)
   end
   
   ChangeSkills(0, "skill" .. id, player.color)
+  ChangeUI()
 end
 
 function CheckPlayer(playerColor, onlyGM)
@@ -110,31 +113,43 @@ function SearchDie(name)
 end
 
 function SetTableValue(args)
-  baffValue[1] = 5 + args.majorValue[6]*4
-  baffValue[2] = args.majorValue[6]*2
-  baffValue[3] = args.majorValue[6]*2
-  baffValue[4] = 5 + args.majorValue[6]*4
-  baffValue[5] = 30 + (args.majorValue[6] + args.majorValue[1])*2
-  baffValue[6] = 20 + (args.majorValue[6] + args.majorValue[1])*2
-  baffValue[7] = args.majorValue[6]*4
-  baffValue[8] = (args.majorValue[2] + args.majorValue[5])*2
-  baffValue[9] = 5*((args.majorValue[2] + args.majorValue[5])/3)
-  baffValue[10] = (args.majorValue[3] + args.majorValue[5])*2
-  baffValue[11] = (args.majorValue[1] + args.majorValue[6])*2
-  baffValue[12] = 5 + args.majorValue[6]*3
-  baffValue[13] = 10 + args.majorValue[6] + args.majorValue[1]
-  baffValue[14] = args.majorValue[6]*3
-  baffValue[15] = 10 + args.majorValue[6] + args.majorValue[1]
-  baffValue[16] = 20 + args.majorValue[1]*2 + args.majorValue[7]/2
-  baffValue[17] = args.majorValue[5]*4
-  baffValue[18] = (args.majorValue[5] + args.majorValue[1])*3
-  baffValue[19] = args.majorValue[4]*5
-  baffValue[20] = args.majorValue[7]*5
+  local enum = {
+    Сила = args.majorValue[1],
+    Восприятие = args.majorValue[2],
+    Выносливость = args.majorValue[3],
+    Харизма = args.majorValue[4],
+    Интелект = args.majorValue[5],
+    Ловкость = args.majorValue[6],
+    Удача = args.majorValue[7],
+  }
+  
+  baffValue[1] = 5 + enum.Ловкость*4
+  baffValue[2] = enum.Ловкость*2
+  baffValue[3] = enum.Ловкость*2
+  baffValue[4] = 5 + enum.Ловкость*4
+  baffValue[5] = 30 + (enum.Ловкость + enum.Сила)*2
+  baffValue[6] = 20 + (enum.Ловкость + enum.Сила)*2
+  baffValue[7] = enum.Ловкость*4
+  baffValue[8] = (enum.Восприятие + enum.Интелект)*2
+  baffValue[9] = 5*((enum.Восприятие + enum.Интелект)/3)
+  baffValue[10] = (enum.Восприятие + enum.Ловкость)*2
+  baffValue[11] = 5 + enum.Ловкость*3
+  baffValue[12] = 10 + enum.Ловкость + enum.Восприятие
+  baffValue[13] = enum.Ловкость*3
+  baffValue[14] = 10 + enum.Ловкость + enum.Восприятие
+  baffValue[15] = enum.Интелект*4
+  baffValue[16] = (enum.Интелект + enum.Восприятие)*3
+  baffValue[17] = enum.Харизма*5
+  baffValue[18] = enum.Харизма*4
+  baffValue[19] = enum.Удача*5
+  -- Пустой слот под навык
+  --baffValue[20] = 
 
   freeSkillPoints = args.freeSkillPoints
 
   for i = 1, countSkills do
-    baffValue[i] = math.floor(majorValue[i])
+    baffValue[i] = math.floor(baffValue[i])
+    ChangeSkills(0, "skill" .. i, "Black")
   end
   ChangeUI()
 end
@@ -149,7 +164,7 @@ function Reset(player)
 end
 
 function RebuildAssets()
-  local backG = 'https://cdn.discordapp.com/attachments/800324103848198174/838068682998415380/navyki22.png'
+  local backG = 'https://cdn.discordapp.com/attachments/800324103848198174/838703544830918656/navykiV.png'
   local stars = 'https://cdn.discordapp.com/attachments/800324103848198174/838075678124408872/stare.png'
   local assets = {
     {name = 'uiBackGroun', url = backG},

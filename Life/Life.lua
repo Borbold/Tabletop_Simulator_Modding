@@ -124,6 +124,14 @@ function ChangeUI()
   UpdateSave()
 end
 
+function MaxValue(player, _, id)
+  if id == "GmaxHP" then
+    ChangeHP(maxHP, player.color)
+  elseif id == "GmaxAP" then
+    ChangeAP(maxHP, player.color)
+  end
+end
+
 function RebuildAssets()
   local backG = 'https://cdn.discordapp.com/attachments/800324103848198174/837975155631849472/ozod2.png'
   local lampOn = 'https://cdn.discordapp.com/attachments/800324103848198174/837859524814962738/lampon.png'

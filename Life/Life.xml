@@ -1,7 +1,10 @@
 <Defaults>
+	<Button class='giveMaxValue' text='max' color='#ffffff00' onClick='MaxValue' fontStyle='Bold' />
+
 	<Cell dontUseTableCellBackground='true' />
 	<Button resizeTextForBestFit='true' resizeTextMaxSize='50'
-		width='60' height='60'/>
+		width='60' height='60'
+		textColor='#948773' />
 	<InputField resizeTextForBestFit='true' resizeTextMaxSize='50'
 		color='#9487a90a' height='50' width='60'
 		textColor='#948773' textOutline='#94877355'/>
@@ -43,6 +46,9 @@
 			</Cell>
 			
 			<Cell columnSpan='2'>
+				<Panel>
+					<Button id='GmaxHP' class='giveMaxValue' offsetXY='20 -5' />
+				</Panel>
 				<Panel>
 					<InputField id='ratioHP' text='10'
 						offsetXY='70 -5' outline='#94877355'
@@ -101,6 +107,9 @@
 			</Cell>
 			
 			<Cell columnSpan='2'>
+				<Panel>
+					<Button id='GmaxAP' class='giveMaxValue' offsetXY='20 10' />
+				</Panel>
 				<Panel>
 					<InputField id='ratioAP' text='1'
 						offsetXY='70 10' outline='#94877355'
