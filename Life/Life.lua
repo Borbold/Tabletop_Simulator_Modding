@@ -33,11 +33,8 @@ end
 function ChangeHP(value, playerColor)
   if not CheckPlayer(playerColor) then return end
 
-  if currentHP + self.UI.getAttribute("ratioHP", "text")*value > maxHP then
-    currentHP = maxHP
-  else
-    currentHP = currentHP + self.UI.getAttribute("ratioHP", "text")*value
-  end
+  currentHP = currentHP + self.UI.getAttribute("ratioHP", "text")*value
+  if currentHP > maxHP then currentHP = maxHP end
   ChangeUI()
 end
 -- Очки действий
