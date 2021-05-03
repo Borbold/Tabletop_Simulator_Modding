@@ -36,7 +36,7 @@ function Confer(savedData)
   resetDieGUID["Status"] = loadedData.infoGUID
   resetDieGUID["Skills"] = loadedData.infoGUID
   maxEXP = currentLVL*50
-  ChangeUI() ChangeBoundValues()
+  ChangeUI()
 end
 -- Уровень
 function MinusLVL(player)
@@ -53,7 +53,7 @@ function ChangeLVL(value, remainingEXP, playerColor)
   if currentLVL <= 0 then currentLVL = 1 end
   maxEXP = currentLVL*50
   if remainingEXP then currentEXP = remainingEXP end
-  ChangeUI() ChangeBoundValues()
+  ChangeUI()
 end
 -- Опыт
 function MinusEXP(player)
@@ -93,7 +93,6 @@ function Reset(player)
       if not guid then guid = SearchDie(name) end
       getObjectFromGUID(guid).call("Reset", player)
     end
-    ChangeBoundValues()
     currentLVL, currentEXP = 1, 0
     ChangeUI()
   end
@@ -105,6 +104,7 @@ function ChangeUI()
   self.UI.setAttribute("EXP", "text", currentEXP .. "/" .. maxEXP)
   local newPositionFillImage = (avarageValue - 100)/100*self.UI.getAttribute("barEXP", "width")
   self.UI.setAttribute("fillProgressBarImage", "offsetXY", newPositionFillImage .. " 0")
+  ChangeBoundValues()
   UpdateSave()
 end
 
