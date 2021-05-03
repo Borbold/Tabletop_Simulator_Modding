@@ -1,6 +1,6 @@
 ﻿function UpdateSave()
   local dataToSave = {
-    ["levelGUID"] = levelGUID, ["infoGUID"] = infoGUID,
+    ["levelGUID"] = levelGUID,
     ["currentHP"] = currentHP,
     ["currentAP"] = currentAP, ["maxAP"] = maxAP,
     ["currentLVL"] = currentLVL
@@ -22,7 +22,6 @@ function Confer(savedData)
   currentAP = loadedData.currentAP or 3
   maxAP = loadedData.maxAP or 10
   levelGUID = loadedData.levelGUID
-  infoGUID = loadedData.infoGUID
 end
 -- Здоровье
 function MinusHP(player)
