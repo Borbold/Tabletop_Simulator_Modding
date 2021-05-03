@@ -19,22 +19,22 @@
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button offsetXY='50 0' />
+					<Button offsetXY='41 -5' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button offsetXY='0 0' />
+					<Button offsetXY='31 -5' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button offsetXY='0 0' />
+					<Button offsetXY='46 -5' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button offsetXY='0 0' />
+					<Button offsetXY='32 -11' />
 				</Panel>
 			</Cell>
 			<Cell>
