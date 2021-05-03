@@ -85,13 +85,15 @@ end
 
 function SetFavoritSkills(player, alt_click, id)
   if not CheckPlayer(player.color) then return end
+  
   id = tonumber(id:sub(8))
   if alt_click == "-1" then
     favoritSkills[id] = 1
   elseif alt_click == "-2" then
     favoritSkills[id] = 0
   end
-  ChangeUI()
+  
+  ChangeSkills(0, "skill" .. id, player.color)
 end
 
 function CheckPlayer(playerColor, onlyGM)
