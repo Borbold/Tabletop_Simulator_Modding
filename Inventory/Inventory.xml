@@ -1,0 +1,181 @@
+<Defaults>
+	<Cell class='plugFirst' columnSpan='1' />
+	<Cell class='plugSecond' columnSpan='1' />
+
+	<Cell dontUseTableCellBackground='true' />
+	<Button resizeTextForBestFit='true' resizeTextMaxSize='50'
+		color='#94877355' width='80' height='80' />
+</Defaults>
+
+<Panel position='0 800 -21' height='1600' width='1200'>
+	<TableLayout image='uiBackGroundW' cellSpacing='10'>
+		<Row preferredHeight='10' />
+		
+		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='37 -5' icon='uiDice' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='50 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+		</Row>
+		
+		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+		</Row>
+		
+		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+		</Row>
+		
+		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+		</Row>
+		
+		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+		</Row>
+		
+		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+		</Row>
+		
+		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+		</Row>
+		
+		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+		</Row>
+		
+		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+		</Row>
+		
+		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+		</Row>
+		
+		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+		</Row>
+		
+		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+		</Row>
+		
+		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+		</Row>
+		
+		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+		</Row>
+		
+		<Row>
+			<Cell>
+				<Panel>
+					<Button offsetXY='0 0' />
+				</Panel>
+			</Cell>
+		</Row>
+		
+		<Row preferredHeight='23' />
+	</TableLayout>
+</Panel>

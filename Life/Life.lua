@@ -54,21 +54,21 @@ function ChangeAP(value, playerColor)
 end
 
 function ChangeMaxHP(args)
-  args.majorValue = args.majorValue or {5, 5, 5, 5, 5, 5, 5}
-
-  startMaxHP = 15 + args.majorValue[1] + args.majorValue[3]*2
+  startMaxHP = 15 + args.enum.Сила + args.enum.Выносливость*2
   if args.currentLVL == 1 then
     maxHP = startMaxHP
   else
-    maxHP = startMaxHP + (math.floor(args.majorValue[3]/2) + 2)*args.currentLVL
+    maxHP = startMaxHP + (math.floor(args.enum.Выносливость/2) + 2)*args.currentLVL
   end
-  ChangeUI()
+  if not args.dontUpdate then
+    ChangeUI()
+  end
 end
 function ChangeMaxAP(args)
-  args.majorValue = args.majorValue or {5, 5, 5, 5, 5, 5, 5}
-
-  maxAP = 5 + math.floor(args.majorValue[6]/2)
-  ChangeUI()
+  maxAP = 5 + math.floor(args.enum.Ловкость/2)
+  if not args.dontUpdate then
+    ChangeUI()
+  end
 end
 
 function InputRatioHP(player, input)
@@ -81,7 +81,9 @@ function InputRatioAP(player, input)
 end
 
 function SetTableValue(args)
+  args["dontUpdate"] = true
   ChangeMaxHP(args) ChangeMaxAP(args)
+  ChangeUI()
 end
 
 function CheckPlayer(playerColor, onlyGM)
@@ -100,7 +102,12 @@ end
 function Reset(player)
   currentHP, currentAP = 15, 3
   startMaxHP = 50
-  ChangeMaxHP({currentLVL = 1, majorValue}) ChangeMaxAP({majorValue})
+  local enum = {
+    Сила = 5,
+    Выносливость = 5,
+    Ловкость = 5
+  }
+  ChangeMaxHP({currentLVL = 1, enum = enum}) ChangeMaxAP({enum = enum})
 end
 function ChangeUI()
   self.UI.setAttribute("currentHP", "text", currentHP .. "/" .. maxHP)

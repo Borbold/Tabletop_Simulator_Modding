@@ -146,24 +146,26 @@ end
 function ChangeDependentVariables(params)
   currentLVL = params and params.currentLVL or currentLVL
   
-  statusGUID = statusGUID or SearchDie("Status")
-  local args = {
-    majorValue = majorValue
+  local enum = {
+    Сила = majorValue[1],
+    Восприятие = majorValue[2],
+    Выносливость = majorValue[3],
+    Харизма = majorValue[4],
+    Интелект = majorValue[5],
+    Ловкость = majorValue[6],
+    Удача = majorValue[7],
   }
+  local args = {enum = enum}
+
+  statusGUID = statusGUID or SearchDie("Status")
   getObjectFromGUID(statusGUID).call("SetTableValue", args)
 
   skillsGUID = skillsGUID or SearchDie("Skills")
-  args = {
-    majorValue = majorValue,
-    freeSkillPoints = (majorValue[5]*2 + 5)*currentLVL,
-  }
+  args["freeSkillPoints"] = (majorValue[5]*2 + 5)*currentLVL
   getObjectFromGUID(skillsGUID).call("SetTableValue", args)
   
   lifeGUID = lifeGUID or SearchDie("Life")
-  args = {
-    majorValue = majorValue,
-    currentLVL = currentLVL,
-  }
+  args["currentLVL"] = currentLVL
   getObjectFromGUID(lifeGUID).call("SetTableValue", args)
 end
 

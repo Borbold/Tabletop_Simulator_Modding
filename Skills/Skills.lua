@@ -113,35 +113,25 @@ function SetFavoritSkills(player, alt_click, id)
 end
 
 function SetTableValue(args)
-  local enum = {
-    Сила = args.majorValue[1],
-    Восприятие = args.majorValue[2],
-    Выносливость = args.majorValue[3],
-    Харизма = args.majorValue[4],
-    Интелект = args.majorValue[5],
-    Ловкость = args.majorValue[6],
-    Удача = args.majorValue[7],
-  }
-  
-  baffValue[1] = 5 + enum.Ловкость*4
-  baffValue[2] = enum.Ловкость*2
-  baffValue[3] = enum.Ловкость*2
-  baffValue[4] = 5 + enum.Ловкость*4
-  baffValue[5] = 30 + (enum.Ловкость + enum.Сила)*2
-  baffValue[6] = 20 + (enum.Ловкость + enum.Сила)*2
-  baffValue[7] = enum.Ловкость*4
-  baffValue[8] = (enum.Восприятие + enum.Интелект)*2
-  baffValue[9] = 5*((enum.Восприятие + enum.Интелект)/3)
-  baffValue[10] = (enum.Восприятие + enum.Ловкость)*2
-  baffValue[11] = 5 + enum.Ловкость*3
-  baffValue[12] = 10 + enum.Ловкость + enum.Восприятие
-  baffValue[13] = enum.Ловкость*3
-  baffValue[14] = 10 + enum.Ловкость + enum.Восприятие
-  baffValue[15] = enum.Интелект*4
-  baffValue[16] = (enum.Интелект + enum.Восприятие)*3
-  baffValue[17] = enum.Харизма*5
-  baffValue[18] = enum.Харизма*4
-  baffValue[19] = enum.Удача*5
+  baffValue[1] = 5 + args.enum.Ловкость*4
+  baffValue[2] = args.enum.Ловкость*2
+  baffValue[3] = args.enum.Ловкость*2
+  baffValue[4] = 5 + args.enum.Ловкость*4
+  baffValue[5] = 30 + (args.enum.Ловкость + args.enum.Сила)*2
+  baffValue[6] = 20 + (args.enum.Ловкость + args.enum.Сила)*2
+  baffValue[7] = args.enum.Ловкость*4
+  baffValue[8] = (args.enum.Восприятие + args.enum.Интелект)*2
+  baffValue[9] = 5*((args.enum.Восприятие + args.enum.Интелект)/3)
+  baffValue[10] = (args.enum.Восприятие + args.enum.Ловкость)*2
+  baffValue[11] = 5 + args.enum.Ловкость*3
+  baffValue[12] = 10 + args.enum.Ловкость + args.enum.Восприятие
+  baffValue[13] = args.enum.Ловкость*3
+  baffValue[14] = 10 + args.enum.Ловкость + args.enum.Восприятие
+  baffValue[15] = args.enum.Интелект*4
+  baffValue[16] = (args.enum.Интелект + args.enum.Восприятие)*3
+  baffValue[17] = args.enum.Харизма*5
+  baffValue[18] = args.enum.Харизма*4
+  baffValue[19] = args.enum.Удача*5
 
   freeSkillPoints = args.freeSkillPoints
 

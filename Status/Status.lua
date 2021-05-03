@@ -85,7 +85,9 @@ function ChangeStatus(value, id, playerColor)
     majorValue[i] = baffValue[i] - debaffValue[i] + startValue[i]
   end
 
-  ChangeUI()
+  if tostring(value) ~= "0" then
+    ChangeUI()
+  end
 end
 
 function ChangeUI()
@@ -112,11 +114,16 @@ function SearchDie(name)
 end
 
 function SetTableValue(args)
-  baffValue[6] = args.majorValue[3]*2
-  baffValue[7] = args.majorValue[3]*5
-  baffValue[2] = args.majorValue[6]
-  baffValue[8] = args.majorValue[7]
-  baffValue[1] = args.majorValue[2]*2
+  startValue[1] = args.enum.Восприятие*2
+  startValue[2] = args.enum.Ловкость
+  startValue[6] = args.enum.Выносливость*2
+  startValue[7] = args.enum.Выносливость*5
+  startValue[8] = args.enum.Удача
+
+  for i = 1, countStatus do
+    startValue[i] = math.floor(startValue[i])
+    ChangeStatus(0, "baff" .. i, "Black")
+  end
   ChangeUI()
 end
 

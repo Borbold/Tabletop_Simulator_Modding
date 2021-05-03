@@ -1,7 +1,6 @@
 ﻿function UpdateSave()
   local dataToSave = {
     ["currentLVL"] = currentLVL, ["currentEXP"] = currentEXP,
-    ["infoGUID"] = infoGUID, ["lifeGUID"] = lifeGUID, ["statusGUID"] = statusGUID, ["skillsGUID"] = skillsGUID,
   }
   local savedData = JSON.encode(dataToSave)
   self.script_state = savedData
@@ -27,14 +26,10 @@ end
 
 function Confer(savedData)
   RebuildAssets()
-  resetDieGUID = {}
+  resetDieGUID = {"Info", "Life", "Status", "Skills"}
   local loadedData = JSON.decode(savedData or "")
   currentLVL = loadedData and loadedData.currentLVL or 1
   currentEXP = loadedData and loadedData.currentEXP or 0
-  resetDieGUID["Info"] = loadedData.infoGUID
-  resetDieGUID["Life"] = loadedData.infoGUID
-  resetDieGUID["Status"] = loadedData.infoGUID
-  resetDieGUID["Skills"] = loadedData.infoGUID
   maxEXP = currentLVL*50
   ChangeUI()
 end
@@ -89,9 +84,8 @@ end
 function Reset(player)
   local args = {playerColor = player.color, onlyGM = true}
   if CheckPlayer(args) then
-    for name,guid in pairs(resetDieGUID) do
-      if not guid then guid = SearchDie(name) end
-      getObjectFromGUID(guid).call("Reset", player)
+    for _,name in ipairs(resetDieGUID) do
+      getObjectFromGUID(SearchDie(name)).call("Reset", player)
     end
     currentLVL, currentEXP = 1, 0
     ChangeUI()
@@ -144,9 +138,8 @@ function Round(num, idp)
 end
 
 function ChangeBoundValues()
-  infoGUID = infoGUID or SearchDie("Info")
   Wait.time(function()
-    getObjectFromGUID(infoGUID).call("ChangeDependentVariables", {currentLVL = currentLVL})
+    getObjectFromGUID(SearchDie("Info")).call("ChangeDependentVariables", {currentLVL = currentLVL})
   end, 0.05)
 end
 
