@@ -353,13 +353,13 @@
 		<Row>
 			<Cell class='plugFirst' />
 			
-			<Cell columnSpan='1'>
+			<Cell columnSpan='5'>
 				<InputField id='reputation1' class='reputationInput' />
 			</Cell>
 			
 			<Cell class='plugSecond' />
 			
-			<Cell columnSpan='1'>
+			<Cell columnSpan='5'>
 				<InputField id='reputation14' class='reputationInput' />
 			</Cell>
 			
