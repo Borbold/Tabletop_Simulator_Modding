@@ -20,7 +20,12 @@ end
 function onCollisionEnter(info)
   local newObject = info.collision_object
   --destroyObject(info.collision_object)
-  print(newObject.image)
+  print(newObject.CustomImage)
+  print(newObject.CustomImage.ImageURL)
+  
+  local cusAss = self.UI.getCustomAssets()
+  table.insert(cusAss, {name = 'testICON', url = 'newObject.CustomImage.ImageURL'})
+  self.UI.setCustomAssets(cusAss)
 end
 
 function ChangeUI()
