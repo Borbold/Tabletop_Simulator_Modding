@@ -139,10 +139,22 @@ function Reset(player)
   ChangeUI()
 end
 
+function ChangePage()
+  if self.UI.getAttribute("firstPage", "active") == "true" then
+    self.UI.setAttribute("firstPage", "active", "false")
+    self.UI.setAttribute("secondPage", "active", "true")
+  elseif self.UI.getAttribute("secondPage", "active") == "true" then
+    self.UI.setAttribute("firstPage", "active", "true")
+    self.UI.setAttribute("secondPage", "active", "false")
+  end
+end
+
 function RebuildAssets()
   local backG = 'https://cdn.discordapp.com/attachments/800324103848198174/838703500652314685/statusykr.png'
+  local backGL = 'https://cdn.discordapp.com/attachments/800324103848198174/838979921765203978/konechnosti.png'
   local assets = {
     {name = 'uiBackGro', url = backG},
+    {name = 'uiBackGL', url = backGL}
   }
   self.UI.setCustomAssets(assets)
 end

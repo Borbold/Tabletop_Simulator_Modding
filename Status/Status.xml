@@ -1,4 +1,6 @@
 <Defaults>
+	<Panel class='majorPage' position='0 400 -21' height='800' width='1200' />
+	
 	<Cell class='plugForInputField' columnSpan='5' />
 
 	<Cell class='plugFirst' columnSpan='5' />
@@ -24,9 +26,14 @@
 		textColor='#948773' textOutline='#94877355'/>
 	<Text resizeTextForBestFit='true' resizeTextMaxSize='50'
 		color='#948773'/>
+	<ProgressBar percentageTextFormat='0'
+		percentage='50' fillImageColor='#948773'
+		textColor='#948773' color='#9487a90a'
+		textShadow='#94877355' textShadowDistance='4 -4'
+		textOutline='#000000' />
 </Defaults>
-
-<Panel position='0 400 -21' height='700' width='1200'>
+<!-- Окно статуса -->
+<Panel id='firstPage' class='majorPage' active='true'>
 	<TableLayout image='uiBackGro'>
 		<Row preferredHeight='140' />
 		<!-- Строка: Облучение/Реакция -->
@@ -290,4 +297,118 @@
 		
 		<Row preferredHeight='40' />
 	</TableLayout>
+</Panel>
+<!-- Конечности -->
+<Panel id='secondPage' class='majorPage' height='600' active='false'>
+	<TableLayout image='uiBackGL'>
+		<Row preferredHeight='100' />
+		
+		<Row preferredHeight='40'>
+			<Cell columnSpan='1'>
+				<Button image='uiMinus' />
+			</Cell>
+			<Cell columnSpan='8'>
+				<ProgressBar  />
+			</Cell>
+			<Cell columnSpan='1'>
+				<Button image='uiPlus' />
+			</Cell>
+			
+			<Cell columnSpan='48' />
+			
+			<Cell columnSpan='1'>
+				<Button image='uiMinus' />
+			</Cell>
+			<Cell columnSpan='8'>
+				<ProgressBar />
+			</Cell>
+			<Cell columnSpan='1'>
+				<Button image='uiPlus' />
+			</Cell>
+		</Row>
+		
+		<Row preferredHeight='65' />
+		
+		<Row preferredHeight='40'>
+			<Cell columnSpan='1'>
+				<Button image='uiMinus' />
+			</Cell>
+			<Cell columnSpan='8'>
+				<ProgressBar  />
+			</Cell>
+			<Cell columnSpan='1'>
+				<Button image='uiPlus' />
+			</Cell>
+			
+			<Cell columnSpan='48' />
+			
+			<Cell columnSpan='1'>
+				<Button image='uiMinus' />
+			</Cell>
+			<Cell columnSpan='8'>
+				<ProgressBar />
+			</Cell>
+			<Cell columnSpan='1'>
+				<Button image='uiPlus' />
+			</Cell>
+		</Row>
+		
+		<Row preferredHeight='65' />
+		
+		<Row preferredHeight='40'>
+			<Cell columnSpan='1'>
+				<Button image='uiMinus' />
+			</Cell>
+			<Cell columnSpan='8'>
+				<ProgressBar  />
+			</Cell>
+			<Cell columnSpan='1'>
+				<Button image='uiPlus' />
+			</Cell>
+			
+			<Cell columnSpan='48' />
+			
+			<Cell columnSpan='1'>
+				<Button image='uiMinus' />
+			</Cell>
+			<Cell columnSpan='8'>
+				<ProgressBar />
+			</Cell>
+			<Cell columnSpan='1'>
+				<Button image='uiPlus' />
+			</Cell>
+		</Row>
+		
+		<Row preferredHeight='65' />
+		
+		<Row preferredHeight='40'>
+			<Cell columnSpan='1'>
+				<Button image='uiMinus' />
+			</Cell>
+			<Cell columnSpan='8'>
+				<ProgressBar  />
+			</Cell>
+			<Cell columnSpan='1'>
+				<Button image='uiPlus' />
+			</Cell>
+			
+			<Cell columnSpan='48' />
+			
+			<Cell columnSpan='1'>
+				<Button image='uiMinus' />
+			</Cell>
+			<Cell columnSpan='8'>
+				<ProgressBar />
+			</Cell>
+			<Cell columnSpan='1'>
+				<Button image='uiPlus' />
+			</Cell>
+		</Row>
+		
+		<Row preferredHeight='80' />
+	</TableLayout>
+</Panel>
+<!-- Кнопка смены окна -->
+<Panel position='565 770 -22' height='50' width='50'>
+	<Button image='uiGear' onClick='ChangePage' height='50' width='50' />
 </Panel>
