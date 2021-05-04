@@ -17,6 +17,12 @@ function Confer(savedData)
   ChangeUI()
 end
 
+function onCollisionEnter(info)
+  local newObject = info.collision_object
+  --destroyObject(info.collision_object)
+  print(newObject.image)
+end
+
 function ChangeUI()
   UpdateSave()
 end
