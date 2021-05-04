@@ -33,7 +33,10 @@
 <!-- Информация -->
 <Panel class='majorPage'>
 	<TableLayout image='uiBackGr'>
-		<Row preferredHeight='10' />
+		<Row>
+		</Row>
+		<Row>
+		</Row>
 		<!-- Строка: Имя/Сила -->
 		<Row>
 			<Cell class='plugFirst' />
@@ -345,10 +348,7 @@
 <!-- Репутация -->
 <Panel class='majorPage' active='false'>
 	<TableLayout image='uiBackGroun'>
-		<Row>
-		</Row>
-		<Row>
-		</Row>
+		<Row preferredHeight='60' />
 		<!-- Строка: Известность/Институт -->
 		<Row>
 			<Cell class='plugFirst' />
@@ -554,6 +554,6 @@
 			<Cell class='plugThird' />
 		</Row>
 		
-		<Row preferredHeight='10' />
+		<Row preferredHeight='30' />
 	</TableLayout>
 </Panel>
