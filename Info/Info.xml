@@ -1,4 +1,8 @@
 <Defaults>
+	<Panel class='majorPage' position='0 400 -21' height='800' width='1200' />
+	
+	<InputField class='reputationInput' onEndEdit='InputReputation' />
+	
 	<Cell class='plugForInputField' columnSpan='5' />
 
 	<Cell class='plugFirst' columnSpan='4' />
@@ -26,8 +30,8 @@
 	<Text resizeTextForBestFit='true' resizeTextMaxSize='50'
 		color='#948773'/>
 </Defaults>
-
-<Panel position='0 400 -21' height='800' width='1200'>
+<!-- Информация -->
+<Panel class='majorPage'>
 	<TableLayout image='uiBackGr'>
 		<Row>
 		</Row>
@@ -335,6 +339,430 @@
 						onEndEdit='ChangeKarma' />
 				</Panel>
 			</Cell>
+		</Row>
+		
+		<Row>
+		</Row>
+	</TableLayout>
+</Panel>
+<!-- Репутация -->
+<Panel class='majorPage' active='false'>
+	<TableLayout image='uiBackGroun'>
+		<Row>
+		</Row>
+		<Row>
+		</Row>
+		<!-- Строка: Известность/Институт -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='1'>
+				<InputField id='reputation1' class='reputationInput' />
+			</Cell>
+			
+			<Cell class='plugSecond' />
+			
+			<Cell columnSpan='1'>
+				<InputField id='reputation14' class='reputationInput' />
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Братсво стали/Минитмены -->
+		<Row>
+			<Cell class='plugFirst'>
+				<Panel>
+					<Button id='favorit2' onClick='SetFavoritSkills' color='#ffffff00' />
+					<Image class='leftStars' id='specialSkill2' />
+				</Panel>
+			</Cell>
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major2' class='majorValue1' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusStart2' class='minusSkills1' />
+					<Text id='start2' class='startValue1' />
+					<Button id='plusStart2' class='plusSkills1' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugSecond'>
+				<Panel>
+					<Button id='favorit12' class='favoritRight' />
+					<Image class='rightStars' id='specialSkill12' />
+				</Panel>
+			</Cell>
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major12' class='majorValue' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusStart12' class='minusSkills' />
+					<Text id='start12' class='startValue' />
+					<Button id='plusStart12' class='plusSkills' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Новое братство стали/Рейнджеры -->
+		<Row>
+			<Cell class='plugFirst'>
+				<Panel>
+					<Button id='favorit3' onClick='SetFavoritSkills' color='#ffffff00' />
+					<Image class='leftStars' id='specialSkill3' />
+				</Panel>
+			</Cell>
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major3' class='majorValue1' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusStart3' class='minusSkills1' />
+					<Text id='start3' class='startValue1' />
+					<Button id='plusStart3' class='plusSkills1' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugSecond'>
+				<Panel>
+					<Button id='favorit13' class='favoritRight' />
+					<Image class='rightStars' id='specialSkill13' />
+				</Panel>
+			</Cell>
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major13' class='majorValue' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusStart13' class='minusSkills' />
+					<Text id='start13' class='startValue' />
+					<Button id='plusStart13' class='plusSkills' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Анклав/Найомники -->
+		<Row>
+			<Cell class='plugFirst'>
+				<Panel>
+					<Button id='favorit4' onClick='SetFavoritSkills' color='#ffffff00' />
+					<Image class='leftStars' id='specialSkill4' />
+				</Panel>
+			</Cell>
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major4' class='majorValue1' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusStart4' class='minusSkills1' />
+					<Text id='start4' class='startValue1' />
+					<Button id='plusStart4' class='plusSkills1' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugSecond'>
+				<Panel>
+					<Button id='favorit14' class='favoritRight' />
+					<Image class='rightStars' id='specialSkill14' />
+				</Panel>
+			</Cell>
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major14' class='majorValue' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusStart14' class='minusSkills' />
+					<Text id='start14' class='startValue' />
+					<Button id='plusStart14' class='plusSkills' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Легион цезаря/Работорговцы -->
+		<Row>
+			<Cell class='plugFirst'>
+				<Panel>
+					<Button id='favorit5' onClick='SetFavoritSkills' color='#ffffff00' />
+					<Image class='leftStars' id='specialSkill5' />
+				</Panel>
+			</Cell>
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major5' class='majorValue1' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusStart5' class='minusSkills1' />
+					<Text id='start5' class='startValue1' />
+					<Button id='plusStart5' class='plusSkills1' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugSecond'>
+				<Panel>
+					<Button id='favorit15' class='favoritRight' />
+					<Image class='rightStars' id='specialSkill15' />
+				</Panel>
+			</Cell>
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major15' class='majorValue' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusStart15' class='minusSkills' />
+					<Text id='start15' class='startValue' />
+					<Button id='plusStart15' class='plusSkills' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Красный караван/Волт-Тек -->
+		<Row>
+			<Cell class='plugFirst'>
+				<Panel>
+					<Button id='favorit6' onClick='SetFavoritSkills' color='#ffffff00' />
+					<Image  class='leftStars' id='specialSkill6' />
+				</Panel>
+			</Cell>
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major6' class='majorValue1' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusStart6' class='minusSkills1' />
+					<Text id='start6' class='startValue1' />
+					<Button id='plusStart6' class='plusSkills1' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugSecond'>
+				<Panel>
+					<Button id='favorit16' class='favoritRight' />
+					<Image class='rightStars' id='specialSkill16' />
+				</Panel>
+			</Cell>
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major16' class='majorValue' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusStart16' class='minusSkills' />
+					<Text id='start16' class='startValue' />
+					<Button id='plusStart16' class='plusSkills' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Последователи апокалипсиса/Единство -->
+		<Row>
+			<Cell class='plugFirst'>
+				<Panel>
+					<Button id='favorit7' onClick='SetFavoritSkills' color='#ffffff00' />
+					<Image  class='leftStars' id='specialSkill7' />
+				</Panel>
+			</Cell>
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major7' class='majorValue1' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusStart7' class='minusSkills1' />
+					<Text id='start7' class='startValue1' />
+					<Button id='plusStart7' class='plusSkills1' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugSecond'>
+				<Panel>
+					<Button id='favorit17' class='favoritRight' />
+					<Image class='rightStars' id='specialSkill17' />
+				</Panel>
+			</Cell>
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major17' class='majorValue' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusStart17' class='minusSkills' />
+					<Text id='start17' class='startValue' />
+					<Button id='plusStart17' class='plusSkills' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: НКР/Дети атома -->
+		<Row>
+			<Cell class='plugFirst'>
+				<Panel>
+					<Button id='favorit8' onClick='SetFavoritSkills' color='#ffffff00' />
+					<Image  class='leftStars' id='specialSkill8' />
+				</Panel>
+			</Cell>
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major8' class='majorValue1' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusStart8' class='minusSkills1' />
+					<Text id='start8' class='startValue1' />
+					<Button id='plusStart8' class='plusSkills1' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugSecond'>
+				<Panel>
+					<Button id='favorit18' class='favoritRight' />
+					<Image class='rightStars' id='specialSkill18' />
+				</Panel>
+			</Cell>
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major18' class='majorValue' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusStart18' class='minusSkills' />
+					<Text id='start18' class='startValue' />
+					<Button id='plusStart18' class='plusSkills' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Рейдеры/Китай  -->
+		<Row>
+			<Cell class='plugFirst'>
+				<Panel>
+					<Button id='favorit9' onClick='SetFavoritSkills' color='#ffffff00' />
+					<Image class='leftStars' id='specialSkill9' />
+				</Panel>
+			</Cell>
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major9' class='majorValue1' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusStart9' class='minusSkills1' />
+					<Text id='start9' class='startValue1' />
+					<Button id='plusStart9' class='plusSkills1' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugSecond'>
+				<Panel>
+					<Button id='favorit19' class='favoritRight' />
+					<Image class='rightStars' id='specialSkill19' />
+				</Panel>
+			</Cell>
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Text id='major19' class='majorValue' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusStart19' class='minusSkills' />
+					<Text id='start19' class='startValue' />
+					<Button id='plusStart19' class='plusSkills' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Великие ханы/Племя -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='1'>
+				
+			</Cell>
+			
+			<Cell class='plugSecond' />
+			
+			<Cell columnSpan='1'>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Оракул/Мафия -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='1'>
+				
+			</Cell>
+			
+			<Cell class='plugSecond' />
+			
+			<Cell columnSpan='1'>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Новая америка/Хабологи -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='1'>
+				
+			</Cell>
+			
+			<Cell class='plugSecond' />
+			
+			<Cell columnSpan='1'>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Риверы/Мусорщики -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='1'>
+				
+			</Cell>
+			
+			<Cell class='plugSecond' />
+			
+			<Cell columnSpan='1'>
+			</Cell>
+			
+			<Cell class='plugThird' />
 		</Row>
 		
 		<Row>
