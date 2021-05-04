@@ -26,7 +26,7 @@ function Confer(savedData)
   baffValue = loadedData.baffValue or {0, 0, 0, 0, 0, 0, 0}
   debaffValue = loadedData.debaffValue or {0, 0, 0, 0, 0, 0, 0}
   startValue = loadedData.startValue or {5, 5, 5, 5, 5, 5, 5}
-  reputationValue = FillingTable(0)
+  reputationValue = loadedData.reputationValue or FillingTable(0)
   maxSkillPoint = loadedData.maxSkillPoint or 40
   karma = loadedData.karma or 0
   currentLVL = loadedData.currentLVL or 1
@@ -35,6 +35,7 @@ function Confer(savedData)
   lifeGUID = loadedData.lifeGUID
   skillsGUID = loadedData.skillsGUID
   ChangeUI()
+  ChangeUI("secondPage")
   SetBasicInformation()
 end
 function FillingTable(value)
@@ -117,21 +118,22 @@ function ChangeSkills(value, id, playerColor)
 end
 -- Репутация
 function InputReputation(player, input, id)
-  if not CheckPlayer(playerColor) then return end
+  if not CheckPlayer(player.color) then return end
   
   id = tonumber(id:sub(11))
-  reputationValue[id] = input
+  input = input ~= "" and input or "0"
+  reputationValue[id] = tonumber(input)
   
   ChangeUI("secondPage")
 end
 
 function ChangeUI(page)
-  if page = "secondPage" then
+  if page == "secondPage" then
     for i,repa in ipairs(reputationValue) do
       self.UI.setAttribute("reputation"..i, "text", repa)
-      if repa < -249 then
+      if repa < -14 then
         self.UI.setAttribute("reputation"..i, "textColor", "#ff8773")
-      elseif repa > 249 then
+      elseif repa > 14 then
         self.UI.setAttribute("reputation"..i, "textColor", "#9487ff")
       else
         self.UI.setAttribute("reputation"..i, "textColor", "#948773")
@@ -229,10 +231,10 @@ function Reset(player)
 end
 
 function ChangePage()
-  if self.UI.getAttribute("firstPage", "active") then
+  if self.UI.getAttribute("firstPage", "active") == "true" then
     self.UI.setAttribute("firstPage", "active", "false")
     self.UI.setAttribute("secondPage", "active", "true")
-  elseif self.UI.getAttribute("secondPage", "active") then
+  elseif self.UI.getAttribute("secondPage", "active") == "true" then
     self.UI.setAttribute("firstPage", "active", "true")
     self.UI.setAttribute("secondPage", "active", "false")
   end
@@ -240,8 +242,10 @@ end
 
 function RebuildAssets()
   local backG = 'https://cdn.discordapp.com/attachments/800324103848198174/838061145720881162/info1.png'
+  local backGR = 'https://cdn.discordapp.com/attachments/800324103848198174/838979923586318367/reput.png'
   local assets = {
     {name = 'uiBackGr', url = backG},
+    {name = 'uiBackGR', url = backGR},
   }
   self.UI.setCustomAssets(assets)
 end

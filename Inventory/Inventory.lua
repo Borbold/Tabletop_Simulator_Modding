@@ -18,14 +18,15 @@ function Confer(savedData)
 end
 
 function onCollisionEnter(info)
+  if info.collision_object.getPosition().y < self.getPosition().y then return end
+
   local newObject = info.collision_object
   --destroyObject(info.collision_object)
-  print(newObject.CustomImage)
-  print(newObject.CustomImage.ImageURL)
   
   local cusAss = self.UI.getCustomAssets()
-  table.insert(cusAss, {name = 'testICON', url = 'newObject.CustomImage.ImageURL'})
+  table.insert(cusAss, {name = 'testICON', url = newObject.getCustomObject().image})
   self.UI.setCustomAssets(cusAss)
+  Wait.time(|| self.UI.setAttribute("testID", "icon", "testICON"), 0.01)
 end
 
 function ChangeUI()

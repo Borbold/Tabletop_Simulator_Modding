@@ -1,13 +1,17 @@
 <Defaults>
 	<Panel class='majorPage' position='0 400 -21' height='800' width='1200' />
 	
-	<InputField class='reputationInput' onEndEdit='InputReputation' />
+	<InputField class='reputationInput' onEndEdit='InputReputation' characterValidation='Integer' />
 	
 	<Cell class='plugForInputField' columnSpan='5' />
 
 	<Cell class='plugFirst' columnSpan='4' />
 	<Cell class='plugSecond' columnSpan='5' />
 	<Cell class='plugThird' columnSpan='5' />
+	
+	<Cell class='plugFirstR' columnSpan='6' />
+	<Cell class='plugSecondR' columnSpan='6' />
+	<Cell class='plugThirdR' columnSpan='1' />
 
 	<Button class='minusSkills' image='uiMinus' onClick='Minus' width='50' />
 	<Button class='plusSkills' image='uiPlus' onClick='Plus' width='50' />
@@ -30,12 +34,8 @@
 	<Text resizeTextForBestFit='true' resizeTextMaxSize='50'
 		color='#948773'/>
 </Defaults>
-<!-- Кнопка смены окна -->
-<Panel position='1125 775 -22' height='50' width='50'>
-	<Button image='uiGear' onClick='ChangePage' height='50' width='50' />
-</Panel>
 <!-- Основная информация -->
-<Panel id='firstPage' class='majorPage'>
+<Panel id='firstPage' class='majorPage' active='true'>
 	<TableLayout image='uiBackGr'>
 		<Row>
 		</Row>
@@ -350,214 +350,222 @@
 	</TableLayout>
 </Panel>
 <!-- Репутация -->
-<Panel id='secondPage'> class='majorPage' active='false'>
-	<TableLayout image='uiBackGroun'>
-		<Row preferredHeight='60' />
+<Panel id='secondPage' class='majorPage' active='false'>
+	<TableLayout image='uiBackGR'>
+		<Row preferredHeight='80' />
 		<!-- Строка: Известность/Институт -->
 		<Row>
-			<Cell class='plugFirst' />
+			<Cell class='plugFirstR' />
 			
 			<Cell columnSpan='5'>
 				<InputField id='reputation1' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugSecond' />
+			<Cell class='plugSecondR' />
 			
 			<Cell columnSpan='5'>
 				<InputField id='reputation14' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugThird' />
+			<Cell class='plugThirdR' />
 		</Row>
 		<!-- Строка: Братсво стали/Минитмены -->
 		<Row>
-			<Cell class='plugFirst' />
+			<Cell class='plugFirstR' />
 			
-			<Cell columnSpan='1'>
-				<InputField id='reputation' class='reputationInput' />
+			<Cell columnSpan='5'>
+				<InputField id='reputation2' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugSecond' />
+			<Cell class='plugSecondR' />
 			
-			<Cell columnSpan='1'>
-				<InputField id='reputation' class='reputationInput' />
+			<Cell columnSpan='5'>
+				<InputField id='reputation15' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugThird' />
+			<Cell class='plugThirdR' />
 		</Row>
 		<!-- Строка: Новое братство стали/Рейнджеры -->
 		<Row>
-			<Cell class='plugFirst' />
+			<Cell class='plugFirstR' />
 			
-			<Cell columnSpan='1'>
-				<InputField id='reputation' class='reputationInput' />
+			<Cell columnSpan='5'>
+				<InputField id='reputation3' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugSecond' />
+			<Cell class='plugSecondR' />
 			
-			<Cell columnSpan='1'>
-				<InputField id='reputation' class='reputationInput' />
+			<Cell columnSpan='5'>
+				<InputField id='reputation16' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugThird' />
+			<Cell class='plugThirdR' />
 		</Row>
 		<!-- Строка: Анклав/Найомники -->
 		<Row>
-			<Cell class='plugFirst' />
+			<Cell class='plugFirstR' />
 			
-			<Cell columnSpan='1'>
-				<InputField id='reputation' class='reputationInput' />
+			<Cell columnSpan='5'>
+				<InputField id='reputation4' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugSecond' />
+			<Cell class='plugSecondR' />
 			
-			<Cell columnSpan='1'>
-				<InputField id='reputation' class='reputationInput' />
+			<Cell columnSpan='5'>
+				<InputField id='reputation17' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugThird' />
+			<Cell class='plugThirdR' />
 		</Row>
 		<!-- Строка: Легион цезаря/Работорговцы -->
 		<Row>
-			<Cell class='plugFirst' />
+			<Cell class='plugFirstR' />
 			
-			<Cell columnSpan='1'>
-				<InputField id='reputation' class='reputationInput' />
+			<Cell columnSpan='5'>
+				<InputField id='reputation5' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugSecond' />
+			<Cell class='plugSecondR' />
 			
-			<Cell columnSpan='1'>
-				<InputField id='reputation' class='reputationInput' />
+			<Cell columnSpan='5'>
+				<InputField id='reputation18' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugThird' />
+			<Cell class='plugThirdR' />
 		</Row>
 		<!-- Строка: Красный караван/Волт-Тек -->
 		<Row>
-			<Cell class='plugFirst' />
+			<Cell class='plugFirstR' />
 			
-			<Cell columnSpan='1'>
-				<InputField id='reputation' class='reputationInput' />
+			<Cell columnSpan='5'>
+				<InputField id='reputation6' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugSecond' />
+			<Cell class='plugSecondR' />
 			
-			<Cell columnSpan='1'>
-				<InputField id='reputation' class='reputationInput' />
+			<Cell columnSpan='5'>
+				<InputField id='reputation19' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugThird' />
+			<Cell class='plugThirdR' />
 		</Row>
 		<!-- Строка: Последователи апокалипсиса/Единство -->
 		<Row>
-			<Cell class='plugFirst' />
+			<Cell class='plugFirstR' />
 			
-			<Cell columnSpan='1'>
-				<InputField id='reputation' class='reputationInput' />
+			<Cell columnSpan='5'>
+				<InputField id='reputation7' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugSecond' />
+			<Cell class='plugSecondR' />
 			
-			<Cell columnSpan='1'>
-				<InputField id='reputation' class='reputationInput' />
+			<Cell columnSpan='5'>
+				<InputField id='reputation20' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugThird' />
+			<Cell class='plugThirdR' />
 		</Row>
 		<!-- Строка: НКР/Дети атома -->
 		<Row>
-			<Cell class='plugFirst' />
+			<Cell class='plugFirstR' />
 			
-			<Cell columnSpan='1'>
-				<InputField id='reputation' class='reputationInput' />
+			<Cell columnSpan='5'>
+				<InputField id='reputation8' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugSecond' />
+			<Cell class='plugSecondR' />
 			
-			<Cell columnSpan='1'>
-				<InputField id='reputation' class='reputationInput' />
+			<Cell columnSpan='5'>
+				<InputField id='reputation21' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugThird' />
+			<Cell class='plugThirdR' />
 		</Row>
 		<!-- Строка: Рейдеры/Китай  -->
 		<Row>
-			<Cell class='plugFirst' />
+			<Cell class='plugFirstR' />
 			
-			<Cell columnSpan='1'>
-				<InputField id='reputation' class='reputationInput' />
+			<Cell columnSpan='5'>
+				<InputField id='reputation9' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugSecond' />
+			<Cell class='plugSecondR' />
 			
-			<Cell columnSpan='1'>
-				<InputField id='reputation' class='reputationInput' />
+			<Cell columnSpan='5'>
+				<InputField id='reputation22' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugThird' />
+			<Cell class='plugThirdR' />
 		</Row>
 		<!-- Строка: Великие ханы/Племя -->
 		<Row>
-			<Cell class='plugFirst' />
+			<Cell class='plugFirstR' />
 			
-			<Cell columnSpan='1'>
-				
+			<Cell columnSpan='5'>
+				<InputField id='reputation10' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugSecond' />
+			<Cell class='plugSecondR' />
 			
-			<Cell columnSpan='1'>
+			<Cell columnSpan='5'>
+				<InputField id='reputation23' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugThird' />
+			<Cell class='plugThirdR' />
 		</Row>
 		<!-- Строка: Оракул/Мафия -->
 		<Row>
-			<Cell class='plugFirst' />
+			<Cell class='plugFirstR' />
 			
-			<Cell columnSpan='1'>
-				
+			<Cell columnSpan='5'>
+				<InputField id='reputation11' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugSecond' />
+			<Cell class='plugSecondR' />
 			
-			<Cell columnSpan='1'>
+			<Cell columnSpan='5'>
+				<InputField id='reputation24' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugThird' />
+			<Cell class='plugThirdR' />
 		</Row>
 		<!-- Строка: Новая америка/Хабологи -->
 		<Row>
-			<Cell class='plugFirst' />
+			<Cell class='plugFirstR' />
 			
-			<Cell columnSpan='1'>
-				
+			<Cell columnSpan='5'>
+				<InputField id='reputation12' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugSecond' />
+			<Cell class='plugSecondR' />
 			
-			<Cell columnSpan='1'>
+			<Cell columnSpan='5'>
+				<InputField id='reputation25' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugThird' />
+			<Cell class='plugThirdR' />
 		</Row>
 		<!-- Строка: Риверы/Мусорщики -->
 		<Row>
-			<Cell class='plugFirst' />
+			<Cell class='plugFirstR' />
 			
-			<Cell columnSpan='1'>
-				
+			<Cell columnSpan='5'>
+				<InputField id='reputation13' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugSecond' />
+			<Cell class='plugSecondR' />
 			
-			<Cell columnSpan='1'>
+			<Cell columnSpan='5'>
+				<InputField id='reputation26' class='reputationInput' />
 			</Cell>
 			
-			<Cell class='plugThird' />
+			<Cell class='plugThirdR' />
 		</Row>
 		
-		<Row preferredHeight='30' />
+		<Row preferredHeight='40' />
 	</TableLayout>
+</Panel>
+<!-- Кнопка смены окна -->
+<Panel position='565 770 -22' height='50' width='50'>
+	<Button image='uiGear' onClick='ChangePage' height='50' width='50' />
 </Panel>
