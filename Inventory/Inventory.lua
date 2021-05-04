@@ -21,12 +21,39 @@ function onCollisionEnter(info)
   if info.collision_object.getPosition().y < self.getPosition().y then return end
 
   local newObject = info.collision_object
-  --destroyObject(info.collision_object)
+  destroyObject(info.collision_object)
   
   local cusAss = self.UI.getCustomAssets()
   table.insert(cusAss, {name = 'testICON', url = newObject.getCustomObject().image})
   self.UI.setCustomAssets(cusAss)
   Wait.time(|| self.UI.setAttribute("testID", "icon", "testICON"), 0.01)
+end
+
+function RemoveItem(player, _, id)
+  if not id or not self.UI.getAttribute(id, "icon") then return end
+
+  local nameIcon = self.UI.getAttribute("testID", "icon")
+  local cusAss = self.UI.getCustomAssets()
+  local urlIcon
+  for i,v in ipairs(cusAss) do
+    if v.name == nameIcon then
+      urlIcon =  v.url
+      break
+    end
+  end
+  local selfPosition = self.getPosition()
+  local spawnParametrs = {
+    type = "Custom_Tile",
+    position = {x = selfPosition.x, y = selfPosition.y + 0.1, z = selfPosition.z - 4},
+    rotation = {x = 0, y = 180, z = 0},
+    scale = {x = 1, y = 1, z = 1},
+    sound = false,
+    snap_to_grid = true,
+  }
+  local newObject = spawnObject(spawnParametrs)
+  newObject.setCustomObject({image = urlIcon})
+
+  Wait.time(|| self.UI.setAttribute("testID", "icon", ""), 0.01)
 end
 
 function ChangeUI()

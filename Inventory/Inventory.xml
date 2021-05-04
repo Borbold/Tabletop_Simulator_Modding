@@ -9,7 +9,7 @@
 
 	<Cell dontUseTableCellBackground='true' />
 	<Button resizeTextForBestFit='true' resizeTextMaxSize='50'
-		color='#94877355' width='100' height='100' />
+		color='#94877355' width='100' height='100' onClick='RemoveItem' />
 </Defaults>
 
 <Panel position='0 800 -21' height='1600' width='1200'>
