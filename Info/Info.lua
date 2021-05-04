@@ -229,7 +229,6 @@ function Reset(player)
 end
 
 function ChangePage()
-  --[[
   if self.UI.getAttribute("firstPage", "active") then
     self.UI.setAttribute("firstPage", "active", "false")
     self.UI.setAttribute("secondPage", "active", "true")
@@ -237,7 +236,6 @@ function ChangePage()
     self.UI.setAttribute("firstPage", "active", "true")
     self.UI.setAttribute("secondPage", "active", "false")
   end
-  ]]
 end
 
 function RebuildAssets()
