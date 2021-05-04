@@ -31,7 +31,7 @@
 		color='#948773'/>
 </Defaults>
 <!-- Информация -->
-<Panel class='majorPage'>
+<Panel id='firstPage' class='majorPage'>
 	<TableLayout image='uiBackGr'>
 		<Row>
 		</Row>
@@ -346,7 +346,7 @@
 	</TableLayout>
 </Panel>
 <!-- Репутация -->
-<Panel class='majorPage' active='false'>
+<Panel id='secondPage'> class='majorPage' active='false'>
 	<TableLayout image='uiBackGroun'>
 		<Row preferredHeight='60' />
 		<!-- Строка: Известность/Институт -->
