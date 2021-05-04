@@ -19,7 +19,7 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button class='firstColumn' icon='uiDice' />
+					<Button id='testID' class='firstColumn' />
 				</Panel>
 			</Cell>
 			<Cell>
