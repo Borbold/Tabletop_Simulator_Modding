@@ -33,10 +33,7 @@
 <!-- Информация -->
 <Panel class='majorPage'>
 	<TableLayout image='uiBackGr'>
-		<Row>
-		</Row>
-		<Row>
-		</Row>
+		<Row preferredHeight='10' />
 		<!-- Строка: Имя/Сила -->
 		<Row>
 			<Cell class='plugFirst' />
@@ -557,7 +554,6 @@
 			<Cell class='plugThird' />
 		</Row>
 		
-		<Row>
-		</Row>
+		<Row preferredHeight='10' />
 	</TableLayout>
 </Panel>
