@@ -6,6 +6,7 @@
     ["startValue"] = startValue,
     ["statusGUID"] = statusGUID, ["lifeGUID"] = lifeGUID, ["skillsGUID"] = skillsGUID,
     ["currentLVL"] = currentLVL,
+    ["reputationValue"] = reputationValue,
   }
   local savedData = JSON.encode(dataToSave)
   self.script_state = savedData
@@ -19,11 +20,13 @@ end
 
 function Confer(savedData)
   RebuildAssets()
+  countFraction = 26
   local loadedData = JSON.decode(savedData or "")
   majorValue = loadedData.majorValue or {5, 5, 5, 5, 5, 5, 5}
   baffValue = loadedData.baffValue or {0, 0, 0, 0, 0, 0, 0}
   debaffValue = loadedData.debaffValue or {0, 0, 0, 0, 0, 0, 0}
   startValue = loadedData.startValue or {5, 5, 5, 5, 5, 5, 5}
+  reputationValue = FillingTable(0)
   maxSkillPoint = loadedData.maxSkillPoint or 40
   karma = loadedData.karma or 0
   currentLVL = loadedData.currentLVL or 1
@@ -33,6 +36,13 @@ function Confer(savedData)
   skillsGUID = loadedData.skillsGUID
   ChangeUI()
   SetBasicInformation()
+end
+function FillingTable(value)
+  local locTable = {}
+  for i = 1, countFraction do
+    table.insert(locTable, value)
+  end
+  return locTable
 end
 -- Базовая инфа
 function InputBasicInformation(player, input, id)
@@ -105,28 +115,50 @@ function ChangeSkills(value, id, playerColor)
   end
   ChangeUI()
 end
+-- Репутация
+function InputReputation(player, input, id)
+  if not CheckPlayer(playerColor) then return end
+  
+  id = tonumber(id:sub(11))
+  reputationValue[id] = input
+  
+  ChangeUI("secondPage")
+end
 
-function ChangeUI()
-  local currentSkillPoint = 0
-  for i = 1, 7 do
-    self.UI.setAttribute("major" .. i, "text", majorValue[i])
-    self.UI.setAttribute("baff" .. i, "text", baffValue[i])
-    self.UI.setAttribute("debaff" .. i, "text", debaffValue[i])
-    self.UI.setAttribute("start" .. i, "text", startValue[i])
-    currentSkillPoint = currentSkillPoint + startValue[i]
-  end
-  self.UI.setAttribute("rateDevelopment", "text", majorValue[5]*2 + 5)
-  self.UI.setAttribute("currentSkillPoint", "text", maxSkillPoint - currentSkillPoint)
-  self.UI.setAttribute("maxSkillPoint", "text", maxSkillPoint)
-  self.UI.setAttribute("karma", "text", karma)
-  if karma < -249 then
-    self.UI.setAttribute("karma", "textColor", "#ff8773")
-  elseif karma > 249 then
-    self.UI.setAttribute("karma", "textColor", "#9487ff")
+function ChangeUI(page)
+  if page = "secondPage" then
+    for i,repa in ipairs(reputationValue) do
+      self.UI.setAttribute("reputation"..i, "text", repa)
+      if repa < -249 then
+        self.UI.setAttribute("reputation"..i, "textColor", "#ff8773")
+      elseif repa > 249 then
+        self.UI.setAttribute("reputation"..i, "textColor", "#9487ff")
+      else
+        self.UI.setAttribute("reputation"..i, "textColor", "#948773")
+      end
+    end
   else
-    self.UI.setAttribute("karma", "textColor", "#948773")
+    local currentSkillPoint = 0
+    for i = 1, 7 do
+      self.UI.setAttribute("major" .. i, "text", majorValue[i])
+      self.UI.setAttribute("baff" .. i, "text", baffValue[i])
+      self.UI.setAttribute("debaff" .. i, "text", debaffValue[i])
+      self.UI.setAttribute("start" .. i, "text", startValue[i])
+      currentSkillPoint = currentSkillPoint + startValue[i]
+    end
+    self.UI.setAttribute("rateDevelopment", "text", majorValue[5]*2 + 5)
+    self.UI.setAttribute("currentSkillPoint", "text", maxSkillPoint - currentSkillPoint)
+    self.UI.setAttribute("maxSkillPoint", "text", maxSkillPoint)
+    self.UI.setAttribute("karma", "text", karma)
+    if karma < -249 then
+      self.UI.setAttribute("karma", "textColor", "#ff8773")
+    elseif karma > 249 then
+      self.UI.setAttribute("karma", "textColor", "#9487ff")
+    else
+      self.UI.setAttribute("karma", "textColor", "#948773")
+    end
+    ChangeDependentVariables()
   end
-  ChangeDependentVariables()
   UpdateSave()
 end
 
@@ -187,12 +219,25 @@ function Reset(player)
   baffValue = {0, 0, 0, 0, 0, 0, 0}
   debaffValue = {0, 0, 0, 0, 0, 0, 0}
   startValue = {5, 5, 5, 5, 5, 5, 5}
+  reputationValue = FillingTable(0)
   maxSkillPoint = 40
   for i = 1, 7 do
     InputBasicInformation(player, "...", tostring(i))
   end
   SetBasicInformation()
   ChangeUI()
+end
+
+function ChangePage()
+  --[[
+  if self.UI.getAttribute("firstPage", "active") then
+    self.UI.setAttribute("firstPage", "active", "false")
+    self.UI.setAttribute("secondPage", "active", "true")
+  elseif self.UI.getAttribute("secondPage", "active") then
+    self.UI.setAttribute("firstPage", "active", "true")
+    self.UI.setAttribute("secondPage", "active", "false")
+  end
+  ]]
 end
 
 function RebuildAssets()
