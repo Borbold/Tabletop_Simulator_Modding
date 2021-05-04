@@ -30,7 +30,11 @@
 	<Text resizeTextForBestFit='true' resizeTextMaxSize='50'
 		color='#948773'/>
 </Defaults>
-<!-- Информация -->
+<!-- Кнопка смены окна -->
+<Panel position='1125 775 -22' height='50' width='50'>
+	<Button image='uiGear' onClick='ChangePage' height='50' width='50' />
+</Panel>
+<!-- Основная информация -->
 <Panel id='firstPage' class='majorPage'>
 	<TableLayout image='uiBackGr'>
 		<Row>
