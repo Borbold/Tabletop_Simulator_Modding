@@ -96,7 +96,7 @@ function Plus(player, value, id)
   }
   ChangeSkills(args)
 end
-function ChangeSkills(value, id, playerColor)
+function ChangeSkills(args)
   if not CheckPlayer(args.playerColor) then return end
 
   local id = args.id
