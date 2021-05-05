@@ -84,21 +84,28 @@ end
 -- Навыки
 function Minus(player, value, id)
   id = id:lower()
-  ChangeSkills(-1, id:sub(6), player.color)
+  local args = {
+    value = -1, id = id:sub(6), playerColor = player.color
+  }
+  ChangeSkills(args)
 end
 function Plus(player, value, id)
   id = id:lower()
-  ChangeSkills(1, id:sub(5), player.color)
+  local args = {
+    value = 1, id = id:sub(5), playerColor = player.color
+  }
+  ChangeSkills(args)
 end
 function ChangeSkills(value, id, playerColor)
-  if not CheckPlayer(playerColor) then return end
+  if not CheckPlayer(args.playerColor) then return end
 
+  local id = args.id
   if id:sub(0, #id - 1) == "baff" then
     id = tonumber(id:sub(5))
-    baffValue[id] = baffValue[id] + value
+    baffValue[id] = baffValue[id] + args.value
   elseif id:sub(0, #id - 1) == "debaff" then
     id = tonumber(id:sub(7))
-    debaffValue[id] = debaffValue[id] + value
+    debaffValue[id] = debaffValue[id] + args.value
   elseif id:sub(0, #id - 1) == "start" then
     id = tonumber(id:sub(6))
 
@@ -106,9 +113,9 @@ function ChangeSkills(value, id, playerColor)
     for _,v in ipairs(startValue) do
       sumStartV = sumStartV + v
     end
-    if sumStartV + value > maxSkillPoint then return end
+    if sumStartV + args.value > maxSkillPoint then return end
 
-    startValue[id] = startValue[id] + value
+    startValue[id] = startValue[id] + args.value
   end
 
   for i = 1, 7 do
