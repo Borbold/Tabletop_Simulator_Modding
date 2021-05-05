@@ -31,7 +31,7 @@ function onCollisionEnter(info)
   local newName = newObject.getName()
   
   local newDescription = newObject.getDescription()
-  if newDescription:find("Эффекты") them
+  if newDescription:find("Эффекты") then
     
   end
 end
