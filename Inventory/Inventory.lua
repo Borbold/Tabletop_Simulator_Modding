@@ -1,6 +1,7 @@
 ﻿function UpdateSave()
   local dataToSave = {
-    ["tableItems"] = tableItems
+    ["tableItems"] = tableItems,
+    ["infoGUID"] = infoGUID,
   }
   local savedData = JSON.encode(dataToSave)
   self.script_state = savedData
@@ -25,6 +26,7 @@ function Confer(savedData)
   RebuildAssets()
   local loadedData = JSON.decode(savedData or "")
   tableItems = loadedData.tableItems or {}
+  infoGUID = loadedData.infoGUID
   ChangeUI()
 end
 
@@ -44,13 +46,13 @@ function onCollisionEnter(info)
   local newUrlImage = newObject.getCustomObject().image
   
   tableItems["testID"] = {newName, newDescription, newUrlImage}
-  UpdateSave()
   if newDescription:find("Эффекты") then
     ChangeDependentVariables(newDescription:sub(newDescription:find("Эффекты")))
   end
+  UpdateSave()
 end
 function ChangeDependentVariables(description)
-  local infoGUID = SearchDie("Info")
+  local infoGUID = infoGUID or SearchDie("Info")
   local args = {
     value = 1, id = "baff" .. "1", playerColor = "Black"
   }
