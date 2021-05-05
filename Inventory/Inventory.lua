@@ -1,5 +1,6 @@
 ﻿function UpdateSave()
   local dataToSave = {
+    ["tableItems"] = tableItems
   }
   local savedData = JSON.encode(dataToSave)
   self.script_state = savedData
@@ -14,6 +15,7 @@ end
 function Confer(savedData)
   RebuildAssets()
   local loadedData = JSON.decode(savedData or "")
+  tableItems = loadedData.tableItems or {}
   ChangeUI()
 end
 
@@ -29,11 +31,11 @@ function onCollisionEnter(info)
   Wait.time(|| self.UI.setAttribute("testID", "icon", "testICON"), 0.01)
   
   local newName = newObject.getName()
-  
   local newDescription = newObject.getDescription()
-  if newDescription:find("Эффекты") then
-    
-  end
+  local newUrlImage = newObject.getCustomObject().image
+  
+  tableItems["testID"] = {newName, newDescription, newUrlImage}
+  UpdateSave()
 end
 
 function RemoveItem(player, _, id)
