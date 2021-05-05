@@ -43,7 +43,7 @@ end
 function ChangeDependentVariables(description)
   local infoGUID = SearchDie("Info")
   local args = {
-    
+    value = 1, id = "baff" .. "1", playerColor = "Black"
   }
   getObjectFromGUID(infoGUID).call("ChangeSkills", args)
 end
