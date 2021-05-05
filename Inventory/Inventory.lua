@@ -51,9 +51,9 @@ function RemoveItem(player, _, id)
     snap_to_grid = true,
   }
   local newObject = spawnObject(spawnParametrs)
-  newObject.setCustomObject({image = tableItems["testID"][3]})
   newObject.setName(tableItems["testID"][1])
   newObject.setDescription(tableItems["testID"][2])
+  newObject.setCustomObject({image = tableItems["testID"][3]})
   tableItems["testID"] = nil
 
   Wait.time(|| self.UI.setAttribute("testID", "icon", ""), 0.01)
