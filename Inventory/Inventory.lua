@@ -8,7 +8,7 @@ end
 
 function onLoad(savedData)
   Wait.time(function()
-    local enumSkills = {
+    enumSkills = {
       Сила = 1,
       Восприятие = 2,
       Выносливость = 3,
