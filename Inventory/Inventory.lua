@@ -27,6 +27,13 @@ function onCollisionEnter(info)
   table.insert(cusAss, {name = 'testICON', url = newObject.getCustomObject().image})
   self.UI.setCustomAssets(cusAss)
   Wait.time(|| self.UI.setAttribute("testID", "icon", "testICON"), 0.01)
+  
+  local newName = newObject.getName()
+  
+  local newDescription = newObject.getDescription()
+  if newDescription:find("Эффекты") them
+    
+  end
 end
 
 function RemoveItem(player, _, id)
