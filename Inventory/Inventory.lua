@@ -41,7 +41,11 @@ function onCollisionEnter(info)
   end
 end
 function ChangeDependentVariables(description)
-  
+  local infoGUID = SearchDie("Info")
+  local args = {
+    
+  }
+  getObjectFromGUID(infoGUID).call("ChangeSkills", args)
 end
 
 function RemoveItem(player, _, id)
