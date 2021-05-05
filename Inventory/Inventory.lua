@@ -8,6 +8,15 @@ end
 
 function onLoad(savedData)
   Wait.time(function()
+    local enumSkills = {
+      Сила = 1,
+      Восприятие = 2,
+      Выносливость = 3,
+      Харизма = 4,
+      Интелект = 5,
+      Ловкость = 6,
+      Удача = 7,
+    }
     Wait.time(|| Confer(savedData), 0.4)
   end, 0.5)
 end
