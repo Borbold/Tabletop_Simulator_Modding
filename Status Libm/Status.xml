@@ -34,6 +34,8 @@
 		textColor='#948773' color='#9487a90a'
 		textShadow='#94877355' textShadowDistance='10 -10'
 		textOutline='#000000' />
+		
+	<Text class='textDT' color='#9487ff' text='0'/>
 </Defaults>
 <!-- Окно статуса -->
 <Panel id='firstPage' class='majorPage' active='true'>
@@ -329,8 +331,17 @@
 				<Button id='plusL_5' class='plusLimb' />
 			</Cell>
 		</Row>
-		
-		<Row preferredHeight='65' />
+		<Row preferredHeight='65'>
+			<Cell columnSpan='10'>
+				<Text class='textDT' />
+			</Cell>
+			
+			<Cell columnSpan='48' />
+			
+			<Cell columnSpan='10'>
+				<Text class='textDT' />
+			</Cell>
+		</Row>
 		<!-- Строка: Глаза/Пах -->
 		<Row preferredHeight='40'>
 			<Cell columnSpan='1'>
@@ -355,8 +366,17 @@
 				<Button id='plusL_6' class='plusLimb' />
 			</Cell>
 		</Row>
-		
-		<Row preferredHeight='65' />
+		<Row preferredHeight='65'>
+			<Cell columnSpan='10'>
+				<Text class='textDT' />
+			</Cell>
+			
+			<Cell columnSpan='48' />
+			
+			<Cell columnSpan='10'>
+				<Text class='textDT' />
+			</Cell>
+		</Row>
 		<!-- Строка: П.рука/Л.рука -->
 		<Row preferredHeight='40'>
 			<Cell columnSpan='1'>
@@ -381,8 +401,17 @@
 				<Button id='plusL_7' class='plusLimb' />
 			</Cell>
 		</Row>
-		
-		<Row preferredHeight='65' />
+		<Row preferredHeight='65'>
+			<Cell columnSpan='10'>
+				<Text class='textDT' />
+			</Cell>
+			
+			<Cell columnSpan='48' />
+			
+			<Cell columnSpan='10'>
+				<Text class='textDT' />
+			</Cell>
+		</Row>
 		<!-- Строка: П.нога/Л.нога -->
 		<Row preferredHeight='40'>
 			<Cell columnSpan='1'>
@@ -407,8 +436,17 @@
 				<Button id='plusL_8' class='plusLimb' />
 			</Cell>
 		</Row>
-		
-		<Row preferredHeight='65' />
+		<Row preferredHeight='65'>
+			<Cell columnSpan='10'>
+				<Text class='textDT' />
+			</Cell>
+			
+			<Cell columnSpan='48' />
+			
+			<Cell columnSpan='10'>
+				<Text class='textDT' />
+			</Cell>
+		</Row>
 		
 		<Row preferredHeight='60'>
 			<Cell columnSpan='30' />

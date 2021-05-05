@@ -2,10 +2,10 @@
 	<Cell class='plugFirst' columnSpan='1' />
 	<Cell class='plugSecond' columnSpan='1' />
 
-	<Button class='firstColumn' offsetXY='37 -5' />
-	<Button class='secondColumn' offsetXY='41 -5' />
-	<Button class='thirdColumn' offsetXY='31 -5' />
-	<Button class='fourColumn' offsetXY='46 -5' />
+	<Button class='firstColumn' position='37 -5' />
+	<Button class='secondColumn' position='41 -5' />
+	<Button class='thirdColumn' position='31 -5' />
+	<Button class='fourColumn' position='46 -5' />
 
 	<Cell dontUseTableCellBackground='true' />
 	<Button resizeTextForBestFit='true' resizeTextMaxSize='50'
@@ -72,7 +72,7 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button class='firstColumn' icon='uiDice' />
+					<Button class='firstColumn' offsetXY='0 -11' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2' />
@@ -101,7 +101,7 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button class='firstColumn' icon='uiDice' />
+					<Button class='firstColumn' offsetXY='0 -17' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2' />
@@ -140,7 +140,7 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button class='firstColumn' icon='uiDice' />
+					<Button class='firstColumn' offsetXY='0 -23' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2' />
@@ -179,7 +179,7 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button class='firstColumn' icon='uiDice' />
+					<Button class='firstColumn' offsetXY='0 -32' />
 				</Panel>
 			</Cell>
 			<Cell>
@@ -299,7 +299,7 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button class='firstColumn' offsetXY='0 60' icon='uiDice' />
+					<Button class='firstColumn' offsetXY='7 80' />
 				</Panel>
 			</Cell>
 			<Cell>
@@ -381,7 +381,7 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button class='firstColumn' icon='uiDice' />
+					<Button class='firstColumn' offsetXY='7 5' />
 				</Panel>
 			</Cell>
 			<Cell>
@@ -429,7 +429,7 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button class='firstColumn' icon='uiDice' />
+					<Button class='firstColumn' offsetXY='5 5' />
 				</Panel>
 			</Cell>
 			<Cell>
@@ -454,7 +454,7 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button class='firstColumn' icon='uiDice' />
+					<Button class='firstColumn' offsetXY='5 5' />
 				</Panel>
 			</Cell>
 			<Cell>
@@ -493,7 +493,7 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button class='firstColumn' icon='uiDice' />
+					<Button class='firstColumn' offsetXY='5 5' />
 				</Panel>
 			</Cell>
 			<Cell>
@@ -532,7 +532,7 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button class='firstColumn' icon='uiDice' />
+					<Button class='firstColumn' offsetXY='5 5' />
 				</Panel>
 			</Cell>
 			<Cell>
