@@ -155,10 +155,11 @@ function RebuildAssets()
   local minus = 'https://cdn.discordapp.com/attachments/800324103848198174/836251227884486676/minus.png'
   local reset = 'https://cdn.discordapp.com/attachments/800324103848198174/836632332978094130/resetl1.png'
   local barBackG = 'https://cdn.discordapp.com/attachments/800324103848198174/836612498161270784/bar1.png'
-  local barFillImage = 'https://cdn.discordapp.com/attachments/800324103848198174/836613933031882752/barline1.png'
+  local barFillIm = 'https://cdn.discordapp.com/attachments/800324103848198174/836613933031882752/barline1.png'
+  local arrow = 'https://cdn.discordapp.com/attachments/800324103848198174/839327582699782204/strelka.png'
 
   local assets = {
-    {name = 'uiGear', url = root .. 'gear.png'},
+    {name = 'uiGear', url = arrow},
     {name = 'uiClose', url = root .. 'close.png'},
     {name = 'uiPlus', url = plus},
     {name = 'uiMinus', url = minus},
@@ -168,7 +169,7 @@ function RebuildAssets()
     {name = 'uiBackG', url = backG},
     {name = 'uiReset', url = reset},
     {name = 'uiBarBackG', url = barBackG},
-    {name = 'uiBarFillImage', url = barFillImage},
+    {name = 'uiBarFillImage', url = barFillIm},
   }
   self.UI.setCustomAssets(assets)
 end

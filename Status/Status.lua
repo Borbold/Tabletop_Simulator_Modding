@@ -1,6 +1,6 @@
 ﻿function UpdateSave()
   local dataToSave = {
-    ["majorValue"] = majorValue,
+    ["majorValue"] = majorValue, ["limbValue"] = limbValue,
     ["baffValue"] = baffValue,
     ["debaffValue"] = debaffValue,
     ["startValue"] = startValue,
@@ -24,7 +24,9 @@ function Confer(savedData)
   baffValue = loadedData.baffValue or {0, 0, 0, 0, 0, 0, 0, 0}
   debaffValue = loadedData.debaffValue or {0, 0, 0, 0, 0, 0, 0, 0}
   startValue = loadedData.startValue or {0, 0, 0, 0, 0, 0, 0, 0}
+  limbValue = loadedData.limbValue or {100, 100, 100, 100, 100, 100, 100, 100}
   ChangeUI()
+  ChangeUI("secondPage")
   SetStatusInformation()
 end
 -- Статусная информация
@@ -89,13 +91,38 @@ function ChangeStatus(value, id, playerColor)
     ChangeUI()
   end
 end
+-- Конечности
+function MinusL(player, value, id)
+  id = id:lower()
+  ChangeLimb(-1, id:sub(8), player.color)
+end
+function PlusL(player, value, id)
+  id = id:lower()
+  ChangeLimb(1, id:sub(7), player.color)
+end
+function ChangeLimb(value, id, playerColor)
+  if not CheckPlayer(playerColor) then return end
 
-function ChangeUI()
-  for i = 1, countStatus do
-    self.UI.setAttribute("major" .. i, "text", majorValue[i])
-    self.UI.setAttribute("baff" .. i, "text", baffValue[i])
-    self.UI.setAttribute("debaff" .. i, "text", debaffValue[i])
-    self.UI.setAttribute("start" .. i, "text", startValue[i])
+  id = tonumber(id)
+  if limbValue[id] + self.UI.getAttribute("ratioLimb", "text")*value <= 100 and
+     limbValue[id] + self.UI.getAttribute("ratioLimb", "text")*value >= 0 then
+    limbValue[id] = limbValue[id] + self.UI.getAttribute("ratioLimb", "text")*value
+  end
+  self.UI.setAttribute("limb_" .. id, "percentage", limbValue[id])
+end
+
+function ChangeUI(page)
+  if page == "secondPage" then
+    for i = 1, 8 do
+      self.UI.setAttribute("limb_" .. i, "percentage", limbValue[i])
+    end
+  else
+    for i = 1, countStatus do
+      self.UI.setAttribute("major" .. i, "text", majorValue[i])
+      self.UI.setAttribute("baff" .. i, "text", baffValue[i])
+      self.UI.setAttribute("debaff" .. i, "text", debaffValue[i])
+      self.UI.setAttribute("start" .. i, "text", startValue[i])
+    end
   end
   UpdateSave()
 end
@@ -132,6 +159,7 @@ function Reset(player)
   baffValue = {0, 0, 0, 0, 0, 0, 0, 0}
   debaffValue = {0, 0, 0, 0, 0, 0, 0, 0}
   startValue = {0, 0, 0, 0, 0, 0, 0, 0}
+  limbValue = {100, 100, 100, 100, 100, 100, 100, 100}
   for i = 1, 6 do
     InputStatusInformation(player, "0", tostring(i))
   end
@@ -147,6 +175,13 @@ function ChangePage()
     self.UI.setAttribute("firstPage", "active", "true")
     self.UI.setAttribute("secondPage", "active", "false")
   end
+end
+
+function ChangeInput(player, input)
+  if not CheckPlayer(player.color) then return end
+  input = input ~= "" and input or "0"
+  self.UI.setAttribute("ratioLimb", "text", input)
+  UpdateSave()
 end
 
 function RebuildAssets()

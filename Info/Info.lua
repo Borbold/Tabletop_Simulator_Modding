@@ -242,7 +242,7 @@ end
 
 function RebuildAssets()
   local backG = 'https://cdn.discordapp.com/attachments/800324103848198174/838061145720881162/info1.png'
-  local backGR = 'https://cdn.discordapp.com/attachments/800324103848198174/838979923586318367/reput.png'
+  local backGR = 'https://cdn.discordapp.com/attachments/800324103848198174/839327577985384508/reput2.png'
   local assets = {
     {name = 'uiBackGr', url = backG},
     {name = 'uiBackGR', url = backGR},

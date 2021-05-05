@@ -9,6 +9,8 @@
 
 	<Button class='minusSkills' image='uiMinus' onClick='Minus' width='50' />
 	<Button class='plusSkills' image='uiPlus' onClick='Plus' width='50' />
+	<Button class='minusLimb' image='uiMinus' onClick='MinusL' width='50' />
+	<Button class='plusLimb' image='uiPlus' onClick='PlusL' width='50' />
 
 	<Text class='majorValue' text='10' width='100' offsetXY='23 0' outline='#94877355' />
 	<Text class='baffValue' color='#9487ff' resizeTextMaxSize='40' text='1' offsetXY='80 0' width='50' />
@@ -26,10 +28,11 @@
 		textColor='#948773' textOutline='#94877355'/>
 	<Text resizeTextForBestFit='true' resizeTextMaxSize='50'
 		color='#948773'/>
-	<ProgressBar percentageTextFormat='0'
+	<ProgressBar resizeTextForBestFit='true' resizeTextMaxSize='50'
+		percentageTextFormat='0'
 		percentage='50' fillImageColor='#948773'
 		textColor='#948773' color='#9487a90a'
-		textShadow='#94877355' textShadowDistance='4 -4'
+		textShadow='#94877355' textShadowDistance='10 -10'
 		textOutline='#000000' />
 </Defaults>
 <!-- Окно статуса -->
@@ -302,110 +305,122 @@
 <Panel id='secondPage' class='majorPage' height='600' active='false'>
 	<TableLayout image='uiBackGL'>
 		<Row preferredHeight='100' />
-		
+		<!-- Строка: Голова/Торс -->
 		<Row preferredHeight='40'>
 			<Cell columnSpan='1'>
-				<Button image='uiMinus' />
+				<Button id='minusL_1' class='minusLimb' />
 			</Cell>
 			<Cell columnSpan='8'>
-				<ProgressBar  />
+				<ProgressBar id='limb_1' />
 			</Cell>
 			<Cell columnSpan='1'>
-				<Button image='uiPlus' />
+				<Button id='plusL_1' class='plusLimb' />
 			</Cell>
 			
 			<Cell columnSpan='48' />
 			
 			<Cell columnSpan='1'>
-				<Button image='uiMinus' />
+				<Button id='minusL_5' class='minusLimb' />
 			</Cell>
 			<Cell columnSpan='8'>
-				<ProgressBar />
+				<ProgressBar id='limb_5' />
 			</Cell>
 			<Cell columnSpan='1'>
-				<Button image='uiPlus' />
+				<Button id='plusL_5' class='plusLimb' />
+			</Cell>
+		</Row>
+		
+		<Row preferredHeight='65' />
+		<!-- Строка: Глаза/Пах -->
+		<Row preferredHeight='40'>
+			<Cell columnSpan='1'>
+				<Button id='minusL_2' class='minusLimb' />
+			</Cell>
+			<Cell columnSpan='8'>
+				<ProgressBar id='limb_2' />
+			</Cell>
+			<Cell columnSpan='1'>
+				<Button id='plusL_2' class='plusLimb' />
+			</Cell>
+			
+			<Cell columnSpan='48' />
+			
+			<Cell columnSpan='1'>
+				<Button id='minusL_6' class='minusLimb' />
+			</Cell>
+			<Cell columnSpan='8'>
+				<ProgressBar id='limb_6' />
+			</Cell>
+			<Cell columnSpan='1'>
+				<Button id='plusL_6' class='plusLimb' />
+			</Cell>
+		</Row>
+		
+		<Row preferredHeight='65' />
+		<!-- Строка: П.рука/Л.рука -->
+		<Row preferredHeight='40'>
+			<Cell columnSpan='1'>
+				<Button id='minusL_3' class='minusLimb' />
+			</Cell>
+			<Cell columnSpan='8'>
+				<ProgressBar id='limb_3' />
+			</Cell>
+			<Cell columnSpan='1'>
+				<Button id='plusL_3' class='plusLimb' />
+			</Cell>
+			
+			<Cell columnSpan='48' />
+			
+			<Cell columnSpan='1'>
+				<Button id='minusL_7' class='minusLimb' />
+			</Cell>
+			<Cell columnSpan='8'>
+				<ProgressBar id='limb_7' />
+			</Cell>
+			<Cell columnSpan='1'>
+				<Button id='plusL_7' class='plusLimb' />
+			</Cell>
+		</Row>
+		
+		<Row preferredHeight='65' />
+		<!-- Строка: П.нога/Л.нога -->
+		<Row preferredHeight='40'>
+			<Cell columnSpan='1'>
+				<Button id='minusL_4' class='minusLimb' />
+			</Cell>
+			<Cell columnSpan='8'>
+				<ProgressBar id='limb_4' />
+			</Cell>
+			<Cell columnSpan='1'>
+				<Button id='plusL_4' class='plusLimb' />
+			</Cell>
+			
+			<Cell columnSpan='48' />
+			
+			<Cell columnSpan='1'>
+				<Button id='minusL_8' class='minusLimb' />
+			</Cell>
+			<Cell columnSpan='8'>
+				<ProgressBar id='limb_8' />
+			</Cell>
+			<Cell columnSpan='1'>
+				<Button id='plusL_8' class='plusLimb' />
 			</Cell>
 		</Row>
 		
 		<Row preferredHeight='65' />
 		
-		<Row preferredHeight='40'>
-			<Cell columnSpan='1'>
-				<Button image='uiMinus' />
-			</Cell>
+		<Row preferredHeight='60'>
+			<Cell columnSpan='30' />
+		
 			<Cell columnSpan='8'>
-				<ProgressBar  />
-			</Cell>
-			<Cell columnSpan='1'>
-				<Button image='uiPlus' />
+				<InputField id='ratioLimb' onEndEdit='ChangeInput' textAlignment='MiddleCenter' text='10' />
 			</Cell>
 			
-			<Cell columnSpan='48' />
-			
-			<Cell columnSpan='1'>
-				<Button image='uiMinus' />
-			</Cell>
-			<Cell columnSpan='8'>
-				<ProgressBar />
-			</Cell>
-			<Cell columnSpan='1'>
-				<Button image='uiPlus' />
-			</Cell>
+			<Cell columnSpan='30' />
 		</Row>
 		
-		<Row preferredHeight='65' />
-		
-		<Row preferredHeight='40'>
-			<Cell columnSpan='1'>
-				<Button image='uiMinus' />
-			</Cell>
-			<Cell columnSpan='8'>
-				<ProgressBar  />
-			</Cell>
-			<Cell columnSpan='1'>
-				<Button image='uiPlus' />
-			</Cell>
-			
-			<Cell columnSpan='48' />
-			
-			<Cell columnSpan='1'>
-				<Button image='uiMinus' />
-			</Cell>
-			<Cell columnSpan='8'>
-				<ProgressBar />
-			</Cell>
-			<Cell columnSpan='1'>
-				<Button image='uiPlus' />
-			</Cell>
-		</Row>
-		
-		<Row preferredHeight='65' />
-		
-		<Row preferredHeight='40'>
-			<Cell columnSpan='1'>
-				<Button image='uiMinus' />
-			</Cell>
-			<Cell columnSpan='8'>
-				<ProgressBar  />
-			</Cell>
-			<Cell columnSpan='1'>
-				<Button image='uiPlus' />
-			</Cell>
-			
-			<Cell columnSpan='48' />
-			
-			<Cell columnSpan='1'>
-				<Button image='uiMinus' />
-			</Cell>
-			<Cell columnSpan='8'>
-				<ProgressBar />
-			</Cell>
-			<Cell columnSpan='1'>
-				<Button image='uiPlus' />
-			</Cell>
-		</Row>
-		
-		<Row preferredHeight='80' />
+		<Row preferredHeight='70' />
 	</TableLayout>
 </Panel>
 <!-- Кнопка смены окна -->
