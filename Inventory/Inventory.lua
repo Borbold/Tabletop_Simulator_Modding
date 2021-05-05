@@ -53,9 +53,28 @@ function onCollisionEnter(info)
 end
 function ChangeDependentVariables(description)
   local infoGUID = infoGUID or SearchDie("Info")
-  local args = {
-    value = 1, id = "baff" .. "1", playerColor = "Black"
-  }
+  local currentDescription = {}
+  for word in description:gmatch("%S+") do
+    table.insert(currentDescription, word)
+  end
+  
+  local value, skills
+  for i,v in ipairs(currentDescription) do
+    if enumSkills[v] then
+      skills = v
+      value = tonumber(currentDescription[i - 1])
+    end
+  end
+  
+  if value > 0 then
+    local args = {
+      value = value, id = "baff" .. enumSkills[skills], playerColor = "Black"
+    }
+  else
+    local args = {
+      value = math.abs(value), id = "debaff" .. enumSkills[skills], playerColor = "Black"
+    }
+  end
   getObjectFromGUID(infoGUID).call("ChangeSkills", args)
 end
 
