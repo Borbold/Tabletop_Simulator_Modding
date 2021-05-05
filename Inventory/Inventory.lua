@@ -70,6 +70,19 @@ function ChangeUI()
   UpdateSave()
 end
 
+function CheckPlayer(playerColor, onlyGM)
+  levelGUID = levelGUID or SearchDie("Level")
+  local args = {playerColor = playerColor, onlyGM = onlyGM}
+  if getObjectFromGUID(levelGUID).call("CheckPlayer", args) then return true end
+end
+function SearchDie(name)
+  for _,obj in pairs(getObjects()) do
+    if obj.getName() == name and obj.getColorTint() == self.getColorTint() then
+      return obj.getGUID()
+    end
+  end
+end
+
 function RebuildAssets()
   local backG = 'https://i.imgur.com/WQiHEAd.png'
   local example1 = 'https://cdn.discordapp.com/attachments/800324103848198174/838979483075608596/moto_glasses.png'
