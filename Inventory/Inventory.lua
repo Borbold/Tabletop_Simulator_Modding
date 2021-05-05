@@ -36,6 +36,12 @@ function onCollisionEnter(info)
   
   tableItems["testID"] = {newName, newDescription, newUrlImage}
   UpdateSave()
+  if newDescription:find("Эффекты") then
+    ChangeDependentVariables(newDescription:sub(newDescription:find("Эффекты")))
+  end
+end
+function ChangeDependentVariables(description)
+  
 end
 
 function RemoveItem(player, _, id)
