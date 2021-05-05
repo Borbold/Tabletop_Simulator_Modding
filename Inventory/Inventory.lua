@@ -41,7 +41,6 @@ end
 function RemoveItem(player, _, id)
   if not id or not self.UI.getAttribute(id, "icon") then return end
 
-  local urlIcon = tableItems["testID"][3]
   local selfPosition = self.getPosition()
   local spawnParametrs = {
     type = "Custom_Tile",
@@ -52,7 +51,7 @@ function RemoveItem(player, _, id)
     snap_to_grid = true,
   }
   local newObject = spawnObject(spawnParametrs)
-  newObject.setCustomObject({image = urlIcon})
+  newObject.setCustomObject({image = tableItems["testID"][3]})
   newObject.setName(tableItems["testID"][1])
   newObject.setDescription(tableItems["testID"][2])
   tableItems["testID"] = nil
