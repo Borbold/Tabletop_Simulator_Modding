@@ -41,15 +41,7 @@ end
 function RemoveItem(player, _, id)
   if not id or not self.UI.getAttribute(id, "icon") then return end
 
-  local nameIcon = self.UI.getAttribute("testID", "icon")
-  local cusAss = self.UI.getCustomAssets()
-  local urlIcon
-  for i,v in ipairs(cusAss) do
-    if v.name == nameIcon then
-      urlIcon =  v.url
-      break
-    end
-  end
+  local urlIcon = tableItems["testID"][3]
   local selfPosition = self.getPosition()
   local spawnParametrs = {
     type = "Custom_Tile",
@@ -61,6 +53,8 @@ function RemoveItem(player, _, id)
   }
   local newObject = spawnObject(spawnParametrs)
   newObject.setCustomObject({image = urlIcon})
+  newObject.setName(tableItems["testID"][1])
+  newObject.setDescription(tableItems["testID"][2])
 
   Wait.time(|| self.UI.setAttribute("testID", "icon", ""), 0.01)
 end
