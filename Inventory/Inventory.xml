@@ -9,7 +9,7 @@
 
 	<Cell dontUseTableCellBackground='true' />
 	<Button resizeTextForBestFit='true' resizeTextMaxSize='50'
-		color='#94877355' width='100' height='100' onClick='RemoveItem'
+		color='#94877355' width='100' height='100'
 		tooltipTextColor='#948773' tooltipPosition='Above' tooltipFontSize='30' />
 </Defaults>
 
