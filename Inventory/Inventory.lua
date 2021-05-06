@@ -51,7 +51,7 @@ function onLoad(savedData)
     }
     Wait.time(|| Confer(savedData), 0.4)
     params = {
-        click_function = "click_func",
+        click_function = "RemoveItem",
         function_owner = self,
         label          = "...",
         position       = {5.05, 0.2, 15.3},
@@ -61,12 +61,10 @@ function onLoad(savedData)
         font_size      = 340,
         color          = {0.5, 0.5, 0.5},
         font_color     = {1, 1, 1},
-        tooltip        = "[33ff33]This text appears on mouseover.",
+        tooltip        = "[33ff33]This[ffffff] text appears on mouseover.",
     }
     self.createButton(params)
   end, 0.5)
-end
-function click_func(obj, color, alt_click)
 end
 
 function Confer(savedData)
@@ -106,8 +104,8 @@ function onCollisionEnter(info)
   end
   UpdateSave()
 end
-function RemoveItem(player, _, id)
-  if not id or not self.UI.getAttribute(id, "icon") or self.UI.getAttribute(id, "icon") == '' then return end
+function RemoveItem(obj, color, alt_click)
+  --if not id or not self.UI.getAttribute(id, "icon") or self.UI.getAttribute(id, "icon") == '' then return end
 
   local selfPosition = self.getPosition()
   local spawnParametrs = {
