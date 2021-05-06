@@ -63,31 +63,38 @@ end
 -- Статус
 function Minus(player, value, id)
   id = id:lower()
-  ChangeStatus(-1, id:sub(6), player.color)
+  local args = {
+    value = -1, id = id:sub(6), playerColor = player.color
+  }
+  ChangeStatus(args)
 end
 function Plus(player, value, id)
   id = id:lower()
-  ChangeStatus(1, id:sub(5), player.color)
+  local args = {
+    value = 1, id = id:sub(5), playerColor = player.color
+  }
+  ChangeStatus(args)
 end
-function ChangeStatus(value, id, playerColor)
-  if not CheckPlayer(playerColor) then return end
+function ChangeStatus(args)
+  if not CheckPlayer(args.playerColor) then return end
 
+  local id = args.id or ""
   if id:sub(0, #id - 1) == "baff" then
     id = tonumber(id:sub(5))
-    baffValue[id] = baffValue[id] + value
+    baffValue[id] = baffValue[id] + args.value
   elseif id:sub(0, #id - 1) == "debaff" then
     id = tonumber(id:sub(7))
-    debaffValue[id] = debaffValue[id] + value
+    debaffValue[id] = debaffValue[id] + args.value
   elseif id:sub(0, #id - 1) == "start" then
     id = tonumber(id:sub(6))
-    startValue[id] = startValue[id] + value
+    startValue[id] = startValue[id] + args.value
   end
 
   for i = 1, countStatus do
     majorValue[i] = baffValue[i] - debaffValue[i] + startValue[i]
   end
 
-  if tostring(value) ~= "0" then
+  if args.value then
     ChangeUI()
   end
 end
@@ -147,9 +154,13 @@ function SetTableValue(args)
   startValue[7] = args.enum.Выносливость*5
   startValue[8] = args.enum.Удача
 
+  local args = {}
   for i = 1, countStatus do
     startValue[i] = math.floor(startValue[i])
-    ChangeStatus(0, "baff" .. i, "Black")
+    args = {
+      playerColor = "Black"
+    }
+    ChangeStatus(args)
   end
   ChangeUI()
 end

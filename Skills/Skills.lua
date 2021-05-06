@@ -37,22 +37,38 @@ end
 -- Скилы
 function Minus(player, value, id)
   id = id:lower()
-  ChangeSkills(-1, id:sub(6), player.color)
+  local args = {
+    value = -1, id = id:sub(6), playerColor = player.color
+  }
+  ChangeSkills(args)
 end
 function Plus(player, value, id)
   id = id:lower()
-  ChangeSkills(1, id:sub(5), player.color)
+  local args = {
+    value = 1, id = id:sub(5), playerColor = player.color
+  }
+  ChangeSkills(args)
 end
-function ChangeSkills(value, id, playerColor)
-  if not CheckPlayer(playerColor) then return end
+function ChangeSkills(args)
+  if not CheckPlayer(args.playerColor) then return end
 
-  id = tonumber(id:sub(6))
-  startValue[id] = startValue[id] + value
+  local id = args.id or ""
+  if id:find("debaff") then
+    id = tonumber(id:sub(5))
+    baffValue[id] = baffValue[id] + args.value
+  elseif id:find("baff") then
+    id = tonumber(id:sub(7))
+    debaffValue[id] = debaffValue[id] + args.value
+  elseif id:find("start") then
+    id = tonumber(id:sub(6))
+    startValue[id] = startValue[id] + args.value
+  end
+
   for i = 1, countSkills do
     majorValue[i] = baffValue[i] - debaffValue[i] + startValue[i] + startValue[i]*favoritSkills[i]
   end
 
-  if tostring(value) ~= "0" then
+  if args.value then
     ChangeUI()
   end
 end
@@ -108,8 +124,10 @@ function SetFavoritSkills(player, alt_click, id)
     favoritSkills[id] = 0
   end
   
-  ChangeSkills(0, "skill" .. id, player.color)
-  ChangeUI()
+  local args = {
+    value = '0', playerColor = player.color
+  }
+  ChangeSkills(args)
 end
 
 function SetTableValue(args)
@@ -135,9 +153,13 @@ function SetTableValue(args)
 
   freeSkillPoints = args.freeSkillPoints
 
+  local args = {}
   for i = 1, countSkills do
     baffValue[i] = math.floor(baffValue[i])
-    ChangeSkills(0, "skill" .. i, "Black")
+    args = {
+      playerColor = "Black"
+    }
+    ChangeSkills(args)
   end
   ChangeUI()
 end

@@ -9,7 +9,7 @@ end
 
 function onLoad(savedData)
   Wait.time(function()
-    enumSkills = {
+    enumSpecial = {
       сила = 1,
       восприятие = 2,
       выносливость = 3,
@@ -17,6 +17,37 @@ function onLoad(savedData)
       интелект = 5,
       ловкость = 6,
       удача = 7,
+    }
+    enumStatus = {
+      реакция = 1,
+      к_брони = 2,
+      п_урона = 3,
+      с_урону = 4,
+      с_э_урону = 5,
+      с_радиации = 6,
+      с_ядам = 7,
+      шанс_крита = 8,
+    }
+    enumSkills = {
+      л_оружие = 1,
+      т_оружие = 2,
+      э_оружие = 3,
+      б_оружие = 4,
+      х_оружие = 5,
+      метание = 6,
+      п_помощь = 7,
+      доктор = 8,
+      натуралист = 9,
+      пилот = 10,
+      скрытность = 11,
+      взлом = 12,
+      кража = 13,
+      ловушки = 14,
+      наука = 15,
+      ремонт = 16,
+      красноречие = 17,
+      бартер = 18,
+      а_игры = 19,
     }
     Wait.time(|| Confer(savedData), 0.4)
   end, 0.5)
@@ -39,14 +70,15 @@ function onCollisionEnter(info)
   local cusAss = self.UI.getCustomAssets()
   table.insert(cusAss, {name = 'testICON', url = newObject.getCustomObject().image})
   self.UI.setCustomAssets(cusAss)
-
-  Wait.time(function()
-    self.UI.setAttribute("testID", "icon", "testICON")
-    self.UI.setAttribute("testID", "iconColor", "#ffffffff")
-  end, 0.01)
+  
   
   local newName = newObject.getName()
   local newDescription = newObject.getDescription()
+  Wait.time(function()
+    self.UI.setAttribute("testID", "icon", "testICON")
+    self.UI.setAttribute("testID", "iconColor", "#ffffffff")
+    self.UI.setAttribute("testID", "tooltip", newName .. "\n" .. newDescription)
+  end, 0.01)
   local newUrlImage = newObject.getCustomObject().image
   
   tableItems["testID"] = {newName, newDescription, newUrlImage}
@@ -90,11 +122,12 @@ function ChangeDependentVariables(description, remove)
   local currentDescription = {}
   for word in description:gmatch("%S+") do
     table.insert(currentDescription, word)
+    print(word)
   end
   
   local value, skills
   for i,v in ipairs(currentDescription) do
-    if enumSkills[v] then
+    if enumSpecial[v] then
       skills = v
       value = tonumber(currentDescription[i - 1])
     end
@@ -104,11 +137,15 @@ function ChangeDependentVariables(description, remove)
     local args = {}
     if value > 0 then
       args = {
-        value = not remove and value or -value, id = "baff" .. enumSkills[skills], playerColor = "Black"
+        value = not remove and value or -value,
+        id = "baff" .. enumSpecial[skills],
+        playerColor = "Black"
       }
     else
       args = {
-        value = not remove and math.abs(value) or -math.abs(value), id = "debaff" .. enumSkills[skills], playerColor = "Black"
+        value = not remove and math.abs(value) or -math.abs(value),
+        id = "debaff" .. enumSpecial[skills],
+        playerColor = "Black"
       }
     end
     getObjectFromGUID(infoGUID).call("ChangeSkills", args)
