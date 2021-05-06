@@ -26,6 +26,7 @@ function Confer(savedData)
   favoritSkills = loadedData.favoritSkills or FillingTable(0)
   freeSkillPoints = loadedData.freeSkillPoints or 0
   ChangeUI()
+  ChangeUI({page = "secondPage"})
 end
 function FillingTable(value)
   local locTable = {}
@@ -73,33 +74,38 @@ function ChangeSkills(args)
   end
 end
 
-function ChangeUI()
-  for i = 1, countSkills do
-    self.UI.setAttribute("major" .. i, "text", majorValue[i] + favoritSkills[i]*20)
-    self.UI.setAttribute("start" .. i, "text", startValue[i])
-    self.UI.setAttribute("specialSkill" .. i, "active", tostring(favoritSkills[i] == 1))
-    self.UI.setAttribute("baff" .. i, "text", baffValue[i])
-    self.UI.setAttribute("debaff" .. i, "text", debaffValue[i])
-  end
-
-  local currentFreeSkillPoint = freeSkillPoints
-  for i = 1, countSkills do
-    if startValue[i] <= 101 then
-      currentFreeSkillPoint = currentFreeSkillPoint - startValue[i]
-    elseif startValue[i] > 101 and startValue[i] <= 128 then
-      currentFreeSkillPoint = currentFreeSkillPoint - startValue[i]*2
-    elseif startValue[i] > 128 and startValue[i] <= 151 then
-      currentFreeSkillPoint = currentFreeSkillPoint - startValue[i]*3
-    elseif startValue[i] > 151 and startValue[i] <= 176 then
-      currentFreeSkillPoint = currentFreeSkillPoint - startValue[i]*4
-    elseif startValue[i] > 176 and startValue[i] <= 201 then
-      currentFreeSkillPoint = currentFreeSkillPoint - startValue[i]*5
-    elseif startValue[i] > 201 and startValue[i] <= 300 then
-      currentFreeSkillPoint = currentFreeSkillPoint - startValue[i]*6
+function ChangeUI(args)
+  args = args or {}
+  if args.page == "secondPage" then
+    for i = 1, countSkills do
+      self.UI.setAttribute("baff" .. i, "text", baffValue[i])
+      self.UI.setAttribute("debaff" .. i, "text", debaffValue[i])
     end
-  end
-  self.UI.setAttribute("freeSkillPoints", "text", "Свободные очки навыков: " .. currentFreeSkillPoint)
+  else
+    for i = 1, countSkills do
+      self.UI.setAttribute("major" .. i, "text", majorValue[i] + favoritSkills[i]*20)
+      self.UI.setAttribute("start" .. i, "text", startValue[i])
+      self.UI.setAttribute("specialSkill" .. i, "active", tostring(favoritSkills[i] == 1))
+    end
 
+    local currentFreeSkillPoint = freeSkillPoints
+    for i = 1, countSkills do
+      if startValue[i] <= 101 then
+        currentFreeSkillPoint = currentFreeSkillPoint - startValue[i]
+      elseif startValue[i] > 101 and startValue[i] <= 128 then
+        currentFreeSkillPoint = currentFreeSkillPoint - startValue[i]*2
+      elseif startValue[i] > 128 and startValue[i] <= 151 then
+        currentFreeSkillPoint = currentFreeSkillPoint - startValue[i]*3
+      elseif startValue[i] > 151 and startValue[i] <= 176 then
+        currentFreeSkillPoint = currentFreeSkillPoint - startValue[i]*4
+      elseif startValue[i] > 176 and startValue[i] <= 201 then
+        currentFreeSkillPoint = currentFreeSkillPoint - startValue[i]*5
+      elseif startValue[i] > 201 and startValue[i] <= 300 then
+        currentFreeSkillPoint = currentFreeSkillPoint - startValue[i]*6
+      end
+    end
+    self.UI.setAttribute("freeSkillPoints", "text", "Свободные очки навыков: " .. currentFreeSkillPoint)
+  end
   UpdateSave()
 end
 
@@ -173,6 +179,7 @@ function Reset(player)
   startValue = FillingTable(0)
   favoritSkills = FillingTable(0)
   ChangeUI()
+  ChangeUI({page = "secondPage"})
 end
 
 function ChangePage()

@@ -35,7 +35,7 @@ function Confer(savedData)
   lifeGUID = loadedData.lifeGUID
   skillsGUID = loadedData.skillsGUID
   ChangeUI()
-  ChangeUI("secondPage")
+  ChangeUI({page = "secondPage", isLoad = true})
   SetBasicInformation()
 end
 function FillingTable(value)
@@ -131,11 +131,12 @@ function InputReputation(player, input, id)
   input = input ~= "" and input or "0"
   reputationValue[id] = tonumber(input)
   
-  ChangeUI("secondPage")
+  ChangeUI({page = "secondPage"})
 end
 
-function ChangeUI(page)
-  if page == "secondPage" then
+function ChangeUI(args)
+  args = args or {}
+  if args.page == "secondPage" then
     for i,repa in ipairs(reputationValue) do
       self.UI.setAttribute("reputation"..i, "text", repa)
       if repa < -14 then
@@ -166,7 +167,9 @@ function ChangeUI(page)
     else
       self.UI.setAttribute("karma", "textColor", "#948773")
     end
-    ChangeDependentVariables()
+    if not args.isLoad then
+      ChangeDependentVariables()
+    end
   end
   UpdateSave()
 end
@@ -235,6 +238,7 @@ function Reset(player)
   end
   SetBasicInformation()
   ChangeUI()
+  ChangeUI({page = "secondPage"})
 end
 
 function ChangePage()

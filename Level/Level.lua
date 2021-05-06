@@ -33,7 +33,7 @@ function Confer(savedData)
   currentEXP = loadedData and loadedData.currentEXP or 0
   infoGUID = loadedData.infoGUID
   maxEXP = currentLVL*50
-  ChangeUI()
+  ChangeUI({isLoad = true})
 end
 -- Уровень
 function MinusLVL(player)
@@ -93,14 +93,17 @@ function Reset(player)
     ChangeUI()
   end
 end
-function ChangeUI()
+function ChangeUI(args)
+  args = args or {}
   local avarageValue = currentEXP*100/maxEXP
 
   self.UI.setAttribute("LVL", "text", currentLVL)
   self.UI.setAttribute("EXP", "text", currentEXP .. "/" .. maxEXP)
   local newPositionFillImage = (avarageValue - 100)/100*self.UI.getAttribute("barEXP", "width")
   self.UI.setAttribute("fillProgressBarImage", "offsetXY", newPositionFillImage .. " 0")
-  ChangeBoundValues()
+  if not args.isLoad then
+    ChangeBoundValues()
+  end
   UpdateSave()
 end
 

@@ -26,7 +26,7 @@ function Confer(savedData)
   startValue = loadedData.startValue or {0, 0, 0, 0, 0, 0, 0, 0}
   limbValue = loadedData.limbValue or {100, 100, 100, 100, 100, 100, 100, 100}
   ChangeUI()
-  ChangeUI("secondPage")
+  ChangeUI({page = "secondPage"})
   SetStatusInformation()
 end
 -- Статусная информация
@@ -118,8 +118,9 @@ function ChangeLimb(value, id, playerColor)
   self.UI.setAttribute("limb_" .. id, "percentage", limbValue[id])
 end
 
-function ChangeUI(page)
-  if page == "secondPage" then
+function ChangeUI(args)
+  args = args or {}
+  if args.page == "secondPage" then
     for i = 1, 8 do
       self.UI.setAttribute("limb_" .. i, "percentage", limbValue[i])
     end
@@ -176,6 +177,7 @@ function Reset(player)
   end
   SetStatusInformation()
   ChangeUI()
+  ChangeUI({page = "secondPage"})
 end
 
 function ChangePage()

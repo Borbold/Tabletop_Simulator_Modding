@@ -20,12 +20,12 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button id='testID' class='firstColumn' />
+					<Button id='фракция_0' class='firstColumn' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='secondColumn' />
+					<Button id='очки_1' class='secondColumn' />
 				</Panel>
 			</Cell>
 			<Cell>

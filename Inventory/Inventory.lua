@@ -21,13 +21,13 @@ function onLoad(savedData)
     }
     enumStatus = {
       реакция = 1,
-      ["к брони"] = 2,
-      п_урона = 3,
+      ["класс брони"] = 2,
+      ["предел урона"] = 3,
       с_урону = 4,
       с_э_урону = 5,
       с_радиации = 6,
       с_ядам = 7,
-      ["шанс_крита"] = 8,
+      ["шанс на крит"] = 8,
     }
     enumSkills = {
       л_оружие = 1,
@@ -49,6 +49,19 @@ function onLoad(savedData)
       красноречие = 17,
       бартер = 18,
       а_игры = 19,
+    }
+    enumSlots = {
+      фракция_0 = 0,
+      очки_1 = 1,
+      маска_2 = 2,
+      спец_предмето_3 = 3,
+      шлем_4 = 4,
+      разгрузка_5 = 5,
+      бронежилет_6 = 6,
+      подсумок_7 = 7,
+      одежда_8 = 8,
+      рюкзак_9 = 9,
+      быстрый_слот_10 = 10,
     }
     Wait.time(|| Confer(savedData), 0.4)
     local params = {
@@ -88,25 +101,30 @@ end
 
 function onCollisionEnter(info)
   if info.collision_object.getPosition().y < self.getPosition().y then return end
-
   local newObject = info.collision_object
+  local currentDescription = {}
+  local newGMNotes = newObject.getGMNotes()
+  for word in newGMNotes:gmatch("%S+") do
+    table.insert(currentDescription, word)
+  end
   destroyObject(info.collision_object)
   
   local cusAss = self.UI.getCustomAssets()
-  table.insert(cusAss, {name = 'testICON', url = newObject.getCustomObject().image})
+  table.insert(cusAss, {name = currentDescription[2], url = newObject.getCustomObject().image})
   self.UI.setCustomAssets(cusAss)
   
   local newName = newObject.getName()
   local newDescription = newObject.getDescription()
   Wait.time(function()
-    self.UI.setAttribute("testID", "icon", "testICON")
-    self.UI.setAttribute("testID", "iconColor", "#ffffffff")
-    self.editButton({index = 0, tooltip = newName .. "\n" .. newDescription})
+    self.UI.setAttribute(currentDescription[2], "icon", "testICON")
+    self.UI.setAttribute(currentDescription[2], "iconColor", "#ffffffff")
+    local indexButton = tonumber(currentDescription[2]:sub(currentDescription[2]:find("_") + 1))
+    self.editButton({index = indexButton, tooltip = newName .. "\n" .. newDescription})
     --Wait.time(|| print(self.UI.getXmlTable()[2].children[1].children[2].children[1].children[1].children[1].attributes["icon"]), 0.2)
   end, 0.01)
   local newUrlImage = newObject.getCustomObject().image
   
-  tableItems["testID"] = {newName, newDescription, newUrlImage}
+  tableItems[currentDescription[2]] = {newName, newDescription, newUrlImage, newGMNotes}
   local findText = newDescription:find("Эффекты")
   if findText then
     ChangeDependentVariables(newDescription:sub(findText))
@@ -125,31 +143,49 @@ function RemoveItem(obj, color, alt_click)
     sound = false, snap_to_grid = true,
   }
   local newObject = spawnObject(spawnParametrs)
-  newObject.setName(tableItems["testID"][1])
-  newObject.setDescription(tableItems["testID"][2])
-  newObject.setCustomObject({image = tableItems["testID"][3]})
 
-  local findText = tableItems["testID"][2]:find("Эффекты")
-  if findText then
-    ChangeDependentVariables(tableItems["testID"][2]:sub(findText), true)
+  local indexItem, indexButton
+  for i,v in pairs(tableItems) do
+    if enumSlots[i] ~= nil then
+      indexItem = i
+      indexButton = enumSlots[i]
+    end
   end
-  tableItems["testID"] = nil
 
-  Wait.time(function()
-    self.UI.setAttribute("testID", "icon", "")
-    self.UI.setAttribute("testID", "iconColor", "#ffffff00")
-    self.editButton({index = 0, tooltip = ""})
-  end, 0.01)
-  UpdateSave()
+  if indexItem and indexButton then
+    newObject.setName(tableItems[indexItem][1])
+    newObject.setDescription(tableItems[indexItem][2])
+    newObject.setCustomObject({image = tableItems[indexItem][3]})
+    newObject.setGMNotes(tableItems[indexItem][4])
+
+    local findText = tableItems[indexItem][2]:find("Эффекты")
+    if findText then
+      ChangeDependentVariables(tableItems[indexItem][2]:sub(findText), true)
+    end
+    tableItems[indexItem] = nil
+
+    Wait.time(function()
+      self.UI.setAttribute(indexItem, "icon", "")
+      self.UI.setAttribute(indexItem, "iconColor", "#ffffff00")
+      self.editButton({index = indexButton, tooltip = ""})
+    end, 0.01)
+    UpdateSave()
+  else
+    broadcastToAll("Чето пошло не так")
+  end
 end
 function ChangeDependentVariables(description, remove)
   local infoGUID = infoGUID or SearchDie("Info")
   local statusGUID = statusGUID or SearchDie("Status")
   local skillsGUID = skillsGUID or SearchDie("Skills")
-
   local currentDescription = {}
   for word in description:gmatch("%S+") do
-    table.insert(currentDescription, word)
+    if word:find("%[") then
+      local longWord = description:match("%[(.+)%]")
+      table.insert(currentDescription, longWord)
+    else
+      table.insert(currentDescription, word)
+    end
   end
   
   for i,v in ipairs(currentDescription) do
