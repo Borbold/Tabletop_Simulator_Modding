@@ -51,19 +51,14 @@ function onLoad(savedData)
     }
     Wait.time(|| Confer(savedData), 0.4)
     params = {
-      click_function = "RemoveItem",
-      function_owner = self,
+      function_owner = self, click_function = "RemoveItem",
       -- Если не сработает, пиши в label
-      index = "testID",
-      label          = "...",
-      position       = {5.05, 0.2, 15.3},
-      rotation       = {0, 180, 0},
-      width          = 400,
-      height         = 400,
-      font_size      = 340,
-      color          = {0.5, 0.5, 0.5},
-      font_color     = {1, 1, 1},
-      tooltip        = "[33ff33]This[ffffff] text appears on mouseover.",
+      index = "testID", label = "...",
+      position = {5.05, 0.2, 15.3}, rotation = {0, 180, 0},
+      width = 400, height = 400,
+      font_size = 340, font_color = {1, 1, 1},
+      color = {0.5, 0.5, 0.5},
+      tooltip = "[33ff33]This[ffffff] text appears on mouseover.",
     }
     self.createButton(params)
   end, 0.5)
