@@ -66,16 +66,16 @@ function Minus(player, value, id)
   local args = {
     value = -1, id = id:sub(6), playerColor = player.color
   }
-  ChangeStatus(args)
+  ChangeSkills(args)
 end
 function Plus(player, value, id)
   id = id:lower()
   local args = {
     value = 1, id = id:sub(5), playerColor = player.color
   }
-  ChangeStatus(args)
+  ChangeSkills(args)
 end
-function ChangeStatus(args)
+function ChangeSkills(args)
   if not CheckPlayer(args.playerColor) then return end
 
   local id = args.id or ""
@@ -160,7 +160,7 @@ function SetTableValue(args)
     args = {
       playerColor = "Black"
     }
-    ChangeStatus(args)
+    ChangeSkills(args)
   end
   ChangeUI()
 end

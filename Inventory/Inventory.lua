@@ -1,7 +1,7 @@
 ﻿function UpdateSave()
   local dataToSave = {
     ["tableItems"] = tableItems,
-    ["infoGUID"] = infoGUID,
+    ["infoGUID"] = infoGUID, ["statusGUID"] = statusGUID, ["skillsGUID"] = skillsGUID
   }
   local savedData = JSON.encode(dataToSave)
   self.script_state = savedData
@@ -58,6 +58,8 @@ function Confer(savedData)
   local loadedData = JSON.decode(savedData or "")
   tableItems = loadedData.tableItems or {}
   infoGUID = loadedData.infoGUID
+  statusGUID = loadedData.statusGUID
+  skillsGUID = loadedData.skillsGUID
   ChangeUI()
 end
 
@@ -119,36 +121,49 @@ function RemoveItem(player, _, id)
 end
 function ChangeDependentVariables(description, remove)
   local infoGUID = infoGUID or SearchDie("Info")
+  local statusGUID = statusGUID or SearchDie("Status")
+  local skillsGUID = skillsGUID or SearchDie("Skills")
+
   local currentDescription = {}
   for word in description:gmatch("%S+") do
     table.insert(currentDescription, word)
-    print(word)
   end
   
-  local value, skills
   for i,v in ipairs(currentDescription) do
+    local value, skills, locGUID = nil, "", ""
     if enumSpecial[v] then
       skills = v
       value = tonumber(currentDescription[i - 1])
+      locGUID = infoGUID
+    elseif enumStatus[v] then
+      skills = v
+      local textValue = currentDescription[i - 1]
+      value = tonumber(textValue:sub(0, #textValue - 1))
+      locGUID = statusGUID
+    elseif enumSkills[v] then
+      skills = v
+      local textValue = currentDescription[i - 1]
+      value = tonumber(textValue:sub(0, #textValue - 1))
+      locGUID = skillsGUID
     end
-  end
-
-  if value then
-    local args = {}
-    if value > 0 then
-      args = {
-        value = not remove and value or -value,
-        id = "baff" .. enumSpecial[skills],
-        playerColor = "Black"
-      }
-    else
-      args = {
-        value = not remove and math.abs(value) or -math.abs(value),
-        id = "debaff" .. enumSpecial[skills],
-        playerColor = "Black"
-      }
+    
+    if value then
+      local args = {}
+      if value > 0 then
+        args = {
+          value = not remove and value or -value,
+          id = "baff" .. (enumSpecial[skills] or enumStatus[skills] or enumSkills[skills]),
+          playerColor = "Black"
+        }
+      else
+        args = {
+          value = not remove and math.abs(value) or -math.abs(value),
+          id = "debaff" .. (enumSpecial[skills] or enumStatus[skills] or enumSkills[skills]),
+          playerColor = "Black"
+        }
+      end
+      getObjectFromGUID(locGUID).call("ChangeSkills", args)
     end
-    getObjectFromGUID(infoGUID).call("ChangeSkills", args)
   end
 end
 

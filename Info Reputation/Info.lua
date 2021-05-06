@@ -98,7 +98,7 @@ function Plus(player, value, id)
 end
 function ChangeSkills(args)
   if not CheckPlayer(args.playerColor) then return end
-
+  
   local id = args.id
   if id:sub(0, #id - 1) == "baff" then
     id = tonumber(id:sub(5))
