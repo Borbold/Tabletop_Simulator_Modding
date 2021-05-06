@@ -35,14 +35,14 @@ function FillingTable(value)
   return locTable
 end
 -- Скилы
-function Minus(player, value, id)
+function Minus(player, _, id)
   id = id:lower()
   local args = {
     value = -1, id = id:sub(6), playerColor = player.color
   }
   ChangeSkills(args)
 end
-function Plus(player, value, id)
+function Plus(player, _, id)
   id = id:lower()
   local args = {
     value = 1, id = id:sub(5), playerColor = player.color
@@ -54,11 +54,11 @@ function ChangeSkills(args)
 
   local id = args.id or ""
   if id:find("debaff") then
-    id = tonumber(id:sub(5))
-    baffValue[id] = baffValue[id] + args.value
-  elseif id:find("baff") then
     id = tonumber(id:sub(7))
     debaffValue[id] = debaffValue[id] + args.value
+  elseif id:find("baff") then
+    id = tonumber(id:sub(5))
+    baffValue[id] = baffValue[id] + args.value
   elseif id:find("start") then
     id = tonumber(id:sub(6))
     startValue[id] = startValue[id] + args.value
@@ -78,6 +78,8 @@ function ChangeUI()
     self.UI.setAttribute("major" .. i, "text", majorValue[i] + favoritSkills[i]*20)
     self.UI.setAttribute("start" .. i, "text", startValue[i])
     self.UI.setAttribute("specialSkill" .. i, "active", tostring(favoritSkills[i] == 1))
+    self.UI.setAttribute("baff" .. i, "text", baffValue[i])
+    self.UI.setAttribute("debaff" .. i, "text", debaffValue[i])
   end
 
   local currentFreeSkillPoint = freeSkillPoints
@@ -171,6 +173,16 @@ function Reset(player)
   startValue = FillingTable(0)
   favoritSkills = FillingTable(0)
   ChangeUI()
+end
+
+function ChangePage()
+  if self.UI.getAttribute("firstPage", "active") == "true" then
+    self.UI.setAttribute("firstPage", "active", "false")
+    self.UI.setAttribute("secondPage", "active", "true")
+  elseif self.UI.getAttribute("secondPage", "active") == "true" then
+    self.UI.setAttribute("firstPage", "active", "true")
+    self.UI.setAttribute("secondPage", "active", "false")
+  end
 end
 
 function RebuildAssets()

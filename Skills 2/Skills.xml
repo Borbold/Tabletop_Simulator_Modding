@@ -1,14 +1,32 @@
 <Defaults>
+	<Panel class='majorPage' position='0 400 -21' height='800' width='1200' />
+
 	<Cell class='plugForInputField' columnSpan='5' />
 
 	<Cell class='plugFirst' columnSpan='5' />
 	<Cell class='plugSecond' columnSpan='5' />
 	<Cell class='plugThird' columnSpan='5' />
-
+	
+	<Button class='minusBaff1' image='uiMinus' onClick='Minus' offsetXY='-30 0' width='80' height='80' />
+	<Text class='baffValue1' color='#9487ff' resizeTextMaxSize='40' text='0' offsetXY='10 0' width='50' />
+	<Button class='plusBaff1' image='uiPlus' onClick='Plus' offsetXY='50 0' width='80' height='80' />
+	
+	<Button class='minusdebaff1' image='uiMinus' onClick='Minus' offsetXY='70 0' width='80' height='80' />
+	<Text class='debaffValue1' color='#ff8773' resizeTextMaxSize='40' text='0' offsetXY='110 0' width='50' />
+	<Button class='plusdebaff1' image='uiPlus' onClick='Plus' offsetXY='150 0' width='80' height='80' />
+	
 	<Button class='minusSkills1' image='uiMinus' onClick='Minus' offsetXY='35 0' width='80' height='80' />
-	<Button class='plusSkills1' image='uiPlus' onClick='Plus' offsetXY='135 0' width='80' height='80' />
+	<Button class='plusSkills1' image='uiPlus' onClick='Plus' offsetXY='140 0' width='80' height='80' />
 	<Text class='startValue1' color='#94ff73' text='1' offsetXY='85 0' width='100' />
 	<Text class='majorValue1' text='10' width='100' offsetXY='5 0' outline='#94877355' alignment='MiddleLeft' />
+
+	<Button class='minusBaff' image='uiMinus' onClick='Minus' offsetXY='100 0' width='80' height='80' />
+	<Text class='baffValue' color='#9487ff' resizeTextMaxSize='40' text='0' offsetXY='140 0' width='50' />
+	<Button class='plusBaff' image='uiPlus' onClick='Plus' offsetXY='180 0' width='80' height='80' />
+	
+	<Button class='minusdebaff' image='uiMinus' onClick='Minus' offsetXY='200 0' width='80' height='80' />
+	<Text class='debaffValue' color='#ff8773' resizeTextMaxSize='40' text='0' offsetXY='240 0' width='50' />
+	<Button class='plusdebaff' image='uiPlus' onClick='Plus' offsetXY='280 0' width='80' height='80' />
 
 	<Button class='minusSkills' image='uiMinus' onClick='Minus' offsetXY='160 0' width='80' height='80' />
 	<Button class='plusSkills' image='uiPlus' onClick='Plus' offsetXY='270 0' width='80' height='80' />
@@ -30,8 +48,8 @@
 	<Text resizeTextForBestFit='true' resizeTextMaxSize='50'
 		color='#948773'/>
 </Defaults>
-
-<Panel position='0 400 -21' height='800' width='1200'>
+<!-- Навыки -->
+<Panel id='firstPage' class='majorPage' active='true'>
 	<TableLayout image='uiBackGroun'>
 		<Row>
 		</Row>
@@ -469,4 +487,380 @@
 		<Row>
 		</Row>
 	</TableLayout>
+</Panel>
+<!-- Баффы/Дебаффы навыков -->
+<Panel id='secondPage' class='majorPage' active='false'>
+	<TableLayout image='uiBackGroun'>
+		<Row>
+		</Row>
+		<Row>
+		</Row>
+		<!-- Строка: Легкое оружие/Скрытность -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Button id='minusBaff1' class='minusBaff1' />
+					<Text id='baff1' class='baffValue1' />
+					<Button id='plusBaff1' class='plusBaff1' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusDebaff1' class='minusdebaff1' />
+					<Text id='debaff1' class='debaffValue1' />
+					<Button id='plusDebaff1' class='plusdebaff1' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugSecond' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Button id='minusBaff11' class='minusBaff' />
+					<Text id='baff11' class='baffValue' />
+					<Button id='plusBaff11' class='plusBaff' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusDebaff11' class='minusdebaff' />
+					<Text id='debaff11' class='debaffValue' />
+					<Button id='plusDebaff11' class='plusdebaff' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Тяжелое оружие/Взлом -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Button id='minusBaff2' class='minusBaff1' />
+					<Text id='baff2' class='baffValue1' />
+					<Button id='plusBaff2' class='plusBaff1' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusDebaff2' class='minusdebaff1' />
+					<Text id='debaff2' class='debaffValue1' />
+					<Button id='plusDebaff2' class='plusdebaff1' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugSecond' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Button id='minusBaff12' class='minusBaff' />
+					<Text id='baff12' class='baffValue' />
+					<Button id='plusBaff12' class='plusBaff' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusDebaff12' class='minusdebaff' />
+					<Text id='debaff12' class='debaffValue' />
+					<Button id='plusDebaff12' class='plusdebaff' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Энергетическое оружие/Кража -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Button id='minusBaff3' class='minusBaff1' />
+					<Text id='baff3' class='baffValue1' />
+					<Button id='plusBaff3' class='plusBaff1' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusDebaff3' class='minusdebaff1' />
+					<Text id='debaff3' class='debaffValue1' />
+					<Button id='plusDebaff3' class='plusdebaff1' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugSecond' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Button id='minusBaff13' class='minusBaff' />
+					<Text id='baff13' class='baffValue' />
+					<Button id='plusBaff13' class='plusBaff' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusDebaff13' class='minusdebaff' />
+					<Text id='debaff13' class='debaffValue' />
+					<Button id='plusDebaff13' class='plusdebaff' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Без оружия/Ловушки -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Button id='minusBaff4' class='minusBaff1' />
+					<Text id='baff4' class='baffValue1' />
+					<Button id='plusBaff4' class='plusBaff1' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusDebaff4' class='minusdebaff1' />
+					<Text id='debaff4' class='debaffValue1' />
+					<Button id='plusDebaff4' class='plusdebaff1' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugSecond' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Button id='minusBaff14' class='minusBaff' />
+					<Text id='baff14' class='baffValue' />
+					<Button id='plusBaff14' class='plusBaff' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusDebaff14' class='minusdebaff' />
+					<Text id='debaff14' class='debaffValue' />
+					<Button id='plusDebaff14' class='plusdebaff' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Холодное оружие/Наука -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Button id='minusBaff5' class='minusBaff1' />
+					<Text id='baff5' class='baffValue1' />
+					<Button id='plusBaff5' class='plusBaff1' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusDebaff5' class='minusdebaff1' />
+					<Text id='debaff5' class='debaffValue1' />
+					<Button id='plusDebaff5' class='plusdebaff1' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugSecond' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Button id='minusBaff15' class='minusBaff' />
+					<Text id='baff15' class='baffValue' />
+					<Button id='plusBaff15' class='plusBaff' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusDebaff15' class='minusdebaff' />
+					<Text id='debaff15' class='debaffValue' />
+					<Button id='plusDebaff15' class='plusdebaff' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Метание/Ремонт -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Button id='minusBaff6' class='minusBaff1' />
+					<Text id='baff6' class='baffValue1' />
+					<Button id='plusBaff6' class='plusBaff1' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusDebaff6' class='minusdebaff1' />
+					<Text id='debaff6' class='debaffValue1' />
+					<Button id='plusDebaff6' class='plusdebaff1' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugSecond' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Button id='minusBaff16' class='minusBaff' />
+					<Text id='baff16' class='baffValue' />
+					<Button id='plusBaff16' class='plusBaff' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusDebaff16' class='minusdebaff' />
+					<Text id='debaff16' class='debaffValue' />
+					<Button id='plusDebaff16' class='plusdebaff' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Первая помощь/Красноречие -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Button id='minusBaff7' class='minusBaff1' />
+					<Text id='baff7' class='baffValue1' />
+					<Button id='plusBaff7' class='plusBaff1' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusDebaff7' class='minusdebaff1' />
+					<Text id='debaff7' class='debaffValue1' />
+					<Button id='plusDebaff7' class='plusdebaff1' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugSecond' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Button id='minusBaff17' class='minusBaff' />
+					<Text id='baff17' class='baffValue' />
+					<Button id='plusBaff17' class='plusBaff' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusDebaff17' class='minusdebaff' />
+					<Text id='debaff17' class='debaffValue' />
+					<Button id='plusDebaff17' class='plusdebaff' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Доктор/Бартер -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Button id='minusBaff8' class='minusBaff1' />
+					<Text id='baff8' class='baffValue1' />
+					<Button id='plusBaff8' class='plusBaff1' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusDebaff8' class='minusdebaff1' />
+					<Text id='debaff8' class='debaffValue1' />
+					<Button id='plusDebaff8' class='plusdebaff1' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugSecond' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Button id='minusBaff18' class='minusBaff' />
+					<Text id='baff18' class='baffValue' />
+					<Button id='plusBaff18' class='plusBaff' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusDebaff18' class='minusdebaff' />
+					<Text id='debaff18' class='debaffValue' />
+					<Button id='plusDebaff18' class='plusdebaff' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Натуралист/Азартные игры  -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Button id='minusBaff9' class='minusBaff1' />
+					<Text id='baff9' class='baffValue1' />
+					<Button id='plusBaff9' class='plusBaff1' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusDebaff9' class='minusdebaff1' />
+					<Text id='debaff9' class='debaffValue1' />
+					<Button id='plusDebaff9' class='plusdebaff1' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugSecond' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Button id='minusBaff19' class='minusBaff' />
+					<Text id='baff19' class='baffValue' />
+					<Button id='plusBaff19' class='plusBaff' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusDebaff19' class='minusdebaff' />
+					<Text id='debaff19' class='debaffValue' />
+					<Button id='plusDebaff19' class='plusdebaff' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		<!-- Строка: Пилот/"Свободное место под навык" -->
+		<Row>
+			<Cell class='plugFirst' />
+			
+			<Cell columnSpan='1'>
+				<Panel>
+					<Button id='minusBaff10' class='minusBaff1' />
+					<Text id='baff10' class='baffValue1' />
+					<Button id='plusBaff10' class='plusBaff1' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusDebaff10' class='minusdebaff1' />
+					<Text id='debaff10' class='debaffValue1' />
+					<Button id='plusDebaff10' class='plusdebaff1' />
+				</Panel>
+			</Cell>
+			
+			<Cell class='plugSecond' />
+			
+			<Cell columnSpan='1'>
+				<!--
+				<Panel>
+					<Text id='major20' class='majorValue' />
+				</Panel>
+				
+				<Panel>
+					<Button id='minusStart20' class='minusSkills'/>
+					<Text id='start20' class='startValue' />
+					<Button id='plusStart20' class='plusSkills' />
+				</Panel>
+				-->
+			</Cell>
+			
+			<Cell class='plugThird' />
+		</Row>
+		
+		<Row/>
+		<Row/>
+	</TableLayout>
+</Panel>
+<!-- Кнопка смены окна -->
+<Panel position='565 770 -22' height='50' width='50'>
+	<Button image='uiGear' onClick='ChangePage' height='50' width='50' />
 </Panel>
