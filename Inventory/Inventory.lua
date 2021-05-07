@@ -44,9 +44,8 @@ function onLoad(savedData)
       {x = 5.05, y = 11.55},                                            {x = 1.3, y = 11.55},
       {x = 5.05, y = 10.30}, {x = 3.8, y = 10.3}, {x = 2.55, y = 10.3}, {x = 1.3, y = 10.30},
     }
-    local params = {}
     for i,pos in ipairs(paramPos) do
-      params = {
+      local params = {
         function_owner = self, click_function = "RemoveItem",
         label = tostring(i), tooltip = "Empty",
         position = {pos.x, 0.2, pos.y}, rotation = {0, 180, 0},
