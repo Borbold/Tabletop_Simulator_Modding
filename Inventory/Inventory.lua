@@ -206,10 +206,6 @@ end
 
 function RebuildAssets(assets)
   local backG = 'https://i.imgur.com/WQiHEAd.png'
-  local example1 = 'https://cdn.discordapp.com/attachments/800324103848198174/838979483075608596/moto_glasses.png'
-  local example2 = 'https://cdn.discordapp.com/attachments/800324103848198174/838979481347031070/red_mask.png'
   table.insert(assets, {name = 'uiBackGroundW', url = backG})
-  table.insert(assets, {name = 'example1', url = example1})
-  table.insert(assets, {name = 'example2', url = example2})
   self.UI.setCustomAssets(assets)
 end
