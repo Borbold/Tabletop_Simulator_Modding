@@ -161,8 +161,10 @@ function ChangeUI(args)
     self.UI.setAttribute("maxSkillPoint", "text", maxSkillPoint)
     self.UI.setAttribute("karma", "text", karma)
     if karma < -249 then
+      broadcastToAll(args.player.steam_name " Пидор! Презирйте его")
       self.UI.setAttribute("karma", "textColor", "#ff8773")
     elseif karma > 249 then
+      broadcastToAll(args.player.steam_name " Молодец! Просто молодец")
       self.UI.setAttribute("karma", "textColor", "#9487ff")
     else
       self.UI.setAttribute("karma", "textColor", "#948773")
@@ -184,7 +186,7 @@ function ChangeKarma(player, input)
   if not CheckPlayer(player.color) then return end
   if input == "" then input = "0" end
   karma = tonumber(input)
-  ChangeUI()
+  ChangeUI({player = player})
 end
 
 function ChangeDependentVariables(params)
