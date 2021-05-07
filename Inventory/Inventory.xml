@@ -3,12 +3,12 @@
 	<Button class='secondColumn' position='41 -5' />
 	<Button class='thirdColumn' position='31 -5' />
 	<Button class='fourColumn' position='46 -5' />
-	<Button class='fiveColumn' position='40 -10' />
-	<Button class='sixColumn' position='40 -10' />
-	<Button class='sevenColumn' position='40 -10' />
-	<Button class='eightColumn' position='40 -10' />
-	<Button class='nineColumn' position='40 -10' />
-	<Button class='tenColumn' position='40 -10' />
+	<Button class='fiveColumn' position='33 -13' />
+	<Button class='sixColumn' position='22 -13' />
+	<Button class='sevenColumn' position='9 -13' />
+	<Button class='eightColumn' position='-4 -13' />
+	<Button class='nineColumn' position='-18 -13' />
+	<Button class='tenColumn' position='-33 -13' />
 
 	<Cell dontUseTableCellBackground='true' />
 	<Button resizeTextForBestFit='true' resizeTextMaxSize='50'
@@ -82,7 +82,7 @@
 			<Cell columnSpan='2' />
 			<Cell>
 				<Panel>
-					<Button class='fourColumn' offsetXY='50 -10' />
+					<Button class='fourColumn' offsetXY='0 -10' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2'>
@@ -111,7 +111,7 @@
 			<Cell columnSpan='2' />
 			<Cell>
 				<Panel>
-					<Button class='fourColumn' offsetXY='0 -10' />
+					<Button class='fourColumn' offsetXY='0 -12' />
 				</Panel>
 			</Cell>
 			<Cell>
@@ -150,7 +150,7 @@
 			<Cell columnSpan='2' />
 			<Cell>
 				<Panel>
-					<Button class='fourColumn' offsetXY='-10' />
+					<Button class='fourColumn' offsetXY='0 -23' />
 				</Panel>
 			</Cell>
 			<Cell>
@@ -183,22 +183,22 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button class='firstColumn' offsetXY='0 -32' />
+					<Button class='firstColumn' offsetXY='0 -34' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='secondColumn' />
+					<Button class='secondColumn' offsetXY='-2 -34' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='thirdColumn' />
+					<Button class='thirdColumn' offsetXY='2 -34' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='fourColumn' />
+					<Button class='fourColumn' offsetXY='-15 -34' />
 				</Panel>
 			</Cell>
 			<Cell>

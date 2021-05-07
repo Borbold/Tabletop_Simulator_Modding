@@ -1,7 +1,7 @@
 ﻿function UpdateSave()
   local dataToSave = {
     ["levelGUID"] = levelGUID,
-    ["currentHP"] = currentHP,
+    ["currentHP"] = currentHP, ["maxHP"] = maxHP,
     ["currentAP"] = currentAP, ["maxAP"] = maxAP,
     ["currentLVL"] = currentLVL
   }
@@ -19,9 +19,11 @@ function Confer(savedData)
   RebuildAssets()
   local loadedData = JSON.decode(savedData or "")
   currentHP = loadedData.currentHP or 25
+  maxHP = loadedData.maxHP or 50
   currentAP = loadedData.currentAP or 3
   maxAP = loadedData.maxAP or 10
   levelGUID = loadedData.levelGUID
+  ChangeUI()
 end
 -- Здоровье
 function MinusHP(player)
@@ -36,7 +38,7 @@ function ChangeHP(value, player)
   currentHP = currentHP + self.UI.getAttribute("ratioHP", "text")*value
   if currentHP > maxHP then currentHP = maxHP end
   if currentHP <= 0 then
-    broadcastToAll("Димооон " args.player.steam_name " почти откинулся")
+    broadcastToAll("Димооон " .. args.player.steam_name .. " почти откинулся")
   end
   ChangeUI()
 end

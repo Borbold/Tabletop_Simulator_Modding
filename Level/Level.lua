@@ -49,7 +49,7 @@ function ChangeLVL(value, remainingEXP, player)
   local locCurLVL = currentLVL
   currentLVL = currentLVL + value
   if currentLVL > locCurLVL then
-    broadcastToAll(player.steam_name " поднял уровень, держи пирожок.")
+    broadcastToAll(player.steam_name .. " поднял уровень, держи пирожок.")
   end
   if currentLVL <= 0 then currentLVL = 1 end
   maxEXP = currentLVL*50

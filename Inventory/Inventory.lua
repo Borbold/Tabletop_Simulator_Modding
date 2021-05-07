@@ -17,7 +17,7 @@ function onLoad(savedData)
     }
     enumStatus = {
       реакция = 1, ["класс брони"] = 2, ["предел урона"] = 3,
-      ["сопротивление урону"] = 4, ["сопротивление энергетическому урону"] = 5, ["сопротивление радиации"] = 6,
+      ["сопротивление урону"] = 4, ["сопротивление энергетическому урону"] = 5, ["сопротивление ☣"] = 6,
       ["сопротивление ядам"] = 7, ["шанс на крит"] = 8,
     }
     enumSkills = {
@@ -38,11 +38,11 @@ function onLoad(savedData)
     Wait.time(|| Confer(savedData), 0.4)
     
     local paramPos = {
-      {x = 5.05, y = 15.30}, {x = 3.8, y = 15.3}, {x = 2.55, y = 15.3}, {x = 1.3, y = 15.30},
-      {x = 5.05, y = 14.05},                                            {x = 1.3, y = 14.05},
-      {x = 5.05, y = 12.80},                                            {x = 1.3, y = 12.80},
-      {x = 5.05, y = 11.55},                                            {x = 1.3, y = 11.55},
-      {x = 5.05, y = 10.30}, {x = 3.8, y = 10.3}, {x = 2.55, y = 10.3}, {x = 1.3, y = 10.30},
+      {x = 5.05, y = 15.30}, {x = 3.8, y = 15.3}, {x = 2.75, y = 15.3}, {x = 1.40, y = 15.30},
+      {x = 5.05, y = 14.15},                                            {x = 1.40, y = 14.15},
+      {x = 5.05, y = 13.00},                                            {x = 1.40, y = 13.00},
+      {x = 5.05, y = 11.85},                                            {x = 1.40, y = 11.85},
+      {x = 5.05, y = 10.70}, {x = 3.8, y = 10.7}, {x = 2.75, y = 10.7}, {x = 1.45, y = 10.70},
     }
     for i,pos in ipairs(paramPos) do
       local params = {
@@ -51,7 +51,7 @@ function onLoad(savedData)
         position = {pos.x, 0.2, pos.y}, rotation = {0, 180, 0},
         width = 400, height = 400,
         font_size = 120, font_color = {1, 1, 1},
-        color = {0, 0, 0, 0},
+        color = {0.5, 0.5, 0.5, 1},
       }
       self.createButton(params)
     end
@@ -80,14 +80,14 @@ function onCollisionEnter(info)
   end
   destroyObject(info.collision_object)
   
+  local newName = newObject.getName()
   local cusAss = self.UI.getCustomAssets()
-  table.insert(cusAss, {name = currentDescription[2], url = newObject.getCustomObject().image})
+  table.insert(cusAss, {name = newName, url = newObject.getCustomObject().image})
   self.UI.setCustomAssets(cusAss)
   
-  local newName = newObject.getName()
   local newDescription = newObject.getDescription()
   Wait.time(function()
-    self.UI.setAttribute(currentDescription[2], "icon", "testICON")
+    self.UI.setAttribute(currentDescription[2], "icon", newName)
     self.UI.setAttribute(currentDescription[2], "iconColor", "#ffffffff")
     local indexButton = tonumber(currentDescription[2]:sub(currentDescription[2]:find("_") + 1))
     self.editButton({index = indexButton, tooltip = newName .. "\n" .. newDescription})
@@ -149,10 +149,18 @@ function ChangeDependentVariables(description, remove)
   local infoGUID = infoGUID or SearchDie("Info")
   local statusGUID = statusGUID or SearchDie("Status")
   local skillsGUID = skillsGUID or SearchDie("Skills")
-  local currentDescription = {}
+  local currentDescription, newStartIndex = {}, 0
   for word in description:gmatch("%S+") do
     if word:find("%[") then
-      local longWord = description:match("%[(.+)%]")
+      local newDesc = description:sub(newStartIndex)
+      newStartIndex = description:find("]") + 1
+      local longWord
+      if newDesc:match("%[(.+)%]-%[") then
+        longWord = newDesc:match("%[(.+)%]-%[")
+        longWord = longWord:sub(0, longWord:find("]") - 1)
+      elseif newDesc:match("%[(.+)%]") then
+        longWord = newDesc:match("%[(.+)%]")
+      end
       table.insert(currentDescription, longWord)
     else
       table.insert(currentDescription, word)
