@@ -35,26 +35,21 @@ function onLoad(savedData)
       рюкзак_9 = 9, быстрый_слот_10 = 10,
     }
     Wait.time(|| Confer(savedData), 0.4)
-    local params = {
-      function_owner = self, click_function = "RemoveItem",
-      label = "testID",
-      position = {5.05, 0.2, 15.3}, rotation = {0, 180, 0},
-      width = 400, height = 400,
-      font_size = 120, font_color = {1, 1, 1},
-      color = {0.5, 0.5, 0.5},
-      tooltip = "[33ff33]This[ffffff] text appears on mouseover.",
-    }
-    self.createButton(params)
-    params = {
-      function_owner = self, click_function = "RemoveItem",
-      label = "testID",
-      position = {3.8, 0.2, 15.3}, rotation = {0, 180, 0},
-      width = 400, height = 400,
-      font_size = 120, font_color = {1, 1, 1},
-      color = {0.5, 0.5, 0.5},
-      tooltip = "[33ff33]This[ffffff] text appears on mouseover.",
-    }
-    self.createButton(params)
+    
+    local paramPos = {{x = 5.05, y = 15.3}, {x = 3.8, y = 15.3}}
+    local params = {}
+    for _,pos in ipairs(paramPos) do
+      params = {
+        function_owner = self, click_function = "RemoveItem",
+        label = "T",
+        position = {pos.x, 0.2, pos.y}, rotation = {0, 180, 0},
+        width = 400, height = 400,
+        font_size = 120, font_color = {1, 1, 1},
+        color = {0.5, 0.5, 0.5},
+        tooltip = "Empty",
+      }
+      self.createButton(params)
+    end
   end, 0.5)
 end
 
