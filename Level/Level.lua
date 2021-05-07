@@ -37,16 +37,20 @@ function Confer(savedData)
 end
 -- Уровень
 function MinusLVL(player)
-  ChangeLVL(-1, _, player.color)
+  ChangeLVL(-1, _, player)
 end
 function PlusLVL(player)
-  ChangeLVL(1, _, player.color)
+  ChangeLVL(1, _, player)
 end
-function ChangeLVL(value, remainingEXP, playerColor)
-  local args = {playerColor = playerColor}
+function ChangeLVL(value, remainingEXP, player)
+  local args = {playerColor = player.color}
   if not CheckPlayer(args) then return end
 
+  local locCurLVL = currentLVL
   currentLVL = currentLVL + value
+  if currentLVL > locCurLVL then
+    broadcastToAll(player.steam_name " поднял уровень, держи пирожок.")
+  end
   if currentLVL <= 0 then currentLVL = 1 end
   maxEXP = currentLVL*50
   if remainingEXP then currentEXP = remainingEXP end
