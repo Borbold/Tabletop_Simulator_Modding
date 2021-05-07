@@ -41,12 +41,11 @@ function onLoad(savedData)
     for _,pos in ipairs(paramPos) do
       params = {
         function_owner = self, click_function = "RemoveItem",
-        label = "T",
+        label = "T", tooltip = "Empty",
         position = {pos.x, 0.2, pos.y}, rotation = {0, 180, 0},
         width = 400, height = 400,
         font_size = 120, font_color = {1, 1, 1},
         color = {0, 0, 0, 0},
-        tooltip = "Empty",
       }
       self.createButton(params)
     end
