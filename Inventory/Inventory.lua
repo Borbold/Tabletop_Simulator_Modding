@@ -36,7 +36,13 @@ function onLoad(savedData)
     }
     Wait.time(|| Confer(savedData), 0.4)
     
-    local paramPos = {{x = 5.05, y = 15.3}, {x = 3.8, y = 15.3}}
+    local paramPos = {
+      {x = 5.05, y = 15.3}, {x = 3.8, y = 15.3}, {x = 2.55, y = 15.3}, {x = 1.3, y = 15.3},
+      {x = 5.05, y = 14.05},                                           {x = 1.3, y = 14.05},
+      {x = 5.05, y = 12.8},                                            {x = 1.3, y = 12.8},
+      {x = 5.05, y = 11.55},                                           {x = 1.3, y = 11.55},
+      {x = 5.05, y = 10.3}, {x = 3.8, y = 10.3}, {x = 2.55, y = 10.3}, {x = 1.3, y = 10.3},
+    }
     local params = {}
     for _,pos in ipairs(paramPos) do
       params = {
