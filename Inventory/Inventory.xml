@@ -6,7 +6,6 @@
 	<Button class='secondColumn' position='41 -5' />
 	<Button class='thirdColumn' position='31 -5' />
 	<Button class='fourColumn' position='46 -5' />
-	
 	<Button class='fiveColumn' position='40 -10' />
 	<Button class='sixColumn' position='40 -10' />
 	<Button class='sevenColumn' position='40 -10' />
