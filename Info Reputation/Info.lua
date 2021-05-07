@@ -34,8 +34,8 @@ function Confer(savedData)
   statusGUID = loadedData.statusGUID
   lifeGUID = loadedData.lifeGUID
   skillsGUID = loadedData.skillsGUID
-  ChangeUI()
-  ChangeUI({page = "secondPage", isLoad = true})
+  ChangeUI({isLoad = true})
+  ChangeUI({page = "secondPage"})
   SetBasicInformation()
 end
 function FillingTable(value)

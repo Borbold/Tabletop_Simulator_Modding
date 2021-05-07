@@ -3,7 +3,7 @@
     ["majorValue"] = majorValue, ["favoritSkills"] = favoritSkills,
     ["baffValue"] = baffValue, ["freeSkillPoints"] = freeSkillPoints,
     ["debaffValue"] = debaffValue,
-    ["startValue"] = startValue,
+    ["startValue"] = startValue, ["startValue2"] = startValue2,
   }
   local savedData = JSON.encode(dataToSave)
   self.script_state = savedData
@@ -23,6 +23,7 @@ function Confer(savedData)
   baffValue = loadedData.baffValue or FillingTable(0)
   debaffValue = loadedData.debaffValue or FillingTable(0)
   startValue = loadedData.startValue or FillingTable(0)
+  startValue2 = loadedData.startValue2 or FillingTable(0)
   favoritSkills = loadedData.favoritSkills or FillingTable(0)
   freeSkillPoints = loadedData.freeSkillPoints or 0
   ChangeUI()
@@ -82,26 +83,33 @@ function ChangeUI(args)
       self.UI.setAttribute("debaff" .. i, "text", debaffValue[i])
     end
   else
-    for i = 1, countSkills do
-      self.UI.setAttribute("major" .. i, "text", majorValue[i] + favoritSkills[i]*20)
-      self.UI.setAttribute("start" .. i, "text", startValue[i])
-      self.UI.setAttribute("specialSkill" .. i, "active", tostring(favoritSkills[i] == 1))
-    end
-
     local currentFreeSkillPoint = freeSkillPoints
     for i = 1, countSkills do
-      if startValue[i] <= 101 then
-        currentFreeSkillPoint = currentFreeSkillPoint - startValue[i]
-      elseif startValue[i] > 101 and startValue[i] <= 128 then
-        currentFreeSkillPoint = currentFreeSkillPoint - startValue[i]*2
-      elseif startValue[i] > 128 and startValue[i] <= 151 then
-        currentFreeSkillPoint = currentFreeSkillPoint - startValue[i]*3
-      elseif startValue[i] > 151 and startValue[i] <= 176 then
-        currentFreeSkillPoint = currentFreeSkillPoint - startValue[i]*4
-      elseif startValue[i] > 176 and startValue[i] <= 201 then
-        currentFreeSkillPoint = currentFreeSkillPoint - startValue[i]*5
-      elseif startValue[i] > 201 and startValue[i] <= 300 then
-        currentFreeSkillPoint = currentFreeSkillPoint - startValue[i]*6
+      local locStartValue = startValue[i]
+      self.UI.setAttribute("major" .. i, "text", majorValue[i] + startValue2[i] + favoritSkills[i]*20)
+      self.UI.setAttribute("start" .. i, "text", startValue[i] + startValue2[i])
+      self.UI.setAttribute("specialSkill" .. i, "active", tostring(favoritSkills[i] == 1))
+
+      currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
+      if locStartValue > 101 - startValue2[i] then
+        locStartValue = locStartValue - (101 - startValue2[i])
+        currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
+      end
+      if locStartValue > 128 - startValue2[i] then
+        locStartValue = locStartValue - (128 - startValue2[i])
+        currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
+      end
+      if locStartValue > 151 - startValue2[i] then
+        locStartValue = locStartValue - (151 - startValue2[i])
+        currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
+      end
+      if locStartValue > 176 - startValue2[i] then
+        locStartValue = locStartValue - (176 - startValue2[i])
+        currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
+      end
+      if locStartValue > 201 - startValue2[i] then
+        locStartValue = locStartValue - (201 - startValue2[i])
+        currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
       end
     end
     self.UI.setAttribute("freeSkillPoints", "text", "Свободные очки навыков: " .. currentFreeSkillPoint)
@@ -139,31 +147,31 @@ function SetFavoritSkills(player, alt_click, id)
 end
 
 function SetTableValue(args)
-  baffValue[1] = 5 + args.enum.Ловкость*4
-  baffValue[2] = args.enum.Ловкость*2
-  baffValue[3] = args.enum.Ловкость*2
-  baffValue[4] = 5 + args.enum.Ловкость*4
-  baffValue[5] = 30 + (args.enum.Ловкость + args.enum.Сила)*2
-  baffValue[6] = 20 + (args.enum.Ловкость + args.enum.Сила)*2
-  baffValue[7] = args.enum.Ловкость*4
-  baffValue[8] = (args.enum.Восприятие + args.enum.Интелект)*2
-  baffValue[9] = 5*((args.enum.Восприятие + args.enum.Интелект)/3)
-  baffValue[10] = (args.enum.Восприятие + args.enum.Ловкость)*2
-  baffValue[11] = 5 + args.enum.Ловкость*3
-  baffValue[12] = 10 + args.enum.Ловкость + args.enum.Восприятие
-  baffValue[13] = args.enum.Ловкость*3
-  baffValue[14] = 10 + args.enum.Ловкость + args.enum.Восприятие
-  baffValue[15] = args.enum.Интелект*4
-  baffValue[16] = (args.enum.Интелект + args.enum.Восприятие)*3
-  baffValue[17] = args.enum.Харизма*5
-  baffValue[18] = args.enum.Харизма*4
-  baffValue[19] = args.enum.Удача*5
+  startValue2[1] = 5 + args.enum.Ловкость*4
+  startValue2[2] = args.enum.Ловкость*2
+  startValue2[3] = args.enum.Ловкость*2
+  startValue2[4] = 5 + args.enum.Ловкость*4
+  startValue2[5] = 30 + (args.enum.Ловкость + args.enum.Сила)*2
+  startValue2[6] = 20 + (args.enum.Ловкость + args.enum.Сила)*2
+  startValue2[7] = args.enum.Ловкость*4
+  startValue2[8] = (args.enum.Восприятие + args.enum.Интелект)*2
+  startValue2[9] = 5*((args.enum.Восприятие + args.enum.Интелект)/3)
+  startValue2[10] = (args.enum.Восприятие + args.enum.Ловкость)*2
+  startValue2[11] = 5 + args.enum.Ловкость*3
+  startValue2[12] = 10 + args.enum.Ловкость + args.enum.Восприятие
+  startValue2[13] = args.enum.Ловкость*3
+  startValue2[14] = 10 + args.enum.Ловкость + args.enum.Восприятие
+  startValue2[15] = args.enum.Интелект*4
+  startValue2[16] = (args.enum.Интелект + args.enum.Восприятие)*3
+  startValue2[17] = args.enum.Харизма*5
+  startValue2[18] = args.enum.Харизма*4
+  startValue2[19] = args.enum.Удача*5
 
   freeSkillPoints = args.freeSkillPoints
 
   local args = {}
   for i = 1, countSkills do
-    baffValue[i] = math.floor(baffValue[i])
+    startValue2[i] = math.floor(startValue2[i])
     args = {
       playerColor = "Black"
     }
@@ -177,6 +185,7 @@ function Reset(player)
   baffValue = FillingTable(0)
   debaffValue = FillingTable(0)
   startValue = FillingTable(0)
+  startValue2 = FillingTable(0)
   favoritSkills = FillingTable(0)
   ChangeUI()
   ChangeUI({page = "secondPage"})
