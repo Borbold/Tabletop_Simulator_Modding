@@ -1,7 +1,4 @@
 <Defaults>
-	<Cell class='plugFirst' columnSpan='1' />
-	<Cell class='plugSecond' columnSpan='1' />
-
 	<Button class='firstColumn' position='37 -5' />
 	<Button class='secondColumn' position='41 -5' />
 	<Button class='thirdColumn' position='31 -5' />
