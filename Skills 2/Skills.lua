@@ -92,7 +92,7 @@ function ChangeUI(args)
       Wait.time(function()
         local locStartValue = startValue[i]
         self.UI.setAttribute("major" .. i, "text", majorValue[i] + startValue2[i] + favoritSkills[i]*20)
-        self.UI.setAttribute("start" .. i, "text", startValue[i] + startValue2[i])
+        self.UI.setAttribute("start" .. i, "text", startValue[i])
         self.UI.setAttribute("specialSkill" .. i, "active", tostring(favoritSkills[i] == 1))
 
         currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
