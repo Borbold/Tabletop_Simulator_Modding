@@ -58,9 +58,11 @@ function ChangeSkills(args)
   if id:find("debaff") then
     id = tonumber(id:sub(7))
     debaffValue[id] = debaffValue[id] + args.value
+    ChangeUI({page = "secondPage"})
   elseif id:find("baff") then
     id = tonumber(id:sub(5))
     baffValue[id] = baffValue[id] + args.value
+    ChangeUI({page = "secondPage"})
   elseif id:find("start") then
     id = tonumber(id:sub(6))
     startValue[id] = startValue[id] + args.value
@@ -79,40 +81,46 @@ function ChangeUI(args)
   args = args or {}
   if args.page == "secondPage" then
     for i = 1, countSkills do
-      self.UI.setAttribute("baff" .. i, "text", baffValue[i])
-      self.UI.setAttribute("debaff" .. i, "text", debaffValue[i])
+      Wait.time(function()
+        self.UI.setAttribute("baff" .. i, "text", baffValue[i])
+        self.UI.setAttribute("debaff" .. i, "text", debaffValue[i])
+      end, 0.05)
     end
   else
     local currentFreeSkillPoint = freeSkillPoints
     for i = 1, countSkills do
-      local locStartValue = startValue[i]
-      self.UI.setAttribute("major" .. i, "text", majorValue[i] + startValue2[i] + favoritSkills[i]*20)
-      self.UI.setAttribute("start" .. i, "text", startValue[i] + startValue2[i])
-      self.UI.setAttribute("specialSkill" .. i, "active", tostring(favoritSkills[i] == 1))
+      Wait.time(function()
+        local locStartValue = startValue[i]
+        self.UI.setAttribute("major" .. i, "text", majorValue[i] + startValue2[i] + favoritSkills[i]*20)
+        self.UI.setAttribute("start" .. i, "text", startValue[i] + startValue2[i])
+        self.UI.setAttribute("specialSkill" .. i, "active", tostring(favoritSkills[i] == 1))
 
-      currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
-      if locStartValue > 101 - startValue2[i] then
-        locStartValue = locStartValue - (101 - startValue2[i])
         currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
-      end
-      if locStartValue > 128 - startValue2[i] then
-        locStartValue = locStartValue - (128 - startValue2[i])
-        currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
-      end
-      if locStartValue > 151 - startValue2[i] then
-        locStartValue = locStartValue - (151 - startValue2[i])
-        currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
-      end
-      if locStartValue > 176 - startValue2[i] then
-        locStartValue = locStartValue - (176 - startValue2[i])
-        currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
-      end
-      if locStartValue > 201 - startValue2[i] then
-        locStartValue = locStartValue - (201 - startValue2[i])
-        currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
-      end
+        if locStartValue > 101 - startValue2[i] then
+          locStartValue = locStartValue - (101 - startValue2[i])
+          currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
+        end
+        if locStartValue > 128 - startValue2[i] then
+          locStartValue = locStartValue - (128 - startValue2[i])
+          currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
+        end
+        if locStartValue > 151 - startValue2[i] then
+          locStartValue = locStartValue - (151 - startValue2[i])
+          currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
+        end
+        if locStartValue > 176 - startValue2[i] then
+          locStartValue = locStartValue - (176 - startValue2[i])
+          currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
+        end
+        if locStartValue > 201 - startValue2[i] then
+          locStartValue = locStartValue - (201 - startValue2[i])
+          currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
+        end
+      end, 0.01)
     end
-    self.UI.setAttribute("freeSkillPoints", "text", "Свободные очки навыков: " .. currentFreeSkillPoint)
+    Wait.time(function()
+      self.UI.setAttribute("freeSkillPoints", "text", "Свободные очки навыков: " .. currentFreeSkillPoint)
+    end, 0.011)
   end
   UpdateSave()
 end

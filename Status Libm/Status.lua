@@ -17,7 +17,7 @@ end
 
 function Confer(savedData)
   RebuildAssets()
-  countStatus = 8
+  countLimb, countStatus = 8, 8
   maxInfoStatus = {1000, 1000, 1000, 1000, 1000, 1000}
   local loadedData = JSON.decode(savedData or "")
   majorValue = loadedData.majorValue or {0, 0, 0, 0, 0, 0, 0, 0}
@@ -121,15 +121,19 @@ end
 function ChangeUI(args)
   args = args or {}
   if args.page == "secondPage" then
-    for i = 1, 8 do
-      self.UI.setAttribute("limb_" .. i, "percentage", limbValue[i])
+    for i = 1, countLimb do
+      Wait.time(function()
+        self.UI.setAttribute("limb_" .. i, "percentage", limbValue[i])
+      end, 0.01)
     end
   else
     for i = 1, countStatus do
-      self.UI.setAttribute("major" .. i, "text", majorValue[i])
-      self.UI.setAttribute("baff" .. i, "text", baffValue[i])
-      self.UI.setAttribute("debaff" .. i, "text", debaffValue[i])
-      self.UI.setAttribute("start" .. i, "text", startValue[i])
+      Wait.time(function()
+        self.UI.setAttribute("major" .. i, "text", majorValue[i])
+        self.UI.setAttribute("baff" .. i, "text", baffValue[i])
+        self.UI.setAttribute("debaff" .. i, "text", debaffValue[i])
+        self.UI.setAttribute("start" .. i, "text", startValue[i])
+      end, 0.01)
     end
   end
   UpdateSave()

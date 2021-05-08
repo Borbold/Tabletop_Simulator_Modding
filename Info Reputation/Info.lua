@@ -20,7 +20,7 @@ end
 
 function Confer(savedData)
   RebuildAssets()
-  countFraction = 26
+  countSpesial, countFraction = 7, 26
   local loadedData = JSON.decode(savedData or "")
   majorValue = loadedData.majorValue or {5, 5, 5, 5, 5, 5, 5}
   baffValue = loadedData.baffValue or {0, 0, 0, 0, 0, 0, 0}
@@ -118,7 +118,7 @@ function ChangeSkills(args)
     startValue[id] = startValue[id] + args.value
   end
 
-  for i = 1, 7 do
+  for i = 1, countSpesial do
     majorValue[i] = baffValue[i] - debaffValue[i] + startValue[i]
   end
   ChangeUI()
@@ -138,18 +138,20 @@ function ChangeUI(args)
   args = args or {}
   if args.page == "secondPage" then
     for i,repa in ipairs(reputationValue) do
-      self.UI.setAttribute("reputation"..i, "text", repa)
-      if repa < -14 then
-        self.UI.setAttribute("reputation"..i, "textColor", "#ff8773")
-      elseif repa > 14 then
-        self.UI.setAttribute("reputation"..i, "textColor", "#9487ff")
-      else
-        self.UI.setAttribute("reputation"..i, "textColor", "#948773")
-      end
+      Wait.time(function()
+        self.UI.setAttribute("reputation"..i, "text", repa)
+        if repa < -14 then
+          self.UI.setAttribute("reputation"..i, "textColor", "#ff8773")
+        elseif repa > 14 then
+          self.UI.setAttribute("reputation"..i, "textColor", "#9487ff")
+        else
+          self.UI.setAttribute("reputation"..i, "textColor", "#948773")
+        end
+      end, 0.1)
     end
   else
     local currentSkillPoint = 0
-    for i = 1, 7 do
+    for i = 1, countSpesial do
       self.UI.setAttribute("major" .. i, "text", majorValue[i])
       self.UI.setAttribute("baff" .. i, "text", baffValue[i])
       self.UI.setAttribute("debaff" .. i, "text", debaffValue[i])
