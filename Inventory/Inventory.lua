@@ -98,7 +98,7 @@ function onCollisionEnter(info)
   local newUrlImage = newObject.getCustomObject().image
   tableItems[cutWordDesc[2]] = {newName, newDescription, newUrlImage, newGMNotes}
   
-  local findText = newDescription:find("Эффекты")
+  local findText = newDescription:find("Эффекты") or newDescription:find("ПУ")
   if findText then
     ChangeDependentVariables(newDescription:sub(findText))
   end
@@ -130,7 +130,7 @@ function RemoveItem(obj, color, alt_click)
     newObject.setCustomObject({image = tableItems[indexItem][3]})
     newObject.setGMNotes(tableItems[indexItem][4])
 
-    local findText = tableItems[indexItem][2]:find("Эффекты")
+    local findText = tableItems[indexItem][2]:find("Эффекты") or tableItems[indexItem][2]:find("ПУ")
     if findText then
       ChangeDependentVariables(tableItems[indexItem][2]:sub(findText), true)
     end
