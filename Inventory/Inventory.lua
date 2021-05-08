@@ -1,7 +1,7 @@
 ﻿function UpdateSave()
   local dataToSave = {
     ["tableItems"] = tableItems,
-    ["infoGUID"] = infoGUID, ["statusGUID"] = statusGUID, ["skillsGUID"] = skillsGUID, ["statusGUID"] = statusGUID,
+    ["infoGUID"] = infoGUID, ["statusGUID"] = statusGUID, ["skillsGUID"] = skillsGUID,
     ["saveXML"] = self.UI.getXmlTable(), ["saveCustomAsset"] = self.UI.getCustomAssets(),
   }
   local savedData = JSON.encode(dataToSave)
@@ -29,9 +29,9 @@ function onLoad(savedData)
       красноречие = 17, бартер = 18, ["азартные игры"] = 19,
     }
     enumLimb = {
-      голова = 1, глаза = 2, прав.рука = 3,
-      прав.нога = 4, торс = 5, пах = 6,
-      лев.рука = 7, лев.нога = 8
+      голова = 1, глаза = 2, ["прав.рука"] = 3,
+      ["прав.нога"] = 4, торс = 5, пах = 6,
+      ["лев.рука"] = 7, ["лев.нога"] = 8
     }
     Wait.time(|| Confer(savedData), 0.4)
     
@@ -65,14 +65,13 @@ end
 
 function Confer(savedData)
   local loadedData = JSON.decode(savedData or "")
-  RebuildAssets(loadedData.saveCustomAsset or {})
+  RebuildAssets(--[[loadedData.saveCustomAsset or]] {})
   tableItems = loadedData.tableItems or {}
   infoGUID = loadedData.infoGUID
   statusGUID = loadedData.statusGUID
   skillsGUID = loadedData.skillsGUID
-  statusGUID = loadedData.statusGUID
   if loadedData.saveXML then
-    Wait.time(|| self.UI.setXmlTable(loadedData.saveXML), 1)
+    --Wait.time(|| self.UI.setXmlTable(loadedData.saveXML), 1)
   end
 end
 
@@ -104,7 +103,7 @@ function onCollisionEnter(info)
   local newUrlImage = newObject.getCustomObject().image
   tableItems[cutWordDesc[2]] = {newName, newDescription, newUrlImage, newGMNotes}
   
-  local findText = newDescription:find("Эффекты") or newDescription:find("ПУ")
+  local findText = newDescription:find("ПУ") or newDescription:find("Эффекты")
   if findText then
     ChangeDependentVariables(newDescription:sub(findText))
   end
@@ -136,7 +135,7 @@ function RemoveItem(obj, color, alt_click)
     newObject.setCustomObject({image = tableItems[indexItem][3]})
     newObject.setGMNotes(tableItems[indexItem][4])
 
-    local findText = tableItems[indexItem][2]:find("Эффекты") or tableItems[indexItem][2]:find("ПУ")
+    local findText = tableItems[indexItem][2]:find("ПУ") or tableItems[indexItem][2]:find("Эффекты")
     if findText then
       ChangeDependentVariables(tableItems[indexItem][2]:sub(findText), true)
     end
@@ -147,7 +146,7 @@ function RemoveItem(obj, color, alt_click)
       self.UI.setAttribute(indexItem, "iconColor", "#ffffff00")
       self.editButton({index = indexButton, enumSlots[indexButton]})
     end, 0.01)
-    UpdateSave()
+    Wait.time(|| UpdateSave(), 0.2)
   else
     broadcastToAll("Чето пошло не так")
   end

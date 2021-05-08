@@ -25,7 +25,7 @@ function Confer(savedData)
   debaffValue = loadedData.debaffValue or {0, 0, 0, 0, 0, 0, 0, 0}
   startValue = loadedData.startValue or {0, 0, 0, 0, 0, 0, 0, 0}
   limbValue = loadedData.limbValue or {100, 100, 100, 100, 100, 100, 100, 100}
-  DTValue = loaded.DTValue or {0, 0, 0, 0, 0, 0, 0, 0}
+  DTValue = loadedData.DTValue or {0, 0, 0, 0, 0, 0, 0, 0}
   ChangeUI()
   ChangeUI({page = "secondPage"})
   SetStatusInformation()
@@ -130,7 +130,7 @@ function ChangeSkillsDT(args)
     id = tonumber(id:sub(7))
     DTValue[id] = DTValue[id] - args.value
   end
-
+  
   if args.value then
     ChangeUI({page = "secondPage"})
   end
