@@ -17,7 +17,7 @@ function onLoad(savedData)
     }
     enumStatus = {
       реакция = 1, ["класс брони"] = 2, ["предел урона"] = 3,
-      ["сопротивление урону"] = 4, ["сопротивление энергетическому урону"] = 5, ["сопротивление ☣"] = 6,
+      ["сопротивление урону"] = 4, ["сопротивление энергетическому урону"] = 5, ["сопротивление радиации"] = 6,
       ["сопротивление ядам"] = 7, ["шанс на крит"] = 8,
     }
     enumSkills = {
@@ -34,32 +34,6 @@ function onLoad(savedData)
       ["лев.рука"] = 7, ["лев.нога"] = 8
     }
     Wait.time(|| Confer(savedData), 0.4)
-    
-    enumSlots = {
-      фракция_0       = 0, очки_1           = 1,  маска_2         = 2,  спец_предмет_3  = 3,
-      шлем_4          = 4,                                              разгрузка_5     = 5,
-      бронежилет_6    = 6,                                              подсумок_7      = 7,
-      одежда_8        = 8,                                              рюкзак_9        = 9,
-      быстрый_слот_10 = 10, быстрый_слот_11 = 11, быстрый_слот_12 = 12, быстрый_слот_13 = 13,
-    }
-    local paramPos = {
-      {x = 5.05, y = 15.30}, {x = 3.8, y = 15.3}, {x = 2.75, y = 15.3}, {x = 1.40, y = 15.30},
-      {x = 5.05, y = 14.15},                                            {x = 1.40, y = 14.15},
-      {x = 5.05, y = 13.00},                                            {x = 1.40, y = 13.00},
-      {x = 5.05, y = 11.85},                                            {x = 1.40, y = 11.85},
-      {x = 5.05, y = 10.70}, {x = 3.8, y = 10.7}, {x = 2.75, y = 10.7}, {x = 1.45, y = 10.70},
-    }
-    for i,pos in ipairs(paramPos) do
-      local params = {
-        function_owner = self, click_function = "RemoveItem",
-        label = tostring(i), tooltip = enumSlots[i],
-        position = {pos.x, 0.2, pos.y}, rotation = {0, 180, 0},
-        width = 400, height = 400,
-        font_size = 120, font_color = {1, 1, 1},
-        color = {0.5, 0.5, 0.5, 1},
-      }
-      self.createButton(params)
-    end
   end, 0.5)
 end
 
@@ -72,6 +46,38 @@ function Confer(savedData)
   skillsGUID = loadedData.skillsGUID
   if loadedData.saveXML then
     --Wait.time(|| self.UI.setXmlTable(loadedData.saveXML), 1)
+  end
+  Wait.time(|| CreateNewButtons(), 0.5)
+end
+function CreateNewButtons()
+  enumSlots = {
+    фракция_0       = 0, очки_1           = 1,  маска_2         = 2,  спец_предмет_3  = 3,
+    шлем_4          = 4,                                              разгрузка_5     = 5,
+    бронежилет_6    = 6,                                              подсумок_7      = 7,
+    одежда_8        = 8,                                              рюкзак_9        = 9,
+    быстрый_слот_10 = 10, быстрый_слот_11 = 11, быстрый_слот_12 = 12, быстрый_слот_13 = 13,
+
+    инвентарь_слот_1  = 14, инвентарь_слот_2  = 15, инвентарь_слот_3  = 16, инвентарь_слот_4  = 17, инвентарь_слот_5  = 18, инвентарь_слот_6  = 19,
+  }
+  local paramPos = {
+    {x = 5.05, y = 15.30}, {x = 3.80, y = 15.30}, {x = 2.75, y = 15.30}, {x = 1.40, y = 15.30},
+    {x = 5.05, y = 14.15},                                               {x = 1.40, y = 14.15},
+    {x = 5.05, y = 13.00},                                               {x = 1.40, y = 13.00},
+    {x = 5.05, y = 11.85},                                               {x = 1.40, y = 11.85},
+    {x = 5.05, y = 10.70}, {x = 3.80, y = 10.70}, {x = 2.75, y = 10.70}, {x = 1.45, y = 10.70},
+
+    {x = 0.25, y = 15.18}, {x = -0.80, y = 15.18}, {x = -1.85, y = 15.18}, {x = -3, y = 15.18}, {x = -4.05, y = 15.18}, {x = -5.1, y = 15.18},
+  }
+  for i,pos in ipairs(paramPos) do
+    local params = {
+      function_owner = self, click_function = "RemoveItem",
+      label = tostring(i), tooltip = tableItems[i] and (tableItems[i][1] .. "/n" .. tableItems[i][2]),
+      position = {pos.x, 0.2, pos.y}, rotation = {0, 180, 0},
+      width = 400, height = 400,
+      font_size = 120, font_color = {1, 1, 1},
+      color = {0.5, 0.5, 0.5, 1},
+    }
+    self.createButton(params)
   end
 end
 
@@ -97,11 +103,10 @@ function onCollisionEnter(info)
     self.UI.setAttribute(cutWordDesc[2], "iconColor", "#ffffffff")
     local indexButton = tonumber(cutWordDesc[2]:sub(cutWordDesc[2]:find("_") + 1))
     self.editButton({index = indexButton, tooltip = newName .. "\n" .. newDescription})
+    local newUrlImage = newObject.getCustomObject().image
+    tableItems[indexButton] = {newName, newDescription, newUrlImage, newGMNotes}
     --Wait.time(|| print(self.UI.getXmlTable()[2].children[1].children[2].children[1].children[1].children[1].attributes["icon"]), 0.2)
   end, 0.01)
-  
-  local newUrlImage = newObject.getCustomObject().image
-  tableItems[cutWordDesc[2]] = {newName, newDescription, newUrlImage, newGMNotes}
   
   local findText = newDescription:find("ПУ") or newDescription:find("Эффекты")
   if findText then
@@ -144,7 +149,7 @@ function RemoveItem(obj, color, alt_click)
     Wait.time(function()
       self.UI.setAttribute(indexItem, "icon", "")
       self.UI.setAttribute(indexItem, "iconColor", "#ffffff00")
-      self.editButton({index = indexButton, enumSlots[indexButton]})
+      self.editButton({index = indexButton, tooltip = ""})
     end, 0.01)
     Wait.time(|| UpdateSave(), 0.2)
   else

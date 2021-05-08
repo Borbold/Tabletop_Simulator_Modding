@@ -117,6 +117,7 @@ function ChangeLimb(value, id, playerColor)
     limbValue[id] = limbValue[id] + self.UI.getAttribute("ratioLimb", "text")*value
   end
   self.UI.setAttribute("limb_" .. id, "percentage", limbValue[id])
+  self.UI.setAttribute("text_limb_" .. id, "text", limbValue[id])
 end
 -- ПУ конечностей
 function ChangeSkillsDT(args)
@@ -143,6 +144,7 @@ function ChangeUI(args)
       Wait.time(function()
         self.UI.setAttribute("limb_" .. i, "percentage", limbValue[i])
         self.UI.setAttribute("limb_T_" .. i, "text", DTValue[i])
+        self.UI.setAttribute("text_limb_" .. i, "text", limbValue[i])
       end, 0.01)
     end
   else
@@ -222,7 +224,7 @@ end
 
 function RebuildAssets()
   local backG = 'https://cdn.discordapp.com/attachments/800324103848198174/838703500652314685/statusykr.png'
-  local backGL = 'https://cdn.discordapp.com/attachments/800324103848198174/838979921765203978/konechnosti.png'
+  local backGL = 'https://cdn.discordapp.com/attachments/800324103848198174/840615412852719636/konechnosti2.png'
   local assets = {
     {name = 'uiBackGro', url = backG},
     {name = 'uiBackGL', url = backGL}

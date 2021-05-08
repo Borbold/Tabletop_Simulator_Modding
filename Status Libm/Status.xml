@@ -6,11 +6,12 @@
 	<Cell class='plugFirst' columnSpan='5' />
 	<Cell class='plugSecond' columnSpan='5' />
 	<Cell class='plugThird' columnSpan='6' />
+	<Cell class='plugFour' columnSpan='44' />
 
 	<Button class='minusSkills' image='uiMinus' onClick='Minus' width='50' />
 	<Button class='plusSkills' image='uiPlus' onClick='Plus' width='50' />
-	<Button class='minusLimb' image='uiMinus' onClick='MinusL' width='50' />
-	<Button class='plusLimb' image='uiPlus' onClick='PlusL' width='50' />
+	<Button class='minusLimb' image='uiMinus' onClick='MinusL' width='30' />
+	<Button class='plusLimb' image='uiPlus' onClick='PlusL' width='30' />
 
 	<Text class='majorValue' text='10' width='100' offsetXY='23 0' outline='#94877355' />
 	<Text class='baffValue' color='#9487ff' resizeTextMaxSize='40' text='1' offsetXY='80 0' width='50' />
@@ -27,15 +28,16 @@
 		color='#9487a90a'
 		textColor='#948773' textOutline='#94877355'/>
 	<Text resizeTextForBestFit='true' resizeTextMaxSize='50'
-		color='#948773'/>
+		color='#948773' />
 	<ProgressBar resizeTextForBestFit='true' resizeTextMaxSize='50'
-		percentageTextFormat='0'
-		percentage='50' fillImageColor='#948773'
-		textColor='#948773' color='#9487a90a'
-		textShadow='#94877355' textShadowDistance='10 -10'
-		textOutline='#000000' />
+		percentage='50' showPercentageText='false'
+		fillImageColor='#948773' color='#9487a90a'
+		width='135' height='40' />
 		
-	<Text class='textDT' color='#9487ff' text='0'/>
+	<Text class='textDT' color='#9487ff' text='0' />
+	<Text class='textLimb' fontStyle='Bold' text='100'
+		shadow='#94877355' shadowDistance='4 -4'
+		outline='#000000' outlineSize='1 1' />
 </Defaults>
 <!-- Окно статуса -->
 <Panel id='firstPage' class='majorPage' active='true'>
@@ -310,25 +312,39 @@
 		<!-- Строка: Голова/Торс -->
 		<Row preferredHeight='40'>
 			<Cell columnSpan='1'>
-				<Button id='minusL_1' class='minusLimb' />
+				<Panel>
+					<Button id='minusL_1' class='minusLimb' />
+				</Panel>
 			</Cell>
 			<Cell columnSpan='8'>
-				<ProgressBar id='limb_1' />
+				<Panel>
+					<ProgressBar id='limb_1' />
+					<Text id='text_limb_1' class='textLimb' />
+				</Panel>
 			</Cell>
 			<Cell columnSpan='1'>
-				<Button id='plusL_1' class='plusLimb' />
+				<Panel>
+					<Button id='plusL_1' class='plusLimb' />
+				</Panel>
 			</Cell>
 			
-			<Cell columnSpan='48' />
+			<Cell class='plugFour' />
 			
 			<Cell columnSpan='1'>
-				<Button id='minusL_5' class='minusLimb' />
+				<Panel>
+					<Button id='minusL_5' class='minusLimb' />
+				</Panel>
 			</Cell>
 			<Cell columnSpan='8'>
-				<ProgressBar id='limb_5' />
+				<Panel>
+					<ProgressBar id='limb_5' />
+					<Text id='text_limb_5' class='textLimb' />
+				</Panel>
 			</Cell>
 			<Cell columnSpan='1'>
-				<Button id='plusL_5' class='plusLimb' />
+				<Panel>
+					<Button id='plusL_5' class='plusLimb' />
+				</Panel>
 			</Cell>
 		</Row>
 		<Row preferredHeight='65'>
@@ -336,7 +352,7 @@
 				<Text id='limb_T_1' class='textDT' />
 			</Cell>
 			
-			<Cell columnSpan='48' />
+			<Cell class='plugFour' />
 			
 			<Cell columnSpan='10'>
 				<Text id='limb_T_5' class='textDT' />
@@ -345,25 +361,39 @@
 		<!-- Строка: Глаза/Пах -->
 		<Row preferredHeight='40'>
 			<Cell columnSpan='1'>
-				<Button id='minusL_2' class='minusLimb' />
+				<Panel>
+					<Button id='minusL_2' class='minusLimb' />
+				</Panel>
 			</Cell>
 			<Cell columnSpan='8'>
-				<ProgressBar id='limb_2' />
+				<Panel>
+					<ProgressBar id='limb_2' />
+					<Text id='text_limb_2' class='textLimb' />
+				</Panel>
 			</Cell>
 			<Cell columnSpan='1'>
-				<Button id='plusL_2' class='plusLimb' />
+				<Panel>
+					<Button id='plusL_2' class='plusLimb' />
+				</Panel>
 			</Cell>
 			
-			<Cell columnSpan='48' />
+			<Cell class='plugFour' />
 			
 			<Cell columnSpan='1'>
-				<Button id='minusL_6' class='minusLimb' />
+				<Panel>
+					<Button id='minusL_6' class='minusLimb' />
+				</Panel>
 			</Cell>
 			<Cell columnSpan='8'>
-				<ProgressBar id='limb_6' />
+				<Panel>
+					<ProgressBar id='limb_6' />
+					<Text id='text_limb_6' class='textLimb' />
+				</Panel>
 			</Cell>
 			<Cell columnSpan='1'>
-				<Button id='plusL_6' class='plusLimb' />
+				<Panel>
+					<Button id='plusL_6' class='plusLimb' />
+				</Panel>
 			</Cell>
 		</Row>
 		<Row preferredHeight='65'>
@@ -371,7 +401,7 @@
 				<Text id='limb_T_2' class='textDT' />
 			</Cell>
 			
-			<Cell columnSpan='48' />
+			<Cell class='plugFour' />
 			
 			<Cell columnSpan='10'>
 				<Text id='limb_T_6' class='textDT' />
@@ -380,25 +410,39 @@
 		<!-- Строка: П.рука/Л.рука -->
 		<Row preferredHeight='40'>
 			<Cell columnSpan='1'>
-				<Button id='minusL_3' class='minusLimb' />
+				<Panel>
+					<Button id='minusL_3' class='minusLimb' />
+				</Panel>
 			</Cell>
 			<Cell columnSpan='8'>
-				<ProgressBar id='limb_3' />
+				<Panel>
+					<ProgressBar id='limb_3' />
+					<Text id='text_limb_3' class='textLimb' />
+				</Panel>
 			</Cell>
 			<Cell columnSpan='1'>
-				<Button id='plusL_3' class='plusLimb' />
+				<Panel>
+					<Button id='plusL_3' class='plusLimb' />
+				</Panel>
 			</Cell>
 			
-			<Cell columnSpan='48' />
+			<Cell class='plugFour' />
 			
 			<Cell columnSpan='1'>
-				<Button id='minusL_7' class='minusLimb' />
+				<Panel>
+					<Button id='minusL_7' class='minusLimb' />
+				</Panel>
 			</Cell>
 			<Cell columnSpan='8'>
-				<ProgressBar id='limb_7' />
+				<Panel>
+					<ProgressBar id='limb_7' />
+					<Text id='text_limb_7' class='textLimb' />
+				</Panel>
 			</Cell>
 			<Cell columnSpan='1'>
-				<Button id='plusL_7' class='plusLimb' />
+				<Panel>
+					<Button id='plusL_7' class='plusLimb' />
+				</Panel>
 			</Cell>
 		</Row>
 		<Row preferredHeight='65'>
@@ -406,7 +450,7 @@
 				<Text id='limb_T_3' class='textDT' />
 			</Cell>
 			
-			<Cell columnSpan='48' />
+			<Cell class='plugFour' />
 			
 			<Cell columnSpan='10'>
 				<Text id='limb_T_7' class='textDT' />
@@ -415,25 +459,39 @@
 		<!-- Строка: П.нога/Л.нога -->
 		<Row preferredHeight='40'>
 			<Cell columnSpan='1'>
-				<Button id='minusL_4' class='minusLimb' />
+				<Panel>
+					<Button id='minusL_4' class='minusLimb' />
+				</Panel>
 			</Cell>
 			<Cell columnSpan='8'>
-				<ProgressBar id='limb_4' />
+				<Panel>
+					<ProgressBar id='limb_4' />
+					<Text id='text_limb_4' class='textLimb' />
+				</Panel>
 			</Cell>
 			<Cell columnSpan='1'>
-				<Button id='plusL_4' class='plusLimb' />
+				<Panel>
+					<Button id='plusL_4' class='plusLimb' />
+				</Panel>
 			</Cell>
 			
-			<Cell columnSpan='48' />
+			<Cell class='plugFour' />
 			
 			<Cell columnSpan='1'>
-				<Button id='minusL_8' class='minusLimb' />
+				<Panel>
+					<Button id='minusL_8' class='minusLimb' />
+				</Panel>
 			</Cell>
 			<Cell columnSpan='8'>
-				<ProgressBar id='limb_8' />
+				<Panel>
+					<ProgressBar id='limb_8' />
+					<Text id='text_limb_8' class='textLimb' />
+				</Panel>
 			</Cell>
 			<Cell columnSpan='1'>
-				<Button id='plusL_8' class='plusLimb' />
+				<Panel>
+					<Button id='plusL_8' class='plusLimb' />
+				</Panel>
 			</Cell>
 		</Row>
 		<Row preferredHeight='65'>
@@ -441,7 +499,7 @@
 				<Text id='limb_T_4' class='textDT' />
 			</Cell>
 			
-			<Cell columnSpan='48' />
+			<Cell class='plugFour' />
 			
 			<Cell columnSpan='10'>
 				<Text id='limb_T_8' class='textDT' />
@@ -449,13 +507,13 @@
 		</Row>
 		
 		<Row preferredHeight='60'>
-			<Cell columnSpan='30' />
+			<Cell columnSpan='28' />
 		
 			<Cell columnSpan='8'>
 				<InputField id='ratioLimb' onEndEdit='ChangeInput' textAlignment='MiddleCenter' text='10' />
 			</Cell>
 			
-			<Cell columnSpan='30' />
+			<Cell columnSpan='28' />
 		</Row>
 		
 		<Row preferredHeight='70' />

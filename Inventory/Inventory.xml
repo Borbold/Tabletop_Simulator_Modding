@@ -87,17 +87,17 @@
 			</Cell>
 			<Cell columnSpan='2'>
 				<Panel>
-					<Button class='fiveColumn' offsetXY='0 0' width='160' />
+					<Button class='fiveColumn' offsetXY='-5 0' width='210' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2'>
 				<Panel>
-					<Button class='sevenColumn' offsetXY='0 0' width='160' />
+					<Button class='sevenColumn' offsetXY='-5 0' width='210' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2'>
 				<Panel>
-					<Button class='nineColumn' offsetXY='0 0' width='160' />
+					<Button class='nineColumn' offsetXY='-5 0' width='210' />
 				</Panel>
 			</Cell>
 		</Row>
@@ -105,38 +105,38 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button class='firstColumn' offsetXY='0 -17' />
+					<Button class='firstColumn' offsetXY='0 -18' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2' />
 			<Cell>
 				<Panel>
-					<Button class='fourColumn' offsetXY='0 -12' />
+					<Button class='fourColumn' offsetXY='0 -18' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='fiveColumn' offsetXY='0 0' />
+					<Button class='fiveColumn' offsetXY='0 -16' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sixColumn' offsetXY='0 0' />
+					<Button class='sixColumn' offsetXY='0 -16' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sevenColumn' offsetXY='0 0' />
+					<Button class='sevenColumn' offsetXY='0 -16' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='eightColumn' offsetXY='0 0' />
+					<Button class='eightColumn' offsetXY='0 -16' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2'>
 				<Panel>
-					<Button class='nineColumn' offsetXY='0 0' width='160' />
+					<Button class='nineColumn' offsetXY='-5 -16' width='210' />
 				</Panel>
 			</Cell>
 		</Row>
@@ -144,38 +144,38 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button class='firstColumn' offsetXY='0 -23' />
+					<Button class='firstColumn' offsetXY='0 -27' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2' />
 			<Cell>
 				<Panel>
-					<Button class='fourColumn' offsetXY='0 -23' />
+					<Button class='fourColumn' offsetXY='0 -27' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='fiveColumn' offsetXY='0 0' />
+					<Button class='fiveColumn' offsetXY='0 -24' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sixColumn' offsetXY='0 0' />
+					<Button class='sixColumn' offsetXY='0 -24' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sevenColumn' offsetXY='0 0' />
+					<Button class='sevenColumn' offsetXY='0 -24' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='eightColumn' offsetXY='0 0' />
+					<Button class='eightColumn' offsetXY='0 -24' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2'>
 				<Panel>
-					<Button class='nineColumn' offsetXY='0 0' width='160' />
+					<Button class='nineColumn' offsetXY='-5 -24' width='210' />
 				</Panel>
 			</Cell>
 		</Row>
@@ -183,47 +183,47 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button class='firstColumn' offsetXY='0 -34' />
+					<Button class='firstColumn' offsetXY='0 -36' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='secondColumn' offsetXY='-2 -34' />
+					<Button class='secondColumn' offsetXY='-4 -36' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='thirdColumn' offsetXY='2 -34' />
+					<Button class='thirdColumn' offsetXY='4 -36' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='fourColumn' offsetXY='-15 -34' />
+					<Button class='fourColumn' offsetXY='-13 -36' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='fiveColumn' offsetXY='0 0' />
+					<Button class='fiveColumn' offsetXY='0 -25' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sixColumn' offsetXY='0 0' />
+					<Button class='sixColumn' offsetXY='0 -25' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sevenColumn' offsetXY='0 0' />
+					<Button class='sevenColumn' offsetXY='0 -25' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='eightColumn' offsetXY='0 0' />
+					<Button class='eightColumn' offsetXY='0 -25' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2'>
 				<Panel>
-					<Button class='nineColumn' offsetXY='0 0' width='160' />
+					<Button class='nineColumn' offsetXY='-5 -25' width='210' />
 				</Panel>
 			</Cell>
 		</Row>
@@ -232,27 +232,27 @@
 			<Cell columnSpan='4' />
 			<Cell>
 				<Panel>
-					<Button class='fiveColumn' offsetXY='0 0' />
+					<Button class='fiveColumn' offsetXY='0 -25' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sixColumn' offsetXY='0 0' />
+					<Button class='sixColumn' offsetXY='0 -25' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sevenColumn' offsetXY='0 0' />
+					<Button class='sevenColumn' offsetXY='0 -25' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='eightColumn' offsetXY='0 0' />
+					<Button class='eightColumn' offsetXY='0 -25' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2'>
 				<Panel>
-					<Button class='nineColumn' offsetXY='0 0' width='160' />
+					<Button class='nineColumn' offsetXY='-6 -25' width='210' />
 				</Panel>
 			</Cell>
 		</Row>
@@ -260,38 +260,38 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button offsetXY='210 10' height='160' width='420' />
+					<Button offsetXY='217 7' height='170' width='430' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='3' />
 			<Cell>
 				<Panel>
-					<Button class='fiveColumn' offsetXY='0 0' />
+					<Button class='fiveColumn' offsetXY='0 -26' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sixColumn' offsetXY='0 0' />
+					<Button class='sixColumn' offsetXY='0 -26' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sevenColumn' offsetXY='0 0' />
+					<Button class='sevenColumn' offsetXY='0 -26' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='eightColumn' offsetXY='0 0' />
+					<Button class='eightColumn' offsetXY='0 -26' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='nineColumn' offsetXY='0 0' />
+					<Button class='nineColumn' offsetXY='0 -26' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='tenColumn' offsetXY='0 0' />
+					<Button class='tenColumn' offsetXY='0 -26' />
 				</Panel>
 			</Cell>
 		</Row>
@@ -308,42 +308,42 @@
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='secondColumn' offsetXY='0 60' />
+					<Button class='secondColumn' offsetXY='1 80' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='thirdColumn' offsetXY='0 60' />
+					<Button class='thirdColumn' offsetXY='-2 80' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='fourColumn' offsetXY='0 60' />
+					<Button class='fourColumn' offsetXY='-17 80' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='fiveColumn' offsetXY='0 0' />
+					<Button class='fiveColumn' offsetXY='0 14' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sixColumn' offsetXY='0 0' />
+					<Button class='sixColumn' offsetXY='0 14' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sevenColumn' offsetXY='0 0' />
+					<Button class='sevenColumn' offsetXY='0 14' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='eightColumn' offsetXY='0 0' />
+					<Button class='eightColumn' offsetXY='0 14' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2'>
 				<Panel>
-					<Button class='nineColumn' offsetXY='0 0' width='160' />
+					<Button class='nineColumn' offsetXY='-4 14' width='210' />
 				</Panel>
 			</Cell>
 		</Row>
@@ -351,33 +351,33 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button offsetXY='210 30' height='160' width='420' />
+					<Button offsetXY='217 35' height='170' width='430' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='3' />
 			<Cell>
 				<Panel>
-					<Button class='fiveColumn' offsetXY='0 0' />
+					<Button class='fiveColumn' offsetXY='0 14' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sixColumn' offsetXY='0 0' />
+					<Button class='sixColumn' offsetXY='0 14' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sevenColumn' offsetXY='0 0' />
+					<Button class='sevenColumn' offsetXY='0 14' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='eightColumn' offsetXY='0 0' />
+					<Button class='eightColumn' offsetXY='0 14' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2'>
 				<Panel>
-					<Button class='nineColumn' offsetXY='0 0' width='160' />
+					<Button class='nineColumn' offsetXY='-4 14' width='210' />
 				</Panel>
 			</Cell>
 		</Row>
@@ -390,42 +390,42 @@
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='secondColumn' />
+					<Button class='secondColumn' offsetXY='1 5' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='thirdColumn' />
+					<Button class='thirdColumn' offsetXY='-2 5' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='fourColumn' />
+					<Button class='fourColumn' offsetXY='-17 5' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='fiveColumn' offsetXY='0 0' />
+					<Button class='fiveColumn' offsetXY='0 14' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sixColumn' offsetXY='0 0' />
+					<Button class='sixColumn' offsetXY='0 14' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sevenColumn' offsetXY='0 0' />
+					<Button class='sevenColumn' offsetXY='0 14' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='eightColumn' offsetXY='0 0' />
+					<Button class='eightColumn' offsetXY='0 14' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2'>
 				<Panel>
-					<Button class='nineColumn' offsetXY='0 0' width='160' />
+					<Button class='nineColumn' offsetXY='-6 14' width='210' />
 				</Panel>
 			</Cell>
 		</Row>
@@ -438,18 +438,18 @@
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='secondColumn' />
+					<Button class='secondColumn' offsetXY='-10 5' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2' />
 			<Cell>
 				<Panel>
-					<Button class='fiveColumn' offsetXY='0 0' />
+					<Button class='fiveColumn' offsetXY='-53 12' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sixColumn' offsetXY='0 0' />
+					<Button class='sixColumn' offsetXY='-53 12' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='4' />
@@ -463,33 +463,33 @@
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='secondColumn' />
+					<Button class='secondColumn' offsetXY='-10 5' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2' />
 			<Cell>
 				<Panel>
-					<Button class='fiveColumn' offsetXY='0 0' />
+					<Button class='fiveColumn' offsetXY='-53 12' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sixColumn' offsetXY='0 0' />
+					<Button class='sixColumn' offsetXY='-53 12' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sevenColumn' offsetXY='0 0' />
+					<Button class='sevenColumn' offsetXY='-16 35' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='eightColumn' offsetXY='0 0' />
+					<Button class='eightColumn' offsetXY='-16 35' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2'>
 				<Panel>
-					<Button class='nineColumn' offsetXY='0 0' width='160' />
+					<Button class='nineColumn' offsetXY='-21 35' width='210' />
 				</Panel>
 			</Cell>
 		</Row>
@@ -502,33 +502,33 @@
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='secondColumn' />
+					<Button class='secondColumn' offsetXY='-10 5' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2' />
 			<Cell>
 				<Panel>
-					<Button class='fiveColumn' offsetXY='0 0' />
+					<Button class='fiveColumn' offsetXY='-53 12' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sixColumn' offsetXY='0 0' />
+					<Button class='sixColumn' offsetXY='-53 12' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sevenColumn' offsetXY='0 0' />
+					<Button class='sevenColumn' offsetXY='-16 35' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='eightColumn' offsetXY='0 0' />
+					<Button class='eightColumn' offsetXY='-16 35' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2'>
 				<Panel>
-					<Button class='nineColumn' offsetXY='0 0' width='160' />
+					<Button class='nineColumn' offsetXY='-21 35' width='210' />
 				</Panel>
 			</Cell>
 		</Row>
@@ -541,33 +541,33 @@
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='secondColumn' />
+					<Button class='secondColumn' offsetXY='-10 5' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2' />
 			<Cell>
 				<Panel>
-					<Button class='fiveColumn' offsetXY='0 0' />
+					<Button class='fiveColumn' offsetXY='-53 13' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sixColumn' offsetXY='0 0' />
+					<Button class='sixColumn' offsetXY='-53 13' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sevenColumn' offsetXY='0 0' />
+					<Button class='sevenColumn' offsetXY='-16 35' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='eightColumn' offsetXY='0 0' />
+					<Button class='eightColumn' offsetXY='-16 35' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2'>
 				<Panel>
-					<Button class='nineColumn' offsetXY='0 0' width='160' />
+					<Button class='nineColumn' offsetXY='-22 35' width='210' />
 				</Panel>
 			</Cell>
 		</Row>
