@@ -1,7 +1,7 @@
 ﻿function UpdateSave()
   local dataToSave = {
     ["majorValue"] = majorValue, ["limbValue"] = limbValue,
-    ["baffValue"] = baffValue,
+    ["baffValue"] = baffValue, ["DTValue"] = DTValue,
     ["debaffValue"] = debaffValue,
     ["startValue"] = startValue,
   }
@@ -25,6 +25,7 @@ function Confer(savedData)
   debaffValue = loadedData.debaffValue or {0, 0, 0, 0, 0, 0, 0, 0}
   startValue = loadedData.startValue or {0, 0, 0, 0, 0, 0, 0, 0}
   limbValue = loadedData.limbValue or {100, 100, 100, 100, 100, 100, 100, 100}
+  DTValue = loaded.DTValue or {0, 0, 0, 0, 0, 0, 0, 0}
   ChangeUI()
   ChangeUI({page = "secondPage"})
   SetStatusInformation()
@@ -117,6 +118,23 @@ function ChangeLimb(value, id, playerColor)
   end
   self.UI.setAttribute("limb_" .. id, "percentage", limbValue[id])
 end
+-- ПУ конечностей
+function ChangeSkillsDT(args)
+  if not CheckPlayer(args.playerColor) then return end
+
+  local id = args.id or ""
+  if id:sub(0, #id - 1) == "baff" then
+    id = tonumber(id:sub(5))
+    DTValue[id] = DTValue[id] + args.value
+  elseif id:sub(0, #id - 1) == "debaff" then
+    id = tonumber(id:sub(7))
+    DTValue[id] = DTValue[id] - args.value
+  end
+
+  if args.value then
+    ChangeUI({page = "secondPage"})
+  end
+end
 
 function ChangeUI(args)
   args = args or {}
@@ -124,6 +142,7 @@ function ChangeUI(args)
     for i = 1, countLimb do
       Wait.time(function()
         self.UI.setAttribute("limb_" .. i, "percentage", limbValue[i])
+        self.UI.setAttribute("limb_T_" .. i, "text", DTValue[i])
       end, 0.01)
     end
   else
