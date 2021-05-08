@@ -82,7 +82,8 @@ function CreateNewButtons()
 end
 
 function onCollisionEnter(info)
-  if info.collision_object.getPosition().y < self.getPosition().y then return end
+  if info.collision_object.getPosition().y < self.getPosition().y or
+     info.collision_object.getGMNotes() == "" then return end
   local newObject = info.collision_object
   destroyObject(info.collision_object)
   
