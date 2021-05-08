@@ -212,7 +212,11 @@ function ChangeDependentVariables(description, remove)
           playerColor = "Black"
         }
       end
-      getObjectFromGUID(locGUID).call("ChangeSkills", args)
+      if enumLimb[skills] then
+        getObjectFromGUID(locGUID).call("ChangeSkillsDT", args)
+      else
+        getObjectFromGUID(locGUID).call("ChangeSkills", args)
+      end
     end
   end
 end
