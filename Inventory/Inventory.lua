@@ -28,6 +28,8 @@ function onLoad(savedData)
       ловушки = 14, наука = 15, ремонт = 16,
       красноречие = 17, бартер = 18, ["азартные игры"] = 19,
     }
+    Wait.time(|| Confer(savedData), 0.4)
+    
     enumSlots = {
       фракция_0       = 0, очки_1           = 1,  маска_2         = 2,  спец_предмет_3  = 3,
       шлем_4          = 4,                                              разгрузка_5     = 5,
@@ -35,8 +37,6 @@ function onLoad(savedData)
       одежда_8        = 8,                                              рюкзак_9        = 9,
       быстрый_слот_10 = 10, быстрый_слот_11 = 11, быстрый_слот_12 = 12, быстрый_слот_13 = 13,
     }
-    Wait.time(|| Confer(savedData), 0.4)
-    
     local paramPos = {
       {x = 5.05, y = 15.30}, {x = 3.8, y = 15.3}, {x = 2.75, y = 15.3}, {x = 1.40, y = 15.30},
       {x = 5.05, y = 14.15},                                            {x = 1.40, y = 14.15},
@@ -60,13 +60,13 @@ end
 
 function Confer(savedData)
   local loadedData = JSON.decode(savedData or "")
-  RebuildAssets(--[[loadedData.saveCustomAsset or]] {})
+  RebuildAssets(loadedData.saveCustomAsset or {})
   tableItems = loadedData.tableItems or {}
   infoGUID = loadedData.infoGUID
   statusGUID = loadedData.statusGUID
   skillsGUID = loadedData.skillsGUID
   if loadedData.saveXML then
-    --Wait.time(|| self.UI.setXmlTable(loadedData.saveXML), 1)
+    Wait.time(|| self.UI.setXmlTable(loadedData.saveXML), 1)
   end
 end
 
@@ -220,7 +220,9 @@ function SearchDie(name)
 end
 
 function RebuildAssets(assets)
-  local backG = 'https://i.imgur.com/WQiHEAd.png'
-  table.insert(assets, {name = 'uiBackGroundW', url = backG})
+  if #assets == 0 then
+    local backG = 'https://i.imgur.com/WQiHEAd.png'
+    table.insert(assets, {name = 'uiBackGroundW', url = backG})
+  end
   self.UI.setCustomAssets(assets)
 end
