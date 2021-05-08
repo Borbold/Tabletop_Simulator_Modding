@@ -47,7 +47,7 @@ function onLoad(savedData)
     for i,pos in ipairs(paramPos) do
       local params = {
         function_owner = self, click_function = "RemoveItem",
-        label = tostring(i), tooltip = "Empty",
+        label = tostring(i), tooltip = enumSlots[i],
         position = {pos.x, 0.2, pos.y}, rotation = {0, 180, 0},
         width = 400, height = 400,
         font_size = 120, font_color = {1, 1, 1},
@@ -73,12 +73,13 @@ end
 function onCollisionEnter(info)
   if info.collision_object.getPosition().y < self.getPosition().y then return end
   local newObject = info.collision_object
-  local currentDescription = {}
+  destroyObject(info.collision_object)
+  
+  local cutWordDesc = {}
   local newGMNotes = newObject.getGMNotes()
   for word in newGMNotes:gmatch("%S+") do
-    table.insert(currentDescription, word)
+    table.insert(cutWordDesc, word)
   end
-  destroyObject(info.collision_object)
   
   local newName = newObject.getName()
   local cusAss = self.UI.getCustomAssets()
@@ -87,24 +88,24 @@ function onCollisionEnter(info)
   
   local newDescription = newObject.getDescription()
   Wait.time(function()
-    self.UI.setAttribute(currentDescription[2], "icon", newName)
-    self.UI.setAttribute(currentDescription[2], "iconColor", "#ffffffff")
-    local indexButton = tonumber(currentDescription[2]:sub(currentDescription[2]:find("_") + 1))
+    self.UI.setAttribute(cutWordDesc[2], "icon", newName)
+    self.UI.setAttribute(cutWordDesc[2], "iconColor", "#ffffffff")
+    local indexButton = tonumber(cutWordDesc[2]:sub(cutWordDesc[2]:find("_") + 1))
     self.editButton({index = indexButton, tooltip = newName .. "\n" .. newDescription})
     --Wait.time(|| print(self.UI.getXmlTable()[2].children[1].children[2].children[1].children[1].children[1].attributes["icon"]), 0.2)
   end, 0.01)
-  local newUrlImage = newObject.getCustomObject().image
   
-  tableItems[currentDescription[2]] = {newName, newDescription, newUrlImage, newGMNotes}
+  local newUrlImage = newObject.getCustomObject().image
+  tableItems[cutWordDesc[2]] = {newName, newDescription, newUrlImage, newGMNotes}
+  
   local findText = newDescription:find("Эффекты")
   if findText then
     ChangeDependentVariables(newDescription:sub(findText))
   end
+  
   Wait.time(|| UpdateSave(), 0.2)
 end
 function RemoveItem(obj, color, alt_click)
-  --if not id or not self.UI.getAttribute(id, "icon") or self.UI.getAttribute(id, "icon") == '' then return end
-  
   local selfPosition = self.getPosition()
   local spawnParametrs = {
     type = "Custom_Tile",
@@ -113,7 +114,6 @@ function RemoveItem(obj, color, alt_click)
     scale = {x = 1, y = 1, z = 1},
     sound = false, snap_to_grid = true,
   }
-  local newObject = spawnObject(spawnParametrs)
 
   local indexItem, indexButton
   for i,v in pairs(tableItems) do
@@ -123,6 +123,7 @@ function RemoveItem(obj, color, alt_click)
     end
   end
 
+  local newObject = spawnObject(spawnParametrs)
   if indexItem and indexButton then
     newObject.setName(tableItems[indexItem][1])
     newObject.setDescription(tableItems[indexItem][2])
@@ -138,7 +139,7 @@ function RemoveItem(obj, color, alt_click)
     Wait.time(function()
       self.UI.setAttribute(indexItem, "icon", "")
       self.UI.setAttribute(indexItem, "iconColor", "#ffffff00")
-      self.editButton({index = indexButton, tooltip = ""})
+      self.editButton({index = indexButton, enumSlots[indexButton]})
     end, 0.01)
     UpdateSave()
   else
@@ -146,10 +147,7 @@ function RemoveItem(obj, color, alt_click)
   end
 end
 function ChangeDependentVariables(description, remove)
-  local infoGUID = infoGUID or SearchDie("Info")
-  local statusGUID = statusGUID or SearchDie("Status")
-  local skillsGUID = skillsGUID or SearchDie("Skills")
-  local currentDescription, newStartIndex = {}, 0
+  local cutWordDesc, newStartIndex = {}, 0
   for word in description:gmatch("%S+") do
     if word:find("%[") then
       local newDesc = description:sub(newStartIndex)
@@ -161,27 +159,30 @@ function ChangeDependentVariables(description, remove)
       elseif newDesc:match("%[(.+)%]") then
         longWord = newDesc:match("%[(.+)%]")
       end
-      table.insert(currentDescription, longWord)
+      table.insert(cutWordDesc, longWord)
     else
-      table.insert(currentDescription, word)
+      table.insert(cutWordDesc, word)
     end
   end
   
-  for i,v in ipairs(currentDescription) do
+  for i,v in ipairs(cutWordDesc) do
     local value, skills, locGUID = nil, "", ""
     if enumSpecial[v] then
       skills = v
-      value = tonumber(currentDescription[i - 1])
+      value = tonumber(cutWordDesc[i - 1])
+      infoGUID = infoGUID or SearchDie("Info")
       locGUID = infoGUID
     elseif enumStatus[v] then
       skills = v
-      local textValue = currentDescription[i - 1]
+      local textValue = cutWordDesc[i - 1]
       value = tonumber(textValue:sub(0, #textValue - 1))
+      statusGUID = statusGUID or SearchDie("Status")
       locGUID = statusGUID
     elseif enumSkills[v] then
       skills = v
-      local textValue = currentDescription[i - 1]
+      local textValue = cutWordDesc[i - 1]
       value = tonumber(textValue:sub(0, #textValue - 1))
+      skillsGUID = skillsGUID or SearchDie("Skills")
       locGUID = skillsGUID
     end
     
