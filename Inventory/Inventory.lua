@@ -1,7 +1,7 @@
 ﻿function UpdateSave()
   local dataToSave = {
     ["tableItems"] = tableItems,
-    ["infoGUID"] = infoGUID, ["statusGUID"] = statusGUID, ["skillsGUID"] = skillsGUID,
+    ["infoGUID"] = infoGUID, ["statusGUID"] = statusGUID, ["skillsGUID"] = skillsGUID, ["statusGUID"] = statusGUID,
     ["saveXML"] = self.UI.getXmlTable(), ["saveCustomAsset"] = self.UI.getCustomAssets(),
   }
   local savedData = JSON.encode(dataToSave)
@@ -27,6 +27,11 @@ function onLoad(savedData)
       скрытность = 11, взлом = 12, кража = 13,
       ловушки = 14, наука = 15, ремонт = 16,
       красноречие = 17, бартер = 18, ["азартные игры"] = 19,
+    }
+    enumLimb = {
+      голова = 1, глаза = 2, прав.рука = 3,
+      прав.нога = 4, торс = 5, пах = 6,
+      лев.рука = 7, лев.нога = 8
     }
     Wait.time(|| Confer(savedData), 0.4)
     
@@ -65,6 +70,7 @@ function Confer(savedData)
   infoGUID = loadedData.infoGUID
   statusGUID = loadedData.statusGUID
   skillsGUID = loadedData.skillsGUID
+  statusGUID = loadedData.statusGUID
   if loadedData.saveXML then
     Wait.time(|| self.UI.setXmlTable(loadedData.saveXML), 1)
   end
@@ -184,6 +190,11 @@ function ChangeDependentVariables(description, remove)
       value = tonumber(textValue:sub(0, #textValue - 1))
       skillsGUID = skillsGUID or SearchDie("Skills")
       locGUID = skillsGUID
+    elseif enumLimb[v] then
+      skills = v
+      value = tonumber(cutWordDesc[i - 1])
+      statusGUID = statusGUID or SearchDie("Status")
+      locGUID = statusGUID
     end
     
     if value then
@@ -191,13 +202,13 @@ function ChangeDependentVariables(description, remove)
       if value > 0 then
         args = {
           value = not remove and value or -value,
-          id = "baff" .. (enumSpecial[skills] or enumStatus[skills] or enumSkills[skills]),
+          id = "baff" .. (enumSpecial[skills] or enumStatus[skills] or enumSkills[skills] or enumLimb[skills]),
           playerColor = "Black"
         }
       else
         args = {
           value = not remove and math.abs(value) or -math.abs(value),
-          id = "debaff" .. (enumSpecial[skills] or enumStatus[skills] or enumSkills[skills]),
+          id = "debaff" .. (enumSpecial[skills] or enumStatus[skills] or enumSkills[skills] or enumLimb[skills]),
           playerColor = "Black"
         }
       end
