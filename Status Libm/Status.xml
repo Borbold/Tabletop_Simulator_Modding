@@ -333,13 +333,13 @@
 		</Row>
 		<Row preferredHeight='65'>
 			<Cell columnSpan='10'>
-				<Text class='textDT' />
+				<Text id='limb_T_1' class='textDT' />
 			</Cell>
 			
 			<Cell columnSpan='48' />
 			
 			<Cell columnSpan='10'>
-				<Text class='textDT' />
+				<Text id='limb_T_5' class='textDT' />
 			</Cell>
 		</Row>
 		<!-- Строка: Глаза/Пах -->
@@ -368,13 +368,13 @@
 		</Row>
 		<Row preferredHeight='65'>
 			<Cell columnSpan='10'>
-				<Text class='textDT' />
+				<Text id='limb_T_2' class='textDT' />
 			</Cell>
 			
 			<Cell columnSpan='48' />
 			
 			<Cell columnSpan='10'>
-				<Text class='textDT' />
+				<Text id='limb_T_6' class='textDT' />
 			</Cell>
 		</Row>
 		<!-- Строка: П.рука/Л.рука -->
@@ -403,13 +403,13 @@
 		</Row>
 		<Row preferredHeight='65'>
 			<Cell columnSpan='10'>
-				<Text class='textDT' />
+				<Text id='limb_T_3' class='textDT' />
 			</Cell>
 			
 			<Cell columnSpan='48' />
 			
 			<Cell columnSpan='10'>
-				<Text class='textDT' />
+				<Text id='limb_T_7' class='textDT' />
 			</Cell>
 		</Row>
 		<!-- Строка: П.нога/Л.нога -->
@@ -438,13 +438,13 @@
 		</Row>
 		<Row preferredHeight='65'>
 			<Cell columnSpan='10'>
-				<Text class='textDT' />
+				<Text id='limb_T_4' class='textDT' />
 			</Cell>
 			
 			<Cell columnSpan='48' />
 			
 			<Cell columnSpan='10'>
-				<Text class='textDT' />
+				<Text id='limb_T_8' class='textDT' />
 			</Cell>
 		</Row>
 		
