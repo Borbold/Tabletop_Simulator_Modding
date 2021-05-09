@@ -84,7 +84,7 @@ function ChangeUI(args)
       Wait.time(function()
         self.UI.setAttribute("baff" .. i, "text", baffValue[i])
         self.UI.setAttribute("debaff" .. i, "text", debaffValue[i])
-      end, 0.05)
+      end, math.random(2, 3)/100)
     end
   else
     local currentFreeSkillPoint = freeSkillPoints
