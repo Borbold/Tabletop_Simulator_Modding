@@ -205,13 +205,29 @@ function Reset(player)
   ChangeUI({page = "secondPage"})
 end
 
-function ChangePage()
+function ChangePage(player, _, id)
   if self.UI.getAttribute("firstPage", "active") == "true" then
-    self.UI.setAttribute("firstPage", "active", "false")
-    self.UI.setAttribute("secondPage", "active", "true")
+    if id == "B_page2" then
+      self.UI.setAttribute(id, "active", "false")
+      self.UI.setAttribute("firstPage", "active", "false")
+      self.UI.setAttribute("secondPage", "active", "true")
+    elseif id == "B_page3" then
+      self.UI.setAttribute(id, "active", "false")
+      self.UI.setAttribute("firstPage", "active", "false")
+      self.UI.setAttribute("thirdPage", "active", "true")
+    end
   elseif self.UI.getAttribute("secondPage", "active") == "true" then
-    self.UI.setAttribute("firstPage", "active", "true")
-    self.UI.setAttribute("secondPage", "active", "false")
+    if id == "B_page3" then
+      self.UI.setAttribute("secondPage", "active", "false")
+      self.UI.setAttribute("firstPage", "active", "true")
+      self.UI.setAttribute("B_page2", "active", "true")
+    end
+  elseif self.UI.getAttribute("thirdPage", "active") == "true" then
+    if id == "B_page2" then
+      self.UI.setAttribute("thirdPage", "active", "false")
+      self.UI.setAttribute("firstPage", "active", "true")
+      self.UI.setAttribute("B_page3", "active", "true")
+    end
   end
 end
 
