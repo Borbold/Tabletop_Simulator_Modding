@@ -10,9 +10,7 @@
 end
 
 function onLoad(savedData)
-  Wait.time(function()
-    Wait.time(|| Confer(savedData), 0.2)
-  end, 0.5)
+  Wait.time(|| Confer(savedData), 0.8)
 end
 
 function Confer(savedData)
@@ -26,8 +24,8 @@ function Confer(savedData)
   startValue2 = loadedData.startValue2 or FillingTable(0)
   favoritSkills = loadedData.favoritSkills or FillingTable(0)
   freeSkillPoints = loadedData.freeSkillPoints or 0
-  ChangeUI({isLoad = true})
-  ChangeUI({page = "secondPage", isLoad = true})
+  ChangeUI()
+  ChangeUI({page = "secondPage"})
 end
 function FillingTable(value)
   local locTable = {}
@@ -84,7 +82,7 @@ function ChangeUI(args)
       Wait.time(function()
         self.UI.setAttribute("baff" .. i, "text", baffValue[i])
         self.UI.setAttribute("debaff" .. i, "text", debaffValue[i])
-      end, args.isLoad and math.random(6, 10)/10 or 0.01)
+      end, 0.01)
     end
   else
     local currentFreeSkillPoint = freeSkillPoints
@@ -116,11 +114,11 @@ function ChangeUI(args)
           locStartValue = locStartValue - 201
           currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
         end
-      end, args.isLoad and math.random(1, 5)/10 or 0.01)
+      end, 0.01)
     end
     Wait.time(function()
       self.UI.setAttribute("freeSkillPoints", "text", "Свободные очки навыков: " .. currentFreeSkillPoint)
-    end, args.isLoad and 0.51 or 0.011)
+    end, 0.011)
   end
   UpdateSave()
 end
