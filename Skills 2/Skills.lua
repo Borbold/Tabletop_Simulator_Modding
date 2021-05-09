@@ -96,24 +96,24 @@ function ChangeUI(args)
         self.UI.setAttribute("specialSkill" .. i, "active", tostring(favoritSkills[i] == 1))
 
         currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
-        if locStartValue > 101 - startValue2[i] then
-          locStartValue = locStartValue - (101 - startValue2[i])
+        if locStartValue > 101 then
+          locStartValue = locStartValue - 101
           currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
         end
-        if locStartValue > 128 - startValue2[i] then
-          locStartValue = locStartValue - (128 - startValue2[i])
+        if locStartValue > 128 then
+          locStartValue = locStartValue - 128
           currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
         end
-        if locStartValue > 151 - startValue2[i] then
-          locStartValue = locStartValue - (151 - startValue2[i])
+        if locStartValue > 151 then
+          locStartValue = locStartValue - 151
           currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
         end
-        if locStartValue > 176 - startValue2[i] then
-          locStartValue = locStartValue - (176 - startValue2[i])
+        if locStartValue > 176 then
+          locStartValue = locStartValue - 176
           currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
         end
-        if locStartValue > 201 - startValue2[i] then
-          locStartValue = locStartValue - (201 - startValue2[i])
+        if locStartValue > 201 then
+          locStartValue = locStartValue - 201
           currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
         end
       end, 0.01)
