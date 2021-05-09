@@ -116,11 +116,11 @@ function ChangeUI(args)
           locStartValue = locStartValue - 201
           currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
         end
-      end, 0.01)
+      end, math.random(1, 2)/100)
     end
     Wait.time(function()
       self.UI.setAttribute("freeSkillPoints", "text", "Свободные очки навыков: " .. currentFreeSkillPoint)
-    end, 0.011)
+    end, 0.021)
   end
   UpdateSave()
 end
