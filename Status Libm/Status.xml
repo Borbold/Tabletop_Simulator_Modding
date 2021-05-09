@@ -523,3 +523,7 @@
 <Panel position='565 670 -22' height='50' width='50'>
 	<Button image='uiGear' onClick='ChangePage' height='50' width='50' />
 </Panel>
+<!-- Кнопка смены окна 2 -->
+<Panel position='-565 670 -22' rotation='180 0 0' height='50' width='50'>
+	<Button image='uiGear' onClick='ChangePage' height='50' width='50' />
+</Panel>
