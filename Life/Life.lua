@@ -40,9 +40,9 @@ function ChangeHP(value, player)
   end
   ChangeUI()
 end
-function CheckCurrentHP(condition)
+function CheckCurrentHP(args)
   local wordsCond = {}
-  for word in condition:gmatch("%S+") do
+  for word in args.condition:gmatch("%S+") do
     table.insert(wordsCond, word)
   end
   if wordsCond[2] == "<" then
