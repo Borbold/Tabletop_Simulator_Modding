@@ -40,8 +40,14 @@ function ChangeHP(value, player)
   end
   ChangeUI()
 end
-function CheckCurrentHP(percent)
-  return currentHP*100/maxHP < percent
+function CheckCurrentHP(condition)
+  local wordsCond = {}
+  for word in condition:gmatch("%S+") do
+    table.insert(wordsCond, word)
+  end
+  if wordsCond[2] == "<" then
+    return currentHP*100/maxHP < wordsCond[3]
+  end
 end
 -- Очки действий
 function MinusAP(player)
