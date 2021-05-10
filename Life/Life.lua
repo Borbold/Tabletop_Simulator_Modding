@@ -40,6 +40,9 @@ function ChangeHP(value, player)
   end
   ChangeUI()
 end
+function CheckCurrentHP(percent)
+  return currentHP*100/maxHP < percent
+end
 -- Очки действий
 function MinusAP(player)
   ChangeAP(-1, player.color)
