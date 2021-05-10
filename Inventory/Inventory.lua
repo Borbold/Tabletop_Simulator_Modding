@@ -161,6 +161,15 @@ function ChangeDependentVariables(description, remove)
     if word:find("%[") then
       local newDesc = description:sub(newStartIndex)
       newStartIndex = description:find("]") + 1
+      
+      local condition
+      if newDesc:match("%((.+)%)-%[") then
+        condition = newDesc:match("%((.+)%)-%(")
+        condition = condition:sub(0, condition:find(")") - 1)
+      elseif newDesc:match("%((.+)%)") then
+        condition = newDesc:match("%((.+)%)")
+      end
+      
       local longWord
       if newDesc:match("%[(.+)%]-%[") then
         longWord = newDesc:match("%[(.+)%]-%[")
@@ -200,25 +209,35 @@ function ChangeDependentVariables(description, remove)
       locGUID = statusGUID
     end
     
+    local condition, SS = nil, ""
+    if v:find("HP") then
+      SS = "HP"
+      condition = v
+    end
+    
     if value then
       local args = {}
-      if value > 0 then
-        args = {
-          value = not remove and value or -value,
-          id = "baff" .. (enumSpecial[skills] or enumStatus[skills] or enumSkills[skills] or enumLimb[skills]),
-          playerColor = "Black"
-        }
+      if condition and SS == "HP" and getObjectFromGUID(SearchDie("Life").call("CheckCurrentHP", {condition = condition}))
+        if value > 0 then
+          args = {
+            value = not remove and value or -value,
+            id = "baff" .. (enumSpecial[skills] or enumStatus[skills] or enumSkills[skills] or enumLimb[skills]),
+            playerColor = "Black"
+          }
+        else
+          args = {
+            value = not remove and math.abs(value) or -math.abs(value),
+            id = "debaff" .. (enumSpecial[skills] or enumStatus[skills] or enumSkills[skills] or enumLimb[skills]),
+            playerColor = "Black"
+          }
+        end
+        if enumLimb[skills] then
+          getObjectFromGUID(locGUID).call("ChangeSkillsDT", args)
+        else
+          getObjectFromGUID(locGUID).call("ChangeSkills", args)
+        end
       else
-        args = {
-          value = not remove and math.abs(value) or -math.abs(value),
-          id = "debaff" .. (enumSpecial[skills] or enumStatus[skills] or enumSkills[skills] or enumLimb[skills]),
-          playerColor = "Black"
-        }
-      end
-      if enumLimb[skills] then
-        getObjectFromGUID(locGUID).call("ChangeSkillsDT", args)
-      else
-        getObjectFromGUID(locGUID).call("ChangeSkills", args)
+        print("Условие не прошло")
       end
     end
   end
