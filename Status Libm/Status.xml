@@ -521,9 +521,5 @@
 </Panel>
 <!-- Кнопка смены окна -->
 <Panel position='565 670 -22' height='50' width='50'>
-	<Button id='B_page2' image='uiGear' onClick='ChangePage' height='50' width='50' />
-</Panel>
-<!-- Кнопка смены окна 2 -->
-<Panel position='-565 670 -22' rotation='0 0 180' height='50' width='50'>
-	<Button id='B_page3' image='uiGear' onClick='ChangePage' height='50' width='50' />
+	<Button image='uiGear' onClick='ChangePage' height='50' width='50' />
 </Panel>

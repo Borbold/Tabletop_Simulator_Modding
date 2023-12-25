@@ -38,11 +38,11 @@ end
 function Confer(savedData)
   local loadedData = JSON.decode(savedData or "")
   RebuildAssets(--[[loadedData.saveCustomAsset or]] {})
-  tableItems = loadedData.tableItems or {}
-  infoGUID = loadedData.infoGUID
-  statusGUID = loadedData.statusGUID
-  skillsGUID = loadedData.skillsGUID
-  if loadedData.saveXML then
+  tableItems = loadedData and loadedData.tableItems or {}
+  infoGUID = loadedData and loadedData.infoGUID
+  statusGUID = loadedData and loadedData.statusGUID
+  skillsGUID = loadedData and loadedData.skillsGUID
+  if loadedData and loadedData.saveXML then
     --Wait.time(|| self.UI.setXmlTable(loadedData.saveXML), 1)
   end
   Wait.time(|| CreateNewButtons(), 0.5)
@@ -83,7 +83,6 @@ function onCollisionEnter(info)
   if info.collision_object.getPosition().y < self.getPosition().y or
      info.collision_object.getGMNotes() == "" then return end
   local newObject = info.collision_object
-  destroyObject(info.collision_object)
   
   local cutWordDesc = {}
   local newGMNotes = newObject.getGMNotes()
@@ -105,6 +104,7 @@ function onCollisionEnter(info)
     local newUrlImage = newObject.getCustomObject().image
     tableItems[indexButton] = {newName, newDescription, newUrlImage, newGMNotes}
     --Wait.time(|| print(self.UI.getXmlTable()[2].children[1].children[2].children[1].children[1].children[1].attributes["icon"]), 0.2)
+    destroyObject(info.collision_object)
   end, 0.01)
   
   local findText = newDescription:find("ПУ") or newDescription:find("Эффекты")
@@ -217,7 +217,7 @@ function ChangeDependentVariables(description, remove)
     
     if value then
       local args = {}
-      if condition and SS == "HP" and getObjectFromGUID(SearchDie("Life").call("CheckCurrentHP", {condition = condition}))
+      if condition and SS == "HP" and getObjectFromGUID(SearchDie("Life").call("CheckCurrentHP", {condition = condition})) then
         if value > 0 then
           args = {
             value = not remove and value or -value,

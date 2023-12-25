@@ -16,11 +16,11 @@ end
 function Confer(savedData)
   RebuildAssets()
   local loadedData = JSON.decode(savedData or "")
-  currentHP = loadedData.currentHP or 25
-  maxHP = loadedData.maxHP or 50
-  currentAP = loadedData.currentAP or 3
-  maxAP = loadedData.maxAP or 10
-  levelGUID = loadedData.levelGUID
+  currentHP = loadedData and loadedData.currentHP or 25
+  maxHP = loadedData and loadedData.maxHP or 50
+  currentAP = loadedData and loadedData.currentAP or 3
+  maxAP = loadedData and loadedData.maxAP or 10
+  levelGUID = loadedData and loadedData.levelGUID
   ChangeUI()
 end
 -- Здоровье

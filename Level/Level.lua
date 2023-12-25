@@ -29,7 +29,7 @@ function Confer(savedData)
   local loadedData = JSON.decode(savedData or "")
   currentLVL = loadedData and loadedData.currentLVL or 1
   currentEXP = loadedData and loadedData.currentEXP or 0
-  infoGUID = loadedData.infoGUID
+  infoGUID = loadedData and loadedData.infoGUID or nil
   maxEXP = currentLVL*50
   ChangeUI({isLoad = true})
 end

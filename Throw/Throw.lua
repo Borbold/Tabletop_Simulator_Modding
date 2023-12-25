@@ -17,11 +17,11 @@ end
 function Confer(savedData)
   RebuildAssets()
   local loadedData = JSON.decode(savedData or "")
-  successful = loadedData.successful or {}
-  baff = loadedData.baff or {}
-  deBaff = loadedData.deBaff or {}
-  maxValue = loadedData.maxValue or {}
-  countThrow = loadedData.countThrow or {}
+  successful = loadedData and loadedData.successful or {}
+  baff = loadedData and loadedData.baff or {}
+  deBaff = loadedData and loadedData.deBaff or {}
+  maxValue = loadedData and loadedData.maxValue or {}
+  countThrow = loadedData and loadedData.countThrow or {}
   ChangeUI()
 end
 
@@ -92,7 +92,7 @@ end
 
 function RebuildAssets()
   local backG = 'https://cdn.discordapp.com/attachments/800324103848198174/838062391127441428/brosok.png'
-  local dice = 'https://cdn.discordapp.com/attachments/731036309245919292/838722801493213184/dice.png'
+  local dice = 'https://cdn.discordapp.com/attachments/800324103848198174/1188701113105522708/CartonDice.jpg'
   local assets = {
     {name = 'uiBackGround', url = backG},
     {name = 'uiDice', url = dice},

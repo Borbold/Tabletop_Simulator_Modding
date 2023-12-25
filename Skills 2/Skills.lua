@@ -17,13 +17,13 @@ function Confer(savedData)
   RebuildAssets()
   countSkills = 19
   local loadedData = JSON.decode(savedData or "")
-  majorValue = loadedData.majorValue or FillingTable(0)
-  baffValue = loadedData.baffValue or FillingTable(0)
-  debaffValue = loadedData.debaffValue or FillingTable(0)
-  startValue = loadedData.startValue or FillingTable(0)
-  startValue2 = loadedData.startValue2 or FillingTable(0)
-  favoritSkills = loadedData.favoritSkills or FillingTable(0)
-  freeSkillPoints = loadedData.freeSkillPoints or 0
+  majorValue = loadedData and loadedData.majorValue or FillingTable(0)
+  baffValue = loadedData and loadedData.baffValue or FillingTable(0)
+  debaffValue = loadedData and loadedData.debaffValue or FillingTable(0)
+  startValue = loadedData and loadedData.startValue or FillingTable(0)
+  startValue2 = loadedData and loadedData.startValue2 or FillingTable(0)
+  favoritSkills = loadedData and loadedData.favoritSkills or FillingTable(0)
+  freeSkillPoints = loadedData and loadedData.freeSkillPoints or 0
   ChangeUI()
   ChangeUI({page = "secondPage"})
 end

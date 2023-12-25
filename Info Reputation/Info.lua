@@ -20,18 +20,18 @@ function Confer(savedData)
   RebuildAssets()
   countSpesial, countFraction = 7, 26
   local loadedData = JSON.decode(savedData or "")
-  majorValue = loadedData.majorValue or {5, 5, 5, 5, 5, 5, 5}
-  baffValue = loadedData.baffValue or {0, 0, 0, 0, 0, 0, 0}
-  debaffValue = loadedData.debaffValue or {0, 0, 0, 0, 0, 0, 0}
-  startValue = loadedData.startValue or {5, 5, 5, 5, 5, 5, 5}
-  reputationValue = loadedData.reputationValue or FillingTable(0)
-  maxSkillPoint = loadedData.maxSkillPoint or 40
-  karma = loadedData.karma or 0
-  currentLVL = loadedData.currentLVL or 1
-  levelGUID = loadedData.levelGUID
-  statusGUID = loadedData.statusGUID
-  lifeGUID = loadedData.lifeGUID
-  skillsGUID = loadedData.skillsGUID
+  majorValue = loadedData and loadedData.majorValue or {5, 5, 5, 5, 5, 5, 5}
+  baffValue = loadedData and loadedData.baffValue or {0, 0, 0, 0, 0, 0, 0}
+  debaffValue = loadedData and loadedData.debaffValue or {0, 0, 0, 0, 0, 0, 0}
+  startValue = loadedData and loadedData.startValue or {5, 5, 5, 5, 5, 5, 5}
+  reputationValue = loadedData and loadedData.reputationValue or FillingTable(0)
+  maxSkillPoint = loadedData and loadedData.maxSkillPoint or 40
+  karma = loadedData and loadedData.karma or 0
+  currentLVL = loadedData and loadedData.currentLVL or 1
+  levelGUID = loadedData and loadedData.levelGUID
+  statusGUID = loadedData and loadedData.statusGUID
+  lifeGUID = loadedData and loadedData.lifeGUID
+  skillsGUID = loadedData and loadedData.skillsGUID
   ChangeUI({isLoad = true})
   ChangeUI({page = "secondPage"})
   SetBasicInformation()

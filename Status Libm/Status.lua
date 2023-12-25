@@ -18,12 +18,12 @@ function Confer(savedData)
   countLimb, countStatus = 8, 8
   maxInfoStatus = {1000, 1000, 1000, 1000, 1000, 1000}
   local loadedData = JSON.decode(savedData or "")
-  majorValue = loadedData.majorValue or {0, 0, 0, 0, 0, 0, 0, 0}
-  baffValue = loadedData.baffValue or {0, 0, 0, 0, 0, 0, 0, 0}
-  debaffValue = loadedData.debaffValue or {0, 0, 0, 0, 0, 0, 0, 0}
-  startValue = loadedData.startValue or {0, 0, 0, 0, 0, 0, 0, 0}
-  limbValue = loadedData.limbValue or {100, 100, 100, 100, 100, 100, 100, 100}
-  DTValue = loadedData.DTValue or {0, 0, 0, 0, 0, 0, 0, 0}
+  majorValue = loadedData and loadedData.majorValue or {0, 0, 0, 0, 0, 0, 0, 0}
+  baffValue = loadedData and loadedData.baffValue or {0, 0, 0, 0, 0, 0, 0, 0}
+  debaffValue = loadedData and loadedData.debaffValue or {0, 0, 0, 0, 0, 0, 0, 0}
+  startValue = loadedData and loadedData.startValue or {0, 0, 0, 0, 0, 0, 0, 0}
+  limbValue = loadedData and loadedData.limbValue or {100, 100, 100, 100, 100, 100, 100, 100}
+  DTValue = loadedData and loadedData.DTValue or {0, 0, 0, 0, 0, 0, 0, 0}
   ChangeUI()
   ChangeUI({page = "secondPage"})
   SetStatusInformation()
@@ -205,27 +205,11 @@ end
 
 function ChangePage(player, _, id)
   if self.UI.getAttribute("firstPage", "active") == "true" then
-    if id == "B_page2" then
-      self.UI.setAttribute(id, "active", "false")
-      self.UI.setAttribute("firstPage", "active", "false")
-      self.UI.setAttribute("secondPage", "active", "true")
-    elseif id == "B_page3" then
-      self.UI.setAttribute(id, "active", "false")
-      self.UI.setAttribute("firstPage", "active", "false")
-      self.UI.setAttribute("thirdPage", "active", "true")
-    end
+    self.UI.setAttribute("firstPage", "active", "false")
+    self.UI.setAttribute("secondPage", "active", "true")
   elseif self.UI.getAttribute("secondPage", "active") == "true" then
-    if id == "B_page3" then
-      self.UI.setAttribute("secondPage", "active", "false")
-      self.UI.setAttribute("firstPage", "active", "true")
-      self.UI.setAttribute("B_page2", "active", "true")
-    end
-  elseif self.UI.getAttribute("thirdPage", "active") == "true" then
-    if id == "B_page2" then
-      self.UI.setAttribute("thirdPage", "active", "false")
-      self.UI.setAttribute("firstPage", "active", "true")
-      self.UI.setAttribute("B_page3", "active", "true")
-    end
+    self.UI.setAttribute("firstPage", "active", "true")
+    self.UI.setAttribute("secondPage", "active", "false")
   end
 end
 
