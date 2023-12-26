@@ -10,9 +10,9 @@ end
 
 function onLoad(savedData)
   enumSpecial = {
-    сила = 1, восприятие = 2, выносливость = 3,
-    харизма = 4, интелект = 5, ловкость = 6,
-    удача = 7,
+    Сила = 1, Восприятие = 2, Выносливость = 3,
+    Харизма = 4, Интелект = 5, Ловкость = 6,
+    Удача = 7,
   }
   enumStatus = {
     реакция = 1, ["класс брони"] = 2, ["предел урона"] = 3,
@@ -45,50 +45,13 @@ function Confer(savedData)
   if loadedData and loadedData.saveXML then
     --Wait.time(|| self.UI.setXmlTable(loadedData.saveXML), 1)
   end
-  Wait.time(|| CreateNewButtons(), 0.5)
-end
-function CreateNewButtons()
-  enumSlots = {
-    фракция_0       = 0, очки_1           = 1,  маска_2         = 2,  спец_предмет_3  = 3,
-    шлем_4          = 4,                                              разгрузка_5     = 5,
-    бронежилет_6    = 6,                                              подсумок_7      = 7,
-    одежда_8        = 8,                                              рюкзак_9        = 9,
-    быстрый_слот_10 = 10, быстрый_слот_11 = 11, быстрый_слот_12 = 12, быстрый_слот_13 = 13,
-
-    инвентарь_слот_1  = 14, инвентарь_слот_2  = 15, инвентарь_слот_3  = 16, инвентарь_слот_4  = 17, инвентарь_слот_5  = 18, инвентарь_слот_6  = 19,
-  }
-  local paramPos = {
-    {x = 5.05, y = 15.30}, {x = 3.80, y = 15.30}, {x = 2.75, y = 15.30}, {x = 1.40, y = 15.30},
-    {x = 5.05, y = 14.15},                                               {x = 1.40, y = 14.15},
-    {x = 5.05, y = 13.00},                                               {x = 1.40, y = 13.00},
-    {x = 5.05, y = 11.85},                                               {x = 1.40, y = 11.85},
-    {x = 5.05, y = 10.70}, {x = 3.80, y = 10.70}, {x = 2.75, y = 10.70}, {x = 1.45, y = 10.70},
-
-    {x = 0.25, y = 15.18}, {x = -0.80, y = 15.18}, {x = -1.85, y = 15.18}, {x = -3, y = 15.18}, {x = -4.05, y = 15.18}, {x = -5.1, y = 15.18},
-  }
-  for i,pos in ipairs(paramPos) do
-    local params = {
-      function_owner = self, click_function = "RemoveItem",
-      label = tostring(i), tooltip = tableItems[i] and (tableItems[i][1] .. "/n" .. tableItems[i][2]),
-      position = {pos.x, 0.2, pos.y}, rotation = {0, 180, 0},
-      width = 400, height = 400,
-      font_size = 120, font_color = {1, 1, 1},
-      color = {0.5, 0.5, 0.5, 1},
-    }
-    self.createButton(params)
-  end
 end
 
 function onCollisionEnter(info)
   if info.collision_object.getPosition().y < self.getPosition().y or
-     info.collision_object.getGMNotes() == "" then return end
+     #info.collision_object.getTags() <= 0 then return end
   local newObject = info.collision_object
-  
-  local cutWordDesc = {}
-  local newGMNotes = newObject.getGMNotes()
-  for word in newGMNotes:gmatch("%S+") do
-    table.insert(cutWordDesc, word)
-  end
+  local objTag = newObject.getTags()[1]
   
   local newName = newObject.getName()
   local cusAss = self.UI.getCustomAssets()
@@ -97,58 +60,57 @@ function onCollisionEnter(info)
   
   local newDescription = newObject.getDescription()
   Wait.time(function()
-    self.UI.setAttribute(cutWordDesc[2], "icon", newName)
-    self.UI.setAttribute(cutWordDesc[2], "iconColor", "#ffffffff")
-    local indexButton = tonumber(cutWordDesc[2]:sub(cutWordDesc[2]:find("_") + 1))
-    self.editButton({index = indexButton, tooltip = newName .. "\n" .. newDescription})
-    local newUrlImage = newObject.getCustomObject().image
-    tableItems[indexButton] = {newName, newDescription, newUrlImage, newGMNotes}
-    --Wait.time(|| print(self.UI.getXmlTable()[2].children[1].children[2].children[1].children[1].children[1].attributes["icon"]), 0.2)
+    self.UI.setAttribute(objTag, "icon", newName)
+    self.UI.setAttribute(objTag, "iconColor", "#ffffffff")
+    self.UI.setAttribute(objTag, "tooltip", newName .. "\n" .. newDescription)
+    self.UI.setAttribute(objTag, "ObjName", newName)
+    self.UI.setAttribute(objTag, "ObjDesc", newDescription)
+    self.UI.setAttribute(objTag, "UrlImage", newObject.getCustomObject().image)
+    table.insert(tableItems, {id = objTag, description = newDescription})
     destroyObject(info.collision_object)
   end, 0.01)
   
-  local findText = newDescription:find("ПУ") or newDescription:find("Эффекты")
+  local findText = newDescription:find("Эффекты")
   if findText then
     ChangeDependentVariables(newDescription:sub(findText))
   end
   
   Wait.time(|| UpdateSave(), 0.2)
 end
-function RemoveItem(obj, color, alt_click)
+function RemoveItem(pl, t_click, id)
   local selfPosition = self.getPosition()
   local spawnParametrs = {
     type = "Custom_Tile",
     position = {x = selfPosition.x, y = selfPosition.y + 0.1, z = selfPosition.z - 4},
     rotation = {x = 0, y = 180, z = 0},
-    scale = {x = 1, y = 1, z = 1},
+    scale = {x = 0.47, y = 1, z = 0.47},
     sound = false, snap_to_grid = true,
   }
 
-  local indexItem, indexButton
-  for i,v in pairs(tableItems) do
-    if enumSlots[i] ~= nil then
-      indexItem = i
-      indexButton = enumSlots[i]
-    end
-  end
+  if id then
+    local newObject = spawnObject(spawnParametrs)
+    newObject.setName(self.UI.getAttribute(id, "ObjName"))
+    newObject.setDescription(self.UI.getAttribute(id, "ObjDesc"))
+    newObject.setCustomObject({image = self.UI.getAttribute(id, "UrlImage")})
+    newObject.setTags({id})
 
-  local newObject = spawnObject(spawnParametrs)
-  if indexItem and indexButton then
-    newObject.setName(tableItems[indexItem][1])
-    newObject.setDescription(tableItems[indexItem][2])
-    newObject.setCustomObject({image = tableItems[indexItem][3]})
-    newObject.setGMNotes(tableItems[indexItem][4])
-
-    local findText = tableItems[indexItem][2]:find("ПУ") or tableItems[indexItem][2]:find("Эффекты")
-    if findText then
-      ChangeDependentVariables(tableItems[indexItem][2]:sub(findText), true)
+    local index
+    for i,table in pairs(tableItems) do
+      if table.id == id then
+        local findText = table.description:find("Эффекты")
+        if findText then
+          ChangeDependentVariables(table.description:sub(findText), true)
+        end
+        index = i
+        break
+      end
     end
-    tableItems[indexItem] = nil
+    table.remove(tableItems, index)
 
     Wait.time(function()
-      self.UI.setAttribute(indexItem, "icon", "")
-      self.UI.setAttribute(indexItem, "iconColor", "#ffffff00")
-      self.editButton({index = indexButton, tooltip = ""})
+      self.UI.setAttribute(id, "icon", "")
+      self.UI.setAttribute(id, "iconColor", "#ffffff00")
+      self.UI.setAttribute(id, "tooltip", "")
     end, 0.01)
     Wait.time(|| UpdateSave(), 0.2)
   else
@@ -156,30 +118,16 @@ function RemoveItem(obj, color, alt_click)
   end
 end
 function ChangeDependentVariables(description, remove)
-  local cutWordDesc, newStartIndex = {}, 0
+  local cutWordDesc, findNum = {}, 0
   for word in description:gmatch("%S+") do
-    if word:find("%[") then
-      local newDesc = description:sub(newStartIndex)
-      newStartIndex = description:find("]") + 1
-      
-      local condition
-      if newDesc:match("%((.+)%)-%[") then
-        condition = newDesc:match("%((.+)%)-%(")
-        condition = condition:sub(0, condition:find(")") - 1)
-      elseif newDesc:match("%((.+)%)") then
-        condition = newDesc:match("%((.+)%)")
-      end
-      
-      local longWord
-      if newDesc:match("%[(.+)%]-%[") then
-        longWord = newDesc:match("%[(.+)%]-%[")
-        longWord = longWord:sub(0, longWord:find("]") - 1)
-      elseif newDesc:match("%[(.+)%]") then
-        longWord = newDesc:match("%[(.+)%]")
-      end
-      table.insert(cutWordDesc, longWord)
-    else
+    if findNum == 1 then
       table.insert(cutWordDesc, word)
+      findNum = 0
+    end
+-------------------------------------------------------
+    if word:find("%((.+)%)") then
+      table.insert(cutWordDesc, word:sub(2, #word - 1))
+      findNum = 1
     end
   end
   

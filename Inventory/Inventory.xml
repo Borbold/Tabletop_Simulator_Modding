@@ -1,14 +1,14 @@
 <Defaults>
-	<Button class='firstColumn' position='37 -5' />
-	<Button class='secondColumn' position='41 -5' />
-	<Button class='thirdColumn' position='31 -5' />
-	<Button class='fourColumn' position='46 -5' />
-	<Button class='fiveColumn' position='33 -13' />
-	<Button class='sixColumn' position='22 -13' />
-	<Button class='sevenColumn' position='9 -13' />
-	<Button class='eightColumn' position='-4 -13' />
-	<Button class='nineColumn' position='-18 -13' />
-	<Button class='tenColumn' position='-33 -13' />
+	<Button class='firstColumn' position='37 -5' tooltip='test' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
+	<Button class='secondColumn' position='41 -5' tooltip='test' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
+	<Button class='thirdColumn' position='31 -5' tooltip='test' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
+	<Button class='fourColumn' position='46 -5' tooltip='test' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
+	<Button class='fiveColumn' position='33 -13' tooltip='test' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
+	<Button class='sixColumn' position='22 -13' tooltip='test' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
+	<Button class='sevenColumn' position='9 -13' tooltip='test' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
+	<Button class='eightColumn' position='-4 -13' tooltip='test' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
+	<Button class='nineColumn' position='-18 -13' tooltip='test' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
+	<Button class='tenColumn' position='-33 -13' tooltip='test' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
 
 	<Cell dontUseTableCellBackground='true' />
 	<Button resizeTextForBestFit='true' resizeTextMaxSize='50'
@@ -144,7 +144,7 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button class='firstColumn' offsetXY='0 -27' />
+					<Button id='Clothes' class='firstColumn' offsetXY='0 -27' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2' />
