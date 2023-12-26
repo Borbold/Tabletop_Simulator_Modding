@@ -21,7 +21,7 @@ function onLoad(savedData)
   }
   enumSkills = {
     ["легкое оружие"] = 1, ["тяжелое оружие"] = 2, ["энергетическое оружие"] = 3, ["без оружие"] = 4,
-    ["холодное оружие"] = 5, метание = 6, ["первая помощь"] = 7,
+    ["Холодное Оружие"] = 5, метание = 6, ["первая помощь"] = 7,
     доктор = 8, натуралист = 9, пилот = 10,
     скрытность = 11, взлом = 12, кража = 13,
     ловушки = 14, наука = 15, ремонт = 16,
@@ -118,16 +118,24 @@ function RemoveItem(pl, t_click, id)
   end
 end
 function ChangeDependentVariables(description, remove)
-  local cutWordDesc, findNum = {}, 0
-  for word in description:gmatch("%S+") do
-    if findNum == 1 then
-      table.insert(cutWordDesc, word)
-      findNum = 0
-    end
--------------------------------------------------------
-    if word:find("%((.+)%)") then
-      table.insert(cutWordDesc, word:sub(2, #word - 1))
-      findNum = 1
+  local cutWordDesc, findWord, findNum = {}, "", 0
+  local tI = 1
+  for prediction in description:gmatch("[^\n]+") do
+    tI = tI + 1
+    if prediction:find("%+") or prediction:find("%-") then
+      for word in prediction:gmatch("%S+") do
+        if findNum == 1 then
+          table.insert(cutWordDesc, prediction:sub(#findWord + 2))
+          findWord = ""
+          findNum = 0
+        end
+    -------------------------------------------------------
+        if word:find("%((.+)%)") then
+          table.insert(cutWordDesc, word:sub(2, #word - 1))
+          findWord = word
+          findNum = 1
+        end
+      end
     end
   end
   
