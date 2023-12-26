@@ -30,27 +30,32 @@ function Confer(savedData)
   currentLVL = loadedData and loadedData.currentLVL or 1
   currentEXP = loadedData and loadedData.currentEXP or 0
   infoGUID = loadedData and loadedData.infoGUID or nil
-  maxEXP = currentLVL*50
+  maxEXP = currentLVL*((currentLVL - 2)*75 + 200)
   ChangeUI({isLoad = true})
 end
 -- Уровень
 function MinusLVL(player)
-  ChangeLVL(-1, _, player)
+  ChangeLVL(-1, _, player.color)
 end
 function PlusLVL(player)
-  ChangeLVL(1, _, player)
+  ChangeLVL(1, _, player.color)
 end
-function ChangeLVL(value, remainingEXP, player)
-  local args = {playerColor = player.color}
+function ChangeLVL(value, remainingEXP, playerColor)
+  local args = {playerColor = playerColor}
   if not CheckPlayer(args) then return end
 
   local locCurLVL = currentLVL
   currentLVL = currentLVL + value
   if currentLVL > locCurLVL then
-    broadcastToAll(player.steam_name .. " поднял уровень, держи пирожок.")
+    if(Player[GetNameColor()]) then
+      broadcastToAll(Player[GetNameColor()].steam_name .. " поднял уровень, держи пирожок.")
+    else
+      broadcastToAll(GetNameColor() .. " поднял уровень, держи пирожок.")
+    end
   end
   if currentLVL <= 0 then currentLVL = 1 end
-  maxEXP = currentLVL*50
+  if currentLVL >= 100 then currentLVL = 100 end
+  maxEXP = currentLVL*((currentLVL - 2)*75 + 200)
   if remainingEXP then currentEXP = remainingEXP end
   ChangeUI()
 end
@@ -127,6 +132,16 @@ function DenoteSth(args)
       return true
     end
   end
+end
+function GetNameColor()
+	local color = "Black"
+  for iColor,_ in pairs(colorPlayer) do
+    if(CheckColor(iColor)) then
+	    color = iColor
+      break
+    end
+  end
+  return color
 end
 function CheckColor(color)
   local colorObject = {

@@ -10,6 +10,19 @@
 end
 
 function onLoad(savedData)
+  colorPlayer = {
+    ["White"] = {r = 1, g = 1, b = 1},
+    ["Red"] = {r = 0.86, g = 0.1, b = 0.09},
+    ["Blue"] = {r = 0.12, g = 0.53, b = 1},
+    ["Green"] = {r = 0.19, g = 0.7, b = 0.17},
+    ["Yellow"] = {r = 0.9, g = 0.9, b = 0.17},
+    ["Orange"] = {r = 0.96, g = 0.39, b = 0.11},
+    ["Brown"] = {r = 0.44, g = 0.23, b = 0.09},
+    ["Purple"] = {r = 0.63, g = 0.12, b = 0.94},
+    ["Pink"] = {r = 0.96, g = 0.44, b = 0.81},
+    ["Teal"] = {r = 0.13, g = 0.69, b = 0.61},
+    ["Black"] = {r = 0.25, g = 0.25, b = 0.25}
+  }
   Wait.time(|| Confer(savedData), 0.2)
 end
 
@@ -36,7 +49,11 @@ function ChangeHP(value, player)
   currentHP = currentHP + self.UI.getAttribute("ratioHP", "text")*value
   if currentHP > maxHP then currentHP = maxHP end
   if currentHP <= 0 then
-    broadcastToAll("Димооон " .. args.player.steam_name .. " почти откинулся")
+    if(Player[GetNameColor()]) then
+      broadcastToAll("Димооон " .. Player[GetNameColor()].steam_name .. " почти откинулся")
+    else
+      broadcastToAll("Димооон " .. GetNameColor() .. " почти откинулся")
+    end
   end
   ChangeUI()
 end
@@ -149,6 +166,34 @@ function MaxValue(player, _, id)
   elseif id == "GmaxAP" then
     ChangeAP(maxHP, player.color)
   end
+end
+
+function GetNameColor()
+	local color = "Black"
+  for iColor,_ in pairs(colorPlayer) do
+    if(CheckColor(iColor)) then
+	    color = iColor
+      break
+    end
+  end
+  return color
+end
+function CheckColor(color)
+  local colorObject = {
+    ["R"] = Round(self.getColorTint()[1], 2),
+    ["G"] = Round(self.getColorTint()[2], 2),
+    ["B"] = Round(self.getColorTint()[3], 2)
+  }
+	if(colorObject.R == colorPlayer[color].r and
+     colorObject.G == colorPlayer[color].g and
+     colorObject.B == colorPlayer[color].b) then
+    return true
+  else
+    return false
+  end
+end
+function Round(num, idp)
+  return tonumber(string.format("%." .. (idp or 0) .. "f", num))
 end
 
 function RebuildAssets()

@@ -217,7 +217,7 @@ function ChangeDependentVariables(description, remove)
     
     if value then
       local args = {}
-      if condition and SS == "HP" and getObjectFromGUID(SearchDie("Life").call("CheckCurrentHP", {condition = condition})) then
+      if true --[[condition and SS == "HP" and getObjectFromGUID(SearchDie("Life").call("CheckCurrentHP", {condition = condition}))]] then
         if value > 0 then
           args = {
             value = not remove and value or -value,
