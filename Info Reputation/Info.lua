@@ -94,18 +94,28 @@ function SetBasicInformation()
 end
 -- Навыки
 function Minus(player, value, id)
-  id = id:lower()
-  local args = {
-    value = -1, id = id:sub(6), playerColor = player.color
-  }
-  ChangeSkills(args)
+  if id:find("karma") then
+    karma = karma - 1
+    ChangeUI()
+  else
+    id = id:lower()
+    local args = {
+      value = -1, id = id:sub(6), playerColor = player.color
+    }
+    ChangeSkills(args)
+  end
 end
 function Plus(player, value, id)
-  id = id:lower()
-  local args = {
-    value = 1, id = id:sub(5), playerColor = player.color
-  }
-  ChangeSkills(args)
+  if id:find("karma") then
+    karma = karma + 1
+    ChangeUI()
+  else
+    id = id:lower()
+    local args = {
+      value = 1, id = id:sub(5), playerColor = player.color
+    }
+    ChangeSkills(args)
+  end
 end
 function ChangeSkills(args)
   if not CheckPlayer(args.playerColor) then return end
@@ -169,19 +179,19 @@ function ChangeUI(args)
       self.UI.setAttribute("start" .. i, "text", startValue[i])
       currentSkillPoint = currentSkillPoint + startValue[i]
     end
-    self.UI.setAttribute("rateDevelopment", "text", majorValue[5]*2 + 5)
+    self.UI.setAttribute("rateDevelopment", "text", startValue[5]*2 + 5)
     self.UI.setAttribute("currentSkillPoint", "text", maxSkillPoint - currentSkillPoint)
     self.UI.setAttribute("maxSkillPoint", "text", maxSkillPoint)
     self.UI.setAttribute("karma", "text", karma)
     if karma < -249 then
-      if(Player[GetNameColor()]) then
+      if Player[GetNameColor()].steam_name then
         broadcastToAll(Player[GetNameColor()].steam_name .. " Пидор! Презирате его")
       else
         broadcastToAll(GetNameColor() .. " Пидор! Презирате его")
       end
       self.UI.setAttribute("karma", "textColor", "#ff8773")
     elseif karma > 249 then
-      if(Player[GetNameColor()]) then
+      if Player[GetNameColor()].steam_name then
         broadcastToAll(Player[GetNameColor()].steam_name .. " Молодец! Просто молодец")
       else
         broadcastToAll(GetNameColor() .. " Молодец! Просто молодец")

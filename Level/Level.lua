@@ -47,7 +47,7 @@ function ChangeLVL(value, remainingEXP, playerColor)
   local locCurLVL = currentLVL
   currentLVL = currentLVL + value
   if currentLVL > locCurLVL then
-    if(Player[GetNameColor()]) then
+    if Player[GetNameColor()].steam_name then
       broadcastToAll(Player[GetNameColor()].steam_name .. " поднял уровень, держи пирожок.")
     else
       broadcastToAll(GetNameColor() .. " поднял уровень, держи пирожок.")
@@ -75,9 +75,11 @@ function ChangeEXP(value, playerColor)
     ChangeUI()
   else
     if currentEXP < 0 then
-      ChangeLVL(-1, (currentLVL - 1)*50 + currentEXP, playerColor)
+      ChangeLVL(-1, (currentLVL - 1)*((currentLVL - 3)*75 + 200) + currentEXP, playerColor)
     elseif currentEXP > 0 then
-      ChangeLVL(1, currentEXP - maxEXP, playerColor)
+      while currentEXP > maxEXP do
+        ChangeLVL(1, currentEXP - maxEXP, playerColor)
+      end
     end
   end
 end

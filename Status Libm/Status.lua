@@ -16,7 +16,7 @@ end
 function Confer(savedData)
   RebuildAssets()
   countLimb, countStatus = 8, 8
-  maxInfoStatus = {1000, 1000, 1000, 1000, 1000, 1000}
+  maxInfoStatus = {1000, 10, 10, 10, 10, 10}
   local loadedData = JSON.decode(savedData or "")
   majorValue = loadedData and loadedData.majorValue or {0, 0, 0, 0, 0, 0, 0, 0}
   baffValue = loadedData and loadedData.baffValue or {0, 0, 0, 0, 0, 0, 0, 0}

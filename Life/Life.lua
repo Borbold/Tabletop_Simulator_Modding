@@ -38,18 +38,18 @@ function Confer(savedData)
 end
 -- Здоровье
 function MinusHP(player)
-  ChangeHP(-1, player)
+  ChangeHP(-1, player.color)
 end
 function PlusHP(player)
-  ChangeHP(1, player)
+  ChangeHP(1, player.color)
 end
-function ChangeHP(value, player)
-  if not CheckPlayer(player.color) then return end
+function ChangeHP(value, playerColor)
+  if not CheckPlayer(playerColor) then return end
 
   currentHP = currentHP + self.UI.getAttribute("ratioHP", "text")*value
   if currentHP > maxHP then currentHP = maxHP end
   if currentHP <= 0 then
-    if(Player[GetNameColor()]) then
+    if Player[GetNameColor()].steam_name then
       broadcastToAll("Димооон " .. Player[GetNameColor()].steam_name .. " почти откинулся")
     else
       broadcastToAll("Димооон " .. GetNameColor() .. " почти откинулся")

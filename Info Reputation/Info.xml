@@ -337,10 +337,12 @@
 			
 			<Cell>
 				<Panel>
+					<Button id='karmaMinus' class='minusSkills' offsetXY='-80 0' color='#ffffff00' />
 					<InputField id='karma' text='40'
 						offsetXY='30 0' outline='#94877355' width='170' height='70'
 						characterValidation='Integer' textAlignment='MiddleCenter'
 						onEndEdit='ChangeKarma' />
+					<Button id='karmaPlus' class='plusSkills' offsetXY='140 0' color='#ffffff00' />
 				</Panel>
 			</Cell>
 		</Row>

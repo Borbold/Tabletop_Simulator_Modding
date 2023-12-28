@@ -18,7 +18,7 @@
 	<Text class='debaffValue' color='#ff8773' resizeTextMaxSize='40' text='1' offsetXY='160 0' width='50' />
 	<Text class='startValue' color='#94ff73' resizeTextMaxSize='40' text='1' offsetXY='240 0' width='50' />
 
-	<Text class='textInformation' text='10/10' alignment='MiddleRight' />
+	<Text class='textInformation' text='10/10' alignment='MiddleLeft' />
 	<InputField class='inputInformation' onEndEdit='InputStatusInformation'
 		textAlignment='MiddleRight' />
 
