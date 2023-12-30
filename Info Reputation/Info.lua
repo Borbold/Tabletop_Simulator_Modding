@@ -13,6 +13,19 @@
 end
 
 function onLoad(savedData)
+  writeGoodKarma, writeBadKarma = 0, 0
+  goodKarma = {
+    {value = 250, description = "Защитник\n+5 отношение"},
+    {value = 500, description = "Щит надежды\n+10 отношение, +2 КБ"},
+    {value = 750, description = "Страж пустошей\n+15 отношение, +4 КБ,\n+2 очка урона на попадание"},
+    {value = 1000, description = "Спаситель проклятых\n+20 отношение, +8 КБ,\n+3 очка урона на попадание"}
+  }
+  badKarma = {
+    {value = 250, description = "Предатель\n-5 отношение, +4 ОЗ", HP = 4},
+    {value = 500, description = "Меч отчаяния\n-10 отношение, +8 ОЗ", HP = 8},
+    {value = 750, description = "Бич пустошей\n-15 отношение, +14 ОЗ,\n+1 очка урона на попадание", HP = 14},
+    {value = 1000, description = "Сатанинское отродье\n-20 отношение, +22 ОЗ,\n+2 очка урона на попадание", HP = 22}
+  }
   colorPlayer = {
     ["White"] = {r = 1, g = 1, b = 1},
     ["Red"] = {r = 0.86, g = 0.1, b = 0.09},
@@ -184,27 +197,58 @@ function ChangeUI(args)
     self.UI.setAttribute("maxSkillPoint", "text", maxSkillPoint)
     self.UI.setAttribute("karma", "text", karma)
     if karma < -249 then
-      if Player[GetNameColor()].steam_name then
-        broadcastToAll(Player[GetNameColor()].steam_name .. " Пидор! Презирате его")
-      else
-        broadcastToAll(GetNameColor() .. " Пидор! Презирате его")
+      if writeBadKarma == 0 then
+        if Player[GetNameColor()].steam_name then
+          broadcastToAll(Player[GetNameColor()].steam_name .. " Пидор! Презирате его")
+        else
+          broadcastToAll(GetNameColor() .. " Пидор! Презирате его")
+        end
       end
       self.UI.setAttribute("karma", "textColor", "#ff8773")
+      self.UI.setAttribute("karma", "tooltip", GetToolTipKarma(0))
     elseif karma > 249 then
-      if Player[GetNameColor()].steam_name then
-        broadcastToAll(Player[GetNameColor()].steam_name .. " Молодец! Просто молодец")
-      else
-        broadcastToAll(GetNameColor() .. " Молодец! Просто молодец")
+      if writeGoodKarma == 0 then
+        if Player[GetNameColor()].steam_name then
+          broadcastToAll(Player[GetNameColor()].steam_name .. " Молодец! Просто молодец")
+        else
+          broadcastToAll(GetNameColor() .. " Молодец! Просто молодец")
+        end
       end
       self.UI.setAttribute("karma", "textColor", "#9487ff")
+      self.UI.setAttribute("karma", "tooltip", GetToolTipKarma(1))
     else
       self.UI.setAttribute("karma", "textColor", "#948773")
+      self.UI.setAttribute("karma", "tooltip", "Бонусов/Штрафов нет")
     end
     if not args.isLoad then
       ChangeDependentVariables()
     end
   end
   UpdateSave()
+end
+function GetToolTipKarma(good)
+  local argsKarma = (good == 1 and goodKarma) or badKarma
+  local toolTipKarma = argsKarma[1].description
+  for i,v in ipairs(argsKarma) do
+    if good == 1 then writeGoodKarma = i writeBadKarma = 0 else writeBadKarma = i writeGoodKarma = 0 end
+    if i == #argsKarma then toolTipKarma = argsKarma[#argsKarma].description break end
+    if math.abs(karma) >= v.value and (i < #argsKarma and math.abs(karma) < argsKarma[i + 1].value) then
+      toolTipKarma = v.description
+      break
+    end
+  end
+  Wait.time(function()
+    if good == 0 then
+      local enum = {
+        Сила = 5,
+        Выносливость = 5
+      }
+      local karma = {HP = badKarma[writeBadKarma].HP}
+      local args = {currentLVL = currentLVL, enum = enum, karma = karma}
+      getObjectFromGUID(lifeGUID).call("ChangeMaxHP", args)
+    end
+  end, 0.5)
+  return toolTipKarma
 end
 
 function ChangeMaxSkillPoint(player, input)

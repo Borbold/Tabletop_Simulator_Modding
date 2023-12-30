@@ -83,7 +83,7 @@ function ChangeAP(value, playerColor)
 end
 
 function ChangeMaxHP(args)
-  startMaxHP = 15 + args.enum.Сила + args.enum.Выносливость*2
+  startMaxHP = 15 + args.enum.Сила + args.enum.Выносливость*2 + (args.karma != nil and args.karma.HP != nil and args.karma.HP or 0)
   if args.currentLVL == 1 then
     maxHP = startMaxHP
   else
