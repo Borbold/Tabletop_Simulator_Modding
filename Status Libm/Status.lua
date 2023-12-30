@@ -77,7 +77,7 @@ end
 function ChangeSkills(args)
   if not CheckPlayer(args.playerColor) then return end
 
-  local id = args.id or ""
+  local id, karmaBonus = args.id or "", 0
   if id:sub(0, #id - 1) == "baff" then
     id = tonumber(id:sub(5))
     baffValue[id] = baffValue[id] + args.value
@@ -87,10 +87,13 @@ function ChangeSkills(args)
   elseif id:sub(0, #id - 1) == "start" then
     id = tonumber(id:sub(6))
     startValue[id] = startValue[id] + args.value
+  elseif id:sub(0, #id - 1) == "karma" then
+    id = tonumber(id:sub(6))
+    karmaBonus = args.value
   end
 
   for i = 1, countStatus do
-    majorValue[i] = baffValue[i] - debaffValue[i] + startValue[i]
+    majorValue[i] = baffValue[i] - debaffValue[i] + startValue[i] + (id == i and karmaBonus or 0)
   end
 
   if args.value then

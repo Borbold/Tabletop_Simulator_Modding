@@ -15,10 +15,10 @@ end
 function onLoad(savedData)
   writeGoodKarma, writeBadKarma = 0, 0
   goodKarma = {
-    {value = 250, description = "Защитник\n+5 отношение"},
-    {value = 500, description = "Щит надежды\n+10 отношение, +2 КБ"},
-    {value = 750, description = "Страж пустошей\n+15 отношение, +4 КБ,\n+2 очка урона на попадание"},
-    {value = 1000, description = "Спаситель проклятых\n+20 отношение, +8 КБ,\n+3 очка урона на попадание"}
+    {value = 250, description = "Защитник\n+5 отношение", AC = 0},
+    {value = 500, description = "Щит надежды\n+10 отношение, +2 КБ", AC = 2},
+    {value = 750, description = "Страж пустошей\n+15 отношение, +4 КБ,\n+2 очка урона на попадание", AC = 4},
+    {value = 1000, description = "Спаситель проклятых\n+20 отношение, +8 КБ,\n+3 очка урона на попадание", AC = 8}
   }
   badKarma = {
     {value = 250, description = "Предатель\n-5 отношение, +4 ОЗ", HP = 4},
@@ -246,6 +246,11 @@ function GetToolTipKarma(good)
       local karma = {HP = badKarma[writeBadKarma].HP}
       local args = {currentLVL = currentLVL, enum = enum, karma = karma}
       getObjectFromGUID(lifeGUID).call("ChangeMaxHP", args)
+    else
+      local args = {
+        value = goodKarma[writeGoodKarma].AC, id = "karma2", playerColor = GetNameColor()
+      }
+      getObjectFromGUID(statusGUID).call("ChangeSkills", args)
     end
   end, 0.5)
   return toolTipKarma
