@@ -13,6 +13,24 @@
 end
 
 function onLoad(savedData)
+  raceSPACIAL = {
+    Человек = {
+      max = {10, 10, 10, 10, 10, 10, 10},
+      min = {1, 1, 1, 1, 1, 1, 1}
+    },
+    Мутант = {
+      max = {13, 10, 12, 8, 8, 8, 10},
+      min = {5, 1, 4, 1, 1, 1, 1}
+    },
+    Гуль = {
+      max = {6, 14, 10, 9, 13, 8, 13},
+      min = {1, 4, 1, 1, 2, 1, 5}
+    },
+    Pобот = {
+      max = {12, 12, 12, 1, 12, 12, 5},
+      min = {7, 7, 7, 1, 1, 1, 5}
+    }
+  }
   writeGoodKarma, writeBadKarma = 0, 0
   goodKarma = {
     {value = 250, description = "Защитник\n+5 отношение", AC = 0},
@@ -46,10 +64,10 @@ function Confer(savedData)
   RebuildAssets()
   countSpesial, countFraction = 7, 26
   local loadedData = JSON.decode(savedData or "")
-  majorValue = loadedData and loadedData.majorValue or {5, 5, 5, 5, 5, 5, 5}
+  majorValue = loadedData and loadedData.majorValue or {0, 0, 0, 0, 0, 0, 0}
   baffValue = loadedData and loadedData.baffValue or {0, 0, 0, 0, 0, 0, 0}
   debaffValue = loadedData and loadedData.debaffValue or {0, 0, 0, 0, 0, 0, 0}
-  startValue = loadedData and loadedData.startValue or {5, 5, 5, 5, 5, 5, 5}
+  startValue = loadedData and loadedData.startValue or {0, 0, 0, 0, 0, 0, 0}
   reputationValue = loadedData and loadedData.reputationValue or FillingTable(0)
   maxSkillPoint = loadedData and loadedData.maxSkillPoint or 40
   karma = loadedData and loadedData.karma or 0
@@ -93,6 +111,17 @@ function InputBasicInformation(player, input, id)
   newDescription = newDescription .. (id:find("7") and input or currentDescription[7] or "...") .. "\n"
   self.setDescription(newDescription)
   SetBasicInformation()
+
+  Wait.time(function()
+    if id:find("4") then
+      for i = 1, 7 do
+        local args = {
+          value = 0, id = "start" .. i, playerColor = "Black"
+        }
+        ChangeSkills(args)
+      end
+    end
+  end, 0.5)
 end
 function SetBasicInformation()
   local currentDescription = {}
@@ -105,7 +134,7 @@ function SetBasicInformation()
     end
   end
 end
--- Навыки
+-- Характеристики
 function Minus(player, value, id)
   if id:find("karma") then
     karma = karma - 1
@@ -132,6 +161,7 @@ function Plus(player, value, id)
 end
 function ChangeSkills(args)
   if not CheckPlayer(args.playerColor) then return end
+  local nameRace = self.UI.getAttribute("info4", "text")
   
   local id = args.id
   if id:sub(0, #id - 1) == "baff" then
@@ -149,11 +179,11 @@ function ChangeSkills(args)
     end
     if args.value == 1 and sumStartV + args.value > maxSkillPoint then return end
 
-    startValue[id] = startValue[id] + args.value
+    startValue[id] = (raceSPACIAL[nameRace].min[id] + startValue[id] + args.value) <= raceSPACIAL[nameRace].max[id] and (startValue[id] + args.value) or startValue[id]
   end
 
   for i = 1, countSpesial do
-    majorValue[i] = baffValue[i] - debaffValue[i] + startValue[i]
+    majorValue[i] = baffValue[i] - debaffValue[i] + startValue[i] + raceSPACIAL[nameRace].min[i]
   end
   ChangeUI()
 end
@@ -241,6 +271,7 @@ function GetToolTipKarma(good)
 end
 
 function ChangeMaxSkillPoint(player, input)
+  if player.color != "Black" then self.UI.setAttribute("maxSkillPoint", "text", maxSkillPoint) return end
   if input == "" then return end
   maxSkillPoint = tonumber(input)
   ChangeUI()

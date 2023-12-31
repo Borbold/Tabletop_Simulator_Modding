@@ -25,11 +25,15 @@
 		tooltipWidth='600' tooltipTextColor='#948773' />
 
 	<InputField class='inputInformation' onEndEdit='InputBasicInformation' />
+	<Dropdown class='dropdownInformation' onValueChanged='InputBasicInformation' />
 
 	<Cell dontUseTableCellBackground='true' />
 	<Button resizeTextForBestFit='true' resizeTextMaxSize='50'/>
 	<InputField resizeTextForBestFit='true' resizeTextMaxSize='50'
 		color='#9487a90a'
+		textColor='#948773' textOutline='#94877355'/>
+	<Dropdown resizeTextForBestFit='true' resizeTextMaxSize='50'
+		color='#9487a90a' arrowColor='#948773' itemBackgroundColors='9487a9'
 		textColor='#948773' textOutline='#94877355'/>
 	<Text resizeTextForBestFit='true' resizeTextMaxSize='50'
 		color='#948773'/>
@@ -157,7 +161,12 @@
 			<Cell class='plugFirst' />
 			
 			<Cell class='plugForInputField'>
-				<InputField id='info4' class='inputInformation' />
+				<Dropdown id='info4' class='dropdownInformation'>
+					<Option selected='true' id='raceOption1'>Человек</Option>
+					<Option selected='false' id='raceOption2'>Мутант</Option>
+					<Option selected='false' id='raceOption3'>Гуль</Option>
+					<Option selected='false' id='raceOption4'>Pобот</Option>
+				</Dropdown>
 			</Cell>
 			
 			<Cell class='plugSecond'>
