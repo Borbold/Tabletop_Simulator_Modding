@@ -17,14 +17,14 @@ function onLoad(savedData)
   goodKarma = {
     {value = 250, description = "Защитник\n+5 отношение", AC = 0},
     {value = 500, description = "Щит надежды\n+10 отношение, +2 КБ", AC = 2},
-    {value = 750, description = "Страж пустошей\n+15 отношение, +4 КБ,\n+2 очка урона на попадание", AC = 4},
-    {value = 1000, description = "Спаситель проклятых\n+20 отношение, +8 КБ,\n+3 очка урона на попадание", AC = 8}
+    {value = 750, description = "Страж пустошей\n+15 отношение, +4 КБ, +2 очка урона на попадание", AC = 4},
+    {value = 1000, description = "Спаситель проклятых\n+20 отношение, +8 КБ, +3 очка урона на попадание", AC = 8}
   }
   badKarma = {
     {value = 250, description = "Предатель\n-5 отношение, +4 ОЗ", HP = 4},
     {value = 500, description = "Меч отчаяния\n-10 отношение, +8 ОЗ", HP = 8},
-    {value = 750, description = "Бич пустошей\n-15 отношение, +14 ОЗ,\n+1 очка урона на попадание", HP = 14},
-    {value = 1000, description = "Сатанинское отродье\n-20 отношение, +22 ОЗ,\n+2 очка урона на попадание", HP = 22}
+    {value = 750, description = "Бич пустошей\n-15 отношение, +14 ОЗ, +1 очка урона на попадание", HP = 14},
+    {value = 1000, description = "Сатанинское отродье\n-20 отношение, +22 ОЗ, +2 очка урона на попадание", HP = 22}
   }
   colorPlayer = {
     ["White"] = {r = 1, g = 1, b = 1},
@@ -237,22 +237,6 @@ function GetToolTipKarma(good)
       break
     end
   end
-  Wait.time(function()
-    if good == 0 then
-      local enum = {
-        Сила = 5,
-        Выносливость = 5
-      }
-      local karma = {HP = badKarma[writeBadKarma].HP}
-      local args = {currentLVL = currentLVL, enum = enum, karma = karma}
-      getObjectFromGUID(lifeGUID).call("ChangeMaxHP", args)
-    else
-      local args = {
-        value = goodKarma[writeGoodKarma].AC, id = "karma2", playerColor = GetNameColor()
-      }
-      getObjectFromGUID(statusGUID).call("ChangeSkills", args)
-    end
-  end, 0.5)
   return toolTipKarma
 end
 
@@ -281,7 +265,14 @@ function ChangeDependentVariables(params)
     Ловкость = majorValue[6],
     Удача = majorValue[7],
   }
-  local args = {enum = enum}
+  local argsKarma = {
+    HP = writeBadKarma != 0 and badKarma[writeBadKarma].HP or 0,
+    AC = writeGoodKarma != 0 and goodKarma[writeGoodKarma].AC or 0
+  }
+  local args = {enum = enum, karma = argsKarma,
+    id = writeGoodKarma != 0 and "karma2" or "", -- Parameter of a character's armor class
+    playerColor = "Black"
+  }
 
   statusGUID = statusGUID or SearchDie("Status")
   getObjectFromGUID(statusGUID).call("SetTableValue", args)

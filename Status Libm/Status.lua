@@ -3,7 +3,7 @@
     ["majorValue"] = majorValue, ["limbValue"] = limbValue,
     ["baffValue"] = baffValue, ["DTValue"] = DTValue,
     ["debaffValue"] = debaffValue,
-    ["startValue"] = startValue,
+    ["startValue"] = startValue
   }
   local savedData = JSON.encode(dataToSave)
   self.script_state = savedData
@@ -89,7 +89,7 @@ function ChangeSkills(args)
     startValue[id] = startValue[id] + args.value
   elseif id:sub(0, #id - 1) == "karma" then
     id = tonumber(id:sub(6))
-    karmaBonus = args.value
+    karmaBonus = args.karma.AC
   end
 
   for i = 1, countStatus do
@@ -181,12 +181,8 @@ function SetTableValue(args)
   startValue[7] = args.enum.Выносливость*5
   startValue[8] = args.enum.Удача
 
-  local args = {}
   for i = 1, countStatus do
     startValue[i] = math.floor(startValue[i])
-    args = {
-      playerColor = "Black"
-    }
     ChangeSkills(args)
   end
   ChangeUI()

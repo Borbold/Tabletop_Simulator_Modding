@@ -83,7 +83,7 @@ function ChangeAP(value, playerColor)
 end
 
 function ChangeMaxHP(args)
-  startMaxHP = 15 + args.enum.Сила + args.enum.Выносливость*2 + (args.karma != nil and args.karma.HP != nil and args.karma.HP or 0)
+  startMaxHP = 15 + args.enum.Сила + args.enum.Выносливость*2 + args.karma.HP
   if args.currentLVL == 1 then
     maxHP = startMaxHP
   else
@@ -136,7 +136,7 @@ function Reset(player)
     Выносливость = 5,
     Ловкость = 5
   }
-  ChangeMaxHP({currentLVL = 1, enum = enum}) ChangeMaxAP({enum = enum})
+  ChangeMaxHP({currentLVL = 1, enum = enum, karma = {HP = 0}}) ChangeMaxAP({enum = enum})
 end
 function ChangeUI()
   self.UI.setAttribute("currentHP", "text", currentHP .. "/" .. maxHP)
