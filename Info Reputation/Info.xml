@@ -33,8 +33,8 @@
 		color='#9487a90a'
 		textColor='#948773' textOutline='#94877355'/>
 	<Dropdown resizeTextForBestFit='true' resizeTextMaxSize='50'
-		color='#9487a90a' arrowColor='#948773' itemBackgroundColors='9487a9'
-		textColor='#948773' textOutline='#94877355'/>
+		color='#9487a90a' arrowColor='#948773' itemBackgroundColors='#000000' checkColor='#808080'
+		textColor='#948773' textOutline='#94877355' dropdownBackgroundColor='#000000'/>
 	<Text resizeTextForBestFit='true' resizeTextMaxSize='50'
 		color='#948773'/>
 </Defaults>
@@ -238,9 +238,24 @@
 		<!-- Строка: Профессия/Ловкость -->
 		<Row>
 			<Cell class='plugFirst' />
-			
+
 			<Cell class='plugForInputField'>
-				<InputField id='info6' class='inputInformation' />
+				<Dropdown id='info6' class='dropdownInformation'>
+					<Option selected='true' id='raceOption1'>...</Option>
+					<Option selected='false' id='raceOption2'>Акробат</Option>
+					<Option selected='false' id='raceOption3'>Ассасин</Option>
+					<Option selected='false' id='raceOption4'>Вор</Option>
+					<Option selected='false' id='raceOption4'>Жулик</Option>
+					<Option selected='false' id='raceOption4'>Инквизитор</Option>
+					<Option selected='false' id='raceOption4'>Стрелок</Option>
+					<Option selected='false' id='raceOption4'>Штурмовик</Option>
+					<Option selected='false' id='raceOption4'>Снайпер</Option>
+					<Option selected='false' id='raceOption4'>Разведчик</Option>
+					<Option selected='false' id='raceOption4'>Рыцарь</Option>
+					<Option selected='false' id='raceOption4'>Медик</Option>
+					<Option selected='false' id='raceOption4'>Диллер</Option>
+					<Option selected='false' id='raceOption4'>Шпион</Option>
+				</Dropdown>
 			</Cell>
 			
 			<Cell class='plugSecond'>
