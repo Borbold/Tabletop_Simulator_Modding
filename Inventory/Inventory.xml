@@ -1,19 +1,19 @@
 <Defaults>
-	<Button class='firstColumn' position='37 -5' tooltip='test' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
-	<Button class='secondColumn' position='41 -5' tooltip='test' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
-	<Button class='thirdColumn' position='31 -5' tooltip='test' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
-	<Button class='fourColumn' position='46 -5' tooltip='test' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
-	<Button class='fiveColumn' position='33 -13' tooltip='test' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
-	<Button class='sixColumn' position='22 -13' tooltip='test' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
-	<Button class='sevenColumn' position='9 -13' tooltip='test' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
-	<Button class='eightColumn' position='-4 -13' tooltip='test' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
-	<Button class='nineColumn' position='-18 -13' tooltip='test' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
-	<Button class='tenColumn' position='-33 -13' tooltip='test' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
+	<Button class='firstColumn' position='37 -5' tooltip='' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
+	<Button class='secondColumn' position='41 -5' tooltip='' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
+	<Button class='thirdColumn' position='31 -5' tooltip='' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
+	<Button class='fourColumn' position='46 -5' tooltip='' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
+	<Button class='fiveColumn' position='33 -13' tooltip='' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
+	<Button class='sixColumn' position='22 -13' tooltip='' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
+	<Button class='sevenColumn' position='9 -13' tooltip='' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
+	<Button class='eightColumn' position='-4 -13' tooltip='' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
+	<Button class='nineColumn' position='-18 -13' tooltip='' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
+	<Button class='tenColumn' position='-33 -13' tooltip='' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
 
 	<Cell dontUseTableCellBackground='true' />
 	<Button resizeTextForBestFit='true' resizeTextMaxSize='50'
 		color='#94877355' width='100' height='100'
-		tooltipTextColor='#948773' tooltipPosition='Above' tooltipFontSize='30' />
+		tooltipTextColor='#948773' tooltipPosition='Above' tooltipFontSize='30' tooltipBackgroundColor='#000000' tooltipOffset='100' />
 </Defaults>
 
 <Panel position='0 800 -21' height='1600' width='1200'>

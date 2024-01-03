@@ -92,7 +92,7 @@ end
 
 function RebuildAssets()
   local backG = 'https://cdn.discordapp.com/attachments/800324103848198174/838062391127441428/brosok.png'
-  local dice = 'https://cdn.discordapp.com/attachments/800324103848198174/1188701113105522708/CartonDice.jpg'
+  local dice = 'https://cdn.discordapp.com/attachments/800324103848198174/1192013437044281424/Dices.png'
   local assets = {
     {name = 'uiBackGround', url = backG},
     {name = 'uiDice', url = dice},

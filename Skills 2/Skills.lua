@@ -17,6 +17,7 @@ function Confer(savedData)
   RebuildAssets()
   countSkills = 19
   local loadedData = JSON.decode(savedData or "")
+  outfitBonus = FillingTable(0)
   majorValue = loadedData and loadedData.majorValue or FillingTable(0)
   baffValue = loadedData and loadedData.baffValue or FillingTable(0)
   debaffValue = loadedData and loadedData.debaffValue or FillingTable(0)
@@ -64,10 +65,13 @@ function ChangeSkills(args)
   elseif id:find("start") then
     id = tonumber(id:sub(6))
     startValue[id] = startValue[id] + args.value
+  elseif id:sub(0, #id - 1) == "outfit" then
+    id = tonumber(id:sub(7))
+    outfitBonus[id] = tonumber(args.value)
   end
 
   for i = 1, countSkills do
-    majorValue[i] = baffValue[i] - debaffValue[i] + startValue[i] + startValue[i]*favoritSkills[i]
+    majorValue[i] = baffValue[i] - debaffValue[i] + startValue[i] + startValue[i]*favoritSkills[i] + outfitBonus[i]
   end
 
   if args.value then

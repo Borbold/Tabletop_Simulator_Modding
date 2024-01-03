@@ -22,7 +22,7 @@
 	<Text class='startValue' color='#94ff73' resizeTextMaxSize='40' text='1' offsetXY='240 0' width='50' />
 	
 	<Text class='completedSuperstructureTooltip' tooltipFontSize='35' tooltipPosition='Above'
-		tooltipWidth='600' tooltipTextColor='#948773' />
+		tooltipWidth='600' tooltipTextColor='#948773' tooltipBackgroundColor='#000000' tooltipOffset='100' />
 
 	<InputField class='inputInformation' onEndEdit='InputBasicInformation' />
 	<Dropdown class='dropdownInformation' onValueChanged='InputBasicInformation' />
@@ -352,7 +352,7 @@
 						characterValidation='Integer' textAlignment='MiddleCenter'
 						onEndEdit='ChangeKarma'
 						tooltipFontSize='35' tooltipPosition='Above'
-						tooltipWidth='380' tooltipTextColor='#90dd90' />
+						tooltipWidth='380' tooltipTextColor='#90dd90' tooltipBackgroundColor='#000000' />
 					<Button id='karmaPlus' class='plusSkills' offsetXY='140 0' color='#ffffff00' />
 				</Panel>
 			</Cell>

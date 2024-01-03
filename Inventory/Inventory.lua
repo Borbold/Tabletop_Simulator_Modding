@@ -4,6 +4,21 @@
     ["infoGUID"] = infoGUID, ["statusGUID"] = statusGUID, ["skillsGUID"] = skillsGUID,
     ["saveXML"] = self.UI.getXmlTable(), ["saveCustomAsset"] = self.UI.getCustomAssets(),
   }
+  --[[Wait.time( function() -- Пример одетой одежды
+    for i,v in pairs(self.UI.getXmlTable()) do
+      if i == 2 then
+        for i1,v1 in pairs(v["children"]) do
+          for i2,v2 in pairs(v1["children"]) do
+            if i2 == 5 then
+              for a,t in pairs(v2["children"][1]["children"][1]["children"][1]["attributes"]) do
+                print(a, ": ", t)
+              end
+            end
+          end
+        end
+      end
+    end
+  end, 0.25)]]
   local savedData = JSON.encode(dataToSave)
   self.script_state = savedData
 end
@@ -37,14 +52,15 @@ end
 
 function Confer(savedData)
   local loadedData = JSON.decode(savedData or "")
-  RebuildAssets(--[[loadedData.saveCustomAsset or]] {})
+  RebuildAssets(loadedData and loadedData.saveCustomAsset or {})
   tableItems = loadedData and loadedData.tableItems or {}
   infoGUID = loadedData and loadedData.infoGUID
   statusGUID = loadedData and loadedData.statusGUID
   skillsGUID = loadedData and loadedData.skillsGUID
   if loadedData and loadedData.saveXML then
-    --Wait.time(|| self.UI.setXmlTable(loadedData.saveXML), 1)
+    Wait.time(|| self.UI.setXmlTable(loadedData.saveXML), 1)
   end
+  FindDependentVariables()
 end
 
 function onCollisionEnter(info)
@@ -75,7 +91,7 @@ function onCollisionEnter(info)
     ChangeDependentVariables(newDescription:sub(findText))
   end
   
-  Wait.time(|| UpdateSave(), 0.2)
+  Wait.time(|| UpdateSave(), 0.3)
 end
 function RemoveItem(pl, t_click, id)
   local selfPosition = self.getPosition()
@@ -87,7 +103,7 @@ function RemoveItem(pl, t_click, id)
     sound = false, snap_to_grid = true,
   }
 
-  if id then
+  if id and #self.UI.getAttribute(id, "tooltip") > 0 then
     local newObject = spawnObject(spawnParametrs)
     newObject.setName(self.UI.getAttribute(id, "ObjName"))
     newObject.setDescription(self.UI.getAttribute(id, "ObjDesc"))
@@ -112,9 +128,9 @@ function RemoveItem(pl, t_click, id)
       self.UI.setAttribute(id, "iconColor", "#ffffff00")
       self.UI.setAttribute(id, "tooltip", "")
     end, 0.01)
-    Wait.time(|| UpdateSave(), 0.2)
+    Wait.time(|| UpdateSave(), 0.3)
   else
-    broadcastToAll("Чето пошло не так")
+    broadcastToAll("Слот и так пуст")
   end
 end
 function ChangeDependentVariables(description, remove)
@@ -174,19 +190,11 @@ function ChangeDependentVariables(description, remove)
     if value then
       local args = {}
       if true --[[condition and SS == "HP" and getObjectFromGUID(SearchDie("Life").call("CheckCurrentHP", {condition = condition}))]] then
-        if value > 0 then
-          args = {
-            value = not remove and value or -value,
-            id = "baff" .. (enumSpecial[skills] or enumStatus[skills] or enumSkills[skills] or enumLimb[skills]),
-            playerColor = "Black"
-          }
-        else
-          args = {
-            value = not remove and math.abs(value) or -math.abs(value),
-            id = "debaff" .. (enumSpecial[skills] or enumStatus[skills] or enumSkills[skills] or enumLimb[skills]),
-            playerColor = "Black"
-          }
-        end
+        args = {
+          value = not remove and value or 0,
+          id = "outfit" .. (enumSpecial[skills] or enumStatus[skills] or enumSkills[skills] or enumLimb[skills]),
+          playerColor = "Black"
+        }
         if enumLimb[skills] then
           getObjectFromGUID(locGUID).call("ChangeSkillsDT", args)
         else
@@ -195,6 +203,15 @@ function ChangeDependentVariables(description, remove)
       else
         print("Условие не прошло")
       end
+    end
+  end
+end
+function FindDependentVariables()
+  local findText = ""
+  for i = 1, #tableItems do
+    findText = tableItems[i].description:find("Эффекты")
+    if findText then
+      ChangeDependentVariables(tableItems[i].description:sub(findText))
     end
   end
 end

@@ -64,6 +64,7 @@ function Confer(savedData)
   RebuildAssets()
   countSpesial, countFraction = 7, 26
   local loadedData = JSON.decode(savedData or "")
+  outfitBonus = {0, 0, 0, 0, 0, 0, 0}
   majorValue = loadedData and loadedData.majorValue or {0, 0, 0, 0, 0, 0, 0}
   baffValue = loadedData and loadedData.baffValue or {0, 0, 0, 0, 0, 0, 0}
   debaffValue = loadedData and loadedData.debaffValue or {0, 0, 0, 0, 0, 0, 0}
@@ -180,10 +181,13 @@ function ChangeSkills(args)
     if args.value == 1 and sumStartV + args.value > maxSkillPoint then return end
 
     startValue[id] = (raceSPACIAL[nameRace].min[id] + startValue[id] + args.value) <= raceSPACIAL[nameRace].max[id] and (startValue[id] + args.value) or startValue[id]
+  elseif id:sub(0, #id - 1) == "outfit" then
+    id = tonumber(id:sub(7))
+    outfitBonus[id] = tonumber(args.value)
   end
 
   for i = 1, countSpesial do
-    majorValue[i] = baffValue[i] - debaffValue[i] + startValue[i] + raceSPACIAL[nameRace].min[i]
+    majorValue[i] = baffValue[i] - debaffValue[i] + startValue[i] + raceSPACIAL[nameRace].min[i] + outfitBonus[i]
   end
   ChangeUI()
 end
