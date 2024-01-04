@@ -127,7 +127,7 @@ function RemoveItem(pl, t_click, id)
       self.UI.setAttribute(id, "icon", "")
       self.UI.setAttribute(id, "iconColor", "#ffffff00")
       self.UI.setAttribute(id, "tooltip", "")
-    end, 0.01)
+    end, 0.2)
     Wait.time(|| UpdateSave(), 0.3)
   else
     broadcastToAll("Слот и так пуст")

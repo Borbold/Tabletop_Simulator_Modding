@@ -390,9 +390,13 @@ end
 function RebuildAssets()
   local backG = 'https://cdn.discordapp.com/attachments/800324103848198174/838061145720881162/info1.png'
   local backGR = 'https://cdn.discordapp.com/attachments/800324103848198174/839809839848751114/reput3.png'
+  local uiPlus = 'https://cdn.discordapp.com/attachments/800324103848198174/836251236700258344/plus.png'
+  local uiMinus = 'https://cdn.discordapp.com/attachments/800324103848198174/836251227884486676/minus.png'
   local assets = {
     {name = 'uiBackGr', url = backG},
     {name = 'uiBackGR', url = backGR},
+    {name = 'uiPlus', url = uiPlus},
+    {name = 'uiMinus', url = uiMinus},
   }
   self.UI.setCustomAssets(assets)
 end
