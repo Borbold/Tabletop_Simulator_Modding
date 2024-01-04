@@ -138,7 +138,7 @@ end
 -- Характеристики
 function Minus(player, value, id)
   if id:find("karma") then
-    karma = karma - 1
+    karma = karma - math.abs(self.UI.getAttribute("inKarmaMinus", "text"))
     ChangeUI()
   else
     id = id:lower()
@@ -150,7 +150,7 @@ function Minus(player, value, id)
 end
 function Plus(player, value, id)
   if id:find("karma") then
-    karma = karma + 1
+    karma = karma + math.abs(self.UI.getAttribute("inKarmaPlus", "text"))
     ChangeUI()
   else
     id = id:lower()
@@ -332,6 +332,10 @@ function SearchDie(name)
       return obj.getGUID()
     end
   end
+end
+
+function RewriteText(_, input, id)
+  self.UI.setAttribute(id, "text", input)
 end
 
 function Reset(player)

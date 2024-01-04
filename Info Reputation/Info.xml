@@ -361,14 +361,16 @@
 			
 			<Cell>
 				<Panel>
+					<InputField id='inKarmaMinus' text='1' offsetXY='-140 0' width='50' textAlignment='MiddleCenter' characterValidation='Integer' onEndEdit='RewriteText' textColor='#ff8773' />
 					<Button id='karmaMinus' class='minusSkills' offsetXY='-80 0' color='#ffffff00' />
-					<InputField id='karma' text='40'
+					<InputField id='karma' text='0'
 						offsetXY='30 0' outline='#94877355' width='170' height='70'
 						characterValidation='Integer' textAlignment='MiddleCenter'
 						onEndEdit='ChangeKarma'
 						tooltipFontSize='35' tooltipPosition='Above'
 						tooltipWidth='380' tooltipTextColor='#90dd90' tooltipBackgroundColor='#000000' />
 					<Button id='karmaPlus' class='plusSkills' offsetXY='140 0' color='#ffffff00' />
+					<InputField id='inKarmaPlus' text='1' offsetXY='200 0' width='50' textAlignment='MiddleCenter' characterValidation='Integer' onEndEdit='RewriteText' textColor='#9487ff' />
 				</Panel>
 			</Cell>
 		</Row>
