@@ -23,52 +23,52 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button id='фракция_0' class='firstColumn' />
+					<Button id='Other' class='firstColumn' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button id='очки_1' class='secondColumn' />
+					<Button id='Goggles' class='secondColumn' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button id='маска_2' class='thirdColumn' />
+					<Button id='Mask' class='thirdColumn' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button id='спец_предмет_3' class='fourColumn' />
+					<Button id='SpecialItem' class='fourColumn' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='fiveColumn' />
+					<Button id='Item1' class='fiveColumn' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sixColumn' />
+					<Button id='Item2' class='sixColumn' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sevenColumn' />
+					<Button id='Item3' class='sevenColumn' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='eightColumn' />
+					<Button id='Item4' class='eightColumn' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='nineColumn' />
+					<Button id='Item5' class='nineColumn' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='tenColumn' />
+					<Button id='Item6' class='tenColumn' />
 				</Panel>
 			</Cell>
 		</Row>
@@ -76,13 +76,13 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button class='firstColumn' offsetXY='0 -11' />
+					<Button id='Helmet' class='firstColumn' offsetXY='0 -11' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2' />
 			<Cell>
 				<Panel>
-					<Button class='fourColumn' offsetXY='0 -10' />
+					<Button id='Unload' class='fourColumn' offsetXY='0 -10' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2'>
@@ -105,33 +105,33 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button class='firstColumn' offsetXY='0 -18' />
+					<Button id='BodyArmor' class='firstColumn' offsetXY='0 -18' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2' />
 			<Cell>
 				<Panel>
-					<Button class='fourColumn' offsetXY='0 -18' />
+					<Button id='Pouch' class='fourColumn' offsetXY='0 -18' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='fiveColumn' offsetXY='0 -16' />
+					<Button id='Item7' class='fiveColumn' offsetXY='0 -16' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sixColumn' offsetXY='0 -16' />
+					<Button id='Item8' class='sixColumn' offsetXY='0 -16' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sevenColumn' offsetXY='0 -16' />
+					<Button id='Item9' class='sevenColumn' offsetXY='0 -16' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='eightColumn' offsetXY='0 -16' />
+					<Button id='Item10' class='eightColumn' offsetXY='0 -16' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2'>
@@ -144,33 +144,33 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button id='Clothes' class='firstColumn' offsetXY='0 -27' />
+					<Button id='Suit' class='firstColumn' offsetXY='0 -27' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2' />
 			<Cell>
 				<Panel>
-					<Button class='fourColumn' offsetXY='0 -27' />
+					<Button id='Backpack' class='fourColumn' offsetXY='0 -27' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='fiveColumn' offsetXY='0 -24' />
+					<Button id='Item11' class='fiveColumn' offsetXY='0 -24' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sixColumn' offsetXY='0 -24' />
+					<Button id='Item12' class='sixColumn' offsetXY='0 -24' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sevenColumn' offsetXY='0 -24' />
+					<Button id='Item13' class='sevenColumn' offsetXY='0 -24' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='eightColumn' offsetXY='0 -24' />
+					<Button id='Item14' class='eightColumn' offsetXY='0 -24' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2'>
@@ -203,22 +203,22 @@
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='fiveColumn' offsetXY='0 -25' />
+					<Button id='Item15' class='fiveColumn' offsetXY='0 -25' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sixColumn' offsetXY='0 -25' />
+					<Button id='Item16' class='sixColumn' offsetXY='0 -25' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sevenColumn' offsetXY='0 -25' />
+					<Button id='Item17' class='sevenColumn' offsetXY='0 -25' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='eightColumn' offsetXY='0 -25' />
+					<Button id='Item18' class='eightColumn' offsetXY='0 -25' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2'>
@@ -232,22 +232,22 @@
 			<Cell columnSpan='4' />
 			<Cell>
 				<Panel>
-					<Button class='fiveColumn' offsetXY='0 -25' />
+					<Button id='Item19' class='fiveColumn' offsetXY='0 -25' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sixColumn' offsetXY='0 -25' />
+					<Button id='Item20' class='sixColumn' offsetXY='0 -25' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='sevenColumn' offsetXY='0 -25' />
+					<Button id='Item21' class='sevenColumn' offsetXY='0 -25' />
 				</Panel>
 			</Cell>
 			<Cell>
 				<Panel>
-					<Button class='eightColumn' offsetXY='0 -25' />
+					<Button id='Item22' class='eightColumn' offsetXY='0 -25' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='2'>
@@ -260,7 +260,7 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button offsetXY='217 7' height='170' width='430' />
+					<Button id='Guns1' offsetXY='217 7' height='170' width='430' tooltip='' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='3' />
@@ -351,7 +351,7 @@
 		<Row>
 			<Cell>
 				<Panel>
-					<Button offsetXY='217 35' height='170' width='430' />
+					<Button id='Guns2' offsetXY='217 35' height='170' width='430' tooltip='' tooltipBorderColor='#FFFFFF' onClick='RemoveItem' />
 				</Panel>
 			</Cell>
 			<Cell columnSpan='3' />

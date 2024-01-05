@@ -67,8 +67,15 @@ function onCollisionEnter(info)
   if info.collision_object.getPosition().y < self.getPosition().y or
      #info.collision_object.getTags() <= 0 then return end
   local newObject = info.collision_object
-  local objTag = newObject.getTags()[1]
-  
+  local objTag = ""
+  if newObject.getRotation()[3] < 90 then
+    for _,v in ipairs(newObject.getTags()) do
+      if v != "Item" then objTag = v break end
+    end
+  else
+    objTag = "Item"
+  end
+
   local newName = newObject.getName()
   local cusAss = self.UI.getCustomAssets()
   table.insert(cusAss, {name = newName, url = newObject.getCustomObject().image})
@@ -76,18 +83,35 @@ function onCollisionEnter(info)
   
   local newDescription = newObject.getDescription()
   Wait.time(function()
-    self.UI.setAttribute(objTag, "icon", newName)
-    self.UI.setAttribute(objTag, "iconColor", "#ffffffff")
-    self.UI.setAttribute(objTag, "tooltip", newName .. "\n" .. newDescription)
-    self.UI.setAttribute(objTag, "ObjName", newName)
-    self.UI.setAttribute(objTag, "ObjDesc", newDescription)
-    self.UI.setAttribute(objTag, "UrlImage", newObject.getCustomObject().image)
-    table.insert(tableItems, {id = objTag, description = newDescription})
+    if objTag != "Item" then
+      self.UI.setAttribute(objTag, "icon", newName)
+      self.UI.setAttribute(objTag, "iconColor", "#ffffffff")
+      self.UI.setAttribute(objTag, "tooltip", newName .. "\n" .. newDescription)
+      self.UI.setAttribute(objTag, "ObjName", newName)
+      self.UI.setAttribute(objTag, "ObjDesc", newDescription)
+      self.UI.setAttribute(objTag, "UrlImage", newObject.getCustomObject().image)
+      self.UI.setAttribute(objTag, "UrlBottomImage", newObject.getCustomObject().image_bottom)
+      table.insert(tableItems, {id = objTag, description = newDescription})
+    else
+      for i = 1, 22 do
+        if #self.UI.getAttribute(objTag .. i, "tooltip") == 0 then
+          self.UI.setAttribute(objTag .. i, "icon", newName)
+          self.UI.setAttribute(objTag .. i, "iconColor", "#ffffffff")
+          self.UI.setAttribute(objTag .. i, "tooltip", newName .. "\n" .. newDescription)
+          self.UI.setAttribute(objTag .. i, "ObjName", newName)
+          self.UI.setAttribute(objTag .. i, "ObjDesc", newDescription)
+          self.UI.setAttribute(objTag .. i, "UrlImage", newObject.getCustomObject().image)
+          self.UI.setAttribute(objTag .. i, "UrlBottomImage", newObject.getCustomObject().image_bottom)
+          table.insert(tableItems, {id = objTag .. i, description = newDescription})
+          break
+        end
+      end
+    end
     destroyObject(info.collision_object)
   end, 0.01)
   
   local findText = newDescription:find("Эффекты")
-  if findText then
+  if findText and objTag != "Item" then
     ChangeDependentVariables(newDescription:sub(findText))
   end
   
@@ -107,7 +131,10 @@ function RemoveItem(pl, t_click, id)
     local newObject = spawnObject(spawnParametrs)
     newObject.setName(self.UI.getAttribute(id, "ObjName"))
     newObject.setDescription(self.UI.getAttribute(id, "ObjDesc"))
-    newObject.setCustomObject({image = self.UI.getAttribute(id, "UrlImage")})
+    newObject.setCustomObject({
+      image = self.UI.getAttribute(id, "UrlImage"),
+      image_bottom = self.UI.getAttribute(id, "UrlBottomImage")
+    })
     newObject.setTags({id})
 
     local index
