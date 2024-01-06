@@ -18,6 +18,7 @@ function Confer(savedData)
   countLimb, countStatus = 8, 8
   maxInfoStatus = {1000, 10, 10, 10, 10, 10}
   local loadedData = JSON.decode(savedData or "")
+  outfitBonus = {0, 0, 0, 0, 0, 0, 0, 0}
   majorValue = loadedData and loadedData.majorValue or {0, 0, 0, 0, 0, 0, 0, 0}
   baffValue = loadedData and loadedData.baffValue or {0, 0, 0, 0, 0, 0, 0, 0}
   debaffValue = loadedData and loadedData.debaffValue or {0, 0, 0, 0, 0, 0, 0, 0}
@@ -90,10 +91,13 @@ function ChangeSkills(args)
   elseif id:sub(0, #id - 1) == "karma" then
     id = tonumber(id:sub(6))
     karmaBonus = args.karma.AC
+  elseif id:sub(0, #id - 1) == "outfit" then
+    id = tonumber(id:sub(7))
+    outfitBonus[id] = tonumber(args.value)
   end
 
   for i = 1, countStatus do
-    majorValue[i] = baffValue[i] - debaffValue[i] + startValue[i] + (id == i and karmaBonus or 0)
+    majorValue[i] = baffValue[i] - debaffValue[i] + startValue[i] + (id == i and karmaBonus or 0) + outfitBonus[i]
   end
 
   if args.value then

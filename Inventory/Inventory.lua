@@ -177,8 +177,9 @@ function ChangeDependentVariables(description, remove)
       locGUID = infoGUID
     elseif enumStatus[v] then
       skills = v
-      local textValue = cutWordDesc[i - 1]
-      value = tonumber(textValue:sub(0, #textValue - 1))
+      --[[local textValue = cutWordDesc[i - 1]
+      value = tonumber(textValue:sub(0, #textValue - 1))]]
+      value = tonumber(cutWordDesc[i - 1])
       statusGUID = statusGUID or SearchDie("Status")
       locGUID = statusGUID
     elseif enumSkills[v] then
