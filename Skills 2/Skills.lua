@@ -65,7 +65,7 @@ function ChangeSkills(args)
   elseif id:find("start") then
     id = tonumber(id:sub(6))
     startValue[id] = startValue[id] + args.value
-  elseif id:sub(0, #id - 1) == "outfit" then
+  elseif id:find("outfit") then
     id = tonumber(id:sub(7))
     outfitBonus[id] = tonumber(args.value)
   end

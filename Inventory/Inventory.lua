@@ -24,10 +24,11 @@
 end
 
 function onLoad(savedData)
+  findWord = "эффекты"
   enumSpecial = {
-    Сила = 1, Восприятие = 2, Выносливость = 3,
-    Харизма = 4, Интелект = 5, Ловкость = 6,
-    Удача = 7,
+    сила = 1, восприятие = 2, выносливость = 3,
+    харизма = 4, интелект = 5, ловкость = 6,
+    удача = 7,
   }
   enumStatus = {
     реакция = 1, ["класс брони"] = 2, ["предел урона"] = 3,
@@ -36,7 +37,7 @@ function onLoad(savedData)
   }
   enumSkills = {
     ["легкое оружие"] = 1, ["тяжелое оружие"] = 2, ["энергетическое оружие"] = 3, ["без оружие"] = 4,
-    ["Холодное Оружие"] = 5, метание = 6, ["первая помощь"] = 7,
+    ["холодное оружие"] = 5, метание = 6, ["первая помощь"] = 7,
     доктор = 8, натуралист = 9, пилот = 10,
     скрытность = 11, взлом = 12, кража = 13,
     ловушки = 14, наука = 15, ремонт = 16,
@@ -76,33 +77,17 @@ function onCollisionEnter(info)
     objTag = "Item"
   end
 
-  local newName = newObject.getName()
   local cusAss = self.UI.getCustomAssets()
-  table.insert(cusAss, {name = newName, url = newObject.getCustomObject().image})
+  table.insert(cusAss, {name = newObject.getName():lower(), url = newObject.getCustomObject().image})
   self.UI.setCustomAssets(cusAss)
   
-  local newDescription = newObject.getDescription()
   Wait.time(function()
     if objTag != "Item" then
-      self.UI.setAttribute(objTag, "icon", newName)
-      self.UI.setAttribute(objTag, "iconColor", "#ffffffff")
-      self.UI.setAttribute(objTag, "tooltip", newName .. "\n" .. newDescription)
-      self.UI.setAttribute(objTag, "ObjName", newName)
-      self.UI.setAttribute(objTag, "ObjDesc", newDescription)
-      self.UI.setAttribute(objTag, "UrlImage", newObject.getCustomObject().image)
-      self.UI.setAttribute(objTag, "UrlBottomImage", newObject.getCustomObject().image_bottom)
-      table.insert(tableItems, {id = objTag, description = newDescription})
+      AddItem(objTag, newObject)
     else
       for i = 1, 22 do
         if #self.UI.getAttribute(objTag .. i, "tooltip") == 0 then
-          self.UI.setAttribute(objTag .. i, "icon", newName)
-          self.UI.setAttribute(objTag .. i, "iconColor", "#ffffffff")
-          self.UI.setAttribute(objTag .. i, "tooltip", newName .. "\n" .. newDescription)
-          self.UI.setAttribute(objTag .. i, "ObjName", newName)
-          self.UI.setAttribute(objTag .. i, "ObjDesc", newDescription)
-          self.UI.setAttribute(objTag .. i, "UrlImage", newObject.getCustomObject().image)
-          self.UI.setAttribute(objTag .. i, "UrlBottomImage", newObject.getCustomObject().image_bottom)
-          table.insert(tableItems, {id = objTag .. i, description = newDescription})
+          AddItem(objTag .. i, newObject)
           break
         end
       end
@@ -110,7 +95,8 @@ function onCollisionEnter(info)
     destroyObject(info.collision_object)
   end, 0.01)
   
-  local findText = newDescription:find("Эффекты")
+  local newDescription = newObject.getDescription():lower()
+  local findText = newDescription:find(findWord)
   if findText and objTag != "Item" then
     ChangeDependentVariables(newDescription:sub(findText))
   end
@@ -129,7 +115,7 @@ function RemoveItem(pl, t_click, id)
 
   if id and #self.UI.getAttribute(id, "tooltip") > 0 then
     local newObject = spawnObject(spawnParametrs)
-    newObject.setName(self.UI.getAttribute(id, "ObjName"))
+    newObject.setName(self.UI.getAttribute(id, "icon"))
     newObject.setDescription(self.UI.getAttribute(id, "ObjDesc"))
     newObject.setCustomObject({
       image = self.UI.getAttribute(id, "UrlImage"),
@@ -140,7 +126,7 @@ function RemoveItem(pl, t_click, id)
     local index
     for i,table in pairs(tableItems) do
       if table.id == id then
-        local findText = table.description:find("Эффекты")
+        local findText = table.description:find(findWord)
         if findText then
           ChangeDependentVariables(table.description:sub(findText), true)
         end
@@ -236,11 +222,22 @@ end
 function FindDependentVariables()
   local findText = ""
   for i = 1, #tableItems do
-    findText = tableItems[i].description:find("Эффекты")
+    findText = tableItems[i].description:find(findWord)
     if findText then
       ChangeDependentVariables(tableItems[i].description:sub(findText))
     end
   end
+end
+
+function AddItem(objTag, newObject)
+  local newName, newDescription = newObject.getName():lower(), newObject.getDescription():lower()
+  self.UI.setAttribute(objTag, "icon", newName)
+  self.UI.setAttribute(objTag, "iconColor", "#ffffffff")
+  self.UI.setAttribute(objTag, "tooltip", newName .. "\n" .. newDescription)
+  self.UI.setAttribute(objTag, "ObjDesc", newDescription)
+  self.UI.setAttribute(objTag, "UrlImage", newObject.getCustomObject().image)
+  self.UI.setAttribute(objTag, "UrlBottomImage", newObject.getCustomObject().image_bottom)
+  table.insert(tableItems, {id = objTag, description = newDescription})
 end
 
 function CheckPlayer(playerColor, onlyGM)
