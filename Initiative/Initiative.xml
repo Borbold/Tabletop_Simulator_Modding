@@ -1,7 +1,8 @@
 <Defaults>
+    <Button class='lamp' width='50' />
+
 	<Cell dontUseTableCellBackground='true' />
-	<Button resizeTextForBestFit='true' resizeTextMaxSize='50'
-		textColor='#948773' textOutline='#94877355' color='#000000' />
+	<Button resizeTextForBestFit='true' resizeTextMaxSize='50' />
 	<InputField resizeTextForBestFit='true' resizeTextMaxSize='50'
 		color='#9487a90a' textAlignment='MiddleCenter'
 		textColor='#948773' textOutline='#94877355' />
@@ -15,135 +16,138 @@
         <Row preferredHeight='50'>
             <Cell columnSpan='1' />
             <Cell columnSpan='3'> <Text id='countRound' text='Rounds:1' /> </Cell>
-            <Cell columnSpan='16' />
+            <Cell columnSpan='3'> <Text text='Members:' /> </Cell>
+            <Cell columnSpan='1'> <InputField id='countMember' text='5' textAlignment='MiddleLeft' onEndEdit='ChangeMember' characterValidation='Integer' /> </Cell>
+            <Cell columnSpan='10' />
+            <Cell columnSpan='2'> <Panel> <Button onClick='Reset' image='uiReset' offsetXY='-13 0' /> </Panel> </Cell>
         </Row>
         <Row preferredHeight='50'>
             <Cell columnSpan='1'> <Text text='1' /> </Cell>
-            <Cell id='lamp1' columnSpan='1' image='uiGreenBut' />
+            <Cell> <Panel> <Button class='lamp' id='lamp1' columnSpan='1' image='uiGreenBut' /> </Panel> </Cell>
             <Cell columnSpan='2'> <InputField id='nameStep1' text='test' /> </Cell>
             <Cell columnSpan='16' />
         </Row>
         <Row preferredHeight='50'>
             <Cell columnSpan='1'> <Text text='2' /> </Cell>
-            <Cell id='lamp2' columnSpan='1' image='uiRedBut' />
+            <Cell> <Panel> <Button class='lamp' id='lamp2' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
             <Cell columnSpan='2'> <InputField id='nameStep2' text='test' /> </Cell>
             <Cell columnSpan='16' />
         </Row>
         <Row preferredHeight='50'>
             <Cell columnSpan='1'> <Text text='3' /> </Cell>
-            <Cell id='lamp3' columnSpan='1' image='uiRedBut' />
+            <Cell> <Panel> <Button class='lamp' id='lamp3' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
             <Cell columnSpan='2'> <InputField id='nameStep3' text='test' /> </Cell>
             <Cell columnSpan='16' />
         </Row>
         <Row preferredHeight='50'>
             <Cell columnSpan='1'> <Text text='4' /> </Cell>
-            <Cell id='lamp4' columnSpan='1' image='uiRedBut' />
+            <Cell> <Panel> <Button class='lamp' id='lamp4' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
             <Cell columnSpan='2'> <InputField id='nameStep4' text='test' /> </Cell>
             <Cell columnSpan='16' />
         </Row>
         <Row preferredHeight='50'>
             <Cell columnSpan='1'> <Text text='5' /> </Cell>
-            <Cell id='lamp5' columnSpan='1' image='uiRedBut' />
+            <Cell> <Panel> <Button class='lamp' id='lamp5' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
             <Cell columnSpan='2'> <InputField id='nameStep5' text='test' /> </Cell>
             <Cell columnSpan='16' />
         </Row>
         <Row preferredHeight='50'>
             <Cell columnSpan='1'> <Text text='6' /> </Cell>
-            <Cell id='lamp6' columnSpan='1' image='uiRedBut' />
+            <Cell> <Panel> <Button class='lamp' id='lamp6' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
             <Cell columnSpan='2'> <InputField id='nameStep6' text='test' /> </Cell>
             <Cell columnSpan='16' />
         </Row>
         <Row preferredHeight='50'>
             <Cell columnSpan='1'> <Text text='7' /> </Cell>
-            <Cell id='lamp7' columnSpan='1' image='uiRedBut' />
+            <Cell> <Panel> <Button class='lamp' id='lamp7' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
             <Cell columnSpan='2'> <InputField id='nameStep7' text='test' /> </Cell>
             <Cell columnSpan='16' />
         </Row>
         <Row preferredHeight='50'>
             <Cell columnSpan='1'> <Text text='8' /> </Cell>
-            <Cell id='lamp8' columnSpan='1' image='uiRedBut' />
+            <Cell> <Panel> <Button class='lamp' id='lamp8' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
             <Cell columnSpan='2'> <InputField id='nameStep8' text='test' /> </Cell>
             <Cell columnSpan='16' />
         </Row>
         <Row preferredHeight='50'>
             <Cell columnSpan='1'> <Text text='9' /> </Cell>
-            <Cell id='lamp9' columnSpan='1' image='uiRedBut' />
+            <Cell> <Panel> <Button class='lamp' id='lamp9' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
             <Cell columnSpan='2'> <InputField id='nameStep9' text='test' /> </Cell>
             <Cell columnSpan='16' />
         </Row>
         <Row preferredHeight='50'>
             <Cell columnSpan='1'> <Text text='10' /> </Cell>
-            <Cell id='lamp10' columnSpan='1' image='uiRedBut' />
+            <Cell> <Panel> <Button class='lamp' id='lamp10' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
             <Cell columnSpan='2'> <InputField id='nameStep10' text='test' /> </Cell>
             <Cell columnSpan='16' />
         </Row>
         <Row preferredHeight='50'>
             <Cell columnSpan='1'> <Text text='11' /> </Cell>
-            <Cell id='lamp11' columnSpan='1' image='uiRedBut' />
+            <Cell> <Panel> <Button class='lamp' id='lamp11' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
             <Cell columnSpan='2'> <InputField id='nameStep11' text='test' /> </Cell>
             <Cell columnSpan='16' />
         </Row>
         <Row preferredHeight='50'>
             <Cell columnSpan='1'> <Text text='12' /> </Cell>
-            <Cell id='lamp12' columnSpan='1' image='uiRedBut' />
+            <Cell> <Panel> <Button class='lamp' id='lamp12' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
             <Cell columnSpan='2'> <InputField id='nameStep12' text='test' /> </Cell>
             <Cell columnSpan='16' />
         </Row>
         <Row preferredHeight='50'>
             <Cell columnSpan='1'> <Text text='13' /> </Cell>
-            <Cell id='lamp13' columnSpan='1' image='uiRedBut' />
+            <Cell> <Panel> <Button class='lamp' id='lamp13' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
             <Cell columnSpan='2'> <InputField id='nameStep13' text='test' /> </Cell>
             <Cell columnSpan='16' />
         </Row>
         <Row preferredHeight='50'>
             <Cell columnSpan='1'> <Text text='14' /> </Cell>
-            <Cell id='lamp14' columnSpan='1' image='uiRedBut' />
+            <Cell> <Panel> <Button class='lamp' id='lamp14' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
             <Cell columnSpan='2'> <InputField id='nameStep14' text='test' /> </Cell>
             <Cell columnSpan='16' />
         </Row>
         <Row preferredHeight='50'>
             <Cell columnSpan='1'> <Text text='15' /> </Cell>
-            <Cell id='lamp15' columnSpan='1' image='uiRedBut' />
+            <Cell> <Panel> <Button class='lamp' id='lamp15' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
             <Cell columnSpan='2'> <InputField id='nameStep15' text='test' /> </Cell>
             <Cell columnSpan='16' />
         </Row>
         <Row preferredHeight='50'>
             <Cell columnSpan='1'> <Text text='16' /> </Cell>
-            <Cell id='lamp16' columnSpan='1' image='uiRedBut' />
+            <Cell> <Panel> <Button class='lamp' id='lamp16' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
             <Cell columnSpan='2'> <InputField id='nameStep16' text='test' /> </Cell>
             <Cell columnSpan='16' />
         </Row>
         <Row preferredHeight='50'>
             <Cell columnSpan='1'> <Text text='17' /> </Cell>
-            <Cell id='lamp17' columnSpan='1' image='uiRedBut' />
+            <Cell> <Panel> <Button class='lamp' id='lamp17' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
             <Cell columnSpan='2'> <InputField id='nameStep17' text='test' /> </Cell>
             <Cell columnSpan='16' />
         </Row>
         <Row preferredHeight='50'>
             <Cell columnSpan='1'> <Text text='18' /> </Cell>
-            <Cell id='lamp18' columnSpan='1' image='uiRedBut' />
+            <Cell> <Panel> <Button class='lamp' id='lamp18' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
             <Cell columnSpan='2'> <InputField id='nameStep18' text='test' /> </Cell>
             <Cell columnSpan='16' />
         </Row>
         <Row preferredHeight='50'>
             <Cell columnSpan='1'> <Text text='19' /> </Cell>
-            <Cell id='lamp19' columnSpan='1' image='uiRedBut' />
+            <Cell> <Panel> <Button class='lamp' id='lamp19' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
             <Cell columnSpan='2'> <InputField id='nameStep19' text='test' /> </Cell>
             <Cell columnSpan='16' />
         </Row>
         <Row preferredHeight='50'>
             <Cell columnSpan='1'> <Text text='20' /> </Cell>
-            <Cell id='lamp20' columnSpan='1' image='uiRedBut' />
+            <Cell> <Panel> <Button class='lamp' id='lamp20' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
             <Cell columnSpan='2'> <InputField id='nameStep20' text='test' /> </Cell>
             <Cell columnSpan='16' />
         </Row>
         <Row preferredHeight='50'>
             <Cell columnSpan='1' />
             <Cell columnSpan='3'>
-                <Button text='Next Step' onClick='NextStep' />
+                <Button text='Next Step' onClick='NextStep' textColor='#948773' textOutline='#94877355' color='#000000' />
             </Cell>
             <Cell columnSpan='2' />
-            <Cell columnSpan='16' />
+            <Cell columnSpan='14' />
         </Row>
     </TableLayout>
 </Panel>
