@@ -40,7 +40,8 @@ function ChangeMember(_, input, _)
     ChangeUI()
 end
 
-function SortInitiative()
+function StartInitiative()
+    countRound, currentInitiative = 1, 1
     local locInit = {}
     for i = 1, countMember do
         locInit[i] = {
@@ -107,6 +108,10 @@ function ChangeStepInitiative(id, where)
         self.UI.setAttribute("nameStep" .. j + where, "text", locInit[j][1])
         self.UI.setAttribute("reactionStep" .. j + where, "text", locInit[j][2])
     end
+end
+
+function ChangeText(_, input, id)
+    self.UI.setAttribute(id, "text", input)
 end
 
 function MessageStep(name1, name2)
