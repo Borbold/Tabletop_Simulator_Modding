@@ -10,15 +10,15 @@ end
 function onLoad(savedData)
   colorPlayer = {
     ["White"] = {r = 1, g = 1, b = 1},
-    ["Red"] = {r = 0.86, g = 0.1, b = 0.09},
+    ["Red"] = {r = 0.86, g = 0.1, b = 0.1},
     ["Blue"] = {r = 0.12, g = 0.53, b = 1},
-    ["Green"] = {r = 0.19, g = 0.7, b = 0.17},
-    ["Yellow"] = {r = 0.9, g = 0.9, b = 0.17},
-    ["Orange"] = {r = 0.96, g = 0.39, b = 0.11},
-    ["Brown"] = {r = 0.44, g = 0.23, b = 0.09},
-    ["Purple"] = {r = 0.63, g = 0.12, b = 0.94},
+    ["Green"] = {r = 0.2, g = 0.71, b = 0.17},
+    ["Yellow"] = {r = 0.91, g = 0.9, b = 0.18},
+    ["Orange"] = {r = 0.96, g = 0.4, b = 0.12},
+    ["Brown"] = {r = 0.45, g = 0.24, b = 0.09},
+    ["Purple"] = {r = 0.63, g = 0.13, b = 0.95},
     ["Pink"] = {r = 0.96, g = 0.44, b = 0.81},
-    ["Teal"] = {r = 0.13, g = 0.69, b = 0.61}
+    ["Teal"] = {r = 0.13, g = 0.7, b = 0.61}
   }
   Wait.time(|| Confer(savedData), 0.01)
 end
@@ -172,9 +172,9 @@ function RebuildAssets()
   local root = 'https://raw.githubusercontent.com/RobMayer/TTSLibrary/master/ui/'
   local rootIn = 'https://img2.freepng.ru/20180418/hlw/kisspng-computer-icons-adventure-hotel-luggage-5ad725017cc0f8.903043971524049153511.jpg'
   local rootB = 'https://img2.freepng.ru/20180320/tze/kisspng-artist-s-book-scalable-vector-graphics-clip-art-gray-books-cliparts-5ab10db5d03c32.1930740015215528218529.jpg'
-  local backG = 'https://cdn.discordapp.com/attachments/800324103848198174/837975149025296424/lvl2.png'
-  local plus = 'https://cdn.discordapp.com/attachments/800324103848198174/836251236700258344/plus.png'
-  local minus = 'https://cdn.discordapp.com/attachments/800324103848198174/836251227884486676/minus.png'
+  local backG = 'https://i.imgur.com/0u6jlfA.png'
+  local plus = 'https://i.imgur.com/FVpd1Z3.png'
+  local minus = 'https://i.imgur.com/MkuVvIf.png'
   local reset = 'https://cdn.discordapp.com/attachments/800324103848198174/836632332978094130/resetl1.png'
   local barBackG = 'https://cdn.discordapp.com/attachments/800324103848198174/836612498161270784/bar1.png'
   local barFillIm = 'https://cdn.discordapp.com/attachments/800324103848198174/836613933031882752/barline1.png'
