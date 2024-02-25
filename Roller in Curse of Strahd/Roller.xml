@@ -1,0 +1,12 @@
+<Panel width='200' height='50' position='0 0 -8' rotation='180 180 0'>
+    <InputField id='bonus' onEndEdit='setPlus' alignment='MiddleCenter'
+        width='80' height='60' offsetXY='350 0' characterValidation='Integer' placeholder='0' resizeTextForBestFit='true' resizeTextMaxSize='80'/>
+    <Button id='trash' onClick='clearDice'
+        image='http://cloud-3.steamusercontent.com/ugc/2500131032280428355/835478C5DDB289EF9B47DA81DF4C801949BB2CBD/' width='50' height='75' offsetXY='220 -90'/>
+    <Button id='dice' onClick='rollStandard'
+        image='http://cloud-3.steamusercontent.com/ugc/2500131032280427578/B75A18BC385DD5FF85908C7C0E39D80A5D135DB2/' width='50' height='60' offsetXY='160 -90'/>
+    <Button id='diceDIS' onClick='rollDisadvantage'
+        image='http://cloud-3.steamusercontent.com/ugc/5942007224783151472/F5C81B39938B6B7151F745D8883CFD39A233DA28/' width='50' height='60' offsetXY='280 -90'/>
+    <Button id='diceADV' onClick='rollAdvantage'
+        image='http://cloud-3.steamusercontent.com/ugc/5942007224783152223/A559C57E3004F33365F3BB04C33187E13DECBF42/' width='50' height='60' offsetXY='340 -90'/>
+</Panel>
