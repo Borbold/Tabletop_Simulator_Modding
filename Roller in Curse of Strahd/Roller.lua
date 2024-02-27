@@ -1,21 +1,12 @@
 --[[
---Red
+--Purple
 ref_diceCustom = {
-    {url="http://i.imgur.com/h9tkuVr.png", name="", sides=4},  --Default: d4
-    {url="http://i.imgur.com/S8B3eI3.png", name="", sides=6},  --Default: d6
-    {url="http://i.imgur.com/HsBz1BW.png", name="", sides=8},  --Default: d8
-    {url="http://i.imgur.com/O4jSDpt.png", name="", sides=10}, --Default: d10
-    {url="http://i.imgur.com/u4XWNxz.png", name="", sides=12}, --Default: d12
-    {url="http://i.imgur.com/XA3Efbu.png", name="Toothy 20", sides=20}, --Default: d20
-}
---Green
-ref_diceCustom = {
-    {url="http://i.imgur.com/gtFjkxl.jpg", name="", sides=4},  --Default: d4
-    {url="http://i.imgur.com/SFXiSXM.jpg", name="", sides=6},  --Default: d6
-    {url="http://i.imgur.com/lgShCzI.jpg", name="", sides=8},  --Default: d8
-    {url="http://i.imgur.com/nYT2RlO.jpg", name="", sides=10}, --Default: d10
-    {url="http://i.imgur.com/xpgZIJX.jpg", name="", sides=12}, --Default: d12
-    {url="http://i.imgur.com/ZwsWEbq.jpg", name="Toothy 20", sides=20}, --Default: d20
+    {url="http://i.imgur.com/1XkP5uT.jpg", name="", sides=4},  --Default: d4
+    {url="http://i.imgur.com/HK1azwh.jpg", name="", sides=6},  --Default: d6
+    {url="http://i.imgur.com/CcNLc1C.jpg", name="", sides=8},  --Default: d8
+    {url="http://i.imgur.com/jVTND3K.jpg", name="", sides=10}, --Default: d10
+    {url="http://i.imgur.com/BnHqSRM.jpg", name="", sides=12}, --Default: d12
+    {url="http://i.imgur.com/sLo3nCv.jpg", name="Toothy 20", sides=20}, --Default: d20
 }
 --Pink
 ref_diceCustom = {
@@ -26,14 +17,23 @@ ref_diceCustom = {
     {url="http://i.imgur.com/WnhqgKf.jpg", name="", sides=12}, --Default: d12
     {url="http://i.imgur.com/oWxENzu.jpg", name="Toothy 20", sides=20}, --Default: d20
 }
---Purple
+--Green
 ref_diceCustom = {
-    {url="http://i.imgur.com/1XkP5uT.jpg", name="", sides=4},  --Default: d4
-    {url="http://i.imgur.com/HK1azwh.jpg", name="", sides=6},  --Default: d6
-    {url="http://i.imgur.com/CcNLc1C.jpg", name="", sides=8},  --Default: d8
-    {url="http://i.imgur.com/jVTND3K.jpg", name="", sides=10}, --Default: d10
-    {url="http://i.imgur.com/BnHqSRM.jpg", name="", sides=12}, --Default: d12
-    {url="http://i.imgur.com/sLo3nCv.jpg", name="Toothy 20", sides=20}, --Default: d20
+    {url="http://i.imgur.com/gtFjkxl.jpg", name="", sides=4},  --Default: d4
+    {url="http://i.imgur.com/SFXiSXM.jpg", name="", sides=6},  --Default: d6
+    {url="http://i.imgur.com/lgShCzI.jpg", name="", sides=8},  --Default: d8
+    {url="http://i.imgur.com/nYT2RlO.jpg", name="", sides=10}, --Default: d10
+    {url="http://i.imgur.com/xpgZIJX.jpg", name="", sides=12}, --Default: d12
+    {url="http://i.imgur.com/ZwsWEbq.jpg", name="Toothy 20", sides=20}, --Default: d20
+}
+--Red
+ref_diceCustom = {
+    {url="http://i.imgur.com/h9tkuVr.png", name="", sides=4},  --Default: d4
+    {url="http://i.imgur.com/S8B3eI3.png", name="", sides=6},  --Default: d6
+    {url="http://i.imgur.com/HsBz1BW.png", name="", sides=8},  --Default: d8
+    {url="http://i.imgur.com/O4jSDpt.png", name="", sides=10}, --Default: d10
+    {url="http://i.imgur.com/u4XWNxz.png", name="", sides=12}, --Default: d12
+    {url="http://i.imgur.com/XA3Efbu.png", name="Toothy 20", sides=20}, --Default: d20
 }]]
 --Blue
 ref_diceCustom = {
@@ -196,7 +196,7 @@ end
 
 function savePlus(p)
     plus = p
-    self.UI.setAttribute("bonus", "text", "")
+    self.UI.setAttribute("bonus", "text", p)
 end
 
 function setChance(s)
@@ -558,15 +558,13 @@ function displayResults(color, rollStyle)
     end
 end
 
-
-
 --Make a descriptive label for a set of dice
 
 function diceToText()
     counts = {}
     types = {}
     for _, die in ipairs(currentDice) do
-        sides = tonumber(string.match(tostring(die),"%d+"))
+        sides = tonumber(string.match(tostring(getSidesFromDie(die)),"%d+"))
         if counts[sides] == nil then
             counts[sides] = 0
             table.insert(types, sides)
@@ -587,8 +585,6 @@ function diceToText()
 end
 
 --Die cleanup
-
-
 
 function cleanupDice()
     for _, die in ipairs(currentDice) do

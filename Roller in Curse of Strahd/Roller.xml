@@ -1,5 +1,5 @@
 <Panel width='200' height='50' position='0 0 -8' rotation='180 180 0'>
-    <InputField id='bonus' onEndEdit='setPlus' alignment='MiddleCenter'
+    <InputField id='bonus' onEndEdit='setPlus' textAlignment='MiddleCenter' color='#ffffff80'
         width='80' height='60' offsetXY='350 0' characterValidation='Integer' placeholder='0' resizeTextForBestFit='true' resizeTextMaxSize='80'/>
     <Button id='trash' onClick='clearDice'
         image='http://cloud-3.steamusercontent.com/ugc/2500131032280428355/835478C5DDB289EF9B47DA81DF4C801949BB2CBD/' width='50' height='75' offsetXY='220 -90'/>
