@@ -70,7 +70,7 @@ function Confer(savedData)
   debaffValue = loadedData and loadedData.debaffValue or {0, 0, 0, 0, 0, 0, 0}
   startValue = loadedData and loadedData.startValue or {0, 0, 0, 0, 0, 0, 0}
   reputationValue = loadedData and loadedData.reputationValue or FillingTable(0)
-  maxSkillPoint = loadedData and loadedData.maxSkillPoint or 40
+  maxSkillPoint = loadedData and loadedData.maxSkillPoint or 33
   karma = loadedData and loadedData.karma or 0
   currentLVL = loadedData and loadedData.currentLVL or 1
   levelGUID = loadedData and loadedData.levelGUID
@@ -344,7 +344,7 @@ function Reset(player)
   debaffValue = {0, 0, 0, 0, 0, 0, 0}
   startValue = {5, 5, 5, 5, 5, 5, 5}
   reputationValue = FillingTable(0)
-  maxSkillPoint = 40
+  maxSkillPoint = 33
   for i = 1, 7 do
     InputBasicInformation(player, "...", tostring(i))
   end
@@ -392,15 +392,11 @@ function Round(num, idp)
 end
 
 function RebuildAssets()
-  local backG = 'https://cdn.discordapp.com/attachments/800324103848198174/838061145720881162/info1.png'
-  local backGR = 'https://cdn.discordapp.com/attachments/800324103848198174/839809839848751114/reput3.png'
-  local uiPlus = 'https://cdn.discordapp.com/attachments/800324103848198174/836251236700258344/plus.png'
-  local uiMinus = 'https://cdn.discordapp.com/attachments/800324103848198174/836251227884486676/minus.png'
+  local backG = 'https://i.imgur.com/ivN9EYm.png'
+  local backGR = 'https://i.imgur.com/67nLvfc.png'
   local assets = {
     {name = 'uiBackGr', url = backG},
-    {name = 'uiBackGR', url = backGR},
-    {name = 'uiPlus', url = uiPlus},
-    {name = 'uiMinus', url = uiMinus},
+    {name = 'uiBackGR', url = backGR}
   }
   self.UI.setCustomAssets(assets)
 end

@@ -70,7 +70,11 @@ function ChangeEXP(value, playerColor)
   local args = {playerColor = playerColor}
   if not CheckPlayer(args) then return end
 
-  currentEXP = currentEXP + self.UI.getAttribute("ratioEXP", "text")*value
+  local bonusEXP = tonumber(self.UI.getAttribute("bonusEXP", "text"))
+  if bonusEXP ~= 0 then
+    bonusEXP = self.UI.getAttribute("ratioEXP", "text")*bonusEXP/100
+  end
+  currentEXP = currentEXP + self.UI.getAttribute("ratioEXP", "text")*value + bonusEXP
   if currentEXP < maxEXP and currentEXP >= 0 then
     ChangeUI()
   else
@@ -119,6 +123,10 @@ end
 function InputRatioEXP(player, input)
   if input == "" then input = "0" end
   self.UI.setAttribute("ratioEXP", "text", input)
+end
+function ChangeBonusEXP(player, input)
+  if input == "" then input = "0" end
+  self.UI.setAttribute("bonusEXP", "text", input)
 end
 
 function CheckPlayer(args)
@@ -175,10 +183,10 @@ function RebuildAssets()
   local backG = 'https://i.imgur.com/0u6jlfA.png'
   local plus = 'https://i.imgur.com/FVpd1Z3.png'
   local minus = 'https://i.imgur.com/MkuVvIf.png'
-  local reset = 'https://cdn.discordapp.com/attachments/800324103848198174/836632332978094130/resetl1.png'
-  local barBackG = 'https://cdn.discordapp.com/attachments/800324103848198174/836612498161270784/bar1.png'
-  local barFillIm = 'https://cdn.discordapp.com/attachments/800324103848198174/836613933031882752/barline1.png'
-  local arrow = 'https://cdn.discordapp.com/attachments/800324103848198174/839327582699782204/strelka.png'
+  local reset = 'https://i.imgur.com/QEBPtkg.png'
+  local barBackG = 'https://i.imgur.com/ONikyq9.png'
+  local barFillIm = 'https://i.imgur.com/hwVz4k8.png'
+  local arrow = 'https://i.imgur.com/1qwPgtk.png'
 
   local assets = {
     {name = 'uiGear', url = arrow},

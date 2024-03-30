@@ -198,8 +198,8 @@ end
 
 function RebuildAssets()
   local backG = 'https://i.imgur.com/9DZklHJ.png'
-  local lampOn = 'https://cdn.discordapp.com/attachments/800324103848198174/837859524814962738/lampon.png'
-  local lampOff = 'https://cdn.discordapp.com/attachments/800324103848198174/837859531408277514/lampoff.png'
+  local lampOn = 'https://i.imgur.com/FkVbHlI.png'
+  local lampOff = 'https://i.imgur.com/jHcDIon.png'
 
   local assets = {
     {name = 'uiBackGrou', url = backG},

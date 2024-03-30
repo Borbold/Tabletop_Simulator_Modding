@@ -224,8 +224,8 @@ function ChangeInput(player, input)
 end
 
 function RebuildAssets()
-  local backG = 'https://cdn.discordapp.com/attachments/800324103848198174/838703500652314685/statusykr.png'
-  local backGL = 'https://cdn.discordapp.com/attachments/800324103848198174/840615412852719636/konechnosti2.png'
+  local backG = 'https://i.imgur.com/SYanEgr.png'
+  local backGL = 'https://i.imgur.com/2GiWh3g.png'
   local assets = {
     {name = 'uiBackGro', url = backG},
     {name = 'uiBackGL', url = backGL}

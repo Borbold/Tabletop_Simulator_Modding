@@ -47,8 +47,12 @@
 				<InputField id='ratioEXP' onEndEdit='InputRatioEXP'
 					characterValidation='Integer' text='10' />
 			</Cell>
-			
-			<Cell columnSpan='10' />
+			<Cell columnSpan='2'>
+				<InputField id='bonusEXP' onEndEdit='ChangeBonusEXP'
+					characterValidation='Integer' text='0' />
+			</Cell>
+
+			<Cell columnSpan='8' />
 		</Row>
 		<!-- Прогресс бар -->
 		<Row>

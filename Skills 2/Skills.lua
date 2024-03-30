@@ -212,8 +212,8 @@ function ChangePage()
 end
 
 function RebuildAssets()
-  local backG = 'https://cdn.discordapp.com/attachments/800324103848198174/838703544830918656/navykiV.png'
-  local stars = 'https://cdn.discordapp.com/attachments/800324103848198174/838075678124408872/stare.png'
+  local backG = 'https://i.imgur.com/4KZbrYG.png'
+  local stars = 'https://i.imgur.com/omMOtqc.png'
   local assets = {
     {name = 'uiBackGroun', url = backG},
     {name = 'uiStars', url = stars}
