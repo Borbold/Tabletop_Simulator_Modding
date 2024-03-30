@@ -127,7 +127,7 @@ function Reset()
 end
 
 function RebuildAssets()
-    local backG = 'https://cdn.discordapp.com/attachments/800324103848198174/838062391127441428/brosok.png'
+    local backG = 'https://i.imgur.com/tYaqJqA.png'
     local redBut = 'https://cdn.discordapp.com/attachments/800324103848198174/1193905025894854750/Unikalnaya.png'
     local greenBut = 'https://cdn.discordapp.com/attachments/800324103848198174/1193905026180075610/Unikalnaya2.png'
     local grayBut = "https://cdn.discordapp.com/attachments/800324103848198174/1193946708128825458/Unikalnaya3.png"
