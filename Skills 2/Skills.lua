@@ -98,23 +98,23 @@ function ChangeUI(args)
         self.UI.setAttribute("start" .. i, "text", startValue[i])
         self.UI.setAttribute("specialSkill" .. i, "active", tostring(favoritSkills[i] == 1))
 
+        while totalScore > 125 do
+          locStartValue = locStartValue + 1
+          totalScore = totalScore - (1 + favoritSkills[i])
+        end
+        while totalScore > 150 do
+          locStartValue = locStartValue + 1
+          totalScore = totalScore - (1 + favoritSkills[i])
+        end
+        while totalScore > 175 do
+          locStartValue = locStartValue + 1
+          totalScore = totalScore - (1 + favoritSkills[i])
+        end
+        while totalScore > 200 do
+          locStartValue = locStartValue + 1
+          totalScore = totalScore - (1 + favoritSkills[i])
+        end
         currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
-        if totalScore > 125 then
-          locStartValue = totalScore - 125
-          currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
-        end
-        if totalScore > 150 then
-          locStartValue = totalScore - 150
-          currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
-        end
-        if totalScore > 175 then
-          locStartValue = totalScore - 175
-          currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
-        end
-        if totalScore > 200 then
-          locStartValue = totalScore - 200
-          currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
-        end
       end, 0.01)
     end
     Wait.time(function()
