@@ -313,7 +313,7 @@ function ChangeDependentVariables(params)
   getObjectFromGUID(statusGUID).call("SetTableValue", args)
 
   skillsGUID = skillsGUID or SearchDie("Skills")
-  args["freeSkillPoints"] = (majorValue[5]*2 + 5)*currentLVL
+  args["freeSkillPoints"] = (startValue[5]*2 + 5)*currentLVL
   getObjectFromGUID(skillsGUID).call("SetTableValue", args)
   
   lifeGUID = lifeGUID or SearchDie("Life")
@@ -345,8 +345,13 @@ function Reset(player)
   startValue = {5, 5, 5, 5, 5, 5, 5}
   reputationValue = FillingTable(0)
   maxSkillPoint = 33
+  karma = 0
   for i = 1, 7 do
-    InputBasicInformation(player, "...", tostring(i))
+    if i == 4 then
+      InputBasicInformation(player, "Человек", tostring(i))
+    else
+      InputBasicInformation(player, "...", tostring(i))
+    end
   end
   SetBasicInformation()
   ChangeUI()

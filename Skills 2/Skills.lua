@@ -92,27 +92,41 @@ function ChangeUI(args)
     local currentFreeSkillPoint = freeSkillPoints
     for i = 1, countSkills do
       Wait.time(function()
-        local locStartValue = startValue[i]
+        local locStartValue, wTotalScore = startValue[i], 0
         local totalScore = majorValue[i] + startValue2[i] + favoritSkills[i]*20
         self.UI.setAttribute("major" .. i, "text", totalScore)
         self.UI.setAttribute("start" .. i, "text", startValue[i])
         self.UI.setAttribute("specialSkill" .. i, "active", tostring(favoritSkills[i] == 1))
 
-        while totalScore > 125 do
+        wTotalScore = totalScore
+        while wTotalScore > 101 do
           locStartValue = locStartValue + 1
-          totalScore = totalScore - (1 + favoritSkills[i])
+          wTotalScore = wTotalScore - (1 + favoritSkills[i])
         end
-        while totalScore > 150 do
+        wTotalScore = totalScore
+        while wTotalScore > 128 do
           locStartValue = locStartValue + 1
-          totalScore = totalScore - (1 + favoritSkills[i])
+          wTotalScore = wTotalScore - (1 + favoritSkills[i])
         end
-        while totalScore > 175 do
+        wTotalScore = totalScore
+        while wTotalScore > 151 do
           locStartValue = locStartValue + 1
-          totalScore = totalScore - (1 + favoritSkills[i])
+          wTotalScore = wTotalScore - (1 + favoritSkills[i])
         end
-        while totalScore > 200 do
+        wTotalScore = totalScore
+        while wTotalScore > 176 do
           locStartValue = locStartValue + 1
-          totalScore = totalScore - (1 + favoritSkills[i])
+          wTotalScore = wTotalScore - (1 + favoritSkills[i])
+        end
+        wTotalScore = totalScore
+        while wTotalScore > 201 do
+          locStartValue = locStartValue + 1
+          wTotalScore = wTotalScore - (1 + favoritSkills[i])
+        end
+        wTotalScore = totalScore
+        while wTotalScore > 300 do
+          locStartValue = locStartValue + 1
+          wTotalScore = wTotalScore - (1 + favoritSkills[i])
         end
         currentFreeSkillPoint = currentFreeSkillPoint - locStartValue
       end, 0.01)
