@@ -10,7 +10,7 @@
 end
 
 function onLoad(savedData)
-  Wait.time(|| Confer(savedData), 0.6)
+  Wait.time(|| Confer(savedData), 0.7)
 end
 
 function Confer(savedData)

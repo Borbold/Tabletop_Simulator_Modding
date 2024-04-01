@@ -23,7 +23,7 @@ function onLoad(savedData)
     ["Teal"] = {r = 0.13, g = 0.7, b = 0.61},
     ["Black"] = {r = 0.25, g = 0.25, b = 0.25}
   }
-  Wait.time(|| Confer(savedData), 0.2)
+  Wait.time(|| Confer(savedData), 0.5)
 end
 
 function Confer(savedData)
