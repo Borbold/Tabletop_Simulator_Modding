@@ -106,7 +106,7 @@ function InputBasicInformation(player, input, id)
   newDescription = newDescription .. (id:find("1") and input or currentDescription[1] or "...") .. "\n"
   newDescription = newDescription .. (id:find("2") and input or currentDescription[2] or "...") .. "\n"
   newDescription = newDescription .. (id:find("3") and input or currentDescription[3] or "...") .. "\n"
-  newDescription = newDescription .. (id:find("4") and input or currentDescription[4] or "...") .. "\n"
+  newDescription = newDescription .. (id:find("4") and input or currentDescription[4] or "Человек") .. "\n"
   newDescription = newDescription .. (id:find("5") and input or currentDescription[5] or "...") .. "\n"
   newDescription = newDescription .. (id:find("6") and input or currentDescription[6] or "...") .. "\n"
   newDescription = newDescription .. (id:find("7") and input or currentDescription[7] or "...") .. "\n"
@@ -339,10 +339,10 @@ function RewriteText(_, input, id)
 end
 
 function Reset(player)
-  majorValue = {5, 5, 5, 5, 5, 5, 5}
+  majorValue = {0, 0, 0, 0, 0, 0, 0}
   baffValue = {0, 0, 0, 0, 0, 0, 0}
   debaffValue = {0, 0, 0, 0, 0, 0, 0}
-  startValue = {5, 5, 5, 5, 5, 5, 5}
+  startValue = {0, 0, 0, 0, 0, 0, 0}
   reputationValue = FillingTable(0)
   maxSkillPoint = 33
   karma = 0
