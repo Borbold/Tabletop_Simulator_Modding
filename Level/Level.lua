@@ -25,7 +25,7 @@ end
 
 function Confer(savedData)
   RebuildAssets()
-  resetDieGUID = {"Info", "Life", "Status", "Skills"}
+  resetDieGUID = {"Info", "Life", "Status", "Skills", "Inventory"}
   local loadedData = JSON.decode(savedData or "")
   currentLVL = loadedData and loadedData.currentLVL or 1
   currentEXP = loadedData and loadedData.currentEXP or 0
@@ -97,6 +97,7 @@ function SearchDie(name)
 end
 
 function Reset(player)
+  infoGUID = nil
   local args = {playerColor = player.color, onlyGM = true}
   if CheckPlayer(args) then
     for _,name in ipairs(resetDieGUID) do

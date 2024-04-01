@@ -129,6 +129,7 @@ function SearchDie(name)
 end
 
 function Reset(player)
+  levelGUID = nil
   currentHP, currentAP = 15, 3
   startMaxHP = 50
   local enum = {

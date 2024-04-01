@@ -254,6 +254,10 @@ function SearchDie(name)
   end
 end
 
+function Reset(player)
+  infoGUID, statusGUID, skillsGUID = nil, nil, nil
+end
+
 function RebuildAssets(assets)
   if #assets == 0 then
     local backG = 'https://i.imgur.com/WQiHEAd.png'
