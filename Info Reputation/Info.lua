@@ -339,6 +339,7 @@ function RewriteText(_, input, id)
 end
 
 function Reset(player)
+  statusGUID, skillsGUID, lifeGUID = nil, nil, nil
   majorValue = {0, 0, 0, 0, 0, 0, 0}
   baffValue = {0, 0, 0, 0, 0, 0, 0}
   debaffValue = {0, 0, 0, 0, 0, 0, 0}
