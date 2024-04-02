@@ -20,15 +20,15 @@ function onLoad(savedData)
     },
     Мутант = {
       max = {13, 10, 12, 8, 8, 8, 10},
-      min = {5, 1, 4, 1, 1, 1, 1}
+      min = {5, 1, 4, -1, -1, 1, 1}
     },
     Гуль = {
       max = {6, 14, 10, 9, 13, 8, 13},
-      min = {1, 4, 1, 1, 2, 1, 5}
+      min = {1, 4, 0, -1, 2, 1, 5}
     },
     Pобот = {
       max = {12, 12, 12, 1, 12, 12, 5},
-      min = {7, 7, 7, 1, 1, 1, 5}
+      min = {7, 7, 7, -1, 1, 1, 5}
     }
   }
   writeGoodKarma, writeBadKarma = 0, 0
@@ -304,7 +304,7 @@ function ChangeDependentVariables(params)
     HP = writeBadKarma != 0 and badKarma[writeBadKarma].HP or 0,
     AC = writeGoodKarma != 0 and goodKarma[writeGoodKarma].AC or 0
   }
-  local args = {enum = enum, karma = argsKarma,
+  local args = {enum = enum, karma = argsKarma, bonusMutant = 0,
     id = writeGoodKarma != 0 and "karma2" or "", -- Parameter of a character's armor class
     playerColor = "Black"
   }
@@ -313,7 +313,8 @@ function ChangeDependentVariables(params)
   getObjectFromGUID(statusGUID).call("SetTableValue", args)
 
   skillsGUID = skillsGUID or SearchDie("Skills")
-  args["freeSkillPoints"] = (startValue[5]*2 + 5)*currentLVL
+  args["freeSkillPoints"] = (startValue[5]*2 + 5)*currentLVL + (self.UI.getAttribute("info4", "text") == "Гуль" and 2 or tonumber("0"))
+  args.bonusMutant = args.bonusMutant + (self.UI.getAttribute("info4", "text") == "Мутант" and 1 or tonumber("0"))
   getObjectFromGUID(skillsGUID).call("SetTableValue", args)
   
   lifeGUID = lifeGUID or SearchDie("Life")

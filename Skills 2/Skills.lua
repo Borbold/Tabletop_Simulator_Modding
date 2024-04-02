@@ -169,7 +169,7 @@ end
 
 function SetTableValue(args)
   startValue2[1] = 5 + args.enum.Ловкость*4
-  startValue2[2] = args.enum.Ловкость*2
+  startValue2[2] = args.enum.Ловкость*2 + args.bonusMutant
   startValue2[3] = args.enum.Ловкость*2
   startValue2[4] = 5 + args.enum.Ловкость*4
   startValue2[5] = 30 + (args.enum.Ловкость + args.enum.Сила)*2

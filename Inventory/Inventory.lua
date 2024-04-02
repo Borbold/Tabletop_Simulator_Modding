@@ -58,6 +58,7 @@ function Confer(savedData)
   infoGUID = loadedData and loadedData.infoGUID
   statusGUID = loadedData and loadedData.statusGUID
   skillsGUID = loadedData and loadedData.skillsGUID
+  checkItems = {}
   if loadedData and loadedData.saveXML then
     Wait.time(|| self.UI.setXmlTable(loadedData.saveXML), 1)
   end
@@ -67,13 +68,13 @@ end
 function onCollisionEnter(info)
   if info.collision_object.getPosition().y < self.getPosition().y or
      #info.collision_object.getTags() <= 0 then return end
-  local newObject = info.collision_object
-  local objTag = ""
-  if newObject.getRotation()[3] < 90 then
-    for _,v in ipairs(newObject.getTags()) do
-      if v != "Item" then objTag = v break end
+  local newObject, objTag = info.collision_object, ""
+  for _,t in ipairs(newObject.getTags()) do
+    if t != "Item" and checkItems[t] ~= true then
+      checkItems[t] = true
+      objTag = t
+      break
     end
-  else
     objTag = "Item"
   end
 
@@ -121,7 +122,7 @@ function RemoveItem(pl, t_click, id)
       image = self.UI.getAttribute(id, "UrlImage"),
       image_bottom = self.UI.getAttribute(id, "UrlBottomImage")
     })
-    newObject.setTags({id})
+    newObject.setTags({id:sub(0, id:find("[%d]") and (id:find("[%d]") - 1))})
 
     local index
     for i,table in pairs(tableItems) do
@@ -140,7 +141,11 @@ function RemoveItem(pl, t_click, id)
       self.UI.setAttribute(id, "icon", "")
       self.UI.setAttribute(id, "iconColor", "#ffffff00")
       self.UI.setAttribute(id, "tooltip", "")
-    end, 0.2)
+      self.UI.setAttribute(id, "ObjDesc", "")
+      self.UI.setAttribute(id, "UrlImage", "")
+      self.UI.setAttribute(id, "UrlBottomImage", "")
+      checkItems[id] = false
+    end, 0.4)
     Wait.time(|| UpdateSave(), 0.3)
   else
     broadcastToAll("Слот и так пуст")
