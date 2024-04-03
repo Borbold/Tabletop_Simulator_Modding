@@ -1,0 +1,309 @@
+<Defaults>
+	<Cell dontUseTableCellBackground='true' />
+	<Button resizeTextForBestFit='true' resizeTextMaxSize='50'
+		color='#948773' />
+</Defaults>
+
+<Panel position='0 400 -55' height='800' width='1200'>
+	<TableLayout image='uiBackGround' cellSpacing='16'>
+        <Row preferredHeight='20'/>
+        <!-- 1 -->
+        <Row>
+            <Cell columnSpan='8'/>
+
+            <Cell columnSpan='2'>
+                <Button text='←' onClick='PrevMusic' color='#9487a9'/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='Play' onClick='PlayPlaylist' color='#94a973'/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='Stop' onClick='StopPlaylist' color='#a98773'/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='→' onClick='NextMusic' color='#9487a9'/>
+            </Cell>
+        </Row>
+        <!-- 2 -->
+        <Row>
+            <Cell columnSpan='1'/>
+
+            <Cell columnSpan='2'>
+                <Button text='Minecraft' onClick='SetMinecraftPlaylist' color='#013220' textColor='#D3D3D3'/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='Tabletop Audio' onClick='SetTabletopAudioPlaylist' color='#000000' textColor='#ffffff'/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+
+            <Cell columnSpan='1'/>
+        </Row>
+        <!-- 3 -->
+        <Row>
+            <Cell columnSpan='1'/>
+
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+
+            <Cell columnSpan='1'/>
+        </Row>
+        <!-- 4 -->
+        <Row>
+            <Cell columnSpan='1'/>
+
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+
+            <Cell columnSpan='1'/>
+        </Row>
+        <!-- 5 -->
+        <Row>
+            <Cell columnSpan='1'/>
+
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+
+            <Cell columnSpan='1'/>
+        </Row>
+        <!-- 6 -->
+        <Row>
+            <Cell columnSpan='1'/>
+
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+
+            <Cell columnSpan='1'/>
+        </Row>
+        <!-- 7 -->
+        <Row>
+            <Cell columnSpan='1'/>
+
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+
+            <Cell columnSpan='1'/>
+        </Row>
+        <!-- 8 -->
+        <Row>
+            <Cell columnSpan='1'/>
+
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+            <Cell columnSpan='2'>
+                <Button text='' onClick=''/>
+            </Cell>
+
+            <Cell columnSpan='1'/>
+        </Row>
+        <Row preferredHeight='20'/>
+    </TableLayout>
+</Panel>
