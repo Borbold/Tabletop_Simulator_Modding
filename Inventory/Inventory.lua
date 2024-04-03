@@ -70,12 +70,16 @@ function onCollisionEnter(info)
      #info.collision_object.getTags() <= 0 then return end
   local newObject, objTag = info.collision_object, ""
   for _,t in ipairs(newObject.getTags()) do
-    if t != "Item" and checkItems[t] ~= true then
+    if t:find("Item") == nil and checkItems[t] ~= true then
       checkItems[t] = true
       objTag = t
       break
     end
-    objTag = "Item"
+    if newObject.getScale().x == newObject.getScale().z then
+      objTag = "Item"
+    else
+      objTag = "LongItem"
+    end
   end
 
   local cusAss = self.UI.getCustomAssets()
@@ -83,17 +87,24 @@ function onCollisionEnter(info)
   self.UI.setCustomAssets(cusAss)
   
   Wait.time(function()
-    if objTag != "Item" then
+    local filled = true
+    if objTag:find("Item") == nil then
       AddItem(objTag, newObject)
+      filled = false
     else
-      for i = 1, 22 do
-        if #self.UI.getAttribute(objTag .. i, "tooltip") == 0 then
+      for i = 1, 28 do
+        if #self.UI.getAttribute(objTag .. i, "tooltip") == 0 and self.UI.getAttribute(objTag .. i, "icon") ~= "NotItem" then
           AddItem(objTag .. i, newObject)
+          filled = false
           break
         end
       end
     end
-    destroyObject(info.collision_object)
+    if filled == false then
+      destroyObject(info.collision_object)
+    else
+      broadcastToAll("Места нет")
+    end
   end, 0.01)
   
   local newDescription = newObject.getDescription():lower()
@@ -102,15 +113,16 @@ function onCollisionEnter(info)
     ChangeDependentVariables(newDescription:sub(findText))
   end
   
-  Wait.time(|| UpdateSave(), 0.3)
+  Wait.time(|| UpdateSave(), 0.5)
 end
-function RemoveItem(pl, t_click, id)
+function RemoveItem(_, _, id)
   local selfPosition = self.getPosition()
+  local objScale = {self.UI.getAttribute(id, "ScaleX"), self.UI.getAttribute(id, "ScaleZ")}
   local spawnParametrs = {
     type = "Custom_Tile",
     position = {x = selfPosition.x, y = selfPosition.y + 0.1, z = selfPosition.z - 4},
     rotation = {x = 0, y = 180, z = 0},
-    scale = {x = 0.47, y = 1, z = 0.47},
+    scale = {x = objScale[1], y = 1, z = objScale[2]},
     sound = false, snap_to_grid = true,
   }
 
@@ -145,8 +157,32 @@ function RemoveItem(pl, t_click, id)
       self.UI.setAttribute(id, "UrlImage", "")
       self.UI.setAttribute(id, "UrlBottomImage", "")
       checkItems[id] = false
+      if id == "Backpack" or id == "Pouch" then
+        for i = 1, self.UI.getAttribute(id, "Item") do
+          if self.UI.getAttribute("Item" .. i, "icon") ~= "" then
+            RemoveItem(_, _, "Item" .. i)
+          end
+          Wait.time(function()
+            self.UI.setAttribute("Item" .. i, "icon", "NotItem")
+            self.UI.setAttribute("Item" .. i, "iconColor", "#ffffffff")
+          end, 0.4)
+        end
+        for i = 1, self.UI.getAttribute(id, "LongItem") do
+          if self.UI.getAttribute("LongItem" .. i, "icon") ~= "" then
+            RemoveItem(_, _, "LongItem" .. i)
+          end
+          Wait.time(function()
+            self.UI.setAttribute("LongItem" .. i, "icon", "NotItem")
+            self.UI.setAttribute("LongItem" .. i, "iconColor", "#ffffffff")
+          end, 0.4)
+        end
+        newObject.setGMNotes(
+          "Item " .. self.UI.getAttribute(id, "Item") .. "\n" ..
+          "LongItem " .. self.UI.getAttribute(id, "LongItem")
+        )
+      end
     end, 0.4)
-    Wait.time(|| UpdateSave(), 0.3)
+    Wait.time(|| UpdateSave(), 0.5)
   else
     broadcastToAll("Слот и так пуст")
   end
@@ -244,6 +280,24 @@ function AddItem(objTag, newObject)
   self.UI.setAttribute(objTag, "UrlImage", newObject.getCustomObject().image)
   self.UI.setAttribute(objTag, "UrlBottomImage", newObject.getCustomObject().image_bottom)
   table.insert(tableItems, {id = objTag, description = newDescription})
+  if objTag == "Backpack" or objTag == "Pouch" then
+    local notes = {}
+    for word in newObject.getGMNotes():gmatch("%S+") do
+      table.insert(notes, word)
+    end
+    for i = 1, notes[2] do
+      self.UI.setAttribute(notes[1] .. i, "icon", "")
+      self.UI.setAttribute(notes[1] .. i, "iconColor", "#ffffff00")
+    end
+    for i = 1, notes[4] do
+      self.UI.setAttribute(notes[3] .. i, "icon", "")
+      self.UI.setAttribute(notes[3] .. i, "iconColor", "#ffffff00")
+    end
+    self.UI.setAttribute(objTag, notes[1], notes[2])
+    self.UI.setAttribute(objTag, notes[3], notes[4])
+  end
+  self.UI.setAttribute(objTag, "ScaleX", newObject.getScale().x)
+  self.UI.setAttribute(objTag, "ScaleZ", newObject.getScale().z)
 end
 
 function CheckPlayer(playerColor, onlyGM)
@@ -266,7 +320,9 @@ end
 function RebuildAssets(assets)
   if #assets == 0 then
     local backG = 'https://i.imgur.com/WQiHEAd.png'
+    local notItem = 'https://i.pinimg.com/564x/4e/eb/cd/4eebcde567db3f1127cc8823e1f87fa3.jpg'
     table.insert(assets, {name = 'uiBackGroundW', url = backG})
+    table.insert(assets, {name = 'NotItem', url = notItem})
   end
   self.UI.setCustomAssets(assets)
 end
