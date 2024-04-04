@@ -1036,6 +1036,99 @@ function SetTabletopAudioPlaylist()
     end, waitCount)
 end
 
+function SetFearHungerPlaylist()
+    StopPlaylist()
+
+    Wait.time(function()
+        MusicPlayer.setPlaylist({
+            {
+                url = "https://dl.vgmdownloads.com/soundtracks/fear-hunger-windows-gamerip-2018/qoziqxyrko/01.%20Ghostpocalypse%20-%205%20Apotheosis.mp3",
+                title = "Ghostpocalypse"
+            },
+            {
+                url = "https://dl.vgmdownloads.com/soundtracks/fear-hunger-windows-gamerip-2018/glldnottso/02.%20Fear%20%26%20Hunger.mp3",
+                title = "Fear and Hunger"
+            },
+            {
+                url = "https://dl.vgmdownloads.com/soundtracks/fear-hunger-windows-gamerip-2018/yquheusvgi/03.%20Eastern%20Wind.mp3",
+                title = "Eastern Wind"
+            },
+            {
+                url = "https://dl.vgmdownloads.com/soundtracks/fear-hunger-windows-gamerip-2018/hdrdgfzgry/04.%20Minor%20Terror.mp3",
+                title = "Minor Terror"
+            },
+            {
+                url = "https://dl.vgmdownloads.com/soundtracks/fear-hunger-windows-gamerip-2018/bvcjhsxkhd/05.%20Basement%20of%20Flies.mp3",
+                title = "Basement of Flies"
+            },
+            {
+                url = "https://dl.vgmdownloads.com/soundtracks/fear-hunger-windows-gamerip-2018/cfijxytiyj/06.%20Mist%20Jingle.mp3",
+                title = "Must Jungle"
+            },
+            {
+                url = "https://dl.vgmdownloads.com/soundtracks/fear-hunger-windows-gamerip-2018/pxmsbuicui/07.%20Muted%20Aggression.mp3",
+                title = "Muted Aggression"
+            },
+            {
+                url = "https://dl.vgmdownloads.com/soundtracks/fear-hunger-windows-gamerip-2018/iuqpscwynm/08.%20The%20Four%20Apostles.mp3",
+                title = "The Four Apostles"
+            },
+            {
+                url = "https://dl.vgmdownloads.com/soundtracks/fear-hunger-windows-gamerip-2018/qitpzorclo/09.%20God%20of%20the%20Depths.mp3",
+                title = "God of the Depths"
+            },
+            {
+                url = "https://dl.vgmdownloads.com/soundtracks/fear-hunger-windows-gamerip-2018/bsqufqtttt/10.%20Creaking%20Throat%20of%20a%20God.mp3",
+                title = "Creaking Throat of a God"
+            },
+            {
+                url = "https://dl.vgmdownloads.com/soundtracks/fear-hunger-windows-gamerip-2018/dxntoirfyg/11.%20Tomb%20of%20the%20Gods.mp3",
+                title = "Tomb of the Gods"
+            },
+            {
+                url = "https://dl.vgmdownloads.com/soundtracks/fear-hunger-windows-gamerip-2018/tltwugmiwv/12.%20Ancient%20City.mp3",
+                title = "Ancient City"
+            },
+            {
+                url = "https://dl.vgmdownloads.com/soundtracks/fear-hunger-windows-gamerip-2018/siheldcsws/13.%20Endless%20Loop.mp3",
+                title = "Endless Loop"
+            },
+            {
+                url = "https://dl.vgmdownloads.com/soundtracks/fear-hunger-windows-gamerip-2018/gaatepeqbh/14.%20Ma%27habre%20Streets.mp3",
+                title = "Mahabre Streets"
+            },
+            {
+                url = "https://dl.vgmdownloads.com/soundtracks/fear-hunger-windows-gamerip-2018/fjytxwppcj/15.%20Song%20for%20Torment.mp3",
+                title = "Song for Torment"
+            },
+            {
+                url = "https://dl.vgmdownloads.com/soundtracks/fear-hunger-windows-gamerip-2018/kobqjnpxpw/16.%20The%20Gauntlet.mp3",
+                title = "The Gauntlet"
+            },
+            {
+                url = "https://dl.vgmdownloads.com/soundtracks/fear-hunger-windows-gamerip-2018/ofkizdhygd/17.%20Pulse%20and%20Anxiety.mp3",
+                title = "Pulse and Anxiety"
+            },
+            {
+                url = "https://dl.vgmdownloads.com/soundtracks/fear-hunger-windows-gamerip-2018/pmoroomimg/18.%20The%20Ascension.mp3",
+                title = "The Ascension"
+            },
+            {
+                url = "https://dl.vgmdownloads.com/soundtracks/fear-hunger-windows-gamerip-2018/kwvkrdmkvh/19.%20Prelude%20to%20Darkness.mp3",
+                title = "Prelude to Darkness"
+            },
+            {
+                url = "https://dl.vgmdownloads.com/soundtracks/fear-hunger-windows-gamerip-2018/grhwyhkuql/20.%20Everyday%20Schoolday%20%28Extra%20Track%29.mp3",
+                title = "Schoolday"
+            },
+            {
+                url = "https://dl.vgmdownloads.com/soundtracks/fear-hunger-windows-gamerip-2018/nfsihnyedi/21.%20Dungeon%20Groove%20%28Extra%20Track%29.mp3",
+                title = "Groove"
+            }
+        })
+    end, waitCount)
+end
+
 function PrevMusic()
     Wait.time(function()
         MusicPlayer.skipBack()
