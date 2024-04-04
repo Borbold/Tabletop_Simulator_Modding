@@ -1,7 +1,7 @@
 <Defaults>
 	<Cell dontUseTableCellBackground='true' />
 	<Button resizeTextForBestFit='true' resizeTextMaxSize='50'
-		color='#948773' />
+		color='#948773' Font='Font/School' tooltipFontSize='25' tooltipPosition='Below'/>
 </Defaults>
 
 <Panel position='0 400 -55' height='800' width='1200'>
@@ -12,16 +12,16 @@
             <Cell columnSpan='8'/>
 
             <Cell columnSpan='2'>
-                <Button text='←' onClick='PrevMusic' color='#9487a9'/>
+                <Button text='←' onClick='PrevMusic' color='#9487a9' tooltip='Swith previous/start over current music'/>
             </Cell>
             <Cell columnSpan='2'>
-                <Button text='Play' onClick='PlayPlaylist' color='#94a973'/>
+                <Button text='Play' onClick='PlayPlaylist' color='#94a973' tooltip='Resume/Play current music'/>
             </Cell>
             <Cell columnSpan='2'>
-                <Button text='Stop' onClick='StopPlaylist' color='#a98773'/>
+                <Button text='Stop' onClick='StopPlaylist' color='#a98773' tooltip='Stop play current music'/>
             </Cell>
             <Cell columnSpan='2'>
-                <Button text='→' onClick='NextMusic' color='#9487a9'/>
+                <Button text='→' onClick='NextMusic' color='#9487a9' tooltip='Swith next music'/>
             </Cell>
         </Row>
         <!-- 2 -->
@@ -29,16 +29,13 @@
             <Cell columnSpan='1'/>
 
             <Cell columnSpan='2'>
-                <Button text='Minecraft' onClick='SetMinecraftPlaylist' color='#013220' textColor='#d3d3d3'/>
+                <Button text='Minecraft' onClick='SetMinecraftPlaylist' color='#013220' textColor='#d3d3d3' tooltip='All Minecraft music'/>
             </Cell>
             <Cell columnSpan='2'>
                 <Button text='Tabletop Audio' onClick='SetTabletopAudioPlaylist' color='#000000' textColor='#ffffff'/>
             </Cell>
             <Cell columnSpan='2'>
-                <Button text='Fear and Hunger' onClick='SetFearHungerPlaylist' color='#A02828' textColor='#a0a0a0'/>
-            </Cell>
-            <Cell columnSpan='2'>
-                <Button text='' onClick=''/>
+                <Button text='Fear and Hunger' onClick='SetFearHungerPlaylist' color='#a02828' textColor='#a0a0a0'/>
             </Cell>
             <Cell columnSpan='2'>
                 <Button text='' onClick=''/>
@@ -69,10 +66,7 @@
             <Cell columnSpan='1'/>
 
             <Cell columnSpan='2'>
-                <Button text='' onClick=''/>
-            </Cell>
-            <Cell columnSpan='2'>
-                <Button text='' onClick=''/>
+                <Button text='Research turning into battle' onClick='SetRisenPlaylist' color='#b48773'/>
             </Cell>
             <Cell columnSpan='2'>
                 <Button text='' onClick=''/>
@@ -108,9 +102,6 @@
         <Row>
             <Cell columnSpan='1'/>
 
-            <Cell columnSpan='2'>
-                <Button text='' onClick=''/>
-            </Cell>
             <Cell columnSpan='2'>
                 <Button text='' onClick=''/>
             </Cell>
@@ -178,9 +169,6 @@
             <Cell columnSpan='2'>
                 <Button text='' onClick=''/>
             </Cell>
-            <Cell columnSpan='2'>
-                <Button text='' onClick=''/>
-            </Cell>
 
             <Cell columnSpan='1'/>
         </Row>
@@ -188,9 +176,6 @@
         <Row>
             <Cell columnSpan='1'/>
 
-            <Cell columnSpan='2'>
-                <Button text='' onClick=''/>
-            </Cell>
             <Cell columnSpan='2'>
                 <Button text='' onClick=''/>
             </Cell>
@@ -258,9 +243,6 @@
             <Cell columnSpan='2'>
                 <Button text='' onClick=''/>
             </Cell>
-            <Cell columnSpan='2'>
-                <Button text='' onClick=''/>
-            </Cell>
 
             <Cell columnSpan='1'/>
         </Row>
@@ -268,9 +250,6 @@
         <Row>
             <Cell columnSpan='1'/>
 
-            <Cell columnSpan='2'>
-                <Button text='' onClick=''/>
-            </Cell>
             <Cell columnSpan='2'>
                 <Button text='' onClick=''/>
             </Cell>

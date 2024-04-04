@@ -1109,6 +1109,10 @@ function SetFearHungerPlaylist()
                 title = "Pulse and Anxiety"
             },
             {
+                url = "https://epsilon.vgmsite.com/soundtracks/fear-hunger-2-termina-2022/jodyfzoebc/35.%20Pulse%20And%20Anxiety%202.mp3",
+                title = "Pulse And Anxiety 2"
+            },
+            {
                 url = "https://dl.vgmdownloads.com/soundtracks/fear-hunger-windows-gamerip-2018/pmoroomimg/18.%20The%20Ascension.mp3",
                 title = "The Ascension"
             },
@@ -1123,6 +1127,106 @@ function SetFearHungerPlaylist()
             {
                 url = "https://dl.vgmdownloads.com/soundtracks/fear-hunger-windows-gamerip-2018/nfsihnyedi/21.%20Dungeon%20Groove%20%28Extra%20Track%29.mp3",
                 title = "Groove"
+            },
+            {
+                url = "https://epsilon.vgmsite.com/soundtracks/fear-hunger-2-termina-2022/fxxceunrcn/02.%20Dark%20Outside.mp3",
+                title = "Dark Outside"
+            },
+            {
+                url = "https://epsilon.vgmsite.com/soundtracks/fear-hunger-2-termina-2022/ytikuqufcg/38.%20Dark%20Outside%20Extended.mp3",
+                title = "Dark Outside Extended"
+            },
+            {
+                url = "https://epsilon.vgmsite.com/soundtracks/fear-hunger-2-termina-2022/gyxbkjbvrf/03.%20Memories.mp3",
+                title = "Memories"
+            },
+            {
+                url = "https://epsilon.vgmsite.com/soundtracks/fear-hunger-2-termina-2022/tluygomblt/04.%20Save%20Room%20Theme.mp3",
+                title = "Save Room"
+            },
+            {
+                url = "https://epsilon.vgmsite.com/soundtracks/fear-hunger-2-termina-2022/ydibvlnhpx/05.%20Autumnal%20Forest.mp3",
+                title = "Autumnal Forest"
+            },
+            {
+                url = "https://epsilon.vgmsite.com/soundtracks/fear-hunger-2-termina-2022/khtwsiyquc/06.%20Calm%20Before.mp3",
+                title = "Calm Before"
+            },
+            {
+                url = "https://epsilon.vgmsite.com/soundtracks/fear-hunger-2-termina-2022/hnppfctjlq/07.%20Green%20Hue%20Moon.mp3",
+                title = "Green Hue Moon"
+            },
+            {
+                url = "https://epsilon.vgmsite.com/soundtracks/fear-hunger-2-termina-2022/ayqgjjfumd/08.%20Under%20Your%20Feet.mp3",
+                title = "Under Your Feet"
+            },
+            {
+                url = "https://epsilon.vgmsite.com/soundtracks/fear-hunger-2-termina-2022/ynvvtvrrha/09.%20Closing%20Madness.mp3",
+                title = "Closing Madness"
+            },
+            {
+                url = "https://epsilon.vgmsite.com/soundtracks/fear-hunger-2-termina-2022/rxolrobkjs/10.%20All%20Work%20No%20Play.mp3",
+                title = "All Work No Play"
+            },
+            {
+                url = "https://epsilon.vgmsite.com/soundtracks/fear-hunger-2-termina-2022/ejltcndtse/12.%20Old%20Town%20Horror.mp3",
+                title = "Old Town Horror"
+            },
+            {
+                url = "https://epsilon.vgmsite.com/soundtracks/fear-hunger-2-termina-2022/xbzrrqgmwx/27.%20Secret%20Song.mp3",
+                title = "Secret Song"
+            },
+            {
+                url = "https://epsilon.vgmsite.com/soundtracks/fear-hunger-2-termina-2022/ptcsbposub/28.%20Midnight%20Hour.mp3",
+                title = "Midnight Hour"
+            },
+            {
+                url = "https://epsilon.vgmsite.com/soundtracks/fear-hunger-2-termina-2022/nvczbkbmcy/34.%20White%20Abyss.mp3",
+                title = "White Abyss"
+            }
+        })
+    end, waitCount)
+end
+function SetRisenPlaylist()
+    StopPlaylist()
+
+    Wait.time(function()
+        MusicPlayer.setPlaylist({
+            {
+                url = "https://epsilon.vgmsite.com/soundtracks/risen-re-engineered-soundtrack-2009/yfmqlnbxnv/04.%20Ruins.mp3",
+                title = "Ruins"
+            },
+            {
+                url = "https://epsilon.vgmsite.com/soundtracks/risen-re-engineered-soundtrack-2009/egpdxsfhxr/05.%20Ruins%20Battle.mp3",
+                title = "Ruins Battle"
+            },
+            {
+                url = "https://epsilon.vgmsite.com/soundtracks/risen-re-engineered-soundtrack-2009/nqvogkullm/07.%20Island%20%28Night%29.mp3",
+                title = "Island Night"
+            },
+            {
+                url = "https://epsilon.vgmsite.com/soundtracks/risen-re-engineered-soundtrack-2009/fjxkgmjjkj/08.%20Island%20Battle.mp3",
+                title = "Island Battle"
+            },
+            {
+                url = "https://epsilon.vgmsite.com/soundtracks/risen-re-engineered-soundtrack-2009/hxoxsdjutr/09.%20Swamp.mp3",
+                title = "Swamp"
+            },
+            {
+                url = "https://epsilon.vgmsite.com/soundtracks/risen-re-engineered-soundtrack-2009/ofkmejznnx/10.%20Swamp%20Battle.mp3",
+                title = "Swamp Battle"
+            },
+            {
+                url = "https://epsilon.vgmsite.com/soundtracks/risen-re-engineered-soundtrack-2009/bpzwcxitkd/25.%20Dungeon.mp3",
+                title = "Dungeon"
+            },
+            {
+                url = "https://epsilon.vgmsite.com/soundtracks/risen-re-engineered-soundtrack-2009/gaisiozkhh/26.%20Dungeon%20Battle.mp3",
+                title = "Dungeon Battle"
+            },
+            {
+                url = "https://epsilon.vgmsite.com/soundtracks/risen-re-engineered-soundtrack-2009/rukwlziinp/30.%20Boss%20Battle.mp3",
+                title = "Boss Battle"
             }
         })
     end, waitCount)
