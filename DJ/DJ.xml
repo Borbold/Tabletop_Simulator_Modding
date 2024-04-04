@@ -29,13 +29,13 @@
             <Cell columnSpan='1'/>
 
             <Cell columnSpan='2'>
-                <Button text='Minecraft' onClick='SetMinecraftPlaylist' color='#013220' textColor='#D3D3D3'/>
+                <Button text='Minecraft' onClick='SetMinecraftPlaylist' color='#013220' textColor='#d3d3d3'/>
             </Cell>
             <Cell columnSpan='2'>
                 <Button text='Tabletop Audio' onClick='SetTabletopAudioPlaylist' color='#000000' textColor='#ffffff'/>
             </Cell>
             <Cell columnSpan='2'>
-                <Button text='' onClick=''/>
+                <Button text='Fear and Hunger' onClick='SetFearHungerPlaylist' color='#A02828' textColor='#a0a0a0'/>
             </Cell>
             <Cell columnSpan='2'>
                 <Button text='' onClick=''/>

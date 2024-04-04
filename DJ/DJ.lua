@@ -294,748 +294,747 @@ function SetTabletopAudioPlaylist()
             },
             {
                 url = "https://sounds.tabletopaudio.com/389_Medieval_Market.mp3",
-                title = "389_Medieval_Market"
+                title = "Medieval Market"
             },
             {
                 url = "https://sounds.tabletopaudio.com/388_Lord_of_Bones.mp3",
-                title = "388_Lord_of_Bones"
+                title = "Lord of Bones"
             },
             {
                 url = "https://sounds.tabletopaudio.com/384_Western_Watchtower.mp3",
-                title = "384_Western_Watchtower"
+                title = "Western Watchtower"
             },
             {
                 url = "https://sounds.tabletopaudio.com/383_Banshees_Lair.mp3",
-                title = "383_Banshees_Lair"
+                title = "Banshees Lair"
             },
             {
                 url = "https://sounds.tabletopaudio.com/382_Long_Rest.mp3",
-                title = "382_Long_Rest"
+                title = "Long Rest"
             },
             {
                 url = "https://sounds.tabletopaudio.com/381_Halfling_Sneak.mp3",
-                title = "381_Halfling_Sneak"
+                title = "Halfling Sneak"
             },
             {
                 url = "https://sounds.tabletopaudio.com/380_The_Great_Lift.mp3",
-                title = "380_The_Great_Lift"
+                title = "The Great Lift"
             },
             {
                 url = "https://sounds.tabletopaudio.com/378_Descent.mp3",
-                title = "378_Descent"
+                title = "Descent"
             },
             {
                 url = "https://sounds.tabletopaudio.com/377_Through_the_Woods.mp3",
-                title = "377_Through_the_Woods"
+                title = "Through the Woods"
             },
             {
                 url = "https://sounds.tabletopaudio.com/376_Voyage_Begins.mp3",
-                title = "376_Voyage_Begins"
+                title = "Voyage Begins"
             },
             {
                 url = "https://sounds.tabletopaudio.com/375_Rise_of_the_Golem.mp3",
-                title = "375_Rise_of_the_Golem"
+                title = "Rise of the Golem"
             },
             {
                 url = "https://sounds.tabletopaudio.com/374_Hall_of_Angels.mp3",
-                title = "374_Hall_of_Angels"
+                title = "Hall of Angels"
             },
             {
                 url = "https://sounds.tabletopaudio.com/373_Infernal_Machine.mp3",
-                title = "373_Infernal_Machine"
+                title = "Infernal Machine"
             },
             {
                 url = "https://sounds.tabletopaudio.com/372_Den_of_Iniquity.mp3",
-                title = "372_Den_of_Iniquity"
+                title = "Den of Iniquity"
             },
             {
                 url = "https://sounds.tabletopaudio.com/371_Whirlpool.mp3",
-                title = "371_Whirlpool"
+                title = "Whirlpool"
             },
             {
                 url = "https://sounds.tabletopaudio.com/369_Troll_Grotto.mp3",
-                title = "369_Troll_Grotto"
+                title = "Troll Grotto"
             },
             {
                 url = "https://sounds.tabletopaudio.com/368_Ghosts_of_Appalachia.mp3",
-                title = "368_Ghosts_of_Appalachia"
+                title = "Ghosts of Appalachia"
             },
             {
                 url = "https://sounds.tabletopaudio.com/367_Rope_Bridge.mp3",
-                title = "367_Rope_Bridge"
+                title = "Rope Bridge"
             },
             {
                 url = "https://sounds.tabletopaudio.com/366_Rocs_Nest.mp3",
-                title = "366_Rocs_Nest"
+                title = "Rocs Nest"
             },
             {
                 url = "https://sounds.tabletopaudio.com/365_Trail_of_Ashes.mp3",
-                title = "365_Trail_of_Ashes"
+                title = "Trail of Ashes"
             },
             {
                 url = "https://sounds.tabletopaudio.com/364_River_of_Blood.mp3",
-                title = "364_River_of_Blood"
+                title = "River of Blood"
             },
             {
                 url = "https://sounds.tabletopaudio.com/362_Rolling_Emporium.mp3",
-                title = "362_Rolling_Emporium"
+                title = "Rolling Emporium"
             },
             {
                 url = "https://sounds.tabletopaudio.com/361_Ancient_Beacon.mp3",
-                title = "361_Ancient_Beacon"
+                title = "Ancient Beacon"
             },
             {
                 url = "https://sounds.tabletopaudio.com/360_Pit_Fighter.mp3",
-                title = "360_Pit_Fighter"
+                title = "Pit Fighter"
             },
             {
                 url = "https://sounds.tabletopaudio.com/359_Skull_Island.mp3",
-                title = "359_Skull_Island"
+                title = "Skull Island"
             },
             {
                 url = "https://sounds.tabletopaudio.com/358_Egg_Chamber.mp3",
-                title = "358_Egg_Chamber"
+                title = "Egg Chamber"
             },
             {
                 url = "https://sounds.tabletopaudio.com/357_Promontory.mp3",
-                title = "357_Promontory"
+                title = "Promontory"
             },
             {
                 url = "https://sounds.tabletopaudio.com/356_Adventure_Begins.mp3",
-                title = "356_Adventure_Begins"
+                title = "Adventure Begins"
             },
             {
                 url = "https://sounds.tabletopaudio.com/354_Warlocks_Whisper.mp3",
-                title = "354_Warlocks_Whisper"
+                title = "Warlocks Whisper"
             },
             {
                 url = "https://sounds.tabletopaudio.com/353_Spirit_of_the_Plains.mp3",
-                title = "353_Spirit_of_the_Plains"
+                title = "Spirit of the Plains"
             },
             {
                 url = "https://sounds.tabletopaudio.com/352_Black_Rider.mp3",
-                title = "352_Black_Rider"
+                title = "Black Rider"
             },
             {
                 url = "https://sounds.tabletopaudio.com/351_Halfling_Lodge.mp3",
-                title = "351_Halfling_Lodge"
+                title = "Halfling Lodge"
             },
             {
                 url = "https://sounds.tabletopaudio.com/349_Puzzle_Dungeon.mp3",
-                title = "349_Puzzle_Dungeon"
+                title = "Puzzle Dungeon"
             },
             {
                 url = "https://sounds.tabletopaudio.com/348_Viking_Village.mp3",
-                title = "348_Viking_Village"
+                title = "Viking Village"
             },
             {
                 url = "https://sounds.tabletopaudio.com/347_Elven_Procession.mp3",
-                title = "347_Elven_Procession"
+                title = "Elven Procession"
             },
             {
                 url = "https://sounds.tabletopaudio.com/344_Yokai_Forest.mp3",
-                title = "344_Yokai_Forest"
+                title = "Yokai Forest"
             },
             {
                 url = "https://sounds.tabletopaudio.com/343_Dungeon_Collapse.mp3",
-                title = "343_Dungeon_Collapse"
+                title = "Dungeon Collapse"
             },
             {
                 url = "https://sounds.tabletopaudio.com/342_Tavern_Celebration.mp3",
-                title = "342_Tavern_Celebration"
+                title = "Tavern Celebration"
             },
             {
                 url = "https://sounds.tabletopaudio.com/341_Beggars_Rest.mp3",
-                title = "341_Beggars_Rest"
+                title = "Beggars Rest"
             },
             {
                 url = "https://sounds.tabletopaudio.com/338_Adventure_Supply.mp3",
-                title = "338_Adventure_Supply"
+                title = "Adventure Supply"
             },
             {
                 url = "https://sounds.tabletopaudio.com/337_Village_of_the_Damned.mp3",
-                title = "337_Village_of_the_Damned"
+                title = "Village of the Damned"
             },
             {
                 url = "https://sounds.tabletopaudio.com/336_Medieval_Banquet.mp3",
-                title = "336_Medieval_Banquet"
+                title = "Medieval Banquet"
             },
             {
                 url = "https://sounds.tabletopaudio.com/335_Abandoned_Chapel.mp3",
-                title = "335_Abandoned_Chapel"
+                title = "Abandoned Chapel"
             },
             {
                 url = "https://sounds.tabletopaudio.com/334_Harpies_Nest.mp3",
-                title = "334_Harpies_Nest"
+                title = "Harpies Nest"
             },
             {
                 url = "https://sounds.tabletopaudio.com/333_Arcane_Athenaeum.mp3",
-                title = "333_Arcane_Athenaeum"
+                title = "Arcane Athenaeum"
             },
             {
                 url = "https://sounds.tabletopaudio.com/332_Myconid_Colony.mp3",
-                title = "332_Myconid_Colony"
+                title = "Myconid Colony"
             },
             {
                 url = "https://sounds.tabletopaudio.com/331_Drowned_Sailors.mp3",
-                title = "331_Drowned_Sailors"
+                title = "Drowned Sailors"
             },
             {
                 url = "https://sounds.tabletopaudio.com/329_Desert_Temple.mp3",
-                title = "329_Desert_Temple"
+                title = "Desert Temple"
             },
             {
                 url = "https://sounds.tabletopaudio.com/328_Battle_Requiem.mp3",
-                title = "328_Battle_Requiem"
+                title = "Battle Requiem"
             },
             {
                 url = "https://sounds.tabletopaudio.com/321_Invisible_Mountain.mp3",
-                title = "321_Invisible_Mountain"
+                title = "Invisible Mountain"
             },
             {
                 url = "https://sounds.tabletopaudio.com/320_Cultists_Cavern.mp3",
-                title = "320_Cultists_Cavern"
+                title = "Cultists Cavern"
             },
             {
                 url = "https://sounds.tabletopaudio.com/319_Shamans_Hollow.mp3",
-                title = "319_Shamans_Hollow"
+                title = "Shamans Hollow"
             },
             {
                 url = "https://sounds.tabletopaudio.com/318_The_Gaping_Maw.mp3",
-                title = "318_The_Gaping_Maw"
+                title = "The Gaping Maw"
             },
             {
                 url = "https://sounds.tabletopaudio.com/316_Goblin_Ambush.mp3",
-                title = "316_Goblin_Ambush"
+                title = "Goblin Ambush"
             },
             {
                 url = "https://sounds.tabletopaudio.com/315_Dragon_Rider.mp3",
-                title = "315_Dragon_Rider"
+                title = "Dragon Rider"
             },
             {
                 url = "https://sounds.tabletopaudio.com/314_Shuttle_Crash.mp3",
-                title = "314_Shuttle_Crash"
+                title = "Shuttle Crash"
             },
             {
                 url = "https://sounds.tabletopaudio.com/313_Dusk_of_the_Dryad.mp3",
-                title = "313_Dusk_of_the_Dryad"
+                title = "Dusk of the Dryad"
             },
             {
                 url = "https://sounds.tabletopaudio.com/311_Swamp_Thing.mp3",
-                title = "311_Swamp_Thing"
+                title = "Swamp Thing"
             },
             {
                 url = "https://sounds.tabletopaudio.com/309_Bloodgate.mp3",
-                title = "309_Bloodgate"
+                title = "Bloodgate"
             },
             {
                 url = "https://sounds.tabletopaudio.com/308_Skullwharf.mp3",
-                title = "308_Skullwharf"
+                title = "Skullwharf"
             },
             {
                 url = "https://sounds.tabletopaudio.com/305_Hidden_Valley.mp3",
-                title = "305_Hidden_Valley"
+                title = "Hidden Valley"
             },
             {
                 url = "https://sounds.tabletopaudio.com/304_Fog_of_War.mp3",
-                title = "304_Fog_of_War"
+                title = "Fog of War"
             },
             {
                 url = "https://sounds.tabletopaudio.com/303_Summoning.mp3",
-                title = "303_Summoning"
+                title = "Summoning"
             },
             {
                 url = "https://sounds.tabletopaudio.com/302_Floating_Market.mp3",
-                title = "302_Floating_Market"
+                title = "Floating Market"
             },
             {
                 url = "https://sounds.tabletopaudio.com/301_Pool_of_Radiance.mp3",
-                title = "301_Pool_of_Radiance"
+                title = "Pool of Radiance"
             },
             {
                 url = "https://sounds.tabletopaudio.com/299_Necropolis.mp3",
-                title = "299_Necropolis"
+                title = "Necropolis"
             },
             {
                 url = "https://sounds.tabletopaudio.com/298_Gateway_to_Hell.mp3",
-                title = "298_Gateway_to_Hell"
+                title = "Gateway to Hell"
             },
             {
                 url = "https://sounds.tabletopaudio.com/297_Survivors_Bivouac.mp3",
-                title = "297_Survivors_Bivouac"
+                title = "Survivors Bivouac"
             },
             {
                 url = "https://sounds.tabletopaudio.com/294_Cutpurse_Pursuit.mp3",
-                title = "294_Cutpurse_Pursuit"
+                title = "Cutpurse Pursuit"
             },
             {
                 url = "https://sounds.tabletopaudio.com/290_Wagon_Ride.mp3",
-                title = "290_Wagon_Ride"
+                title = "Wagon Ride"
             },
             {
                 url = "https://sounds.tabletopaudio.com/289_Ancient_Artifact.mp3",
-                title = "289_Ancient_Artifact"
+                title = "Ancient Artifact"
             },
             {
                 url = "https://sounds.tabletopaudio.com/288_Everdeep.mp3",
-                title = "288_Everdeep"
+                title = "Everdeep"
             },
             {
                 url = "https://sounds.tabletopaudio.com/287_The_Strange.mp3",
-                title = "287_The_Strange"
+                title = "The Strange"
             },
             {
                 url = "https://sounds.tabletopaudio.com/286_Blastfire_Bog.mp3",
-                title = "286_Blastfire_Bog"
+                title = "Blastfire Bog"
             },
             {
                 url = "https://sounds.tabletopaudio.com/285_High_Rannoc_Village.mp3",
-                title = "285_High_Rannoc_Village"
+                title = "High Rannoc Village"
             },
             {
                 url = "https://sounds.tabletopaudio.com/284_Oasis_City.mp3",
-                title = "284_Oasis_City"
+                title = "Oasis City"
             },
             {
                 url = "https://sounds.tabletopaudio.com/282_The_Wild_Hunt.mp3",
-                title = "282_The_Wild_Hunt"
+                title = "The Wild Hunt"
             },
             {
                 url = "https://sounds.tabletopaudio.com/281_Escape_from_Shadow.mp3",
-                title = "281_Escape_from_Shadow"
+                title = "Escape from Shadow"
             },
             {
                 url = "https://sounds.tabletopaudio.com/279_Blighted_Farm.mp3",
-                title = "279_Blighted_Farm"
+                title = "Blighted Farm"
             },
             {
                 url = "https://sounds.tabletopaudio.com/278_Farmyard.mp3",
-                title = "278_Farmyard"
+                title = "Farmyard"
             },
             {
                 url = "https://sounds.tabletopaudio.com/277_A_New_Beginning.mp3",
-                title = "277_A_New_Beginning"
+                title = "A New Beginning"
             },
             {
                 url = "https://sounds.tabletopaudio.com/276_Forge_of_Fury.mp3",
-                title = "276_Forge_of_Fury"
+                title = "Forge of Fury"
             },
             {
                 url = "https://sounds.tabletopaudio.com/275_Lorekeeper_Grove.mp3",
-                title = "275_Lorekeeper_Grove"
+                title = "Lorekeeper_Grove"
             },
             {
                 url = "https://sounds.tabletopaudio.com/274_Jungle_Shaman.mp3",
-                title = "274_Jungle_Shaman"
+                title = "Jungle Shaman"
             },
             {
                 url = "https://sounds.tabletopaudio.com/273_Arcane_Clockworks.mp3",
-                title = "273_Arcane_Clockworks"
+                title = "Arcane Clockworks"
             },
             {
                 url = "https://sounds.tabletopaudio.com/267_Court_of_the_Count.mp3",
-                title = "267_Court_of_the_Count"
+                title = "Court of the Count"
             },
             {
                 url = "https://sounds.tabletopaudio.com/265_Shrine_of_Talos.mp3",
-                title = "265_Shrine_of_Talos"
+                title = "Shrine of Talos"
             },
             {
                 url = "https://sounds.tabletopaudio.com/263_Mysterious_Grotto.mp3",
-                title = "263_Mysterious_Grotto"
+                title = "Mysterious Grotto"
             },
             {
                 url = "https://sounds.tabletopaudio.com/261_Unto_the_Breach.mp3",
-                title = "261_Unto_the_Breach"
+                title = "Unto the Breach"
             },
             {
                 url = "https://sounds.tabletopaudio.com/260_Skyship.mp3",
-                title = "260_Skyship"
+                title = "Skyship"
             },
             {
                 url = "https://sounds.tabletopaudio.com/258_Blighted_Forest.mp3",
-                title = "258_Blighted_Forest"
+                title = "Blighted Forest"
             },
             {
                 url = "https://sounds.tabletopaudio.com/257_Country_Workshop.mp3",
-                title = "257_Country_Workshop"
+                title = "Country Workshop"
             },
             {
                 url = "https://sounds.tabletopaudio.com/256_Ice_Dragon.mp3",
-                title = "256_Ice_Dragon"
+                title = "Ice Dragon"
             },
             {
                 url = "https://sounds.tabletopaudio.com/255_The_Hearth_Inn.mp3",
-                title = "255_The_Hearth_Inn"
+                title = "The Hearth Inn"
             },
             {
                 url = "https://sounds.tabletopaudio.com/254_Desert_Planet_Souk.mp3",
-                title = "254_Desert_Planet_Souk"
+                title = "Desert Planet Souk"
             },
             {
                 url = "https://sounds.tabletopaudio.com/253_Submerged.mp3",
-                title = "253_Submerged"
+                title = "Submerged"
             },
             {
                 url = "https://sounds.tabletopaudio.com/252_Vault_of_Terror.mp3",
-                title = "252_Vault_of_Terror"
+                title = "Vault of Terror"
             },
             {
                 url = "https://sounds.tabletopaudio.com/251_Candledeep.mp3",
-                title = "251_Candledeep"
+                title = "Candledeep"
             },
             {
                 url = "https://sounds.tabletopaudio.com/250_Wolf_Pens.mp3",
-                title = "250_Wolf_Pens"
+                title = "Wolf Pens"
             },
             {
                 url = "https://sounds.tabletopaudio.com/249_Steampunk_Station.mp3",
-                title = "249_Steampunk_Station"
+                title = "Steampunk Station"
             },
             {
                 url = "https://sounds.tabletopaudio.com/246_Magic_Shoppe.mp3",
-                title = "246_Magic_Shoppe"
+                title = "Magic Shoppe"
             },
             {
                 url = "https://sounds.tabletopaudio.com/244_Vikings.mp3",
-                title = "244_Vikings"
+                title = "Vikings"
             },
             {
                 url = "https://sounds.tabletopaudio.com/243_Jungle_Ruins.mp3",
-                title = "243_Jungle_Ruins"
+                title = "Jungle Ruins"
             },
             {
                 url = "https://sounds.tabletopaudio.com/242_Spiders_Den.mp3",
-                title = "242_Spiders_Den"
+                title = "Spiders Den"
             },
             {
                 url = "https://sounds.tabletopaudio.com/241_Pirates.mp3",
-                title = "241_Pirates"
+                title = "Pirates"
             },
             {
                 url = "https://sounds.tabletopaudio.com/240_Throne_Room.mp3",
-                title = "240_Throne_Room"
+                title = "Throne Room"
             },
             {
                 url = "https://sounds.tabletopaudio.com/238_Mind_Flayer_Chamber.mp3",
-                title = "238_Mind_Flayer_Chamber"
+                title = "Mind Flayer Chamber"
             },
             {
                 url = "https://sounds.tabletopaudio.com/237_Training_Grounds.mp3",
-                title = "237_Training_Grounds"
+                title = "Training Grounds"
             },
             {
                 url = "https://sounds.tabletopaudio.com/236_Defiled_Temple.mp3",
-                title = "236_Defiled_Temple"
+                title = "Defiled Temple"
             },
             {
                 url = "https://sounds.tabletopaudio.com/235_Rainy_Village.mp3",
-                title = "235_Rainy_Village"
+                title = "Rainy Village"
             },
             {
                 url = "https://sounds.tabletopaudio.com/234_Lush_World.mp3",
-                title = "234_Lush_World"
+                title = "Lush World"
             },
             {
                 url = "https://sounds.tabletopaudio.com/233_The_Orrery.mp3",
-                title = "233_The_Orrery"
+                title = "The Orrery"
             },
             {
                 url = "https://sounds.tabletopaudio.com/231_Icebound_Town.mp3",
-                title = "231_Icebound_Town"
+                title = "Icebound Town"
             },
             {
                 url = "https://sounds.tabletopaudio.com/230_All_Hallows_Eve.mp3",
-                title = "230_All_Hallows_Eve"
+                title = "All Hallows Eve"
             },
             {
                 url = "https://sounds.tabletopaudio.com/228_Mushroom_Forest.mp3",
-                title = "228_Mushroom_Forest"
+                title = "Mushroom_Forest"
             },
             {
                 url = "https://sounds.tabletopaudio.com/223_Salt_Marsh.mp3",
-                title = "223_Salt_Marsh"
+                title = "Salt_Marsh"
             },
             {
                 url = "https://sounds.tabletopaudio.com/222_Wuxia_Tea_House.mp3",
-                title = "222_Wuxia_Tea_House"
+                title = "Wuxia_Tea_House"
             },
             {
                 url = "https://sounds.tabletopaudio.com/220_Wuxia_Village.mp3",
-                title = "220_Wuxia_Village"
+                title = "Wuxia_Village"
             },
             {
                 url = "https://sounds.tabletopaudio.com/219_Tinkerers_Workshop.mp3",
-                title = "219_Tinkerers_Workshop"
+                title = "Tinkerers_Workshop"
             },
             {
                 url = "https://sounds.tabletopaudio.com/218_Sleeping_Ogre.mp3",
-                title = "218_Sleeping_Ogre"
+                title = "Sleeping_Ogre"
             },
             {
                 url = "https://sounds.tabletopaudio.com/216_Waterkeep_Night.mp3",
-                title = "216_Waterkeep_Night"
+                title = "Waterkeep_Night"
             },
             {
                 url = "https://sounds.tabletopaudio.com/214_Castle_Kitchen.mp3",
-                title = "214_Castle_Kitchen"
+                title = "Castle_Kitchen"
             },
             {
                 url = "https://sounds.tabletopaudio.com/213_Burning_Village.mp3",
-                title = "213_Burning_Village"
+                title = "Burning_Village"
             },
             {
                 url = "https://sounds.tabletopaudio.com/210_Temple_Garden.mp3",
-                title = "210_Temple_Garden"
+                title = "Temple_Garden"
             },
             {
                 url = "https://sounds.tabletopaudio.com/208_Ghost_Town.mp3",
-                title = "208_Ghost_Town"
+                title = "Ghost Town"
             },
             {
                 url = "https://sounds.tabletopaudio.com/206_Heart_High_Rise.mp3",
-                title = "206_Heart_High_Rise"
+                title = "Heart High Rise"
             },
             {
                 url = "https://sounds.tabletopaudio.com/205_Heart_Absolution.mp3",
-                title = "205_Heart_Absolution"
+                title = "Heart Absolution"
             },
             {
                 url = "https://sounds.tabletopaudio.com/204_Heart_Meat_Corridor.mp3",
-                title = "204_Heart_Meat_Corridor"
+                title = "Heart Meat Corridor"
             },
             {
                 url = "https://sounds.tabletopaudio.com/203_Heart_Briar.mp3",
-                title = "203_Heart_Briar"
+                title = "Heart Briar"
             },
             {
                 url = "https://sounds.tabletopaudio.com/202_Heart_Drowned.mp3",
-                title = "202_Heart_Drowned"
+                title = "Heart Drowned"
             },
             {
                 url = "https://sounds.tabletopaudio.com/200_Druid_Hilltop.mp3",
-                title = "200_Druid_Hilltop"
+                title = "Druid_Hilltop"
             },
             {
                 url = "https://sounds.tabletopaudio.com/199_Sun_Dappled_Trail.mp3",
-                title = "199_Sun_Dappled_Trail"
+                title = "Sun_Dappled_Trail"
             },
             {
                 url = "https://sounds.tabletopaudio.com/198_Shadowfell.mp3",
-                title = "198_Shadowfell"
+                title = "Shadowfell"
             },
             {
                 url = "https://sounds.tabletopaudio.com/197_Battle_of_the_Amazons.mp3",
-                title = "197_Battle_of_the_Amazons"
+                title = "Battle_of_the_Amazons"
             },
             {
                 url = "https://sounds.tabletopaudio.com/196_Crossing_the_Styx.mp3",
-                title = "196_Crossing_the_Styx"
+                title = "Crossing the Styx"
             },
             {
                 url = "https://sounds.tabletopaudio.com/194_Tarrasque_Interior.mp3",
-                title = "194_Tarrasque_Interior"
+                title = "Tarrasque Interior"
             },
             {
                 url = "https://sounds.tabletopaudio.com/192_Swamp_Planet.mp3",
-                title = "192_Swamp_Planet"
+                title = "Swamp Planet"
             },
             {
                 url = "https://sounds.tabletopaudio.com/191_Dying_World.mp3",
-                title = "191_Dying_World"
+                title = "Dying World"
             },
             {
                 url = "https://sounds.tabletopaudio.com/188_Barovian_Village.mp3",
-                title = "188_Barovian_Village"
+                title = "Barovian Village"
             },
             {
                 url = "https://sounds.tabletopaudio.com/184_Underground_Lake.mp3",
-                title = "184_Underground_Lake"
+                title = "Underground Lake"
             },
             {
                 url = "https://sounds.tabletopaudio.com/183_Sea_of_Moving_Ice.mp3",
-                title = "183_Sea_of_Moving_Ice"
+                title = "Sea of Moving Ice"
             },
             {
                 url = "https://sounds.tabletopaudio.com/182_Country_Village.mp3",
-                title = "182_Country_Village"
+                title = "Country Village"
             },
             {
                 url = "https://sounds.tabletopaudio.com/180_Abandoned_Windmill.mp3",
-                title = "180_Abandoned_Windmill"
+                title = "Abandoned Windmill"
             },
             {
                 url = "https://sounds.tabletopaudio.com/178_Ice_Throne.mp3",
-                title = "178_Ice_Throne"
+                title = "Ice Throne"
             },
             {
                 url = "https://sounds.tabletopaudio.com/177_Tavern_Music.mp3",
-                title = "177_Tavern_Music"
+                title = "Tavern Music"
             },
             {
                 url = "https://sounds.tabletopaudio.com/176_Barren_Wastes.mp3",
-                title = "176_Barren_Wastes"
+                title = "Barren Wastes"
             },
             {
                 url = "https://sounds.tabletopaudio.com/175_Royal_Court.mp3",
-                title = "175_Royal_Court"
+                title = "Royal Court"
             },
             {
                 url = "https://sounds.tabletopaudio.com/174_Wizards_Tower.mp3",
-                title = "174_Wizards_Tower"
+                title = "Wizards Tower"
             },
             {
                 url = "https://sounds.tabletopaudio.com/172_Castle_Jail.mp3",
-                title = "172_Castle_Jail"
+                title = "Castle Jail"
             },
             {
                 url = "https://sounds.tabletopaudio.com/170_The_Underdark.mp3",
-                title = "170_The_Underdark"
+                title = "The Underdark"
             },
             {
                 url = "https://sounds.tabletopaudio.com/169_The_Feywild.mp3",
-                title = "169_The_Feywild"
+                title = "The Feywild"
             },
             {
                 url = "https://sounds.tabletopaudio.com/167_Fishing_Village.mp3",
-                title = "167_Fishing_Village"
+                title = "Fishing Village"
             },
             {
                 url = "https://sounds.tabletopaudio.com/166_Quiet_Cove.mp3",
-                title = "166_Quiet_Cove"
+                title = "Quiet Cove"
             },
             {
                 url = "https://sounds.tabletopaudio.com/164_Cistern.mp3",
-                title = "164_Cistern"
+                title = "Cistern"
             },
             {
                 url = "https://sounds.tabletopaudio.com/163_Medieval_Fair.mp3",
-                title = "163_Medieval_Fair"
+                title = "Medieval Fair"
             },
             {
                 url = "https://sounds.tabletopaudio.com/161_Forest_Day.mp3",
-                title = "161_Forest_Day"
+                title = "Forest Day"
             },
             {
                 url = "https://sounds.tabletopaudio.com/159_Stables.mp3",
-                title = "159_Stables"
+                title = "Stables"
             },
             {
                 url = "https://sounds.tabletopaudio.com/158_Waterkeep.mp3",
-                title = "158_Waterkeep"
+                title = "Waterkeep"
             },
             {
                 url = "https://sounds.tabletopaudio.com/153_Secret_Garden.mp3",
-                title = "153_Secret_Garden"
+                title = "Secret Garden"
             },
             {
                 url = "https://sounds.tabletopaudio.com/148_Barovian_Castle.mp3",
-                title = "148_Barovian_Castle"
+                title = "Barovian Castle"
             },
             {
                 url = "https://sounds.tabletopaudio.com/147_Graveyard.mp3",
-                title = "147_Graveyard"
+                title = "Graveyard"
             },
             {
                 url = "https://sounds.tabletopaudio.com/146_Floating_Ice_Castle.mp3",
-                title = "146_Floating_Ice_Castle"
+                title = "Floating Ice Castle"
             },
             {
                 url = "https://sounds.tabletopaudio.com/142_Mummys_Tomb.mp3",
-                title = "142_Mummys_Tomb"
+                title = "Mummys Tomb"
             },
             {
                 url = "https://sounds.tabletopaudio.com/141_Hermit_Hut.mp3",
-                title = "141_Hermit_Hut"
+                title = "Hermit Hut"
             },
             {
                 url = "https://sounds.tabletopaudio.com/139_Sunken_Temple.mp3",
-                title = "139_Sunken_Temple"
+                title = "Sunken Temple"
             },
             {
                 url = "https://sounds.tabletopaudio.com/137_Mill_Town_a.mp3",
-                title = "137_Mill_Town_a"
+                title = "Mill Town a"
             },
             {
                 url = "https://sounds.tabletopaudio.com/136_Temple_Of_Helm.mp3",
-                title = "136_Temple_Of_Helm"
+                title = "Temple Of Helm"
             },
             {
                 url = "https://sounds.tabletopaudio.com/135_Dark_Matter.mp3",
-                title = "135_Dark_Matter"
+                title = "Dark Matter"
             },
             {
                 url = "https://sounds.tabletopaudio.com/134_Carriage_Journey.mp3",
-                title = "134_Carriage_Journey"
+                title = "Carriage Journey"
             },
             {
                 url = "https://sounds.tabletopaudio.com/133_Halfling_Festival.mp3",
-                title = "133_Halfling_Festival"
+                title = "Halfling Festival"
             },
             {
                 url = "https://sounds.tabletopaudio.com/131_The_Bog_Standard.mp3",
-                title = "131_The_Bog_Standard"
+                title = "The Bog Standard"
             },
             {
                 url = "https://sounds.tabletopaudio.com/124_Spire_The_Vermissian.mp3",
-                title = "124_Spire_The_Vermissian"
+                title = "Spire The Vermissian"
             },
             {
                 url = "https://sounds.tabletopaudio.com/123_Spire_The_Hatchery.mp3",
-                title = "123_Spire_The_Hatchery"
+                title = "Spire The Hatchery"
             },
             {
                 url = "https://sounds.tabletopaudio.com/102_Vampire_Castle.mp3",
-                title = "102_Vampire_Castle"
+                title = "Vampire Castle"
             },
             {
                 url = "https://sounds.tabletopaudio.com/104_River_Town.mp3",
-                title = "104_River_Town"
+                title = "River Town"
             },
             {
                 url = "https://sounds.tabletopaudio.com/114_Dwarven_City.mp3",
-                title = "114_Dwarven_City"
+                title = "Dwarven City"
             },
             {
                 url = "https://sounds.tabletopaudio.com/99_Cavern_of_Lost_Souls.mp3",
-                title = "99_Cavern_of_Lost_Souls"
+                title = "Cavern of Lost Souls"
             },
             {
                 url = "https://sounds.tabletopaudio.com/98_Lost_Mine.mp3",
-                title = "98_Lost_Mine"
+                title = "Lost Mine"
             },
             {
                 url = "https://sounds.tabletopaudio.com/91_Elven_Glade.mp3",
-                title = "91_Elven_Glade"
+                title = "Elven Glade"
             },
             {
                 url = "https://sounds.tabletopaudio.com/64_Mountain_Pass.mp3",
-                title = "64_Mountain_Pass"
+                title = "Mountain Pass"
             },
             {
                 url = "https://sounds.tabletopaudio.com/56_Medieval_Town.mp3",
-                title = "56_Medieval_Town"
+                title = "Medieval Town"
             },
             {
                 url = "https://sounds.tabletopaudio.com/49_Goblin's_Cave.mp3",
-                title = "49_Goblins_Cave"
+                title = "Goblins Cave"
             },
             {
                 url = "https://sounds.tabletopaudio.com/8_New_Dust_to_Dust.mp3",
-                title = "8_New_Dust_to_Dust"
+                title = "Dust to Dust"
             },
             {
                 url = "https://sounds.tabletopaudio.com/46_Cathedral.mp3",
-                title = "46_Cathedral"
+                title = "Cathedral"
             },
             {
                 url = "https://sounds.tabletopaudio.com/47_There_be_Dragons.mp3",
-                title = "47_There_be_Dragons"
+                title = "There be Dragons"
             }
         })
     end, waitCount)
 end
-
 function SetFearHungerPlaylist()
     StopPlaylist()
 
@@ -1147,4 +1146,7 @@ function NextMusic()
     Wait.time(function()
         MusicPlayer.skipForward()
     end, waitCount)
+end
+function StartPlaylistPlay()
+    Wait.time(|| MusicPlayer.setCurrentAudioclip(MusicPlayer.getPlaylist()[1]), waitCount + 0.1)
 end
