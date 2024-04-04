@@ -6,10 +6,6 @@ end
 function SetMinecraftPlaylist()
     StopPlaylist()
 
-    MusicPlayer.setCurrentAudioclip({
-        url = "https://vgmsite.com/soundtracks/minecraft/aoqfyvljpe/1-01.%20Key.mp3",
-        title = "Key"
-    })
     Wait.time(function()
         MusicPlayer.setPlaylist({
             {
@@ -234,10 +230,6 @@ end
 function SetTabletopAudioPlaylist()
     StopPlaylist()
 
-    MusicPlayer.setCurrentAudioclip({
-        url = "https://sounds.tabletopaudio.com/405_Brood_Mother.mp3",
-        title = "Brood Mother"
-    })
     Wait.time(function()
         MusicPlayer.setPlaylist({
             {
