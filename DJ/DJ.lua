@@ -581,6 +581,118 @@ function SetTabletopAudioPlaylist()
                 title = "288_Everdeep"
             },
             {
+                url = "https://sounds.tabletopaudio.com/287_The_Strange.mp3",
+                title = "287_The_Strange"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/286_Blastfire_Bog.mp3",
+                title = "286_Blastfire_Bog"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/285_High_Rannoc_Village.mp3",
+                title = "285_High_Rannoc_Village"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/284_Oasis_City.mp3",
+                title = "284_Oasis_City"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/282_The_Wild_Hunt.mp3",
+                title = "282_The_Wild_Hunt"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/281_Escape_from_Shadow.mp3",
+                title = "281_Escape_from_Shadow"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/279_Blighted_Farm.mp3",
+                title = "279_Blighted_Farm"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/278_Farmyard.mp3",
+                title = "278_Farmyard"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/277_A_New_Beginning.mp3",
+                title = "277_A_New_Beginning"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/276_Forge_of_Fury.mp3",
+                title = "276_Forge_of_Fury"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/275_Lorekeeper_Grove.mp3",
+                title = "275_Lorekeeper_Grove"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/274_Jungle_Shaman.mp3",
+                title = "274_Jungle_Shaman"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/273_Arcane_Clockworks.mp3",
+                title = "273_Arcane_Clockworks"
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
                 url = "",
                 title = ""
             }
