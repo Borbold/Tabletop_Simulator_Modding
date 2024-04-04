@@ -243,6 +243,246 @@ function SetTabletopAudioPlaylist()
             {
                 url = "https://sounds.tabletopaudio.com/405_Brood_Mother.mp3",
                 title = "Brood Mother"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/406_Treacherous_Path.mp3",
+                title = "Treacherous Path"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/408_Nautiloid_Escape.mp3",
+                title = "Nautiloid Escape"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/407_Viking_Tavern.mp3",
+                title = "Viking Tavern"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/404_Vampyr.mp3",
+                title = "Vampyr"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/403_Steel_Foundry.mp3",
+                title = "Steel Foundry"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/402_The_Drowned_Tower.mp3",
+                title = "The Drowned Tower"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/401_Feast_of_Crispian.mp3",
+                title = "Feast of Crispian"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/400_Whispering_Caverns.mp3",
+                title = "Whispering Caverns"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/399_Whiteout.mp3",
+                title = "Whiteout"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/398_The_Misty_Marsh.mp3",
+                title = "The Misty Marsh"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/397_Homecoming.mp3",
+                title = "Homecoming"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/394_Demon_Army.mp3",
+                title = "Demon Army"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/393_Hellhound_Alley.mp3",
+                title = "Hellhound Alley"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/390_Desert_Devotional.mp3",
+                title = "Desert Devotional"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/389_Medieval_Market.mp3",
+                title = "389_Medieval_Market"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/388_Lord_of_Bones.mp3",
+                title = "388_Lord_of_Bones"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/384_Western_Watchtower.mp3",
+                title = "384_Western_Watchtower"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/383_Banshees_Lair.mp3",
+                title = "383_Banshees_Lair"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/382_Long_Rest.mp3",
+                title = "382_Long_Rest"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/381_Halfling_Sneak.mp3",
+                title = "381_Halfling_Sneak"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/380_The_Great_Lift.mp3",
+                title = "380_The_Great_Lift"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/378_Descent.mp3",
+                title = "378_Descent"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/377_Through_the_Woods.mp3",
+                title = "377_Through_the_Woods"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/376_Voyage_Begins.mp3",
+                title = "376_Voyage_Begins"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/375_Rise_of_the_Golem.mp3",
+                title = "375_Rise_of_the_Golem"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/374_Hall_of_Angels.mp3",
+                title = "374_Hall_of_Angels"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/373_Infernal_Machine.mp3",
+                title = "373_Infernal_Machine"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/372_Den_of_Iniquity.mp3",
+                title = "372_Den_of_Iniquity"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/371_Whirlpool.mp3",
+                title = "371_Whirlpool"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/369_Troll_Grotto.mp3",
+                title = "369_Troll_Grotto"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/368_Ghosts_of_Appalachia.mp3",
+                title = "368_Ghosts_of_Appalachia"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/367_Rope_Bridge.mp3",
+                title = "367_Rope_Bridge"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/366_Rocs_Nest.mp3",
+                title = "366_Rocs_Nest"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/365_Trail_of_Ashes.mp3",
+                title = "365_Trail_of_Ashes"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/364_River_of_Blood.mp3",
+                title = "364_River_of_Blood"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/362_Rolling_Emporium.mp3",
+                title = "362_Rolling_Emporium"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/361_Ancient_Beacon.mp3",
+                title = "361_Ancient_Beacon"
+            },
+            {
+                url = "https://sounds.tabletopaudio.com/360_Pit_Fighter.mp3",
+                title = "360_Pit_Fighter"
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
+            },
+            {
+                url = "",
+                title = ""
             }
         })
     end, waitCount)
