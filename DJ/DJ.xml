@@ -9,8 +9,11 @@
         <Row preferredHeight='20'/>
         <!-- 1 -->
         <Row>
-            <Cell columnSpan='8'/>
+            <Cell columnSpan='6'/>
 
+            <Cell columnSpan='2'>
+                <Button text='||' onClick='StartPlaylistPlay' color='#9487a9' tooltip='Start playlist from beginning'/>
+            </Cell>
             <Cell columnSpan='2'>
                 <Button text='←' onClick='PrevMusic' color='#9487a9' tooltip='Swith previous music'/>
             </Cell>
@@ -35,7 +38,7 @@
                 <Button text='Tabletop Audio' onClick='SetTabletopAudioPlaylist' color='#000000' textColor='#ffffff'/>
             </Cell>
             <Cell columnSpan='2'>
-                <Button text='Fear and Hunger' onClick='SetFearHungerPlaylist' color='#a02828' textColor='#a0a0a0'/>
+                <Button text='Fear and Hunger' onClick='SetFearHungerPlaylist' color='#a02828' textColor='#E3E88E'/>
             </Cell>
             <Cell columnSpan='2'>
                 <Button text='' onClick=''/>
