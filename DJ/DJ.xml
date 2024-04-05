@@ -12,7 +12,7 @@
             <Cell columnSpan='8'/>
 
             <Cell columnSpan='2'>
-                <Button text='←' onClick='PrevMusic' color='#9487a9' tooltip='Swith previous/start over current music'/>
+                <Button text='←' onClick='PrevMusic' color='#9487a9' tooltip='Swith previous music'/>
             </Cell>
             <Cell columnSpan='2'>
                 <Button text='Play' onClick='PlayPlaylist' color='#94a973' tooltip='Resume/Play current music'/>
@@ -66,10 +66,10 @@
             <Cell columnSpan='1'/>
 
             <Cell columnSpan='2'>
-                <Button text='Research turning into battle' onClick='SetRisenPlaylist' color='#b48773'/>
+                <Button text='Exploring Island' onClick='SetRisenRPlaylist' color='#3528B8' textColor='#9B987E'/>
             </Cell>
             <Cell columnSpan='2'>
-                <Button text='' onClick=''/>
+                <Button text='Battle Island' onClick='SetRisenBPlaylist' color='#BC0039' textColor='#9B987E'/>
             </Cell>
             <Cell columnSpan='2'>
                 <Button text='' onClick=''/>
