@@ -49,6 +49,19 @@ function StartInitiative()
             tonumber(self.UI.getAttribute("reactionStep" .. i, "text"))
         }
     end
+    local flagn = true
+    for world in self.getGMNotes():gmatch("%S+") do
+        if flagn == false then
+            countMember = countMember + 1
+            locInit[countMember] = {
+                world,
+                1
+            }
+            flagn = true
+        elseif flagn == true then
+            flagn = false
+        end
+    end
     local j, flag = 1, 0
     while true do
         if locInit[j][2] > locInit[j + 1][2] then
@@ -128,9 +141,9 @@ end
 
 function RebuildAssets()
     local backG = 'https://i.imgur.com/tYaqJqA.png'
-    local redBut = 'https://cdn.discordapp.com/attachments/800324103848198174/1193905025894854750/Unikalnaya.png'
-    local greenBut = 'https://cdn.discordapp.com/attachments/800324103848198174/1193905026180075610/Unikalnaya2.png'
-    local grayBut = "https://cdn.discordapp.com/attachments/800324103848198174/1193946708128825458/Unikalnaya3.png"
+    local redBut = 'https://steamusercontent-a.akamaihd.net/ugc/2459619830648665602/064FACEB06FF83F6A2FBC53E139F3931DA2A3C2F/'
+    local greenBut = 'https://steamusercontent-a.akamaihd.net/ugc/2459619830648665347/7C0EC5195CE6BDF8C30CF6A5BB94AE39A9E31118/'
+    local grayBut = "https://steamusercontent-a.akamaihd.net/ugc/2459619830648665500/FA24417B20C97104FAB7596835D660E2DAF28591/"
     local assets = {
       {name = 'uiBackGround', url = backG},
       {name = 'uiRedBut', url = redBut},

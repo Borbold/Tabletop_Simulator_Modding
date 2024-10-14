@@ -2,6 +2,9 @@
     <Image class='lamp' width='50' />
     <Button class='textButton' textColor='#948773' textOutline='#94877355' color='#00000000'  />
     <InputField class='changedText' onEndEdit='ChangeText' />
+    <Button class='infoBuff'
+        tooltipTextColor='#948773' tooltipPosition='Above' tooltipFontSize='30' tooltipBackgroundColor='#000000' tooltipOffset='100'
+        columnSpan='1' image='uiGrayBut' text='-' width='50'/>
 
     <Cell dontUseTableCellBackground='true' />
     <Button resizeTextForBestFit='true' resizeTextMaxSize='50' />
@@ -184,7 +187,7 @@
                             </Cell>
                         </Row>
                         <Row preferredHeight='50'>
-                            <Cell columnSpan='1'> <Panel> <Button class='lamp' columnSpan='1' image='uiRedBut' text='1' width='50' /> </Panel> </Cell>
+                            <Cell columnSpan='1'> <Panel> <Button class='infoBuff' /> </Panel> </Cell>
                         </Row>
                     </TableLayout>
                 </Panel>
