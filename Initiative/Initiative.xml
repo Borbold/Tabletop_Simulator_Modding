@@ -2,7 +2,7 @@
     <Image class='lamp' width='50' />
     <Button class='textButton' textColor='#948773' textOutline='#94877355' color='#00000000'  />
     <InputField class='changedText' onEndEdit='ChangeText' />
-    <Button class='infoBuff'
+    <Button class='infoTimeR'
         tooltipTextColor='#948773' tooltipPosition='Above' tooltipFontSize='30' tooltipBackgroundColor='#000000' tooltipOffset='100'
         columnSpan='1' image='uiGrayBut' text='-' width='50'/>
 
@@ -187,7 +187,16 @@
                             </Cell>
                         </Row>
                         <Row preferredHeight='50'>
-                            <Cell columnSpan='1'> <Panel> <Button class='infoBuff' /> </Panel> </Cell>
+                            <Cell columnSpan='1'> <Panel> <Button id='timeR1' class='infoTimeR' /> </Panel> </Cell>
+                            <Cell columnSpan='1'> <Panel> <Button id='timeR2' class='infoTimeR' /> </Panel> </Cell>
+                            <Cell columnSpan='1'> <Panel> <Button id='timeR3' class='infoTimeR' /> </Panel> </Cell>
+                            <Cell columnSpan='1'> <Panel> <Button id='timeR4' class='infoTimeR' /> </Panel> </Cell>
+                            <Cell columnSpan='1'> <Panel> <Button id='timeR5' class='infoTimeR' /> </Panel> </Cell>
+                            <Cell columnSpan='1'> <Panel> <Button id='timeR6' class='infoTimeR' /> </Panel> </Cell>
+                            <Cell columnSpan='1'> <Panel> <Button id='timeR7' class='infoTimeR' /> </Panel> </Cell>
+                            <Cell columnSpan='1'> <Panel> <Button id='timeR8' class='infoTimeR' /> </Panel> </Cell>
+                            <Cell columnSpan='1'> <Panel> <Button id='timeR9' class='infoTimeR' /> </Panel> </Cell>
+                            <Cell columnSpan='1'> <Panel> <Button id='timeR10' class='infoTimeR' /> </Panel> </Cell>
                         </Row>
                     </TableLayout>
                 </Panel>
