@@ -139,6 +139,12 @@ function Reset()
     ChangeUI()
 end
 
+function GetInfoTimeReinforcment(args)
+    self.UI.setAttribute("timeR1", "tooltip", "Бибик:\n" .. args["desc"])
+    self.UI.setAttribute("timeR1", "text", args["time"])
+    self.UI.setAttribute("timeR1", "image", "uiGreenBut")
+end
+
 function RebuildAssets()
     local backG = 'https://i.imgur.com/tYaqJqA.png'
     local redBut = 'https://steamusercontent-a.akamaihd.net/ugc/2459619830648665602/064FACEB06FF83F6A2FBC53E139F3931DA2A3C2F/'
