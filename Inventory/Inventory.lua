@@ -1,4 +1,4 @@
-﻿function UpdateSave()
+function UpdateSave()
   local dataToSave = {
     ["tableItems"] = tableItems,
     ["infoGUID"] = infoGUID, ["statusGUID"] = statusGUID, ["skillsGUID"] = skillsGUID,
@@ -111,6 +111,10 @@ function onCollisionEnter(info)
   local findText = newDescription:find(findWord)
   if findText and objTag != "Item" then
     ChangeDependentVariables(newDescription:sub(findText))
+    if objTag == "Baff" then
+      args = {desc = newDescription, time = newObject.getGMNotes()}
+      getObjectFromGUID(self.getGMNotes()).call("GetInfoTimeReinforcment", args)
+    end
   end
   
   Wait.time(|| UpdateSave(), 0.5)
