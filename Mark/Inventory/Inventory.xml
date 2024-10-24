@@ -1,29 +1,33 @@
 <Defaults>
     <Cell class='plugOne' columnSpan='1'/>
     <Cell class='plugTwo' columnSpan='2'/>
-    <InputField class='Bonus' characterLimit='3' onEndEdit='ChangeBonus' resizeTextForBestFit='false' fontSize='23' />
+    <InputField class='Bonus' characterLimit='3' onEndEdit='ChangeBonus' resizeTextForBestFit='false' fontSize='50' />
 
     <Cell dontUseTableCellBackground='true' />
     <Button resizeTextForBestFit='true' resizeTextMaxSize='50' />
-    <InputField resizeTextForBestFit='true' resizeTextMaxSize='50' resizeTextMinSize='5'
+    <InputField resizeTextForBestFit='true' resizeTextMaxSize='80' resizeTextMinSize='5'
         color='#9487a900' textAlignment='MiddleCenter' text='0'
         textColor='#ffffff' textOutline='#94877355' characterValidation='Integer' font='Fonts/Buky' />
     <Text resizeTextForBestFit='true' resizeTextMaxSize='50'
         color='#948773'/>
 </Defaults>
 
-<Panel position='0 0 -17' rotation='0 0 180' height='830' width='660' scale='0.5'>
+<Panel position='0 0 -17' rotation='0 0 180' height='1660' width='1320' scale='0.25'>
 	<TableLayout>
-        <Row preferredHeight='350' />
+        <Row preferredHeight='700' />
         <Row>
             <Cell columnSpan='29' />
-            <Cell columnSpan='6'>
-                <InputField characterLimit='2' tooltip='ʁиʚɯɔn̯ǝɓ иʞҺо оɯє' tooltipOffset='50' tooltipPosition='Left' />
+            <Cell columnSpan='5'>
+                <InputField characterLimit='2' tooltip='ʁиʚɯɔn̯ǝɓ иʞҺо оɯє' tooltipOffset='10' tooltipPosition='Left' />
             </Cell>
-            <Cell columnSpan='9' />
+            <Cell columnSpan='10' childForceExpandHeight='false' childForceExpandWidth='false'>
+                <Panel>
+                    <Image offsetXY='140 50' image='Body' height='400' width='400' />
+                </Panel>
+            </Cell>
         </Row>
-        <Row preferredHeight='10' />
-        <Row preferredHeight='130'>
+        <Row preferredHeight='20' />
+        <Row preferredHeight='260'>
             <Cell columnSpan='29' />
             <Cell columnSpan='15'>
                 <Panel>
@@ -31,30 +35,30 @@
                         <Row>
                             <Cell class='plugOne'/>
                             <Cell>
-                                <InputField id='Bonus1' class='Bonus' textColor='#ff0000' />
+                                <InputField id='Bonus1' class='Bonus' textColor='#8B0000' />
                             </Cell>
                             <Cell>
-                                <InputField id='Bonus2' class='Bonus' />
-                            </Cell>
-                            <Cell class='plugOne'/>
-                        </Row>
-                        <Row>
-                            <Cell class='plugOne'/>
-                            <Cell>
-                                <InputField id='Bonus3' class='Bonus' />
-                            </Cell>
-                            <Cell>
-                                <InputField id='Bonus4' class='Bonus' />
+                                <InputField id='Bonus2' class='Bonus' textColor='#32CD32' />
                             </Cell>
                             <Cell class='plugOne'/>
                         </Row>
                         <Row>
                             <Cell class='plugOne'/>
                             <Cell>
-                                <InputField id='Bonus5' class='Bonus' />
+                                <InputField id='Bonus3' class='Bonus' textColor='#531a50' />
                             </Cell>
                             <Cell>
-                                <InputField id='Bonus6' class='Bonus' />
+                                <InputField id='Bonus4' class='Bonus' textColor='#FF8C00' />
+                            </Cell>
+                            <Cell class='plugOne'/>
+                        </Row>
+                        <Row>
+                            <Cell class='plugOne'/>
+                            <Cell>
+                                <InputField id='Bonus5' class='Bonus' textColor='#000000' />
+                            </Cell>
+                            <Cell>
+                                <InputField id='Bonus6' class='Bonus' textColor='#FF7F50' />
                             </Cell>
                             <Cell class='plugOne'/>
                         </Row>
@@ -62,9 +66,9 @@
                 </Panel>
             </Cell>
         </Row>
-        <Row preferredHeight='20' />
-        <Row preferredHeight='100' />
-        <Row preferredHeight='30'>
+        <Row preferredHeight='40' />
+        <Row preferredHeight='200' />
+        <Row preferredHeight='60'>
             <Cell class='plugOne' />
             <Cell class='plugTwo'>
                 <InputField characterLimit='1' />
@@ -111,6 +115,6 @@
             </Cell>
             <Cell class='plugOne' />
         </Row>
-        <Row preferredHeight='120' />
+        <Row preferredHeight='240' />
 	</TableLayout>
 </Panel>

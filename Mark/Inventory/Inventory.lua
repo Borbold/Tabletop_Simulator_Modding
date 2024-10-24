@@ -126,7 +126,7 @@ function ChangeBonus(_, input, id)
     local newDesc = ""
     for i,str in ipairs(locDesc) do
         newDesc = newDesc .. str
-        if i == 6 then break end
+        if i == 5 then break end
         newDesc = newDesc .. "\n"
     end
     self.setDescription(newDesc)
