@@ -1,0 +1,23 @@
+<Defaults>
+	<InputField resizeTextForBestFit='true' resizeTextMaxSize='25' resizeTextMinSize='20'
+		color='#ffffff00' textOutline='#ffffff2a' selectionColor='#ffffe08a'
+        textColor='#1A181A' lineType='MultiLineNewLine' font='Fonts/Buky'/>
+    <Cell dontUseTableCellBackground='true'/>
+</Defaults>
+
+<Panel position='0 -2 -10' rotation='0 0 180' height='220' width='340'>
+    <TableLayout>
+        <Row>
+            <Cell columnSpan='40'>
+                <InputField id='inputText' placeholder='The beginning of the journey...' onEndEdit='AccessPassword' interactable='true'/>
+            </Cell>
+        </Row>
+        <Row preferredHeight='10'>
+            <Cell columnSpan='39' />
+            <Cell columnSpan='1'>
+                <Button id='pen' onClick='ChangePassword' visibility='Black'
+                    image='https://steamusercontent-a.akamaihd.net/ugc/2459620193695094291/2311C4100E304D920086612B2683D0CC0D2BC7D2/'/>
+            </Cell>
+        </Row>
+    </TableLayout>
+</Panel>

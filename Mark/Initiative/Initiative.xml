@@ -1,0 +1,210 @@
+<Defaults>
+    <Image class='lamp' width='50' />
+    <Button class='textButton' textColor='#948773' textOutline='#94877355' color='#00000000'  />
+    <InputField class='changedText' onEndEdit='ChangeText' />
+    <Button class='infoTimeR'
+        tooltipTextColor='#948773' tooltipPosition='Above' tooltipFontSize='30' tooltipBackgroundColor='#000000' tooltipOffset='100'
+        columnSpan='1' image='uiGrayBut' text='-' width='50'/>
+
+    <Cell dontUseTableCellBackground='true' />
+    <Button resizeTextForBestFit='true' resizeTextMaxSize='50' />
+    <InputField resizeTextForBestFit='true' resizeTextMaxSize='50'
+        color='#9487a90a' textAlignment='MiddleCenter'
+        textColor='#948773' textOutline='#94877355' />
+    <Text resizeTextForBestFit='true' resizeTextMaxSize='50'
+        color='#948773'/>
+</Defaults>
+
+<Panel position='0 700 -21' height='1350' width='1000'>
+	<TableLayout image='uiBackGround' cellSpacing='10'>
+        <Row preferredHeight='10' />
+        <Row preferredHeight='50'>
+            <Cell columnSpan='1' />
+            <Cell columnSpan='5'> <Text id='countRound' text='Rounds:1' /> </Cell>
+            <Cell columnSpan='5'> <Text text='Members:' /> </Cell>
+            <Cell columnSpan='2'> <InputField id='countMember' text='2' textAlignment='MiddleLeft' onEndEdit='ChangeMember' characterValidation='Integer' /> </Cell>
+            <Cell columnSpan='10' />
+            <Cell columnSpan='3'> <Panel> <Button onClick='Reset' image='uiReset' offsetXY='-13 0' /> </Panel> </Cell>
+        </Row>
+        <Row preferredHeight='50'>
+            <Cell columnSpan='2'> <Text text='1' /> </Cell>
+            <Cell> <Panel> <Image class='lamp' id='lamp1' columnSpan='1' image='uiGreenBut' /> </Panel> </Cell>
+            <Cell columnSpan='5'> <InputField class='changedText' id='nameStep1' placeholder='Имя' text='' /> </Cell>
+            <Cell columnSpan='3'> <InputField class='changedText' id='reactionStep1' placeholder='Реакция' characterValidation='Integer' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step1' onClick='StepUP' class='textButton' text='↑' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step1' onClick='StepDown' class='textButton' text='↓' /> </Cell>
+            <Cell columnSpan='5' />
+        </Row>
+        <Row preferredHeight='50'>
+            <Cell columnSpan='2'> <Text text='2' /> </Cell>
+            <Cell> <Panel> <Image class='lamp' id='lamp2' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
+            <Cell columnSpan='5'> <InputField class='changedText' id='nameStep2' placeholder='Имя' text='' /> </Cell>
+            <Cell columnSpan='3'> <InputField class='changedText' id='reactionStep2' placeholder='Реакция' characterValidation='Integer' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step2' onClick='StepUP' class='textButton' text='↑' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step2' onClick='StepDown' class='textButton' text='↓' /> </Cell>
+            <Cell columnSpan='5' />
+        </Row>
+        <Row preferredHeight='50'>
+            <Cell columnSpan='2'> <Text text='3' /> </Cell>
+            <Cell> <Panel> <Image class='lamp' id='lamp3' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
+            <Cell columnSpan='5'> <InputField class='changedText' id='nameStep3' placeholder='Имя' text='' /> </Cell>
+            <Cell columnSpan='3'> <InputField class='changedText' id='reactionStep3' placeholder='Реакция' characterValidation='Integer' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step3' onClick='StepUP' class='textButton' text='↑' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step3' onClick='StepDown' class='textButton' text='↓' /> </Cell>
+            <Cell columnSpan='5' />
+        </Row>
+        <Row preferredHeight='50'>
+            <Cell columnSpan='2'> <Text text='4' /> </Cell>
+            <Cell> <Panel> <Image class='lamp' id='lamp4' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
+            <Cell columnSpan='5'> <InputField class='changedText' id='nameStep4' placeholder='Имя' text='' /> </Cell>
+            <Cell columnSpan='3'> <InputField class='changedText' id='reactionStep4' placeholder='Реакция' characterValidation='Integer' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step4' onClick='StepUP' class='textButton' text='↑' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step4' onClick='StepDown' class='textButton' text='↓' /> </Cell>
+            <Cell columnSpan='5' />
+        </Row>
+        <Row preferredHeight='50'>
+            <Cell columnSpan='2'> <Text text='5' /> </Cell>
+            <Cell> <Panel> <Image class='lamp' id='lamp5' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
+            <Cell columnSpan='5'> <InputField class='changedText' id='nameStep5' placeholder='Имя' text='' /> </Cell>
+            <Cell columnSpan='3'> <InputField class='changedText' id='reactionStep5' placeholder='Реакция' characterValidation='Integer' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step5' onClick='StepUP' class='textButton' text='↑' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step5' onClick='StepDown' class='textButton' text='↓' /> </Cell>
+            <Cell columnSpan='5' />
+        </Row>
+        <Row preferredHeight='50'>
+            <Cell columnSpan='2'> <Text text='6' /> </Cell>
+            <Cell> <Panel> <Image class='lamp' id='lamp6' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
+            <Cell columnSpan='5'> <InputField class='changedText' id='nameStep6' placeholder='Имя' /> </Cell>
+            <Cell columnSpan='3'> <InputField class='changedText' id='reactionStep6' placeholder='Реакция' characterValidation='Integer' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step6' onClick='StepUP' class='textButton' text='↑' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step6' onClick='StepDown' class='textButton' text='↓' /> </Cell>
+            <Cell columnSpan='5' />
+        </Row>
+        <Row preferredHeight='50'>
+            <Cell columnSpan='2'> <Text text='7' /> </Cell>
+            <Cell> <Panel> <Image class='lamp' id='lamp7' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
+            <Cell columnSpan='5'> <InputField class='changedText' id='nameStep7' placeholder='Имя' /> </Cell>
+            <Cell columnSpan='3'> <InputField class='changedText' id='reactionStep7' placeholder='Реакция' characterValidation='Integer' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step7' onClick='StepUP' class='textButton' text='↑' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step7' onClick='StepDown' class='textButton' text='↓' /> </Cell>
+            <Cell columnSpan='5' />
+        </Row>
+        <Row preferredHeight='50'>
+            <Cell columnSpan='2'> <Text text='8' /> </Cell>
+            <Cell> <Panel> <Image class='lamp' id='lamp8' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
+            <Cell columnSpan='5'> <InputField class='changedText' id='nameStep8' placeholder='Имя' /> </Cell>
+            <Cell columnSpan='3'> <InputField class='changedText' id='reactionStep8' placeholder='Реакция' characterValidation='Integer' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step8' onClick='StepUP' class='textButton' text='↑' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step8' onClick='StepDown' class='textButton' text='↓' /> </Cell>
+            <Cell columnSpan='5' />
+        </Row>
+        <Row preferredHeight='50'>
+            <Cell columnSpan='2'> <Text text='9' /> </Cell>
+            <Cell> <Panel> <Image class='lamp' id='lamp9' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
+            <Cell columnSpan='5'> <InputField class='changedText' id='nameStep9' placeholder='Имя' /> </Cell>
+            <Cell columnSpan='3'> <InputField class='changedText' id='reactionStep9' placeholder='Реакция' characterValidation='Integer' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step9' onClick='StepUP' class='textButton' text='↑' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step9' onClick='StepDown' class='textButton' text='↓' /> </Cell>
+            <Cell columnSpan='5' />
+        </Row>
+        <Row preferredHeight='50'>
+            <Cell columnSpan='2'> <Text text='10' /> </Cell>
+            <Cell> <Panel> <Image class='lamp' id='lamp10' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
+            <Cell columnSpan='5'> <InputField class='changedText' id='nameStep10' placeholder='Имя' /> </Cell>
+            <Cell columnSpan='3'> <InputField class='changedText' id='reactionStep10' placeholder='Реакция' characterValidation='Integer' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step10' onClick='StepUP' class='textButton' text='↑' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step10' onClick='StepDown' class='textButton' text='↓' /> </Cell>
+            <Cell columnSpan='12'> </Cell>
+        </Row>
+        <Row preferredHeight='50'>
+            <Cell columnSpan='2'> <Text text='11' /> </Cell>
+            <Cell> <Panel> <Image class='lamp' id='lamp11' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
+            <Cell columnSpan='5'> <InputField class='changedText' id='nameStep11' placeholder='Имя' /> </Cell>
+            <Cell columnSpan='3'> <InputField class='changedText' id='reactionStep11' placeholder='Реакция' characterValidation='Integer' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step11' onClick='StepUP' class='textButton' text='↑' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step11' onClick='StepDown' class='textButton' text='↓' /> </Cell>
+            <Cell columnSpan='5' />
+        </Row>
+        <Row preferredHeight='50'>
+            <Cell columnSpan='2'> <Text text='12' /> </Cell>
+            <Cell> <Panel> <Image class='lamp' id='lamp12' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
+            <Cell columnSpan='5'> <InputField class='changedText' id='nameStep12' placeholder='Имя' /> </Cell>
+            <Cell columnSpan='3'> <InputField class='changedText' id='reactionStep12' placeholder='Реакция' characterValidation='Integer' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step12' onClick='StepUP' class='textButton' text='↑' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step12' onClick='StepDown' class='textButton' text='↓' /> </Cell>
+            <Cell columnSpan='5' />
+        </Row>
+        <Row preferredHeight='50'>
+            <Cell columnSpan='2'> <Text text='13' /> </Cell>
+            <Cell> <Panel> <Image class='lamp' id='lamp13' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
+            <Cell columnSpan='5'> <InputField class='changedText' id='nameStep13' placeholder='Имя' /> </Cell>
+            <Cell columnSpan='3'> <InputField class='changedText' id='reactionStep13' placeholder='Реакция' characterValidation='Integer' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step13' onClick='StepUP' class='textButton' text='↑' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step13' onClick='StepDown' class='textButton' text='↓' /> </Cell>
+            <Cell columnSpan='5' />
+        </Row>
+        <Row preferredHeight='50'>
+            <Cell columnSpan='2'> <Text text='14' /> </Cell>
+            <Cell> <Panel> <Image class='lamp' id='lamp14' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
+            <Cell columnSpan='5'> <InputField class='changedText' id='nameStep14' placeholder='Имя' /> </Cell>
+            <Cell columnSpan='3'> <InputField class='changedText' id='reactionStep14' placeholder='Реакция' characterValidation='Integer' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step14' onClick='StepUP' class='textButton' text='↑' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step14' onClick='StepDown' class='textButton' text='↓' /> </Cell>
+            <Cell columnSpan='5' />
+        </Row>
+        <Row preferredHeight='50'>
+            <Cell columnSpan='2'> <Text text='15' /> </Cell>
+            <Cell> <Panel> <Image class='lamp' id='lamp15' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
+            <Cell columnSpan='5'> <InputField class='changedText' id='nameStep15' placeholder='Имя' /> </Cell>
+            <Cell columnSpan='3'> <InputField class='changedText' id='reactionStep15' placeholder='Реакция' characterValidation='Integer' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step15' onClick='StepUP' class='textButton' text='↑' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step15' onClick='StepDown' class='textButton' text='↓' /> </Cell>
+            <Cell columnSpan='5' />
+        </Row>
+        <Row preferredHeight='50'>
+            <Cell columnSpan='2'> <Text text='16' /> </Cell>
+            <Cell> <Panel> <Image class='lamp' id='lamp16' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
+            <Cell columnSpan='5'> <InputField class='changedText' id='nameStep16' placeholder='Имя' /> </Cell>
+            <Cell columnSpan='3'> <InputField class='changedText' id='reactionStep16' placeholder='Реакция' characterValidation='Integer' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step16' onClick='StepUP' class='textButton' text='↑' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step16' onClick='StepDown' class='textButton' text='↓' /> </Cell>
+            <Cell columnSpan='5' />
+        </Row>
+        <Row preferredHeight='50'>
+            <Cell columnSpan='2'> <Text text='18' /> </Cell>
+            <Cell> <Panel> <Image class='lamp' id='lamp18' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
+            <Cell columnSpan='5'> <InputField class='changedText' id='nameStep18' placeholder='Имя' /> </Cell>
+            <Cell columnSpan='3'> <InputField class='changedText' id='reactionStep18' placeholder='Реакция' characterValidation='Integer' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step18' onClick='StepUP' class='textButton' text='↑' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step18' onClick='StepDown' class='textButton' text='↓' /> </Cell>
+            <Cell columnSpan='5' />
+        </Row>
+        <Row preferredHeight='50'>
+            <Cell columnSpan='2'> <Text text='19' /> </Cell>
+            <Cell> <Panel> <Image class='lamp' id='lamp19' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
+            <Cell columnSpan='5'> <InputField class='changedText' id='nameStep19' placeholder='Имя' /> </Cell>
+            <Cell columnSpan='3'> <InputField class='changedText' id='reactionStep19' placeholder='Реакция' characterValidation='Integer' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step19' onClick='StepUP' class='textButton' text='↑' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step19' onClick='StepDown' class='textButton' text='↓' /> </Cell>
+            <Cell columnSpan='5' />
+        </Row>
+        <Row preferredHeight='50'>
+            <Cell columnSpan='2'> <Text text='20' /> </Cell>
+            <Cell> <Panel> <Image class='lamp' id='lamp20' columnSpan='1' image='uiRedBut' /> </Panel> </Cell>
+            <Cell columnSpan='5'> <InputField class='changedText' id='nameStep20' placeholder='Имя' /> </Cell>
+            <Cell columnSpan='3'> <InputField class='changedText' id='reactionStep20' placeholder='Реакция' characterValidation='Integer' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step20' onClick='StepUP' class='textButton' text='↑' /> </Cell>
+            <Cell columnSpan='1'> <Button id='step20' onClick='StepDown' class='textButton' text='↓' /> </Cell>
+            <Cell columnSpan='5' />
+        </Row>
+        <Row preferredHeight='100'>
+            <Cell columnSpan='1' />
+            <Cell columnSpan='7'>
+                <Button class='textButton' text='Next Step' onClick='NextStep' />
+            </Cell>
+            <Cell columnSpan='2' />
+            <Cell columnSpan='10' />
+            <Cell columnSpan='6'> <Panel> <Button class='textButton' onClick='StartInitiative' text='Start' offsetXY='-13 0' /> </Panel> </Cell>
+        </Row>
+    </TableLayout>
+</Panel>

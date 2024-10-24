@@ -40,13 +40,13 @@ local pointSkills = {
     Weightlifting = "сила", Riding = "ловкость", Theft = "ловкость",
     Athletics = "ловкость", Disguise = "восприятие", Shooting = "восприятие",
     Evasion = "ловкость", Fencing = "ловкость", Blocking = "сила",
-    ["Martial Arts"] = "ловкость", Survival = "восприятие", ["Local Knowledge"] = "интелект",
-    ["Foreign Language"] = "интелект", Medicine = "интелект", Science = "интелект",
+    MartialArts = "ловкость", Survival = "восприятие", LocalKnowledge = "интелект",
+    ForeignLanguage = "интелект", Medicine = "интелект", Science = "интелект",
     Cooking = "восприятие", Herbalism = "восприятие", Observation = "восприятие",
-    Orientation = "восприятие", ["First Aid"] = "восприятие", Mechanics = "интелект",
+    Orientation = "восприятие", FirstAid = "восприятие", Mechanics = "интелект",
     Armor = "сила", Gunsmith = "сила", Interrogation = "сила",
     Livestock = "восприятие", Leadership = "харизма", Acting = "харизма",
-    Deception = "харизма"
+    Speechcraft = "харизма", Art = "восприятие", Trade = "харизма", Gambling = "ловкость"
 }
 
 local flagCollision = false
@@ -57,10 +57,17 @@ function Confer(savedData)
     snaps = self.getSnapPoints()
     throw = getObjectFromGUID(self.getGMNotes())
     flagCollision = true
+
+    local id = 1
+    for word in self.getDescription():gmatch("%S+") do
+        self.UI.setAttribute("Bonus"..id, "text", word)
+        id = id + 1
+    end
 end
 
 function onCollisionEnter(info)
     if flagCollision == false then return end
+    PrintBlack("Hello on")
 
     local lTag = info.collision_object.getTags()[1]
     if lTag ~= nil then --Skills
@@ -77,7 +84,6 @@ function onCollisionEnter(info)
         if locPos.y > 0 then
             for _,point in ipairs(snaps) do
                 if CheckPos(locPos, point.position) then
-                    print("Snap point position: ", Round(point.position.x, 2), " ", Round(point.position.z, 2))
                     for tChar,values in pairs(pointsPos) do
                         for index,value in ipairs(values) do
                             if value.x == Round(point.position.x, 2) and value.z == Round(point.position.z, 2) then
@@ -98,6 +104,32 @@ function onCollisionEnter(info)
             end
         end
     end
+end
+
+function onCollisionExit()
+    PrintBlack("Hello off")
+end
+
+function PrintBlack(text)
+    if Player["Black"] and Player["Black"].steam_id then
+        broadcastToColor(text, "Black")
+    end
+end
+
+function ChangeBonus(_, input, id)
+    local loc, locDesc = "Bonus", {}
+    local id = tonumber(id:sub(loc:len() + 1))
+    for word in self.getDescription():gmatch("%S+") do
+        table.insert(locDesc, word)
+    end
+    locDesc[id] = input
+    local newDesc = ""
+    for i,str in ipairs(locDesc) do
+        newDesc = newDesc .. str
+        if i == 6 then break end
+        newDesc = newDesc .. "\n"
+    end
+    self.setDescription(newDesc)
 end
 
 function CheckPos(pos1, pos2)

@@ -1,0 +1,116 @@
+<Defaults>
+    <Cell class='plugOne' columnSpan='1'/>
+    <Cell class='plugTwo' columnSpan='2'/>
+    <InputField class='Bonus' characterLimit='3' onEndEdit='ChangeBonus' resizeTextForBestFit='false' fontSize='23' />
+
+    <Cell dontUseTableCellBackground='true' />
+    <Button resizeTextForBestFit='true' resizeTextMaxSize='50' />
+    <InputField resizeTextForBestFit='true' resizeTextMaxSize='50' resizeTextMinSize='5'
+        color='#9487a900' textAlignment='MiddleCenter' text='0'
+        textColor='#ffffff' textOutline='#94877355' characterValidation='Integer' font='Fonts/Buky' />
+    <Text resizeTextForBestFit='true' resizeTextMaxSize='50'
+        color='#948773'/>
+</Defaults>
+
+<Panel position='0 0 -17' rotation='0 0 180' height='830' width='660' scale='0.5'>
+	<TableLayout>
+        <Row preferredHeight='350' />
+        <Row>
+            <Cell columnSpan='29' />
+            <Cell columnSpan='6'>
+                <InputField characterLimit='2' tooltip='ʁиʚɯɔn̯ǝɓ иʞҺо оɯє' tooltipOffset='50' tooltipPosition='Left' />
+            </Cell>
+            <Cell columnSpan='9' />
+        </Row>
+        <Row preferredHeight='10' />
+        <Row preferredHeight='130'>
+            <Cell columnSpan='29' />
+            <Cell columnSpan='15'>
+                <Panel>
+	                <TableLayout>
+                        <Row>
+                            <Cell class='plugOne'/>
+                            <Cell>
+                                <InputField id='Bonus1' class='Bonus' textColor='#ff0000' />
+                            </Cell>
+                            <Cell>
+                                <InputField id='Bonus2' class='Bonus' />
+                            </Cell>
+                            <Cell class='plugOne'/>
+                        </Row>
+                        <Row>
+                            <Cell class='plugOne'/>
+                            <Cell>
+                                <InputField id='Bonus3' class='Bonus' />
+                            </Cell>
+                            <Cell>
+                                <InputField id='Bonus4' class='Bonus' />
+                            </Cell>
+                            <Cell class='plugOne'/>
+                        </Row>
+                        <Row>
+                            <Cell class='plugOne'/>
+                            <Cell>
+                                <InputField id='Bonus5' class='Bonus' />
+                            </Cell>
+                            <Cell>
+                                <InputField id='Bonus6' class='Bonus' />
+                            </Cell>
+                            <Cell class='plugOne'/>
+                        </Row>
+	                </TableLayout>
+                </Panel>
+            </Cell>
+        </Row>
+        <Row preferredHeight='20' />
+        <Row preferredHeight='100' />
+        <Row preferredHeight='30'>
+            <Cell class='plugOne' />
+            <Cell class='plugTwo'>
+                <InputField characterLimit='1' />
+            </Cell>
+            <Cell class='plugTwo' />
+            <Cell class='plugTwo'>
+                <InputField characterLimit='1' />
+            </Cell>
+            <Cell class='plugTwo' />
+            <Cell class='plugTwo'>
+                <InputField characterLimit='1' />
+            </Cell>
+            <Cell class='plugTwo' />
+            <Cell class='plugTwo'>
+                <InputField characterLimit='1' />
+            </Cell>
+            <Cell class='plugTwo' />
+            <Cell class='plugTwo'>
+                <InputField characterLimit='1' />
+            </Cell>
+            <Cell class='plugTwo' />
+            <Cell class='plugTwo'>
+                <InputField characterLimit='1' />
+            </Cell>
+            <Cell class='plugTwo' />
+            <Cell class='plugTwo'>
+                <InputField characterLimit='1' />
+            </Cell>
+            <Cell class='plugTwo' />
+            <Cell class='plugTwo'>
+                <InputField characterLimit='1' />
+            </Cell>
+            <Cell class='plugTwo' />
+            <Cell class='plugTwo'>
+                <InputField characterLimit='1' />
+            </Cell>
+            <Cell class='plugTwo' />
+            <Cell class='plugTwo'>
+                <InputField characterLimit='1' />
+            </Cell>
+            <Cell class='plugTwo' />
+            <Cell class='plugTwo'>
+                <InputField characterLimit='1' />
+            </Cell>
+            <Cell class='plugOne' />
+        </Row>
+        <Row preferredHeight='120' />
+	</TableLayout>
+</Panel>
