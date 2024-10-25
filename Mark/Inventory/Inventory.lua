@@ -1,6 +1,6 @@
 local pointsPos = {
     сила = {
-        {x = 1.47, z = -1.98}, {x = 1.38, z = -1.98}, {x = 1.28, z = -1.98}, {x = 1.19, z = -1.98}, {x = 1.10, z = -1.98},
+        {x = 1.47, z = -1.98}, {x = 1.38, z = -1.98}, {x = 1.28, z = -1.98}, {x = 1.19, z = -1.98}, {x = 1.1, z = -1.98},
         {x = 1.01, z = -1.98}, {x = 0.92, z = -1.98}, {x = 0.83, z = -1.98}, {x = 0.73, z = -1.98}, {x = 0.62, z = -1.98},
         {x = 1.46, z = -1.91}, {x = 1.39, z = -1.91}, {x = 1.29, z = -1.91}, {x = 1.2, z = -1.9}, {x = 1.1, z = -1.9},
         {x = 1, z = -1.9}, {x = 0.92, z = -1.9}, {x = 0.82, z = -1.91}, {x = 0.72, z = -1.91}, {x = 0.62, z = -1.91},
@@ -48,40 +48,61 @@ local pointSkills = {
     Livestock = "восприятие", Leadership = "харизма", Acting = "харизма",
     Speechcraft = "харизма", Art = "восприятие", Trade = "харизма", Gambling = "ловкость"
 }
+local pointOvershoot = {
+    {x = 1.51, z = 1.28}, {x = 1.20, z = 1.28}, {x = 0.92, z = 1.28},
+    {x = 0.60, z = 1.28}, {x = 0.30, z = 1.28}, {x = 0, z = 1.28},
+    {x = -0.30, z = 1.28}, {x = -0.60, z = 1.28}, {x = -0.90, z = 1.28},
+    {x = -1.20, z = 1.28}, {x = -1.50, z = 1.28}
+}
+
+function UpdateSave()
+    local dataToSave = {
+        ["limbValues"] = limbValues, ["bonusValue"] = bonusValue
+      }
+      local savedData = JSON.encode(dataToSave)
+      self.script_state = savedData
+end
 
 local flagCollision = false
-function onLoad()
-    Wait.time(|| Confer(savedData), 0.4)
+function onLoad(savedData)
+    Wait.time(|| Confer(savedData), 0.3)
 end
 function Confer(savedData)
+    local loadedData = JSON.decode(savedData or "")
     snaps = self.getSnapPoints()
     throw = getObjectFromGUID(self.getGMNotes())
     flagCollision = true
-
-    local id = 1
-    for word in self.getDescription():gmatch("%S+") do
-        self.UI.setAttribute("Bonus"..id, "text", word)
-        id = id + 1
+    limbValues = loadedData and loadedData.limbValues or {Head = 50, Body = 50, lHand = 50, rHand = 50, lLeg = 50, rLeg = 50}
+    bonusValue = loadedData and loadedData.bonusValue or {0,0,0,0,0,0}
+    
+    for i,b in ipairs(bonusValue) do
+        self.UI.setAttribute("Bonus"..i, "text", b)
+    end
+    for i,l in pairs(limbValues) do
+        self.UI.setAttribute(i, "text", l)
     end
 end
 
 function onCollisionEnter(info)
+    Wait.time(|| ChangeCountOvershoot(info.collision_object, self.positionToLocal(info.collision_object.getPosition())), 0.35)
     if flagCollision == false then return end
-    PrintBlack("Hello on")
 
-    local lTag = info.collision_object.getTags()[1]
-    if lTag ~= nil then --Skills
-        local locStateId = info.collision_object.getStateId()
-        for t,c in pairs(pointSkills) do
-            if lTag == t then
-                local arg = {tTag = lTag, bonus = CalculateBonus(5 + locStateId), tChar = c}
-                throw.call("ChangeMemory", arg)
-                return
+    local obj = info.collision_object
+    local locPos = self.positionToLocal(obj.getPosition())
+    if locPos.y > 0 then
+        PrintBlack("Игрок " .. self.getName() .. " положил предмет " .. obj.getName())
+        local lTag = obj.getTags()[1]
+        if lTag ~= nil then --Skills
+            ChangeCountOvershoot(obj, locPos)
+            local locStateId = obj.getStateId()
+            for t,c in pairs(pointSkills) do
+                if lTag == t then
+                    local arg = {tTag = lTag, bonus = CalculateBonus(5 + locStateId), tChar = c}
+                    throw.call("ChangeMemory", arg)
+                    return
+                end
             end
-        end
-    else --Characteristics
-        local locPos = self.positionToLocal(info.collision_object.getPosition())
-        if locPos.y > 0 then
+        else --Characteristics
             for _,point in ipairs(snaps) do
                 if CheckPos(locPos, point.position) then
                     for tChar,values in pairs(pointsPos) do
@@ -106,8 +127,21 @@ function onCollisionEnter(info)
     end
 end
 
-function onCollisionExit()
-    PrintBlack("Hello off")
+function ChangeCountOvershoot(obj, locPos)
+    for _,point in ipairs(snaps) do
+        if CheckPos(locPos, point.position) then
+            for i,p in ipairs(pointOvershoot) do
+                if p.x == Round(point.position.x, 2) and p.z == Round(point.position.z, 2) then
+                    self.UI.setAttribute("OS"..i, "text", obj.getStateId())
+                end
+            end
+        end
+    end
+end
+
+function onCollisionExit(info)
+    local obj = info.collision_object
+    PrintBlack("Игрок " .. self.getName() .. " поднял предмет " .. obj.getName())
 end
 
 function PrintBlack(text)
@@ -117,19 +151,14 @@ function PrintBlack(text)
 end
 
 function ChangeBonus(_, input, id)
-    local loc, locDesc = "Bonus", {}
-    local id = tonumber(id:sub(loc:len() + 1))
-    for word in self.getDescription():gmatch("%S+") do
-        table.insert(locDesc, word)
-    end
-    locDesc[id] = input
-    local newDesc = ""
-    for i,str in ipairs(locDesc) do
-        newDesc = newDesc .. str
-        if i == 5 then break end
-        newDesc = newDesc .. "\n"
-    end
-    self.setDescription(newDesc)
+    local l = "Bonus"
+    bonusValue[tonumber(id:sub(l:len() + 1))] = input
+    UpdateSave()
+end
+
+function ChangeLimb(_, input, id)
+    limbValues[id] = input
+    UpdateSave()
 end
 
 function CheckPos(pos1, pos2)

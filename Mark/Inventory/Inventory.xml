@@ -2,6 +2,8 @@
     <Cell class='plugOne' columnSpan='1'/>
     <Cell class='plugTwo' columnSpan='2'/>
     <InputField class='Bonus' characterLimit='3' onEndEdit='ChangeBonus' resizeTextForBestFit='false' fontSize='50' />
+    <InputField class='LimbValue' onEndEdit='ChangeLimb' height='50' width='80' characterLimit='3' text='50' />
+    <InputField class='CountOvershoot' characterLimit='1' />
 
     <Cell dontUseTableCellBackground='true' />
     <Button resizeTextForBestFit='true' resizeTextMaxSize='50' />
@@ -18,11 +20,17 @@
         <Row>
             <Cell columnSpan='29' />
             <Cell columnSpan='5'>
-                <InputField characterLimit='2' tooltip='ʁиʚɯɔn̯ǝɓ иʞҺо оɯє' tooltipOffset='10' tooltipPosition='Left' />
+                <InputField characterLimit='2' />
             </Cell>
             <Cell columnSpan='10' childForceExpandHeight='false' childForceExpandWidth='false'>
                 <Panel>
                     <Image offsetXY='140 50' image='Body' height='400' width='400' />
+                    <InputField class='LimbValue' id='Head' offsetXY='140 220' />
+                    <InputField class='LimbValue' id='Body' offsetXY='140 110' />
+                    <InputField class='LimbValue' id='lHand' offsetXY='30 70' />
+                    <InputField class='LimbValue' id='rHand' offsetXY='250 70' />
+                    <InputField class='LimbValue' id='lLeg' offsetXY='100 -130' />
+                    <InputField class='LimbValue' id='rLeg' offsetXY='180 -130' />
                 </Panel>
             </Cell>
         </Row>
@@ -71,47 +79,47 @@
         <Row preferredHeight='60'>
             <Cell class='plugOne' />
             <Cell class='plugTwo'>
-                <InputField characterLimit='1' />
+                <InputField id='OS1' class='CountOvershoot' />
             </Cell>
             <Cell class='plugTwo' />
             <Cell class='plugTwo'>
-                <InputField characterLimit='1' />
+                <InputField id='OS2' class='CountOvershoot' />
             </Cell>
             <Cell class='plugTwo' />
             <Cell class='plugTwo'>
-                <InputField characterLimit='1' />
+                <InputField id='OS3' class='CountOvershoot' />
             </Cell>
             <Cell class='plugTwo' />
             <Cell class='plugTwo'>
-                <InputField characterLimit='1' />
+                <InputField id='OS4' class='CountOvershoot' />
             </Cell>
             <Cell class='plugTwo' />
             <Cell class='plugTwo'>
-                <InputField characterLimit='1' />
+                <InputField id='OS5' class='CountOvershoot' />
             </Cell>
             <Cell class='plugTwo' />
             <Cell class='plugTwo'>
-                <InputField characterLimit='1' />
+                <InputField id='OS6' class='CountOvershoot' />
             </Cell>
             <Cell class='plugTwo' />
             <Cell class='plugTwo'>
-                <InputField characterLimit='1' />
+                <InputField id='OS7' class='CountOvershoot' />
             </Cell>
             <Cell class='plugTwo' />
             <Cell class='plugTwo'>
-                <InputField characterLimit='1' />
+                <InputField id='OS8' class='CountOvershoot' />
             </Cell>
             <Cell class='plugTwo' />
             <Cell class='plugTwo'>
-                <InputField characterLimit='1' />
+                <InputField id='OS9' class='CountOvershoot' />
             </Cell>
             <Cell class='plugTwo' />
             <Cell class='plugTwo'>
-                <InputField characterLimit='1' />
+                <InputField id='OS10' class='CountOvershoot' />
             </Cell>
             <Cell class='plugTwo' />
             <Cell class='plugTwo'>
-                <InputField characterLimit='1' />
+                <InputField id='OS11' class='CountOvershoot' />
             </Cell>
             <Cell class='plugOne' />
         </Row>
