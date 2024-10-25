@@ -54,9 +54,15 @@ local pointOvershoot = {
     {x = -0.30, z = 1.28}, {x = -0.60, z = 1.28}, {x = -0.90, z = 1.28},
     {x = -1.20, z = 1.28}, {x = -1.50, z = 1.28}
 }
-local pointInventory = {
+local pointBackpack = {
     {x = -0.61, z = -1.98},
     {x = -0.80, z = -1.32}
+}
+local pointBelt = {
+    {x = 0.38, z = -1.95}
+}
+local pointWearables = {
+    {x = 0.25, z = -0.13}
 }
 
 function UpdateSave()
@@ -93,8 +99,11 @@ function onCollisionEnter(info)
     local obj = info.collision_object
     local locPos = self.positionToLocal(obj.getPosition())
     if locPos.y > 0 then
+        ChangeScaleObject(obj, locPos, {0.8, 0.2, 0.8}, pointBackpack)
+        ChangeScaleObject(obj, locPos, {0.5, 0.2, 0.5}, pointBelt)
+        ChangeScaleObject(obj, locPos, {2, 0.2, 1}, pointWearables)
+
         PrintBlack("Игрок " .. self.getName() .. " положил предмет " .. obj.getName())
-        ChangeScaleObject(obj, locPos, {1, 0.2, 1})
         local lTag = obj.getTags()[1]
         if lTag ~= nil then --Skills
             ChangeCountOvershoot(obj, locPos)
@@ -135,11 +144,11 @@ function onCollisionExit(info)
     PrintBlack("Игрок " .. self.getName() .. " поднял предмет " .. obj.getName())
 end
 
-function ChangeScaleObject(obj, locPos, scale)
+function ChangeScaleObject(obj, locPos, scale, snapPos)
     for _,point in ipairs(snaps) do
         if CheckPos(locPos, point.position) then
             print(Round(point.position.x, 2), " ", Round(point.position.z, 2))
-            for i,p in ipairs(pointInventory) do
+            for i,p in ipairs(snapPos) do
                 if p.x == Round(point.position.x, 2) and p.z == Round(point.position.z, 2) then
                     obj.setScale(scale)
                 end
