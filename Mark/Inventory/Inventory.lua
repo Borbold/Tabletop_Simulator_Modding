@@ -88,7 +88,7 @@ function Confer(savedData)
 end
 
 function onCollisionEnter(info)
-    if flagCollision == false then Wait.time(|| ChangeCountOvershoot(info.collision_object, self.positionToLocal(info.collision_object.getPosition())), 0.35) return end
+    if flagCollision == false then Wait.time(|| ChangeCountOvershoot(info.collision_object, self.positionToLocal(info.collision_object.getPosition())), 0.5) return end
 
     local obj = info.collision_object
     local locPos = self.positionToLocal(obj.getPosition())
@@ -138,8 +138,8 @@ end
 function ChangeScaleObject(obj, locPos, scale)
     for _,point in ipairs(snaps) do
         if CheckPos(locPos, point.position) then
+            print(Round(point.position.x, 2), " ", Round(point.position.z, 2))
             for i,p in ipairs(pointInventory) do
-                print(Round(point.position.x, 2), " ", Round(point.position.z, 2) )
                 if p.x == Round(point.position.x, 2) and p.z == Round(point.position.z, 2) then
                     obj.setScale(scale)
                 end
