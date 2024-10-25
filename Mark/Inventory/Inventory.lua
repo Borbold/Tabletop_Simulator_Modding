@@ -103,7 +103,6 @@ function onCollisionEnter(info)
         ChangeScaleObject(obj, locPos, {0.5, 0.2, 0.5}, pointBelt)
         ChangeScaleObject(obj, locPos, {2, 0.2, 1}, pointWearables)
 
-        PrintBlack("Игрок " .. self.getName() .. " положил предмет " .. obj.getName())
         local lTag = obj.getTags()[1]
         if lTag ~= nil then --Skills
             ChangeCountOvershoot(obj, locPos)
@@ -139,10 +138,6 @@ function onCollisionEnter(info)
         end
     end
 end
-function onCollisionExit(info)
-    local obj = info.collision_object
-    PrintBlack("Игрок " .. self.getName() .. " поднял предмет " .. obj.getName())
-end
 
 function ChangeScaleObject(obj, locPos, scale, snapPos)
     for _,point in ipairs(snaps) do
@@ -166,12 +161,6 @@ function ChangeCountOvershoot(obj, locPos)
                 end
             end
         end
-    end
-end
-
-function PrintBlack(text)
-    if Player["Black"] and Player["Black"].steam_id then
-        broadcastToColor(text, "Black")
     end
 end
 

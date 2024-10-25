@@ -2,16 +2,16 @@
     <Cell class='plugOne' columnSpan='1'/>
     <Cell class='plugTwo' columnSpan='2'/>
     <InputField class='Bonus' characterLimit='3' onEndEdit='ChangeBonus' resizeTextForBestFit='false' fontSize='50' color='#fb940351' onValueChanged='ChangeText' />
-    <InputField class='LimbValue' onEndEdit='ChangeLimb' height='50' width='80' characterLimit='3' text='50' />
+    <InputField class='LimbValue' onEndEdit='ChangeLimb' height='50' width='120' characterLimit='3' text='50' />
     <InputField class='CountOvershoot' characterLimit='1' />
 
     <Cell dontUseTableCellBackground='true' />
     <Button resizeTextForBestFit='true' resizeTextMaxSize='50' />
     <InputField resizeTextForBestFit='true' resizeTextMaxSize='80' resizeTextMinSize='5'
         color='#9487a900' textAlignment='MiddleCenter' text='0'
-        textColor='#ffffff' textOutline='#94877355' characterValidation='Integer' font='Fonts/Buky' />
+        textColor='#ffffff' textOutline='#94877355' characterValidation='Integer' font='Fonts/Hanzi' />
     <Text resizeTextForBestFit='true' resizeTextMaxSize='50'
-        color='#948773' text='0' />
+        color='#ffffff' text='0' height='50' width='90' font='Fonts/Hanzi' />
 </Defaults>
 
 <Panel position='0 0 -17' rotation='0 0 180' height='1660' width='1320' scale='0.25'>
@@ -25,7 +25,8 @@
             <Cell columnSpan='10' childForceExpandHeight='false' childForceExpandWidth='false'>
                 <Panel>
                     <Image offsetXY='140 50' image='Body' height='400' width='400' />
-                    <InputField class='LimbValue' id='Head' offsetXY='140 220' />
+                    <InputField class='LimbValue' id='Head' offsetXY='80 220' textAlignment='MiddleRight' />
+                    <Text text='/150' offsetXY='160 220' resizeTextMaxSize='30' />
                     <InputField class='LimbValue' id='Body' offsetXY='140 110' />
                     <InputField class='LimbValue' id='lHand' offsetXY='30 70' />
                     <InputField class='LimbValue' id='rHand' offsetXY='250 70' />
