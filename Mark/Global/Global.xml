@@ -1,0 +1,28 @@
+<Defaults>
+    <Cell dontUseTableCellBackground='true' />
+    <Button resizeTextForBestFit='true' resizeTextMaxSize='50' />
+    <InputField resizeTextForBestFit='true' resizeTextMaxSize='80' resizeTextMinSize='5'
+        color='#9487a900' textAlignment='MiddleCenter' text='0'
+        textColor='#ffffff' textOutline='#94877355' characterValidation='Integer' font='Fonts/Buky' />
+    <Text resizeTextForBestFit='true' resizeTextMaxSize='50'
+        color='#948773' text='0' />
+</Defaults>
+
+<Panel>
+    <Button text='Push me' onClick='PanelOne' offsetXY='855 -505' height='55' width='55' />
+
+	<VerticalScrollView id='panelTool' height='200' width='250'
+		color='black' offsetXY='0 0' active='false' verticalScrollbarVisibility='AutoHideAndExpandViewport'>
+		<TableLayout id='TLSet' height='200' cellSpacing='2'>
+			<Row preferredHeight='35'>
+				<Cell>
+					<Text text='Какой-то бафф'/>
+				</Cell>
+				<Cell>
+					<Text text='Какой-то бафф'/>
+				</Cell>
+			</Row>
+			<NewRowS />
+		</TableLayout>
+	</VerticalScrollView>
+</Panel>
