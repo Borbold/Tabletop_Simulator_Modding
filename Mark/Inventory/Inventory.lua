@@ -54,6 +54,10 @@ local pointOvershoot = {
     {x = -0.30, z = 1.28}, {x = -0.60, z = 1.28}, {x = -0.90, z = 1.28},
     {x = -1.20, z = 1.28}, {x = -1.50, z = 1.28}
 }
+local pointInventory = {
+    {x = -0.61, z = -1.98},
+    {x = -0.80, z = -1.32}
+}
 
 function UpdateSave()
     local dataToSave = {
@@ -84,13 +88,13 @@ function Confer(savedData)
 end
 
 function onCollisionEnter(info)
-    Wait.time(|| ChangeCountOvershoot(info.collision_object, self.positionToLocal(info.collision_object.getPosition())), 0.35)
-    if flagCollision == false then return end
+    if flagCollision == false then Wait.time(|| ChangeCountOvershoot(info.collision_object, self.positionToLocal(info.collision_object.getPosition())), 0.35) return end
 
     local obj = info.collision_object
     local locPos = self.positionToLocal(obj.getPosition())
     if locPos.y > 0 then
         PrintBlack("Игрок " .. self.getName() .. " положил предмет " .. obj.getName())
+        ChangeScaleObject(obj, locPos, {1, 0.2, 1})
         local lTag = obj.getTags()[1]
         if lTag ~= nil then --Skills
             ChangeCountOvershoot(obj, locPos)
@@ -126,6 +130,23 @@ function onCollisionEnter(info)
         end
     end
 end
+function onCollisionExit(info)
+    local obj = info.collision_object
+    PrintBlack("Игрок " .. self.getName() .. " поднял предмет " .. obj.getName())
+end
+
+function ChangeScaleObject(obj, locPos, scale)
+    for _,point in ipairs(snaps) do
+        if CheckPos(locPos, point.position) then
+            for i,p in ipairs(pointInventory) do
+                print(Round(point.position.x, 2), " ", Round(point.position.z, 2) )
+                if p.x == Round(point.position.x, 2) and p.z == Round(point.position.z, 2) then
+                    obj.setScale(scale)
+                end
+            end
+        end
+    end
+end
 
 function ChangeCountOvershoot(obj, locPos)
     for _,point in ipairs(snaps) do
@@ -137,11 +158,6 @@ function ChangeCountOvershoot(obj, locPos)
             end
         end
     end
-end
-
-function onCollisionExit(info)
-    local obj = info.collision_object
-    PrintBlack("Игрок " .. self.getName() .. " поднял предмет " .. obj.getName())
 end
 
 function PrintBlack(text)
