@@ -86,7 +86,7 @@ function Confer(savedData)
     bonusValue = loadedData and loadedData.bonusValue or {0,0,0,0,0,0}
     
     for i,b in ipairs(bonusValue) do
-        self.UI.setAttribute("Bonus"..i, "text", b)
+        self.UI.setAttribute("TBonus"..i, "text", b)
     end
     for i,l in pairs(limbValues) do
         self.UI.setAttribute(i, "text", l)
@@ -179,6 +179,9 @@ function ChangeBonus(_, input, id)
     local l = "Bonus"
     bonusValue[tonumber(id:sub(l:len() + 1))] = input
     UpdateSave()
+end
+function ChangeText(_, input, id)
+    self.UI.setAttribute("T"..id, "text", input)
 end
 
 function ChangeLimb(_, input, id)
