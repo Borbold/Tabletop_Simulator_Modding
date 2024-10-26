@@ -19,7 +19,16 @@
 	<TableLayout>
         <Row preferredHeight='700' />
         <Row>
-            <Cell columnSpan='29' />
+            <Cell columnSpan='1' />
+            <Cell columnSpan='2'  childForceExpandHeight='false' childForceExpandWidth='false'>
+                <Panel>
+                    <Image offsetXY='10 150' image='Hunger' height='40' width='40' />
+                    <Image offsetXY='10 110' image='Thirst' height='40' width='40' />
+                    <Image offsetXY='10 70' image='Fatigue' height='40' width='40' />
+                    <Image offsetXY='10 30' image='Intoxication' height='40' width='40' />
+                </Panel>
+            </Cell>
+            <Cell columnSpan='26' />
             <Cell columnSpan='5'>
                 <InputField characterLimit='2' />
             </Cell>
