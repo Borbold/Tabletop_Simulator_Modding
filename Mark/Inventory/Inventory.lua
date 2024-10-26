@@ -55,14 +55,31 @@ local pointOvershoot = {
     {x = -1.20, z = 1.28}, {x = -1.50, z = 1.28}
 }
 local pointBackpack = {
-    {x = -0.61, z = -1.98},
-    {x = -0.80, z = -1.32}
+    {x = -0.61, z = -1.98}, {x = -0.8, z = -1.98}, {x = -0.99, z = -1.97},
+    {x = -1.18, z = -1.97}, {x = -1.37, z = -1.98}, {x = -1.56, z = -1.98},
+    {x = -0.61, z = -1.79}, {x = -0.8, z = -1.79}, {x = -0.99, z = -1.79},
+    {x = -1.18, z = -1.79}, {x = -1.37, z = -1.79}, {x = -1.56, z = -1.79},
+    {x = -0.61, z = -1.51}, {x = -0.8, z = -1.51}, {x = -0.99, z = -1.51},
+    {x = -1.18, z = -1.51}, {x = -1.37, z = -1.51}, {x = -1.56, z = -1.51},
+    {x = -0.61, z = -1.32}, {x = -0.8, z = -1.32}, {x = -0.99, z = -1.32},
+    {x = -1.18, z = -1.32}, {x = -1.37, z = -1.32}, {x = -1.57, z = -1.32},
+    {x = -0.61, z = -1.13}, {x = -0.8, z = -1.13}, {x = -0.99, z = -1.13},
+    {x = -1.18, z = -1.13}, {x = -1.37, z = -1.13}, {x = -1.56, z = -1.13},
+    {x = -1.47, z = -1.51}, {x = -1.47, z = -1.32}, {x = -1.47, z = -1.13}
 }
 local pointBelt = {
-    {x = 0.38, z = -1.95}
+    {x = 0.25, z = -0.13}, {x = -0.24, z = -0.13}, {x = 0.27, z = 0.23},
+    {x = -0.24, z = 0.23}, {x = 0.25, z = 0.59}, {x = -0.24, z = 0.58}
 }
 local pointWearables = {
-    {x = 0.25, z = -0.13}
+    {x = 0.38, z = -1.95}, {x = 0.13, z = -1.96}, {x = -0.13, z = -1.95},
+    {x = -0.38, z = -1.95}, {x = 0.39, z = -1.69}, {x = -0.38, z = -1.7},
+    {x = 0.38, z = -1.44}, {x = -0.38, z = -1.44}, {x = 0.38, z = -1.19},
+    {x = -0.38, z = -1.19}, {x = 0.38, z = -0.93}, {x = 0.13, z = -0.93},
+    {x = -0.13, z = -0.93}, {x = -0.38, z = -0.93}, {x = 0.38, z = -0.68},
+    {x = 0.13, z = -0.67}, {x = -0.13, z = -0.68}, {x = -0.38, z = -0.68},
+    {x = 0.38, z = -0.42}, {x = 0.13, z = -0.42}, {x = -0.12, z = -0.42},
+    {x = -0.38, z = -0.42}
 }
 
 function UpdateSave()
@@ -100,8 +117,8 @@ function onCollisionEnter(info)
     local locPos = self.positionToLocal(obj.getPosition())
     if locPos.y > 0 then
         ChangeScaleObject(obj, locPos, {0.8, 0.2, 0.8}, pointBackpack)
-        ChangeScaleObject(obj, locPos, {0.5, 0.2, 0.5}, pointBelt)
-        ChangeScaleObject(obj, locPos, {2, 0.2, 1}, pointWearables)
+        ChangeScaleObject(obj, locPos, {1, 0.2, 1}, pointBelt)
+        ChangeScaleObject(obj, locPos, {0.9, 0.2, 0.9}, pointWearables)
 
         local lTag = obj.getTags()[1]
         if lTag ~= nil then --Skills
@@ -142,7 +159,7 @@ end
 function ChangeScaleObject(obj, locPos, scale, snapPos)
     for _,point in ipairs(snaps) do
         if CheckPos(locPos, point.position) then
-            print(Round(point.position.x, 2), " ", Round(point.position.z, 2))
+            --print(Round(point.position.x, 2), " ", Round(point.position.z, 2))
             for i,p in ipairs(snapPos) do
                 if p.x == Round(point.position.x, 2) and p.z == Round(point.position.z, 2) then
                     obj.setScale(scale)

@@ -29,12 +29,12 @@ function onload(saved_data)
     printMode = "to ALL"
     resetMode = "Reset after\nroll: OFF"
     -- to check button Indexes, see function buttonList()
-    indexFirstModBtn = 13
-    indexPrintSwitch = 29
-    indexMemClr = 32
-    indexFirstMemoryBtn = 33
-    indexResetSwitch = 64
-    indexMemoryNameInput = 19
+    indexFirstModBtn = 3
+    indexPrintSwitch = 19
+    indexMemClr = 22
+    indexFirstMemoryBtn = 23
+    indexResetSwitch = 54
+    indexMemoryNameInput = 9
     spawnCoreButtons()
     spawnMemoryButtons()
     spawnExtraButtons()
@@ -190,35 +190,15 @@ end
 
 --Click functions, passing a parameter to updateCount. Because buttons do not
 --currently let you pass parameters as part of the button. Sloppy fix.
-function d3(obj, player, alt) updateCount(1,alt) end
-function d4(obj, player, alt) updateCount(2,alt) end
-function d5(obj, player, alt) updateCount(3,alt) end
-function d6(obj, player, alt) updateCount(4,alt) end
-function d7(obj, player, alt) updateCount(5,alt) end
-function d8(obj, player, alt) updateCount(6,alt) end
-function d10(obj, player, alt) updateCount(7,alt) end
-function d12(obj, player, alt) updateCount(8,alt) end
-function d14(obj, player, alt) updateCount(9,alt) end
-function d16(obj, player, alt) updateCount(10,alt) end
-function d20(obj, player, alt) updateCount(11,alt) end
-function d24(obj, player, alt) updateCount(12,alt) end
-function d30(obj, player, alt) updateCount(13,alt) end
-function d100(obj, player, alt) updateCount(14,alt) end
+function d4(obj, player, alt) updateCount(1,alt) end
+function d6(obj, player, alt) updateCount(2,alt) end
+function d20(obj, player, alt) updateCount(3,alt) end
+function d100(obj, player, alt) updateCount(4,alt) end
 
-function setd3(obj, player, n, selected) setCount(1,n) end
-function setd4(obj, player, n, selected) setCount(2,n) end
-function setd5(obj, player, n, selected) setCount(3,n) end
-function setd6(obj, player, n, selected) setCount(4,n) end
-function setd7(obj, player, n, selected) setCount(5,n) end
-function setd8(obj, player, n, selected) setCount(6,n) end
-function setd10(obj, player, n, selected) setCount(7,n) end
-function setd12(obj, player, n, selected) setCount(8,n) end
-function setd14(obj, player, n, selected) setCount(9,n) end
-function setd16(obj, player, n, selected) setCount(10,n) end
-function setd20(obj, player, n, selected) setCount(11,n) end
-function setd24(obj, player, n, selected) setCount(12,n) end
-function setd30(obj, player, n, selected) setCount(13,n) end
-function setd100(obj, player, n, selected) setCount(14,n) end
+function setd4(obj, player, n, selected) setCount(1,n) end
+function setd6(obj, player, n, selected) setCount(2,n) end
+function setd20(obj, player, n, selected) setCount(3,n) end
+function setd100(obj, player, n, selected) setCount(4,n) end
 
 --Triggered by any of the d# buttons, adding to their count.
 function updateCount(whichOne, alt)
@@ -389,9 +369,9 @@ end
 --Resets counts and initializes diceSide/modCount/diceCount
 function resetCounts()
     modCount = {0, 0, 0, 0, 0}
-    diceCount = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-    diceSide = {3,4,5,6,7,8,10,12,14,16,20,24,30,100} 
-    for i=1, 14 do
+    diceCount = {0, 0, 0, 0}
+    diceSide = {4,6,20,100} 
+    for i=1, 4 do
         updateDiceDisplay(i-1, diceCount[i], diceSide[i])
         setActiveDice(i-1, diceCount[i])
     end
@@ -584,131 +564,41 @@ function spawnCoreButtons()
     btn_dice_input_adjustment_1_char= -0.08;
     btn_dice_input_adjustment_2_char= -0.10;
 
---d3
-    self.createButton({
-        label='0d3', click_function="d3", function_owner=self,
-        position={col_1,y_pos,row_1}, width=btn_main_width, height=btn_main_height, font_size=btn_dice_font_size, color=base_btn_bg_color,font_color=base_btn_font_color,
-    })
-    self.createInput({
-        label='', input_function="setd3", function_owner=self, validation=2, alignment=3,color=btn_dice_input_color,
-        position={col_1+btn_dice_input_adjustment_1_char,y_pos,row_1}, width=btn_dice_input_width, height=btn_dice_input_height, font_size=btn_dice_input_font_size
-    })
 --d4
     self.createButton({
         label='0d4', click_function="d4", function_owner=self,
-        position={col_2,y_pos,row_1}, width=btn_main_width, height=btn_main_height, font_size=btn_dice_font_size, color=base_btn_bg_color,font_color=base_btn_font_color,
+        position={col_1,y_pos,row_1}, width=btn_main_width, height=btn_main_height, font_size=btn_dice_font_size, color=base_btn_bg_color,font_color=base_btn_font_color,
     })
     self.createInput({
         label='', input_function="setd4", function_owner=self, validation=2, alignment=3,color=btn_dice_input_color,
-        position={col_2+btn_dice_input_adjustment_1_char,y_pos,row_1}, width=btn_dice_input_width, height=btn_dice_input_height, font_size=btn_dice_input_font_size
-    })
---d5
-    self.createButton({
-        label='0d5', click_function="d5", function_owner=self,
-        position={col_3,y_pos,row_1}, width=btn_main_width, height=btn_main_height, font_size=btn_dice_font_size, color=base_btn_bg_color,font_color=base_btn_font_color,
-    })
-    self.createInput({
-        label='', input_function="setd5", function_owner=self, validation=2, alignment=3,color=btn_dice_input_color,
-        position={col_3+btn_dice_input_adjustment_1_char,y_pos,row_1}, width=btn_dice_input_width, height=btn_dice_input_height, font_size=btn_dice_input_font_size
+        position={col_1+btn_dice_input_adjustment_1_char,y_pos,row_1}, width=btn_dice_input_width, height=btn_dice_input_height, font_size=btn_dice_input_font_size
     })
 --d6
     self.createButton({
         label='0d6', click_function="d6", function_owner=self,
-        position={col_4,y_pos,row_1}, width=btn_main_width, height=btn_main_height, font_size=btn_dice_font_size, color=base_btn_bg_color,font_color=base_btn_font_color,
+        position={col_2,y_pos,row_1}, width=btn_main_width, height=btn_main_height, font_size=btn_dice_font_size, color=base_btn_bg_color,font_color=base_btn_font_color,
     })
     self.createInput({
         label='', input_function="setd6", function_owner=self, validation=2, alignment=3,color=btn_dice_input_color,
-        position={col_4+btn_dice_input_adjustment_1_char,y_pos,row_1}, width=btn_dice_input_width, height=btn_dice_input_height, font_size=btn_dice_input_font_size
-    })
---d7
-    self.createButton({
-        label='0d7', click_function="d7", function_owner=self,
-        position={col_5,y_pos,row_1}, width=btn_main_width, height=btn_main_height, font_size=btn_dice_font_size, color=base_btn_bg_color,font_color=base_btn_font_color,
-    })
-    self.createInput({
-        label='', input_function="setd7", function_owner=self, validation=2, alignment=3,color=btn_dice_input_color,
-        position={col_5+btn_dice_input_adjustment_1_char,y_pos,row_1}, width=btn_dice_input_width, height=btn_dice_input_height, font_size=btn_dice_input_font_size
-    })
---d8
-    self.createButton({
-        label='0d8', click_function="d8", function_owner=self,
-        position={col_6,y_pos,row_1}, width=btn_main_width, height=btn_main_height, font_size=btn_dice_font_size, color=base_btn_bg_color,font_color=base_btn_font_color,
-    })
-    self.createInput({
-        label='', input_function="setd8", function_owner=self, validation=2, alignment=3,color=btn_dice_input_color,
-        position={col_6+btn_dice_input_adjustment_1_char,y_pos,row_1}, width=btn_dice_input_width, height=btn_dice_input_height, font_size=btn_dice_input_font_size
-    })
---d10
-    self.createButton({
-        label='0d10', click_function="d10", function_owner=self,
-        position={col_7,y_pos,row_1}, width=btn_main_width, height=btn_main_height, font_size=btn_dice_font_size, color=base_btn_bg_color,font_color=base_btn_font_color,
-    })
-    self.createInput({
-        label='', input_function="setd10", function_owner=self, validation=2, alignment=3,color=btn_dice_input_color,
-        position={col_7+btn_dice_input_adjustment_2_char,y_pos,row_1}, width=btn_dice_input_width, height=btn_dice_input_height, font_size=btn_dice_input_font_size
-    })
---d12
-    self.createButton({
-        label='0d12', click_function="d12", function_owner=self,
-        position={col_1,y_pos,row_2}, width=btn_main_width, height=btn_main_height, font_size=btn_dice_font_size, color=base_btn_bg_color,font_color=base_btn_font_color,
-    })
-    self.createInput({
-        label='', input_function="setd12", function_owner=self, validation=2, alignment=3,color=btn_dice_input_color,
-        position={col_1+btn_dice_input_adjustment_2_char,y_pos,row_2}, width=btn_dice_input_width, height=btn_dice_input_height, font_size=btn_dice_input_font_size
-    })
---d14
-    self.createButton({
-        label='0d14', click_function="d14", function_owner=self,
-        position={col_2,y_pos,row_2}, width=btn_main_width, height=btn_main_height, font_size=btn_dice_font_size, color=base_btn_bg_color,font_color=base_btn_font_color,
-    })
-    self.createInput({
-        label='', input_function="setd14", function_owner=self, validation=2, alignment=3,color=btn_dice_input_color,
-        position={col_2+btn_dice_input_adjustment_2_char,y_pos,row_2}, width=btn_dice_input_width, height=btn_dice_input_height, font_size=btn_dice_input_font_size
-    })
---d16
-    self.createButton({
-        label='0d16', click_function="d16", function_owner=self,
-        position={col_3,y_pos,row_2}, width=btn_main_width, height=btn_main_height, font_size=btn_dice_font_size, color=base_btn_bg_color,font_color=base_btn_font_color,
-    })
-    self.createInput({
-        label='', input_function="setd16", function_owner=self, validation=2, alignment=3,color=btn_dice_input_color,
-        position={col_3+btn_dice_input_adjustment_2_char,y_pos,row_2}, width=btn_dice_input_width, height=btn_dice_input_height, font_size=btn_dice_input_font_size
+        position={col_2+btn_dice_input_adjustment_1_char,y_pos,row_1}, width=btn_dice_input_width, height=btn_dice_input_height, font_size=btn_dice_input_font_size
     })
 --d20
     self.createButton({
         label='0d20', click_function="d20", function_owner=self,
-        position={col_4,y_pos,row_2}, width=btn_main_width, height=btn_main_height, font_size=btn_dice_font_size, color=base_btn_bg_color,font_color=base_btn_font_color,
+        position={col_3,y_pos,row_1}, width=btn_main_width, height=btn_main_height, font_size=btn_dice_font_size, color=base_btn_bg_color,font_color=base_btn_font_color,
     })
     self.createInput({
         label='', input_function="setd20", function_owner=self, validation=2, alignment=3,color=btn_dice_input_color,
-        position={col_4+btn_dice_input_adjustment_2_char,y_pos,row_2}, width=btn_dice_input_width, height=btn_dice_input_height, font_size=btn_dice_input_font_size
-    })
---d24
-    self.createButton({
-        label='0d24', click_function="d24", function_owner=self,
-        position={col_5,y_pos,row_2}, width=btn_main_width, height=btn_main_height, font_size=btn_dice_font_size, color=base_btn_bg_color,font_color=base_btn_font_color,
-    })
-    self.createInput({
-        label='', input_function="setd24", function_owner=self, validation=2, alignment=3,color=btn_dice_input_color,
-        position={col_5+btn_dice_input_adjustment_2_char,y_pos,row_2}, width=btn_dice_input_width, height=btn_dice_input_height, font_size=btn_dice_input_font_size
-    })
---d30
-    self.createButton({
-        label='0d30', click_function="d30", function_owner=self,
-        position={col_6,y_pos,row_2}, width=btn_main_width, height=btn_main_height, font_size=btn_dice_font_size, color=base_btn_bg_color,font_color=base_btn_font_color,
-    })
-    self.createInput({
-        label='', input_function="setd30", function_owner=self, validation=2, alignment=3,color=btn_dice_input_color,
-        position={col_6+btn_dice_input_adjustment_2_char,y_pos,row_2}, width=btn_dice_input_width, height=btn_dice_input_height, font_size=btn_dice_input_font_size
+        position={col_3+btn_dice_input_adjustment_2_char,y_pos,row_1}, width=btn_dice_input_width, height=btn_dice_input_height, font_size=btn_dice_input_font_size
     })
 --d100
     self.createButton({
         label='0d100', click_function="d100", function_owner=self,
-        position={col_7,y_pos,row_2}, width=btn_main_width, height=btn_main_height, font_size=btn_dice_font_size, color=base_btn_bg_color,font_color=base_btn_font_color,
+        position={col_4,y_pos,row_1}, width=btn_main_width, height=btn_main_height, font_size=btn_dice_font_size, color=base_btn_bg_color,font_color=base_btn_font_color,
     })
     self.createInput({
         label='', input_function="setd100", function_owner=self, validation=2, alignment=3,color=btn_dice_input_color,
-        position={col_7+btn_dice_input_adjustment_2_char,y_pos,row_2}, width=btn_dice_input_width-10, height=btn_dice_input_height, font_size=btn_dice_input_font_size
+        position={col_4+btn_dice_input_adjustment_2_char,y_pos,row_1}, width=btn_dice_input_width-10, height=btn_dice_input_height, font_size=btn_dice_input_font_size
     })
 
 --***********************************************************
@@ -1018,34 +908,6 @@ function getLength(i)
     else return 50 
     end
 end
-
--- Handy function to check button and input indexes. Just for debugging. Make a button that calls buttonList or inputList to use them.
--- function spawnDevButtons()
---         self.createButton({
---         label='buttonList', click_function="buttonList", function_owner=self,
---         position={col_4,y_pos,row_8}, width=btn_main_width, height=btn_main_height, font_size=base_font_size, color=base_btn_bg_color,font_color=base_btn_font_color,
---     })
---     self.createButton({
---         label='inputList', click_function="inputList", function_owner=self,
---         position={col_5,y_pos,row_8}, width=btn_main_width, height=btn_main_height, font_size=base_font_size, color=base_btn_bg_color,font_color=base_btn_font_color,
---     })
--- end
--- function buttonList()
---     bList = self.getButtons()
---     for i = 1, 70 do -- the last number here must be bigger than the total amount of buttons in the roller
---         if bList[i].index then
---             printThis(bList[i].click_function .. " → " .. bList[i].index)
---         end
---     end
--- end
--- function inputList()
---     inpList = self.getInputs()
---     for i = 1, 70 do -- the last number here must be bigger than the total amount of inputs in the roller
---         if inpList[i].index then
---             printThis(inpList[i].input_function .. " → " .. inpList[i].label .. " → " .. inpList[i].index)
---         end
---     end
--- end
 
 function ChangeMemory(arg)
     local bChar = 0
