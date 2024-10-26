@@ -921,6 +921,11 @@ function ChangeMemory(arg)
                 end
                 return
             end
+        elseif arg.state then
+            if m.name == arg.tChar then
+                m.mod[2] = arg.bonus
+                return
+            end
         elseif m.name == arg.tChar then
             m.mod[1] = arg.bonus
             return

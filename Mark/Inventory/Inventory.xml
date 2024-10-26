@@ -7,7 +7,7 @@
     <InputField class='CountOvershoot' characterLimit='1' />
 
     <Cell dontUseTableCellBackground='true' />
-    <Button resizeTextForBestFit='true' resizeTextMaxSize='50' />
+    <Button resizeTextForBestFit='true' resizeTextMaxSize='25' text='0' font='Fonts/Hanzi' onClick='ChangeState' />
     <InputField resizeTextForBestFit='true' resizeTextMaxSize='80' resizeTextMinSize='5'
         color='#9487a900' textAlignment='MiddleCenter' text='0'
         textColor='#ffffff' textOutline='#94877355' characterValidation='Integer' font='Fonts/Hanzi' />
@@ -22,10 +22,10 @@
             <Cell columnSpan='1' />
             <Cell columnSpan='2'  childForceExpandHeight='false' childForceExpandWidth='false'>
                 <Panel>
-                    <Image offsetXY='10 150' image='Hunger' height='40' width='40' />
-                    <Image offsetXY='10 110' image='Thirst' height='40' width='40' />
-                    <Image offsetXY='10 70' image='Fatigue' height='40' width='40' />
-                    <Image offsetXY='10 30' image='Intoxication' height='40' width='40' />
+                    <Button id='Hunger' offsetXY='10 150' image='Hunger' height='40' width='40' />
+                    <Button id='Thirst' offsetXY='10 110' image='Thirst' height='40' width='40' />
+                    <Button id='Fatigue' offsetXY='10 70' image='Fatigue' height='40' width='40' />
+                    <Button id='Intoxication' offsetXY='10 30' image='Intoxication' height='40' width='40' />
                 </Panel>
             </Cell>
             <Cell columnSpan='26' />

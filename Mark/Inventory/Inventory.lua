@@ -23,7 +23,7 @@ local pointsPos = {
         {x = 1.46, z = -1.41}, {x = 1.38, z = -1.4}, {x = 1.28, z = -1.41}, {x = 1.19, z = -1.41}, {x = 1.1, z = -1.41},
         {x = 1.01, z = -1.41}, {x = 0.92, z = -1.41}, {x = 0.83, z = -1.41}, {x = 0.72, z = -1.41}, {x = 0.62, z = -1.41},
     },
-    интеллект = {
+    интелект = {
         {x = 1.47, z = -1.32}, {x = 1.39, z = -1.31}, {x = 1.29, z = -1.32}, {x = 1.19, z = -1.31}, {x = 1.1, z = -1.32},
         {x = 1.01, z = -1.31}, {x = 0.92, z = -1.31}, {x = 0.83, z = -1.32}, {x = 0.73, z = -1.31}, {x = 0.62, z = -1.31},
         {x = 1.47, z = -1.24}, {x = 1.38, z = -1.24}, {x = 1.28, z = -1.24}, {x = 1.2, z = -1.24}, {x = 1.1, z = -1.24},
@@ -84,7 +84,7 @@ local pointWearables = {
 
 function UpdateSave()
     local dataToSave = {
-        ["limbValues"] = limbValues, ["bonusValue"] = bonusValue
+        ["limbValues"] = limbValues, ["bonusValue"] = bonusValue, ["state"] = state
       }
       local savedData = JSON.encode(dataToSave)
       self.script_state = savedData
@@ -99,14 +99,21 @@ function Confer(savedData)
     snaps = self.getSnapPoints()
     throw = getObjectFromGUID(self.getGMNotes())
     flagCollision = true
-    limbValues = loadedData and loadedData.limbValues or {Head = 50, Body = 50, lHand = 50, rHand = 50, lLeg = 50, rLeg = 50}
-    bonusValue = loadedData and loadedData.bonusValue or {0,0,0,0,0,0}
+    if loadedData then
+        limbValues = loadedData.limbValues or {Head = 50, Body = 50, lHand = 50, rHand = 50, lLeg = 50, rLeg = 50}
+        bonusValue = loadedData.bonusValue or {0,0,0,0,0,0}
+        state = loadedData.state or {Hunger = 0, Thirst = 0, Fatigue = 0, Intoxication = 0}
+    end
     
     for i,b in ipairs(bonusValue) do
         self.UI.setAttribute("TBonus"..i, "text", b)
     end
     for i,l in pairs(limbValues) do
         self.UI.setAttribute(i, "text", l)
+    end
+    for i,l in pairs(state) do
+        self.UI.setAttribute(i, "text", l)
+        self.UI.setAttribute(i, "textColor", self.UI.getAttribute(i, "textColor"))
     end
 end
 
@@ -178,6 +185,28 @@ function ChangeCountOvershoot(obj, locPos)
                 end
             end
         end
+    end
+end
+
+function ChangeState(player, alt, id)
+    local current = self.UI.getAttribute(id, "text")
+    state[id] = alt == "-2" and current - 1 or current + 1
+    self.UI.setAttribute(id, "text", state[id])
+    self.UI.setAttribute(id, "textColor", self.UI.getAttribute(id, "textColor"))
+    ChangeBonusForState(player, id, state[id])
+    UpdateSave()
+end
+function ChangeBonusForState(player, id, state)
+    if state >= 4 then
+        local text = id == "Hunger" and "голодает" or id == "Thirst" and "хочет пить" or id == "Fatigue" and "спать" or "перепил"
+        broadcastToAll("Кажется кто-то " .. text)
+        local tChar = id == "Hunger" and "сила" or id == "Thirst" and "ловкость" or id == "Fatigue" and "интелект"
+        local arg = {tChar = tChar, bonus = state < 7 and -10 or -20, state = true}
+        throw.call("ChangeMemory", arg)
+    else
+        local tChar = id == "Hunger" and "сила" or id == "Thirst" and "ловкость" or id == "Fatigue" and "интелект"
+        local arg = {tChar = tChar, bonus = 0, state = true}
+        throw.call("ChangeMemory", arg)
     end
 end
 
