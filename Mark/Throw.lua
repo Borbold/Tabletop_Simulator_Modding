@@ -395,8 +395,8 @@ function printSwitch()
 end
 
 --[[BEGIN MEMORY LOGIC BELOW]]--
-function mem(i) remember(_,_,i) end
-function mem1(o,c,alt) print("F ", o, " F") remember(o,c,1,alt) end
+function mem(o,c,i) remember(o,c,i) end
+function mem1(o,c,alt) remember(o,c,1,alt) end
 function mem2(o,c,alt) remember(o,c,2,alt) end
 function mem3(o,c,alt) remember(o,c,3,alt) end
 function mem4(o,c,alt) remember(o,c,4,alt) end
@@ -936,9 +936,10 @@ function ChangeMemory(arg)
 end
 
 function Overshoot(arg)
+    broadcastToAll(arg.playerColor .. " перебросил", arg.playerColor)
     for i,m in ipairs(memory) do
         if m.name == arg.tTag then
-            mem(i)
+            mem(self, arg.playerColor, i)
         end
     end
 end

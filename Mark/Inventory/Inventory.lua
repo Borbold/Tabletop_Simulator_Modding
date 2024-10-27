@@ -222,11 +222,13 @@ function ChangeText(_, input, id)
     self.UI.setAttribute("T"..id, "text", input)
 end
 
-function Overshoot(_, alt, id)
+function Overshoot(player, alt, id)
+    if self.UI.getAttribute(id, "text") == "0" then return end
+
     local current = self.UI.getAttribute(id, "text")
     self.UI.setAttribute(id, "text", alt == "-1" and current - 1 or current + 1)
     self.UI.setAttribute(id, "textColor", self.UI.getAttribute(id, "textColor"))
-    local arg = {tTag = self.UI.getAttribute(id, "value")}
+    local arg = {tTag = self.UI.getAttribute(id, "value"), playerColor = player.color}
     throw.call("Overshoot", arg)
 end
 
