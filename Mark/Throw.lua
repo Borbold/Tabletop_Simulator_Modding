@@ -395,7 +395,8 @@ function printSwitch()
 end
 
 --[[BEGIN MEMORY LOGIC BELOW]]--
-function mem1(o,c,alt) remember(o,c,1,alt) end
+function mem(i) remember(_,_,i) end
+function mem1(o,c,alt) print("F ", o, " F") remember(o,c,1,alt) end
 function mem2(o,c,alt) remember(o,c,2,alt) end
 function mem3(o,c,alt) remember(o,c,3,alt) end
 function mem4(o,c,alt) remember(o,c,4,alt) end
@@ -913,6 +914,7 @@ function ChangeMemory(arg)
     local bChar = 0
     for _,m in ipairs(memory) do
         if bChar == 0 then bChar = m.name == arg.tChar and m.mod[1] or 0 end
+
         if arg.tTag then
             if m.name == arg.tTag then
                 m.mod[1] = bChar
@@ -929,6 +931,14 @@ function ChangeMemory(arg)
         elseif m.name == arg.tChar then
             m.mod[1] = arg.bonus
             return
+        end
+    end
+end
+
+function Overshoot(arg)
+    for i,m in ipairs(memory) do
+        if m.name == arg.tTag then
+            mem(i)
         end
     end
 end

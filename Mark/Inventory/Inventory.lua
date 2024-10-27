@@ -95,10 +95,11 @@ function onLoad(savedData)
     Wait.time(|| Confer(savedData), 0.3)
 end
 function Confer(savedData)
-    local loadedData = JSON.decode(savedData or "")
+    flagCollision = true
     snaps = self.getSnapPoints()
     throw = getObjectFromGUID(self.getGMNotes())
-    flagCollision = true
+
+    local loadedData = JSON.decode(savedData or "")
     if loadedData then
         limbValues = loadedData.limbValues or {Head = 50, Body = 50, lHand = 50, rHand = 50, lLeg = 50, rLeg = 50}
         bonusValue = loadedData.bonusValue or {0,0,0,0,0,0}
@@ -182,6 +183,7 @@ function ChangeCountOvershoot(obj, locPos)
             for i,p in ipairs(pointOvershoot) do
                 if p.x == Round(point.position.x, 2) and p.z == Round(point.position.z, 2) then
                     self.UI.setAttribute("OS"..i, "text", obj.getStateId())
+                    self.UI.setAttribute("OS"..i, "value", obj.getTags()[1])
                     self.UI.setAttribute("OS"..i, "textColor", self.UI.getAttribute("OS"..i, "textColor"))
                 end
             end
@@ -220,10 +222,12 @@ function ChangeText(_, input, id)
     self.UI.setAttribute("T"..id, "text", input)
 end
 
-function ChangeCountOvershootButton(_, alt, id)
+function Overshoot(_, alt, id)
     local current = self.UI.getAttribute(id, "text")
     self.UI.setAttribute(id, "text", alt == "-1" and current - 1 or current + 1)
     self.UI.setAttribute(id, "textColor", self.UI.getAttribute(id, "textColor"))
+    local arg = {tTag = self.UI.getAttribute(id, "value")}
+    throw.call("Overshoot", arg)
 end
 
 function ChangeLimb(_, input, id)

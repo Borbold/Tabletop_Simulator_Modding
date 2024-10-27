@@ -4,7 +4,7 @@
     <InputField class='Bonus' characterLimit='3' onEndEdit='ChangeBonus' resizeTextForBestFit='false' fontSize='50' color='#fb940351' onValueChanged='ChangeText' />
     <InputField class='LimbValue' onEndEdit='ChangeLimb' height='50' width='120' characterLimit='3' text='50' textAlignment='MiddleRight' />
     <Text class='LimbMax' textAlignment='MiddleLeft' />
-    <Button class='CountOvershoot' textColor='#ffffff' onClick='ChangeCountOvershootButton' color='#ffffff00' resizeTextMaxSize='40' />
+    <Button class='CountOvershoot' textColor='#ffffff' onClick='Overshoot' color='#ffffff00' resizeTextMaxSize='40' />
     <Button class='PlayerState' onClick='ChangeState' />
 
     <Cell dontUseTableCellBackground='true' />
