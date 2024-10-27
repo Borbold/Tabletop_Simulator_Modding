@@ -4,10 +4,11 @@
     <InputField class='Bonus' characterLimit='3' onEndEdit='ChangeBonus' resizeTextForBestFit='false' fontSize='50' color='#fb940351' onValueChanged='ChangeText' />
     <InputField class='LimbValue' onEndEdit='ChangeLimb' height='50' width='120' characterLimit='3' text='50' textAlignment='MiddleRight' />
     <Text class='LimbMax' textAlignment='MiddleLeft' />
-    <InputField class='CountOvershoot' characterLimit='1' />
+    <Button class='CountOvershoot' textColor='#ffffff' onClick='ChangeCountOvershootButton' color='#ffffff00' resizeTextMaxSize='40' />
+    <Button class='PlayerState' onClick='ChangeState' />
 
     <Cell dontUseTableCellBackground='true' />
-    <Button resizeTextForBestFit='true' resizeTextMaxSize='25' text='0' font='Fonts/Hanzi' onClick='ChangeState' />
+    <Button resizeTextForBestFit='true' resizeTextMaxSize='25' text='0' font='Fonts/Hanzi' />
     <InputField resizeTextForBestFit='true' resizeTextMaxSize='80' resizeTextMinSize='5'
         color='#9487a900' textAlignment='MiddleCenter' text='0'
         textColor='#ffffff' textOutline='#94877355' characterValidation='Integer' font='Fonts/Hanzi' />
@@ -22,10 +23,10 @@
             <Cell columnSpan='1' />
             <Cell columnSpan='2'  childForceExpandHeight='false' childForceExpandWidth='false'>
                 <Panel>
-                    <Button id='Hunger' offsetXY='10 150' image='Hunger' height='40' width='40' />
-                    <Button id='Thirst' offsetXY='10 110' image='Thirst' height='40' width='40' />
-                    <Button id='Fatigue' offsetXY='10 70' image='Fatigue' height='40' width='40' />
-                    <Button id='Intoxication' offsetXY='10 30' image='Intoxication' height='40' width='40' />
+                    <Button class='PlayerState' id='Hunger' offsetXY='10 150' image='Hunger' height='40' width='40' />
+                    <Button class='PlayerState' id='Thirst' offsetXY='10 110' image='Thirst' height='40' width='40' />
+                    <Button class='PlayerState' id='Fatigue' offsetXY='10 70' image='Fatigue' height='40' width='40' />
+                    <Button class='PlayerState' id='Intoxication' offsetXY='10 30' image='Intoxication' height='40' width='40' />
                 </Panel>
             </Cell>
             <Cell columnSpan='26' />
@@ -131,47 +132,47 @@
         <Row preferredHeight='60'>
             <Cell class='plugOne' />
             <Cell class='plugTwo'>
-                <InputField id='OS1' class='CountOvershoot' />
+                <Button id='OS1' class='CountOvershoot' />
             </Cell>
             <Cell class='plugTwo' />
             <Cell class='plugTwo'>
-                <InputField id='OS2' class='CountOvershoot' />
+                <Button id='OS2' class='CountOvershoot' />
             </Cell>
             <Cell class='plugTwo' />
             <Cell class='plugTwo'>
-                <InputField id='OS3' class='CountOvershoot' />
+                <Button id='OS3' class='CountOvershoot' />
             </Cell>
             <Cell class='plugTwo' />
             <Cell class='plugTwo'>
-                <InputField id='OS4' class='CountOvershoot' />
+                <Button id='OS4' class='CountOvershoot' />
             </Cell>
             <Cell class='plugTwo' />
             <Cell class='plugTwo'>
-                <InputField id='OS5' class='CountOvershoot' />
+                <Button id='OS5' class='CountOvershoot' />
             </Cell>
             <Cell class='plugTwo' />
             <Cell class='plugTwo'>
-                <InputField id='OS6' class='CountOvershoot' />
+                <Button id='OS6' class='CountOvershoot' />
             </Cell>
             <Cell class='plugTwo' />
             <Cell class='plugTwo'>
-                <InputField id='OS7' class='CountOvershoot' />
+                <Button id='OS7' class='CountOvershoot' />
             </Cell>
             <Cell class='plugTwo' />
             <Cell class='plugTwo'>
-                <InputField id='OS8' class='CountOvershoot' />
+                <Button id='OS8' class='CountOvershoot' />
             </Cell>
             <Cell class='plugTwo' />
             <Cell class='plugTwo'>
-                <InputField id='OS9' class='CountOvershoot' />
+                <Button id='OS9' class='CountOvershoot' />
             </Cell>
             <Cell class='plugTwo' />
             <Cell class='plugTwo'>
-                <InputField id='OS10' class='CountOvershoot' />
+                <Button id='OS10' class='CountOvershoot' />
             </Cell>
             <Cell class='plugTwo' />
             <Cell class='plugTwo'>
-                <InputField id='OS11' class='CountOvershoot' />
+                <Button id='OS11' class='CountOvershoot' />
             </Cell>
             <Cell class='plugOne' />
         </Row>

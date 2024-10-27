@@ -118,7 +118,7 @@ function Confer(savedData)
 end
 
 function onCollisionEnter(info)
-    if flagCollision == false then Wait.time(|| ChangeCountOvershoot(info.collision_object, self.positionToLocal(info.collision_object.getPosition())), 0.5) return end
+    if flagCollision == false then Wait.time(|| ChangeCountOvershoot(info.collision_object, self.positionToLocal(info.collision_object.getPosition())), 0.8) return end
 
     local obj = info.collision_object
     local locPos = self.positionToLocal(obj.getPosition())
@@ -182,6 +182,7 @@ function ChangeCountOvershoot(obj, locPos)
             for i,p in ipairs(pointOvershoot) do
                 if p.x == Round(point.position.x, 2) and p.z == Round(point.position.z, 2) then
                     self.UI.setAttribute("OS"..i, "text", obj.getStateId())
+                    self.UI.setAttribute("OS"..i, "textColor", self.UI.getAttribute("OS"..i, "textColor"))
                 end
             end
         end
@@ -198,7 +199,7 @@ function ChangeState(player, alt, id)
 end
 function ChangeBonusForState(player, id, state)
     if state >= 4 then
-        local text = id == "Hunger" and "голодает" or id == "Thirst" and "хочет пить" or id == "Fatigue" and "спать" or "перепил"
+        local text = id == "Hunger" and "голодает" or id == "Thirst" and "хочет пить" or id == "Fatigue" and "хочет спать" or "перепил"
         broadcastToAll("Кажется кто-то " .. text)
         local tChar = id == "Hunger" and "сила" or id == "Thirst" and "ловкость" or id == "Fatigue" and "интелект"
         local arg = {tChar = tChar, bonus = state < 7 and -10 or -20, state = true}
@@ -217,6 +218,12 @@ function ChangeBonus(_, input, id)
 end
 function ChangeText(_, input, id)
     self.UI.setAttribute("T"..id, "text", input)
+end
+
+function ChangeCountOvershootButton(_, alt, id)
+    local current = self.UI.getAttribute(id, "text")
+    self.UI.setAttribute(id, "text", alt == "-1" and current - 1 or current + 1)
+    self.UI.setAttribute(id, "textColor", self.UI.getAttribute(id, "textColor"))
 end
 
 function ChangeLimb(_, input, id)
