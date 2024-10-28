@@ -124,9 +124,9 @@ function onCollisionEnter(info)
     local obj = info.collision_object
     local locPos = self.positionToLocal(obj.getPosition())
     if locPos.y > 0 then
-        ChangeScaleObject(obj, locPos, {0.8, 0.2, 0.8}, pointBackpack)
-        ChangeScaleObject(obj, locPos, {1, 0.2, 1}, pointBelt)
-        ChangeScaleObject(obj, locPos, {0.9, 0.2, 0.9}, pointWearables)
+        ChangeScaleObject(obj, locPos, {0.24, 0.1, 0.24}, pointBackpack)
+        ChangeScaleObject(obj, locPos, {0.4, 0.1, 0.4}, pointBelt)
+        ChangeScaleObject(obj, locPos, {0.28, 0.1, 0.28}, pointWearables)
 
         local lTag = obj.getTags()[1]
         if lTag ~= nil then --Skills

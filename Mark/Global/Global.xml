@@ -1,25 +1,60 @@
 <Defaults>
+	<VerticalScrollView offsetXY='0 -100' height='800' width='1000' color='black' verticalScrollbarVisibility='AutoHideAndExpandViewport'/>
     <Cell dontUseTableCellBackground='true' />
+	<Row preferredHeight='100' />
     <Button resizeTextForBestFit='true' resizeTextMaxSize='50' />
     <InputField resizeTextForBestFit='true' resizeTextMaxSize='80' resizeTextMinSize='5'
         color='#9487a900' textAlignment='MiddleCenter' text='0'
         textColor='#ffffff' textOutline='#94877355' characterValidation='Integer' font='Fonts/Buky' />
     <Text resizeTextForBestFit='true' resizeTextMaxSize='50'
-        color='#948773' text='0' />
+        color='#948773' text='0' font='Fonts/Buky' />
 </Defaults>
 
 <Panel>
     <Button text='Push me' onClick='PanelOne' offsetXY='855 -505' height='55' width='55' />
+</Panel>
 
-	<VerticalScrollView id='panelTool' height='200' width='250'
-		color='black' offsetXY='0 0' active='false' verticalScrollbarVisibility='AutoHideAndExpandViewport'>
-		<TableLayout id='TLSet' height='200' cellSpacing='2'>
-			<Row preferredHeight='35'>
+<Panel id='panelWhite' active='false'>
+	<VerticalScrollView>
+		<TableLayout id='TLSet' height='200'>
+			<Row>
+				<Cell columnSpan='5' >
+					<Text text='Test'/>
+				</Cell>
+				<Cell columnSpan='10'>
+					<Text text='Test'/>
+				</Cell>
+			</Row>
+			<NewRowS />
+		</TableLayout>
+	</VerticalScrollView>
+</Panel>
+
+<Panel id='panelGreen' active='false'>
+	<VerticalScrollView>
+		<TableLayout id='TLSet' height='200'>
+			<Row>
 				<Cell>
-					<Text text='Какой-то бафф'/>
+					<Text text='Бу, я друг'/>
 				</Cell>
 				<Cell>
-					<Text text='Какой-то бафф'/>
+					<Text text='Не пугайся'/>
+				</Cell>
+			</Row>
+			<NewRowS />
+		</TableLayout>
+	</VerticalScrollView>
+</Panel>
+
+<Panel id='panelRed' active='false'>
+	<VerticalScrollView>
+		<TableLayout id='TLSet' height='200'>
+			<Row>
+				<Cell>
+					<Text text='Бу, я друг'/>
+				</Cell>
+				<Cell>
+					<Text text='Не пугайся'/>
 				</Cell>
 			</Row>
 			<NewRowS />
