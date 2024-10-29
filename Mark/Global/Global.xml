@@ -1,31 +1,18 @@
 <Defaults>
 	<VerticalScrollView offsetXY='0 -100' height='800' width='1000' color='black' verticalScrollbarVisibility='AutoHideAndExpandViewport'/>
-    <Cell dontUseTableCellBackground='true' />
 	<Row preferredHeight='100' />
-    <Button resizeTextForBestFit='true' resizeTextMaxSize='50' />
-    <InputField resizeTextForBestFit='true' resizeTextMaxSize='80' resizeTextMinSize='5'
-        color='#9487a900' textAlignment='MiddleCenter' text='0'
-        textColor='#ffffff' textOutline='#94877355' characterValidation='Integer' font='Fonts/Buky' />
     <Text resizeTextForBestFit='true' resizeTextMaxSize='50'
-        color='#948773' text='0' font='Fonts/Buky' />
+        color='#948773' text='0' font='Fonts/Hanzi' />
 </Defaults>
 
 <Panel>
-    <Button text='Push me' onClick='PanelOne' offsetXY='855 -505' height='55' width='55' />
+    <Button image='https://forum.lastepoch.com/uploads/default/original/2X/3/3081c751081630e5bf6981262aa8e4b113892ebe.png' onClick='PanelLoad' offsetXY='855 -505' height='55' width='55' />
 </Panel>
 
 <Panel id='panelWhite' active='false'>
 	<VerticalScrollView>
 		<TableLayout id='TLSet' height='200'>
-			<Row>
-				<Cell columnSpan='5' >
-					<Text text='Test'/>
-				</Cell>
-				<Cell columnSpan='10'>
-					<Text text='Test'/>
-				</Cell>
-			</Row>
-			<NewRowS />
+			<NewRowSWhite />
 		</TableLayout>
 	</VerticalScrollView>
 </Panel>
@@ -33,15 +20,7 @@
 <Panel id='panelGreen' active='false'>
 	<VerticalScrollView>
 		<TableLayout id='TLSet' height='200'>
-			<Row>
-				<Cell>
-					<Text text='Бу, я друг'/>
-				</Cell>
-				<Cell>
-					<Text text='Не пугайся'/>
-				</Cell>
-			</Row>
-			<NewRowS />
+			<NewRowSGreen />
 		</TableLayout>
 	</VerticalScrollView>
 </Panel>
@@ -49,15 +28,7 @@
 <Panel id='panelRed' active='false'>
 	<VerticalScrollView>
 		<TableLayout id='TLSet' height='200'>
-			<Row>
-				<Cell>
-					<Text text='Бу, я друг'/>
-				</Cell>
-				<Cell>
-					<Text text='Не пугайся'/>
-				</Cell>
-			</Row>
-			<NewRowS />
+			<NewRowSRed />
 		</TableLayout>
 	</VerticalScrollView>
 </Panel>

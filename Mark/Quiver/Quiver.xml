@@ -1,22 +1,27 @@
 <Defaults>
+	<Panel position='0 0 -12' rotation='0 0 180' />
+	<VerticalScrollView rotation='0 0 180' />
+	<TableLayout rotation='0 0 180' />
+	<Row preferredHeight='75' />
+	<Cell dontUseTableCellBackground='true' />
 	<InputField class='inputType' resizeTextForBestFit='True'
-		onEndEdit='SetInputTypeAmmunition' resizeTextMaxSize='60'/>
-	<Text class='bestFitT' resizeTextForBestFit='True'
-		resizeTextMaxSize='60'/>
+		onEndEdit='SetInputTypeAmmunition' resizeTextMaxSize='60' font='Fonts/Hanzi' />
+	<Text resizeTextForBestFit='True'
+		resizeTextMaxSize='60' font='Fonts/Hanzi' />
 	<Button class='bestFitB' resizeTextForBestFit='True'
-		resizeTextMaxSize='60'/>
+		resizeTextMaxSize='60' font='Fonts/Hanzi' />
 	<InputField class='inputValue' resizeTextForBestFit='True'
 		onEndEdit='SetValueAmmunition' resizeTextMaxSize='60'/>
 </Defaults>
 
-<Panel position='0 0 -18' rotation='0 0 180' visibility='Black'>
-	<Button onClick='PanelTool' image='uiGear' height='30' width='30' offsetXY='90 85'/>
-	<Button id='panelClose' onClick='Reset' image='uiClose' height='25' width='25' offsetXY='120 85' active='false'
+<Panel visibility='Black'>
+	<Button onClick='PanelTool' image='uiGear' height='50' width='50' offsetXY='160 160'/>
+	<Button id='panelClose' onClick='Reset' image='uiClose' height='35' width='35' offsetXY='200 160' active='false'
 		tooltip='Reset' tooltipFontSize='25'/>
-	<VerticalScrollView id='panelTool' height='200' width='250' rotation='0 0 180'
-		color='black' offsetXY='0 200' active='false' verticalScrollbarVisibility='AutoHideAndExpandViewport'>
-		<TableLayout id='TLSet' height='200' cellSpacing='2' rotation='0 0 180'>
-			<Row preferredHeight='35'>
+	<VerticalScrollView id='panelTool' height='400' width='500'
+		color='black' offsetXY='0 385' active='false' verticalScrollbarVisibility='AutoHideAndExpandViewport'>
+		<TableLayout id='TLSet' height='400' cellSpacing='2'>
+			<Row>
 				<Cell>
 					<InputField placeholder='Max' resizeTextForBestFit='true' characterValidation='Integer'
 						resizeTextMaxSize='50' color='#ffffff' onEndEdit='SetInputMax'/>
@@ -31,17 +36,17 @@
 	</VerticalScrollView>
 </Panel>
 
-<Panel position='0 0 -18' rotation='0 0 180'>
-	<Button onClick='PanelTool2' image='uiBars' height='30' width='30' offsetXY='-90 85'/>
-	<VerticalScrollView id='panelTool2' height='200' width='250' rotation='0 0 180'
-		color='black' offsetXY='0 200' active='false' verticalScrollbarVisibility='AutoHideAndExpandViewport'>
-		<TableLayout id='TLUse' height='200' cellSpacing='2' rowBackgroundColor='#ffffff' rotation='0 0 180'>
-			<Row preferredHeight='35'>
-				<Cell dontUseTableCellBackground='true' columnSpan='4'>
-					<Text class='bestFit' text='Max value Am.'/>
+<Panel>
+	<Button onClick='PanelTool2' image='uiBars' height='50' width='50' offsetXY='-160 160'/>
+	<VerticalScrollView id='panelTool2' height='400' width='500'
+		color='black' offsetXY='0 385' active='false' verticalScrollbarVisibility='AutoHideAndExpandViewport'>
+		<TableLayout id='TLUse' height='400' cellSpacing='2' rowBackgroundColor='#ffffff'>
+			<Row>
+				<Cell columnSpan='4'>
+					<Text text='Max value Am.'/>
 				</Cell>
-				<Cell dontUseTableCellBackground='true' columnSpan='4'>
-					<Text id='maxText' class='bestFit' text='1'/>
+				<Cell columnSpan='4'>
+					<Text id='maxText' text='1'/>
 				</Cell>
 			</Row>
 			<NewRowC />
@@ -49,6 +54,6 @@
 	</VerticalScrollView>
 </Panel>
 
-<Panel position='0 0 -18' rotation='0 0 180'>
-	<Button id='buttonM' onClick='MinusValue' image='uiSight' height='30' width='30' offsetXY='0 -85' active='false'/>
+<Panel>
+	<Button id='buttonM' onClick='MinusValue' image='uiSight' height='50' width='50' offsetXY='0 -160' active='false'/>
 </Panel>

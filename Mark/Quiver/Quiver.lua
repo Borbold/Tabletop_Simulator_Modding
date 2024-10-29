@@ -20,7 +20,6 @@ function onLoad(savedData)
     end
     function Confer(savedData)
     originalXml = self.UI.getXml()
-    RebuildAssets()
     if(savedData ~= "") then
         local loadedData = JSON.decode(savedData)
         maxValue = loadedData.maxValue or 1
@@ -74,7 +73,7 @@ function SetNewAmmunitionType(_, _, _, isOnLoad)
     local newType = ""
     for i,v in pairs(fildForAmmunitions) do
         newType = newType .. [[
-        <Row preferredHeight='25'>
+        <Row>
             <Cell columnSpan='1'>
             <InputField id='name]]..i..[[' class='inputType' color='#ffffff' placeholder='Name' text=']]..v.name..[['/>
             </Cell>
@@ -98,18 +97,18 @@ function SetNewAmmunitionType(_, _, _, isOnLoad)
     newType = ""
     for i,v in pairs(fildForAmmunitions) do
         newType = newType .. [[
-        <Row preferredHeight='25'>
-            <Cell columnSpan='4' dontUseTableCellBackground='true'>
-            <Text id='nameT]]..i..[[' class='bestFitT' text=']]..v.name..[[' color='#]]..v.color..[['/>
+        <Row>
+            <Cell columnSpan='4'>
+            <Text id='nameT]]..i..[[' text=']]..v.name..[[' color='#]]..v.color..[['/>
             </Cell>
-            <Cell columnSpan='2' dontUseTableCellBackground='true'>
+            <Cell columnSpan='2'>
             <InputField id='value]]..i..[[' class='inputValue' color='#44944a' placeholder='value'
                 characterValidation='Integer' text=']]..v.value..[['/>
             </Cell>
-            <Cell columnSpan='1' dontUseTableCellBackground='true'>
+            <Cell columnSpan='1'>
             <Button id='buttonS]]..i..[[' image='uiCube' class='bestFitB' onClick='SelectTypeAmmunition'/>
             </Cell>
-            <Cell columnSpan='1' dontUseTableCellBackground='true'>
+            <Cell columnSpan='1'>
             <Button id='buttonP]]..i..[[' image='uiPlus' class='bestFitB' onClick='PlusValue'/>
             </Cell>
         </Row>
@@ -133,7 +132,7 @@ end
 function EnlargeHeightPanel()
     if(countAmunition > 7) then
         --preferredHeight=25
-        local newHeightPanel = countAmunition*25 + 27
+        local newHeightPanel = countAmunition*75 + 27
         Wait.time(|| self.UI.setAttribute("TLSet", "height", newHeightPanel), 0.2)
         Wait.time(|| self.UI.setAttribute("TLUse", "height", newHeightPanel), 0.2)
     end
@@ -209,7 +208,7 @@ function SetValueAmmunition(_, input, id)
             colorRGB[i] = colorRGB[i]/255
         end
 
-        broadcastToAll("Использована " .. fildForAmmunitions[id].name, colorRGB)
+        broadcastToAll("Использовано " .. fildForAmmunitions[id].name, colorRGB)
         fildForAmmunitions[id].value = fildForAmmunitions[id].value + tonumber(input)
         self.UI.setAttribute("value"..id, "text", fildForAmmunitions[id].value)
     end
@@ -232,18 +231,4 @@ function SelectTypeAmmunition(_, input, id)
         selectTypeId = tonumber(id)
     end
     UpdateSave()
-end
-
-function RebuildAssets()
-    local root = 'https://raw.githubusercontent.com/RobMayer/TTSLibrary/master/ui/'
-    local sight = 'http://www.clipartbest.com/cliparts/xcg/aKd/xcgaKdqdi.jpg'
-    local assets = {
-        {name = 'uiGear', url = root .. 'gear.png'},
-        {name = 'uiBars', url = root .. 'bars.png'},
-        {name = 'uiPlus', url = root .. 'plus.png'},
-        {name = 'uiClose', url = root .. 'close.png'},
-        {name = 'uiCube', url = root .. 'cube.png'},
-        {name = 'uiSight', url = sight},
-    }
-    self.UI.setCustomAssets(assets)
 end
