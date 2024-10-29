@@ -30,6 +30,7 @@ function UpdateInformation(putObjects)
     allXml = startXml .. newType .. endXml
 
     self.UI.setXml(allXml)
+    EnlargeHeightPanel(color, #putObjects)
 end
 
 function PanelLoad(player)
@@ -39,5 +40,13 @@ function PanelLoad(player)
         self.UI.setAttribute(panel, "visibility", player.color)
     else
         self.UI.setAttribute(panel, "active", "false")
+    end
+end
+
+function EnlargeHeightPanel(color, countRow)
+    if(countRow > 6) then
+        --preferredHeight=80
+        local newHeightPanel = countRow*80 + 16
+        Wait.time(|| self.UI.setAttribute("TL"..color, "height", newHeightPanel), 0.2)
     end
 end
