@@ -14,55 +14,55 @@ function onLoad()
     <Button image='ButtonImage'
         onClick='PanelLoad' offsetXY='855 -505' height='55' width='55' />
 
-    <VerticalScrollView id='panelWhite' active='false' image='https://images.wallpaperscraft.com/image/single/gray_black_shadow_11284_1920x1200.jpg'>
-        <TableLayout id='TLWhite' >
-            <NewRowSWhite />
-        </TableLayout>
-    </VerticalScrollView>
-
-    <VerticalScrollView id='panelGreen' active='false' image='https://images.wallpaperscraft.com/image/single/gray_black_shadow_11284_1920x1200.jpg'>
+    <VerticalScrollView id='panelGreen' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
         <TableLayout id='TLGreen' >
             <NewRowSGreen />
         </TableLayout>
     </VerticalScrollView>
 
-    <VerticalScrollView id='panelRed' active='false' image='https://images.wallpaperscraft.com/image/single/gray_black_shadow_11284_1920x1200.jpg'>
+    <VerticalScrollView id='panelRed' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
         <TableLayout id='TLRed' >
             <NewRowSRed />
         </TableLayout>
     </VerticalScrollView>
 
-    <VerticalScrollView id='panelBrown' active='false' image='https://images.wallpaperscraft.com/image/single/gray_black_shadow_11284_1920x1200.jpg'>
+    <VerticalScrollView id='panelBrown' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
         <TableLayout id='TLBrown' >
             <NewRowSBrown />
         </TableLayout>
     </VerticalScrollView>
 
-    <VerticalScrollView id='panelOrange' active='false' image='https://images.wallpaperscraft.com/image/single/gray_black_shadow_11284_1920x1200.jpg'>
+    <VerticalScrollView id='panelOrange' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
         <TableLayout id='TLOrange' >
             <NewRowSOrange />
         </TableLayout>
     </VerticalScrollView>
 
-    <VerticalScrollView id='panelYellow' active='false' image='https://images.wallpaperscraft.com/image/single/gray_black_shadow_11284_1920x1200.jpg'>
+    <VerticalScrollView id='panelYellow' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
         <TableLayout id='TLYellow' >
             <NewRowSYellow />
         </TableLayout>
     </VerticalScrollView>
 
-    <VerticalScrollView id='panelTeal' active='false' image='https://images.wallpaperscraft.com/image/single/gray_black_shadow_11284_1920x1200.jpg'>
+    <VerticalScrollView id='panelTeal' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
         <TableLayout id='TLTeal' >
             <NewRowSTeal />
         </TableLayout>
     </VerticalScrollView>
 
-    <VerticalScrollView id='panelPurple' active='false' image='https://images.wallpaperscraft.com/image/single/gray_black_shadow_11284_1920x1200.jpg'>
+    <VerticalScrollView id='panelPurple' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
         <TableLayout id='TLPurple' >
             <NewRowSPurple />
         </TableLayout>
     </VerticalScrollView>
 
-    <VerticalScrollView id='panelPink' active='false' image='https://images.wallpaperscraft.com/image/single/gray_black_shadow_11284_1920x1200.jpg'>
+    <VerticalScrollView id='panelWhite' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
+        <TableLayout id='TLWhite' >
+            <NewRowSWhite />
+        </TableLayout>
+    </VerticalScrollView>
+
+    <VerticalScrollView id='panelPink' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
         <TableLayout id='TLPink' >
             <NewRowSPink />
         </TableLayout>
@@ -73,7 +73,7 @@ end
 
 function UpdateInformation(putObjects)
     local color = #putObjects > 0 and putObjects[1].color or "White"
-    local allXml = originalXml
+    local allXml = self.UI.getXml()
 
     local newType = ""
     for i,arg in ipairs(putObjects) do
@@ -90,13 +90,15 @@ function UpdateInformation(putObjects)
     end
 
     local searchString = "<NewRowS"..color.." />"
-    local searchStringLength = #searchString
+    local endString = "</TableLayout>"
 
-    local indexFirst = allXml:find(searchString)
+    local indexFirst = allXml:find(searchString) + #searchString
+    local indexOrigin = originalXml:find(searchString) + #searchString
 
-    local startXml = allXml:sub(1, indexFirst + searchStringLength)
-    local endXml = allXml:sub(indexFirst + searchStringLength)
-    allXml = startXml .. newType .. endXml
+    local startXml = allXml:sub(1, indexFirst)
+    local middleXml = originalXml:sub(indexOrigin, indexOrigin + originalXml:sub(indexOrigin):find(endString) + #endString)
+    local endXml = allXml:sub(indexFirst + allXml:sub(indexFirst):find(endString) + #endString)
+    allXml = startXml..newType..middleXml..endXml
 
     self.UI.setXml(allXml)
     EnlargeHeightPanel(color, #putObjects)
