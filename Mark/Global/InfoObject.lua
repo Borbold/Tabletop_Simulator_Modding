@@ -1,6 +1,9 @@
 local putObjects = {}
 
 function onCollisionEnter(info)
+    Wait.time(|| CollisionEnter(info), 0.5)
+end
+function CollisionEnter(info)
     local obj = info.collision_object
     local locPos = self.positionToLocal(obj.getPosition())
     if locPos.y > 0 then

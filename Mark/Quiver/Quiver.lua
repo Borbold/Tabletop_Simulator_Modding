@@ -1,8 +1,7 @@
-function UpdateSave(reset)
+function UpdateSave()
     self.UI.setValue("maxText", maxValue)
-    local changeXml = (not reset and self.UI.getXml()) or nil
     local dataToSave = {
-        ["maxValue"] = maxValue, ["countAmunition"] = countAmunition, ["changeXml"] = changeXml,
+        ["maxValue"] = maxValue, ["countAmunition"] = countAmunition,
         ["fildForAmmunitions"] = fildForAmmunitions
     }
     local savedData = JSON.encode(dataToSave)
@@ -26,6 +25,11 @@ function onLoad(savedData)
         countAmunition = loadedData.countAmunition or 1
         fildForAmmunitions = loadedData.fildForAmmunitions or {}
         SetNewAmmunitionType(_, _, _, true)
+    end
+    
+    tGMNotes = {}
+    for w in self.getGMNotes():gmatch("[^\n]+") do
+        table.insert(tGMNotes, w)
     end
 end
 
@@ -126,7 +130,13 @@ function SetNewAmmunitionType(_, _, _, isOnLoad)
     startXml = startXml .. newType .. endXml
     self.UI.setXml(startXml)
     EnlargeHeightPanel()
-    Wait.time(|| UpdateSave(), 0.2)
+
+    Wait.time(function()
+        if countAmunition == 2 then
+            SelectTypeAmmunition(nil, nil, "buttonS1")
+            fildForAmmunitions['1'].name = self.getName()
+        end
+    end, 0.2)
 end
 
 function EnlargeHeightPanel()
@@ -166,7 +176,7 @@ function SetValueAmmunition(_, input, id)
             end
         end
         if(tonumber(input) + currentValue > maxValue) then
-            broadcastToAll("Не влезает больше")
+            broadcastToAll(tGMNotes[2])
             self.UI.setAttribute("value"..id, "text", 0)
             return
         end
@@ -180,7 +190,7 @@ function SetValueAmmunition(_, input, id)
             currentValue = currentValue + v.value
         end
             if(tonumber(input) + currentValue > maxValue) then
-            broadcastToAll("Не влезает больше")
+            broadcastToAll(tGMNotes[2])
             return
         end
 
@@ -190,7 +200,7 @@ function SetValueAmmunition(_, input, id)
         id = id:sub(8, #id)
 
         if(fildForAmmunitions[id].value + tonumber(input) < 0) then
-            broadcastToAll("Боеприпасы кончились")
+            broadcastToAll(tGMNotes[3])
             return
         end
 
@@ -208,7 +218,7 @@ function SetValueAmmunition(_, input, id)
             colorRGB[i] = colorRGB[i]/255
         end
 
-        broadcastToAll("Использовано " .. fildForAmmunitions[id].name, colorRGB)
+        broadcastToAll(tGMNotes[1].." " .. fildForAmmunitions[id].name, colorRGB)
         fildForAmmunitions[id].value = fildForAmmunitions[id].value + tonumber(input)
         self.UI.setAttribute("value"..id, "text", fildForAmmunitions[id].value)
     end
@@ -219,10 +229,10 @@ function Reset()
     maxValue, countAmunition, selectTypeId = 1, 1, -1
     fildForAmmunitions = {}
     self.UI.setXml(originalXml)
-    UpdateSave(true)
+    UpdateSave()
 end
 
-function SelectTypeAmmunition(_, input, id)
+function SelectTypeAmmunition(_, _, id)
     if(id:find("buttonS")) then
         id = id:sub(8, #id)
         local locId = (selectTypeId > 0 and selectTypeId) or ""
