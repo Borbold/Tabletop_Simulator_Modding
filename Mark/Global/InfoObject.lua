@@ -18,10 +18,11 @@ function onCollisionExit(info)
     local obj = info.collision_object
     local locPos = self.positionToLocal(obj.getPosition())
     if locPos.y > 0 then
-        local arg = {name = obj.getName(), description = obj.getDescription(), color = self.getName()}
+        local nameObj = obj.getName()
         local id
-        for id = 1, #putObjects do
-            if arg.name == putObjects[id].name then
+        for i = 1, #putObjects do
+            if nameObj == putObjects[i].name then
+                id = i
                 break
             end
         end
