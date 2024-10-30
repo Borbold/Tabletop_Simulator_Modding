@@ -18,7 +18,7 @@ function onCollisionExit(info)
     local obj = info.collision_object
     local locPos = self.positionToLocal(obj.getPosition())
     if locPos.y > 0 then
-        local nameObj = obj.getName()
+        local nameObj = obj.getName():gsub("%[.-%]","")
         local id
         for i = 1, #putObjects do
             if nameObj == putObjects[i].name then
