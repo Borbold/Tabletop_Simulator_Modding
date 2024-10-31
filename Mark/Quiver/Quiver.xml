@@ -4,9 +4,9 @@
 	<Text color='#e8d8b4' resizeTextForBestFit='True' resizeTextMaxSize='50' 
 		font='Fonts/Hanzi' />
 	<Panel position='0 0 -12' rotation='0 0 180' />
-	<VerticalScrollView rotation='0 0 180' image='uiBackGround' height='400' width='500' offsetXY='0 385'
-		verticalScrollbarVisibility='AutoHideAndExpandViewport' />
-	<TableLayout rotation='0 0 180' height='400' cellSpacing='2' />
+	<VerticalScrollView rotation='0 0 180' image='uiBackGround' height='390' width='600' offsetXY='0 385'
+		verticalScrollbarVisibility='AutoHideAndExpandViewport' scrollbarImage='ScrollBarImage' scrollbarBackgroundColor='#000000dd' />
+	<TableLayout rotation='0 0 180' height='390' cellSpacing='2' />
 	<Row preferredHeight='75' />
 	<Cell dontUseTableCellBackground='true' />
 
@@ -50,8 +50,5 @@
 			<NewRowC />
 		</TableLayout>
 	</VerticalScrollView>
-</Panel>
-
-<Panel>
 	<Button id='buttonM' onClick='MinusValue' image='uiSight' height='50' width='50' offsetXY='0 -160' active='false'/>
 </Panel>

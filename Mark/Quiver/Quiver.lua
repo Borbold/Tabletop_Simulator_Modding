@@ -1,5 +1,4 @@
 function UpdateSave()
-    self.UI.setValue("maxText", maxValue)
     local dataToSave = {
         ["maxValue"] = maxValue, ["countAmunition"] = countAmunition,
         ["fildForAmmunitions"] = fildForAmmunitions
@@ -16,15 +15,16 @@ function onLoad(savedData)
     maxValue, countAmunition, selectTypeId = 1, 1, -1
     fildForAmmunitions = {}
     Wait.time(|| Confer(savedData), 0.5)
-    end
-    function Confer(savedData)
+end
+function Confer(savedData)
     originalXml = self.UI.getXml()
-    if(savedData ~= "") then
-        local loadedData = JSON.decode(savedData)
+    local loadedData = JSON.decode(savedData)
+    if(loadedData) then
         maxValue = loadedData.maxValue or 1
         countAmunition = loadedData.countAmunition or 1
         fildForAmmunitions = loadedData.fildForAmmunitions or {}
         SetNewAmmunitionType(_, _, _, true)
+        self.UI.setValue("maxText", maxValue)
     end
     
     tGMNotes = {}
@@ -56,6 +56,7 @@ end
 function SetInputMax(_, input, id)
     input = tonumber(input)
     maxValue = input
+    self.UI.setValue("maxText", maxValue)
     Wait.time(UpdateSave, 0.2)
 end
 
@@ -139,9 +140,8 @@ function SetNewAmmunitionType(_, _, _, isOnLoad)
 end
 
 function EnlargeHeightPanel()
-    if(countAmunition > 7) then
-        --preferredHeight=25
-        local newHeightPanel = countAmunition*75 + 27
+    if(countAmunition > 5) then
+        local newHeightPanel = countAmunition*75 + 18
         Wait.time(|| self.UI.setAttribute("TLSet", "height", newHeightPanel), 0.2)
         Wait.time(|| self.UI.setAttribute("TLUse", "height", newHeightPanel), 0.2)
     end
