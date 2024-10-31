@@ -1,4 +1,5 @@
 function onLoad()
+    --White Red Green Blue Brown Teal Yellow Orange Purple Pink
     originalXml = [[
     <Defaults>
         <TableLayout cellSpacing='2' />
@@ -11,7 +12,7 @@ function onLoad()
             color='#e8d8b4' text='0' font='Fonts/Hanzi' />
     </Defaults>
 
-    <Button image='ButtonImage'
+    <Button image='ButtonImage' visibility='White|Red|Green|Blue|Brown|Teal|Yellow|Orange|Purple|Pink'
         onClick='PanelLoad' offsetXY='855 -505' height='55' width='55' />
 
     <VerticalScrollView id='panelWhite' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
@@ -26,6 +27,13 @@ function onLoad()
             <NewRowSRed />
         </TableLayout>
         <EndRowSRed />
+    </VerticalScrollView>
+
+    <VerticalScrollView id='panelBlue' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
+        <TableLayout id='TLBlue' >
+            <NewRowSBlue />
+        </TableLayout>
+        <EndRowSBlue />
     </VerticalScrollView>
 
     <VerticalScrollView id='panelBrown' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>

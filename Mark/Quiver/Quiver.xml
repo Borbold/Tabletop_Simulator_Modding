@@ -1,34 +1,33 @@
 <Defaults>
+	<InputField color='#f0f0f0' font='Fonts/Hanzi' textAlignment='MiddleCenter'
+		resizeTextForBestFit='True' resizeTextMaxSize='50' />
+	<Text color='#e8d8b4' resizeTextForBestFit='True' resizeTextMaxSize='50' 
+		font='Fonts/Hanzi' />
 	<Panel position='0 0 -12' rotation='0 0 180' />
-	<VerticalScrollView rotation='0 0 180' />
-	<TableLayout rotation='0 0 180' />
+	<VerticalScrollView rotation='0 0 180' image='uiBackGround' height='400' width='500' offsetXY='0 385'
+		verticalScrollbarVisibility='AutoHideAndExpandViewport' />
+	<TableLayout rotation='0 0 180' height='400' cellSpacing='2' />
 	<Row preferredHeight='75' />
 	<Cell dontUseTableCellBackground='true' />
-	<InputField class='inputType' resizeTextForBestFit='True'
-		onEndEdit='SetInputTypeAmmunition' resizeTextMaxSize='60' font='Fonts/Hanzi' />
-	<Text resizeTextForBestFit='True'
-		resizeTextMaxSize='60' font='Fonts/Hanzi' />
-	<Button class='bestFitB' resizeTextForBestFit='True'
-		resizeTextMaxSize='60' font='Fonts/Hanzi' />
-	<InputField class='inputValue' resizeTextForBestFit='True'
-		onEndEdit='SetValueAmmunition' resizeTextMaxSize='60'/>
+
+	<InputField class='inputType' onEndEdit='SetInputTypeAmmunition' />
+	<InputField class='inputValue' characterValidation='Integer' placeholder='value'
+		onEndEdit='SetValueAmmunition' />
 </Defaults>
 
 <Panel visibility='Black'>
 	<Button onClick='PanelTool' image='uiGear' height='50' width='50' offsetXY='160 160'/>
-	<Button id='panelClose' onClick='Reset' image='uiClose' height='35' width='35' offsetXY='200 160' active='false'
-		tooltip='Reset' tooltipFontSize='25'/>
-	<VerticalScrollView id='panelTool' height='400' width='500'
-		color='black' offsetXY='0 385' active='false' verticalScrollbarVisibility='AutoHideAndExpandViewport'>
-		<TableLayout id='TLSet' height='400' cellSpacing='2'>
+	<Button id='panelClose' onClick='Reset' icon='uiClose' height='45' width='45' offsetXY='225 160' active='false'
+		tooltip='ʇǝsǝɹ'  tooltipFontSize='25' tooltipPosition='Left' colors='#ffffffdd' />
+	<VerticalScrollView id='panelTool' active='false' >
+		<TableLayout id='TLSet'>
 			<Row>
 				<Cell>
-					<InputField placeholder='Max' resizeTextForBestFit='true' characterValidation='Integer'
-						resizeTextMaxSize='50' color='#ffffff' onEndEdit='SetInputMax'/>
+					<InputField placeholder='Max' characterValidation='Integer' onEndEdit='SetInputMax' />
 				</Cell>
 				<Cell>
-					<Button text='Add new ammo type' resizeTextForBestFit='true'
-						resizeTextMaxSize='50' color='#44944a' onClick='SetNewAmmunitionType'/>
+					<Button text='Add new' onClick='SetNewAmmunitionType'
+						resizeTextForBestFit='True' resizeTextMaxSize='50' font='Fonts/Hanzi' color='#e8d8b4' />
 				</Cell>
 			</Row>
 			<NewRowS />
@@ -38,14 +37,13 @@
 
 <Panel>
 	<Button onClick='PanelTool2' image='uiBars' height='50' width='50' offsetXY='-160 160'/>
-	<VerticalScrollView id='panelTool2' height='400' width='500'
-		color='black' offsetXY='0 385' active='false' verticalScrollbarVisibility='AutoHideAndExpandViewport'>
-		<TableLayout id='TLUse' height='400' cellSpacing='2' rowBackgroundColor='#ffffff'>
+	<VerticalScrollView id='panelTool2' active='false' >
+		<TableLayout id='TLUse'>
 			<Row>
-				<Cell columnSpan='4'>
+				<Cell columnSpan='10'>
 					<Text text='Max value Am.'/>
 				</Cell>
-				<Cell columnSpan='4'>
+				<Cell columnSpan='10'>
 					<Text id='maxText' text='1'/>
 				</Cell>
 			</Row>

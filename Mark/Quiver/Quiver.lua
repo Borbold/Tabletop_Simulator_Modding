@@ -68,7 +68,7 @@ end
 
 function SetNewAmmunitionType(_, _, _, isOnLoad)
     if(not isOnLoad) then
-        fildForAmmunitions[tostring(countAmunition)] = {name = "", color = "000000", value = 0}
+        fildForAmmunitions[tostring(countAmunition)] = {name = "", color = "e8d8b4", value = 0}
         countAmunition = countAmunition + 1
     end
 
@@ -79,11 +79,11 @@ function SetNewAmmunitionType(_, _, _, isOnLoad)
         newType = newType .. [[
         <Row>
             <Cell columnSpan='1'>
-            <InputField id='name]]..i..[[' class='inputType' color='#ffffff' placeholder='Name' text=']]..v.name..[['/>
+                <InputField id='name]]..i..[[' class='inputType' placeholder='Name' text=']]..v.name..[['/>
             </Cell>
             <Cell columnSpan='1'>
-            <InputField id='color]]..i..[[' class='inputType' color='#ffffff' placeholder='#color' characterLimit='6'
-                characterValidation='Alphanumeric' text=']]..v.color..[['/>
+                <InputField id='color]]..i..[[' class='inputType' placeholder='#color' characterLimit='6'
+                    characterValidation='Alphanumeric' text=']]..v.color..[['/>
             </Cell>
         </Row>
         ]]
@@ -102,18 +102,17 @@ function SetNewAmmunitionType(_, _, _, isOnLoad)
     for i,v in pairs(fildForAmmunitions) do
         newType = newType .. [[
         <Row>
-            <Cell columnSpan='4'>
-            <Text id='nameT]]..i..[[' text=']]..v.name..[[' color='#]]..v.color..[['/>
+            <Cell columnSpan='9'>
+                <Text id='nameT]]..i..[[' text=']]..v.name..[[' color='#]]..v.color..[['/>
             </Cell>
-            <Cell columnSpan='2'>
-            <InputField id='value]]..i..[[' class='inputValue' color='#44944a' placeholder='value'
-                characterValidation='Integer' text=']]..v.value..[['/>
+            <Cell columnSpan='5'>
+                <InputField id='value]]..i..[[' class='inputValue' text=']]..v.value..[[' />
             </Cell>
-            <Cell columnSpan='1'>
-            <Button id='buttonS]]..i..[[' image='uiCube' class='bestFitB' onClick='SelectTypeAmmunition'/>
+            <Cell columnSpan='3'>
+                <Button id='buttonS]]..i..[[' image='uiCube' onClick='SelectTypeAmmunition'/>
             </Cell>
-            <Cell columnSpan='1'>
-            <Button id='buttonP]]..i..[[' image='uiPlus' class='bestFitB' onClick='PlusValue'/>
+            <Cell columnSpan='3'>
+                <Button id='buttonP]]..i..[[' image='uiPlus' onClick='PlusValue'/>
             </Cell>
         </Row>
         ]]
