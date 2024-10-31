@@ -14,83 +14,94 @@ function onLoad()
     <Button image='ButtonImage'
         onClick='PanelLoad' offsetXY='855 -505' height='55' width='55' />
 
-    <VerticalScrollView id='panelGreen' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
-        <TableLayout id='TLGreen' >
-            <NewRowSGreen />
+    <VerticalScrollView id='panelWhite' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
+        <TableLayout id='TLWhite' >
+            <NewRowSWhite />
         </TableLayout>
+        <EndRowSWhite />
     </VerticalScrollView>
 
     <VerticalScrollView id='panelRed' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
         <TableLayout id='TLRed' >
             <NewRowSRed />
         </TableLayout>
+        <EndRowSRed />
     </VerticalScrollView>
 
     <VerticalScrollView id='panelBrown' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
         <TableLayout id='TLBrown' >
             <NewRowSBrown />
         </TableLayout>
+        <EndRowSBrown />
     </VerticalScrollView>
 
     <VerticalScrollView id='panelOrange' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
         <TableLayout id='TLOrange' >
             <NewRowSOrange />
         </TableLayout>
+        <EndRowSOrange />
     </VerticalScrollView>
 
     <VerticalScrollView id='panelYellow' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
         <TableLayout id='TLYellow' >
             <NewRowSYellow />
         </TableLayout>
+        <EndRowSYellow />
     </VerticalScrollView>
 
     <VerticalScrollView id='panelTeal' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
         <TableLayout id='TLTeal' >
             <NewRowSTeal />
         </TableLayout>
+        <EndRowSTeal />
     </VerticalScrollView>
 
     <VerticalScrollView id='panelPurple' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
         <TableLayout id='TLPurple' >
             <NewRowSPurple />
         </TableLayout>
+        <EndRowSPurple />
     </VerticalScrollView>
 
-    <VerticalScrollView id='panelWhite' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
-        <TableLayout id='TLWhite' >
-            <NewRowSWhite />
+    <VerticalScrollView id='panelGreen' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
+        <TableLayout id='TLGreen' >
+            <NewRowSGreen />
         </TableLayout>
+        <EndRowSGreen />
     </VerticalScrollView>
 
     <VerticalScrollView id='panelPink' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
         <TableLayout id='TLPink' >
             <NewRowSPink />
         </TableLayout>
+        <EndRowSPink />
     </VerticalScrollView>
     ]]
     self.UI.setXml(originalXml)
 end
 
 function UpdateInformation(putObjects)
-    local color = #putObjects > 0 and putObjects[1].color or "White"
+    local color = putObjects[1].color
     local allXml = self.UI.getXml()
 
     local newType = ""
-    for i,arg in ipairs(putObjects) do
-        newType = newType .. [[
-        <Row id=']]..arg.color..i..[['>
-            <Cell columnSpan='5'>
-                <Text id='name]]..i..[[' text=']]..arg.name..[['/>
-            </Cell>
-            <Cell columnSpan='10'>
-                <Text id='description]]..i..[[' text=']]..arg.description..[['/>
-            </Cell>
-        </Row>
-        ]]
+    if putObjects[1].name then
+        for i,arg in ipairs(putObjects) do
+            newType = newType .. [[
+            <Row id=']]..arg.color..i..[['>
+                <Cell columnSpan='5'>
+                    <Text id='name]]..i..[[' text=']]..arg.name..[['/>
+                </Cell>
+                <Cell columnSpan='10'>
+                    <Text id='description]]..i..[[' text=']]..arg.description..[['/>
+                </Cell>
+            </Row>
+            ]]
+        end
     end
 
     local searchString = "<NewRowS"..color.." />"
-    local endString = "</TableLayout>"
+    local endString = "<EndRowS"..color.." />"
 
     local indexFirst = allXml:find(searchString) + #searchString
     local indexOrigin = originalXml:find(searchString) + #searchString
