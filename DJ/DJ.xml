@@ -1,7 +1,9 @@
 <Defaults>
 	<Cell dontUseTableCellBackground='true' />
-	<Button resizeTextForBestFit='true' resizeTextMaxSize='50'
-		color='#948773' tooltipPosition='Below'
+	<Button resizeTextForBestFit='true' resizeTextMaxSize='50' color='#948773'
+        tooltipPosition='Above' tooltipFontsize='30' tooltipBorderColor='#948773'
+        tooltipBackgroundColor='rgba(0.95,0.7,0,1)' tooltipTextColor='#000000'
+        tooltipFont='Fonts/Allods'
         font='Fonts/Allods'
     />
 </Defaults>
@@ -27,6 +29,12 @@
             </Cell>
             <Cell columnSpan='2'>
                 <Button text='→' onClick='NextMusic' color='#9487a9' tooltip='Swith next music'/>
+            </Cell>
+
+            <Cell columnSpan='2'/>
+
+            <Cell columnSpan='2'>
+                <Button text='Load' onClick='PreloadPlaylist' color='#fd8a5a' tooltip='Preload playlist'/>
             </Cell>
         </Row>
         <!-- 2 -->

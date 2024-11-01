@@ -1199,3 +1199,13 @@ end
 function StartPlaylistPlay()
     Wait.time(|| MusicPlayer.setCurrentAudioclip(MusicPlayer.getPlaylist()[1]), waitCount + 0.1)
 end
+function PreloadPlaylist()
+    Wait.time(function()
+        for i,m in ipairs(MusicPlayer.getPlaylist()) do
+            if m.loaded ~= true then
+                MusicPlayer.setCurrentAudioclip(m)
+            end
+        end
+        Wait.time(|| StopPlaylist(), waitCount)
+    end, waitCount)
+end
