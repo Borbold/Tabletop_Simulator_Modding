@@ -1,7 +1,9 @@
 <Defaults>
 	<Cell dontUseTableCellBackground='true' />
 	<Button resizeTextForBestFit='true' resizeTextMaxSize='50'
-		color='#948773' Font='Font/School' tooltipFontSize='25' tooltipPosition='Below'/>
+		color='#948773' tooltipPosition='Below'
+        font='Fonts/Allods'
+    />
 </Defaults>
 
 <Panel position='0 400 -55' height='800' width='1200'>
@@ -41,7 +43,7 @@
                 <Button text='Fear and Hunger' onClick='SetFearHungerPlaylist' color='#a02828' textColor='#E3E88E'/>
             </Cell>
             <Cell columnSpan='2'>
-                <Button text='' onClick=''/>
+                <Button icon='uiBattle' onClick='SetBattlePlaylist' color='#fdaa5a' />
             </Cell>
             <Cell columnSpan='2'>
                 <Button text='' onClick=''/>

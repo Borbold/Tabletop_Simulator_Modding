@@ -27,7 +27,11 @@ function onCollisionExit(info)
             end
         end
         table.remove(putObjects, id)
-        if #putObjects == 0 then table.insert(putObjects, {color = self.getName()}) end
-        Global.call("UpdateInformation", putObjects)
+        if #putObjects == 0 then
+            Global.call("UpdateInformation", {{color = self.getName()}})
+        else
+            Global.call("UpdateInformation", putObjects)
+        end
     end
+
 end
