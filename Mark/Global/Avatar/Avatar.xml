@@ -1,0 +1,52 @@
+<Defaults>
+    <Row preferredHeight='50'/>
+    <Cell dontUseTableCellBackground='true' childForceExpandWidth='false' />
+    <Image color='#ffffff' />
+</Defaults>
+
+<TableLayout image='ScrollBarImage' cellSpacing='2' height='250' width='200' position='0 0 -200' rotation='-40 0 0'>
+    <Row>
+        <Cell>
+            <Panel>
+                <Image id='I1' width='50'/>
+            </Panel>
+        </Cell>
+        <Cell>
+            <Panel>
+                <Image id='I2' width='50'/>
+            </Panel>
+        </Cell>
+        <Cell>
+            <Panel>
+                <Image id='I3' width='50'/>
+            </Panel>
+        </Cell>
+        <Cell>
+            <Panel>
+                <Image id='I4' width='50'/>
+            </Panel>
+        </Cell>
+    </Row>
+    <Row>
+        <Cell>
+            <Panel>
+                <Image id='I5' width='50'/>
+            </Panel>
+        </Cell>
+        <Cell>
+            <Panel>
+                <Image id='I6' width='50'/>
+            </Panel>
+        </Cell>
+        <Cell>
+            <Panel>
+                <Image id='I7' width='50'/>
+            </Panel>
+        </Cell>
+        <Cell>
+            <Panel>
+                <Image id='I8' width='50'/>
+            </Panel>
+        </Cell>
+    </Row>
+</TableLayout>
