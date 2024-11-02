@@ -232,21 +232,23 @@ function Overshoot(player, alt, id)
     throw.call("Overshoot", arg)
 end
 
-function ChangeOD(player)
-    WriteGM(player.steam_name.." изменил ОД")
+function ChangeOD(player, input, id)
+    --WriteGM(player.steam_name.." изменил ОД")
+    self.UI.setAttribute(id, "text", input)
 end
 
 function ChangeLimb(player, input, id)
-    WriteGM(player.steam_name.." изменил ХП " .. id)
+    --WriteGM(player.steam_name.." изменил ХП " .. id)
+    self.UI.setAttribute(id, "text", input)
     limbValues[id] = input
     UpdateSave()
 end
 
-function WriteGM(text)
+--[[function WriteGM(text)
     if Player["Black"].steam_name then
         broadcastToColor(text, "Black")
     end
-end
+end]]
 
 function CheckPos(pos1, pos2)
     if Round(pos1.x, 2) == Round(pos2.x, 2) and Round(pos1.z, 2) == Round(pos2.z, 2) then
