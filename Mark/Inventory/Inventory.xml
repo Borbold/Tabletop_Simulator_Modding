@@ -31,7 +31,7 @@
             </Cell>
             <Cell columnSpan='26' />
             <Cell columnSpan='5'>
-                <InputField characterLimit='2' />
+                <InputField id='OD' characterLimit='2' onEndEdit='ChangeOD' />
             </Cell>
             <Cell columnSpan='10' childForceExpandHeight='false' childForceExpandWidth='false'>
                 <Panel>
