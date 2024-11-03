@@ -1,28 +1,23 @@
 function onLoad()
+    locColors = "White Red Green Blue Brown Teal Yellow Orange Purple Pink"
     putObjects = {}
     avatar = getObjectFromGUID(self.getGMNotes())
 end
 
 function onCollisionEnter(info)
-    Wait.time(|| CollisionEnter(info), 0.5)
-end
-function CollisionEnter(info)
     local obj = info.collision_object
     local l1 = '"ImageURL":'
     local l2 = '"ImageSecondaryURL"'
     local objJSON = obj.getJSON()
-    local URLImage = objJSON:sub(objJSON:find(l1) + #l1, objJSON:find(l2))
-    URLImage = URLImage:gsub('"', "")
-    URLImage = URLImage:gsub(',', "")
-    URLImage = URLImage:gsub('\n', "")
-    URLImage = URLImage:gsub(' ', "")
+    local URLImage = objJSON:sub(objJSON:find(l1) + #l1, objJSON:find(l2) - 1)
+    URLImage = URLImage:match([["([^"]+)]])
     local locPos = self.positionToLocal(obj.getPosition())
     if locPos.y > 0 then
         local name = obj.getName():gsub("%[.-%]","")
         local arg = {name = name, description = obj.getDescription(), color = self.getName(), image = URLImage}
         table.insert(putObjects, arg)
-        print("Hello ", URLImage)
-        Global.call("UpdateInformation", putObjects)
+        
+        CallGlobal(putObjects)
         avatar.call("UpdateInformation", putObjects)
     end
 end
@@ -40,7 +35,16 @@ function onCollisionExit(info)
             end
         end
         table.remove(putObjects, id)
-        Global.call("UpdateInformation", #putObjects == 0 and {{color = self.getName()}} or putObjects)
-        avatar.call("UpdateInformation", putObjects)
+        CallGlobal(#putObjects == 0 and {{color = self.getName()}} or putObjects)
+        avatar.call("UpdateInformation", #putObjects == 0 and {{}} or putObjects)
+    end
+end
+
+function CallGlobal(putObjects)
+    for c in locColors:gmatch("%S+") do
+        if self.getName() == c then
+            Global.call("UpdateInformation", putObjects)
+            break
+        end
     end
 end
