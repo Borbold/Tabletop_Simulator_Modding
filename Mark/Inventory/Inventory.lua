@@ -228,6 +228,7 @@ function Overshoot(player, alt, id)
     local current = self.UI.getAttribute(id, "text")
     self.UI.setAttribute(id, "text", alt == "-1" and current - 1 or current + 1)
     self.UI.setAttribute(id, "textColor", self.UI.getAttribute(id, "textColor"))
+    if alt == "-2" then return end
     local arg = {tTag = self.UI.getAttribute(id, "value"), playerColor = player.color}
     throw.call("Overshoot", arg)
 end

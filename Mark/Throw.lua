@@ -936,9 +936,9 @@ function ChangeMemory(arg)
 end
 
 function Overshoot(arg)
-    broadcastToAll(arg.playerColor .. " перебросил", arg.playerColor)
     for i,m in ipairs(memory) do
         if m.name == arg.tTag then
+            broadcastToAll(arg.playerColor.." перебросил "..arg.tTag, arg.playerColor)
             mem(self, arg.playerColor, i)
         end
     end

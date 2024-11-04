@@ -12,8 +12,10 @@ function onLoad()
             color='#e8d8b4' text='0' font='Fonts/Hanzi' />
     </Defaults>
 
-    <Button image='ButtonImage' visibility='White|Red|Green|Blue|Brown|Teal|Yellow|Orange|Purple|Pink'
+    <Button image='ButtonStatus' visibility='White|Red|Green|Blue|Brown|Teal|Yellow|Orange|Purple|Pink'
         onClick='PanelLoad' offsetXY='855 -505' height='55' width='55' />
+    <Button image='ButtonWeather' visibility='Black'
+        onClick='WhatWeather' offsetXY='855 -505' height='55' width='55' />
 
     <VerticalScrollView id='panelWhite' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
         <TableLayout id='TLWhite' >
@@ -139,4 +141,15 @@ function EnlargeHeightPanel(color, countRow)
         local newHeightPanel = countRow*80 + 16
         Wait.time(|| self.UI.setAttribute("TL"..color, "height", newHeightPanel), 0.2)
     end
+end
+
+function WhatWeather()
+    local weather = "[a6a6a6]Прогноз на сегодня:[-] "
+    local s = {"солнечно", "пасмурно", "допишите ещё"}
+    weather = weather.." [ffff00]"..s[math.random(#s)]
+    local w = {"ветренно", "очень ветренно", "нет ветра"}
+    weather = weather.." [ffffff]"..w[math.random(#w)]
+    local t = {"жарко", "холодно", "относительно тепло"}
+    weather = weather.." [00ffff]"..t[math.random(#t)]
+    broadcastToAll(weather)
 end
