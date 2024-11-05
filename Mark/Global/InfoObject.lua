@@ -1,11 +1,14 @@
 function onLoad()
     locColors = "White Red Green Blue Brown Teal Yellow Orange Purple Pink"
-    putObjects = {}
+    putObjects, locGUID = {}, 0
     avatar = getObjectFromGUID(self.getGMNotes())
 end
 
 function onCollisionEnter(info)
     local obj = info.collision_object
+    if locGUID == 0 or locGUID ~= obj.getGUID() then locGUID = obj.getGUID()
+    else return end
+    
     local l1 = '"ImageURL":'
     local l2 = '"ImageSecondaryURL"'
     local objJSON = obj.getJSON()
@@ -24,6 +27,9 @@ end
 
 function onCollisionExit(info)
     local obj = info.collision_object
+    if locGUID ~= 0 then locGUID = 0
+    else return end
+
     local locPos = self.positionToLocal(obj.getPosition())
     if locPos.y > 0 then
         local nameObj = obj.getName():gsub("%[.-%]","")
