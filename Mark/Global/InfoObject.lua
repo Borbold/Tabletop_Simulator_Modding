@@ -16,8 +16,9 @@ function onCollisionEnter(info)
     URLImage = URLImage:match([["([^"]+)]])
     local locPos = self.positionToLocal(obj.getPosition())
     if locPos.y > 0 then
+        for _,p in ipairs(putObjects) do if p.guid == locGUID then return end end
         local name = obj.getName():gsub("%[.-%]","")
-        local arg = {name = name, description = obj.getDescription(), color = self.getName(), image = URLImage}
+        local arg = {name = name, description = obj.getDescription(), color = self.getName(), image = URLImage, guid = obj.getGUID()}
         table.insert(putObjects, arg)
         
         CallGlobal(putObjects)
@@ -33,10 +34,10 @@ function onCollisionExit(info)
 
     local locPos = self.positionToLocal(obj.getPosition())
     if locPos.y > 0 then
-        local nameObj = obj.getName():gsub("%[.-%]","")
+        local guidObj = obj.getGUID()
         local id
         for i = 1, #putObjects do
-            if nameObj == putObjects[i].name then
+            if guidObj == putObjects[i].guid then
                 id = i
                 break
             end
