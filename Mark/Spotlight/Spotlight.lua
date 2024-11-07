@@ -1,11 +1,16 @@
-function onLoad(save_state)
-	self.addContextMenuItem("Apply Settings", apply, false)
-	apply()
+function UpdateSave(swith)
+    local dataToSave = {["swith"] = swith}
+    local savedData = JSON.encode(dataToSave)
+    self.script_state = savedData
+end
+
+function onLoad(savedData)
+    local loadedData = JSON.decode(savedData)
+	self.addContextMenuItem("Apply Settings", || apply("On"), false)
+	apply(loadedData and loadedData.swith or "On")
 end
 
 function apply(swith)
-    if swith == nil then swith = "On" end
-    
 	local outputs = {}
 	for i, line in ipairs(splitLines(self.getGMNotes())) do
 		local st, en, cap = string.find(line, ": (.+)$")
@@ -30,6 +35,7 @@ function apply(swith)
 		self.getChildren()[1].getChildren()[2].getComponents()[2].set("intensity", outputs[3])
 	end
 	self.getChildren()[1].getChildren()[2].getComponents()[2].set("enabled", outputs[4])
+    UpdateSave(swith)
 end
 
 function splitLines(input)
