@@ -1,0 +1,41 @@
+<Defaults>
+</Defaults>
+
+<Panel position='641 850 -65' height='80' width='365' rotation='0 0 0' visibility='Black'>
+	<TableLayout cellSpacing='1'>
+		<Row>
+			<Cell>
+				<Button text='Создать магазин' resizeTextForBestFit='True' resizeTextMaxSize='60' onClick='CreateBag'
+				tooltip='Kак только выложили предметы в нужном порядке, нажмите, после чего появится мешочек.
+				Eсли хотите удалить магазин, удалите сам мешочек, при этом вещи из него можно заранее выложить'
+				tooltipFontSize='35' tooltipPosition='Above' tooltipWidth='400' tooltipOffset='50'/>
+			</Cell>
+		</Row>
+	</TableLayout>
+</Panel>
+
+<Panel position='650 80 -63' visibility=''>
+	<VerticalScrollView height='1180' width='400' verticalScrollbarVisibility='AutoHideAndExpandViewport'
+		color='black' offsetXY='0 155'>
+		<TableLayout id='tableLayoutShop' height='2500' cellSpacing='5'>
+			<!--<Row>
+				<Cell>
+					<Button text='Выложить' resizeTextForBestFit='True' resizeTextMaxSize='60' onClick='ShowcaseMerchandise'/>
+				</Cell>
+				<Cell>
+					<Button text='Сложить' resizeTextForBestFit='True' resizeTextMaxSize='60' onClick='HidecaseMerchandise'/>
+				</Cell>
+				<Cell>
+					<Button text='+' resizeTextForBestFit='True' resizeTextMaxSize='60' onClick=''/>
+				</Cell>
+			</Row>-->
+		</TableLayout>
+	</VerticalScrollView>
+</Panel>
+
+<Panel position='0 850 -65' active='true' visibility='Black'>
+	<InputField id='discountField' resizeTextForBestFit='true' resizeTextMaxSize='60' height='60'
+		onEndEdit='GiveDiscount' characterValidation='Decimal' placeholder='discount'
+		tooltip='Устанавливайте скидку в момент, когда разложили магазин. Oна ни как не отображается, но при покупке товара будет учитываться'
+		tooltipFontSize='35' tooltipPosition='Above' tooltipWidth='400' tooltipOffset='50'/>
+</Panel>
