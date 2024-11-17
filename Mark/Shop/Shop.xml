@@ -1,41 +1,34 @@
 <Defaults>
+    <Button font='Fonts/Hanzi' resizeTextForBestFit='True' resizeTextMaxSize='60' resizeTextMinSize='20'
+        tooltipFont='Fonts/Hanzi' tooltipFontSize='35' tooltipWidth='400' tooltipOffset='50' />
+    <InputField textAlignment='MiddleCenter' font='Fonts/Hanzi' resizeTextForBestFit='True' resizeTextMaxSize='60' resizeTextMinSize='20'
+        tooltipFont='Fonts/Hanzi' tooltipFontSize='35' tooltipWidth='400' tooltipOffset='50' />
 </Defaults>
 
-<Panel position='641 850 -65' height='80' width='365' rotation='0 0 0' visibility='Black'>
+<Panel position='641 850 -65' height='80' width='365' visibility='Black'>
 	<TableLayout cellSpacing='1'>
 		<Row>
 			<Cell>
-				<Button text='Создать магазин' resizeTextForBestFit='True' resizeTextMaxSize='60' onClick='CreateBag'
+				<Button text='Создать' onClick='CreateBag' tooltipPosition='Above'
 				tooltip='Kак только выложили предметы в нужном порядке, нажмите, после чего появится мешочек.
-				Eсли хотите удалить магазин, удалите сам мешочек, при этом вещи из него можно заранее выложить'
-				tooltipFontSize='35' tooltipPosition='Above' tooltipWidth='400' tooltipOffset='50'/>
+                Eсли хотите удалить магазин, удалите сам мешочек, при этом вещи из него можно заранее выложить' />
 			</Cell>
 		</Row>
 	</TableLayout>
 </Panel>
 
-<Panel position='650 80 -63' visibility=''>
+<Panel position='650 80 -63'>
 	<VerticalScrollView height='1180' width='400' verticalScrollbarVisibility='AutoHideAndExpandViewport'
 		color='black' offsetXY='0 155'>
 		<TableLayout id='tableLayoutShop' height='2500' cellSpacing='5'>
-			<!--<Row>
-				<Cell>
-					<Button text='Выложить' resizeTextForBestFit='True' resizeTextMaxSize='60' onClick='ShowcaseMerchandise'/>
-				</Cell>
-				<Cell>
-					<Button text='Сложить' resizeTextForBestFit='True' resizeTextMaxSize='60' onClick='HidecaseMerchandise'/>
-				</Cell>
-				<Cell>
-					<Button text='+' resizeTextForBestFit='True' resizeTextMaxSize='60' onClick=''/>
-				</Cell>
-			</Row>-->
+			<!--Здесь вставляется код из lua-->
 		</TableLayout>
 	</VerticalScrollView>
 </Panel>
 
-<Panel position='0 850 -65' active='true' visibility='Black'>
-	<InputField id='discountField' resizeTextForBestFit='true' resizeTextMaxSize='60' height='60'
+<Panel position='0 850 -65' visibility='Black'>
+	<InputField id='discountField' height='60'
 		onEndEdit='GiveDiscount' characterValidation='Decimal' placeholder='discount'
 		tooltip='Устанавливайте скидку в момент, когда разложили магазин. Oна ни как не отображается, но при покупке товара будет учитываться'
-		tooltipFontSize='35' tooltipPosition='Above' tooltipWidth='400' tooltipOffset='50'/>
+		tooltipPosition='Above' />
 </Panel>

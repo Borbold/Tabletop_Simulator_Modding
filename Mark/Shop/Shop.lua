@@ -37,11 +37,14 @@ function CreateGlobalVariable()
           {
             tag = "InputField",
             attributes = {
-              id = "00",
-              text = "storename",
+              id = "storename",
+              placeholder = "storename",
+              text = "",
+              color = "#1f1f1fda",
+              textColor = "#ffffff",
               resizeTextForBestFit = "True",
               resizeTextMaxSize = "60",
-              onEndEdit = "UpdateXMLSave",
+              onEndEdit = "UpdateNameStore",
               tooltip = "Название магазина сохраняется только при первом вводе. Учитывайте это!",
               tooltipFontSize = "35",
               tooltipPosition = "Above",
@@ -67,7 +70,7 @@ function CreateGlobalVariable()
           {
             tag = "Button",
             attributes = {
-              id = "00",
+              id = "up",
               text = "↑",
               resizeTextForBestFit = "True",
               resizeTextMaxSize = "60",
@@ -77,6 +80,7 @@ function CreateGlobalVariable()
           {
             tag = "Button",
             attributes = {
+              id = "down",
               text = "↓",
               resizeTextForBestFit = "True",
               resizeTextMaxSize = "60",
@@ -86,7 +90,7 @@ function CreateGlobalVariable()
           {
             tag = "Button",
             attributes = {
-              id = "00",
+              id = "add",
               text = "+",
               resizeTextForBestFit = "True",
               resizeTextMaxSize = "60",
@@ -97,7 +101,7 @@ function CreateGlobalVariable()
           {
             tag = "Button",
             attributes = {
-              id = "percent_",
+              id = "percent",
               text = "100%",
               resizeTextForBestFit = "True",
               resizeTextMaxSize = "60",
@@ -120,9 +124,6 @@ function CreateGlobalVariable()
   allObjectsItemGUID = {}
   watchword = {"sell item", "coin pouch"}
   CoinPouchGUID = ""
-  -- Не отнимаемое значение.
-  --Нужно чтобы грамотно отлавливать новые магазины после удаления какого либо из середины списка
-  previousStoreId = 1
   -- Нужем для переименовывания мешочков, но только в момент их непосредственного создания
   detachedBags = {}
   percentageStoreItem = {}
@@ -133,6 +134,8 @@ function onLoad(savedData)
   if(savedData ~= "") then
     local loadedData = JSON.decode(savedData)
     allStoresGUID = loadedData.allStoresGUID or allStoresGUID
+    -- Не отнимаемое значение.
+    --Нужно чтобы грамотно отлавливать новые магазины после удаления какого либо из середины списка
     previousStoreId = loadedData.previousStoreId or 1
     if(loadedData.replacementXml and #loadedData.replacementXml > 0) then
       self.UI.setXml(loadedData.replacementXml)
@@ -163,11 +166,13 @@ function PercentageSubjects(_, _, idStoreGUID)
   percent = ((percent - 25) > 0 and (percent - 25)) or 100
   self.UI.setAttribute(idStoreGUID, "text", percent.."%")
 
-  local idStoreGUID = idStoreGUID:sub(9)
-  percentageStoreItem[allStoresGUID[idStoreGUID]] = percent
+  local id = idStoreGUID:gsub("%D", "")
+  percentageStoreItem[allStoresGUID[id]] = percent
 end
 
 function onCollisionEnter(info)
+  if(#watchword ~= 2 or info.collision_object.getPosition().y < self.getPosition().y) then return end
+
   if(info.collision_object.getGMNotes():lower():find(watchword[1])) then
     for _, v in ipairs(allObjectsItemGUID) do
       if(v == info.collision_object.getGUID()) then
@@ -180,6 +185,8 @@ function onCollisionEnter(info)
   end
 end
 function onCollisionExit(info)
+  if(info.collision_object.getPosition().y < self.getPosition().y) then return end
+
   if(allObjectsItemGUID) then
     if(info.collision_object.getGMNotes():lower():find(watchword[1])) then
       local removeId = -1
@@ -282,8 +289,8 @@ function SetObjMeta(bag, objGUID, locBoardObjectsPos, locBoardObjectsRot)
   showGUIDBag = ""
 end
 
-function ShowcaseMerchandise(player, _, idStoreGUID)
-  local storeGUID = allStoresGUID[idStoreGUID]
+function ShowcaseMerchandise(player, _, id)
+  local storeGUID = allStoresGUID[id:gsub("%D", "")]
   local store = getObjectFromGUID(storeGUID)
   if(store) then
     showGUIDBag = storeGUID
@@ -364,21 +371,13 @@ function HidecaseMerchandise()
   self.UI.setAttribute("discountField", "text", "")
 end
 
-function UpdateXMLSave(_, input, id)
+function UpdateNameStore(_, input, id)
   if(input == "") then return end
 
-  local currentXml = self.UI.getXml()
-  if(currentXml:find("storename" .. id)) then
-    local firstIndex = currentXml:find("storename" .. id) - 1
-    local locXml = currentXml:sub(0, firstIndex)
-    locXml = locXml .. input
-    local lastIndex = firstIndex + #("storename" .. id) + 1
-    locXml = locXml .. currentXml:sub(lastIndex)
-    self.UI.setXml(locXml)
-	  Wait.time(|| UpdateSave(), 0.2)
-    id = tonumber(id)
-    if(detachedBags[id]) then detachedBags[id].setName(input) end
-  end
+  self.UI.setAttribute(id, "text", input)
+  Wait.time(|| UpdateSave(), 0.2)
+  id = tonumber(id:gsub("%D", ""))
+  if(detachedBags[id]) then detachedBags[id].setName(input) end
 end
 
 function GiveDiscount(_, input)
@@ -401,14 +400,6 @@ function GiveDiscount(_, input)
   end
 end
 
-function EnlargeHeightPanelStat(countStatisticIndex)
-  if(countStatisticIndex > 4 * 2) then
-    --preferredHeight=160 cellSpacing=5
-    local newHeightPanel = countStatisticIndex * 160 + countStatisticIndex * 5
-    Wait.time(|| self.UI.setAttribute("tableLayoutShop", "height", newHeightPanel), 0.2)
-  end
-end
-
 function XMLReplacementAdd()
   local xmlTable, desiredTable = {}, false
   xmlTable = self.UI.getXmlTable()
@@ -422,29 +413,24 @@ function XMLReplacementAdd()
                 for _,ch in pairs(child) do
                   if(type(ch) == "table") then
                     for title,attribute in pairs(ch) do
-                      -- Сложно не понятная фигня. Уже и забыл как работает
                       if(attribute["id"] and attribute["id"]:find("tableLayoutShop")) then
                         desiredTable = true
                       end
                       if(desiredTable and title == "children") then
-                        local shopNameText = shopName.children[1].children[1].attributes.text
-                        if(shopNameText == "storename") then shopName.children[1].children[1].attributes.text = shopNameText .. previousStoreId end
-                        shopName.children[1].children[1].attributes.id = previousStoreId
+                        local id = shopName.children[1].children[1].attributes.id
+                        shopName.children[1].children[1].attributes.id = id..previousStoreId
                         table.insert(attribute, shopName)
 
-                        shopButton.children[1].children[1].attributes.id = previousStoreId
-                        shopButton.children[1].children[3].attributes.id = previousStoreId
-                        shopButton.children[1].children[4].attributes.id =
-                          shopButton.children[1].children[4].attributes.id .. previousStoreId
+                        for i = 1, 4 do
+                          local id = shopButton.children[1].children[i].attributes.id
+                          shopButton.children[1].children[i].attributes.id = id..previousStoreId
+                        end
                         table.insert(attribute, shopButton)
                         self.UI.setXmlTable(xmlTable)
                         desiredTable = false
 
-                        -- Вернем балванке стандартный текст
-                        Wait.time(function() shopName.children[1].children[1].attributes.text = "storename" end, 0.2)
-                        Wait.time(|| EnlargeHeightPanelStat(previousStoreId), 0.2)
-                        Wait.time(|| UpdateSave(), 0.3)
                         previousStoreId = previousStoreId + 1
+                        Wait.time(function() ReturnDefault() EnlargeHeightPanelStat(previousStoreId) UpdateSave() end, 0.2)
                         return
                       end
                     end
@@ -471,7 +457,6 @@ function XMLReplacementDelete(storeId)
                 for _,ch in pairs(child) do
                   if(type(ch) == "table") then
                     for title,attribute in pairs(ch) do
-                      -- Сложно не понятная фигня. Уже и забыл как работает
                       if(attribute["id"] and attribute["id"]:find("tableLayoutShop")) then
                         desiredTable = true
                       end
@@ -494,4 +479,20 @@ function XMLReplacementDelete(storeId)
       end
     end
   end
+end
+
+function EnlargeHeightPanelStat(countStatisticIndex)
+  if(countStatisticIndex > 4*2) then
+    --cellSpacing=5
+    local preferredHeight = shopName.attributes.preferredHeight + shopButton.attributes.preferredHeight
+    local newHeightPanel = countStatisticIndex*preferredHeight + countStatisticIndex*5
+    Wait.time(|| self.UI.setAttribute("tableLayoutShop", "height", newHeightPanel), 0.2)
+  end
+end
+function ReturnDefault()
+  shopName.children[1].children[1].attributes.id = "storename"
+  shopButton.children[1].children[1].attributes.id = "up"
+  shopButton.children[1].children[2].attributes.id = "down"
+  shopButton.children[1].children[3].attributes.id = "add"
+  shopButton.children[1].children[4].attributes.id = "percent"
 end
