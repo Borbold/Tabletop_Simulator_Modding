@@ -35,14 +35,12 @@ function onCollisionExit(info)
     local locPos = self.positionToLocal(obj.getPosition())
     if locPos.y > 0 then
         local guidObj = obj.getGUID()
-        local id
         for i = 1, #putObjects do
             if guidObj == putObjects[i].guid then
-                id = i
+                table.remove(putObjects, i)
                 break
             end
         end
-        table.remove(putObjects, id)
         CallGlobal(#putObjects == 0 and {{color = self.getName()}} or putObjects)
         avatar.call("UpdateInformation", #putObjects == 0 and {{}} or putObjects)
         Wait.time(function() locGUID = 0 end, 0.2)

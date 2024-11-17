@@ -18,9 +18,9 @@
 </Panel>
 
 <Panel position='650 80 -63'>
-	<VerticalScrollView height='1180' width='400' verticalScrollbarVisibility='AutoHideAndExpandViewport'
+	<VerticalScrollView height='1180' width='400' verticalScrollbarVisibility='AutoHideAndExpandViewport' horizontalScrollbarVisibility='Permanent'
 		color='black' offsetXY='0 155'>
-		<TableLayout id='tableLayoutShop' height='2500' cellSpacing='5'>
+		<TableLayout id='tableLayoutShop' height='1180' cellSpacing='5'>
 			<!--Здесь вставляется код из lua-->
 		</TableLayout>
 	</VerticalScrollView>

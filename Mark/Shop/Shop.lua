@@ -1,10 +1,24 @@
 function UpdateSave()
   local dataToSave = {
-    ["allStoresGUID"] = allStoresGUID,
-    ["replacementXml"] = self.UI.getXml(), ["previousStoreId"] = previousStoreId
+    ["allStoresGUID"] = allStoresGUID
   }
   local savedData = JSON.encode(dataToSave)
   self.script_state = savedData
+end
+
+function onLoad(savedData)
+  CreateGlobalVariable()
+  if(savedData ~= "") then
+    local loadedData = JSON.decode(savedData)
+    allStoresGUID = loadedData.allStoresGUID or {}
+    currentStoreId = #allStoresGUID ~= 0 and #allStoresGUID or 1
+    if(currentStoreId > 0) then
+      for _,storeGUID in ipairs(allStoresGUID) do
+        local storeName = getObjectFromGUID(storeGUID).getName()
+        Wait.time(|| XMLReplacementAdd(storeName), 0.3)
+      end
+    end
+  end
 end
 
 function CreateGlobalVariable()
@@ -45,7 +59,7 @@ function CreateGlobalVariable()
               resizeTextForBestFit = "True",
               resizeTextMaxSize = "60",
               onEndEdit = "UpdateNameStore",
-              tooltip = "Название магазина сохраняется только при первом вводе. Учитывайте это!",
+              tooltip = "Название магазина.",
               tooltipFontSize = "35",
               tooltipPosition = "Above",
               tooltipWidth = "400",
@@ -118,43 +132,14 @@ function CreateGlobalVariable()
     }
   }
 
-  allStoresGUID = {}
   showGUIDBag = ""
 
   allObjectsItemGUID = {}
   watchword = {"sell item", "coin pouch"}
   CoinPouchGUID = ""
-  -- Нужем для переименовывания мешочков, но только в момент их непосредственного создания
-  detachedBags = {}
   percentageStoreItem = {}
 end
 
-function onLoad(savedData)
-  CreateGlobalVariable()
-  if(savedData ~= "") then
-    local loadedData = JSON.decode(savedData)
-    allStoresGUID = loadedData.allStoresGUID or allStoresGUID
-    -- Не отнимаемое значение.
-    --Нужно чтобы грамотно отлавливать новые магазины после удаления какого либо из середины списка
-    previousStoreId = loadedData.previousStoreId or 1
-    if(loadedData.replacementXml and #loadedData.replacementXml > 0) then
-      self.UI.setXml(loadedData.replacementXml)
-    end
-  end
-  Wait.time(|| WasteRemoval(), 0.2)
-end
-
-function WasteRemoval()
-  local countBags = 0
-  for index, guid in pairs(allStoresGUID) do
-    countBags = 1
-    if(not getObjectFromGUID(guid)) then
-      allStoresGUID[tostring(index)] = nil
-    end
-  end
-  if(countBags == 0) then previousStoreId = 1 end
-  UpdateSave()
-end
 -- Хз как реализовать
 function TestAddNewList(_, _, _)
   print("Пока в разработке")
@@ -166,39 +151,34 @@ function PercentageSubjects(_, _, idStoreGUID)
   percent = ((percent - 25) > 0 and (percent - 25)) or 100
   self.UI.setAttribute(idStoreGUID, "text", percent.."%")
 
-  local id = idStoreGUID:gsub("%D", "")
+  local id = tonumber(idStoreGUID:gsub("%D", ""))
   percentageStoreItem[allStoresGUID[id]] = percent
 end
 
 function onCollisionEnter(info)
   if(#watchword ~= 2 or info.collision_object.getPosition().y < self.getPosition().y) then return end
 
-  if(info.collision_object.getGMNotes():lower():find(watchword[1])) then
-    for _, v in ipairs(allObjectsItemGUID) do
-      if(v == info.collision_object.getGUID()) then
-        return
-      end
-    end
-    table.insert(allObjectsItemGUID, info.collision_object.getGUID())
-  elseif(info.collision_object.getGMNotes():lower():find(watchword[2])) then
+  local obj = info.collision_object
+  if(obj.getGMNotes():lower():find(watchword[1])) then
+    for _,v in ipairs(allObjectsItemGUID) do if(v == obj.getGUID()) then return end end
+    table.insert(allObjectsItemGUID, obj.getGUID())
+  elseif(obj.getGMNotes():lower():find(watchword[2])) then
     Wait.time(|| SetNumberCoinsObjects(info), 0.2)
   end
 end
 function onCollisionExit(info)
   if(info.collision_object.getPosition().y < self.getPosition().y) then return end
 
-  if(allObjectsItemGUID) then
-    if(info.collision_object.getGMNotes():lower():find(watchword[1])) then
-      local removeId = -1
+  local obj = info.collision_object
+  if(allObjectsItemGUID and #allObjectsItemGUID > 0) then
+    if(obj.getGMNotes():lower():find(watchword[1])) then
       for i, v in ipairs(allObjectsItemGUID) do
-        if(v == info.collision_object.getGUID()) then
-          removeId = i
+        if(v == obj.getGUID()) then
+          table.remove(allObjectsItemGUID, i)
+          break
         end
       end
-      if(removeId > 0) then
-        table.remove(allObjectsItemGUID, removeId)
-      end
-    elseif(info.collision_object.getGMNotes():lower():find(watchword[2])) then
+    elseif(obj.getGMNotes():lower():find(watchword[2])) then
       Wait.time(|| SetNumberCoinsObjects(), 0.2)
     end
   end
@@ -225,17 +205,26 @@ function DeleteItem(guid)
   end
 end
 function DeleteBag(guid)
-  -- lua не умеет выдергивать длину массива если он не проходит через ipairs
   local indexStoreId = 1
-  for _, g in pairs(allStoresGUID) do
+  for _, g in ipairs(allStoresGUID) do
     if(g == guid) then
       XMLReplacementDelete((indexStoreId - 1)*2 + 1)
       Wait.time(|| WasteRemoval(), 0.2)
-      Wait.time(|| UpdateSave(), 0.3)
       return
     end
     indexStoreId = indexStoreId + 1
   end
+end
+function WasteRemoval()
+  local countBags = 0
+  for index, guid in ipairs(allStoresGUID) do
+    countBags = 1
+    if(not getObjectFromGUID(guid)) then
+      table.remove(allStoresGUID, index)
+    end
+  end
+  if(countBags == 0) then currentStoreId = 1 end
+  UpdateSave()
 end
 
 function CreateBag()
@@ -273,8 +262,7 @@ function PutObjectsInBag()
     table.insert(locBoardObjectsRot, locObj.getRotation())
     Wait.time(|| table.insert(locObjGUID, locObj.getGUID()), 0.2)
   end
-  detachedBags[previousStoreId] = spawnBag
-  Wait.time(function() allStoresGUID[tostring(previousStoreId)] = spawnBag.getGUID() end, 0.3)
+  Wait.time(function() table.insert(allStoresGUID, spawnBag.getGUID()) end, 0.3)
   Wait.time(|| SetObjMeta(spawnBag, locObjGUID, locBoardObjectsPos, locBoardObjectsRot), 0.4)
   Wait.time(|| XMLReplacementAdd(), 0.5)
   Wait.time(|| UpdateSave(), 0.6)
@@ -290,7 +278,7 @@ function SetObjMeta(bag, objGUID, locBoardObjectsPos, locBoardObjectsRot)
 end
 
 function ShowcaseMerchandise(player, _, id)
-  local storeGUID = allStoresGUID[id:gsub("%D", "")]
+  local storeGUID = allStoresGUID[tonumber(id:gsub("%D", ""))]
   local store = getObjectFromGUID(storeGUID)
   if(store) then
     showGUIDBag = storeGUID
@@ -298,7 +286,7 @@ function ShowcaseMerchandise(player, _, id)
   else
     print("Этот магазин был удален")
     local indexStoreId = 1
-    for _, g in pairs(allStoresGUID) do
+    for _, g in ipairs(allStoresGUID) do
       if(g == guid) then
         XMLReplacementDelete((indexStoreId - 1)*2 + 1)
         Wait.time(|| UpdateSave(), 0.2)
@@ -376,8 +364,8 @@ function UpdateNameStore(_, input, id)
 
   self.UI.setAttribute(id, "text", input)
   Wait.time(|| UpdateSave(), 0.2)
-  id = tonumber(id:gsub("%D", ""))
-  if(detachedBags[id]) then detachedBags[id].setName(input) end
+  local detachedBag = getObjectFromGUID(allStoresGUID[tonumber(id:gsub("%D", ""))])
+  if(detachedBag) then detachedBag.setName(input) end
 end
 
 function GiveDiscount(_, input)
@@ -400,7 +388,7 @@ function GiveDiscount(_, input)
   end
 end
 
-function XMLReplacementAdd()
+function XMLReplacementAdd(storeName)
   local xmlTable, desiredTable = {}, false
   xmlTable = self.UI.getXmlTable()
   for _,xml in pairs(xmlTable) do
@@ -418,19 +406,20 @@ function XMLReplacementAdd()
                       end
                       if(desiredTable and title == "children") then
                         local id = shopName.children[1].children[1].attributes.id
-                        shopName.children[1].children[1].attributes.id = id..previousStoreId
+                        shopName.children[1].children[1].attributes.id = id..currentStoreId
+                        shopName.children[1].children[1].attributes.text = storeName or ""
                         table.insert(attribute, shopName)
 
                         for i = 1, 4 do
                           local id = shopButton.children[1].children[i].attributes.id
-                          shopButton.children[1].children[i].attributes.id = id..previousStoreId
+                          shopButton.children[1].children[i].attributes.id = id..currentStoreId
                         end
                         table.insert(attribute, shopButton)
                         self.UI.setXmlTable(xmlTable)
                         desiredTable = false
 
-                        previousStoreId = previousStoreId + 1
-                        Wait.time(function() ReturnDefault() EnlargeHeightPanelStat(previousStoreId) UpdateSave() end, 0.2)
+                        currentStoreId = currentStoreId + 1
+                        Wait.time(function() ReturnDefault() EnlargeHeightPanelStat(currentStoreId) UpdateSave() end, 0.2)
                         return
                       end
                     end
@@ -466,6 +455,7 @@ function XMLReplacementDelete(storeId)
                         self.UI.setXmlTable(xmlTable)
                         desiredTable = false
 
+                        currentStoreId = currentStoreId - 1
                         Wait.time(|| UpdateSave(), 0.2)
                         return
                       end
@@ -482,10 +472,10 @@ function XMLReplacementDelete(storeId)
 end
 
 function EnlargeHeightPanelStat(countStatisticIndex)
-  if(countStatisticIndex > 4*2) then
-    --cellSpacing=5
+  if(countStatisticIndex > 8) then
+    local cellSpacing = self.UI.getAttribute("tableLayoutShop", "cellSpacing")
     local preferredHeight = shopName.attributes.preferredHeight + shopButton.attributes.preferredHeight
-    local newHeightPanel = countStatisticIndex*preferredHeight + countStatisticIndex*5
+    local newHeightPanel = countStatisticIndex*preferredHeight + countStatisticIndex*cellSpacing
     Wait.time(|| self.UI.setAttribute("tableLayoutShop", "height", newHeightPanel), 0.2)
   end
 end
