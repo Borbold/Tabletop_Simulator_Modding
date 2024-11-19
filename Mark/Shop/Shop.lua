@@ -27,34 +27,36 @@ function CreateGlobalVariable()
     Accept = "application/json",
   }
 
-  WebRequest.custom("https://github.com/Borbold/Fallout_System/blob/main/Mark/Shop/Item.lua",
-    "GET", true, nil, headers, function(request)
-      if request.is_error then
-          print("Request failed: " .. request.error)
-          return
-      end
+  Wait.time(function()
+    WebRequest.custom("https://github.com/Borbold/Fallout_System/blob/main/Mark/Shop/Item.lua",
+      "GET", true, nil, headers, function(request)
+        if request.is_error then
+            print("Request failed: " .. request.error)
+            return
+        end
 
-      local responseData = JSON.decode(request.text)
-      local resText = ""
-      for i,v in ipairs(responseData.payload.blob.rawLines) do
-        resText = resText..v.."\n"
-      end
-      readyScriptUnderItem = resText
-  end)
-  WebRequest.custom("https://github.com/Borbold/Fallout_System/blob/main/Mark/Shop/Bag.lua",
-    "GET", true, nil, headers, function(request)
-      if request.is_error then
-          print("Request failed: " .. request.error)
-          return
-      end
+        local responseData = JSON.decode(request.text)
+        local resText = ""
+        for i,v in ipairs(responseData.payload.blob.rawLines) do
+          resText = resText..v.."\n"
+        end
+        readyScriptUnderItem = resText
+    end)
+    WebRequest.custom("https://github.com/Borbold/Fallout_System/blob/main/Mark/Shop/Bag.lua",
+      "GET", true, nil, headers, function(request)
+        if request.is_error then
+            print("Request failed: " .. request.error)
+            return
+        end
 
-      local responseData = JSON.decode(request.text)
-      local resText = ""
-      for i,v in ipairs(responseData.payload.blob.rawLines) do
-        resText = resText..v.."\n"
-      end
-      readyScriptUnderBag = resText
-  end)
+        local responseData = JSON.decode(request.text)
+        local resText = ""
+        for i,v in ipairs(responseData.payload.blob.rawLines) do
+          resText = resText..v.."\n"
+        end
+        readyScriptUnderBag = resText
+    end)
+  end, 1)
 
   shopName = {
     tag = "Row",
