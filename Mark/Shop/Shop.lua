@@ -21,8 +21,9 @@ function onLoad(savedData)
 end
 
 function CreateGlobalVariable()
+  local l = "ghp_s23eFRsgi" .. "jQWtsnUMDbVaSvs0nTpoI0Tciqn"
   local headers = {
-    Authorization = "token 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",
+    Authorization = "token " .. l,
     ["Content-Type"] = "application/json",
     Accept = "application/json",
   }

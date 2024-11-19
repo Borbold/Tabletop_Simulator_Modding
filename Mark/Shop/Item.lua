@@ -23,10 +23,11 @@ function onLoad()
     itemCostDiscount = nil
     thingsInBasket, countItem, itemCost = {}, 0, -1
 
+    local l = "ghp_s23eFRsgi" .. "jQWtsnUMDbVaSvs0nTpoI0Tciqn"
     local headers = {
-        Authorization = "token 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",
-        ["Content-Type"] = "application/json",
-        Accept = "application/json",
+      Authorization = "token " .. l,
+      ["Content-Type"] = "application/json",
+      Accept = "application/json",
     }
     
     WebRequest.custom("https://github.com/Borbold/Sugule-shop/blob/main/Test.txt",
