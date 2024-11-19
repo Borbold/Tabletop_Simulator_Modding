@@ -44,7 +44,7 @@ function onLoad()
 
         local findName, locDesc = false, ""
         for w in resText:gmatch("[^\n%.]+") do
-            if(w:find("cost:")) then self.setDescription(locDesc:sub(1, #locDesc - 1)) itemCost = tonumber(w:gsub("%D", ""), 10) findName = false break end
+            if(findName and w:find("cost:")) then self.setDescription(locDesc:sub(1, #locDesc - 1)) itemCost = tonumber(w:gsub("%D", ""), 10) findName = false break end
             if(findName) then locDesc = locDesc..w.."\n" end
             if(w == self.getName()) then findName = true end
         end
