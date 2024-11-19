@@ -22,22 +22,37 @@ end
 function onLoad()
     itemCostDiscount = nil
     thingsInBasket, countItem, itemCost = {}, 0, -1
-    WebRequest.get("https://raw.githubusercontent.com/Borbold/Sugule-shop/refs/heads/main/Test1", function(request)
+
+    local headers = {
+        Authorization = "token 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",
+        ["Content-Type"] = "application/json",
+        Accept = "application/json",
+    }
+    
+    WebRequest.custom("https://github.com/Borbold/Sugule-shop/blob/main/Test.txt",
+            "GET", true, nil, headers, function(request)
         if request.is_error then
             log(request.error)
+            return
+        end
+
+        local responseData = JSON.decode(request.text)
+        local resText = ""
+        for i,v in ipairs(responseData.payload.blob.rawLines) do
+            resText = resText..v.."\n"
+        end
+
+        local descFlag = 0
+        for w in resText:gmatch("[^\n%.]+") do
+            if(descFlag == 2) then self.setDescription(w) descFlag = descFlag - 1
+            elseif(descFlag == 1) then itemCost = tonumber(w) descFlag = descFlag - 1 end
+            if(w == self.getName()) then descFlag = 2 end
+        end
+        if(itemCost < 0) then
+            print("Предмету не задана стоимость(либо стоимость предмета ниже нуля)")
+            print("После задания стоимости пересоздайте магазин, дабы цена вступила в силу")
         else
-            local descFlag = 0
-            for w in request.text:gmatch("[^\n%.]+") do
-                if(descFlag == 2) then self.setDescription(w) descFlag = descFlag - 1
-                elseif(descFlag == 1) then itemCost = tonumber(w) descFlag = descFlag - 1 end
-                if(w == self.getName()) then descFlag = 2 end
-            end
-            if(itemCost < 0) then
-                print("Предмету не задана стоимость(либо стоимость предмета ниже нуля)")
-                print("После задания стоимости пересоздайте магазин, дабы цена вступила в силу")
-            else
-                Wait.time(|| CreateButton("Купить за "..itemCost), 0.4)
-            end
+            Wait.time(|| CreateButton("Купить за "..itemCost), 0.4)
         end
     end)
 end

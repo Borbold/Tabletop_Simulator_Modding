@@ -21,19 +21,39 @@ function onLoad(savedData)
 end
 
 function CreateGlobalVariable()
-  WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/Mark/Shop/Bag.lua", function(request)
-    if request.is_error then
-      log(request.error)
-    else
-      readyScriptUnderBag = request.text
-    end
+  local headers = {
+    Authorization = "token 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",
+    ["Content-Type"] = "application/json",
+    Accept = "application/json",
+  }
+
+  WebRequest.custom("https://github.com/Borbold/Fallout_System/blob/main/Mark/Shop/Item.lua",
+    "GET", true, nil, headers, function(request)
+      if request.is_error then
+          print("Request failed: " .. request.error)
+          return
+      end
+
+      local responseData = JSON.decode(request.text)
+      local resText = ""
+      for i,v in ipairs(responseData.payload.blob.rawLines) do
+        resText = resText..v.."\n"
+      end
+      readyScriptUnderItem = resText
   end)
-  WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/Mark/Shop/Item.lua", function(request)
-    if request.is_error then
-      log(request.error)
-    else
-      readyScriptUnderItem = request.text
-    end
+  WebRequest.custom("https://github.com/Borbold/Fallout_System/blob/main/Mark/Shop/Bag.lua",
+    "GET", true, nil, headers, function(request)
+      if request.is_error then
+          print("Request failed: " .. request.error)
+          return
+      end
+
+      local responseData = JSON.decode(request.text)
+      local resText = ""
+      for i,v in ipairs(responseData.payload.blob.rawLines) do
+        resText = resText..v.."\n"
+      end
+      readyScriptUnderBag = resText
   end)
 
   shopName = {
