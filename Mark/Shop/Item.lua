@@ -42,11 +42,11 @@ function onLoad()
             resText = resText..v.."\n"
         end
 
-        local descFlag = 0
+        local findName, locDesc = false, ""
         for w in resText:gmatch("[^\n%.]+") do
-            if(descFlag == 2) then self.setDescription(w) descFlag = descFlag - 1
-            elseif(descFlag == 1) then itemCost = tonumber(w) descFlag = descFlag - 1 end
-            if(w == self.getName()) then descFlag = 2 end
+            if(findName) then locDesc = locDesc..w.."\n" end
+            if(w:find("цена:")) then self.setDescription(locDesc) itemCost = tonumber(w:gsub("%D", ""), 10) end
+            if(w == self.getName()) then findName = true end
         end
         if(itemCost < 0) then
             print("Предмету не задана стоимость(либо стоимость предмета ниже нуля)")
