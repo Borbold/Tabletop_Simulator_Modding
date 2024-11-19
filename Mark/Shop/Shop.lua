@@ -11,7 +11,7 @@ function onLoad(savedData)
   if(savedData ~= "") then
     local loadedData = JSON.decode(savedData)
     allStoresGUID = loadedData.allStoresGUID or {}
-    currentStoreId = #allStoresGUID ~= 0 and #allStoresGUID or 1
+    local currentStoreId = #allStoresGUID ~= 0 and #allStoresGUID or 1
     if(currentStoreId > 0) then
       for _,storeGUID in ipairs(allStoresGUID) do
         local storeName = getObjectFromGUID(storeGUID).getName()
@@ -132,12 +132,9 @@ function CreateGlobalVariable()
     }
   }
 
-  showGUIDBag = ""
-
   allObjectsItemGUID = {}
   watchword = {"sell item", "coin pouch"}
   CoinPouchGUID = ""
-  percentageStoreItem = {}
 end
 
 -- Хз как реализовать
@@ -145,14 +142,10 @@ function TestAddNewList(_, _, _)
   print("Пока в разработке")
 end
 
-function PercentageSubjects(_, _, idStoreGUID)
-  local percent_t = self.UI.getAttribute(idStoreGUID, "text")
-  local percent = tonumber(percent_t:sub(1, #percent_t - 1))
+function PercentageSubjects(_, _, id)
+  local percent = StringInNumber(self.UI.getAttribute(id, "text"))
   percent = ((percent - 25) > 0 and (percent - 25)) or 100
-  self.UI.setAttribute(idStoreGUID, "text", percent.."%")
-
-  local id = tonumber(idStoreGUID:gsub("%D", ""))
-  percentageStoreItem[allStoresGUID[id]] = percent
+  self.UI.setAttribute(id, "text", percent.."%")
 end
 
 function onCollisionEnter(info)
@@ -160,7 +153,6 @@ function onCollisionEnter(info)
 
   local obj = info.collision_object
   if(obj.getGMNotes():lower():find(watchword[1])) then
-    for _,v in ipairs(allObjectsItemGUID) do if(v == obj.getGUID()) then return end end
     table.insert(allObjectsItemGUID, obj.getGUID())
   elseif(obj.getGMNotes():lower():find(watchword[2])) then
     Wait.time(|| SetNumberCoinsObjects(info), 0.2)
@@ -205,25 +197,13 @@ function DeleteItem(guid)
   end
 end
 function DeleteBag(guid)
-  local indexStoreId = 1
-  for _, g in ipairs(allStoresGUID) do
+  for index, g in ipairs(allStoresGUID) do
     if(g == guid) then
-      XMLReplacementDelete((indexStoreId - 1)*2 + 1)
-      Wait.time(|| WasteRemoval(), 0.2)
+      XMLReplacementDelete((index - 1)*2 + 1)
+      table.remove(allStoresGUID, index)
       return
     end
-    indexStoreId = indexStoreId + 1
   end
-end
-function WasteRemoval()
-  local countBags = 0
-  for index, guid in ipairs(allStoresGUID) do
-    countBags = 1
-    if(not getObjectFromGUID(guid)) then
-      table.remove(allStoresGUID, index)
-    end
-  end
-  if(countBags == 0) then currentStoreId = 1 end
   UpdateSave()
 end
 
@@ -238,7 +218,6 @@ function CreateScriptInItem()
   for _, guid in ipairs(allObjectsItemGUID) do
     getObjectFromGUID(guid).setLuaScript(readyScriptUnderItem)
   end
-  UpdateSave()
 end
 function PutObjectsInBag()
   local selfPosition = self.getPosition()
@@ -274,82 +253,62 @@ end
 function SetObjMeta(bag, objGUID, locBoardObjectsPos, locBoardObjectsRot)
   local parametrs = {rotations = locBoardObjectsRot, positions = locBoardObjectsPos, objGUID = objGUID}
   bag.call("SetObjMetaBag", parametrs)
-  showGUIDBag = ""
 end
 
-function ShowcaseMerchandise(player, _, id)
-  local storeGUID = allStoresGUID[tonumber(id:gsub("%D", ""))]
+function ShowcaseMerchandise(_, _, id)
+  id = StringInNumber(id)
+  local storeGUID = allStoresGUID[id]
   local store = getObjectFromGUID(storeGUID)
-  if(store) then
-    showGUIDBag = storeGUID
-    GetObjectsBag(storeGUID, store)
-  else
-    print("Этот магазин был удален")
-    local indexStoreId = 1
-    for _, g in ipairs(allStoresGUID) do
-      if(g == guid) then
-        XMLReplacementDelete((indexStoreId - 1)*2 + 1)
-        Wait.time(|| UpdateSave(), 0.2)
-        break
-      end
-      indexStoreId = indexStoreId + 1
-    end
-  end
-  UpdateSave()
-end
-function GetObjectsBag(storeGUID, store)
   local allObjMeta = store.call("GetObjectMetaBag")
   -- Нет ли разложенных вещей
   if(not next(allObjectsItemGUID)) then
-    local currentCountItem = 0
-    for idItem, meta in ipairs(allObjMeta) do
-      local percentItemShow, countItem = 100, #allObjMeta
-      if(percentageStoreItem[storeGUID]) then
-        percentItemShow = percentageStoreItem[storeGUID]
+    local percentItemShow = StringInNumber(self.UI.getAttribute("percent"..id, "text"))
+    local max = #allObjMeta
+    local newMax = math.ceil(max*percentItemShow/100)
+    local takeParametrs, objRot, objPos, meta = {}, {}, {}, {}
+    local objGUID, newId = "", 1
+    for idObj = 1, max do
+      if(idObj > newMax) then goto continue end
+      newId = max == newMax and idObj or math.random(1, max)
+      ::stepBack::
+      meta = allObjMeta[newId]
+      objGUID = meta[1]
+      if(getObjectFromGUID(objGUID) ~= nil) then
+        newId = newId + 1 < max and newId + 1 or 1
+        goto stepBack
       end
-      if((math.random(1, 100) <= percentItemShow and currentCountItem < (countItem*percentItemShow)/100) or
-          countItem - idItem + currentCountItem < (countItem*percentItemShow)/100) then
-        local objGUID = meta[1]
 
-        local locText, count = meta[2], 1
-        local objPos = {}
-        for digital in locText:gmatch("%S+") do
-          table.insert(objPos, digital + self.getPosition()[count])
-          count = count + 1
-        end
-        objPos[2] = self.getPosition().y + 0.5
-      
-        locText, count = meta[3], 1
-        local objRot = {}
-        for digital in locText:gmatch("%S+") do
-          table.insert(objRot, digital)
-          count = count + 1
-        end
-
-        local takeParametrs = {
-          smooth = false,
-          guid = objGUID,
-          position = {x = objPos[1], y = objPos[2], z = objPos[3]},
-          rotation = {x = objRot[1], y = objRot[2], z = 0}
-        }
-        store.takeObject(takeParametrs)
-        currentCountItem = currentCountItem + 1
+      objPos = {}
+      for digital in meta[2]:gmatch("%S+") do
+        table.insert(objPos, digital)
       end
-      -- Пока хз, добавить это или нет
-      --local storItem = store.takeObject(takeParametrs)
-      --storItem.locked = true
-      --print(storItem.locked)
+      objPos = {objPos[1] + self.getPosition().x, objPos[2] + self.getPosition().y, objPos[3] + self.getPosition().z}
+    
+      objRot = {}
+      for digital in meta[3]:gmatch("%S+") do
+        table.insert(objRot, digital)
+      end
+
+      takeParametrs = {
+        smooth = false,
+        guid = objGUID,
+        position = {x = objPos[1], y = objPos[2], z = objPos[3]},
+        rotation = {x = objRot[1], y = objRot[2], z = 0}
+      }
+      store.takeObject(takeParametrs)
+      ::continue::
     end
   end
 end
 
-function HidecaseMerchandise()
-  local store = getObjectFromGUID(showGUIDBag)
+function HidecaseMerchandise(_, _, id)
+  local storeGUID = allStoresGUID[StringInNumber(id)]
+  local store = getObjectFromGUID(storeGUID)
   if(store) then
     local allObjMeta = store.call("GetObjectMetaBag")
     for _, objGUID in ipairs(allObjectsItemGUID) do
       for _, objMeta in ipairs(allObjMeta) do
-        if(store and objGUID == objMeta[1] and showGUIDBag == objMeta[4]) then
+        if(store and objGUID == objMeta[1] and storeGUID == objMeta[4]) then
           getObjectFromGUID(objGUID).call("EndTrade")
           store.putObject(getObjectFromGUID(objMeta[1]))
         end
@@ -360,16 +319,13 @@ function HidecaseMerchandise()
 end
 
 function UpdateNameStore(_, input, id)
-  if(input == "") then return end
-
   self.UI.setAttribute(id, "text", input)
-  Wait.time(|| UpdateSave(), 0.2)
-  local detachedBag = getObjectFromGUID(allStoresGUID[tonumber(id:gsub("%D", ""))])
+  local detachedBag = getObjectFromGUID(allStoresGUID[StringInNumber(id)])
   if(detachedBag) then detachedBag.setName(input) end
 end
 
 function GiveDiscount(_, input)
-  if(input and input == "") then return end
+  if(input == "") then return end
 
   local numInput = tonumber(input)
   if(numInput > 0) then
@@ -378,7 +334,7 @@ function GiveDiscount(_, input)
     broadcastToColor("The cost of the items has been decreased by "..math.abs(numInput).."%", "Black")
   end
 
-  for _,guid in pairs(allObjectsItemGUID) do
+  for _,guid in ipairs(allObjectsItemGUID) do
     local item = getObjectFromGUID(guid)
     if(item) then
       item.call("GiveDiscountItem", {discount = input})
@@ -405,6 +361,7 @@ function XMLReplacementAdd(storeName)
                         desiredTable = true
                       end
                       if(desiredTable and title == "children") then
+                        local currentStoreId = #allStoresGUID
                         local id = shopName.children[1].children[1].attributes.id
                         shopName.children[1].children[1].attributes.id = id..currentStoreId
                         shopName.children[1].children[1].attributes.text = storeName or ""
@@ -418,8 +375,7 @@ function XMLReplacementAdd(storeName)
                         self.UI.setXmlTable(xmlTable)
                         desiredTable = false
 
-                        currentStoreId = currentStoreId + 1
-                        Wait.time(function() ReturnDefault() EnlargeHeightPanelStat(currentStoreId) UpdateSave() end, 0.2)
+                        Wait.time(function() ReturnDefault() EnlargeHeightPanelStat(currentStoreId) end, 0.2)
                         return
                       end
                     end
@@ -455,8 +411,7 @@ function XMLReplacementDelete(storeId)
                         self.UI.setXmlTable(xmlTable)
                         desiredTable = false
 
-                        currentStoreId = currentStoreId - 1
-                        Wait.time(|| UpdateSave(), 0.2)
+                        Wait.time(|| EnlargeHeightPanelStat(#allStoresGUID), 0.2)
                         return
                       end
                     end
@@ -485,4 +440,7 @@ function ReturnDefault()
   shopButton.children[1].children[2].attributes.id = "down"
   shopButton.children[1].children[3].attributes.id = "add"
   shopButton.children[1].children[4].attributes.id = "percent"
+end
+function StringInNumber(str)
+  return tonumber(str:gsub("%D", ""), 10)
 end

@@ -20,29 +20,26 @@ function ClearLuaScript(obj, color, altClick)
 end
 
 function onLoad()
-    local buyTooltip = "Купить за "
-    Wait.time(|| CreateButton(buyTooltip), 0.4)
     itemCostDiscount = nil
     thingsInBasket, countItem, itemCost = {}, 0, -1
-
-        WebRequest.get("https://raw.githubusercontent.com/Borbold/Sugule-shop/refs/heads/main/Test1", function(request)
-            if request.is_error then
-                log(request.error)
-            else
-                local descFlag = 0
-                for w in request.text:gmatch("[а-яА-Я1-9a-zA-Z ']+") do
-                    if(descFlag == 2) then self.setDescription(w) descFlag = descFlag - 1
-                    elseif(descFlag == 1) then itemCost = tonumber(w) descFlag = descFlag - 1 end
-                    if(w == self.getName()) then descFlag = 2 end
-                end
-                if(itemCost < 0) then
-                    print("Предмету не задана стоимость(либо стоимость предмета ниже нуля)")
-                    print("После задания стоимости пересоздайте магазин, дабы цена вступила в силу")
-                else
-                    buyTooltip = buyTooltip..itemCost
-                end
+    WebRequest.get("https://raw.githubusercontent.com/Borbold/Sugule-shop/refs/heads/main/Test1", function(request)
+        if request.is_error then
+            log(request.error)
+        else
+            local descFlag = 0
+            for w in request.text:gmatch("[а-яА-Я1-9a-zA-Z ']+") do
+                if(descFlag == 2) then self.setDescription(w) descFlag = descFlag - 1
+                elseif(descFlag == 1) then itemCost = tonumber(w) descFlag = descFlag - 1 end
+                if(w == self.getName()) then descFlag = 2 end
             end
-        end)
+            if(itemCost < 0) then
+                print("Предмету не задана стоимость(либо стоимость предмета ниже нуля)")
+                print("После задания стоимости пересоздайте магазин, дабы цена вступила в силу")
+            else
+                Wait.time(|| CreateButton("Купить за "..itemCost), 0.4)
+            end
+        end
+    end)
 end
 
 function GiveDiscountItem(parametrs)
