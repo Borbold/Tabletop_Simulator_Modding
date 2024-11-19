@@ -20,8 +20,7 @@ function SetObjMetaBag(parametrs)
         pos = parametrs.positions[i].x.." "..parametrs.positions[i].y.." "..parametrs.positions[i].z
         rot = parametrs.rotations[i].x.." "..parametrs.rotations[i].y.." "..parametrs.rotations[i].z
 
-        table.insert(allObjMeta, {parametrs.objGUID[i], pos, rot, self.getGUID()})
-        allObjMeta[i][1] = parametrs.objGUID[i]
+        Wait.time(|| table.insert(allObjMeta, {parametrs.objGUID[i], pos, rot, self.getGUID()}), 0.4, end)
     end
     UpdateSave()
 end

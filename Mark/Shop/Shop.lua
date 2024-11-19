@@ -11,8 +11,7 @@ function onLoad(savedData)
   if(savedData ~= "") then
     local loadedData = JSON.decode(savedData)
     allStoresGUID = loadedData.allStoresGUID or {}
-    local currentStoreId = #allStoresGUID ~= 0 and #allStoresGUID or 1
-    if(currentStoreId > 0) then
+    if(#allStoresGUID > 0) then
       for _,storeGUID in ipairs(allStoresGUID) do
         local storeName = getObjectFromGUID(storeGUID).getName()
         Wait.time(|| XMLReplacementAdd(storeName), 0.3)
@@ -56,13 +55,9 @@ function CreateGlobalVariable()
               text = "",
               color = "#1f1f1fda",
               textColor = "#ffffff",
-              resizeTextForBestFit = "True",
-              resizeTextMaxSize = "60",
               onEndEdit = "UpdateNameStore",
-              tooltip = "Название магазина.",
-              tooltipFontSize = "35",
+              tooltip = "Название магазина",
               tooltipPosition = "Above",
-              tooltipWidth = "400",
               tooltipOffset = "90"
             }
           }
@@ -86,8 +81,6 @@ function CreateGlobalVariable()
             attributes = {
               id = "up",
               text = "↑",
-              resizeTextForBestFit = "True",
-              resizeTextMaxSize = "60",
               onClick = "ShowcaseMerchandise"
             }
           },
@@ -96,8 +89,6 @@ function CreateGlobalVariable()
             attributes = {
               id = "down",
               text = "↓",
-              resizeTextForBestFit = "True",
-              resizeTextMaxSize = "60",
               onClick = "HidecaseMerchandise"
             }
           },
@@ -106,9 +97,10 @@ function CreateGlobalVariable()
             attributes = {
               id = "add",
               text = "+",
-              resizeTextForBestFit = "True",
-              resizeTextMaxSize = "60",
-              onClick = "TestAddNewList",
+              onClick = "AddNewItem",
+              tooltip = "Добавить новые предметы в магазин",
+              tooltipPosition = "Right",
+              tooltipOffset = "160",
               visibility = "Black"
             }
           },
@@ -117,13 +109,10 @@ function CreateGlobalVariable()
             attributes = {
               id = "percent",
               text = "100%",
-              resizeTextForBestFit = "True",
-              resizeTextMaxSize = "60",
               onClick = "PercentageSubjects",
               tooltip = "Процентное отношение количества предметов, которое будет выложено в случайном порядке",
-              tooltipFontSize = "35",
-              tooltipWidth = "400",
-              tooltipOffset = "90",
+              tooltipPosition = "Right",
+              tooltipOffset = "60",
               visibility = "Black"
             }
           },
@@ -137,9 +126,9 @@ function CreateGlobalVariable()
   CoinPouchGUID = ""
 end
 
--- Хз как реализовать
-function TestAddNewList(_, _, _)
-  print("Пока в разработке")
+function AddNewItem(_, _, id)
+  id = StringInNumber(id)
+  CreateBag(nil, nil, nil, id)
 end
 
 function PercentageSubjects(_, _, id)
@@ -155,7 +144,7 @@ function onCollisionEnter(info)
   if(obj.getGMNotes():lower():find(watchword[1])) then
     table.insert(allObjectsItemGUID, obj.getGUID())
   elseif(obj.getGMNotes():lower():find(watchword[2])) then
-    Wait.time(|| SetNumberCoinsObjects(info), 0.2)
+    Wait.time(|| SetNumberCoinsObjects(info.collision_object.getGUID()), 0.2)
   end
 end
 function onCollisionExit(info)
@@ -171,18 +160,14 @@ function onCollisionExit(info)
         end
       end
     elseif(obj.getGMNotes():lower():find(watchword[2])) then
-      Wait.time(|| SetNumberCoinsObjects(), 0.2)
+      Wait.time(|| SetNumberCoinsObjects(""), 0.2)
     end
   end
 end
-function SetNumberCoinsObjects(info)
-  CoinPouchGUID = (info and info.collision_object.getGUID()) or ""
-  for _, guid in ipairs(allObjectsItemGUID) do
-    Wait.time(|| SetCoinPouchGUIDIn(guid), 0.5)
+function SetNumberCoinsObjects(CoinPouchGUID)
+  for _, g in ipairs(allObjectsItemGUID) do
+    Wait.time(|| getObjectFromGUID(g).call("SetCoinPouchGUID", {guid = CoinPouchGUID}), 0.5)
   end
-end
-function SetCoinPouchGUIDIn(guidItem)
-  getObjectFromGUID(guidItem).call("SetCoinPouchGUID", {guid = CoinPouchGUID})
 end
 
 function onObjectDestroy(info)
@@ -193,6 +178,7 @@ function DeleteItem(guid)
   for i, v in ipairs(allObjectsItemGUID) do
     if(v == guid) then
       table.remove(allObjectsItemGUID, i)
+      break
     end
   end
 end
@@ -201,16 +187,16 @@ function DeleteBag(guid)
     if(g == guid) then
       XMLReplacementDelete((index - 1)*2 + 1)
       table.remove(allStoresGUID, index)
-      return
+      UpdateSave()
+      break
     end
   end
-  UpdateSave()
 end
 
-function CreateBag()
+function CreateBag(_, _, _, id)
   if(#allObjectsItemGUID > 0) then
     Wait.time(|| CreateScriptInItem(), 0.5)
-    Wait.time(|| PutObjectsInBag(), 0.8)
+    Wait.time(|| PutObjectsInBag(id), 0.8)
   end
 end
 function CreateScriptInItem()
@@ -219,19 +205,26 @@ function CreateScriptInItem()
     getObjectFromGUID(guid).setLuaScript(readyScriptUnderItem)
   end
 end
-function PutObjectsInBag()
-  local selfPosition = self.getPosition()
-  local spawnParametrs = {
-    type = "Bag",
-    position = {x = selfPosition.x, y = selfPosition.y + 2, z = selfPosition.z - 7},
-    rotation = {x = 0, y = 0, z = 0},
-    scale = {x = 0.5, y = 0.5, z = 0.5},
-    sound = false,
-    snap_to_grid = true,
-  }
+function PutObjectsInBag(id)
+  local spawnBag = nil
+  if(id == nil) then
+    local selfPosition = self.getPosition()
+    local spawnParametrs = {
+      type = "Bag",
+      position = {x = selfPosition.x, y = selfPosition.y + 2, z = selfPosition.z - 7},
+      rotation = {x = 0, y = 0, z = 0},
+      scale = {x = 0.5, y = 0.5, z = 0.5},
+      sound = false,
+      snap_to_grid = true,
+    }
+    spawnBag = spawnObject(spawnParametrs)
+    Wait.time(|| CreateScriptInBag(spawnBag), 0.2)
+    Wait.time(function() table.insert(allStoresGUID, spawnBag.getGUID()) XMLReplacementAdd() UpdateSave() end, 0.3)
+  else
+    spawnBag = getObjectFromGUID(allStoresGUID[id])
+  end
+
   local locBoardObjectsPos, locBoardObjectsRot, locObjGUID = {}, {}, {}
-  local spawnBag = spawnObject(spawnParametrs)
-  Wait.time(|| CreateScriptInBag(spawnBag), 0.1)
   for _, v in ipairs(allObjectsItemGUID) do
     local locObj = getObjectFromGUID(v)
 
@@ -241,10 +234,7 @@ function PutObjectsInBag()
     table.insert(locBoardObjectsRot, locObj.getRotation())
     Wait.time(|| table.insert(locObjGUID, locObj.getGUID()), 0.2)
   end
-  Wait.time(function() table.insert(allStoresGUID, spawnBag.getGUID()) end, 0.3)
   Wait.time(|| SetObjMeta(spawnBag, locObjGUID, locBoardObjectsPos, locBoardObjectsRot), 0.4)
-  Wait.time(|| XMLReplacementAdd(), 0.5)
-  Wait.time(|| UpdateSave(), 0.6)
 end
 function CreateScriptInBag(bag)
   print("Adding scripts from bag")
@@ -318,7 +308,8 @@ function HidecaseMerchandise(_, _, id)
   self.UI.setAttribute("discountField", "text", "")
 end
 
-function UpdateNameStore(_, input, id)
+function UpdateNameStore(player, input, id)
+  if(player.color ~= "Black") then return end
   self.UI.setAttribute(id, "text", input)
   local detachedBag = getObjectFromGUID(allStoresGUID[StringInNumber(id)])
   if(detachedBag) then detachedBag.setName(input) end
@@ -347,83 +338,37 @@ end
 function XMLReplacementAdd(storeName)
   local xmlTable, desiredTable = {}, false
   xmlTable = self.UI.getXmlTable()
-  for _,xml in pairs(xmlTable) do
-	  for _,parent in pairs(xml) do
-      if(type(parent) == "table") then
-        for _,children in pairs(parent) do
-          if(type(children) == "table") then
-            for _,child in pairs(children) do
-              if(type(child) == "table") then
-                for _,ch in pairs(child) do
-                  if(type(ch) == "table") then
-                    for title,attribute in pairs(ch) do
-                      if(attribute["id"] and attribute["id"]:find("tableLayoutShop")) then
-                        desiredTable = true
-                      end
-                      if(desiredTable and title == "children") then
-                        local currentStoreId = #allStoresGUID
-                        local id = shopName.children[1].children[1].attributes.id
-                        shopName.children[1].children[1].attributes.id = id..currentStoreId
-                        shopName.children[1].children[1].attributes.text = storeName or ""
-                        table.insert(attribute, shopName)
+  -- Ловим нужный Panel в Shop.xml
+  local tableLayoutShop = xmlTable[3].children[1].children[1].children
 
-                        for i = 1, 4 do
-                          local id = shopButton.children[1].children[i].attributes.id
-                          shopButton.children[1].children[i].attributes.id = id..currentStoreId
-                        end
-                        table.insert(attribute, shopButton)
-                        self.UI.setXmlTable(xmlTable)
-                        desiredTable = false
+  local currentStoreId = #allStoresGUID
+  local id = shopName.children[1].children[1].attributes.id
+  shopName.children[1].children[1].attributes.id = id..currentStoreId
+  shopName.children[1].children[1].attributes.text = storeName or ""
+  table.insert(tableLayoutShop, shopName)
 
-                        Wait.time(function() ReturnDefault() EnlargeHeightPanelStat(currentStoreId) end, 0.2)
-                        return
-                      end
-                    end
-                  end
-                end
-              end
-            end
-          end
-        end
-      end
-    end
+  for i = 1, 4 do
+    local id = shopButton.children[1].children[i].attributes.id
+    shopButton.children[1].children[i].attributes.id = id..currentStoreId
   end
+  table.insert(tableLayoutShop, shopButton)
+  self.UI.setXmlTable(xmlTable)
+  desiredTable = false
+
+  Wait.time(function() ReturnDefault() EnlargeHeightPanelStat(currentStoreId) end, 0.2)
 end
 function XMLReplacementDelete(storeId)
   local xmlTable, desiredTable = {}, false
   xmlTable = self.UI.getXmlTable()
-  for _,xml in pairs(xmlTable) do
-	  for _,parent in pairs(xml) do
-      if(type(parent) == "table") then
-        for _,children in pairs(parent) do
-          if(type(children) == "table") then
-            for _,child in pairs(children) do
-              if(type(child) == "table") then
-                for _,ch in pairs(child) do
-                  if(type(ch) == "table") then
-                    for title,attribute in pairs(ch) do
-                      if(attribute["id"] and attribute["id"]:find("tableLayoutShop")) then
-                        desiredTable = true
-                      end
-                      if(desiredTable and title == "children") then
-                        table.remove(attribute, storeId)
-                        table.remove(attribute, storeId)
-                        self.UI.setXmlTable(xmlTable)
-                        desiredTable = false
+  -- Ловим нужный Panel в Shop.xml
+  local tableLayoutShop = xmlTable[3].children[1].children[1].children
+  
+  table.remove(tableLayoutShop, storeId)
+  table.remove(tableLayoutShop, storeId)
+  self.UI.setXmlTable(xmlTable)
+  desiredTable = false
 
-                        Wait.time(|| EnlargeHeightPanelStat(#allStoresGUID), 0.2)
-                        return
-                      end
-                    end
-                  end
-                end
-              end
-            end
-          end
-        end
-      end
-    end
-  end
+  Wait.time(|| EnlargeHeightPanelStat(#allStoresGUID), 0.2)
 end
 
 function EnlargeHeightPanelStat(countStatisticIndex)

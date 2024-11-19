@@ -27,7 +27,7 @@ function onLoad()
             log(request.error)
         else
             local descFlag = 0
-            for w in request.text:gmatch("[а-яА-Я1-9a-zA-Z ']+") do
+            for w in request.text:gmatch("[^\n%.]+") do
                 if(descFlag == 2) then self.setDescription(w) descFlag = descFlag - 1
                 elseif(descFlag == 1) then itemCost = tonumber(w) descFlag = descFlag - 1 end
                 if(w == self.getName()) then descFlag = 2 end
@@ -48,46 +48,45 @@ end
 
 function EndTrade()
     thingsInBasket, countItem = {}, 0
-    itemCostDiscount = nil
+    itemCostDiscount, coinPouch = nil, nil
 end
 
 function SetCoinPouchGUID(parametrs)
-    local CoinPouchGUID = parametrs.guid
-    CoinPouch = getObjectFromGUID(CoinPouchGUID)
+    local coinPouchGUID = parametrs.guid
+    coinPouch = getObjectFromGUID(coinPouchGUID)
 end
 
 function SelectItem(obj, playerColor, altClick)
     if(altClick and countItem > 0) then
         if(CoinPouch) then
-        CoinPouch.call("UpdateCountMoney", {value = itemCostDiscount or itemCost})
-        broadcastToColor("Вы отказались от товара", playerColor)
-        broadcastToColor("Сейчас у вас: " .. CoinPouch.call("GetAvailableMoney"), playerColor)
+            coinPouch.call("UpdateCountMoney", {value = itemCostDiscount or itemCost})
+            broadcastToColor("Вы отказались от товара", playerColor)
+            broadcastToColor("Сейчас у вас: " .. coinPouch.call("GetAvailableMoney"), playerColor)
 
-        local delItem = thingsInBasket[countItem]
-        destroyObject(delItem)
-        table.remove(thingsInBasket, countItem)
-        countItem = countItem - 1
+            local delItem = thingsInBasket[countItem]
+            destroyObject(delItem)
+            table.remove(thingsInBasket, countItem)
+            countItem = countItem - 1
         end
         return
     end
-            
-    if(CoinPouch) then
-        local availableMoney = CoinPouch.call("GetAvailableMoney")
-        if(CoinPouch and itemCost <= availableMoney) then
-        CoinPouch.call("UpdateCountMoney", {value = -(itemCostDiscount or itemCost)})
-        broadcastToColor("Вы приобрели товар", playerColor)
-        broadcastToColor("У вас осталось: " .. CoinPouch.call("GetAvailableMoney"), playerColor)
+    if(coinPouch) then
+        local availableMoney = coinPouch.call("GetAvailableMoney")
+        if(coinPouch and itemCost <= availableMoney) then
+            coinPouch.call("UpdateCountMoney", {value = -(itemCostDiscount or itemCost)})
+            broadcastToColor("Вы приобрели товар", playerColor)
+            broadcastToColor("У вас осталось: " .. coinPouch.call("GetAvailableMoney"), playerColor)
 
-        SpawnNewItemObject()
+            SpawnNewItemObject()
         else
-        broadcastToColor("Вам не хватает средств", playerColor)
+            broadcastToColor("Вам не хватает средств", playerColor)
         end
     else
         print("А чем расплачиваться собрались?")
     end
-    end
-    function SpawnNewItemObject()
-    local selfPosition = CoinPouch.getPosition()
+end
+function SpawnNewItemObject()
+    local selfPosition = coinPouch.getPosition()
     local spawnParametrs = {
         json = self.getJSON(),
         position = {x = selfPosition.x - 2.5, y = selfPosition.y + countItem + 2, z = selfPosition.z},
