@@ -52,7 +52,7 @@ function onLoad()
             print("Предмету не задана стоимость(либо стоимость предмета ниже нуля)")
             print("После задания стоимости пересоздайте магазин, дабы цена вступила в силу")
         else
-            Wait.time(|| CreateButton("Купить за "..itemCost), 0.4)
+            CreateButton("Купить за "..itemCost)
         end
     end)
 end
