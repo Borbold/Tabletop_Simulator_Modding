@@ -13,8 +13,8 @@ end
 function ClearLuaScript(obj, color, altClick)
     if(color == "Black") then
         Wait.time(function()
-        self.setLuaScript("")
-        broadcastToColor("Скрипт удален. Положите объект в мешок и вытащите, дабы изменения вступили в силу", "Black")
+            self.setLuaScript("")
+            broadcastToColor("Скрипт удален. Положите объект в мешок и вытащите, дабы изменения вступили в силу", "Black")
         end, 1)
     end
 end

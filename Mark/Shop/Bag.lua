@@ -7,11 +7,8 @@ function UpdateSave()
 end
 
 function onLoad(savedData)
-    allObjMeta = {}
-    if(savedData ~= "") then
-        local loadedData = JSON.decode(savedData)
-        allObjMeta = loadedData.allObjMeta or allObjMeta
-    end
+    local loadedData = JSON.decode(savedData)
+    allObjMeta = loadedData and loadedData.allObjMeta or {}
 end
 
 function SetObjMetaBag(parametrs)
