@@ -27,6 +27,7 @@ function CreateGlobalVariable()
     Accept = "application/json",
   }
 
+  readyScriptUnderItem, readyScriptUnderBag = "", ""
   Wait.time(function()
     WebRequest.custom("https://github.com/Borbold/Fallout_System/blob/main/Mark/Shop/Item.lua",
       "GET", true, nil, headers, function(request)
@@ -36,11 +37,9 @@ function CreateGlobalVariable()
         end
 
         local responseData = JSON.decode(request.text)
-        local resText = ""
         for i,v in ipairs(responseData.payload.blob.rawLines) do
-          resText = resText..v.."\n"
+          readyScriptUnderItem = readyScriptUnderItem..v.."\n"
         end
-        readyScriptUnderItem = resText
     end)
     WebRequest.custom("https://github.com/Borbold/Fallout_System/blob/main/Mark/Shop/Bag.lua",
       "GET", true, nil, headers, function(request)
@@ -50,11 +49,9 @@ function CreateGlobalVariable()
         end
 
         local responseData = JSON.decode(request.text)
-        local resText = ""
         for i,v in ipairs(responseData.payload.blob.rawLines) do
-          resText = resText..v.."\n"
+          readyScriptUnderBag = readyScriptUnderBag..v.."\n"
         end
-        readyScriptUnderBag = resText
     end)
   end, 1)
 
