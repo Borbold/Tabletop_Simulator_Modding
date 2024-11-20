@@ -6,20 +6,26 @@ function UpdateSave()
   end
 
 function onLoad(savedData)
-    Wait.time(|| Confer(savedData), 2)
+    Wait.time(|| Confer(savedData), 0.4)
 end
 
 function Confer(savedData)
-    RebuildAssets()
     local loadedData = JSON.decode(savedData or "")
     currentInitiative = 1
-    maxInitiative = 20
-    countMember = 5
+    countMember = 1
     countRound = 1
     ChangeUI()
 end
 
-function NextStep(player)
+function onScriptingButtonDown(index, color)
+    if(color ~= "Black") then return end
+    if(index == 1) then ChangeStep(-1)
+    elseif(index == 3) then ChangeStep(1) end
+end
+function BackStep()
+    ChangeStep(-1)
+end
+function NextStep()
     ChangeStep(1)
 end
 function ChangeStep(value)
@@ -30,14 +36,15 @@ function ChangeStep(value)
     end
     MessageStep(
         self.UI.getAttribute("nameStep" .. currentInitiative, "text"),
-        self.UI.getAttribute("nameStep" .. (currentInitiative + 1 < countMember and (currentInitiative + 1) or 1), "text")
+        self.UI.getAttribute("nameStep" .. (currentInitiative + 1 <= countMember and (currentInitiative + 1) or 1), "text")
     )
     ChangeUI()
 end
 
 function ChangeMember(_, input, _)
     countMember = tonumber(input)
-    ChangeUI()
+    self.UI.setAttribute("countMember", "text", countMember)
+    Wait.time(|| XMLReplacement(), 0.1)
 end
 
 function StartInitiative()
@@ -45,22 +52,9 @@ function StartInitiative()
     local locInit = {}
     for i = 1, countMember do
         locInit[i] = {
-            self.UI.getAttribute("nameStep" .. i, "text"),
-            tonumber(self.UI.getAttribute("reactionStep" .. i, "text"))
+            self.UI.getAttribute("nameStep" .. i, "text") or " ",
+            tonumber(self.UI.getAttribute("reactionStep" .. i, "text")) or 1
         }
-    end
-    local flagn = true
-    for world in self.getGMNotes():gmatch("%S+") do
-        if flagn == false then
-            countMember = countMember + 1
-            locInit[countMember] = {
-                world,
-                1
-            }
-            flagn = true
-        elseif flagn == true then
-            flagn = false
-        end
     end
     local j, flag = 1, 0
     while true do
@@ -84,11 +78,9 @@ function StartInitiative()
 end
 
 function ChangeUI()
-    for i = 1, maxInitiative do
+    for i = 1, countMember do
         if i == currentInitiative then
             self.UI.setAttribute("lamp" .. i, "image", "uiGreenBut")
-        elseif i <= countMember then
-            self.UI.setAttribute("lamp" .. i, "image", "uiRedBut")
         else
             self.UI.setAttribute("lamp" .. i, "image", "uiGrayBut")
         end
@@ -99,11 +91,11 @@ function ChangeUI()
 end
 
 function StepUP(player, _, id)
-    if player.color != "Black" then print("Только GM") return end
+    if(player.color != "Black") then print("Только GM") return end
     ChangeStepInitiative(id, -1)
 end
 function StepDown(player, _, id)
-    if player.color != "Black" then print("Только GM") return end
+    if(player.color != "Black") then print("Только GM") return end
     ChangeStepInitiative(id, 1)
 end
 function ChangeStepInitiative(id, where)
@@ -115,7 +107,7 @@ function ChangeStepInitiative(id, where)
         }
     end
     local j = tonumber(id:sub(5))
-    if (j + where < countMember or where != -1) and (j > 1 or where != -1) and (j < countMember or where != 1) then
+    if(j + where < countMember or where != -1) and (j > 1 or where != -1) and (j < countMember or where != 1) then
         self.UI.setAttribute("nameStep" .. j, "text", locInit[j + where][1])
         self.UI.setAttribute("reactionStep" .. j, "text", locInit[j + where][2])
         self.UI.setAttribute("nameStep" .. j + where, "text", locInit[j][1])
@@ -132,11 +124,10 @@ function MessageStep(name1, name2)
 end
 
 function Reset()
-    currentInitiative = 1
-    maxInitiative = 20
-    countMember = 5
-    countRound = 1
+    countMember, countRound, currentInitiative = 1, 1, 1
+    self.UI.setAttribute("countMember", "text", countMember)
     ChangeUI()
+    Wait.time(|| XMLReplacement(), 0.1)
 end
 
 function GetInfoTimeReinforcment(args)
@@ -145,16 +136,155 @@ function GetInfoTimeReinforcment(args)
     self.UI.setAttribute("timeR1", "image", "uiGreenBut")
 end
 
-function RebuildAssets()
-    local backG = 'https://i.imgur.com/tYaqJqA.png'
-    local redBut = 'https://steamusercontent-a.akamaihd.net/ugc/2459619830648665602/064FACEB06FF83F6A2FBC53E139F3931DA2A3C2F/'
-    local greenBut = 'https://steamusercontent-a.akamaihd.net/ugc/2459619830648665347/7C0EC5195CE6BDF8C30CF6A5BB94AE39A9E31118/'
-    local grayBut = "https://steamusercontent-a.akamaihd.net/ugc/2459619830648665500/FA24417B20C97104FAB7596835D660E2DAF28591/"
-    local assets = {
-      {name = 'uiBackGround', url = backG},
-      {name = 'uiRedBut', url = redBut},
-      {name = 'uiGreenBut', url = greenBut},
-      {name = 'uiGrayBut', url = grayBut},
+function XMLReplacement()
+    local xmlTable = {}
+    xmlTable = self.UI.getXmlTable()
+    XMLReplacementDelete(xmlTable)
+    for i = 2, countMember do
+        Wait.time(|| XMLReplacementAdd(xmlTable), i/10)
+    end
+    Wait.time(|| self.UI.setXmlTable(xmlTable), countMember/10 + 1)
+    Wait.time(|| EnlargeHeightPanelStat(), countMember/10 + 2)
+end
+function XMLReplacementDelete(xmlTable)
+    local tableLayoutShop = xmlTable[2].children[1].children[3].children[1].children[1].children[1].children
+    for i = 2, #tableLayoutShop do
+        table.remove(tableLayoutShop, 2)
+    end
+end
+function XMLReplacementAdd(xmlTable)
+    local tableLayoutShop = xmlTable[2].children[1].children[3].children[1].children[1].children[1].children
+    
+    local newInitCharacter = {
+        tag = "Row",
+        attributes = {
+          preferredHeight = 50
+        },
+        children = {
+            {
+                tag = "Cell",
+                attributes = {
+                    columnSpan = "7"
+                },
+                children = {
+                    {
+                        tag = "Text",
+                        attributes = {
+                            text = "1"
+                        }
+                    }
+                }
+            },
+            {
+                tag = "Cell",
+                attributes = {
+                    columnSpan = "5"
+                },
+                children = {
+                    {
+                        tag = "Image",
+                        attributes = {
+                            class = "lamp",
+                            id = "lamp",
+                            image = "uiRedBut"
+                        }
+                    }
+                }
+            },
+            {
+                tag = "Cell",
+                attributes = {
+                    columnSpan = "10"
+                },
+                children = {
+                    {
+                        tag = "InputField",
+                        attributes = {
+                            class = "changedText",
+                            id = "nameStep",
+                            placeholder = "Имя",
+                            text = ""
+                        }
+                    }
+                }
+            },
+            {
+                tag = "Cell",
+                attributes = {
+                    columnSpan = "10"
+                },
+                children = {
+                    {
+                        tag = "InputField",
+                        attributes = {
+                            class = "changedText",
+                            id = "reactionStep",
+                            placeholder = "Реакция",
+                            characterValidation = "Integer"
+                        }
+                    }
+                }
+            },
+            {
+                tag = "Cell",
+                attributes = {
+                    columnSpan = "5"
+                },
+                children = {
+                {
+                    tag = "Button",
+                    attributes = {
+                        id = "step",
+                        onClick = "StepUP",
+                        class = "textButton",
+                        text = "↑"
+                    }
+                }
+                }
+            },
+            {
+                tag = "Cell",
+                attributes = {
+                    columnSpan = "5"
+                },
+                children = {
+                {
+                    tag = "Button",
+                    attributes = {
+                        id = "step",
+                        onClick = "StepDown",
+                        class = "textButton",
+                        text = "↓"
+                    }
+                }
+                }
+            },
+            {
+                tag = "Cell",
+                attributes = {
+                    columnSpan = "5"
+                },
+                children = {
+                }
+            }
+        }
     }
-    self.UI.setCustomAssets(assets)
+    newInitCharacter.children[1].children[1].attributes.text = #tableLayoutShop + 1
+    for i = 2, 6 do
+        newInitCharacter.children[i].children[1].attributes.id = newInitCharacter.children[i].children[1].attributes.id..(#tableLayoutShop + 1)
+    end
+
+    table.insert(tableLayoutShop, newInitCharacter)
+end
+
+function EnlargeHeightPanelStat()
+    if(countMember > 8) then
+      local cellSpacing = self.UI.getAttribute("tableLayoutShop", "cellSpacing")
+      local preferredHeight = self.UI.getAttribute("firstRow", "preferredHeight")
+      local newHeightPanel = countMember*preferredHeight + countMember*cellSpacing
+      Wait.time(|| self.UI.setAttribute("tableLayoutShop", "height", newHeightPanel), 0.2)
+    end
+  end
+function StringInNumber(str)
+    return tonumber(str:gsub("%D", ""), 10)
 end
