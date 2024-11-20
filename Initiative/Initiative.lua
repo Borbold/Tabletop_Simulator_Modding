@@ -186,7 +186,7 @@ function XMLReplacementAdd(xmlTable)
                         attributes = {
                             class = "lamp",
                             id = "lamp",
-                            image = "uiRedBut"
+                            image = "uiGrayBut"
                         }
                     }
                 }
