@@ -23,37 +23,54 @@ end
 function CreateGlobalVariable()
   local headers = {
     Authorization = "token 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",
-    ["Content-Type"] = "application/json",
     Accept = "application/json",
   }
 
   readyScriptUnderItem, readyScriptUnderBag = "", ""
   Wait.time(function()
-    WebRequest.custom("https://github.com/Borbold/Fallout_System/blob/main/Mark/Shop/Item.lua",
-      "GET", true, nil, headers, function(request)
+    WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/Mark/Shop/Item.lua", function(request)
+      if request.is_error then
+          log(request.error)
+      else
+        readyScriptUnderItem = request.text
+      end
+    end)
+    WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/Mark/Shop/Bag.lua", function(request)
+      if request.is_error then
+          log(request.error)
+      else
+        readyScriptUnderBag = request.text
+      end
+    end)
+  end, 1)
+  --[[Wait.time(function()
+    WebRequest.custom("https://github.com/Borbold/Fallout_System/blob/main/Mark/Shop/Item.lua", "GET", true, nil, headers, function(request)
         if request.is_error then
             print("Request failed: " .. request.error)
             return
         end
 
         local responseData = JSON.decode(request.text)
+        --print(responseData.payload.blob.rawBlobUrl)
         for i,v in ipairs(responseData.payload.blob.rawLines) do
           readyScriptUnderItem = readyScriptUnderItem..v.."\n"
         end
-    end)
-    WebRequest.custom("https://github.com/Borbold/Fallout_System/blob/main/Mark/Shop/Bag.lua",
-      "GET", true, nil, headers, function(request)
-        if request.is_error then
-            print("Request failed: " .. request.error)
-            return
-        end
 
-        local responseData = JSON.decode(request.text)
-        for i,v in ipairs(responseData.payload.blob.rawLines) do
-          readyScriptUnderBag = readyScriptUnderBag..v.."\n"
+        if(request.is_done) then
+          WebRequest.custom("https://github.com/Borbold/Fallout_System/blob/main/Mark/Shop/Bag.lua", "GET", true, nil, headers, function(request)
+            if request.is_error then
+                print("Request failed: " .. request.error)
+                return
+            end
+
+            local responseData = JSON.decode(request.text)
+            for i,v in ipairs(responseData.payload.blob.rawLines) do
+              readyScriptUnderBag = readyScriptUnderBag..v.."\n"
+            end
+          end)
         end
     end)
-  end, 1)
+  end, 1)]]
 
   shopName = {
     tag = "Row",
@@ -355,7 +372,7 @@ function GiveDiscount(_, input)
 end
 
 function XMLReplacementAdd(storeName)
-  local xmlTable, desiredTable = {}, false
+  local xmlTable = {}
   xmlTable = self.UI.getXmlTable()
   -- Ловим нужный Panel в Shop.xml
   local tableLayoutShop = xmlTable[3].children[1].children[1].children
@@ -372,12 +389,11 @@ function XMLReplacementAdd(storeName)
   end
   table.insert(tableLayoutShop, shopButton)
   self.UI.setXmlTable(xmlTable)
-  desiredTable = false
 
   Wait.time(function() ReturnDefault() EnlargeHeightPanelStat(currentStoreId) end, 0.2)
 end
 function XMLReplacementDelete(storeId)
-  local xmlTable, desiredTable = {}, false
+  local xmlTable = {}
   xmlTable = self.UI.getXmlTable()
   -- Ловим нужный Panel в Shop.xml
   local tableLayoutShop = xmlTable[3].children[1].children[1].children
@@ -385,7 +401,6 @@ function XMLReplacementDelete(storeId)
   table.remove(tableLayoutShop, storeId)
   table.remove(tableLayoutShop, storeId)
   self.UI.setXmlTable(xmlTable)
-  desiredTable = false
 
   Wait.time(|| EnlargeHeightPanelStat(#allStoresGUID), 0.2)
 end
