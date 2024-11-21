@@ -29,16 +29,8 @@
         <Row preferredHeight='715'>
             <Cell columnSpan='47'>
                 <VerticalScrollView verticalScrollbarVisibility='AutoHideAndExpandViewport' horizontalScrollbarVisibility='Permanent' color='#ffffff00'>
-                    <TableLayout id='tableLayoutShop' height='715' cellSpacing='5'>
-                        <Row id='firstRow' preferredHeight='50'>
-                            <Cell columnSpan='7'> <Text text='1' /> </Cell>
-                            <Cell columnSpan='5'> <Image class='lamp' id='lamp1' image='uiGrayBut' /> </Cell>
-                            <Cell columnSpan='10'> <InputField class='changedText' id='nameStep1' placeholder='Имя' text='' /> </Cell>
-                            <Cell columnSpan='10'> <InputField class='changedText' id='reactionStep1' placeholder='Реакция' characterValidation='Integer' /> </Cell>
-                            <Cell columnSpan='5'> <Button id='step1' onClick='StepUP' class='textButton' text='↑' /> </Cell>
-                            <Cell columnSpan='5'> <Button id='step1' onClick='StepDown' class='textButton' text='↓' /> </Cell>
-                            <Cell columnSpan='5' />
-                        </Row>
+                    <TableLayout id='tableLayoutInitiative' height='715' cellSpacing='5'>
+                        <!--There write initiative character-->
                     </TableLayout>
                 </VerticalScrollView>
             </Cell>

@@ -1,5 +1,7 @@
 function UpdateSave()
     local dataToSave = {
+        ["currentInitiative"] = currentInitiative, ["countMember"] = countMember,
+        ["countRound"] = countRound
     }
     local savedData = JSON.encode(dataToSave)
     self.script_state = savedData
@@ -11,12 +13,12 @@ end
 
 function Confer(savedData)
     local loadedData = JSON.decode(savedData or "")
-    currentInitiative = 1
-    countMember = 1
-    countRound = 1
+    currentInitiative = loadedData and loadedData.currentInitiative or 1
+    countMember = loadedData and loadedData.countMember or 1
+    countRound = loadedData and loadedData.countRound or 1
     addHotkey("Step forward initiative", function(playerColor) if(playerColor == "Black") then ChangeStep(1) end end)
     addHotkey("Step back initiative", function(playerColor) if(playerColor == "Black" and currentInitiative > 1) then ChangeStep(-1) end end)
-    ChangeUI()
+    Wait.time(|| XMLReplacement(), 0.2)
 end
 
 function BackStep()
@@ -32,10 +34,17 @@ function ChangeStep(value)
         countRound = countRound + 1
     end
     MessageStep(
-        self.UI.getAttribute("nameStep" .. currentInitiative, "text"),
-        self.UI.getAttribute("nameStep" .. (currentInitiative + 1 <= countMember and (currentInitiative + 1) or 1), "text")
+        self.UI.getAttribute("nameStep"..currentInitiative, "text"),
+        self.UI.getAttribute("nameStep"..(currentInitiative + 1 <= countMember and (currentInitiative + 1) or 1), "text")
     )
     ChangeUI()
+end
+
+function MessageStep(name1, name2)
+    name1 = name1 == "" and currentInitiative or name1
+    name2 = name2 == "" and (currentInitiative + 1 <= countMember and (currentInitiative + 1) or 1) or name2
+    local info = "[948773]{ru}Ход переходит [0FFF74]%s [948773]Следующий [0FFF74]%s{en}Move passed [0FFF74]%s [948773]Next [0FFF74]%s"
+    broadcastToAll(info:format(name1, name2, name1, name2))
 end
 
 function ChangeMember(_, input, _)
@@ -87,37 +96,8 @@ function ChangeUI()
     UpdateSave()
 end
 
-function StepUP(player, _, id)
-    if(player.color != "Black") then print("Только GM") return end
-    ChangeStepInitiative(id, -1)
-end
-function StepDown(player, _, id)
-    if(player.color != "Black") then print("Только GM") return end
-    ChangeStepInitiative(id, 1)
-end
-function ChangeStepInitiative(id, where)
-    local locInit = {}
-    for i = 1, countMember do
-        locInit[i] = {
-            self.UI.getAttribute("nameStep" .. i, "text"),
-            tonumber(self.UI.getAttribute("reactionStep" .. i, "text"))
-        }
-    end
-    local j = tonumber(id:sub(5))
-    if(j + where < countMember or where != -1) and (j > 1 or where != -1) and (j < countMember or where != 1) then
-        self.UI.setAttribute("nameStep" .. j, "text", locInit[j + where][1])
-        self.UI.setAttribute("reactionStep" .. j, "text", locInit[j + where][2])
-        self.UI.setAttribute("nameStep" .. j + where, "text", locInit[j][1])
-        self.UI.setAttribute("reactionStep" .. j + where, "text", locInit[j][2])
-    end
-end
-
 function ChangeText(_, input, id)
     self.UI.setAttribute(id, "text", input)
-end
-
-function MessageStep(name1, name2)
-    broadcastToAll("[948773]Ход переходит [0FFF74]" .. name1 .. " [948773]Следующий [0FFF74]" .. name2)
 end
 
 function Reset()
@@ -137,21 +117,20 @@ function XMLReplacement()
     local xmlTable = {}
     xmlTable = self.UI.getXmlTable()
     XMLReplacementDelete(xmlTable)
-    for i = 2, countMember do
+    for i = 1, countMember do
         Wait.time(|| XMLReplacementAdd(xmlTable), i/10)
     end
-    Wait.time(|| self.UI.setXmlTable(xmlTable), countMember/10 + 1)
-    Wait.time(|| EnlargeHeightPanelStat(), countMember/10 + 2)
+    Wait.time(|| self.UI.setXmlTable(xmlTable), countMember/10 + 0.25)
+    Wait.time(|| EnlargeHeightPanelStat(), countMember/10 + 0.5)
 end
 function XMLReplacementDelete(xmlTable)
-    local tableLayoutShop = xmlTable[2].children[1].children[3].children[1].children[1].children[1].children
-    for i = 2, #tableLayoutShop do
-        table.remove(tableLayoutShop, 2)
+    local tableLayoutInitiative = xmlTable[2].children[1].children[3].children[1].children[1].children[1].children
+    for i = 1, #tableLayoutInitiative do
+        table.remove(tableLayoutInitiative, 1)
     end
 end
 function XMLReplacementAdd(xmlTable)
-    local tableLayoutShop = xmlTable[2].children[1].children[3].children[1].children[1].children[1].children
-    
+    local tableLayoutInitiative = xmlTable[2].children[1].children[3].children[1].children[1].children[1].children
     local newInitCharacter = {
         tag = "Row",
         attributes = {
@@ -199,7 +178,7 @@ function XMLReplacementAdd(xmlTable)
                         attributes = {
                             class = "changedText",
                             id = "nameStep",
-                            placeholder = "Имя",
+                            placeholder = "Name",
                             text = ""
                         }
                     }
@@ -216,7 +195,7 @@ function XMLReplacementAdd(xmlTable)
                         attributes = {
                             class = "changedText",
                             id = "reactionStep",
-                            placeholder = "Реакция",
+                            placeholder = "Reaction",
                             characterValidation = "Integer"
                         }
                     }
@@ -266,22 +245,23 @@ function XMLReplacementAdd(xmlTable)
             }
         }
     }
-    newInitCharacter.children[1].children[1].attributes.text = #tableLayoutShop + 1
+    newInitCharacter.children[1].children[1].attributes.text = #tableLayoutInitiative + 1
     for i = 2, 6 do
-        newInitCharacter.children[i].children[1].attributes.id = newInitCharacter.children[i].children[1].attributes.id..(#tableLayoutShop + 1)
+        newInitCharacter.children[i].children[1].attributes.id = newInitCharacter.children[i].children[1].attributes.id..(#tableLayoutInitiative + 1)
     end
 
-    table.insert(tableLayoutShop, newInitCharacter)
+    table.insert(tableLayoutInitiative, newInitCharacter)
 end
 
 function EnlargeHeightPanelStat()
-    if(countMember > 8) then
-      local cellSpacing = self.UI.getAttribute("tableLayoutShop", "cellSpacing")
-      local preferredHeight = self.UI.getAttribute("firstRow", "preferredHeight")
-      local newHeightPanel = countMember*preferredHeight + countMember*cellSpacing
-      Wait.time(|| self.UI.setAttribute("tableLayoutShop", "height", newHeightPanel), 0.2)
+    if(countMember > 13) then
+        local cellSpacing = self.UI.getAttribute("tableLayoutInitiative", "cellSpacing")
+        local preferredHeight = 50 -- preferredHeight variable newInitCharacter
+        local newHeightPanel = countMember*preferredHeight + countMember*cellSpacing
+        Wait.time(|| self.UI.setAttribute("tableLayoutInitiative", "height", newHeightPanel), 0.2)
     end
-  end
+    ChangeUI()
+end
 function StringInNumber(str)
     return tonumber(str:gsub("%D", ""), 10)
 end
