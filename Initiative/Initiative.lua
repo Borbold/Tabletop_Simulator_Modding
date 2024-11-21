@@ -14,14 +14,11 @@ function Confer(savedData)
     currentInitiative = 1
     countMember = 1
     countRound = 1
+    addHotkey("Step forward initiative", function(playerColor) if(playerColor == "Black") then ChangeStep(1) end end)
+    addHotkey("Step back initiative", function(playerColor) if(playerColor == "Black" and currentInitiative > 1) then ChangeStep(-1) end end)
     ChangeUI()
 end
 
-function onScriptingButtonDown(index, color)
-    if(color ~= "Black") then return end
-    if(index == 1) then ChangeStep(-1)
-    elseif(index == 3) then ChangeStep(1) end
-end
 function BackStep()
     ChangeStep(-1)
 end
