@@ -8,6 +8,7 @@ function UpdateSave()
   end
 
 function onLoad(savedData)
+    diedCharacter = {}
     Wait.time(|| Confer(savedData), 0.4)
 end
 
@@ -28,21 +29,30 @@ function NextStep()
     ChangeStep(1)
 end
 function ChangeStep(value)
+    while(self.UI.getAttribute("lamp"..(currentInitiative + value), "image") == "uiRedBut") do
+        value = value + value
+        if(value > countMember) then break end
+    end
+
     currentInitiative = currentInitiative + value
-    if currentInitiative > countMember then
+    if(currentInitiative > countMember) then
         currentInitiative = 1
         countRound = countRound + 1
+    elseif(currentInitiative < 1) then
+        currentInitiative = 1
     end
-    MessageStep(
-        self.UI.getAttribute("nameStep"..currentInitiative, "text"),
-        self.UI.getAttribute("nameStep"..(currentInitiative + 1 <= countMember and (currentInitiative + 1) or 1), "text")
-    )
+    local nextInit = (((currentInitiative + math.abs(value)) <= countMember and (currentInitiative + math.abs(value))) or 1)
+    while(self.UI.getAttribute("lamp"..(nextInit), "image") == "uiRedBut") do
+        nextInit = (((nextInit + math.abs(value)) <= countMember and (nextInit + math.abs(value))) or 1)
+        if(nextInit > countMember) then break end
+    end
+    local name1 = self.UI.getAttribute("nameStep"..currentInitiative, "text") ~= "" and self.UI.getAttribute("nameStep"..currentInitiative, "text") or currentInitiative
+    local name2 = self.UI.getAttribute("nameStep"..nextInit, "text") ~= "" and self.UI.getAttribute("nameStep"..nextInit, "text") or nextInit
+    MessageStep(name1, name2)
     ChangeUI()
 end
 
 function MessageStep(name1, name2)
-    name1 = name1 == "" and currentInitiative or name1
-    name2 = name2 == "" and (currentInitiative + 1 <= countMember and (currentInitiative + 1) or 1) or name2
     local info = "[948773]{ru}Ход переходит [0FFF74]%s [948773]Следующий [0FFF74]%s{en}Move passed [0FFF74]%s [948773]Next [0FFF74]%s"
     broadcastToAll(info:format(name1, name2, name1, name2))
 end
@@ -85,8 +95,10 @@ end
 
 function ChangeUI()
     for i = 1, countMember do
-        if i == currentInitiative then
+        if(i == currentInitiative) then
             self.UI.setAttribute("lamp" .. i, "image", "uiGreenBut")
+        elseif(diedCharacter[i]) then
+            self.UI.setAttribute("lamp" .. i, "image", "uiRedBut")
         else
             self.UI.setAttribute("lamp" .. i, "image", "uiGrayBut")
         end
@@ -107,6 +119,11 @@ function Reset()
     Wait.time(|| XMLReplacement(), 0.1)
 end
 
+function RemoveCharacter(_, alt, id)
+    diedCharacter[StringInNumber(id)] = alt == "-1" and true or false
+    ChangeUI()
+end
+
 function GetInfoTimeReinforcment(args)
     self.UI.setAttribute("timeR1", "tooltip", "Бибик:\n" .. args["desc"])
     self.UI.setAttribute("timeR1", "text", args["time"])
@@ -117,11 +134,13 @@ function XMLReplacement()
     local xmlTable = {}
     xmlTable = self.UI.getXmlTable()
     XMLReplacementDelete(xmlTable)
+    diedCharacter = {}
     for i = 1, countMember do
-        Wait.time(|| XMLReplacementAdd(xmlTable), i/10)
+        XMLReplacementAdd(xmlTable)
+        table.insert(diedCharacter, false)
     end
-    Wait.time(|| self.UI.setXmlTable(xmlTable), countMember/10 + 0.25)
-    Wait.time(|| EnlargeHeightPanelStat(), countMember/10 + 0.5)
+    Wait.time(|| self.UI.setXmlTable(xmlTable), 0.25)
+    Wait.time(|| EnlargeHeightPanelStat(), 0.5)
 end
 function XMLReplacementDelete(xmlTable)
     local tableLayoutInitiative = xmlTable[2].children[1].children[3].children[1].children[1].children[1].children
@@ -241,12 +260,22 @@ function XMLReplacementAdd(xmlTable)
                     columnSpan = "5"
                 },
                 children = {
+                    {
+                        tag = "Button",
+                        attributes = {
+                            id = "remove",
+                            onClick = "RemoveCharacter",
+                            class = "textButton",
+                            text = "X",
+                            textColor = "Red"
+                        }
+                    }
                 }
             }
         }
     }
     newInitCharacter.children[1].children[1].attributes.text = #tableLayoutInitiative + 1
-    for i = 2, 6 do
+    for i = 2, 7 do
         newInitCharacter.children[i].children[1].attributes.id = newInitCharacter.children[i].children[1].attributes.id..(#tableLayoutInitiative + 1)
     end
 
