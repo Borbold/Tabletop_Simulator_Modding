@@ -23,7 +23,7 @@ function onLoad(savedData)
     itemCostDiscount = nil
     thingsInBasket, countItem, itemCost = {}, 0, -1
     
-    if(not self.getGMNotes():find("cost:")) then
+    if(self.getGMNotes():find("cost:")) then
         local findWord = "cost:"
         local gmnote = self.getGMNotes()
         local find = gmnote:find(findWord)
