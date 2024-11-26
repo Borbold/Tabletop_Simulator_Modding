@@ -30,10 +30,8 @@ function onObjectLeaveContainer(container)
         itemCost = tonumber(gmnote:sub(find + #findWord + 1))
     else
         local info = container.call("GetCostItem", self.getName())
-        if(#info > 0) then
-            itemCost = info.itemCost
-            self.setDescription(info.descObj)
-        end
+        itemCost = info.itemCost
+        self.setDescription(info.descObj)
     end
 
     if(itemCost < 0) then
