@@ -34,7 +34,15 @@ function onLoad(savedData)
     Wait.time(function()
         local findName, locDesc, idObj = false, "", 0
         for w in resText:gmatch("[^\n%.]+") do
-            if(findName and w:find("cost:")) then containObjects[idObj].description = locDesc:sub(1, #locDesc - 1) getObjectFromGUID(containObjects[idObj].guid).call("CreateButton", "Buy for "..(tonumber(w:gsub("%D", ""), 10))) findName = false end
+            if(findName and w:find("cost:")) then
+                containObjects[idObj].description = locDesc:sub(1, #locDesc - 1)
+                local dataToSave = {
+                    ["itemCost"] = tonumber(w:gsub("%D", ""), 10)
+                }
+                local savedData = JSON.encode(dataToSave)
+                containObjects[idObj].lua_script_state = savedData
+                findName = false
+            end
             if(findName) then locDesc = locDesc..w.."\n" end
             for id,obj in ipairs(containObjects) do
                 if(w == obj.name) then idObj = id findName = true break end

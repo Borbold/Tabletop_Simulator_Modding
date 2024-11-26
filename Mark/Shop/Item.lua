@@ -19,21 +19,24 @@ function ClearLuaScript(obj, color, altClick)
     end
 end
 
-function onLoad()
+function onLoad(savedData)
     itemCostDiscount = nil
     thingsInBasket, countItem, itemCost = {}, 0, -1
     
-    if(self.getGMNotes():find("cost:")) then
+    if(not self.getGMNotes():find("cost:")) then
         local findWord = "cost:"
         local gmnote = self.getGMNotes()
         local find = gmnote:find(findWord)
         itemCost = tonumber(gmnote:sub(find + #findWord + 1))
+    else
+        local loadedData = JSON.decode(savedData)
+        itemCost = loadedData and loadedData.itemCost or -1
+    end
 
-        if(itemCost < 0) then
-            print([[{ru}Предмету не задана стоимость(либо стоимость предмета ниже нуля) После задания стоимости пересоздайте магазин, дабы цена вступила в силу{en}The item has no value set (or the value of the item is below zero) After setting the value, recreate the store so that the price takes effect.]])
-        else
-            CreateButton("Buy for "..itemCost)
-        end
+    if(itemCost < 0) then
+        print([[{ru}Предмету не задана стоимость(либо стоимость предмета ниже нуля) После задания стоимости пересоздайте магазин, дабы цена вступила в силу{en}The item has no value set (or the value of the item is below zero) After setting the value, recreate the store so that the price takes effect.]])
+    else
+        CreateButton("Buy for "..itemCost)
     end
 end
 
