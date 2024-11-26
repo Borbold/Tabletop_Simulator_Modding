@@ -20,10 +20,10 @@ function onLoad(savedData)
     local name = self.getName()
     WebRequest.custom("https://github.com/Borbold/Sugule-shop/blob/main/"..(#name > 0 and name or "Test")..".txt",
             "GET", true, nil, headers, function(request)
-        if request.is_error then
-            log("The information on the subjects does not come from the website")
-            return
-        end
+        if request.is_error then log(request.is_error) return end
+
+        local contentType = request.getResponseHeader("Content-Type") or ""
+        if(contentType ~= "application/json") then broadcastToColor("The information on the subjects does not come from the website", "Black") return end
 
         local responseData = JSON.decode(request.text)
         for i,v in ipairs(responseData.payload.blob.rawLines) do
