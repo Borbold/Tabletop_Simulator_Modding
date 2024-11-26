@@ -17,7 +17,8 @@ function onLoad(savedData)
     }
 
     resText = ""
-    WebRequest.custom("https://github.com/Borbold/Sugule-shop/blob/main/Test.txt",
+    local name = self.getName()
+    WebRequest.custom("https://github.com/Borbold/Sugule-shop/blob/main/"..(#name > 0 and name or "Test")..".txt",
             "GET", true, nil, headers, function(request)
         if request.is_error then
             log(request.error)

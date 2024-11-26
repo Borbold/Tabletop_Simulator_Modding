@@ -12,9 +12,9 @@ function onLoad(savedData)
     local loadedData = JSON.decode(savedData)
     allStoresGUID = loadedData.allStoresGUID or {}
     if(#allStoresGUID > 0) then
-      for _,storeGUID in ipairs(allStoresGUID) do
+      for id,storeGUID in ipairs(allStoresGUID) do
         local storeName = getObjectFromGUID(storeGUID).getName()
-        Wait.time(|| XMLReplacementAdd(storeName), 0.3)
+        Wait.time(|| XMLReplacementAdd(id, storeName), 0.3 + id/5)
       end
     end
   end
@@ -70,92 +70,6 @@ function CreateGlobalVariable()
           end
       end)
     end, 1)
-
-    shopName = {
-      tag = "Row",
-      attributes = {
-        preferredHeight = 80
-      },
-      children = {
-        {
-          tag = "Cell",
-          attributes = {
-          },
-          children = {
-            {
-              tag = "InputField",
-              attributes = {
-                id = "storename",
-                placeholder = "storename",
-                text = "",
-                color = "#1f1f1fda",
-                textColor = "#ffffff",
-                onEndEdit = "UpdateNameStore",
-                tooltip = "Shop name",
-                tooltipPosition = "Above",
-                tooltipOffset = "90",
-                tooltipWidth='180'
-              }
-            }
-          },
-        }
-      }
-    }
-    shopButton = {
-      tag = "Row",
-      attributes = {
-        preferredHeight = 80
-      },
-      children = {
-        {
-          tag = "Cell",
-          attributes = {
-          },
-          children = {
-            {
-              tag = "Button",
-              attributes = {
-                id = "up",
-                text = "↑",
-                onClick = "ShowcaseMerchandise"
-              }
-            },
-            {
-              tag = "Button",
-              attributes = {
-                id = "down",
-                text = "↓",
-                onClick = "HidecaseMerchandise"
-              }
-            },
-            {
-              tag = "Button",
-              attributes = {
-                id = "add",
-                text = "+",
-                onClick = "AddNewItem",
-                tooltip = "Add new items to the store",
-                tooltipPosition = "Right",
-                tooltipOffset = "160",
-                visibility = "Black"
-              }
-            },
-            {
-              tag = "Button",
-              attributes = {
-                id = "percent",
-                text = "100%",
-                onClick = "PercentageSubjects",
-                tooltip = "Percentage of the number of items that will be laid out in random order",
-                tooltipPosition = "Right",
-                tooltipOffset = "60",
-                visibility = "Black"
-              }
-            },
-          },
-        }
-      }
-    }
 
     allObjectsItemGUID = {}
     watchTag = {"sell item", "coin pouch"}
@@ -255,7 +169,7 @@ function PutObjectsInBag(id)
     }
     spawnBag = spawnObject(spawnParametrs)
     Wait.time(|| CreateScriptInBag(spawnBag), 0.2)
-    Wait.time(function() table.insert(allStoresGUID, spawnBag.getGUID()) XMLReplacementAdd() UpdateSave() end, 0.3)
+    Wait.time(function() table.insert(allStoresGUID, spawnBag.getGUID()) XMLReplacementAdd(#allStoresGUID) UpdateSave() end, 0.3)
   else
     spawnBag = getObjectFromGUID(allStoresGUID[id])
   end
@@ -329,24 +243,27 @@ function ShowcaseMerchandise(_, _, id)
 end
 
 function ItemLeaveContainer(container, guid)
-    local itemCost = -1
-    
-    if(self.getGMNotes():find("cost:")) then
-        local findWord = "cost:"
-        local gmnote = self.getGMNotes()
-        local find = gmnote:find(findWord)
-        itemCost = tonumber(gmnote:sub(find + #findWord + 1))
-    else
-        local info = container.call("GetCostItem", self.getName())
-        itemCost = info.itemCost
-        self.setDescription(info.descObj)
-    end
+    Wait.time(function()
+        local item = getObjectFromGUID(guid)
+        local itemCost = -1
+        
+        if(item.getGMNotes():find("cost:")) then
+            local findWord = "cost:"
+            local gmnote = item.getGMNotes()
+            local find = gmnote:find(findWord)
+            itemCost = tonumber(gmnote:sub(find + #findWord + 1))
+        else
+            local info = container.call("GetCostItem", item.getName())
+            itemCost = info.itemCost
+            item.setDescription(info.descObj)
+        end
 
-    if(itemCost < 0) then
-        print([[{ru}Предмету не задана стоимость(либо стоимость предмета ниже нуля) После задания стоимости пересоздайте магазин, дабы цена вступила в силу{en}The item has no value set (or the value of the item is below zero) After setting the value, recreate the store so that the price takes effect.]])
-    else
-        getObjectFromGUID(guid).CreateButton(itemCost)
-    end
+        if(itemCost < 0) then
+            print([[{ru}Предмету не задана стоимость(либо стоимость предмета ниже нуля) После задания стоимости пересоздайте магазин, дабы цена вступила в силу{en}The item has no value set (or the value of the item is below zero) After setting the value, recreate the store so that the price takes effect.]])
+        else
+          item.call("CreateButton", itemCost)
+        end
+    end, 0.5)
 end
 
 function HidecaseMerchandise(_, _, id)
@@ -393,26 +310,111 @@ function GiveDiscount(_, input)
   end
 end
 
-function XMLReplacementAdd(storeName)
-  local xmlTable = {}
-  xmlTable = self.UI.getXmlTable()
-  -- Ловим нужный Panel в Shop.xml
-  local tableLayoutShop = xmlTable[3].children[1].children[1].children
+function XMLReplacementAdd(storeId, storeName)
+    local shopName = {
+      tag = "Row",
+      attributes = {
+        preferredHeight = 80
+      },
+      children = {
+        {
+          tag = "Cell",
+          attributes = {
+          },
+          children = {
+            {
+              tag = "InputField",
+              attributes = {
+                id = "storename",
+                placeholder = "storename",
+                text = "",
+                color = "#1f1f1fda",
+                textColor = "#ffffff",
+                onEndEdit = "UpdateNameStore",
+                tooltip = "Shop name",
+                tooltipPosition = "Above",
+                tooltipOffset = "90",
+                tooltipWidth='180'
+              }
+            }
+          },
+        }
+      }
+    }
+    local shopButton = {
+      tag = "Row",
+      attributes = {
+        preferredHeight = 80
+      },
+      children = {
+        {
+          tag = "Cell",
+          attributes = {
+          },
+          children = {
+            {
+              tag = "Button",
+              attributes = {
+                id = "up",
+                text = "↑",
+                onClick = "ShowcaseMerchandise"
+              }
+            },
+            {
+              tag = "Button",
+              attributes = {
+                id = "down",
+                text = "↓",
+                onClick = "HidecaseMerchandise"
+              }
+            },
+            {
+              tag = "Button",
+              attributes = {
+                id = "add",
+                text = "+",
+                onClick = "AddNewItem",
+                tooltip = "Add new items to the store",
+                tooltipPosition = "Right",
+                tooltipOffset = "160",
+                visibility = "Black"
+              }
+            },
+            {
+              tag = "Button",
+              attributes = {
+                id = "percent",
+                text = "100%",
+                onClick = "PercentageSubjects",
+                tooltip = "Percentage of the number of items that will be laid out in random order",
+                tooltipPosition = "Right",
+                tooltipOffset = "60",
+                visibility = "Black"
+              }
+            },
+          },
+        }
+      }
+    }
 
-  local currentStoreId = #allStoresGUID
-  local id = shopName.children[1].children[1].attributes.id
-  shopName.children[1].children[1].attributes.id = id..currentStoreId
-  shopName.children[1].children[1].attributes.text = storeName or ""
-  table.insert(tableLayoutShop, shopName)
+    local xmlTable = {}
+    xmlTable = self.UI.getXmlTable()
+    -- Ловим нужный Panel в Shop.xml
+    local tableLayoutShop = xmlTable[3].children[1].children[1].children
 
-  for i = 1, 4 do
-    local id = shopButton.children[1].children[i].attributes.id
-    shopButton.children[1].children[i].attributes.id = id..currentStoreId
-  end
-  table.insert(tableLayoutShop, shopButton)
-  self.UI.setXmlTable(xmlTable)
+    local id = shopName.children[1].children[1].attributes.id
+    shopName.children[1].children[1].attributes.id = id..storeId
+    shopName.children[1].children[1].attributes.text = storeName or ""
+    table.insert(tableLayoutShop, shopName)
 
-  Wait.time(function() ReturnDefault() EnlargeHeightPanelStat(currentStoreId) end, 0.2)
+    for i = 1, 4 do
+      local id = shopButton.children[1].children[i].attributes.id
+      shopButton.children[1].children[i].attributes.id = id..storeId
+    end
+    table.insert(tableLayoutShop, shopButton)
+    self.UI.setXmlTable(xmlTable)
+
+    Wait.time(|| EnlargeHeightPanelStat(#allStoresGUID), 0.2)
 end
 function XMLReplacementDelete(storeId)
   local xmlTable = {}
@@ -434,13 +436,6 @@ function EnlargeHeightPanelStat(countStatisticIndex)
     local newHeightPanel = countStatisticIndex*preferredHeight + countStatisticIndex*cellSpacing*2
     Wait.time(|| self.UI.setAttribute("tableLayoutShop", "height", newHeightPanel), 0.2)
   end
-end
-function ReturnDefault()
-  shopName.children[1].children[1].attributes.id = "storename"
-  shopButton.children[1].children[1].attributes.id = "up"
-  shopButton.children[1].children[2].attributes.id = "down"
-  shopButton.children[1].children[3].attributes.id = "add"
-  shopButton.children[1].children[4].attributes.id = "percent"
 end
 function StringInNumber(str)
   return tonumber(str:gsub("%D", ""), 10)
