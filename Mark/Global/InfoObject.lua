@@ -12,10 +12,10 @@ function onCollisionEnter(info)
     local l1 = '"ImageURL":'
     local l2 = '"ImageSecondaryURL"'
     local objJSON = obj.getJSON()
-    local URLImage = objJSON:sub(objJSON:find(l1) + #l1, objJSON:find(l2) - 1)
-    URLImage = URLImage:match([["([^"]+)]])
     local locPos = self.positionToLocal(obj.getPosition())
     if locPos.y > 0 then
+        local URLImage = objJSON:sub(objJSON:find(l1) + #l1, objJSON:find(l2) - 1)
+        URLImage = URLImage:match([["([^"]+)]])
         for _,p in ipairs(putObjects) do if p.guid == locGUID then return end end
         local name = obj.getName():gsub("%[.-%]","")
         local arg = {name = name, description = obj.getDescription(), color = self.getName(), image = URLImage, guid = obj.getGUID()}

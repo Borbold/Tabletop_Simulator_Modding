@@ -17,9 +17,9 @@ function onLoad(savedData)
     }
 
     resText = ""
-    local name = self.getName()
-    WebRequest.custom("https://github.com/Borbold/Sugule-shop/blob/main/"..(#name > 0 and name or "Test")..".txt",
-            "GET", true, nil, headers, function(request)
+    -- Можно использовать ссылки на текстовые файлы из ВК
+    local webSite = self.getGMNotes() ~= "" and self.getGMNotes() or "https://psv4.userapi.com/s/v1/d/bqkMTXSN9uYBfltMfNpXixeoqikg3GvGHbq-xlyizfURfXTlEc6l_HrhJ1OndZ8CaVjWOXOkaVZQ8rXwGnq-cuqnmmpUe9Y67Z_UP9asYSKlsPA2S1b8JA/Test.txt"
+    WebRequest.custom(webSite, "GET", true, nil, headers, function(request)
         if request.is_error then log(request.is_error) return end
 
         local contentType = request.getResponseHeader("Content-Type") or ""

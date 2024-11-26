@@ -114,6 +114,31 @@ function ChangeText(_, input, id)
     self.UI.setAttribute(id, "text", input)
 end
 
+function StepUP(player, _, id)
+    if player.color != "Black" then print("Только GM") return end
+    ChangeStepInitiative(id, -1)
+end
+function StepDown(player, _, id)
+    if player.color != "Black" then print("Только GM") return end
+    ChangeStepInitiative(id, 1)
+end
+function ChangeStepInitiative(id, where)
+    local locInit = {}
+    for i = 1, countMember do
+        locInit[i] = {
+            self.UI.getAttribute("nameStep" .. i, "text"),
+            tonumber(self.UI.getAttribute("reactionStep" .. i, "text"))
+        }
+    end
+    local j = tonumber(id:sub(5))
+    if (j + where < countMember or where != -1) and (j > 1 or where != -1) and (j < countMember or where != 1) then
+        self.UI.setAttribute("nameStep" .. j, "text", locInit[j + where][1])
+        self.UI.setAttribute("reactionStep" .. j, "text", locInit[j + where][2])
+        self.UI.setAttribute("nameStep" .. j + where, "text", locInit[j][1])
+        self.UI.setAttribute("reactionStep" .. j + where, "text", locInit[j][2])
+    end
+end
+
 function Reset()
     countMember, countRound, currentInitiative = 1, 1, 1
     self.UI.setAttribute("countMember", "text", countMember)

@@ -21,11 +21,6 @@ function onLoad(savedData)
 end
 
 function CreateGlobalVariable()
-    local headers = {
-      Authorization = "token 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",
-      Accept = "application/json",
-    }
-
     readyScriptUnderItem, readyScriptUnderBag = "", ""
     Wait.time(function()
       WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/Mark/Shop/Item.lua", function(request)
@@ -43,7 +38,12 @@ function CreateGlobalVariable()
         end
       end)
     end, 1)
-    --[[Wait.time(function()
+
+    --[[local headers = {
+      Authorization = "token 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",
+      Accept = "application/json",
+    }
+    Wait.time(function()
       WebRequest.custom("https://github.com/Borbold/Fallout_System/blob/main/Mark/Shop/Item.lua", "GET", true, nil, headers, function(requestItem)
           if requestItem.is_error then
               print("Request item failed: " .. requestItem.error)
