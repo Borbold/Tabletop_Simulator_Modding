@@ -40,7 +40,6 @@ function CreateGlobalVariable()
     end, 1)
 
     --[[local headers = {
-      Authorization = "token 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",
       Accept = "application/json",
     }
     Wait.time(function()

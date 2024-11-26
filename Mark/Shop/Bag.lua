@@ -11,7 +11,6 @@ function onLoad(savedData)
     allObjMeta = loadedData and loadedData.allObjMeta or {}
 
     local headers = {
-        Authorization = "token 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",
         ["Content-Type"] = "application/json",
         Accept = "application/json",
     }
