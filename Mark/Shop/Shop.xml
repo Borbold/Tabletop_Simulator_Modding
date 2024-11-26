@@ -1,26 +1,26 @@
 <Defaults>
     <Button font='Fonts/Hanzi' resizeTextForBestFit='True' resizeTextMaxSize='60' resizeTextMinSize='20'
-        tooltipFont='Fonts/Hanzi' tooltipFontSize='35' tooltipWidth='400' tooltipOffset='50' />
+        tooltipFont='Fonts/Allods' tooltipFontSize='35' tooltipWidth='400' tooltipOffset='50' color='#948773' />
     <InputField textAlignment='MiddleCenter' font='Fonts/Hanzi' resizeTextForBestFit='True' resizeTextMaxSize='60' resizeTextMinSize='20'
-        tooltipFont='Fonts/Hanzi' tooltipFontSize='35' tooltipWidth='400' tooltipOffset='50' />
+        tooltipFont='Fonts/Allods' tooltipFontSize='35' tooltipWidth='400' tooltipOffset='50' color='#948773' />
 </Defaults>
 
 <Panel position='641 850 -65' height='80' width='365' visibility='Black'>
 	<TableLayout cellSpacing='1'>
 		<Row>
 			<Cell>
-				<Button text='Создать' onClick='CreateBag' tooltipPosition='Above'
-				tooltip='Kак только выложили предметы в нужном порядке, нажмите, после чего появится мешочек.
-                Eсли хотите удалить магазин, удалите сам мешочек, при этом вещи из него можно заранее выложить' />
+				<Button text='{ru}Создать{en}Create' onClick='CreateBag' tooltipPosition='Above'
+				tooltip='Once you have placed the items in the correct order, click and the bag will appear. If you want to delete the store, delete the bag, and you can put the items in the bag beforehand'
+				/>
 			</Cell>
 		</Row>
 	</TableLayout>
 </Panel>
 
 <Panel position='650 80 -63'>
-	<VerticalScrollView height='1180' width='400' verticalScrollbarVisibility='AutoHideAndExpandViewport' horizontalScrollbarVisibility='Permanent'
-		color='black' offsetXY='0 155'>
-		<TableLayout id='tableLayoutShop' height='1180' cellSpacing='5'>
+	<VerticalScrollView height='510' width='400' verticalScrollbarVisibility='AutoHideAndExpandViewport' horizontalScrollbarVisibility='Permanent'
+		color='black' offsetXY='0 490'>
+		<TableLayout id='tableLayoutShop' height='510' cellSpacing='5'>
 			<!--Здесь вставляется код из lua-->
 		</TableLayout>
 	</VerticalScrollView>
@@ -29,6 +29,6 @@
 <Panel position='0 850 -65' visibility='Black'>
 	<InputField id='discountField' height='60'
 		onEndEdit='GiveDiscount' characterValidation='Decimal' placeholder='discount'
-		tooltip='Устанавливайте скидку в момент, когда разложили магазин. Oна ни как не отображается, но при покупке товара будет учитываться'
+		tooltip='Set the discount at the moment you lay out the store. It is not displayed in any way, but it will be taken into account when buying goods'
 		tooltipPosition='Above' />
 </Panel>

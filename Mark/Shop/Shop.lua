@@ -21,212 +21,212 @@ function onLoad(savedData)
 end
 
 function CreateGlobalVariable()
-  local headers = {
-    Authorization = "token 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",
-    Accept = "application/json",
-  }
+    local headers = {
+      Authorization = "token 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",
+      Accept = "application/json",
+    }
 
-  readyScriptUnderItem, readyScriptUnderBag = "", ""
-  Wait.time(function()
-    WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/Mark/Shop/Item.lua", function(request)
-      if request.is_error then
-          log(request.error)
-      else
-        readyScriptUnderItem = request.text
-      end
-    end)
-    WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/Mark/Shop/Bag.lua", function(request)
-      if request.is_error then
-          log(request.error)
-      else
-        readyScriptUnderBag = request.text
-      end
-    end)
-  end, 1)
-  --[[Wait.time(function()
-    WebRequest.custom("https://github.com/Borbold/Fallout_System/blob/main/Mark/Shop/Item.lua", "GET", true, nil, headers, function(request)
+    readyScriptUnderItem, readyScriptUnderBag = "", ""
+    --[[Wait.time(function()
+      WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/Mark/Shop/Item.lua", function(request)
         if request.is_error then
-            print("Request failed: " .. request.error)
-            return
+            log(request.error)
+        else
+          readyScriptUnderItem = request.text
         end
-
-        local responseData = JSON.decode(request.text)
-        --print(responseData.payload.blob.rawBlobUrl)
-        for i,v in ipairs(responseData.payload.blob.rawLines) do
-          readyScriptUnderItem = readyScriptUnderItem..v.."\n"
+      end)
+      WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/Mark/Shop/Bag.lua", function(request)
+        if request.is_error then
+            log(request.error)
+        else
+          readyScriptUnderBag = request.text
         end
+      end)
+    end, 1)]]
+    Wait.time(function()
+      WebRequest.custom("https://github.com/Borbold/Fallout_System/blob/main/Mark/Shop/Item.lua", "GET", true, nil, headers, function(requestItem)
+          if requestItem.is_error then
+              print("Request item failed: " .. requestItem.error)
+              return
+          end
 
-        if(request.is_done) then
-          WebRequest.custom("https://github.com/Borbold/Fallout_System/blob/main/Mark/Shop/Bag.lua", "GET", true, nil, headers, function(request)
-            if request.is_error then
-                print("Request failed: " .. request.error)
-                return
-            end
+          local responseData = JSON.decode(requestItem.text)
+          for i,v in ipairs(responseData.payload.blob.rawLines) do
+            readyScriptUnderItem = readyScriptUnderItem..v.."\n"
+          end
 
-            local responseData = JSON.decode(request.text)
-            for i,v in ipairs(responseData.payload.blob.rawLines) do
-              readyScriptUnderBag = readyScriptUnderBag..v.."\n"
-            end
-          end)
-        end
-    end)
-  end, 1)]]
+          if(requestItem.is_done) then
+            WebRequest.custom("https://github.com/Borbold/Fallout_System/blob/main/Mark/Shop/Bag.lua", "GET", true, nil, headers, function(requestBag)
+              if requestBag.is_error then
+                  print("Request bag failed: " .. requestBag.error)
+                  return
+              end
 
-  shopName = {
-    tag = "Row",
-    attributes = {
-      preferredHeight = 80
-    },
-    children = {
-      {
-        tag = "Cell",
-        attributes = {
-        },
-        children = {
-          {
-            tag = "InputField",
-            attributes = {
-              id = "storename",
-              placeholder = "storename",
-              text = "",
-              color = "#1f1f1fda",
-              textColor = "#ffffff",
-              onEndEdit = "UpdateNameStore",
-              tooltip = "Название магазина",
-              tooltipPosition = "Above",
-              tooltipOffset = "90"
+              local responseData = JSON.decode(requestBag.text)
+              for i,v in ipairs(responseData.payload.blob.rawLines) do
+                readyScriptUnderBag = readyScriptUnderBag..v.."\n"
+              end
+            end)
+          end
+      end)
+    end, 1)
+
+    shopName = {
+      tag = "Row",
+      attributes = {
+        preferredHeight = 80
+      },
+      children = {
+        {
+          tag = "Cell",
+          attributes = {
+          },
+          children = {
+            {
+              tag = "InputField",
+              attributes = {
+                id = "storename",
+                placeholder = "storename",
+                text = "",
+                color = "#1f1f1fda",
+                textColor = "#ffffff",
+                onEndEdit = "UpdateNameStore",
+                tooltip = "Shop name",
+                tooltipPosition = "Above",
+                tooltipOffset = "90",
+                tooltipWidth='180'
+              }
             }
-          }
-        },
+          },
+        }
       }
     }
-  }
-  shopButton = {
-    tag = "Row",
-    attributes = {
-      preferredHeight = 80
-    },
-    children = {
-      {
-        tag = "Cell",
-        attributes = {
-        },
-        children = {
-          {
-            tag = "Button",
-            attributes = {
-              id = "up",
-              text = "↑",
-              onClick = "ShowcaseMerchandise"
-            }
+    shopButton = {
+      tag = "Row",
+      attributes = {
+        preferredHeight = 80
+      },
+      children = {
+        {
+          tag = "Cell",
+          attributes = {
           },
-          {
-            tag = "Button",
-            attributes = {
-              id = "down",
-              text = "↓",
-              onClick = "HidecaseMerchandise"
-            }
+          children = {
+            {
+              tag = "Button",
+              attributes = {
+                id = "up",
+                text = "↑",
+                onClick = "ShowcaseMerchandise"
+              }
+            },
+            {
+              tag = "Button",
+              attributes = {
+                id = "down",
+                text = "↓",
+                onClick = "HidecaseMerchandise"
+              }
+            },
+            {
+              tag = "Button",
+              attributes = {
+                id = "add",
+                text = "+",
+                onClick = "AddNewItem",
+                tooltip = "Add new items to the store",
+                tooltipPosition = "Right",
+                tooltipOffset = "160",
+                visibility = "Black"
+              }
+            },
+            {
+              tag = "Button",
+              attributes = {
+                id = "percent",
+                text = "100%",
+                onClick = "PercentageSubjects",
+                tooltip = "Percentage of the number of items that will be laid out in random order",
+                tooltipPosition = "Right",
+                tooltipOffset = "60",
+                visibility = "Black"
+              }
+            },
           },
-          {
-            tag = "Button",
-            attributes = {
-              id = "add",
-              text = "+",
-              onClick = "AddNewItem",
-              tooltip = "Добавить новые предметы в магазин",
-              tooltipPosition = "Right",
-              tooltipOffset = "160",
-              visibility = "Black"
-            }
-          },
-          {
-            tag = "Button",
-            attributes = {
-              id = "percent",
-              text = "100%",
-              onClick = "PercentageSubjects",
-              tooltip = "Процентное отношение количества предметов, которое будет выложено в случайном порядке",
-              tooltipPosition = "Right",
-              tooltipOffset = "60",
-              visibility = "Black"
-            }
-          },
-        },
+        }
       }
     }
-  }
 
-  allObjectsItemGUID = {}
-  watchword = {"sell item", "coin pouch"}
-  CoinPouchGUID = ""
+    allObjectsItemGUID = {}
+    watchTag = {"sell item", "coin pouch"}
+    CoinPouchGUID = ""
 end
 
 function AddNewItem(_, _, id)
-  id = StringInNumber(id)
-  CreateBag(nil, nil, nil, id)
+    id = StringInNumber(id)
+    CreateBag(nil, nil, nil, id)
 end
 
 function PercentageSubjects(_, _, id)
-  local percent = StringInNumber(self.UI.getAttribute(id, "text"))
-  percent = ((percent - 25) > 0 and (percent - 25)) or 100
-  self.UI.setAttribute(id, "text", percent.."%")
+    local percent = StringInNumber(self.UI.getAttribute(id, "text"))
+    percent = ((percent - 25) > 0 and (percent - 25)) or 100
+    self.UI.setAttribute(id, "text", percent.."%")
 end
 
 function onCollisionEnter(info)
-  if(#watchword ~= 2 or info.collision_object.getPosition().y < self.getPosition().y) then return end
+    if(#watchTag ~= 2 or info.collision_object.getPosition().y < self.getPosition().y) then return end
 
-  local obj = info.collision_object
-  if(obj.getGMNotes():lower():find(watchword[1])) then
-    table.insert(allObjectsItemGUID, obj.getGUID())
-  elseif(obj.getGMNotes():lower():find(watchword[2])) then
-    Wait.time(|| SetNumberCoinsObjects(info.collision_object.getGUID()), 0.2)
-  end
+    local obj = info.collision_object
+    if(obj.hasTag(watchTag[1])) then
+      table.insert(allObjectsItemGUID, obj.getGUID())
+    elseif(obj.hasTag(watchTag[2])) then
+      Wait.time(|| SetNumberCoinsObjects(info.collision_object.getGUID()), 0.2)
+    end
 end
 function onCollisionExit(info)
-  if(info.collision_object.getPosition().y < self.getPosition().y) then return end
+    if(info.collision_object.getPosition().y < self.getPosition().y) then return end
 
-  local obj = info.collision_object
-  if(allObjectsItemGUID and #allObjectsItemGUID > 0) then
-    if(obj.getGMNotes():lower():find(watchword[1])) then
-      for i, v in ipairs(allObjectsItemGUID) do
-        if(v == obj.getGUID()) then
-          table.remove(allObjectsItemGUID, i)
-          break
+    local obj = info.collision_object
+    if(allObjectsItemGUID and #allObjectsItemGUID > 0) then
+      if(obj.hasTag(watchTag[1])) then
+        for i, v in ipairs(allObjectsItemGUID) do
+          if(v == obj.getGUID()) then
+            table.remove(allObjectsItemGUID, i)
+            break
+          end
         end
+      elseif(obj.hasTag(watchTag[2])) then
+        Wait.time(|| SetNumberCoinsObjects(""), 0.2)
       end
-    elseif(obj.getGMNotes():lower():find(watchword[2])) then
-      Wait.time(|| SetNumberCoinsObjects(""), 0.2)
     end
-  end
 end
 function SetNumberCoinsObjects(CoinPouchGUID)
-  for _, g in ipairs(allObjectsItemGUID) do
-    Wait.time(|| getObjectFromGUID(g).call("SetCoinPouchGUID", {guid = CoinPouchGUID}), 0.5)
-  end
+    for _, g in ipairs(allObjectsItemGUID) do
+      Wait.time(|| getObjectFromGUID(g).call("SetCoinPouchGUID", {guid = CoinPouchGUID}), 0.5)
+    end
 end
 
 function onObjectDestroy(info)
-  DeleteItem(info.getGUID())
-  DeleteBag(info.getGUID())
+    DeleteItem(info.getGUID())
+    DeleteBag(info.getGUID())
 end
 function DeleteItem(guid)
-  for i, v in ipairs(allObjectsItemGUID) do
-    if(v == guid) then
-      table.remove(allObjectsItemGUID, i)
-      break
+    for i, v in ipairs(allObjectsItemGUID) do
+      if(v == guid) then
+        table.remove(allObjectsItemGUID, i)
+        break
+      end
     end
-  end
 end
 function DeleteBag(guid)
-  for index, g in ipairs(allStoresGUID) do
-    if(g == guid) then
-      XMLReplacementDelete((index - 1)*2 + 1)
-      table.remove(allStoresGUID, index)
-      UpdateSave()
-      break
+    for index, g in ipairs(allStoresGUID) do
+      if(g == guid) then
+        XMLReplacementDelete((index - 1)*2 + 1)
+        table.remove(allStoresGUID, index)
+        UpdateSave()
+        break
+      end
     end
-  end
 end
 
 function CreateBag(_, _, _, id)
@@ -356,9 +356,9 @@ function GiveDiscount(_, input)
 
   local numInput = tonumber(input)
   if(numInput > 0) then
-    broadcastToColor("The cost of the items has been increased by "..numInput.."%", "Black")
+    broadcastToColor("{ru}Стоимость предметов была увеличена на {en}The cost of the items has been increased by "..numInput.."%", "Black")
   else
-    broadcastToColor("The cost of the items has been decreased by "..math.abs(numInput).."%", "Black")
+    broadcastToColor("{ru}Стоимость предметов была уменьшена на {en}The cost of the items has been decreased by "..math.abs(numInput).."%", "Black")
   end
 
   for _,guid in ipairs(allObjectsItemGUID) do
@@ -366,7 +366,7 @@ function GiveDiscount(_, input)
     if(item) then
       item.call("GiveDiscountItem", {discount = input})
     else
-      print("Какие то проблемы с выдачей скидки")
+      print("Error")
     end
   end
 end
@@ -406,10 +406,10 @@ function XMLReplacementDelete(storeId)
 end
 
 function EnlargeHeightPanelStat(countStatisticIndex)
-  if(countStatisticIndex > 8) then
+  if(countStatisticIndex > 3) then
     local cellSpacing = self.UI.getAttribute("tableLayoutShop", "cellSpacing")
     local preferredHeight = shopName.attributes.preferredHeight + shopButton.attributes.preferredHeight
-    local newHeightPanel = countStatisticIndex*preferredHeight + countStatisticIndex*cellSpacing
+    local newHeightPanel = countStatisticIndex*preferredHeight + countStatisticIndex*cellSpacing*2
     Wait.time(|| self.UI.setAttribute("tableLayoutShop", "height", newHeightPanel), 0.2)
   end
 end

@@ -7,14 +7,14 @@ function CreateButton(buyTooltip)
     self.createButton({
         click_function = "ClearLuaScript", function_owner = self,
         position = {-0.75, 0.15, -0.75}, height = 250, width = 250,
-        color = {1, 0, 0, 0.5}, tooltip = "Удалить скрипт из данного объекта"
+        color = {1, 0, 0, 0.5}, tooltip = "Remove a script from this object"
     })
 end
 function ClearLuaScript(obj, color, altClick)
     if(color == "Black") then
         Wait.time(function()
-            self.setLuaScript("")
-            broadcastToColor("Скрипт удален. Положите объект в мешок и вытащите, дабы изменения вступили в силу", "Black")
+            self.clearButtons() self.setLuaScript("")
+            broadcastToColor("{ru}Скрипт удален.{en}The script is removed.", "Black")
         end, 1)
     end
 end
@@ -22,39 +22,19 @@ end
 function onLoad()
     itemCostDiscount = nil
     thingsInBasket, countItem, itemCost = {}, 0, -1
-
-    local headers = {
-        Authorization = "token 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",
-        ["Content-Type"] = "application/json",
-        Accept = "application/json",
-    }
     
-    WebRequest.custom("https://github.com/Borbold/Sugule-shop/blob/main/Test.txt",
-            "GET", true, nil, headers, function(request)
-        if request.is_error then
-            log(request.error)
-            return
-        end
+    if(self.getGMNotes():find("cost:")) then
+        local findWord = "cost:"
+        local gmnote = self.getGMNotes()
+        local find = gmnote:find(findWord)
+        itemCost = tonumber(gmnote:sub(find + #findWord + 1))
 
-        local responseData = JSON.decode(request.text)
-        local resText = ""
-        for i,v in ipairs(responseData.payload.blob.rawLines) do
-            resText = resText..v.."\n"
-        end
-
-        local findName, locDesc = false, ""
-        for w in resText:gmatch("[^\n%.]+") do
-            if(findName and w:find("cost:")) then self.setDescription(locDesc:sub(1, #locDesc - 1)) itemCost = tonumber(w:gsub("%D", ""), 10) findName = false break end
-            if(findName) then locDesc = locDesc..w.."\n" end
-            if(w == self.getName()) then findName = true end
-        end
         if(itemCost < 0) then
-            print("Предмету не задана стоимость(либо стоимость предмета ниже нуля)")
-            print("После задания стоимости пересоздайте магазин, дабы цена вступила в силу")
+            print([[{ru}Предмету не задана стоимость(либо стоимость предмета ниже нуля) После задания стоимости пересоздайте магазин, дабы цена вступила в силу{en}The item has no value set (or the value of the item is below zero) After setting the value, recreate the store so that the price takes effect.]])
         else
-            CreateButton("Купить за "..itemCost)
+            CreateButton("Buy for "..itemCost)
         end
-    end)
+    end
 end
 
 function GiveDiscountItem(parametrs)
@@ -75,8 +55,8 @@ function SelectItem(obj, playerColor, altClick)
     if(altClick and countItem > 0) then
         if(CoinPouch) then
             coinPouch.call("UpdateCountMoney", {value = itemCostDiscount or itemCost})
-            broadcastToColor("Вы отказались от товара", playerColor)
-            broadcastToColor("Сейчас у вас: " .. coinPouch.call("GetAvailableMoney"), playerColor)
+            broadcastToColor("{ru}Вы отказались от товара{en}You refused the goods", playerColor)
+            broadcastToColor("{ru}Сейчас у вас: {en}Now you have: " .. coinPouch.call("GetAvailableMoney"), playerColor)
 
             local delItem = thingsInBasket[countItem]
             destroyObject(delItem)
@@ -89,15 +69,15 @@ function SelectItem(obj, playerColor, altClick)
         local availableMoney = coinPouch.call("GetAvailableMoney")
         if(coinPouch and itemCost <= availableMoney) then
             coinPouch.call("UpdateCountMoney", {value = -(itemCostDiscount or itemCost)})
-            broadcastToColor("Вы приобрели товар", playerColor)
-            broadcastToColor("У вас осталось: " .. coinPouch.call("GetAvailableMoney"), playerColor)
+            broadcastToColor("{ru}Вы приобрели товар{en}You have purchased an item", playerColor)
+            broadcastToColor("{ru}У вас осталось: {en}You have some left: " .. coinPouch.call("GetAvailableMoney"), playerColor)
 
             SpawnNewItemObject()
         else
-            broadcastToColor("Вам не хватает средств", playerColor)
+            broadcastToColor("{ru}Вам не хватает средств{en}You're short on funds", playerColor)
         end
     else
-        print("А чем расплачиваться собрались?")
+        broadcastToColor("{ru}А чем расплачиваться собрались?{en}What are you gonna pay with?", playerColor)
     end
 end
 function SpawnNewItemObject()
