@@ -27,7 +27,7 @@ function CreateGlobalVariable()
     }
 
     readyScriptUnderItem, readyScriptUnderBag = "", ""
-    --[[Wait.time(function()
+    Wait.time(function()
       WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/Mark/Shop/Item.lua", function(request)
         if request.is_error then
             log(request.error)
@@ -42,8 +42,8 @@ function CreateGlobalVariable()
           readyScriptUnderBag = request.text
         end
       end)
-    end, 1)]]
-    Wait.time(function()
+    end, 1)
+    --[[Wait.time(function()
       WebRequest.custom("https://github.com/Borbold/Fallout_System/blob/main/Mark/Shop/Item.lua", "GET", true, nil, headers, function(requestItem)
           if requestItem.is_error then
               print("Request item failed: " .. requestItem.error)
@@ -69,7 +69,7 @@ function CreateGlobalVariable()
             end)
           end
       end)
-    end, 1)
+    end, 1)]]
 
     allObjectsItemGUID = {}
     watchTag = {"sell item", "coin pouch"}
