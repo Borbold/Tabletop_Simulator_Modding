@@ -23,7 +23,7 @@ function onLoad(savedData)
         if request.is_error then log(request.is_error) return end
 
         local contentType = request.getResponseHeader("Content-Type") or ""
-        if(contentType ~= "application/json") then broadcastToColor("The information on the subjects does not come from the website", "Black") return end
+        if(contentType ~= "application/json") and not contentType:match("^application/json;") then broadcastToColor("The information on the subjects does not come from the website", "Black") return end
 
         local responseData = JSON.decode(request.text)
         for i,v in ipairs(responseData.payload.blob.rawLines) do
