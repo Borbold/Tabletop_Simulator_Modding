@@ -319,12 +319,34 @@ function ShowcaseMerchandise(_, _, id)
         smooth = false,
         guid = objGUID,
         position = {x = objPos[1], y = objPos[2], z = objPos[3]},
-        rotation = {x = objRot[1], y = objRot[2], z = 0}
+        rotation = {x = objRot[1], y = objRot[2], z = 0},
+        callback_function = ItemLeaveContainer(store, objGUID)
       }
       store.takeObject(takeParametrs)
       ::continue::
     end
   end
+end
+
+function ItemLeaveContainer(container, guid)
+    local itemCost = -1
+    
+    if(self.getGMNotes():find("cost:")) then
+        local findWord = "cost:"
+        local gmnote = self.getGMNotes()
+        local find = gmnote:find(findWord)
+        itemCost = tonumber(gmnote:sub(find + #findWord + 1))
+    else
+        local info = container.call("GetCostItem", self.getName())
+        itemCost = info.itemCost
+        self.setDescription(info.descObj)
+    end
+
+    if(itemCost < 0) then
+        print([[{ru}Предмету не задана стоимость(либо стоимость предмета ниже нуля) После задания стоимости пересоздайте магазин, дабы цена вступила в силу{en}The item has no value set (or the value of the item is below zero) After setting the value, recreate the store so that the price takes effect.]])
+    else
+        getObjectFromGUID(guid).CreateButton(itemCost)
+    end
 end
 
 function HidecaseMerchandise(_, _, id)
