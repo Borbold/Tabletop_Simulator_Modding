@@ -19,7 +19,7 @@ function ClearLuaScript(obj, color, altClick)
     end
 end
 
-function onLoad(savedData)
+function onObjectLeaveContainer()
     itemCostDiscount = nil
     thingsInBasket, countItem, itemCost = {}, 0, -1
     
@@ -29,7 +29,7 @@ function onLoad(savedData)
         local find = gmnote:find(findWord)
         itemCost = tonumber(gmnote:sub(find + #findWord + 1))
     else
-        local loadedData = JSON.decode(savedData)
+        local loadedData = JSON.decode(self.memo)
         itemCost = loadedData and loadedData.itemCost or -1
     end
 

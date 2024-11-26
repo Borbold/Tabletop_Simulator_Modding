@@ -40,7 +40,7 @@ function onLoad(savedData)
                     ["itemCost"] = tonumber(w:gsub("%D", ""), 10)
                 }
                 local savedData = JSON.encode(dataToSave)
-                containObjects[idObj].lua_script_state = savedData
+                containObjects[idObj].memo = savedData
                 findName = false
             end
             if(findName) then locDesc = locDesc..w.."\n" end
