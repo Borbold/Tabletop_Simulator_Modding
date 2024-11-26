@@ -1,13 +1,14 @@
 function CreateButton(itemC)
+    local offsetY = self.getCustomObject()["thickness"] and self.getCustomObject()["thickness"] + 0.05 or 0.15
     itemCost = itemC
     self.createButton({
         click_function = "SelectItem", function_owner = self,
-        position = {0.75, 0.15, 0.75}, height = 250, width = 250,
+        position = {0.75, offsetY, 0.75}, height = 250, width = 250,
         color = {1, 0.9, 0.9, 1}, tooltip = "Buy for "..itemC
     })
     self.createButton({
         click_function = "ClearLuaScript", function_owner = self,
-        position = {-0.75, 0.15, -0.75}, height = 250, width = 250,
+        position = {-0.75, offsetY, -0.75}, height = 250, width = 250,
         color = {1, 0, 0, 0.5}, tooltip = "Remove a script from this object"
     })
 end
