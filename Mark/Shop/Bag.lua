@@ -16,7 +16,7 @@ function onLoad(savedData)
         Accept = "application/json",
     }
 
-    local resText = ""
+    resText = ""
     WebRequest.custom("https://github.com/Borbold/Sugule-shop/blob/main/Test.txt",
             "GET", true, nil, headers, function(request)
         if request.is_error then
@@ -47,13 +47,13 @@ function GetObjectMetaBag()
 end
 
 function GetCostItem(nameItem)
-    local findName, locDesc, idObj = false, "", 0
+    local findName, locDesc = false, ""
     for w in resText:gmatch("[^\n%.]+") do
         if(findName and w:find("cost:")) then
             return {itemCost = tonumber(w:gsub("%D", ""), 10), descObj = locDesc:sub(1, #locDesc - 1)}
         end
         if(findName) then locDesc = locDesc..w.."\n" end
-        if(w == nameItem) then idObj = id findName = true break end
+        if(w == nameItem) then findName = true end
     end
     return {}
 end
