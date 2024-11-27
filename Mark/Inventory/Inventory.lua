@@ -82,9 +82,10 @@ local pointWearables = {
     {x = -0.38, z = -0.42}
 }
 
-function UpdateSave()
+function UpdateSave(textColor)
     local dataToSave = {
-        ["limbValues"] = limbValues, ["bonusValue"] = bonusValue, ["state"] = state
+        ["limbValues"] = limbValues, ["bonusValue"] = bonusValue,
+        ["state"] = state, ["textColor"] = textColor
       }
       local savedData = JSON.encode(dataToSave)
       self.script_state = savedData
@@ -104,6 +105,7 @@ function Confer(savedData)
         limbValues = loadedData.limbValues or {Head = 50, Body = 50, lHand = 50, rHand = 50, lLeg = 50, rLeg = 50}
         bonusValue = loadedData.bonusValue or {0,0,0,0,0,0}
         state = loadedData.state or {Hunger = 0, Thirst = 0, Fatigue = 0, Intoxication = 0}
+        ChangeColorNumber(nil, loadedData.textColor or "ffffff")
     end
     
     for i,b in ipairs(bonusValue) do
@@ -234,22 +236,14 @@ function Overshoot(player, alt, id)
 end
 
 function ChangeOD(player, input, id)
-    --WriteGM(player.steam_name.." изменил ОД")
     self.UI.setAttribute(id, "text", input)
 end
 
 function ChangeLimb(player, input, id)
-    --WriteGM(player.steam_name.." изменил ХП " .. id)
     self.UI.setAttribute(id, "text", input)
     limbValues[id] = input
     UpdateSave()
 end
-
---[[function WriteGM(text)
-    if Player["Black"].steam_name then
-        broadcastToColor(text, "Black")
-    end
-end]]
 
 function CheckPos(pos1, pos2)
     if Round(pos1.x, 2) == Round(pos2.x, 2) and Round(pos1.z, 2) == Round(pos2.z, 2) then
@@ -263,4 +257,31 @@ end
 
 function CalculateBonus(index)
     return (index - 5)*5
+end
+
+function ShowHideSettingPanel()
+    local active = self.UI.getAttribute("settingPanel", "active")
+    self.UI.setAttribute("settingPanel", "active", active == "false" and "true" or "false")
+end
+
+function ChangeColorNumber(_, input)
+    if(#input < 6) then for i = #input, 6 do input = input.."0" end end
+    local textColor = "#"..input
+    self.UI.setAttribute("OD", "textColor", textColor)
+    self.UI.setAttribute("Head", "textColor", textColor)
+    self.UI.setAttribute("Body", "textColor", textColor)
+    self.UI.setAttribute("lHand", "textColor", textColor)
+    self.UI.setAttribute("rHand", "textColor", textColor)
+    self.UI.setAttribute("lLeg", "textColor", textColor)
+    self.UI.setAttribute("rLeg", "textColor", textColor)
+    for i = 1, 6 do
+        self.UI.setAttribute("lm"..i, "color", textColor)
+    end
+    for i = 1, 6 do
+        self.UI.setAttribute("TBonus"..i, "color", textColor)
+    end
+    for i = 1, 11 do
+        self.UI.setAttribute("os"..i, "textColor", textColor)
+    end
+    UpdateSave(textColor)
 end

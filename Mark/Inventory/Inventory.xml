@@ -16,7 +16,9 @@
         color='#ffffff' text='0' height='50' width='90' font='Fonts/Hanzi' />
 </Defaults>
 
-<Panel position='0 0 -17' rotation='0 0 180' height='1660' width='1320' scale='0.25'>
+<Panel position='0 0 -17' rotation='0 0 180' width='1320' height='1660' scale='0.25'>
+    <Button image='https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Windows_Settings_icon.svg/2184px-Windows_Settings_icon.svg.png' text=''
+        width='50' height='50' offsetXY='640 865' visibility='Black' onClick='ShowHideSettingPanel' />
 	<TableLayout>
         <Row preferredHeight='700' />
         <Row>
@@ -38,22 +40,22 @@
                     <Image offsetXY='140 50' image='Body' height='400' width='400' />
 
                     <InputField class='LimbValue' id='Head' offsetXY='85 220' />
-                    <Text class='LimbMax' text='/75' offsetXY='160 220' resizeTextMaxSize='30' />
+                    <Text id='lm1' class='LimbMax' text='/75' offsetXY='160 220' resizeTextMaxSize='30' />
 
                     <InputField class='LimbValue' id='Body' offsetXY='105 110' />
-                    <Text class='LimbMax' text='/150' offsetXY='185 110' resizeTextMaxSize='30' />
+                    <Text id='lm2' class='LimbMax' text='/150' offsetXY='185 110' resizeTextMaxSize='30' />
 
                     <InputField class='LimbValue' id='lHand' offsetXY='-10 70' />
-                    <Text class='LimbMax' text='/50' offsetXY='60 70' resizeTextMaxSize='30' />
+                    <Text id='lm3' class='LimbMax' text='/50' offsetXY='60 70' resizeTextMaxSize='30' />
 
                     <InputField class='LimbValue' id='rHand' offsetXY='210 70' />
-                    <Text class='LimbMax' text='/50' offsetXY='280 70' resizeTextMaxSize='30' />
+                    <Text id='lm4' class='LimbMax' text='/50' offsetXY='280 70' resizeTextMaxSize='30' />
 
                     <InputField class='LimbValue' id='lLeg' offsetXY='40 -130' />
-                    <Text class='LimbMax' text='/50' offsetXY='110 -130' resizeTextMaxSize='30' />
+                    <Text id='lm5' class='LimbMax' text='/50' offsetXY='110 -130' resizeTextMaxSize='30' />
 
                     <InputField class='LimbValue' id='rLeg' offsetXY='180 -130' />
-                    <Text class='LimbMax' text='/50' offsetXY='250 -130' resizeTextMaxSize='30' />
+                    <Text id='lm6' class='LimbMax' text='/50' offsetXY='250 -130' resizeTextMaxSize='30' />
                 </Panel>
             </Cell>
         </Row>
@@ -178,4 +180,18 @@
         </Row>
         <Row preferredHeight='240' />
 	</TableLayout>
+</Panel>
+<Panel id='settingPanel' position='0 -230 -17' width='400' height='100' rotation='0 0 180' scale='0.25' visibility='Black' active='false'>
+    <TableLayout color='black'>
+        <Row>
+            <Cell>
+                <Text resizeTextMaxSize='40' color='White' text='{en}Color of numbers{ru}Цвет цифр' />
+            </Cell>
+            <Cell>
+                <InputField resizeTextMaxSize='40' color='#94877355' characterValidation='Alphanumeric'
+                    textColor='White' placeholder='#ffffff' characterLimit='6' text=''
+                    onEndEdit='ChangeColorNumber'  />
+            </Cell>
+        </Row>
+    </TableLayout>
 </Panel>
