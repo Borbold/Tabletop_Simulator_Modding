@@ -1,23 +1,23 @@
 function UpdateSave()
-  local dataToSave = {
-    ["allStoresGUID"] = allStoresGUID
-  }
-  local savedData = JSON.encode(dataToSave)
-  self.script_state = savedData
+    local dataToSave = {
+        ["allStoresGUID"] = allStoresGUID
+    }
+    local savedData = JSON.encode(dataToSave)
+    self.script_state = savedData
 end
 
 function onLoad(savedData)
-  CreateGlobalVariable()
-  if(savedData ~= "") then
-    local loadedData = JSON.decode(savedData)
-    allStoresGUID = loadedData.allStoresGUID or {}
-    if(#allStoresGUID > 0) then
-      for id,storeGUID in ipairs(allStoresGUID) do
-        local storeName = getObjectFromGUID(storeGUID).getName()
-        Wait.time(|| XMLReplacementAdd(id, storeName), 0.3 + id/5)
-      end
+    CreateGlobalVariable()
+    if(savedData ~= "") then
+        local loadedData = JSON.decode(savedData)
+        allStoresGUID = loadedData.allStoresGUID or {}
+        if(#allStoresGUID > 0) then
+            for id,storeGUID in ipairs(allStoresGUID) do
+                local storeName = getObjectFromGUID(storeGUID).getName()
+                Wait.time(|| XMLReplacementAdd(id, storeName), 0.3 + id/5)
+            end
+        end
     end
-  end
 end
 
 function CreateGlobalVariable()
@@ -40,7 +40,8 @@ function CreateGlobalVariable()
     end, 1)
 
     --[[local headers = {
-      Accept = "application/json",
+        ["Content-Type"] = "application/json",
+        Accept = "application/json",
     }
     Wait.time(function()
       WebRequest.custom("https://github.com/Borbold/Fallout_System/blob/main/Mark/Shop/Item.lua", "GET", true, nil, headers, function(requestItem)
@@ -247,10 +248,9 @@ function ItemLeaveContainer(container, guid)
         local itemCost = -1
         
         if(item.getGMNotes():find("cost:")) then
-            local findWord = "cost:"
-            local gmnote = item.getGMNotes()
-            local find = gmnote:find(findWord)
-            itemCost = tonumber(gmnote:sub(find + #findWord + 1))
+            local costStr = ""
+            item.getGMNotes():gsub("[^\n%.]+", function(str) if(str:find("cost:")) then costStr = str return end end)
+            itemCost = StringInNumber(costStr)
         else
             local info = container.call("GetCostItem", item.getName())
             itemCost = info.itemCost
