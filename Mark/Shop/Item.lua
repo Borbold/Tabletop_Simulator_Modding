@@ -28,11 +28,13 @@ end
 
 function GiveDiscountItem(parametrs)
     itemCostDiscount = itemCost + itemCost*parametrs.discount/100
+    self.editButton({index = 0, tooltip = "Buy for "..itemCostDiscount})
 end
 
 function EndTrade()
     thingsInBasket, countItem = {}, 0
     itemCostDiscount, coinPouch = nil, nil
+    self.editButton({index = 0, tooltip = "Buy for "..itemCostDiscount})
 end
 
 function SetCoinPouchGUID(parametrs)
