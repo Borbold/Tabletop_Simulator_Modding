@@ -71,7 +71,7 @@ function SetNewAmmunitionType(_, _, _, isOnLoad)
     end
 
     if #fildForAmmunitions == 1 then
-        Wait.time(|| SelectTypeAmmunition(nil, nil, "buttonS1"), 0.2)
+        Wait.time(|| SelectTypeAmmunition(nil, nil, "buttonS1"), 0.3)
         fildForAmmunitions[1].name = self.getName()
     end
 
@@ -132,6 +132,7 @@ function SetNewAmmunitionType(_, _, _, isOnLoad)
     startXml = startXml .. newType .. endXml
     self.UI.setXml(startXml)
     EnlargeHeightPanel()
+    selectTypeId = -1
 end
 
 function EnlargeHeightPanel()
@@ -143,15 +144,15 @@ function EnlargeHeightPanel()
 end
 
 function SetInputTypeAmmunition(_, input, id)
-    local numId = tonumber(id:gsub("%D", ""))
+    local numId = StringInNumber(id)
     if(id:find("name")) then
         self.UI.setAttribute(id, "text", input)
         fildForAmmunitions[numId].name = input
-        self.UI.setValue("nameT"..id, input)
+        self.UI.setValue("nameT"..numId, input)
     elseif(id:find("color")) then
         self.UI.setAttribute(id, "text", input)
         fildForAmmunitions[numId].color = input
-        self.UI.setAttribute("nameT"..id, "color", "#"..input)
+        self.UI.setAttribute("nameT"..numId, "color", "#"..input)
     end
     Wait.time(|| UpdateSave(), 0.2)
 end
@@ -159,7 +160,7 @@ end
 function SetValueAmmunition(_, input, id)
     if(not input or input == "") then return end
 
-    local numId = tonumber(id:gsub("%D", ""))
+    local numId = StringInNumber(id)
     if(id:find("value")) then
         local currentValue = 0
         for i,v in ipairs(fildForAmmunitions) do
@@ -221,12 +222,14 @@ function Reset()
 end
 
 function SelectTypeAmmunition(_, _, id)
-    if(id:find("buttonS")) then
-        id = id:sub(8, #id)
-        local locId = (selectTypeId > 0 and selectTypeId) or ""
-        self.UI.setAttribute("buttonM"..locId, "active", "true")
-        self.UI.setAttribute("buttonM"..locId, "id", "buttonM"..id)
-        selectTypeId = tonumber(id)
-    end
+    id = tostring(StringInNumber(id))
+    local locId = (selectTypeId > 0 and selectTypeId) or ""
+    self.UI.setAttribute("buttonM"..locId, "active", "true")
+    self.UI.setAttribute("buttonM"..locId, "id", "buttonM"..id)
+    selectTypeId = tonumber(id)
     UpdateSave()
+end
+
+function StringInNumber(str)
+    return tonumber(str:gsub("%D", ""), 10)
 end
