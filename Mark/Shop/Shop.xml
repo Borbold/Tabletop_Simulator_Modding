@@ -29,6 +29,6 @@
 <Panel position='0 850 -65' visibility='Black'>
 	<InputField id='discountField' height='60'
 		onEndEdit='GiveDiscount' characterValidation='Decimal' placeholder='discount'
-		tooltip='Set the discount at the moment you lay out the store. It is not displayed in any way, but it will be taken into account when buying goods'
+		tooltip='Set the discount at the unfolded store'
 		tooltipPosition='Above' />
 </Panel>
