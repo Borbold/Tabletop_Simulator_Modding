@@ -34,7 +34,7 @@ end
 function EndTrade()
     thingsInBasket, countItem = {}, 0
     itemCostDiscount, coinPouch = nil, nil
-    self.editButton({index = 0, tooltip = "Buy for "..itemCostDiscount})
+    self.editButton({index = 0, tooltip = "Buy for "..itemCost})
 end
 
 function SetCoinPouchGUID(parametrs)
