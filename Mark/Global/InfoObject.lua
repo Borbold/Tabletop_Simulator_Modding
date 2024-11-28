@@ -27,8 +27,7 @@ function onCollisionEnter(info)
     end
 end
 
-function onCollisionExit(info)
-    local obj = info.collision_object
+function onObjectPickUp(_, obj)
     if locGUID == 0 or locGUID ~= obj.getGUID() then locGUID = obj.getGUID()
     else return end
 

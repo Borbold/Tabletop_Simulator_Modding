@@ -97,10 +97,9 @@ function onCollisionEnter(info)
       Wait.time(|| SetNumberCoinsObjects(info.collision_object.getGUID()), 0.2)
     end
 end
-function onCollisionExit(info)
-    if(info.collision_object.getPosition().y < self.getPosition().y) then return end
+function onObjectPickUp(_, obj)
+    if(obj.getPosition().y < self.getPosition().y) then return end
 
-    local obj = info.collision_object
     if(allObjectsItemGUID and #allObjectsItemGUID > 0) then
       if(obj.hasTag(watchTag[1])) then
         for i, v in ipairs(allObjectsItemGUID) do

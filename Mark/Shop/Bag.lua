@@ -21,8 +21,8 @@ function onLoad(savedData)
     WebRequest.custom(webSite, "GET", true, nil, headers, function(request)
         if request.is_error then log(request.is_error) return end
 
-        local contentType = request.getResponseHeader("Content-Type") or ""
-        if(contentType ~= "application/json") and not contentType:match("^application/json;") then log("The information on the subjects does not come from the website") return end
+        --local contentType = request.getResponseHeader("Content-Type") or ""
+        --if(contentType ~= "application/json") and not contentType:match("^application/json;") then log("The information on the subjects does not come from the website") return end
 
         local responseData = JSON.decode(request.text)
         for i,v in ipairs(responseData.payload.blob.rawLines) do
