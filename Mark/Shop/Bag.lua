@@ -16,14 +16,21 @@ function onLoad(savedData)
     }
 
     resText = ""
-    -- Можно использовать ссылки на текстовые файлы из ВК
+    -- You can use website have json format GET api
     local webSite = self.getGMNotes() ~= "" and self.getGMNotes() or "https://psv4.userapi.com/s/v1/d/bqkMTXSN9uYBfltMfNpXixeoqikg3GvGHbq-xlyizfURfXTlEc6l_HrhJ1OndZ8CaVjWOXOkaVZQ8rXwGnq-cuqnmmpUe9Y67Z_UP9asYSKlsPA2S1b8JA/Test.txt"
     WebRequest.custom(webSite, "GET", true, nil, headers, function(request)
         if request.is_error then log(request.is_error) return end
 
-        --local contentType = request.getResponseHeader("Content-Type") or ""
-        --if(contentType ~= "application/json") and not contentType:match("^application/json;") then log("The information on the subjects does not come from the website") return end
+        local contentType = request.getResponseHeader("Content-Type") or ""
+        if(contentType ~= "application/json") and not contentType:match("^application/json;") then
+            -- For VK
+            for i,v in ipairs(request.text) do
+                resText = resText..v.."\n"
+            end
+            return
+        end
 
+        --For git
         local responseData = JSON.decode(request.text)
         for i,v in ipairs(responseData.payload.blob.rawLines) do
             resText = resText..v.."\n"
