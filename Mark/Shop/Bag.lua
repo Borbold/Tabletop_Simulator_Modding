@@ -24,15 +24,13 @@ function onLoad(savedData)
         local contentType = request.getResponseHeader("Content-Type") or ""
         if(contentType ~= "application/json") and not contentType:match("^application/json;") then
             -- For VK
-            for i,v in ipairs(request.text) do
-                resText = resText..v.."\n"
-            end
+            resText = request.text
             return
         end
 
         --For git
         local responseData = JSON.decode(request.text)
-        for i,v in ipairs(responseData.payload.blob.rawLines) do
+        for _,v in ipairs(responseData.payload.blob.rawLines) do
             resText = resText..v.."\n"
         end
     end)
