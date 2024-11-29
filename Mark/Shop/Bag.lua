@@ -25,7 +25,6 @@ function onLoad(savedData)
         if(contentType ~= "application/json") and not contentType:match("^application/json;") then
             -- For git raw
             resText = request.text
-            print(resText:find("Пернач (железо)"))
             return
         end
         --For git
