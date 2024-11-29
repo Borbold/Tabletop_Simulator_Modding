@@ -17,17 +17,17 @@ function onLoad(savedData)
 
     resText = ""
     -- You can use website have json format GET api
-    local webSite = self.getGMNotes() ~= "" and self.getGMNotes() or "https://psv4.userapi.com/s/v1/d/bqkMTXSN9uYBfltMfNpXixeoqikg3GvGHbq-xlyizfURfXTlEc6l_HrhJ1OndZ8CaVjWOXOkaVZQ8rXwGnq-cuqnmmpUe9Y67Z_UP9asYSKlsPA2S1b8JA/Test.txt"
+    local webSite = self.getGMNotes() ~= "" and self.getGMNotes() or "https://raw.githubusercontent.com/Borbold/Sugule-shop/refs/heads/main/Test.txt"
     WebRequest.custom(webSite, "GET", true, nil, headers, function(request)
         if request.is_error then log(request.is_error) return end
 
         local contentType = request.getResponseHeader("Content-Type") or ""
         if(contentType ~= "application/json") and not contentType:match("^application/json;") then
-            -- For VK
+            -- For git raw
             resText = request.text
+            print(resText:find("Пернач (железо)"))
             return
         end
-
         --For git
         local responseData = JSON.decode(request.text)
         for _,v in ipairs(responseData.payload.blob.rawLines) do
