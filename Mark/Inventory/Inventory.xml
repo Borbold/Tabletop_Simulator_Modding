@@ -3,7 +3,9 @@
     <Cell class='plugTwo' columnSpan='2'/>
     <InputField class='Bonus' characterLimit='3' onEndEdit='ChangeBonus' resizeTextForBestFit='false' fontSize='50' color='#fb940351' onValueChanged='ChangeText' />
     <InputField class='LimbValue' onEndEdit='ChangeLimb' height='50' width='120' characterLimit='3' text='50' textAlignment='MiddleRight' />
-    <Text class='LimbMax' textAlignment='MiddleLeft' />
+    <InputField class='LimbMaxValue' onEndEdit='ChangeLimb' height='50' width='120' characterLimit='3' textAlignment='MiddleCenter' resizeTextMaxSize='1'
+        visibility='Black' textColor='#ffffff00' />
+    <Text class='LimbMax' alignment='MiddleLeft' resizeTextMaxSize='30' />
     <Button class='CountOvershoot' textColor='#ffffff' onClick='Overshoot' color='#ffffff00' resizeTextMaxSize='40' />
     <Button class='PlayerState' onClick='ChangeState' />
 
@@ -40,22 +42,28 @@
                     <Image offsetXY='140 50' image='Body' height='400' width='400' />
 
                     <InputField class='LimbValue' id='Head' offsetXY='85 220' />
-                    <Text id='lm1' class='LimbMax' text='/75' offsetXY='160 220' resizeTextMaxSize='30' />
+                    <InputField id='lmV1' class='LimbMaxValue' offsetXY='175 220' />
+                    <Text id='lm1' class='LimbMax' text='/75' offsetXY='175 220' />
 
-                    <InputField class='LimbValue' id='Body' offsetXY='105 110' />
-                    <Text id='lm2' class='LimbMax' text='/150' offsetXY='185 110' resizeTextMaxSize='30' />
+                    <InputField class='LimbValue' id='Body' offsetXY='95 110' />
+                    <InputField id='lmV2' class='LimbMaxValue' offsetXY='185 110' />
+                    <Text id='lm2' class='LimbMax' text='/150' offsetXY='185 110' />
 
-                    <InputField class='LimbValue' id='lHand' offsetXY='-10 70' />
-                    <Text id='lm3' class='LimbMax' text='/50' offsetXY='60 70' resizeTextMaxSize='30' />
+                    <InputField class='LimbValue' id='lHand' offsetXY='-20 70' />
+                    <InputField id='lmV3' class='LimbMaxValue' offsetXY='70 70' />
+                    <Text id='lm3' class='LimbMax' text='/50' offsetXY='70 70' />
 
-                    <InputField class='LimbValue' id='rHand' offsetXY='210 70' />
-                    <Text id='lm4' class='LimbMax' text='/50' offsetXY='280 70' resizeTextMaxSize='30' />
+                    <InputField class='LimbValue' id='rHand' offsetXY='200 70' />
+                    <InputField id='lmV4' class='LimbMaxValue' offsetXY='290 70' />
+                    <Text id='lm4' class='LimbMax' text='/50' offsetXY='290 70' />
 
-                    <InputField class='LimbValue' id='lLeg' offsetXY='40 -130' />
-                    <Text id='lm5' class='LimbMax' text='/50' offsetXY='110 -130' resizeTextMaxSize='30' />
+                    <InputField class='LimbValue' id='lLeg' offsetXY='30 -130' />
+                    <InputField id='lmV5' class='LimbMaxValue' offsetXY='120 -130' />
+                    <Text id='lm5' class='LimbMax' text='/50' offsetXY='120 -130' />
 
                     <InputField class='LimbValue' id='rLeg' offsetXY='180 -130' />
-                    <Text id='lm6' class='LimbMax' text='/50' offsetXY='250 -130' resizeTextMaxSize='30' />
+                    <InputField id='lmV6' class='LimbMaxValue' offsetXY='270 -130' />
+                    <Text id='lm6' class='LimbMax' text='/50' offsetXY='270 -130' />
                 </Panel>
             </Cell>
         </Row>

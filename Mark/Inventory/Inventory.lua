@@ -82,9 +82,9 @@ local pointWearables = {
     {x = -0.38, z = -0.42}
 }
 
-function UpdateSave(textColor)
+function UpdateSave()
     local dataToSave = {
-        ["limbValues"] = limbValues, ["bonusValue"] = bonusValue,
+        ["limbValues"] = limbValues, ["limbMaxValue"] = limbMaxValue, ["bonusValue"] = bonusValue,
         ["state"] = state, ["textColor"] = textColor
       }
       local savedData = JSON.encode(dataToSave)
@@ -103,9 +103,11 @@ function Confer(savedData)
     local loadedData = JSON.decode(savedData or "")
     if loadedData then
         limbValues = loadedData.limbValues or {Head = 50, Body = 50, lHand = 50, rHand = 50, lLeg = 50, rLeg = 50}
+        limbMaxValue = loadedData.limbMaxValue or {75, 150, 50, 50, 50, 50}
         bonusValue = loadedData.bonusValue or {0,0,0,0,0,0}
         state = loadedData.state or {Hunger = 0, Thirst = 0, Fatigue = 0, Intoxication = 0}
-        ChangeColorNumber(nil, loadedData.textColor or "ffffff")
+        textColor = loadedData.textColor or "ffffff"
+        ChangeColorNumber(nil, textColor)
     end
     
     for i,b in ipairs(bonusValue) do
@@ -113,6 +115,9 @@ function Confer(savedData)
     end
     for i,l in pairs(limbValues) do
         self.UI.setAttribute(i, "text", l)
+    end
+    for i,l in pairs(limbMaxValue) do
+        self.UI.setAttribute("lm"..i, "text", "/"..l)
     end
     for i,l in pairs(state) do
         self.UI.setAttribute(i, "text", l)
@@ -240,8 +245,14 @@ function ChangeOD(player, input, id)
 end
 
 function ChangeLimb(player, input, id)
-    self.UI.setAttribute(id, "text", input)
-    limbValues[id] = input
+    if(id:find("lmV")) then
+        id = tonumber(id:gsub("%D", ""), 10)
+        self.UI.setAttribute("lm"..id, "text", "/"..input)
+        limbMaxValue[id] = input
+    else
+        self.UI.setAttribute(id, "text", input)
+        limbValues[id] = input
+    end
     UpdateSave()
 end
 
@@ -266,7 +277,7 @@ end
 
 function ChangeColorNumber(_, input)
     if(#input < 6) then for i = #input, 6 do input = input.."0" end end
-    local textColor = "#"..input
+    textColor = "#"..input
     self.UI.setAttribute("OD", "textColor", textColor)
     self.UI.setAttribute("Head", "textColor", textColor)
     self.UI.setAttribute("Body", "textColor", textColor)
