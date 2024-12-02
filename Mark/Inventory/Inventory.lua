@@ -23,7 +23,7 @@ local pointsPos = {
         {x = 1.46, z = -1.41}, {x = 1.38, z = -1.4}, {x = 1.28, z = -1.41}, {x = 1.19, z = -1.41}, {x = 1.1, z = -1.41},
         {x = 1.01, z = -1.41}, {x = 0.92, z = -1.41}, {x = 0.83, z = -1.41}, {x = 0.72, z = -1.41}, {x = 0.62, z = -1.41},
     },
-    интелект = {
+    интеллект = {
         {x = 1.47, z = -1.32}, {x = 1.39, z = -1.31}, {x = 1.29, z = -1.32}, {x = 1.19, z = -1.31}, {x = 1.1, z = -1.32},
         {x = 1.01, z = -1.31}, {x = 0.92, z = -1.31}, {x = 0.83, z = -1.32}, {x = 0.73, z = -1.31}, {x = 0.62, z = -1.31},
         {x = 1.47, z = -1.24}, {x = 1.38, z = -1.24}, {x = 1.28, z = -1.24}, {x = 1.2, z = -1.24}, {x = 1.1, z = -1.24},
@@ -40,10 +40,10 @@ local pointSkills = {
     Weightlifting = "сила", Riding = "ловкость", Theft = "ловкость",
     Athletics = "ловкость", Disguise = "восприятие", Shooting = "восприятие",
     Evasion = "ловкость", Fencing = "ловкость", Blocking = "сила",
-    MartialArts = "ловкость", Survival = "восприятие", LocalKnowledge = "интелект",
-    ForeignLanguage = "интелект", Medicine = "интелект", Science = "интелект",
+    MartialArts = "ловкость", Survival = "восприятие", LocalKnowledge = "интеллект",
+    ForeignLanguage = "интеллект", Medicine = "интеллект", Science = "интеллект",
     Cooking = "восприятие", Herbalism = "восприятие", Observation = "восприятие",
-    Orientation = "восприятие", FirstAid = "восприятие", Mechanics = "интелект",
+    Orientation = "восприятие", FirstAid = "восприятие", Mechanics = "интеллект",
     Armor = "сила", Gunsmith = "сила", Interrogation = "сила",
     Livestock = "восприятие", Leadership = "харизма", Acting = "харизма",
     Speechcraft = "харизма", Art = "восприятие", Trade = "харизма", Gambling = "ловкость"
@@ -210,11 +210,11 @@ function ChangeBonusForState(player, id, state)
     if state >= 4 then
         local text = id == "Hunger" and "голодает" or id == "Thirst" and "хочет пить" or id == "Fatigue" and "хочет спать" or "перепил"
         broadcastToAll("Кажется кто-то " .. text)
-        local tChar = id == "Hunger" and "сила" or id == "Thirst" and "ловкость" or id == "Fatigue" and "интелект"
+        local tChar = id == "Hunger" and "сила" or id == "Thirst" and "ловкость" or id == "Fatigue" and "интеллект"
         local arg = {tChar = tChar, bonus = state < 7 and -10 or -20, state = true}
         throw.call("ChangeMemory", arg)
     else
-        local tChar = id == "Hunger" and "сила" or id == "Thirst" and "ловкость" or id == "Fatigue" and "интелект"
+        local tChar = id == "Hunger" and "сила" or id == "Thirst" and "ловкость" or id == "Fatigue" and "интеллект"
         local arg = {tChar = tChar, bonus = 0, state = true}
         throw.call("ChangeMemory", arg)
     end

@@ -6,6 +6,7 @@ end
 
 function onCollisionEnter(info)
     local obj = info.collision_object
+    if(math.abs(obj.getPosition().y) < math.abs(self.getPosition().y)) then return end
     if locGUID == 0 or locGUID ~= obj.getGUID() then locGUID = obj.getGUID()
     else return end
     
@@ -25,9 +26,11 @@ function onCollisionEnter(info)
         avatar.call("UpdateInformation", putObjects)
         Wait.time(function() locGUID = 0 end, 0.2)
     end
+    obj.addTag("Picked object "..obj.getGUID())
 end
 
 function onObjectPickUp(_, obj)
+    if(not obj.hasTag("Picked object "..obj.getGUID()) or math.abs(obj.getPosition().y) < math.abs(self.getPosition().y)) then return end
     if locGUID == 0 or locGUID ~= obj.getGUID() then locGUID = obj.getGUID()
     else return end
 
@@ -44,6 +47,7 @@ function onObjectPickUp(_, obj)
         avatar.call("UpdateInformation", #putObjects == 0 and {{}} or putObjects)
         Wait.time(function() locGUID = 0 end, 0.2)
     end
+    obj.removeTag("Picked object "..obj.getGUID())
 end
 
 function CallGlobal(putObjects)

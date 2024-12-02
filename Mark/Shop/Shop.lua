@@ -88,17 +88,19 @@ function PercentageSubjects(_, _, id)
 end
 
 function onCollisionEnter(info)
-    if(#watchTag ~= 2 or info.collision_object.getPosition().y < self.getPosition().y) then return end
-
     local obj = info.collision_object
+    if(#watchTag ~= 2 or math.abs(obj.getPosition().y) < math.abs(self.getPosition().y)) then return end
+
     if(obj.hasTag(watchTag[1])) then
       table.insert(allObjectsItemGUID, obj.getGUID())
     elseif(obj.hasTag(watchTag[2])) then
-      Wait.time(|| SetNumberCoinsObjects(info.collision_object.getGUID()), 0.2)
+      Wait.time(|| SetNumberCoinsObjects(obj.getGUID()), 0.2)
     end
+    obj.addTag("Picked object shop")
 end
+
 function onObjectPickUp(_, obj)
-    if(obj.getPosition().y < self.getPosition().y) then return end
+    if(not obj.hasTag("Picked object shop") or math.abs(obj.getPosition().y) < math.abs(self.getPosition().y)) then return end
 
     if(allObjectsItemGUID and #allObjectsItemGUID > 0) then
       if(obj.hasTag(watchTag[1])) then
@@ -112,6 +114,7 @@ function onObjectPickUp(_, obj)
         Wait.time(|| SetNumberCoinsObjects(""), 0.2)
       end
     end
+    obj.removeTag("Picked object shop")
 end
 function SetNumberCoinsObjects(CoinPouchGUID)
     for _, g in ipairs(allObjectsItemGUID) do
