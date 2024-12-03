@@ -1,0 +1,49 @@
+<Defaults>
+    <Button font='Fonts/Hanzi' resizeTextForBestFit='True' resizeTextMaxSize='60' resizeTextMinSize='20'
+        tooltipFont='Fonts/Allods' tooltipFontSize='35' tooltipWidth='300' color='#ffffff00' />
+    <InputField textAlignment='MiddleCenter' font='Fonts/Hanzi' resizeTextForBestFit='True' resizeTextMaxSize='60' resizeTextMinSize='20'
+        tooltipFont='Fonts/Allods' tooltipFontSize='35' tooltipWidth='300' color='#948773' />
+    <Cell dontUseTableCellBackground='true' />
+    <VerticalScrollView color='#ffffff00' scrollbarBackgroundColor='#000000dd'
+        verticalScrollbarVisibility='AutoHideAndExpandViewport' horizontalScrollbarVisibility='Permanent' />
+
+    <Button class='buttonSave' text='---' onClick='SaveThrow' />
+</Defaults>
+
+<Panel position='0 0 -6' height='694' width='810' image='uiBacground' scale='0.5'>
+    <TableLayout cellSpacing='10'>
+        <Row id='rowDiceThrow' preferredHeight='150'>
+            <Cell columnSpan='10'>
+                <Button id='countThrow' text='1' resizeTextMaxSize='120' onClick='ChangeCountThrow' tooltip='Count throw dice' tooltipPosition='Above' />
+            </Cell>
+            <Cell columnSpan='20'>
+                <Button id='diceThrow' text='100' resizeTextMaxSize='120' onClick='ChangeDiceThrow' tooltip='Dice will be throw' tooltipPosition='Above' />
+            </Cell>
+        </Row>
+        <Row id='rowSaveThrow'>
+            <Cell columnSpan='25'>
+                <VerticalScrollView height='324'>
+                    <TableLayout height='324'>
+                        <Button id='saveThrow1' class='buttonSave' />
+                    </TableLayout>
+                </VerticalScrollView>
+            </Cell>
+            <Cell columnSpan='5'>
+                <Button />
+            </Cell>
+        </Row>
+        <Row id='rowSettingThrow' preferredHeight='80'>
+            <Cell columnSpan='30'>
+                <Button text='test' />
+            </Cell>
+        </Row>
+        <Row id='rowThrow' preferredHeight='100'>
+            <Cell columnSpan='10'>
+                <Button text='Throw all' resizeTextMaxSize='40' />
+            </Cell>
+            <Cell columnSpan='20'>
+                <Button text='Throw' resizeTextMaxSize='120' onClick='Throw' />
+            </Cell>
+        </Row>
+    </TableLayout>
+</Panel>
