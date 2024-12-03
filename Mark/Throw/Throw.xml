@@ -21,11 +21,12 @@
             </Cell>
         </Row>
         <Row id='rowSaveThrow'>
-            <Cell columnSpan='25'>
+            <Cell columnSpan='1'/>
+            <Cell columnSpan='24'>
                 <VerticalScrollView height='324'>
-                    <TableLayout height='324'>
-                        <Button id='saveThrow1' class='buttonSave' />
-                    </TableLayout>
+                    <GridLayout height='324' cellSize='100 60'>
+                        <!--Save buttons-->
+                    </GridLayout>
                 </VerticalScrollView>
             </Cell>
             <Cell columnSpan='5'>

@@ -5,6 +5,8 @@ function onLoad()
     tableDices = {4, 6, 20, 100}
     diceThrow = #tableDices
     bonusThrow = {}
+    buttonSaveThrows = 30
+    Wait.time(|| CreateButtonSaveThrows(), 0.5)
 end
 
 function ChangeCountThrow(_, alt, id)
@@ -60,4 +62,22 @@ function PrintThrow(numberThrow)
         broadcastToAll("Sum bonus: "..sumBonus)
         broadcastToAll("Equals throw: "..(naturalThrow + sumBonus))
     end
+end
+
+function CreateButtonSaveThrows()
+    local xmlTable = {}
+    xmlTable = self.UI.getXmlTable()
+    local saveButtons = xmlTable[2].children[1].children[2].children[2].children[1].children[1].children
+
+    for i = 1, buttonSaveThrows do
+        local saveButton = {
+            tag = "Button",
+            attributes = {
+              id = "saveThrow"..i,
+              class = "buttonSave"
+            }
+        }
+        table.insert(saveButtons, saveButton)
+    end
+    self.UI.setXmlTable(xmlTable)
 end
