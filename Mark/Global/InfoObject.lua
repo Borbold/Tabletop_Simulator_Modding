@@ -6,7 +6,7 @@ end
 
 function onCollisionEnter(info)
     local obj = info.collision_object
-    if(math.abs(obj.getPosition().y) < math.abs(self.getPosition().y)) then return end
+    if(obj.getPosition().y < self.getPosition().y) then return end
     if locGUID == 0 or locGUID ~= obj.getGUID() then locGUID = obj.getGUID()
     else return end
     
@@ -30,7 +30,7 @@ function onCollisionEnter(info)
 end
 
 function onObjectPickUp(_, obj)
-    if(not obj.hasTag("Picked object "..self.getGUID()) or math.abs(obj.getPosition().y) < math.abs(self.getPosition().y)) then return end
+    if(not obj.hasTag("Picked object "..self.getGUID()) or obj.getPosition().y < self.getPosition().y) then return end
     if locGUID == 0 or locGUID ~= obj.getGUID() then locGUID = obj.getGUID()
     else return end
 

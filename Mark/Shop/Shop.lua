@@ -89,7 +89,7 @@ end
 
 function onCollisionEnter(info)
     local obj = info.collision_object
-    if(#watchTag ~= 2 or math.abs(obj.getPosition().y) < math.abs(self.getPosition().y)) then return end
+    if(#watchTag ~= 2 or obj.getPosition().y < self.getPosition().y) then return end
 
     if(obj.hasTag(watchTag[1])) then
       table.insert(allObjectsItemGUID, obj.getGUID())
@@ -100,7 +100,7 @@ function onCollisionEnter(info)
 end
 
 function onObjectPickUp(_, obj)
-    if(not obj.hasTag("Picked object shop") or math.abs(obj.getPosition().y) < math.abs(self.getPosition().y)) then return end
+    if(not obj.hasTag("Picked object shop") or obj.getPosition().y < self.getPosition().y) then return end
 
     if(allObjectsItemGUID and #allObjectsItemGUID > 0) then
       if(obj.hasTag(watchTag[1])) then
