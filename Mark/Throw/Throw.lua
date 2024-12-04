@@ -4,20 +4,35 @@ local hexColor = {
     Teal = "0faeae"
 }
 
-function onLoad()
+function UpdateSave()
+    local dataToSave = {
+        ["saveThrow"] = saveThrow, ["tableDices"] = tableDices,
+        ["buttonSaveThrows"] = buttonSaveThrows, ["buttonBonusThrows"] = buttonBonusThrows
+    }
+    local savedData = JSON.encode(dataToSave)
+    self.script_state = savedData
+end
+
+function onLoad(savedData)
     osTime = os.time()
-    saveThrow = {}
-    countThrow = 1
-    tableDices = {4, 6, 20, 100}
-    diceThrow = #tableDices
+    
+    saveThrow, bonusThrow = {}, {}
+    countThrow, tableDices = 1, {4, 6, 20, 100}
     buttonSaveThrows = 30
-    Wait.time(|| CreateButtonSaveThrows(), 0.5)
     buttonBonusThrows = 5
-    bonusThrow = {}
-    for i = 1, buttonBonusThrows do
-        table.insert(bonusThrow, 0)
+    local loadedData = JSON.decode(savedData)
+    if(loadedData) then
+        saveThrow = loadedData.saveThrow or saveThrow
+        tableDices = loadedData.tableDices or tableDices
+        buttonSaveThrows = loadedData.buttonSaveThrows or buttonSaveThrows
+        buttonBonusThrows = loadedData.buttonBonusThrows or buttonBonusThrows
     end
-    Wait.time(|| CreateButtonBonusThrows(), 0.8)
+
+    Wait.time(|| CreateButtonSaveThrows(), 0.3)
+    Wait.time(|| CreateButtonBonusThrows(), 0.5)
+    Wait.time(|| DonwloadSaveThrow(), 0.7)
+    diceThrow = #tableDices
+    self.UI.setAttribute("diceThrow", "text", tableDices[diceThrow])
 end
 
 function ChangeBonusThrow(_, alt, id)
@@ -37,13 +52,19 @@ function ChangeDiceThrow(_, alt, id)
     self.UI.setAttribute(id, "text", tableDices[diceThrow])
 end
 
+function DonwloadSaveThrow()
+    for name,throw in pairs(saveThrow) do
+        self.UI.setAttribute(throw.idButton, "text", name)
+    end
+end
+
 function SaveThrow(player, alt, id)
     local nameSaveButton = self.UI.getAttribute(id, "text") ~= "---" and self.UI.getAttribute(id, "text") or self.UI.getAttribute("nameSavedButton", "text")
     if(#nameSaveButton == 0) then print("Set a name for the button") return end
 
     if(saveThrow[nameSaveButton] == nil) then
         self.UI.setAttribute(id, "text", nameSaveButton)
-        saveThrow[nameSaveButton] = {CT = countThrow, DT = diceThrow, BT = bonusThrow}
+        saveThrow[nameSaveButton] = {CT = countThrow, DT = diceThrow, BT = bonusThrow, idButton = id}
         self.UI.setAttribute("nameSavedButton", "text", "")
     else
         if(alt == "-1") then
@@ -51,11 +72,13 @@ function SaveThrow(player, alt, id)
             diceThrow = saveThrow[nameSaveButton].DT
             bonusThrow = saveThrow[nameSaveButton].BT
             Throw(player, _, _, nameSaveButton)
-        elseif(alt == '-2') then
+        elseif(alt == '-2' and player.color == "Black") then
             self.UI.setAttribute(id, "text", "---")
             saveThrow[nameSaveButton] = nil
         end
     end
+    UpdateSave()
+    Reset()
 end
 
 function Throw(player, _, _, nameSaveButton)
@@ -107,7 +130,7 @@ end
 function CreateButtonSaveThrows()
     local xmlTable = {}
     xmlTable = self.UI.getXmlTable()
-    local saveButtons = xmlTable[2].children[1].children[2].children[2].children[1].children[1].children
+    local saveButtons = xmlTable[2].children[2].children[2].children[2].children[1].children[1].children
 
     for i = 1, buttonSaveThrows do
         local saveButton = {
@@ -125,9 +148,10 @@ end
 function CreateButtonBonusThrows()
     local xmlTable = {}
     xmlTable = self.UI.getXmlTable()
-    local bonusButtons = xmlTable[2].children[1].children[2].children[3].children[1].children[1].children
+    local bonusButtons = xmlTable[2].children[2].children[2].children[3].children[1].children[1].children
 
     for i = 1, buttonBonusThrows do
+        table.insert(bonusThrow, 0)
         local bonusButton = {
             tag = "Button",
             attributes = {
@@ -160,5 +184,56 @@ function ChangePermitThrow(_, _, id)
         self.UI.setAttribute(id, "text", "Throw GM")
     else
         self.UI.setAttribute(id, "text", "Throw all")
+    end
+end
+
+function ShowHideSettingPanel()
+    local active = self.UI.getAttribute("settingPanel", "active")
+    self.UI.setAttribute("settingPanel", "active", active == "false" and "true" or "false")
+end
+
+function ChangeTableDices(_, input)
+    tableDices = {}
+    for w in input:gmatch("[^|]+") do
+        table.insert(tableDices, w)
+    end
+    UpdateSave()
+    diceThrow = #tableDices
+    self.UI.setAttribute("diceThrow", "text", tableDices[diceThrow])
+end
+
+function ChangeSaveButton(_, input)
+end
+
+function ChangeBonusButton(_, input)
+end
+
+function ChangeColor(_, input, id)
+    if(id:find("colorText")) then
+        self.UI.setAttribute("countThrow", "textColor", "#"..input)
+        self.UI.setAttribute("diceThrow", "textColor", "#"..input)
+    elseif(id:find("colorPanel")) then
+        self.UI.setAttribute("mainPanel", "color", "#"..input)
+    end
+end
+
+function ChangeMemory(arg)
+    local bChar = 0
+    if(arg.tTag and saveThrow[arg.tTag]) then
+        saveThrow[arg.tTag].BT[1] = saveThrow[arg.tChar].BT[1]
+        saveThrow[arg.tTag].BT[2] = arg.bonus
+    elseif(arg.tChar and saveThrow[arg.tChar]) then
+        saveThrow[arg.tChar].BT[1] = arg.bonus
+    end
+    UpdateSave()
+end
+
+function Overshoot(arg)
+    for i = 1, buttonSaveThrows do
+        if(self.UI.getAttribute("saveThrow"..i, "text") == arg.tTag) then
+            broadcastToAll("{en}"..arg.player.steam_name.." overshoot "..arg.tTag.."{ru}"..arg.player.steam_name.." перебросил "..arg.tTag, arg.player.color)
+            SaveThrow(arg.player, "-1", "saveThrow"..i)
+            return
+        end
     end
 end

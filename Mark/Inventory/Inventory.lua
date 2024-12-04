@@ -154,13 +154,6 @@ function onCollisionEnter(info)
                             if value.x == Round(point.position.x, 2) and value.z == Round(point.position.z, 2) then
                                 local arg = {tChar = tChar, bonus = CalculateBonus(index)}
                                 throw.call("ChangeMemory", arg)
-
-                                for t,c in pairs(pointSkills) do
-                                    if tChar == c then
-                                        local arg = {tTag = t, bonus = -1, tChar = c}
-                                        throw.call("ChangeMemory", arg)
-                                    end
-                                end
                                 return
                             end
                         end
@@ -236,7 +229,7 @@ function Overshoot(player, alt, id)
     self.UI.setAttribute(id, "text", alt == "-2" and current + 1 or current - 1)
     self.UI.setAttribute(id, "textColor", self.UI.getAttribute(id, "textColor"))
     if alt == "-2" or alt == "-3" then return end
-    local arg = {tTag = self.UI.getAttribute(id, "value"), playerColor = player.color}
+    local arg = {tTag = self.UI.getAttribute(id, "value"), player = player}
     throw.call("Overshoot", arg)
 end
 

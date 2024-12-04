@@ -9,30 +9,35 @@
 
     <Button class='buttonSave' text='---' onClick='SaveThrow' />
     <Button class='buttonBonus' text='0' onClick='ChangeBonusThrow' textAlignment='LowerRight' />
+    <InputField class='settingsInputField' textColor='#948773' fontStyle='Italic' />
 </Defaults>
 
-<Panel position='0 0 -6' height='694' width='810' image='uiBacground' scale='0.5' raycastTarget='false'>
+<Panel id='mainPanel' position='0 0 -6' height='694' width='810' image='uiBacground' scale='0.5' raycastTarget='false'>
+    <Button image='uiGear' color='#ffffff' width='50' height='50' offsetXY='375 375' visibility='Black' onClick='ShowHideSettingPanel' />
     <TableLayout cellSpacing='10'>
         <Row id='rowDiceThrow' preferredHeight='150'>
-            <Cell columnSpan='10'>
-                <Button id='countThrow' text='1' resizeTextMaxSize='120' onClick='ChangeCountThrow' tooltip='Count throw dice' tooltipPosition='Above' />
+            <Cell columnSpan='6'>
+                <Button id='countThrow' text='1' resizeTextMaxSize='120' onClick='ChangeCountThrow' textAlignment='MiddleRight'
+                    tooltip='Count throw dice' tooltipPosition='Above' />
             </Cell>
-            <Cell columnSpan='20'>
-                <Button id='diceThrow' text='100' resizeTextMaxSize='120' onClick='ChangeDiceThrow' tooltip='Dice will be throw' tooltipPosition='Above' />
+            <Cell columnSpan='8' />
+            <Cell columnSpan='16'>
+                <Button id='diceThrow' text='100' resizeTextMaxSize='120' onClick='ChangeDiceThrow'
+                    tooltip='Dice will be throw' tooltipPosition='Above' />
             </Cell>
         </Row>
         <Row id='rowSaveThrow'>
             <Cell columnSpan='1'/>
             <Cell columnSpan='24'>
                 <VerticalScrollView height='324'>
-                    <GridLayout height='324' cellSize='105 65'>
+                    <GridLayout id='saveButtons' height='324' cellSize='105 65'>
                         <!--Save buttons-->
                     </GridLayout>
                 </VerticalScrollView>
             </Cell>
             <Cell columnSpan='5'>
                 <VerticalScrollView height='324'>
-                    <GridLayout height='324' cellSize='100 65'>
+                    <GridLayout id='bonusButtons' height='324' cellSize='100 65'>
                         <!--Bonus buttons-->
                     </GridLayout>
                 </VerticalScrollView>
@@ -52,6 +57,32 @@
             </Cell>
             <Cell columnSpan='20'>
                 <Button text='Throw' resizeTextMaxSize='120' onClick='Throw' />
+            </Cell>
+        </Row>
+    </TableLayout>
+</Panel>
+<Panel id='settingPanel' position='0 230 -6' width='400' height='300' scale='0.5' visibility='Black' active='false'>
+    <TableLayout color='black'>
+        <Row>
+            <Cell columnSpan='2'>
+                <InputField id='tableDices' placeholder='4|6|20|100' onEndEdit='ChangeTableDices' class='settingsInputField'
+                    tooltip='Type dices. List in order by |' tooltipPosition='Above' />
+            </Cell>
+        </Row>
+        <Row>
+            <Cell columnSpan='1'>
+                <InputField id='SSB' placeholder='Count save buttons' onEndEdit='ChangeSaveButton' class='settingsInputField' characterValidation='Integer' />
+            </Cell>
+            <Cell columnSpan='1'>
+                <InputField id='SBB' placeholder='Count bonus buttons' onEndEdit='ChangeBonusButton' class='settingsInputField' characterValidation='Integer' />
+            </Cell>
+        </Row>
+        <Row>
+            <Cell columnSpan='1'>
+                <InputField id='colorText' placeholder='Color text' onEndEdit='ChangeColor' class='settingsInputField' characterValidation='Alphanumeric' characterLimit='6' />
+            </Cell>
+            <Cell columnSpan='1'>
+                <InputField id='colorPanel' placeholder='Color panel' onEndEdit='ChangeColor' class='settingsInputField' characterValidation='Alphanumeric' characterLimit='6' />
             </Cell>
         </Row>
     </TableLayout>
