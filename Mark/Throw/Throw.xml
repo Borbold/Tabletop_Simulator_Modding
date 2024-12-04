@@ -1,14 +1,14 @@
 <Defaults>
-    <Button font='Fonts/Hanzi' resizeTextForBestFit='True' resizeTextMaxSize='60' resizeTextMinSize='20'
+    <Button font='Fonts/Hanzi' resizeTextForBestFit='True' resizeTextMaxSize='60' resizeTextMinSize='10'
         tooltipFont='Fonts/Allods' tooltipFontSize='35' tooltipWidth='300' color='#ffffff00' />
-    <InputField textAlignment='MiddleCenter' font='Fonts/Hanzi' resizeTextForBestFit='True' resizeTextMaxSize='60' resizeTextMinSize='20'
+    <InputField textAlignment='MiddleCenter' font='Fonts/Hanzi' resizeTextForBestFit='True' resizeTextMaxSize='60' resizeTextMinSize='10'
         tooltipFont='Fonts/Allods' tooltipFontSize='35' tooltipWidth='300' color='#ffffff00' />
     <Cell dontUseTableCellBackground='true' />
     <VerticalScrollView color='#ffffff00' scrollbarBackgroundColor='#000000dd'
         verticalScrollbarVisibility='AutoHideAndExpandViewport' horizontalScrollbarVisibility='Permanent' />
 
     <Button class='buttonSave' text='---' onClick='SaveThrow' />
-    <Button class='buttonBonus' text='0' onClick='ChangeBonusThrow' />
+    <Button class='buttonBonus' text='0' onClick='ChangeBonusThrow' textAlignment='LowerRight' />
 </Defaults>
 
 <Panel position='0 0 -6' height='694' width='810' image='uiBacground' scale='0.5' raycastTarget='false'>
@@ -25,7 +25,7 @@
             <Cell columnSpan='1'/>
             <Cell columnSpan='24'>
                 <VerticalScrollView height='324'>
-                    <GridLayout height='324' cellSize='100 65'>
+                    <GridLayout height='324' cellSize='105 65'>
                         <!--Save buttons-->
                     </GridLayout>
                 </VerticalScrollView>
@@ -33,7 +33,7 @@
             <Cell columnSpan='5'>
                 <VerticalScrollView height='324'>
                     <GridLayout height='324' cellSize='100 65'>
-                        <!--Save buttons-->
+                        <!--Bonus buttons-->
                     </GridLayout>
                 </VerticalScrollView>
             </Cell>
