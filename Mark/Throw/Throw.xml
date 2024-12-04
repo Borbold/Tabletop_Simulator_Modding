@@ -2,15 +2,16 @@
     <Button font='Fonts/Hanzi' resizeTextForBestFit='True' resizeTextMaxSize='60' resizeTextMinSize='20'
         tooltipFont='Fonts/Allods' tooltipFontSize='35' tooltipWidth='300' color='#ffffff00' />
     <InputField textAlignment='MiddleCenter' font='Fonts/Hanzi' resizeTextForBestFit='True' resizeTextMaxSize='60' resizeTextMinSize='20'
-        tooltipFont='Fonts/Allods' tooltipFontSize='35' tooltipWidth='300' color='#948773' />
+        tooltipFont='Fonts/Allods' tooltipFontSize='35' tooltipWidth='300' color='#ffffff00' />
     <Cell dontUseTableCellBackground='true' />
     <VerticalScrollView color='#ffffff00' scrollbarBackgroundColor='#000000dd'
         verticalScrollbarVisibility='AutoHideAndExpandViewport' horizontalScrollbarVisibility='Permanent' />
 
     <Button class='buttonSave' text='---' onClick='SaveThrow' />
+    <Button class='buttonBonus' text='0' onClick='ChangeBonusThrow' />
 </Defaults>
 
-<Panel position='0 0 -6' height='694' width='810' image='uiBacground' scale='0.5'>
+<Panel position='0 0 -6' height='694' width='810' image='uiBacground' scale='0.5' raycastTarget='false'>
     <TableLayout cellSpacing='10'>
         <Row id='rowDiceThrow' preferredHeight='150'>
             <Cell columnSpan='10'>
@@ -24,23 +25,30 @@
             <Cell columnSpan='1'/>
             <Cell columnSpan='24'>
                 <VerticalScrollView height='324'>
-                    <GridLayout height='324' cellSize='100 60'>
+                    <GridLayout height='324' cellSize='100 65'>
                         <!--Save buttons-->
                     </GridLayout>
                 </VerticalScrollView>
             </Cell>
             <Cell columnSpan='5'>
-                <Button />
+                <VerticalScrollView height='324'>
+                    <GridLayout height='324' cellSize='100 65'>
+                        <!--Save buttons-->
+                    </GridLayout>
+                </VerticalScrollView>
             </Cell>
         </Row>
         <Row id='rowSettingThrow' preferredHeight='80'>
-            <Cell columnSpan='30'>
-                <Button text='test' />
+            <Cell columnSpan='25'>
+                <InputField id='nameSavedButton' text='' placeholder='Name save button' onEndEdit='ChangeInputField' />
+            </Cell>
+            <Cell columnSpan='5'>
+                <Button text='R' tooltip='Reset bonuses and count throws' tooltipPosition='Right' onClick='Reset' />
             </Cell>
         </Row>
         <Row id='rowThrow' preferredHeight='100'>
             <Cell columnSpan='10'>
-                <Button text='Throw all' resizeTextMaxSize='40' />
+                <Button id='whoThrow' text='Throw all' resizeTextMaxSize='40' onClick='ChangePermitThrow' />
             </Cell>
             <Cell columnSpan='20'>
                 <Button text='Throw' resizeTextMaxSize='120' onClick='Throw' />
