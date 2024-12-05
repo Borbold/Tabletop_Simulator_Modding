@@ -1,0 +1,7 @@
+<Defaults>
+    <Text resizeTextForBestFit='True' resizeTextMaxSize='60' resizeTextMinSize='10' color='White' />
+</Defaults>
+
+<Panel position='0 0 -6' width='420' height='350' rotation='0 0 90'>
+    <Text width='340' height='70' id='mTxt' offsetXY='30 130'>One World</Text>
+</Panel>

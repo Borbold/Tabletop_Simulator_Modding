@@ -7,7 +7,7 @@ function cbOff()  cb[1] = nil  local n = 2  while cb[n] do  cb[n-1] = cb[n]  n =
 
 function onLoad()
     r1, r2, r3 = 0, 0, 0
-    lnk, ss, prs, vbg, wbg, mtg = "", "", "", "", "", ""
+    lnk, ss, prs, vbg, wbg = "", "", "", "", ""
     sizePlate = 25
     zz, zz2, gh, r90, cbc, iu = 0, 0, 0.91, 0, 0, 1
     wpx, pxy, aBase, nl, ub, ef = nil, nil, nil, nil, nil, nil
@@ -110,7 +110,7 @@ function tieObjects()
     if not sBase then o.type = "Custom_Token"  o.position = {-9, -41, 9}  sBase = spawnObject(o)  sBase.setCustomObject(i)  end
     i.image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/cloud.png"  i.thickness = 0.5  i.merge_distance = 5  i.cast_shadows = false
     if not cBase then o.type = "Custom_Token"  o.position = {0, 85, 0}  cBase = spawnObject(o)  cBase.setCustomObject(i)  end
-    if not mTxt then o.type = "3DText"  o.position = {0, -3, 0}  o.scale = {0.1, 0.1, 0.1}  mTxt  = spawnObject(o)  end  cbOn({"goTime"})
+    cbOn({"goTime"})
 end
 
 function goTime()  if cbc < 3 then do return end  end  cbOff()  local f = nil
@@ -140,9 +140,6 @@ function goTime()  if cbc < 3 then do return end  end  cbOff()  local f = nil
     cBase.lock()  cBase.setScale({0, 0 ,0}) cBase.setPosition({0, 85, 0})
     cBase.setName("_OW_cBase")  cBase.interactable = false
   end
-  if not mTxt then  f = 6 else
-    mtg = mTxt.guid  mTxt.setName("_OW_mTxT")  mTxt.interactable = false
-  end
   if f then  cbOn({"goTime"}) do return end  else  setBtn()  setTxt()  end
 end
 
@@ -171,7 +168,6 @@ function tglEnable()
         vBase.setPosition({p[1]+3, p[2]+3, p[3]-1})  vBase.setPositionSmooth({p[1]+3, p[2]+2.5, p[3]-1})
         wBase.interactable = true  wBase.unlock()  wBase.setScale({0.5, 1, 0.5})
         wBase.setPosition({p[1]+3, p[2]+3, p[3]+1})  wBase.setPositionSmooth({p[1]+3, p[2]+2.5, p[3]+1})
-        mTxt.setPosition({77, 77, 77})  mTxt.TextTool.setValue("")  mTxt.setScale({0, 0, 0})
         wpx = nil  reStart()  setBtn()  do return  end
     end
     if tBag then clrSet() else noBase() end  setBtn()  setTxt()
@@ -209,9 +205,9 @@ function setBtn()
       if aBase and i < 12 then w = 0  h = 0 g = "" end
       if not aBase and i > 11 then w = 0  h = 0 g = "" end
       if i == 16 then
-        g = "Link"  local s = mTxt.TextTool.getValue()
+        g = "Link"  local s = self.UI.getValue("mTxt")
         if aBase then s = string.sub(aBase.getName(), 5) end
-        if ub and ba[-1] == ba[0] and s != mTxt.TextTool.getValue() then g = "unLink" end
+        if ub and ba[-1] == ba[0] and s != self.UI.getValue("mTxt") then g = "unLink" end
         if not aBase then g = "-" end
       end
       btn.label = g  btn.index = i  btn.width = w  btn.height = h  self.editButton(btn)
@@ -219,23 +215,18 @@ function setBtn()
   end
   btn.width = 0  btn.height = 0 btn.label = ""  btn.index = 9
   if aBase then
-    if aBase.getLuaScript() != "" and not pxy and string.sub(aBase.getName(), 5) == mTxt.TextTool.getValue() then
+    if aBase.getLuaScript() != "" and not pxy and string.sub(aBase.getName(), 5) == self.UI.getValue("mTxt") then
       btn.width = 400  btn.height = 180  if tBag then btn.label = "sync" else btn.label = "BUILD" end
     end
   end  self.editButton(btn)
 end
 
-function setTxt()
-  if not Global.getVar("oWisOn") then do return  end  end
-  mTxt = getObjectFromGUID(mtg)
-  local g = "One World"  if wBase.getDescription() != "" then g = string.sub(aBase.getName(), 5, sizePlate)  end  showTxt({g})
-end  function showTxt(a)  g = a[1]
-  if a[2] then mTxt.TextTool.setFontColor({0.3, 0.3, 0.3})
-    elseif wpx == nil or wpx == wBase.getDescription() then mTxt.TextTool.setFontColor({0.542, 0.176, 0.176})
-    else mTxt.TextTool.setFontColor({0.249, 0.344, 0.152})  end
-  local n = string.len(g)  if n < 6 then n = 6 end  n = 64-((n-6)*(24/20))  local x  = (n-40)*0.0204  local y = 0.7-(x*1.2)
-  mTxt.TextTool.setFontSize(n)  mTxt.TextTool.setValue(g)  mTxt.setScale({1+x, 1+y, 1})
-  local p = self.getPosition()  mTxt.setPosition({p[1]+(0.7*r2), p[2]+0.059, p[3]+(3.3*r2)})  mTxt.setRotation({90, (90*r2), 90})
+function setTxt(a)
+  local g = a ~= nil and a or "One World"
+  if wBase.getDescription() != "" then
+    g = string.sub(aBase.getName(), 5, sizePlate)
+  end
+  self.UI.setValue("mTxt", g)
 end
 
 function findBags()
@@ -303,7 +294,7 @@ function btnFit()  if isPVw() or not aBase or ef then do return end  end
   if tBag then broadcastToAll("Pack or Clear Zone before Edit.", {0.943, 0.745, 0.14})  do return end  end
   if r90 != 0 then  r90 = 0  vBase.setScale({sizePlate, 1, sizePlate})  wBase.setScale({1.85, 1, 1.85})  aBase.setScale({0.5, 1, 0.5})
   else  local x = vBase.getBoundsNormalized().size.x  local z = vBase.getBoundsNormalized().size.z
-    if z > x * 1.05 then  r90 = 1  x = 52 / x  z = 88 / z else  r90 = 2  x = 88 / x  z = 52 / z  end
+    if z > x * 1.05 then  r90 = 1  x = 102 / x  z = 173 / z else  r90 = 2  x = 173 / x  z = 102 / z  end
     if r90 == 2 and x == 1 and z == 1 then r90 = 0 end
     vBase.setScale({sizePlate*x, 1, sizePlate*z})  wBase.setScale({1.85*x, 1, 1.85*z})  aBase.setScale({18.09*x/36, 1, 18.09*z/36})
   end  jotBase()  stowBase()  noBase()  setBtn()  setTxt()  broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
@@ -501,8 +492,8 @@ function btnBack()
 end
 function mvPoint()
   if ba[-1] < 2 then ba[-1] = ba[0] end  if ba[-1] > ba[0] then ba[-1] = 2 end
-  local b = parceData({ba[ba[-1] ]})  showTxt({b, 1})  setBtn()
-  if aBase and ba[-1] == ba[0] then mTxt.TextTool.setFontColor({0.542, 0.176, 0.176}) end
+  local b = parceData({ba[ba[-1] ]})  setTxt(b)  setBtn()
+  if aBase and ba[-1] == ba[0] then self.UI.setAttribute("mTxt", "color", "#b15959") end
 end
 
 function rollBack(a)
@@ -515,7 +506,7 @@ end
 function btnLink()
   if isPVw() then do return end  end
   if not Global.getVar("oWisOn") or not aBase then do return  end  end
-  if ub and ba[-1] == ba[0] and string.sub(aBase.getName(), 5) != mTxt.TextTool.getValue() then
+  if ub and ba[-1] == ba[0] and string.sub(aBase.getName(), 5) != self.UI.getValue("mTxt") then
     local n = string.find(lnk, "@"..ub)
     while n do  lnk = string.sub(lnk, 1, n-5)..string.sub(lnk, n+8)  n = string.find(lnk, "@"..ub)  end
     nl = ub  ub = nil  setTxt()  setBtn()  jotBase()  wBase.call("setLinks")
@@ -530,8 +521,8 @@ function btnEdit()
   if not ef then
     btnHide()  ef = 1  local p = self.getPosition()
     broadcastToAll("Alter this Token: Name, Custom Art or Tint.", {0.943, 0.745, 0.14})
-    mTxt.TextTool.setFontColor({0.534, 0.486, 0.089})
-    mTxt.TextTool.setFontSize(65)  mTxt.TextTool.setValue("Exit Edit Mode")  mTxt.setScale({1, 1, 1.6})
+    self.UI.setAttribute("mTxt", "color", "#f1b531")
+    self.UI.setValue("mTxt", "Exit Edit Mode")
     aBase.interactable = true  aBase.unlock()  aBase.setRotation({0, 0, 0})  sclBase(aBase)
     aBase.setPosition({p[1], p[2]+3, p[3]+(4.7*r2)})  aBase.setPositionSmooth({p[1], p[2]+2.5, p[3]+(4.7*r2)})
   else
