@@ -14,31 +14,9 @@ function onLoad()
     cb, ba = {}, {}
     cbp, hb = "x", "<"
     mb = os.clock()
-    doButtons()
 end
 
-function doButtons()
-    local btn = {}  btn.function_owner = self
-    btn.click_function = "btnEnable"  btn.position = {1.88, 0, 2.01}  btn.width = 240  btn.height = 140  btn.font_size = 110
-      btn.label = "i"  btn.rotation = {0, 0, 0}  self.createButton(btn)
-    btn.click_function = "btnHide"  btn.position = {-1.62, -0.05, -1.95 }  btn.width = 200  btn.height = 120  btn.font_size = 100
-      btn.label = hb.."  ."  btn.tooltip = "Menu"  self.createButton(btn)
-    btn.click_function = "btnVert"  btn.position = {-1.64, -0.05, 1.81 }  btn.width = 250  btn.height = 100  btn.font_size = 120
-      btn.label = "..."  btn.rotation = {0, 90, 0}  btn.tooltip = ""  self.createButton(btn)
-    btn.click_function = "btnHorz"  btn.position = {-1.3, -0.05, 2.14}  btn.width = 250  btn.height = 100
-      btn.label = "..."  btn.rotation = {0, 0, 0}  self.createButton(btn)
-    btn.click_function = "btnFit"  btn.position = {-1.65, -0.05, 1.41}  btn.width = 120  btn.height = 130  btn.font_size = 100
-      btn.label = "" btn.rotation = {0, 0, 0}  btn.tooltip = "FitFrame"  self.createButton(btn)  -- "\ u {21b5}"  -- "\ u {2195}"
-    btn.click_function = "btnProxy"  btn.position = {-0.9, -0.05, 2.14}  btn.width = 120  btn.height = 130  btn.font_size = 120
-      btn.label = ""  btn.rotation = {0, 180, 0}    btn.tooltip = "Parent" self.createButton(btn)  btn.label = ""
-    btn.click_function = "btnHome"  btn.position = {1.44, -0.05, -1.78}  btn.width = 165  btn.height = 320
-      btn.tooltip = "Next"  self.createButton(btn)
-    btn.click_function = "btnBack"  btn.position = {1.14, -0.05, -1.78}  btn.width = 165  btn.height = 320
-      btn.tooltip = "Last"  self.createButton(btn)
-    btn.click_function = "btnSelect"  btn.position = {1.29, -0.05, 0}  btn.width = 300  btn.height = 1000
-      btn.tooltip = ""  self.createButton(btn)
-    btn.click_function = "btnBuild"  btn.position = {1.82, 0, -1.72}  btn.width = 0  btn.height = 0  btn.font_size = 100
-      btn.label = ""  btn.rotation = {0, 90, 0}  self.createButton(btn)
+function EditMenu()
 end
 
 function btnHide()
@@ -54,7 +32,7 @@ function btnHide()
     btn.click_function = "btnLink"  btn.position = {-2.15, 0, w-n*i}  self.createButton(btn)  n = n+1
     btn.click_function = "btnPack"  btn.position = {-2.15, 0, w-n*i}  self.createButton(btn)  cbOn({"hldBtn"})
   else hb = "<"  local i
-    for i = 10, 17 do  self.removeButton(i)  end
+    for i = 9, 16 do  self.removeButton(i)  end
   end
   local b = {}  b.index = 1  b.label = hb.."  ."  self.editButton(b)
 end  function hldBtn()  if cbc < 20 then do return end  end  cbOff()  setBtn()  end
@@ -193,32 +171,43 @@ function setBtn()
   local i  local btn = {}  local g = "LOCK"  btn.font_size = 65
   if Global.getVar("oWisOn") then btn.font_size = 80
     if wBase.getDescription() != "" then g = "CLR" else g = "END" end
-  end  btn.index = 0  btn.label = g  self.editButton(btn)
-  btn.index = 4  btn.label = ""  btn.font_size = 100  btn.tooltip = "Reset"
+  end
+  self.UI.setAttribute("b1", "text", g)
+
+  btn.tooltip = "Reset"
   if r90 == 1 then btn.label = "↵".." ." elseif r90 == 2 then btn.label = "↕".." ." else btn.tooltip = "FitFrame" end
-  self.editButton(btn)  btn.index = 5  btn.label = ""  btn.font_size = 120
-  if wpx or pxy then btn.label = "*" end  btn.tooltip = "Parent"  self.editButton(btn)  btn.tooltip = ""
+  self.UI.setAttribute("b5", "text", btn.label)
+  self.UI.setAttribute("b5", "tooltip", btn.tooltip)
+  
+  btn.index = 5  btn.label = ""  btn.font_size = 120
+  if wpx or pxy then btn.label = "*" end
+  self.UI.setAttribute("b6", "text", btn.label)
+  self.UI.setAttribute("b6", "tooltip", "Parent")
+
+  --[[btn.tooltip = ""
   if hb == ">" then  btn.font_size = 100
     local s = "New,SeeAll,Export,Delete,Copy,Edit,Link,Pack,"
-    for i = 10, 17 do  local w = 500  local h = 170
+    for i = 9, 16 do  local w = 500  local h = 170
       local n = string.find(s, ",")  g = string.sub(s, 1, n-1)  s = string.sub(s, n+1)
       if aBase and i < 12 then w = 0  h = 0 g = "" end
       if not aBase and i > 11 then w = 0  h = 0 g = "" end
       if i == 16 then
-        g = "Link"  local s = self.UI.getValue("mTxt")
+        g = "Link"  local s = self.UI.getAttribute("mTxt", "text")
         if aBase then s = string.sub(aBase.getName(), 5) end
-        if ub and ba[-1] == ba[0] and s != self.UI.getValue("mTxt") then g = "unLink" end
+        if ub and ba[-1] == ba[0] and s != self.UI.getAttribute("mTxt", "text") then g = "unLink" end
         if not aBase then g = "-" end
       end
-      btn.label = g  btn.index = i  btn.width = w  btn.height = h  self.editButton(btn)
+      btn.label = g  btn.index = i  btn.width = w  btn.height = h  self.UI.setAttribute("b"..btn.index)
+    end
+  end]]
+
+  self.UI.setAttribute("b9", "active", false)
+  if aBase then
+    if aBase.getLuaScript() != "" and not pxy and string.sub(aBase.getName(), 5) == self.UI.getAttribute("mTxt", "text") then
+      self.UI.setAttribute("b9", "active", true) if tBag then btn.label = "sync" else btn.label = "BUILD" end
     end
   end
-  btn.width = 0  btn.height = 0 btn.label = ""  btn.index = 9
-  if aBase then
-    if aBase.getLuaScript() != "" and not pxy and string.sub(aBase.getName(), 5) == self.UI.getValue("mTxt") then
-      btn.width = 400  btn.height = 180  if tBag then btn.label = "sync" else btn.label = "BUILD" end
-    end
-  end  self.editButton(btn)
+  self.UI.setAttribute("b9", "text", btn.label)
 end
 
 function setTxt(a)
@@ -226,7 +215,8 @@ function setTxt(a)
   if wBase.getDescription() != "" then
     g = string.sub(aBase.getName(), 5, sizePlate)
   end
-  self.UI.setValue("mTxt", g)
+  self.UI.setAttribute("mTxt", "text", g)
+  self.UI.setAttribute("mTxt", "textColor", "White")
 end
 
 function findBags()
@@ -430,7 +420,7 @@ end
 function cbGetBase(a)
     local locPos = self.getPosition()
     a.setPosition({locPos.x, locPos.y - 0.5, locPos.z})  a.lock()  a.interactable = false aBase = a
-    wBase.setDescription(a.guid)  local p = self.getPosition()  wBase.setPosition({p[1], p[2]+0.005, p[3]-(0.77*r2)})
+    wBase.setDescription(a.guid)  local p = self.getPosition()  wBase.setPosition({p[1], p[2]+0.05, p[3]+(0.77*r2)})
     rotBase()  setTxt()  setBtn()  rollBack({a.guid})  local v = {}
     if wpx and wpx != wBase.getDescription() then  v.image = aBase.getCustomObject().image  vBase.setPosition({0, gh, 0})
     else  local n = sizePlate/1.85  local x = a.getScale().x  local z = a.getScale().z
@@ -493,7 +483,7 @@ end
 function mvPoint()
   if ba[-1] < 2 then ba[-1] = ba[0] end  if ba[-1] > ba[0] then ba[-1] = 2 end
   local b = parceData({ba[ba[-1] ]})  setTxt(b)  setBtn()
-  if aBase and ba[-1] == ba[0] then self.UI.setAttribute("mTxt", "color", "#b15959") end
+  if aBase and ba[-1] == ba[0] then self.UI.setAttribute("mTxt", "textColor", "#b15959") end
 end
 
 function rollBack(a)
@@ -506,7 +496,7 @@ end
 function btnLink()
   if isPVw() then do return end  end
   if not Global.getVar("oWisOn") or not aBase then do return  end  end
-  if ub and ba[-1] == ba[0] and string.sub(aBase.getName(), 5) != self.UI.getValue("mTxt") then
+  if ub and ba[-1] == ba[0] and string.sub(aBase.getName(), 5) != self.UI.getAttribute("mTxt", "text") then
     local n = string.find(lnk, "@"..ub)
     while n do  lnk = string.sub(lnk, 1, n-5)..string.sub(lnk, n+8)  n = string.find(lnk, "@"..ub)  end
     nl = ub  ub = nil  setTxt()  setBtn()  jotBase()  wBase.call("setLinks")
@@ -521,8 +511,8 @@ function btnEdit()
   if not ef then
     btnHide()  ef = 1  local p = self.getPosition()
     broadcastToAll("Alter this Token: Name, Custom Art or Tint.", {0.943, 0.745, 0.14})
-    self.UI.setAttribute("mTxt", "color", "#f1b531")
-    self.UI.setValue("mTxt", "Exit Edit Mode")
+    self.UI.setAttribute("mTxt", "textColor", "#f1b531")
+    self.UI.setAttribute("mTxt", "text", "Exit Edit Mode")
     aBase.interactable = true  aBase.unlock()  aBase.setRotation({0, 0, 0})  sclBase(aBase)
     aBase.setPosition({p[1], p[2]+3, p[3]+(4.7*r2)})  aBase.setPositionSmooth({p[1], p[2]+2.5, p[3]+(4.7*r2)})
   else
