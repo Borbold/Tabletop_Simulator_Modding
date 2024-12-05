@@ -14,8 +14,6 @@ function UpdateSave()
 end
 
 function onLoad(savedData)
-    osTime = os.time()
-    
     saveThrow, bonusThrow = {}, {}
     countThrow, tableDices = 1, {4, 6, 20, 100}
     buttonSaveThrows = 30
@@ -88,18 +86,19 @@ function Throw(player, _, _, nameSaveButton)
     local colorBrackes = "["..hexColor[player.color].."]---[-]"
     local nameThrow = nameSaveButton ~= nil and ": "..nameSaveButton..colorBrackes or colorBrackes
     printToAll(colorBrackes..player.steam_name..nameThrow)
+    local totalAmount = 0
     for i = 1, countThrow do
-        if(math.floor(osTime) ~= math.floor(os.time())) then
-            PrintThrow(i)
-        else
-            Wait.time(|| PrintThrow(i), 1 + (i - (countThrow > 1 and 2 or 1)))
+        totalAmount = totalAmount + PrintThrow(i)
+        if(i ~= countThrow) then
+            printToAll(colorBrackes.."---"..colorBrackes)
         end
     end
-    osTime = os.time()
+    if(countThrow > 1) then
+        printToAll(colorBrackes.."Total amount: "..totalAmount..colorBrackes)
+    end
 end
 
 function PrintThrow(numberThrow)
-    math.randomseed(os.time())
     local naturalThrow = math.random(1, tableDices[diceThrow])
     local resText = {}
     table.insert(resText, countThrow == 1 and ("Throw: "..naturalThrow) or ("Throw "..numberThrow..": "..naturalThrow))
@@ -125,6 +124,7 @@ function PrintThrow(numberThrow)
             printToAll(resText[i])
         end
     end
+    return (naturalThrow + sumBonus)
 end
 
 function CreateButtonSaveThrows()

@@ -131,27 +131,22 @@ function onCollisionEnter(info)
     local obj = info.collision_object
     local locPos = self.positionToLocal(obj.getPosition())
     if locPos.y > 0 then
-        ChangeScaleObject(obj, locPos, {0.24, 0.1, 0.24}, pointBackpack)
-        ChangeScaleObject(obj, locPos, {0.4, 0.1, 0.4}, pointBelt)
-        ChangeScaleObject(obj, locPos, {0.28, 0.1, 0.28}, pointWearables)
+        if(ChangeScaleObject(obj, locPos, {0.24, 0.1, 0.24}, pointBackpack)) then return end
+        if(ChangeScaleObject(obj, locPos, {0.4, 0.1, 0.4}, pointBelt)) then return end
+        if(ChangeScaleObject(obj, locPos, {0.28, 0.1, 0.28}, pointWearables)) then return end
 
         local lTag = obj.getTags()[1]
         if lTag ~= nil then --Skills
             ChangeCountOvershoot(obj, locPos)
-            local locStateId = obj.getStateId()
-            for t,c in pairs(pointSkills) do
-                if lTag == t then
-                    local arg = {tTag = lTag, bonus = CalculateBonus(5 + locStateId), tChar = c}
-                    throw.call("ChangeMemory", arg)
-                    return
-                end
-            end
+            local bonusSkill = CalculateBonus(5 + obj.getStateId())
+            local arg = {tTag = lTag, bonus = bonusSkill, tChar = pointSkills[lTag]}
+            throw.call("ChangeMemory", arg)
         else --Characteristics
             for _,point in ipairs(snaps) do
                 if CheckPos(locPos, point.position) then
                     for tChar,values in pairs(pointsPos) do
                         for index,value in ipairs(values) do
-                            if value.x == Round(point.position.x, 2) and value.z == Round(point.position.z, 2) then
+                            if CheckPos(value, point.position) then
                                 local arg = {tChar = tChar, bonus = CalculateBonus(index)}
                                 throw.call("ChangeMemory", arg)
                                 return
@@ -167,10 +162,10 @@ end
 function ChangeScaleObject(obj, locPos, scale, snapPos)
     for _,point in ipairs(snaps) do
         if CheckPos(locPos, point.position) then
-            --print(Round(point.position.x, 2), " ", Round(point.position.z, 2))
             for i,p in ipairs(snapPos) do
                 if p.x == Round(point.position.x, 2) and p.z == Round(point.position.z, 2) then
                     obj.setScale(scale)
+                    return true
                 end
             end
         end
