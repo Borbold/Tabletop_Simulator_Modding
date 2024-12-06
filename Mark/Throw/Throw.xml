@@ -1,14 +1,14 @@
 <Defaults>
-    <Button font='Fonts/Hanzi' resizeTextForBestFit='True' resizeTextMaxSize='60' resizeTextMinSize='10'
+    <Button font='Fonts/Allods' fontStyle='Bold' resizeTextForBestFit='True' resizeTextMaxSize='60' resizeTextMinSize='10'
         tooltipFont='Fonts/Allods' tooltipFontSize='35' tooltipWidth='300' color='#ffffff00' />
-    <InputField textAlignment='MiddleCenter' font='Fonts/Hanzi' resizeTextForBestFit='True' resizeTextMaxSize='60' resizeTextMinSize='10'
+    <InputField font='Fonts/Allods' fontStyle='Bold' resizeTextForBestFit='True' resizeTextMaxSize='60' resizeTextMinSize='10' textAlignment='MiddleCenter'
         tooltipFont='Fonts/Allods' tooltipFontSize='35' tooltipWidth='300' color='#ffffff00' />
     <Cell dontUseTableCellBackground='true' />
     <VerticalScrollView color='#ffffff00' scrollbarBackgroundColor='#000000dd'
         verticalScrollbarVisibility='AutoHideAndExpandViewport' horizontalScrollbarVisibility='Permanent' />
 
     <Button class='buttonSave' text='---' onClick='SaveThrow' />
-    <Button class='buttonBonus' text='0' onClick='ChangeBonusThrow' textAlignment='LowerRight' />
+    <InputField class='inputBonus' text='0' onEndEdit='ChangeBonusThrow' onValueChanged='ChangeLongText' textAlignment='LowerRight' characterValidation='Integer' characterLimit='3' />
     <InputField class='settingsInputField' textColor='#948773' fontStyle='Italic' />
 </Defaults>
 
@@ -18,12 +18,12 @@
         <Row id='rowDiceThrow' preferredHeight='150'>
             <Cell columnSpan='6'>
                 <Button id='countThrow' text='1' resizeTextMaxSize='120' onClick='ChangeCountThrow' textAlignment='MiddleRight'
-                    tooltip='Count throw dice' tooltipPosition='Above' />
+                    tooltipOffset='0' tooltip='Count throw dice' tooltipPosition='Above' />
             </Cell>
             <Cell columnSpan='8' />
             <Cell columnSpan='16'>
                 <Button id='diceThrow' text='100' resizeTextMaxSize='120' onClick='ChangeDiceThrow'
-                    tooltip='Dice will be throw' tooltipPosition='Above' />
+                    tooltipOffset='0' tooltip='Dice will be throw' tooltipPosition='Above' />
             </Cell>
         </Row>
         <Row id='rowSaveThrow'>
@@ -45,15 +45,17 @@
         </Row>
         <Row id='rowSettingThrow' preferredHeight='80'>
             <Cell columnSpan='25'>
-                <InputField id='nameSavedButton' text='' placeholder='Name save button' onEndEdit='ChangeInputField' />
+                <InputField id='nameSavedButton' text='' placeholder='Name save button' onEndEdit='ChangeInputField'
+                    tooltipPosition='Left' tooltip='Type in the name of the button. Click on any "---". To delete press right mous click' tooltipOffset='-150' />
             </Cell>
             <Cell columnSpan='5'>
-                <Button text='R' tooltip='Reset bonuses and count throws' tooltipPosition='Right' onClick='Reset' />
+                <Button text='R' tooltipOffset='0' tooltip='Reset bonuses and count throws' tooltipPosition='Right' onClick='Reset' />
             </Cell>
         </Row>
         <Row id='rowThrow' preferredHeight='100'>
             <Cell columnSpan='10'>
-                <Button id='whoThrow' text='Throw all' resizeTextMaxSize='40' onClick='ChangePermitThrow' />
+                <Button id='howThrow' text='Throw all' resizeTextMaxSize='40' onClick='ChangePermitThrow'
+                    tooltipPosition='Below' tooltipOffset='0' tooltip='Anybody can throw it | Throw it to the GM | Only the GM can throw it' />
             </Cell>
             <Cell columnSpan='20'>
                 <Button text='Throw' resizeTextMaxSize='120' onClick='Throw' />
@@ -66,7 +68,7 @@
         <Row>
             <Cell columnSpan='2'>
                 <InputField id='tableDices' placeholder='4|6|20|100' onEndEdit='ChangeTableDices' class='settingsInputField'
-                    tooltip='Type dices. List in order by |' tooltipPosition='Above' />
+                    tooltipOffset='0' tooltip='Type dices. List in order by |' tooltipPosition='Above' />
             </Cell>
         </Row>
         <Row>

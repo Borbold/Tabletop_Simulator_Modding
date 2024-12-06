@@ -33,9 +33,9 @@ function onLoad(savedData)
     self.UI.setAttribute("diceThrow", "text", tableDices[diceThrow])
 end
 
-function ChangeBonusThrow(_, alt, id)
+function ChangeBonusThrow(_, input, id)
     local locId = tonumber(id:gsub("%D", ""), 10)
-    bonusThrow[locId] = bonusThrow[locId] + (alt == "-1" and 1 or -1)
+    bonusThrow[locId] = tonumber(input)
     self.UI.setAttribute(id, "text", bonusThrow[locId])
 end
 
@@ -80,21 +80,21 @@ function SaveThrow(player, alt, id)
 end
 
 function Throw(player, _, _, nameSaveButton)
-    if(self.UI.getAttribute("whoThrow", "text") == "Throw GM" and player.color ~= "Black") then return end
+    local howThrow = self.UI.getAttribute("howThrow", "text")
+    if(howThrow == "Throw GM" and player.color ~= "Black") then return end
 
-    Wait.stopAll()
     local colorBrackes = "["..hexColor[player.color].."]---[-]"
     local nameThrow = nameSaveButton ~= nil and ": "..nameSaveButton..colorBrackes or colorBrackes
-    printToAll(colorBrackes..player.steam_name..nameThrow)
+    ForWhoPrintThrow(howThrow, colorBrackes..player.steam_name..nameThrow, player.color)
     local totalAmount = 0
     for i = 1, countThrow do
         totalAmount = totalAmount + PrintThrow(i)
         if(i ~= countThrow) then
-            printToAll(colorBrackes.."---"..colorBrackes)
+            ForWhoPrintThrow(howThrow, colorBrackes.."---"..colorBrackes, player.color)
         end
     end
     if(countThrow > 1) then
-        printToAll(colorBrackes.."Total amount: "..totalAmount..colorBrackes)
+        ForWhoPrintThrow(howThrow, colorBrackes.."Total amount: "..totalAmount..colorBrackes, player.color)
     end
 end
 
@@ -115,7 +115,7 @@ function PrintThrow(numberThrow)
         table.insert(resText, "Equals throw: "..(naturalThrow + sumBonus))
     end
 
-    if(self.UI.getAttribute("whoThrow", "text") == "Throw GM") then
+    if(self.UI.getAttribute("howThrow", "text") == "Throw GM") then
         for i = 1, #resText do
             printToColor(resText[i], "Black")
         end
@@ -125,6 +125,17 @@ function PrintThrow(numberThrow)
         end
     end
     return (naturalThrow + sumBonus)
+end
+
+function ForWhoPrintThrow(howThrow, text, platerColor)
+    if(howThrow == "Throw close") then
+        printToColor(text, platerColor)
+        if(Player["Black"].steam_name) then
+            printToColor(text, "Black")
+        end
+    else
+        printToAll(text)
+    end
 end
 
 function CreateButtonSaveThrows()
@@ -153,10 +164,10 @@ function CreateButtonBonusThrows()
     for i = 1, buttonBonusThrows do
         table.insert(bonusThrow, 0)
         local bonusButton = {
-            tag = "Button",
+            tag = "InputField",
             attributes = {
               id = "bonusThrow"..i,
-              class = "buttonBonus"
+              class = "inputBonus"
             }
         }
         table.insert(bonusButtons, bonusButton)
@@ -181,8 +192,10 @@ end
 function ChangePermitThrow(_, _, id)
     local t = self.UI.getAttribute(id, "text")
     if(t == "Throw all") then
+        self.UI.setAttribute(id, "text", "Throw close")
+    elseif(t == "Throw close") then
         self.UI.setAttribute(id, "text", "Throw GM")
-    else
+    elseif(t == "Throw GM") then
         self.UI.setAttribute(id, "text", "Throw all")
     end
 end
@@ -236,4 +249,13 @@ function Overshoot(arg)
             return
         end
     end
+end
+
+function ChangeLongText(_, input, id)
+    if(#input > 2) then
+        self.UI.setAttribute(id, "resizeTextMaxSize", 35)
+    else
+        self.UI.setAttribute(id, "resizeTextMaxSize", 60)
+    end
+    self.UI.setAttribute(id, "text", input)
 end
