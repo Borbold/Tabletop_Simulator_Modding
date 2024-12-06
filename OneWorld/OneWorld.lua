@@ -29,36 +29,15 @@ end
 function iUnit()
   Global.setVar("oW4TTale", self.guid)
   if not findBags() then return false end
-  if string.sub(cbp, 1, 1) != "x" then  udShow()  return false  end
-  upGrade()  local p = aBag.getPosition()
-  if p[2] < -10 then Global.setVar("oWisOn", true) else Global.setVar("oWisOn", false) end
+  if string.sub(cbp, 1, 1) != "x" then  udShow() return false  end
+  local p = aBag.getPosition()
+  if p[2] < -10 then
+    Global.setVar("oWisOn", true) else Global.setVar("oWisOn", false)
+  end
   broadcastToAll("(LOCK or continue from save)", {0.7, 0.7, 0.7})
   broadcastToAll("Initializing ONE WORLD...", {0.943, 0.745, 0.14})
-  iu = nil  return true
-end
-
-function upGrade()
-  local s = aBag.getLuaScript()  if s == "" then do return end  end
-  local n, i  local m = 1  local k = string.char(44)  local e = string.char(10)  local t  local g = ""
-  -- Add ParentView
-  for i = 1, 4 do  n = string.find(s, k, m)  m = n+1  end
-  if string.sub(s, n+2, n+2) != k then  n = string.find(s, e)
-    while string.len(s) > 6 do
-      t = string.sub(s, 1, n)  s = string.sub(s, n+1)  m = 1
-      for i = 1, 4 do  n = string.find(t, k, m)  m = n+1  end
-      t = string.sub(t, 1, n).."1"..k..string.sub(t, n+1)  g = g..t  n = string.find(s, e)
-    end  aBag.setLuaScript(g..s)
-  end  m = 1  g = ""
-  -- Add Portait 90
-  for i = 1, 5 do  n = string.find(s, k, m)  m = n+1  end
-  if string.sub(s, n+2, n+2) != k then  n = string.find(s, e)
-    while string.len(s) > 6 do
-      t = string.sub(s, 1, n)  s = string.sub(s, n+1)  m = 1
-      for i = 1, 5 do  n = string.find(t, k, m)  m = n+1  end
-      t = string.sub(t, 1, n).."0"..k..string.sub(t, n+1)  g = g..t  n = string.find(s, e)
-    end  aBag.setLuaScript(g..s)
-  end  g = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/1world_18.png"
-  if self.getCustomObject().image != g then  local c = {}  c.image = g  self.setCustomObject(c)  self.reload()  end
+  iu = nil
+  return true
 end
 
 function tieObjects()
@@ -66,15 +45,13 @@ function tieObjects()
     while g do
         if g.getDescription() == "_OW_tBaG" then if tBag then g.destruct() else  tBag = g  tBag.interactable = false  end  end
         if g.getName() == "_OW_xBaG" then if xBag then g.destruct() else xBag = g end  end
-        if g.getName() == "_OW_sBase" then if sBase then g.destruct() else sBase = g end  end
         if g.getName() == "_OW_cBase" then if cBase then g.destruct() else cBase = g end  end
         if g.getName() == "_OW_vBase" then if vBase then g.destruct() else vBase = g end  end
         if g.getName() == "_OW_mTxT" then g.destruct() end
         n = n+1  g = aoj[n]
     end  reStart()
-    i.image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/table_wood.jpg"  i.thickness = 0.1
+    i.image = self.UI.getCustomAssets()[4].url  i.thickness = 0.1
     if not vBase then o.type = "Custom_Token"  o.position = {-9, -39, 9}  vBase = spawnObject(o)  vBase.setCustomObject(i)  end
-    if not sBase then o.type = "Custom_Token"  o.position = {-9, -41, 9}  sBase = spawnObject(o)  sBase.setCustomObject(i)  end
     i.image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/cloud.png"  i.thickness = 0.5  i.merge_distance = 5  i.cast_shadows = false
     if not cBase then o.type = "Custom_Token"  o.position = {0, 85, 0}  cBase = spawnObject(o)  cBase.setCustomObject(i)  end
     cbOn({"goTime"})
@@ -99,10 +76,6 @@ function goTime()  if cbc < 3 then do return end  end  cbOff()  local f = nil
     end  end
     if Global.getVar("oWisOn") then wBase.interactable = false end
   end
-  if not sBase then f = 4 else
-    sBase.lock()  sBase.setScale({0, 0 ,0}) sBase.setPosition({-9, -39, 9})
-    sBase.setName("_OW_sBase")  sBase.interactable = false
-  end
   if not cBase then f = 5 else
     cBase.lock()  cBase.setScale({0, 0 ,0}) cBase.setPosition({0, 85, 0})
     cBase.setName("_OW_cBase")  cBase.interactable = false
@@ -111,7 +84,17 @@ function goTime()  if cbc < 3 then do return end  end  cbOff()  local f = nil
 end
 
 function btnEnable()  if os.clock()-mb < 1.1 then broadcastToAll("working...", {0.943, 0.745, 0.14})  do return end  else  chkIUnit()  end  end
-function chkIUnit()  if iu then  if iUnit() then mb = os.clock()  cbp = nil  tieObjects() end  else tglEnable() end  end
+function chkIUnit()
+  if iu then
+    if iUnit() then
+      mb = os.clock()
+      cbp = nil
+      tieObjects()
+    end
+  else
+    tglEnable()
+  end
+end
 function tglEnable()
     if ef then btnEdit()  do return end  end
     if not findBags() then do return end  end
@@ -252,8 +235,7 @@ function cbTObj()
       if vBase.getCustomObject().image == aBase.getCustomObject().image then  vBase.setColorTint(aBase.getColorTint())  f = f+1  end
       if wBase.getCustomObject().image == aBase.getCustomObject().image then  wBase.setColorTint(aBase.getColorTint())  f = f+2  end
     end
-    if f == 0 or f == 2 then vBase.setColorTint(sBase.getColorTint()) end  if f < 2 then wBase.setColorTint(sBase.getColorTint()) end
-    gh = 0.91  if vBase.getCustomObject().image == sBase.getCustomObject().image then gh = -0.91 end
+    gh = 0.91  if vBase.getCustomObject().image == self.UI.getCustomAssets()[4].url then gh = -0.91 end
     if wpx == nil or wpx == wBase.getDescription() then wBase.call("setLinks") end
     if nl then wBase.call("makeLink") end  self.setRotation({0, (2-r2)*90, 0})  rotBase()
 end
@@ -294,7 +276,7 @@ function btnProxy()
       setTxt()  wBase.setCustomObject(v)  wBase.reload()  cbOn({"cbTObj"})
     else
       if tBag then  broadcastToAll("Pack or Clear Zone to Enter Parent View.", {0.943, 0.745, 0.14})  do return end  end
-      pxy = 8  f = 1  v.image = sBase.getCustomObject().image  vBase.setPosition({0, -0.91, 0})
+      pxy = 8  f = 1  v.image = aBase.getCustomObject().image  vBase.setPosition({0, -0.91, 0})
       wpx = wBase.getDescription()  g = "Entering Parent View..."
     end
   end
@@ -367,7 +349,7 @@ end  function oldBase(a)  a.destruct()  end
 
 function noBase()
   r1 = 0  r3 = 0  r90 = 0  rotBase()  wBase.setDescription("")  aBase = nil  lnk = ""
-  wBase.setScale({1.85, 1, 1.85})  vBase.setScale({sizePlate, 1, sizePlate})  local c = {}  c.image = sBase.getCustomObject().image
+  wBase.setScale({1.85, 1, 1.85})  vBase.setScale({sizePlate, 1, sizePlate})  local c = {}  c.image = self.UI.getCustomAssets()[4].url
   vBase.setCustomObject(c)  vBase.reload()  wBase.setCustomObject(c)  wBase.reload()  wpx = nil  pxy = nil  cbOn({"cbTObj"})
 end
 
@@ -409,7 +391,7 @@ function cbGetBase(a)
     else  local n = sizePlate/1.85  local x = a.getScale().x  local z = a.getScale().z
       if x == z then x = sizePlate  z = sizePlate  else  x = x * 36  z = z * 36  end  wBase.setScale({x/n, 1, z/n})
       local w = {}  w.image = aBase.getCustomObject().image  wBase.setCustomObject(w)  wBase.reload()
-      if pxy then v.image = sBase.getCustomObject().image  vBase.setPosition({0, -0.91, 0})  vBase.setScale({sizePlate, 1, sizePlate})
+      if pxy then v.image = aBase.getCustomObject().image  vBase.setPosition({0, -0.91, 0})  vBase.setScale({sizePlate, 1, sizePlate})
       else  vBase.setScale({x, 1, z})  v.image = aBase.getCustomObject().image  vBase.setPosition({0, gh, 0})  end
     end
     vBase.setCustomObject(v)  vBase.reload()  cbOn({"cbTObj"})
