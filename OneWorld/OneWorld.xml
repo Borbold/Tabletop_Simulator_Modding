@@ -1,25 +1,71 @@
 <Defaults>
-    <Button resizeTextForBestFit='True' resizeTextMaxSize='120' resizeTextMinSize='10'
-        textColor='#ffffff' color='#ffffff00' textAlignment='MiddleCenter'
-        tooltipFontSize='20' tooltipPosition='Above' />
+    <Button font='Fonts/Allods' resizeTextForBestFit='True' resizeTextMaxSize='120' resizeTextMinSize='10'
+        textColor='#ffffff' color='#ffffff00' textAlignment='MiddleCenter' fontStyle='Bold'
+        tooltipFont='Fonts/Allods' tooltipFontSize='20' tooltipPosition='Above' />
+    <Cell dontUseTableCellBackground='true' />
     
     <Button class='workButton' textColor='Black' color='White' image='uiBackButton' />
+    <Button class='editMenuButton' textColor='Black' color='White' image='uiBackButton' resizeTextMaxSize='80' />
 </Defaults>
 
 <Panel position='0 0 -6' width='652' height='860' scale='0.5' image='uiBackground' raycastTarget='false'>
     <Button id='b1' class='workButton' width='80' height='50' offsetXY='370 -400' text='i' onClick='btnEnable' />
 
-    <Button id='b2' class='workButton' width='80' height='50' offsetXY='-370 400' text='←' onClick='EditMenu' tooltip='Menu' />
+    <Button id='b2' class='workButton' width='80' height='50' offsetXY='-370 400' text='←' onClick='EditMenu' tooltip='Menu' active='false' />
 
     <Button id='b3' class='workButton' width='80' height='50' offsetXY='-260 -455' text='...' onClick='btnVert' />
     <Button id='b4' class='workButton' width='80' height='50' offsetXY='-350 -360' rotation='0 0 270' text='...' onClick='btnHorz' />
 
     <Button id='b5' class='workButton' width='40' height='40' offsetXY='-180 -445' onClick='btnFit' />
-    <Button id='b6' class='workButton' width='40' height='40' offsetXY='-340 -280' rotation='0 0 270' onClick='btnProxy' />
+    <Button id='b6' class='workButton' width='40' height='40' offsetXY='-340 -280' rotation='0 0 270' onClick='btnProxy' tooltipPosition='Left' />
 
     <Button id='b7' class='workButton' width='50' height='80' offsetXY='280 360' onClick='btnHome' tooltip='Next' color='#ffffff00' />
     <Button id='b8' class='workButton' width='50' height='80' offsetXY='220 360' onClick='btnBack' tooltip='Last' color='#ffffff00' />
 
     <Button id='b9' class='workButton' width='120' height='80' offsetXY='390 400' onClick='btnBuild' active='false' />
+
     <Button id='mTxt' width='680' height='140' offsetXY='260 -60' rotation='0 0 -90' text='One World' onClick='btnSelect' />
+    
+    <TableLayout id='editMenuPanel' width='300' height='850' offsetXY='-570 0' active='false'>
+        <Row>
+            <Cell>
+                <Button id='EMP1' class='editMenuButton' text='Link' onClick='btnLink' />
+            </Cell>
+        </Row>
+        <Row>
+            <Cell>
+                <Button id='EMP2' class='editMenuButton' text='Pack' onClick='btnPack' />
+            </Cell>
+        </Row>
+        <Row>
+            <Cell>
+                <Button id='EMP3' class='editMenuButton' text='Delete' onClick='btnDelete' />
+            </Cell>
+        </Row>
+        <Row>
+            <Cell>
+                <Button id='EMP4' class='editMenuButton' text='Copy' onClick='btnCopy' />
+            </Cell>
+        </Row>
+        <Row>
+            <Cell>
+                <Button id='EMP5' class='editMenuButton' text='Edit' onClick='btnEdit' />
+            </Cell>
+        </Row>
+        <Row>
+            <Cell>
+                <Button id='EMP6' class='editMenuButton' text='Export' onClick='btnExport' />
+            </Cell>
+        </Row>
+        <Row>
+            <Cell>
+                <Button id='EMP7' class='editMenuButton' text='See all' onClick='btnSeeAll' />
+            </Cell>
+        </Row>
+        <Row>
+            <Cell>
+                <Button id='EMP8' class='editMenuButton' text='New' onClick='btnNew' />
+            </Cell>
+        </Row>
+    </TableLayout>
 </Panel>

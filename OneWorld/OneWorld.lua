@@ -16,26 +16,15 @@ function onLoad()
     mb = os.clock()
 end
 
-function EditMenu()
-end
-
-function btnHide()
-  if not Global.getVar("oWisOn") or ef then do return  end  end
-  if hb == "<" then  local btn = {}  local n = 0  local w = 0.84  local i = 0.345
-    hb = ">"  btn.function_owner = self  btn.rotation = {0, 0, 0}  btn.width = 0  btn.height = 0  btn.font_size = 100
-    btn.click_function = "btnNew"  btn.position = {-2.15, 0, w-n*i}  self.createButton(btn)  n = n+1
-    btn.click_function = "btnSeeAll"  btn.position = {-2.15, 0, w-n*i}  self.createButton(btn)  n = n+1
-    btn.click_function = "btnExport"  btn.position = {-2.15, 0, w-n*i}  self.createButton(btn)  n = n+1
-    btn.click_function = "btnDelete"  btn.position = {-2.15, 0, w-n*i}  self.createButton(btn)  n = n+1
-    btn.click_function = "btnCopy"  btn.position = {-2.15, 0, w-n*i}  self.createButton(btn)  n = n+1
-    btn.click_function = "btnEdit"  btn.position = {-2.15, 0, w-n*i}  self.createButton(btn)  n = n+1
-    btn.click_function = "btnLink"  btn.position = {-2.15, 0, w-n*i}  self.createButton(btn)  n = n+1
-    btn.click_function = "btnPack"  btn.position = {-2.15, 0, w-n*i}  self.createButton(btn)  cbOn({"hldBtn"})
-  else hb = "<"  local i
-    for i = 9, 16 do  self.removeButton(i)  end
+function EditMenu(_, _, id)
+  if(self.UI.getAttribute(id, "text") == "←") then
+    self.UI.setAttribute(id, "text", "→")
+    self.UI.setAttribute("editMenuPanel", "active", true)
+  else
+    self.UI.setAttribute(id, "text", "←")
+    self.UI.setAttribute("editMenuPanel", "active", false)
   end
-  local b = {}  b.index = 1  b.label = hb.."  ."  self.editButton(b)
-end  function hldBtn()  if cbc < 20 then do return end  end  cbOff()  setBtn()  end
+end
 
 function iUnit()
   Global.setVar("oW4TTale", self.guid)
@@ -128,6 +117,7 @@ function tglEnable()
     if not findBags() then do return end  end
     local p  if ba[1] != string.sub(aBag.getDescription(), 10) then reStart() end
     if not Global.getVar("oWisOn") then
+        self.UI.setAttribute("b2", "active", true)
         p = self.getPosition()  local r = self.getRotation()  if r[2] > 180 then r2 = -1 else r2 = 1  end
         self.interactable = false  self.lock()  self.setPosition({p[1], p[2]+0.1, p[3]})
         self.setRotation({0, (2-r2)*90, 0})  self.setScale({2.2,1,2.2})
@@ -136,9 +126,9 @@ function tglEnable()
         vBase.interactable = false  vBase.lock()  vBase.setScale({sizePlate, 1, sizePlate})  vBase.setPosition({0, gh, 0})
         wBase.interactable = false  wBase.lock()  wBase.setScale({1.85, 1, 1.85})  wBase.setPosition({p[1], p[2]+0.105, p[3]-(0.77*r2)})
         broadcastToAll("Running Version: "..self.getDescription(), {0.943, 0.745, 0.14})  wBase.setVar("o", 1)  cbOn({"popWB"})
-        Global.setVar("oWisOn", true)  setTxt()  r1 = 0  r3= 0  r90 = 0  rotBase()  setBtn()  do return  end
-    end
+        Global.setVar("oWisOn", true)  setTxt()  r1 = 0  r3= 0  r90 = 0  rotBase()  setBtn()  return    end
     if not aBase then  mb = os.clock()  if hb == ">" then btnHide() end  Global.setVar("oWisOn", false)  p = self.getPosition()
+        self.UI.setAttribute("b2", "active", false)
         self.interactable = true  self.unlock()  self.setPositionSmooth({p[1], p[2]+0.1, p[3]})
         mBag.unlock()  mBag.setScale({1, 1, 1})  mBag.setPosition({p[1]-3, p[2]+3, p[3]})  mBag.setPositionSmooth({p[1]-3, p[2]+2.5, p[3]})
         aBag.unlock()  aBag.setScale({1, 1, 1})  aBag.setPosition({p[1], p[2]+3, p[3]})  aBag.setPositionSmooth({p[1], p[2]+2.5, p[3]})
@@ -146,8 +136,7 @@ function tglEnable()
         vBase.setPosition({p[1]+3, p[2]+3, p[3]-1})  vBase.setPositionSmooth({p[1]+3, p[2]+2.5, p[3]-1})
         wBase.interactable = true  wBase.unlock()  wBase.setScale({0.5, 1, 0.5})
         wBase.setPosition({p[1]+3, p[2]+3, p[3]+1})  wBase.setPositionSmooth({p[1]+3, p[2]+2.5, p[3]+1})
-        wpx = nil  reStart()  setBtn()  do return  end
-    end
+        wpx = nil  reStart()  setBtn()  return    end
     if tBag then clrSet() else noBase() end  setBtn()  setTxt()
 end
 
@@ -184,22 +173,18 @@ function setBtn()
   self.UI.setAttribute("b6", "text", btn.label)
   self.UI.setAttribute("b6", "tooltip", "Parent")
 
-  --[[btn.tooltip = ""
-  if hb == ">" then  btn.font_size = 100
-    local s = "New,SeeAll,Export,Delete,Copy,Edit,Link,Pack,"
-    for i = 9, 16 do  local w = 500  local h = 170
-      local n = string.find(s, ",")  g = string.sub(s, 1, n-1)  s = string.sub(s, n+1)
-      if aBase and i < 12 then w = 0  h = 0 g = "" end
-      if not aBase and i > 11 then w = 0  h = 0 g = "" end
-      if i == 16 then
-        g = "Link"  local s = self.UI.getAttribute("mTxt", "text")
-        if aBase then s = string.sub(aBase.getName(), 5) end
-        if ub and ba[-1] == ba[0] and s != self.UI.getAttribute("mTxt", "text") then g = "unLink" end
-        if not aBase then g = "-" end
-      end
-      btn.label = g  btn.index = i  btn.width = w  btn.height = h  self.UI.setAttribute("b"..btn.index)
+  for i = 1, 8 do
+    self.UI.setAttribute("EMP"..i, "active", false)
+  end
+  if(aBase) then
+    for i = 1, 6 do
+      self.UI.setAttribute("EMP"..i, "active", true)
     end
-  end]]
+  else
+    for i = 7, 8 do
+      self.UI.setAttribute("EMP"..i, "active", true)
+    end
+  end
 
   self.UI.setAttribute("b9", "active", false)
   if aBase then
@@ -212,9 +197,6 @@ end
 
 function setTxt(a)
   local g = a ~= nil and a or "One World"
-  if wBase.getDescription() != "" then
-    g = string.sub(aBase.getName(), 5, sizePlate)
-  end
   self.UI.setAttribute("mTxt", "text", g)
   self.UI.setAttribute("mTxt", "textColor", "White")
 end
@@ -296,7 +278,7 @@ function rotBase()
 end
 
 function btnProxy()
-  if not Global.getVar("oWisOn") or not aBase then do return  end  end
+  if not Global.getVar("oWisOn") or not aBase then return end
   local v = {}  f = nil  local g = "Ending Parent View..."
   if pxy then
     if wpx then
@@ -322,8 +304,8 @@ end
 
 function btnPack()
     if isPVw() then do return end  end
-    if not Global.getVar("oWisOn") or not aBase then do return  end  end
-    if ss != "" or prs != "" then broadcastToAll("The Current Zone is Busy...", {0.943, 0.745, 0.14})  do return  end  end
+    if not Global.getVar("oWisOn") or not aBase then return end
+    if ss != "" or prs != "" then broadcastToAll("The Current Zone is Busy...", {0.943, 0.745, 0.14})  return end
     if not findBags() then do return end  end  if tBag then dumpSet() end  local l = vBase.getLuaScript()
     n = 1  local p, f, u, r, m  local s = ""  aoj = getAllObjects()  g = aoj[1]  local a = string.char(10)  local k = string.char(44)
     while g do
@@ -349,11 +331,11 @@ function doPack(a)
   local i  for i = 0, string.len(ss)/6-1 do  a.putObject(getObjectFromGUID(string.sub(ss, i*6+1, i*6+6)))  end
   aBase.setDescription(a.guid)  iBag = a  cbOn({"cbPack"})
 end
-function cbPack()  if cbc < 12 then do return  end  end
+function cbPack()  if cbc < 12 then return end
     if ss == "" then  cbOff()  cbOn({"endPack"}) end  local i, g
     for i = 0, string.len(ss)/6-1 do  g = string.sub(ss, i*6+1, i*6+6)
       if not getObjectFromGUID(g) then ss = string.sub(ss, 1, i*6)..string.sub(ss, i*6+7) end
-    end  if ss == "" then do return  end  end
+    end  if ss == "" then return end
     cbc = 0  z2 = z2 + 1  if z2/10 == math.modf(z2/10) then broadcastToAll("Pass"..(z2/10).."...", {0.943, 0.745, 0.14})  end
     if z2 > 68 then broadcastToAll("Manual Inspection Required.", {0.943, 0.745, 0.14})
       for i = 0, string.len(ss)/6-1 do  g = string.sub(ss, i*6+1, i*6+6)
@@ -396,26 +378,27 @@ function putBase(a)
   cbOn({"newXBag"})  cbOn({"cbPutBase"})  cbp = a[1]  broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
 end
 function cbPutBase()
-  if cbc < 120 then do return  end  end  cbOff()  nl = cbp  getBase({cbp})  cbp = nil
+  if cbc < 120 then return end  cbOff()  nl = cbp  getBase({cbp})  cbp = nil
 end
 
 function newXBag()  if cbc > 12 then cbc = 6 end
-  if cbc < 6 then do return  end  end
+  if cbc < 6 then return end
   if cbc == 6 then if xBag then xBag.destruct() end  o = {}  o.position = {-3, -48.5, -3}  xBag = aBag.clone(o)  end
-  if cbc < 12 then do return  end  end  cbOff()
+  if cbc < 12 then return end  cbOff()
   xBag.lock()  xBag.interactable = false  xBag.setScale({0, 0 ,0}) xBag.setPosition({-3, -48.5, -3})
   xBag.setDescription("")  xBag.setName("_OW_xBaG")  xBag.setLuaScript("")
 end
 
-function getBase(a)  ub = nil
-    if not Global.getVar("oWisOn") or a[1] == wBase.getDescription() then do return  end  end
+function getBase(a)
+    ub = nil
+    if not Global.getVar("oWisOn") or a[1] == wBase.getDescription() then return end
     if tBag then clrSet() end  wBase.setDescription("")  aBase = nil
-    local g = a[1]  local t = lnk  bn, r1, r3, pxy, r90, lnk = parceData({g})  if bn == nil then do return  end  end
+    local g = a[1]  local t = lnk  bn, r1, r3, pxy, r90, lnk = parceData({g})  if bn == nil then return end
     if pxy and not wpx then  wpx = g  broadcastToAll("Entering Parent View...", {0.286, 0.623, 0.118})
     else if wpx then lnk = t end  end
-    if getObjectFromGUID(g) then cbGetBase(getObjectFromGUID(g))  do return  end  end
+    if getObjectFromGUID(g) then cbGetBase(getObjectFromGUID(g))  return end
     local t = {}  t.guid = g  t.position = {0,-3, 0}  t.rotation = {0, 0, 0}  t.smooth = false
-    t.callback = "cbGetBase"  t.callback_owner = self  xBag.takeObject(t)
+    t.callback = "cbGetBase"  t.callback_owner = self xBag.takeObject(t)
 end
 function cbGetBase(a)
     local locPos = self.getPosition()
@@ -430,6 +413,7 @@ function cbGetBase(a)
       else  vBase.setScale({x, 1, z})  v.image = aBase.getCustomObject().image  vBase.setPosition({0, gh, 0})  end
     end
     vBase.setCustomObject(v)  vBase.reload()  cbOn({"cbTObj"})
+    setTxt(a.getName():sub(5))
 end
 
 function isPVw()  if wpx then broadcastToAll("Action Canceled While in Parent View.", {0.943, 0.745, 0.14})  return true  end  end
@@ -437,7 +421,7 @@ function isPVw()  if wpx then broadcastToAll("Action Canceled While in Parent Vi
 function parceData(a)
   local h = string.char(45)  local k = string.char(44)  local e = string.char(10)  local s = aBag.getLuaScript()
   local g = a[1] local n = string.find(s, k, string.find(s, h..g..k))  local m = n
-  if not n then broadcastToAll("Missing Base.", {0.943, 0.745, 0.14})  do return  end  end
+  if not n then broadcastToAll("Missing Base.", {0.943, 0.745, 0.14})  return end
   local d = {}  local i
   for i = 1, 5 do  n = string.find(s, k, m+1)  d[i] = string.sub(s, m+1, n-1)  m = n  end
   n = string.find(s, e, m+1)  d[6] = string.sub(s, m+1, n-1)  if d[6] == nil then d[6] = "" end
@@ -459,31 +443,57 @@ end
 
 function btnSelect()
     if ef then btnEdit()  do return end  end
-    if not Global.getVar("oWisOn") or not aBase then do return  end  end
+    if not Global.getVar("oWisOn") or not aBase then return end
     if ub then  getBase({ub})  ub = nil  setBtn()  do return end  end
     if ba[-1] != ba[0] then  getBase({ba[ba[-1] ]}) end
+    local b = parceData({ba[ba[-1]]}) setTxt(b)
 end
 
 function btnHome()
-  if wpx then  wpx = nil  getBase({ba[1]})  do return end  end
-  if ef then btnEdit()  do return end  end
-  if not Global.getVar("oWisOn") then do return end  end  ub = nil  setBtn()
+  if wpx then
+    wpx = nil
+    getBase({ba[1]})
+    return
+  end
+  if ef then
+    btnEdit()
+    return
+  end
+  if not Global.getVar("oWisOn") then
+    return 
+  end
+  ub = nil  setBtn()
   if ba[0] < 2 or not aBase then
-    if ba[1] then  getBase({ba[1]})  end  do return end
-  end  ba[-1] = ba[-1]+1  mvPoint()
+    if ba[1] then
+      getBase({ba[1]})
+    end
+    return
+  end
+  ba[-1] = ba[-1]+1
+  mvPoint()
 end
 function btnBack()
-  if wpx then  wpx = nil  getBase({ba[1]})  do return end  end
-  if ef then btnEdit()  do return end  end
-  if not Global.getVar("oWisOn") then do return end  end  ub = nil  setBtn()
-  if ba[0] < 3 then btnHome()  do return  end  end
-  if not aBase then  getBase({ba[ba[0] ]})  do return end  end
-  ba[-1] = ba[-1]-1  mvPoint()
+  if wpx then  wpx = nil  getBase({ba[1]})  return end
+  if ef then btnEdit()  return end
+  if not Global.getVar("oWisOn") then return end  ub = nil  setBtn()
+  if ba[0] < 3 then btnHome()  return  end
+  if not aBase then  getBase({ba[ba[0]]}) return end
+  ba[-1] = ba[-1]-1
+  mvPoint()
 end
 function mvPoint()
-  if ba[-1] < 2 then ba[-1] = ba[0] end  if ba[-1] > ba[0] then ba[-1] = 2 end
-  local b = parceData({ba[ba[-1] ]})  setTxt(b)  setBtn()
-  if aBase and ba[-1] == ba[0] then self.UI.setAttribute("mTxt", "textColor", "#b15959") end
+  if ba[-1] < 2 then
+    ba[-1] = ba[0]
+  end
+  if ba[-1] > ba[0] then
+    ba[-1] = 2
+  end
+  local b = parceData({ba[ba[-1]]})
+  setTxt(b)
+  setBtn()
+  if aBase and ba[-1] == ba[0] then
+    self.UI.setAttribute("mTxt", "textColor", "#b15959")
+  end
 end
 
 function rollBack(a)
@@ -495,7 +505,7 @@ end
 
 function btnLink()
   if isPVw() then do return end  end
-  if not Global.getVar("oWisOn") or not aBase then do return  end  end
+  if not Global.getVar("oWisOn") or not aBase then return end
   if ub and ba[-1] == ba[0] and string.sub(aBase.getName(), 5) != self.UI.getAttribute("mTxt", "text") then
     local n = string.find(lnk, "@"..ub)
     while n do  lnk = string.sub(lnk, 1, n-5)..string.sub(lnk, n+8)  n = string.find(lnk, "@"..ub)  end
@@ -509,10 +519,10 @@ function btnEdit()
   aBase = getObjectFromGUID(wBase.getDescription())
   if tBag then broadcastToAll("Pack or Clear Zone before Edit.", {0.943, 0.745, 0.14})  do return end  end
   if not ef then
-    btnHide()  ef = 1  local p = self.getPosition()
+    ef = 1  local p = self.getPosition()
     broadcastToAll("Alter this Token: Name, Custom Art or Tint.", {0.943, 0.745, 0.14})
-    self.UI.setAttribute("mTxt", "textColor", "#f1b531")
     self.UI.setAttribute("mTxt", "text", "Exit Edit Mode")
+    self.UI.setAttribute("mTxt", "textColor", "#f1b531")
     aBase.interactable = true  aBase.unlock()  aBase.setRotation({0, 0, 0})  sclBase(aBase)
     aBase.setPosition({p[1], p[2]+3, p[3]+(4.7*r2)})  aBase.setPositionSmooth({p[1], p[2]+2.5, p[3]+(4.7*r2)})
   else
@@ -521,7 +531,7 @@ end  function sclBase(a)  if a.getScale().x == a.getScale().z then a.setScale({0
 
 function btnCopy()
   if isPVw() then do return end  end
-  if not Global.getVar("oWisOn") or not aBase or not findBags() then do return  end  end
+  if not Global.getVar("oWisOn") or not aBase or not findBags() then return end
   if ss != "" or prs != "" or cb[1] then  broadcastToAll("The Current Zone is Busy...", {0.943, 0.745, 0.14})  do return end  end
   prs = aBase.getLuaScript()  local n  local a = {}  local o = {}  local p = {}
   if tBag and prs != "" then
@@ -556,8 +566,8 @@ end
 
 function btnDelete()
     if isPVw() then do return end  end
-    if not Global.getVar("oWisOn") or not aBase then do return  end  end
-    if aBase.getLuaScript() != "" and not tBag then broadcastToAll("Deploy Zone to Delete.", {0.943, 0.745, 0.14})  do return  end  end
+    if not Global.getVar("oWisOn") or not aBase then return end
+    if aBase.getLuaScript() != "" and not tBag then broadcastToAll("Deploy Zone to Delete.", {0.943, 0.745, 0.14})  return end
     if tBag then  cbp = aBase.guid
       dumpSet()  clrSet()  aBase.setLuaScript("")  stowBase()  wBase.setDescription("")
       cbOn({"cb2Delete"})  broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
@@ -572,13 +582,12 @@ function btnDelete()
       o.guid = g  o.position = {12, -21, -14}  aBag.takeObject(o)
     end  setBtn()  setTxt()
 end  function cbDelete(a)  a.destruct()  end
-function cb2Delete()  if cbc < 120 then do return  end  end  cbOff()  getBase({cbp})  cbp = nil  end
+function cb2Delete()  if cbc < 120 then return end  cbOff()  getBase({cbp})  cbp = nil  end
 
 function btnExport()
   if isPVw() then do return end  end
-  if not Global.getVar("oWisOn") or not aBase then do return  end  end
-  if not tBag then broadcastToAll("Deploy Zone to Export.", {0.943, 0.745, 0.14})  do return  end
-    else tBag.destruct()  tBag = nil  end
+  if not Global.getVar("oWisOn") or not aBase then return end
+  if not tBag then broadcastToAll("Deploy Zone to Export.", {0.943, 0.745, 0.14})  return    else tBag.destruct()  tBag = nil  end
   broadcastToAll("Bagging Export...", {0.943, 0.745, 0.14})
   local t = {}  t.position = {-7, -23, -4}  eBase = aBase.clone(t)
   t.type = "Bag"  t.position = {0, 4, 0}  iBag = spawnObject(t)  cbOn({"cbExport"})
@@ -624,7 +633,7 @@ function cbImport()  if cbc < sizePlate then do return end  end
 end
 
 function btnSeeAll()
-    if not Global.getVar("oWisOn") then do return  end  end
+    if not Global.getVar("oWisOn") then return end
     broadcastToAll("(scroll <Z-A>, all zones)", {0.7, 0.7, 0.7})  broadcastToAll("Use the One World Logo.", {0.943, 0.745, 0.14})
     if aBase then ba = {}  ba[-1] = 1  ba[0] = 1  ba[1] = aBase.guid  do return end  end
     local i, ii, g  local s = aBag.getLuaScript()  local e = string.char(10)  local t = {}  local ct = 0  local n = string.find(s, e)
@@ -674,7 +683,7 @@ function bagBackup()
 end
 
 function dumpSet()
-  if not tBag or not findBags() then do return  end  end
+  if not tBag or not findBags() then return end
   mBag.destruct()  tBag.setDescription("_OW_mBaG")  mBag = tBag  tBag = nil
 end
 
@@ -682,7 +691,7 @@ function netSync()
   if ss != "" or prs != "" then  broadcastToAll("The Current Zone is Busy...", {0.943, 0.745, 0.14})  do return end  end
   if not findBags() then do return end  end
   broadcastToAll("Attempting to Sync NetCode...", {0.943, 0.745, 0.14})
-  prs = aBase.getLuaScript()  if prs == "" then do return  end  end
+  prs = aBase.getLuaScript()  if prs == "" then return end
   prs = string.gsub(prs, string.char(10), string.char(44))  prs = string.sub(prs, string.find(prs, "%-%-")+2)
   local a = {}  a = getObjectFromGUID(string.sub(prs, 1, 6))
   if a then  cbp = a.getScale()  a.setScale({0, 0, 0})  end  cbOn({"cbNSync"})
@@ -697,12 +706,11 @@ end
 function btnBuild()
     if ef then btnEdit()  do return end  end
     if cbp then  if string.sub(cbp, 1, 3) == "xv." then  newCode()  do return end  end  end
-    if not Global.getVar("oWisOn") or not aBase then do return  end  end
+    if not Global.getVar("oWisOn") or not aBase then return end
     if tBag then  netSync()  do return end  end
-    if aBase.getDescription() == "" then do return  end  end
+    if aBase.getDescription() == "" then return end
     if ss != "" or prs != "" then
-      broadcastToAll("The Current Zone is Busy...", {0.943, 0.745, 0.14})  do return  end
-    end
+      broadcastToAll("The Current Zone is Busy...", {0.943, 0.745, 0.14})  return    end
     if not findBags() then do return end  end
     broadcastToAll("Recalling Zone Objects...", {0.943, 0.745, 0.14})  bagBackup()  local t = {}  t.smooth = false
     t.guid = aBase.getDescription()  t.position = {-2, -46, 7}  t.callback = "cbBuild"  t.callback_owner = self  tBag.takeObject(t)
@@ -710,7 +718,7 @@ end  function cbBuild(a)  iBag = a  a.lock()  doBuild()  end
 
 function doBuild()
   local v = {}  v = iBag.getObjects()  prs = aBase.getLuaScript()
-  if prs == "" or not v[1] then do return  end  end  cBase.setScale({33, 1, 38})
+  if prs == "" or not v[1] then return end  cBase.setScale({33, 1, 38})
   prs = string.gsub(prs, string.char(10), string.char(44))
   local x, y, z  local ct = 1  local n  local dc = 0  local o = {}  local t = {}  ss = ""  zz = 0  cbp = ""
   while v[ct] do
@@ -731,7 +739,7 @@ function snipIt(a)  local e = string.find(prs, string.char(44), a[1])  return st
 
 function unPack(a)  ss = ss..a.guid  a.setLock(false)  end  --a.setName("")  a.setDescription("")  end
 
-function queZone()  if cbc < 5 then do return  end  end
+function queZone()  if cbc < 5 then return end
   if zz == 0 then  cbOff()  cbp = nil  zz = nil  prs = ""  cbOn({"pickLocks"})  do return end  end
   local g, s  local a, b, c, x, y, z, n, t  local r = {}  local p = {}  local o = {}
   for t = 1, string.len(ss)/6 do
@@ -756,7 +764,7 @@ function queZone()  if cbc < 5 then do return  end  end
 end
 
 function pickLocks()
-    if cbc < 10 then do return  end  end  cbOff()
+    if cbc < 10 then return end  cbOff()
     local s = aBase.getLuaScript() local n = 0  cBase.setScale({0, 0, 0})
     while n+5 < string.len(s) do
         local g = string.sub(s, n+3, n+8)  n = string.find(s, string.char(10), n+3)
