@@ -212,6 +212,13 @@ function SetValueAmmunition(_, input, id)
         self.UI.setAttribute("value"..numId, "text", fildForAmmunitions[numId].value)
     end
     UpdateSave()
+    do
+        id = StringInNumber(id)
+        Wait.time(function()
+            self.UI.setAttribute("buttonM"..id, "text", self.UI.getAttribute("value"..id, "text"))
+            self.UI.setAttribute("buttonM"..id, "textColor", "White")
+        end, 0.1)
+    end
 end
 
 function Reset()
@@ -224,8 +231,10 @@ end
 function SelectTypeAmmunition(_, _, id)
     id = tostring(StringInNumber(id))
     local locId = (selectTypeId > 0 and selectTypeId) or ""
+    self.UI.setAttribute("buttonM"..locId, "text", self.UI.getAttribute("value"..id, "text"))
     self.UI.setAttribute("buttonM"..locId, "active", "true")
     self.UI.setAttribute("buttonM"..locId, "id", "buttonM"..id)
+    Wait.time(|| self.UI.setAttribute("buttonM"..id, "textColor", "#ffffff"), 0.2)
     selectTypeId = tonumber(id)
     UpdateSave()
 end

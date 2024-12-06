@@ -1,64 +1,64 @@
 <Defaults>
-    <Button font='Fonts/Allods' fontStyle='Bold' resizeTextForBestFit='True' resizeTextMaxSize='60' resizeTextMinSize='10'
-        tooltipFont='Fonts/Allods' tooltipFontSize='35' tooltipWidth='300' color='#ffffff00' />
-    <InputField font='Fonts/Allods' fontStyle='Bold' resizeTextForBestFit='True' resizeTextMaxSize='60' resizeTextMinSize='10' textAlignment='MiddleCenter'
-        tooltipFont='Fonts/Allods' tooltipFontSize='35' tooltipWidth='300' color='#ffffff00' />
+    <Button font='Fonts/Hanzi' fontStyle='Bold' resizeTextForBestFit='True' resizeTextMaxSize='200' resizeTextMinSize='10'
+        tooltipFont='Fonts/Allods' tooltipFontSize='35' tooltipWidth='300' image='uiButtonBackground' />
+    <InputField font='Fonts/Hanzi' fontStyle='Bold' resizeTextForBestFit='True' resizeTextMaxSize='200' resizeTextMinSize='10' textAlignment='MiddleCenter'
+        tooltipFont='Fonts/Allods' tooltipFontSize='35' tooltipWidth='300' image='uiButtonBackground' />
     <Cell dontUseTableCellBackground='true' />
     <VerticalScrollView color='#ffffff00' scrollbarBackgroundColor='#000000dd'
         verticalScrollbarVisibility='AutoHideAndExpandViewport' horizontalScrollbarVisibility='Permanent' />
 
     <Button class='buttonSave' text='---' onClick='SaveThrow' />
     <InputField class='inputBonus' text='0' onEndEdit='ChangeBonusThrow' onValueChanged='ChangeLongText' textAlignment='LowerRight' characterValidation='Integer' characterLimit='3' />
-    <InputField class='settingsInputField' textColor='#948773' fontStyle='Italic' />
+    <InputField class='settingsInputField' textColor='#948773' fontStyle='Italic' image='' color='#ffffff00' />
 </Defaults>
 
-<Panel id='mainPanel' position='0 0 -6' height='694' width='810' image='uiBacground' scale='0.5' raycastTarget='false'>
-    <Button image='uiGear' color='#ffffff' width='50' height='50' offsetXY='375 375' visibility='Black' onClick='ShowHideSettingPanel' />
+<Panel id='mainPanel' position='0 0 -6' height='1388' width='1620' image='uiBacground' scale='0.25' raycastTarget='false'>
+    <Button image='uiGear' color='#ffffff' height='100' width='100' offsetXY='750 750' visibility='Black' onClick='ShowHideSettingPanel' />
     <TableLayout cellSpacing='10'>
-        <Row id='rowDiceThrow' preferredHeight='150'>
+        <Row id='rowDiceThrow' preferredHeight='300'>
             <Cell columnSpan='6'>
-                <Button id='countThrow' text='1' resizeTextMaxSize='120' onClick='ChangeCountThrow' textAlignment='MiddleRight'
-                    tooltipOffset='0' tooltip='Count throw dice' tooltipPosition='Above' />
+                <Button id='countThrow' text='1' onClick='ChangeCountThrow' textAlignment='MiddleRight'
+                    tooltipOffset='-100' tooltip='Count throw dice' tooltipPosition='Above' />
             </Cell>
             <Cell columnSpan='8' />
             <Cell columnSpan='16'>
-                <Button id='diceThrow' text='100' resizeTextMaxSize='120' onClick='ChangeDiceThrow'
-                    tooltipOffset='0' tooltip='Dice will be throw' tooltipPosition='Above' />
+                <Button id='diceThrow' text='100' onClick='ChangeDiceThrow'
+                    tooltipOffset='-100' tooltip='Dice will be throw' tooltipPosition='Above' />
             </Cell>
         </Row>
         <Row id='rowSaveThrow'>
             <Cell columnSpan='1'/>
             <Cell columnSpan='24'>
-                <VerticalScrollView height='324'>
-                    <GridLayout id='saveButtons' height='324' cellSize='105 65'>
+                <VerticalScrollView height='648'>
+                    <GridLayout id='saveButtons' height='648' cellSize='210 130'>
                         <!--Save buttons-->
                     </GridLayout>
                 </VerticalScrollView>
             </Cell>
             <Cell columnSpan='5'>
-                <VerticalScrollView height='324'>
-                    <GridLayout id='bonusButtons' height='324' cellSize='100 65'>
+                <VerticalScrollView height='648'>
+                    <GridLayout id='bonusButtons' height='648' cellSize='200 130'>
                         <!--Bonus buttons-->
                     </GridLayout>
                 </VerticalScrollView>
             </Cell>
         </Row>
-        <Row id='rowSettingThrow' preferredHeight='80'>
+        <Row id='rowSettingThrow' preferredHeight='160'>
             <Cell columnSpan='25'>
                 <InputField id='nameSavedButton' text='' placeholder='Name save button' onEndEdit='ChangeInputField'
-                    tooltipPosition='Left' tooltip='Type in the name of the button. Click on any "---". To delete press right mous click' tooltipOffset='-150' />
+                    tooltipPosition='Left' tooltip='Type in the name of the button. Click on any "---". To delete press right mous click' tooltipOffset='-500' />
             </Cell>
             <Cell columnSpan='5'>
-                <Button text='R' tooltipOffset='0' tooltip='Reset bonuses and count throws' tooltipPosition='Right' onClick='Reset' />
+                <Button text='R' tooltipOffset='-100' tooltip='Reset bonuses and count throws' tooltipPosition='Right' onClick='Reset' />
             </Cell>
         </Row>
-        <Row id='rowThrow' preferredHeight='100'>
+        <Row id='rowThrow' preferredHeight='200'>
             <Cell columnSpan='10'>
-                <Button id='howThrow' text='Throw all' resizeTextMaxSize='40' onClick='ChangePermitThrow'
-                    tooltipPosition='Below' tooltipOffset='0' tooltip='Anybody can throw it | Throw it to the GM | Only the GM can throw it' />
+                <Button id='howThrow' text='Throw all' onClick='ChangePermitThrow'
+                    tooltipPosition='Below' tooltipOffset='-70' tooltip='Anybody can throw it | Throw it to the GM | Only the GM can throw it' />
             </Cell>
             <Cell columnSpan='20'>
-                <Button text='Throw' resizeTextMaxSize='120' onClick='Throw' />
+                <Button text='Throw' onClick='Throw' />
             </Cell>
         </Row>
     </TableLayout>
@@ -68,7 +68,7 @@
         <Row>
             <Cell columnSpan='2'>
                 <InputField id='tableDices' placeholder='4|6|20|100' onEndEdit='ChangeTableDices' class='settingsInputField'
-                    tooltipOffset='0' tooltip='Type dices. List in order by |' tooltipPosition='Above' />
+                    tooltipOffset='-20' tooltip='Type dices. List in order by |' tooltipPosition='Above' />
             </Cell>
         </Row>
         <Row>

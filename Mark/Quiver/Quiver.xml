@@ -16,7 +16,7 @@
 </Defaults>
 
 <Panel visibility='Black'>
-	<Button onClick='PanelTool' image='uiGear' height='50' width='50' offsetXY='160 160'/>
+	<Button onClick='PanelTool' image='uiQuiverGear' height='50' width='50' offsetXY='160 160'/>
 	<Button id='panelClose' onClick='Reset' icon='uiClose' height='45' width='45' offsetXY='225 160' active='false'
 		tooltip='ʇǝsǝɹ'  tooltipFontSize='25' tooltipPosition='Left' colors='#ffffffdd' />
 	<VerticalScrollView id='panelTool' active='false' >
@@ -50,5 +50,6 @@
 			<NewRowC />
 		</TableLayout>
 	</VerticalScrollView>
-	<Button id='buttonM' onClick='MinusValue' image='uiSight' height='50' width='50' offsetXY='0 -160' active='false'/>
+	<Button id='buttonM' onClick='MinusValue' icon='uiSight' height='100' width='100' offsetXY='0 -160' active='false' color='#ffffff00'
+		resizeTextForBestFit='True' resizeTextMaxSize='100' font='Fonts/Hanzi' />
 </Panel>

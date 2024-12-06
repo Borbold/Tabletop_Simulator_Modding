@@ -253,9 +253,9 @@ end
 
 function ChangeLongText(_, input, id)
     if(#input > 2) then
-        self.UI.setAttribute(id, "resizeTextMaxSize", 35)
+        self.UI.setAttribute(id, "resizeTextMaxSize", 85)
     else
-        self.UI.setAttribute(id, "resizeTextMaxSize", 60)
+        self.UI.setAttribute(id, "resizeTextMaxSize", 200)
     end
     self.UI.setAttribute(id, "text", input)
 end
