@@ -40,7 +40,6 @@ function tieObjects()
         if g.getDescription() == "_OW_tBaG" then if tBag then g.destruct() else  tBag = g  tBag.interactable = false  end  end
         if g.getName() == "_OW_xBaG" then if xBag then g.destruct() else xBag = g end  end
         if g.getName() == "_OW_vBase" then if vBase then g.destruct() else vBase = g end  end
-        if g.getName() == "_OW_mTxT" then g.destruct() end
         n = n+1  g = aoj[n]
     end  reStart()
     i.image = self.UI.getCustomAssets()[4].url  i.thickness = 0.1
@@ -133,7 +132,7 @@ function tglEnable()
 end
 
 function reStart(what)
-  prs = ""  ss = ""  Wait.time(|| newXBag(), 0.2)
+  prs = ""  ss = ""
   ba = {}  ba[1] = string.sub(aBag.getDescription(), 10)  ba[0] = 1  if ba[1] == "" then ba[1] = nil  ba[0] = 0  end  ba[-1] = ba[0]
   local aoj = getAllObjects()
   local g, n = aoj[1], 1
@@ -392,7 +391,7 @@ end
 
 function stowBase()
   local t = {}  t.guid = aBase.guid  t.position = {0, -15, 0}  t.callback = "oldBase"  t.smooth = false  t.callback_owner = self
-  sclBase(aBase)  aBag.takeObject(t)  aBase.unlock()  aBag.putObject(aBase)  Wait.time(|| newXBag(), 0.2)  aBase = nil
+  sclBase(aBase)  aBag.takeObject(t)  aBase.unlock()  aBag.putObject(aBase) aBase = nil
 end  function oldBase(a)  a.destruct()  end
 
 function noBase()
@@ -405,16 +404,10 @@ function putBase(a)
   aBase = getObjectFromGUID(a[1])  jotBase()
   aBase.setLuaScript("")  aBase.setDescription("")  aBag.putObject(aBase)  wBase.setDescription("")
   if not ba[1] then  ba[1] = a[1]  aBag.setDescription("_OW_aBaG_"..ba[1])  ba[0] = 1  end
-  Wait.time(|| newXBag(), 0.2)  Wait.time(|| cbPutBase(), 0.2)  cbp = a[1]  broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
+  Wait.time(|| cbPutBase(), 0.2)  cbp = a[1]  broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
 end
 function cbPutBase()
   nl = cbp  getBase({cbp})  cbp = nil
-end
-
-function newXBag()
-  if xBag then xBag.destruct() end  o = {}  o.position = {-3, -48.5, -3}  xBag = aBag.clone(o)
-  xBag.lock()  xBag.interactable = false  xBag.setScale({0, 0 ,0}) xBag.setPosition({-3, -48.5, -3})
-  xBag.setDescription("")  xBag.setName("_OW_xBaG")  xBag.setLuaScript("")
 end
 
 function getBase(a)
@@ -425,8 +418,16 @@ function getBase(a)
     if pxy and not wpx then  wpx = g  broadcastToAll("Entering Parent View...", {0.286, 0.623, 0.118})
     else if wpx then lnk = t end  end
     if getObjectFromGUID(g) then cbGetBase(getObjectFromGUID(g)) return end
+    
     local t = {}  t.guid = g  t.position = {0,-3, 0}  t.rotation = {0, 0, 0}  t.smooth = false
-    t.callback = "cbGetBase"  t.callback_owner = self xBag.takeObject(t)
+    t.callback = "cbGetBase"  t.callback_owner = self
+    local aoj = getAllObjects()
+    for _,v in ipairs(aoj) do
+      if(v.getDescription():find("_OW_aBaG")) then
+        v.takeObject(t)
+        break
+      end
+    end
 end
 function cbGetBase(a)
     local locPos = self.getPosition()
@@ -664,7 +665,7 @@ function cbImport()
   iBag.setDescription("")  iBag.setName("")  aBase.setDescription(iBag.guid)  sclBase(aBase)
   getObjectFromGUID(getObjectFromGUID(cbp).getDescription()).destruct()  getObjectFromGUID(cbp).destruct()  cbp = nil
   broadcastToAll("Import Complete.", {0.943, 0.745, 0.14})  nl = aBase.guid  wBase.call("makeLink")
-  aBase.unlock()  aBag.putObject(aBase)  aBase = nil  iBag.unlock()  mBag.putObject(iBag)  iBag = nil  Wait.time(|| newXBag(), 0.2)
+  aBase.unlock()  aBag.putObject(aBase)  aBase = nil  iBag.unlock()  mBag.putObject(iBag)  iBag = nil
 end
 
 function btnSeeAll()
