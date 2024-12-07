@@ -18,7 +18,7 @@ function onDestroy()  if u and lh then Player[u].lift_height = lh  u = nil  lh =
 o = nil
 
 function onCollisionEnter(a)
-    if not Global.getVar("oWisOn") or o == a.collision_object or o == 1 then do return  end  end
+    if not Global.getVar("oWisOn") or o == a.collision_object or o == 1 then return end
     o = a.collision_object  local ow = getObjectFromGUID(Global.getVar("oW4TTale"))
     local g = string.sub(o.getName(), 1, 4)  if g == "SET_" then g = "OWx_" end
     local i = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/x.png"
@@ -33,7 +33,8 @@ function onCollisionEnter(a)
           if n then  q = "WILL PACK: "  s = string.sub(s, 1, n-1)..string.sub(s, n+7)  else  s = s..g.."@"  end
           v.setLuaScript(s)  broadcastToAll(q..a.collision_object.name..b, {0.943, 0.745, 0.14})
         end
-    end  ow.call("cbOn", {"popWB"})
+    end
+    Wait.time(|| ow.call("popWB"), 0.2)
 end
 
 function newBase()
@@ -45,7 +46,7 @@ end
 function doImport()
   local ow = getObjectFromGUID(Global.getVar("oW4TTale"))
   if ow.getVar("aBag").getDescription() == "_OW_aBaG" then
-    broadcastToAll("!! Can Not Import to an Empty World !!", {0.95, 0.95, 0.95})  do return end  end
+    broadcastToAll("!! Can Not Import to an Empty World !!", {0.95, 0.95, 0.95})  return end
   if string.sub(o.getName(), 1, 4) == "SET_" then
     o.setDescription("")  local v = {}  v = o.getObjects()  local n = 1
     while v[n] do
@@ -56,8 +57,7 @@ function doImport()
     if o.getDescription() == "" then broadcastToAll("Creating Hidden Base...", {0.943, 0.745, 0.14})
       local t = {}  t.position = {-10, -45, 0}  t.callback = "cbCTBase"  t.callback_owner = self  local i = {}
       i.image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/table_wood.jpg"  i.thickness = 0.1
-      t.type = "Custom_Token"  local o = {}  o = spawnObject(t)  o.setCustomObject(i)  do return end
-    end
+      t.type = "Custom_Token"  local o = {}  o = spawnObject(t)  o.setCustomObject(i)  return    end
   end
   broadcastToAll("Importing Art...", {0.943, 0.745, 0.14})  local t = {}  t.position = {-10, -45, 0}
   t.guid = string.sub(o.getDescription(), 1, 6)  t.callback = "preImport"
@@ -70,9 +70,9 @@ end
 
 function addLink()
   local ow = getObjectFromGUID(Global.getVar("oW4TTale"))
-  if ow.call("isPVw") then  o.destruct()  do return end  end
+  if ow.call("isPVw") then  o.destruct()  return end
   if o.getDescription() == self.getDescription() then
-    o.destruct()  broadcastToAll("Link to Self.", {0.943, 0.745, 0.14})  do return end  end
+    o.destruct()  broadcastToAll("Link to Self.", {0.943, 0.745, 0.14})  return end
   local l1 = o.getVar("l1")  local l3 = o.getVar("l3")  local p = {}
   if not l1 then  p = o.getPosition()  l1 = p[1]  l3 = p[3]  end
   p = self.getPosition()  local h = 4.8  local v = 8.5
@@ -87,7 +87,7 @@ function addLink()
 end
 
 function setLinks()
-    self.clearButtons()  if self.getDescription() == "" then do return  end  end
+    self.clearButtons()  if self.getDescription() == "" then return end
     ow = getObjectFromGUID(Global.getVar("oW4TTale"))
     local r1 = ow.getVar("r1")  local r3 = ow.getVar("r3")  local t = ow.getVar("lnk")  local i, v, h, n
     if ow.getVar("r90") == 1 then h = self.getScale().x / 1.85 * 4.65  v = self.getScale().z / 1.85 * 2.63
@@ -108,7 +108,6 @@ function makeLink()
     p.rotation = {0, 90, 0}  p.scale = {0.1, 0.1, 0.1}  p.callback = "cbMLink"  p.callback_owner = self
     local o = spawnObject(p)  local i = {}  i.thickness = 0.01
     i.image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/x.png"  o.setCustomObject(i)
-
 end
 function cbMLink(a)
     local ow = getObjectFromGUID(Global.getVar("oW4TTale"))  a.setDescription(ow.getVar("nl"))
@@ -118,10 +117,10 @@ end
 
 function getLink(a)
     local ow = getObjectFromGUID(Global.getVar("oW4TTale"))
-    if ow.getVar("cb[1]") then do return  end  end
-    if ow.getVar("ef") then  ow.call("btnEdit")  do return end  end
-    local l = string.sub(ow.getVar("lnk"), a[1]*12+6, a[1]*12+11)  local bn = string.sub(ow.call("parceData", {l}), 1, 21)
-    if bn != ow.getVar("mTxt").TextTool.getValue() then ow.call("showTxt", {bn, 1}) ow.setVar("ub", l)  ow.call("setBtn")
+    if ow.getVar("ef") then  ow.call("btnEdit")  return end
+    local l = string.sub(ow.getVar("lnk"), a[1]*12+6, a[1]*12+11)
+    local bn = string.sub(ow.call("parceData", {l}), 1, 21)
+    if bn != ow.UI.getAttribute("mTxt", "text") then ow.call("setTxt", bn) ow.setVar("ub", l) ow.call("setBtn")
     else ow.call("getBase", {l}) end
 end
 
