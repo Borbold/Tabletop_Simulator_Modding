@@ -121,7 +121,7 @@ function tglEnable()
         wBase.interactable = true  wBase.unlock()  wBase.setScale({0.5, 1, 0.5})
         wBase.setPosition({p[1]+3, p[2]+3, p[3]+1})  wBase.setPositionSmooth({p[1]+3, p[2]+2.5, p[3]+1})
         wpx = nil
-        reStart() Wait.time(|| setBtn(), 0.1)
+        reStart("END") Wait.time(|| setBtn(), 0.1)
         return
     end
     if tBag then
@@ -132,10 +132,11 @@ function tglEnable()
     Wait.time(|| setBtn(), 0.1) setTxt()
 end
 
-function reStart()
+function reStart(what)
   prs = ""  ss = ""  Wait.time(|| newXBag(), 0.2)
   ba = {}  ba[1] = string.sub(aBag.getDescription(), 10)  ba[0] = 1  if ba[1] == "" then ba[1] = nil  ba[0] = 0  end  ba[-1] = ba[0]
-  local aoj = {}  aoj = getAllObjects()  local g = aoj[1]  local n = 1
+  local aoj = getAllObjects()
+  local g, n = aoj[1], 1
   while g do
     if string.sub(g.getName(), 1, 4) == "SBx_" then local w = g.getPosition()
       if Global.getVar("oWisOn") and g.guid == wBase.getDescription() then
@@ -144,7 +145,13 @@ function reStart()
         end  w[2] = 1
       end
       if w[2] > 50 then g.destruct() end
-    end  n = n+1  g = aoj[n]
+    end  n = n + 1  g = aoj[n]
+  end
+
+  if(what == "END") then
+    for i,v in ipairs(aoj) do
+      if(v.getName():find("SBx_")) then v.destruct() end
+    end
   end
 end
 
@@ -201,7 +208,12 @@ end
 function setTxt(a)
   local g = a ~= nil and a or "One World"
   self.UI.setAttribute("mTxt", "text", g)
-  self.UI.setAttribute("mTxt", "textColor", "White")
+  local b = parceData({ba[ba[0]]})
+  if(not aBase or g == b) then
+    self.UI.setAttribute("mTxt", "textColor", "White")
+  else
+    self.UI.setAttribute("mTxt", "textColor", "Grey")
+  end
 end
 
 function findBags()
