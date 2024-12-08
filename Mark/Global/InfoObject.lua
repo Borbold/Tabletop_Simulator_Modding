@@ -22,15 +22,15 @@ function onCollisionEnter(info)
         local arg = {name = name, description = obj.getDescription(), color = self.getName(), image = URLImage, guid = obj.getGUID()}
         table.insert(putObjects, arg)
         
-        CallGlobal(putObjects)
+        Global.call("UpdateInformation", putObjects)
         avatar.call("UpdateInformation", putObjects)
         Wait.time(function() locGUID = 0 end, 0.2)
     end
-    obj.addTag("Picked object "..self.getGUID())
 end
 
-function onObjectPickUp(_, obj)
-    if(not obj.hasTag("Picked object "..self.getGUID()) or obj.getPosition().y < self.getPosition().y) then return end
+function onCollisionExit(info)
+    local obj = info.collision_object
+    if(obj.getPosition().y < self.getPosition().y) then return end
     if locGUID == 0 or locGUID ~= obj.getGUID() then locGUID = obj.getGUID()
     else return end
 
@@ -43,18 +43,8 @@ function onObjectPickUp(_, obj)
                 break
             end
         end
-        CallGlobal(#putObjects == 0 and {{color = self.getName()}} or putObjects)
+        Global.call("UpdateInformation", #putObjects == 0 and {{color = self.getName()}} or putObjects)
         avatar.call("UpdateInformation", #putObjects == 0 and {{}} or putObjects)
         Wait.time(function() locGUID = 0 end, 0.2)
-    end
-    obj.removeTag("Picked object "..self.getGUID())
-end
-
-function CallGlobal(putObjects)
-    for c in locColors:gmatch("%S+") do
-        if self.getName() == c then
-            Global.call("UpdateInformation", putObjects)
-            break
-        end
     end
 end
