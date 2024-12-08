@@ -147,11 +147,15 @@ function reStart(what)
     end  n = n + 1  g = aoj[n]
   end
 
-  if(what == "END") then
-    for i,v in ipairs(aoj) do
-      if(v.getName():find("SBx_")) then v.destruct() end
+  Wait.time(function()
+    if(what == "END") then
+      for i,v in ipairs(aoj) do
+        if(v.getName():find("SBx_")) then
+          aBag.putObject(v)
+        end
+      end
     end
-  end
+  end, 1)
 end
 
 function setBtn()
@@ -269,14 +273,28 @@ function popWB() wBase.setVar("o", nil) end
 function btnHorz() if isPVw() then return end if aBase then r1 = 180 - r1 rotBase() jotBase() end end
 function btnVert() if isPVw() then return end if aBase then r3 = 180 - r3 rotBase() jotBase() end end
 
-function btnFit()  if isPVw() or not aBase or ef then return  end
-  if tBag then broadcastToAll("Pack or Clear Zone before Edit.", {0.943, 0.745, 0.14})  return  end
-  if r90 != 0 then  r90 = 0  vBase.setScale({sizePlate, 1, sizePlate})  wBase.setScale({1.85, 1, 1.85})  aBase.setScale({0.5, 1, 0.5})
-  else  local x = vBase.getBoundsNormalized().size.x  local z = vBase.getBoundsNormalized().size.z
-    if z > x * 1.05 then  r90 = 1  x = 102 / x  z = 173 / z else  r90 = 2  x = 173 / x  z = 102 / z  end
+function btnFit()
+  if isPVw() or not aBase or ef then return end
+  if tBag then broadcastToAll("Pack or Clear Zone before Edit.", {0.943, 0.745, 0.14}) return end
+  if r90 != 0 then
+    r90 = 0
+    vBase.setScale({sizePlate, 1, sizePlate})
+    wBase.setScale({1.85, 1, 1.85})
+    aBase.setScale({0.5, 1, 0.5})
+  else
+    local x, z = vBase.getBoundsNormalized().size.x, vBase.getBoundsNormalized().size.z
+    if z > x * 1.05 then  r90 = 1  x = 102 / x  z = 173 / z else r90 = 2  x = 173 / x  z = 102 / z end
     if r90 == 2 and x == 1 and z == 1 then r90 = 0 end
-    vBase.setScale({sizePlate*x, 1, sizePlate*z})  wBase.setScale({1.85*x, 1, 1.85*z})  aBase.setScale({18.09*x/36, 1, 18.09*z/36})
-  end  jotBase()  stowBase()  noBase()  Wait.time(|| setBtn(), 0.1)  setTxt()  broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
+    vBase.setScale({sizePlate*x, 1, sizePlate*z})
+    wBase.setScale({1.85*x, 1, 1.85*z})
+    aBase.setScale({18.09*x/36, 1, 18.09*z/36})
+  end
+  jotBase()
+  stowBase()
+  noBase()
+  Wait.time(|| setBtn(), 0.1)
+  setTxt()
+  broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
 end
 
 function rotBase()
@@ -390,9 +408,12 @@ function jotBase()
 end
 
 function stowBase()
-  local t = {}  t.guid = aBase.guid  t.position = {0, -15, 0}  t.callback = "oldBase"  t.smooth = false  t.callback_owner = self
-  sclBase(aBase)  aBag.takeObject(t)  aBase.unlock()  aBag.putObject(aBase) aBase = nil
-end  function oldBase(a)  a.destruct()  end
+  sclBase(aBase)
+  aBase.unlock()
+  aBag.putObject(aBase)
+  aBase = nil
+end
+function oldBase(a) a.destruct() end
 
 function noBase()
   r1 = 0  r3 = 0  r90 = 0  rotBase()  wBase.setDescription("")  aBase = nil  lnk = ""
@@ -421,13 +442,7 @@ function getBase(a)
     
     local t = {}  t.guid = g  t.position = {0,-3, 0}  t.rotation = {0, 0, 0}  t.smooth = false
     t.callback = "cbGetBase"  t.callback_owner = self
-    local aoj = getAllObjects()
-    for _,v in ipairs(aoj) do
-      if(v.getDescription():find("_OW_aBaG")) then
-        v.takeObject(t)
-        break
-      end
-    end
+    aBag.takeObject(t)
 end
 function cbGetBase(a)
     local locPos = self.getPosition()
