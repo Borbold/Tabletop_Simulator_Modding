@@ -1,93 +1,5 @@
 function onLoad()
-    --White Red Green Blue Brown Teal Yellow Orange Purple Pink
-    originalXml = [[
-    <Defaults>
-        <TableLayout cellSpacing='2' />
-        <Cell dontUseTableCellBackground='true' />
-        <VerticalScrollView offsetXY='550 -220' height='520' width='800' color='#ffffffdd' scrollbarBackgroundColor='#000000dd'
-            scrollbarImage='ScrollBarImage'
-            verticalScrollbarVisibility='AutoHideAndExpandViewport' horizontalScrollbarVisibility='Permanent' />
-        <Row preferredHeight='80' />
-        <Text resizeTextForBestFit='true' resizeTextMaxSize='50'
-            color='#e8d8b4' text='0' font='Fonts/Hanzi' />
-    </Defaults>
-
-    <Button image='ButtonStatus' visibility='White|Red|Green|Blue|Brown|Teal|Yellow|Orange|Purple|Pink'
-        onClick='PanelLoad' offsetXY='855 -505' height='55' width='55' />
-    <Button image='ButtonWeather' visibility='Black'
-        onClick='WhatWeather' offsetXY='855 -505' height='55' width='55' />
-
-    <VerticalScrollView id='panelWhite' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
-        <TableLayout id='TLWhite' >
-            <NewRowSWhite />
-        </TableLayout>
-        <EndRowSWhite />
-    </VerticalScrollView>
-
-    <VerticalScrollView id='panelRed' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
-        <TableLayout id='TLRed' >
-            <NewRowSRed />
-        </TableLayout>
-        <EndRowSRed />
-    </VerticalScrollView>
-
-    <VerticalScrollView id='panelBlue' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
-        <TableLayout id='TLBlue' >
-            <NewRowSBlue />
-        </TableLayout>
-        <EndRowSBlue />
-    </VerticalScrollView>
-
-    <VerticalScrollView id='panelBrown' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
-        <TableLayout id='TLBrown' >
-            <NewRowSBrown />
-        </TableLayout>
-        <EndRowSBrown />
-    </VerticalScrollView>
-
-    <VerticalScrollView id='panelOrange' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
-        <TableLayout id='TLOrange' >
-            <NewRowSOrange />
-        </TableLayout>
-        <EndRowSOrange />
-    </VerticalScrollView>
-
-    <VerticalScrollView id='panelYellow' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
-        <TableLayout id='TLYellow' >
-            <NewRowSYellow />
-        </TableLayout>
-        <EndRowSYellow />
-    </VerticalScrollView>
-
-    <VerticalScrollView id='panelTeal' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
-        <TableLayout id='TLTeal' >
-            <NewRowSTeal />
-        </TableLayout>
-        <EndRowSTeal />
-    </VerticalScrollView>
-
-    <VerticalScrollView id='panelPurple' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
-        <TableLayout id='TLPurple' >
-            <NewRowSPurple />
-        </TableLayout>
-        <EndRowSPurple />
-    </VerticalScrollView>
-
-    <VerticalScrollView id='panelGreen' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
-        <TableLayout id='TLGreen' >
-            <NewRowSGreen />
-        </TableLayout>
-        <EndRowSGreen />
-    </VerticalScrollView>
-
-    <VerticalScrollView id='panelPink' active='false' image='https://steamusercontent-a.akamaihd.net/ugc/2501279124985480702/BCD413BC3C75A5B14EC6CD6563D27A192E3B3E5A/'>
-        <TableLayout id='TLPink' >
-            <NewRowSPink />
-        </TableLayout>
-        <EndRowSPink />
-    </VerticalScrollView>
-    ]]
-    self.UI.setXml(originalXml)
+    originalXml = self.UI.getXml()
 end
 
 function UpdateInformation(putObjects)
@@ -145,11 +57,10 @@ end
 
 function WhatWeather()
     local weather = "[a6a6a6]Прогноз на сегодня:[-] "
-    local s = {"солнечно", "пасмурно", "допишите ещё"}
+    local s = {"солнечно", "облачно", "пасмурно", "туманно", "дождь/снег", "слабый дождь/снег", "сильный дождь/снег"}
     weather = weather.." [ffff00]"..s[math.random(#s)]
-    local w = {"ветренно", "очень ветренно", "нет ветра"}
+    local w = {"ветренно", "очень ветренно", "нет ветра", "ураган", "смерчь"}
     weather = weather.." [ffffff]"..w[math.random(#w)]
-    local t = {"жарко", "холодно", "относительно тепло"}
-    weather = weather.." [00ffff]"..t[math.random(#t)]
+    weather = weather.." [00ffff]".."температура воздуха[-] ощущается как "..math.random(-30, 30)
     broadcastToAll(weather)
 end

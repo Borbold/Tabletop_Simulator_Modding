@@ -1,12 +1,14 @@
 <Defaults>
     <VerticalScrollView horizontalScrollbarVisibility='Permanent' verticalScrollbarVisibility='AutoHideAndExpandViewport'
-        color='#ffffff00' scrollbarBackgroundColor='#1f1f1fdd' scrollbarColors='#afafafcf|#bfbfbfcf|#c8c8c8cf|rgba(0.78,0.78,0.78,0.2)' />
+        color='#ffffff00' scrollbarBackgroundColor='#afafafdd' noScrollbars='false' />
     <Row preferredHeight='50' />
     <Cell dontUseTableCellBackground='true' childForceExpandWidth='false' />
 </Defaults>
 
-<VerticalScrollView height='100' width='220' position='0 25 -250' rotation='-40 0 0' scrollbarsWidth='100'>
-    <GridLayout id='buffButtons' cellSize='50 50'>
-        <!--Buff buttons-->
-    </GridLayout>
-</VerticalScrollView>
+<Panel position='0 25 -250' height='100' width='220' rotation='-40 0 0'>
+    <VerticalScrollView id='contextMenu' height='100' width='220' scrollbarImage='avatarScrollBarImage'>
+        <GridLayout id='buffButtons' cellSize='50 50'>
+            <!--Buff buttons-->
+        </GridLayout>
+    </VerticalScrollView>
+</Panel>
