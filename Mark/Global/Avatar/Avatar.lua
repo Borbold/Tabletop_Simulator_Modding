@@ -9,7 +9,13 @@ function OnOffScrollbar()
     else
         self.UI.setAttribute("contextMenu", "noScrollbars", "false")
     end
-    Wait.time(|| DeleteBuffButtons(), 0.15)
+    Wait.time(|| UpdateXML(), 0.15)
+end
+
+function UpdateXML()
+    local xmlTable = {}
+    xmlTable = self.UI.getXmlTable()
+    self.UI.setXmlTable(xmlTable)
 end
 
 function DeleteBuffButtons()
