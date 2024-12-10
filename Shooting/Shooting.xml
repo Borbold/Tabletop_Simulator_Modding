@@ -1,0 +1,30 @@
+<Defaults>
+    <InputField fontStyle='Bold' resizeTextForBestFit='True' resizeTextMaxSize='120' resizeTextMinSize='10' textAlignment='MiddleCenter'
+        color='#ffffff00' textColor='#ffffff' characterValidation='Integer' onEndEdit='ChangeInputField' />
+    <Button resizeTextForBestFit='True' resizeTextMaxSize='120' resizeTextMinSize='10'
+        textColor='#ffffff' color='#ffffff00' textAlignment='MiddleCenter' fontStyle='Bold' />
+    <Cell dontUseTableCellBackground='true' />
+</Defaults>
+
+<Panel position='0 0 -21' scale='0.5' raycastTarget='false'>
+    <TableLayout width='800' height='400'>
+        <Row>
+            <Cell columnSpan='1'>
+                <InputField id='min' placeholder='min' />
+            </Cell>
+            <Cell columnSpan='1'>
+                <InputField id='max' placeholder='max' />
+            </Cell>
+            <Cell columnSpan='1'>
+                <InputField id='count' placeholder='count' />
+            </Cell>
+        </Row>
+        <Row>
+            <Cell columnSpan='1' />
+            <Cell columnSpan='1'>
+                <Button text='Shoot' onClick='Shoot' />
+            </Cell>
+            <Cell columnSpan='1' />
+        </Row>
+    </TableLayout>
+</Panel>
