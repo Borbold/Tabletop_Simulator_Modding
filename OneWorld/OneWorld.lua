@@ -9,6 +9,14 @@ function onLoad()
     prevTime = os.clock()
 end
 
+function onObjectDestroy(obj)
+  if(obj.getGUID() == mBag.getGUID() or obj.getGUID() == aBag.getGUID()
+      or wBase.getGUID() == vBase.getGUID()
+      or tZone.getGUID() == mBag.getGUID()) then
+    self.setGMNotes("")
+  end
+end
+
 function SelectMap()
   if butActive then EditMode() return end
   if not Global.getVar("oWisOn") or not aBase then return end
@@ -16,14 +24,25 @@ function SelectMap()
   if ba[-1] != ba[0] then GetBase({ba[ba[-1]]}) SetUIText(ParceData({ba[ba[-1]]})) end
 end
 
+function GetNeedObjects()
+  local locObjects = {}
+  if(#self.getGMNotes() > 0) then
+    for guid in self.getGMNotes():gmatch("%S+") do
+      table.insert(locObjects, getObjectFromGUID(guid))
+    end
+  else
+    locObjects = getAllObjects()
+  end
+  return locObjects
+end
+
 function RecreateObjects()
-  local aoj = getAllObjects()
-  local g, n = aoj[1], 1
+  local allObj = GetNeedObjects()
+  local g, n = allObj[1], 1
   while g do
-      if g.getDescription() == "_OW_tBaG" then if tBag then g.destruct() else tBag = g  tBag.interactable = false end end
       if g.getName() == "_OW_vBase" then if vBase then g.destruct() else vBase = g end end
       if g.getName() == "_OW_tZone" then if tZone then g.destruct() else tZone = g end end
-      n = n + 1  g = aoj[n]
+      n = n + 1  g = allObj[n]
   end
   reStart()
   local o, i = {}, {}
@@ -161,15 +180,27 @@ function PutVariable()
   end,
   function() return wBase ~= nil end)
 
-  Wait.time(|| SetUI(), 0.1)
   SetUIText()
+  Wait.time(|| SetUI(), 0.1)
+  Wait.time(|| SaveGUIDs(), 1)
+end
+
+function SaveGUIDs()
+  local save = ""
+  save = save..mBag.getGUID().." "
+  save = save..aBag.getGUID().." "
+  save = save..wBase.getGUID().." "
+  save = save..vBase.getGUID().." "
+  save = save..tZone.getGUID().." "
+  self.setGMNotes(save)
+  broadcastToAll("GUIDs need objects Save", {0.943, 0.745, 0.14})
 end
 
 function reStart(what)
   prs, ss = "", ""
   ba = {}  ba[1] = string.sub(aBag.getDescription(), 10)  ba[0] = 1  if ba[1] == "" then ba[1] = nil  ba[0] = 0  end  ba[-1] = ba[0]
-  local aoj = getAllObjects()
-  local g, n = aoj[1], 1
+  local allObj = GetNeedObjects()
+  local g, n = allObj[1], 1
   while g do
     if string.sub(g.getName(), 1, 4) == "SBx_" then local w = g.getPosition()
       if Global.getVar("oWisOn") and g.guid == wBase.getDescription() then
@@ -178,12 +209,12 @@ function reStart(what)
         end  w[2] = 1
       end
       if w[2] > 50 then g.destruct() end
-    end  n = n + 1  g = aoj[n]
+    end  n = n + 1  g = allObj[n]
   end
 
   Wait.time(function()
     if(what == "END") then
-      for i,v in ipairs(aoj) do
+      for i,v in ipairs(allObj) do
         if(v.getName():find("SBx_")) then
           aBag.putObject(v)
         end
@@ -255,7 +286,8 @@ end
 
 function FindBags()
     mBag = nil  aBag = nil wBase = nil  local m = 3  local a = 3  local p = {}
-    local aoj = {}  aoj = getAllObjects()  local g, s, n  n = 1  s = ""  g = aoj[1]
+    local allObj = GetNeedObjects()
+    local g, s, n  n = 1  s = ""  g = allObj[1]
     while g do
       if g.getDescription() == "_OW_mBaG" then
         if mBag then p = self.getPosition()
@@ -274,7 +306,7 @@ function FindBags()
         else aBag = g  if aBag.getPosition().y < -10 then aBag.interactable = false end  end
       end
       if g.getName() == "_OW_wBase" then wBase = g end
-      n = n+1  g = aoj[n]
+      n = n+1  g = allObj[n]
     end
     if not mBag or not aBag then
       broadcastToAll("Missing bags. Zone Object Bag and Base Token Bag", {0.943, 0.745, 0.14})
@@ -329,6 +361,7 @@ function btnFit()
     wBase.setScale({1.85*x, 1, 1.85*z})
     aBase.setScale({18.09*x/36, 1, 18.09*z/36})
   end
+  if(r90 == 1) then r1 = 90 else r1 = 0 end
   jotBase()
   stowBase()
   noBase()
@@ -338,8 +371,8 @@ function btnFit()
 end
 
 function rotBase()
-  local n = 0  if r90 == 1 then n = 90 end vBase.setRotation({r1, n, r3})
-  if wpx == nil or wpx == wBase.getDescription() then  wBase.setRotation({r1, n, r3})  wBase.call("SetLinks")  end
+  vBase.setRotation({0, r1, r3})
+  if wpx == nil or wpx == wBase.getDescription() then wBase.setRotation({0, r1, r3}) wBase.call("SetLinks") end
 end
 
 function btnProxy()
@@ -372,7 +405,7 @@ function btnPack()
     if not Global.getVar("oWisOn") or not aBase then return end
     if ss != "" or prs != "" then broadcastToAll("The Current Zone is Busy...", {0.943, 0.745, 0.14})  return end
     if not FindBags() then return  end  if tBag then dumpSet() end  local l = vBase.getLuaScript()
-    n = 1  local p, f, u, r, m  local s = ""  aoj = tZone.getObjects()  g = aoj[1]  local a = string.char(10)  local k = string.char(44)
+    n = 1  local p, f, u, r, m  local s = ""  allObj = tZone.getObjects()  g = allObj[1]  local a = string.char(10)  local k = string.char(44)
     while g do
         p = g.getPosition()  f = g.getGUID()  u = 0  if g.getLock() then u = 1 end
         if g.name ~= "_OW_vBase" then
@@ -381,8 +414,9 @@ function btnPack()
               ss = ss..g.guid  r = g.getRotation()  s = s.."--"..f..k..p[1]..k..p[2]..k..p[3]..k..r[1]..k..r[2]..k..r[3]..k..u..a
             end
         end
-        n = n + 1  g = aoj[n]
-    end  z2 = 1
+        n = n + 1  g = allObj[n]
+    end
+    z2 = 1
     if ss != "" then
       if m then ss = ""  broadcastToAll("Pack Canceled. Remove SkyBox Tool.", {0.943, 0.745, 0.14})
       else aBase.setLuaScript(s)  broadcastToAll("Packing Zone...", {0.943, 0.745, 0.14})
@@ -399,29 +433,31 @@ function doPack(a)
   end
   aBase.setDescription(a.guid)
   iBag = a
-  Wait.time(|| cbPack(), 0.2, #getAllObjects())
+  Wait.time(|| cbPack(), 0.2, 10)
 end
 function cbPack()
-    if ss == "" then
-      Wait.stopAll()
-      Wait.time(|| endPack(), 0.2)
+  if ss == "" then
+    Wait.stopAll()
+    Wait.time(|| endPack(), 0.2)
+  end
+  local i, g
+  for i = 0, string.len(ss)/6-1 do  g = string.sub(ss, i*6 + 1, i*6 + 6)
+    if not getObjectFromGUID(g) then ss = string.sub(ss, 1, i*6)..string.sub(ss, i*6 + 7) end
+  end
+  if ss == "" then return end
+  z2 = z2 + 1
+  if z2/10 == math.modf(z2/10) then
+    broadcastToAll("Pass"..(z2/10).."...", {0.943, 0.745, 0.14})
+  end
+  if z2 > 68 then
+    broadcastToAll("Manual Inspection Required.", {0.943, 0.745, 0.14})
+    for i = 0, string.len(ss)/6 - 1 do
+      g = string.sub(ss, i*6 + 1, i*6 + 6)
+      getObjectFromGUID(g).resting = true
+      getObjectFromGUID(g).setPosition({0, 3, 0})
     end
-    local i, g
-    for i = 0, string.len(ss)/6-1 do  g = string.sub(ss, i*6 + 1, i*6 + 6)
-      if not getObjectFromGUID(g) then ss = string.sub(ss, 1, i*6)..string.sub(ss, i*6 + 7) end
-    end
-    if ss == "" then return end
-    z2 = z2 + 1
-    if z2/10 == math.modf(z2/10) then
-      broadcastToAll("Pass"..(z2/10).."...", {0.943, 0.745, 0.14})
-    end
-    if z2 > 68 then
-      broadcastToAll("Manual Inspection Required.", {0.943, 0.745, 0.14})
-      for i = 0, string.len(ss)/6 - 1 do  g = string.sub(ss, i*6 + 1, i*6 + 6)
-        getObjectFromGUID(g).resting = true  getObjectFromGUID(g).setPosition({0, 3, 0})
-      end
-      ss = ""
-    end
+    ss = ""
+  end
 end
 function endPack()
   if iBag then
@@ -431,9 +467,9 @@ function endPack()
   jotBase()
   stowBase()
   noBase()
-  Wait.time(|| SetUI(), 0.1)
   SetUIText()
   broadcastToAll("Packing Complete.", {0.943, 0.745, 0.14})
+  Wait.time(|| SetUI(), 0.1)
 end
 
 function jotBase()
@@ -530,16 +566,16 @@ function ParceData(a)
   return string.gsub(d[1], ";", ","), tonumber(d[2]), tonumber(d[3]), d[4], tonumber(d[5]), d[6]
 end
 
-function clrSet(a)
-    if tBag then tBag.destruct() tBag = nil end
-    local o, s, n = {}, aBase.getLuaScript(), 0
-    while n + 5 < string.len(s) do
-        o = getObjectFromGUID(string.sub(s, n + 3, n + 8))
-        if o then
-          o.destruct()
-        end
-        n = string.find(s, string.char(10), n + 3)
+function clrSet()
+  if tBag then tBag.destruct() tBag = nil end
+  local o, s, n = {}, aBase.getLuaScript(), 0
+  while n + 5 < string.len(s) do
+    o = getObjectFromGUID(string.sub(s, n + 3, n + 8))
+    if o then
+      o.destruct()
     end
+    n = string.find(s, string.char(10), n + 3)
+  end
 end
 
 function btnHome()
@@ -841,7 +877,7 @@ function doBuild()
         t.callback = "unPack"  t.callback_owner = self  t.smooth = false  iBag.takeObject(t)
       end
     end  ct = ct + 1
-  end  if zz > 0 then Wait.time(|| queZone(), 0.2, #getAllObjects()) end
+  end  if zz > 0 then Wait.time(|| queZone(), 0.2, 10) end
   if dc > 0 then broadcastToAll("Caution, Duplicate GUID ("..dc..") will be treated as Zone Objects.", {0.7, 0.7, 0.7}) end
 end
 function isDupe(o)

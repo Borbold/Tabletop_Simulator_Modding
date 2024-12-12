@@ -88,13 +88,15 @@ function addLink()
 end
 
 function SetLinks()
+  local rot = self.getRotation().z == 0 and 1 or -1
   local xmlTable = {
     {
       tag = "Panel",
       attributes = {
-        position = "0 0 -6",
+        position = "0 0 "..(-6*rot),
         width = "500",
-        height = "300"
+        height = "300",
+        rotation = "0 "..self.getRotation().z.." 0"
       },
       children = {}
     }
@@ -102,12 +104,11 @@ function SetLinks()
 
   if self.getDescription() == "" then return end
   ow = getObjectFromGUID(Global.getVar("oW4TTale"))
-  local r1 = ow.getVar("r1")  local r3 = ow.getVar("r3")  local t = ow.getVar("lnk")  local v, h, n
+  local r1 = ow.getVar("r1")  local r3 = ow.getVar("r3")  local t = ow.getVar("lnk")  local v, h
   if ow.getVar("r90") == 1 then h = self.getScale().x / 1.85 * 4.65  v = self.getScale().z / 1.85 * 2.63
   else v = self.getScale().z / 1.85 * 4.65  h = self.getScale().x / 1.85 * 2.63  end
-  n = 0  local r = 1  if r1 + r3 == 180 then r = -1 end
-  if r == -1 then n = 180 end
-  for i = 0, string.len(t)/12-1 do  n = i*12 + 1
+  for i = 0, string.len(t)/12-1 do
+    local n = i*12 + 1
     local x = (tonumber(string.sub(t, n, n + 1))*h/100 - (h/2 - 0.016))*100
     local y = ((v/2 - 0.018) - tonumber(string.sub(t, n + 2, n + 3))*v/100)*100
     local newButton = {
@@ -117,9 +118,8 @@ function SetLinks()
         image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/x.png",
         width = 20,
         height = 20,
-        offsetXY = -y.." "..x,
-        onClick = "ButtonLink",
-        rotation = "0 0 "..n
+        offsetXY = (-y*rot).." "..(x*rot),
+        onClick = "ButtonLink"
       }
     }
     table.insert(xmlTable[1].children, newButton)
