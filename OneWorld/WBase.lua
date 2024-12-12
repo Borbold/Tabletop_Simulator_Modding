@@ -51,7 +51,7 @@ function doImport()
     o.setDescription("")  local v = {}  v = o.getObjects()  local n = 1
     while v[n] do
       if string.sub(v[n].name, 1, 4) == "SBx_" then
-        ow.setVar("cbp", "i_"..o.guid)  o.setDescription(v[n].guid)  break
+        ow.setVar("currentBase", "i_"..o.guid)  o.setDescription(v[n].guid)  break
       end n = n+1
     end
     if o.getDescription() == "" then broadcastToAll("Creating Hidden Base...", {0.943, 0.745, 0.14})
@@ -64,7 +64,7 @@ function doImport()
   t.callback_owner = ow  t.smooth = false  o.takeObject(t)
 end
 function cbCTBase(a)
-  local ow = getObjectFromGUID(Global.getVar("oW4TTale"))  ow.setVar("cbp", "c_"..o.guid)
+  local ow = getObjectFromGUID(Global.getVar("oW4TTale"))  ow.setVar("currentBase", "c_"..o.guid)
   o.setDescription(a.guid)  a.setName("SBx_"..string.sub(o.getName(), 5))  ow.call("preImport", {a})
 end
 
@@ -117,11 +117,11 @@ end
 
 function getLink(a)
     local ow = getObjectFromGUID(Global.getVar("oW4TTale"))
-    if ow.getVar("ef") then  ow.call("btnEdit")  return end
+    if ow.getVar("butActive") then ow.call("EditMode") return end
     local l = string.sub(ow.getVar("lnk"), a[1]*12+6, a[1]*12+11)
     local bn = string.sub(ow.call("parceData", {l}), 1, 21)
-    if bn != ow.UI.getAttribute("mTxt", "text") then ow.call("setTxt", bn) ow.setVar("ub", l) ow.call("setBtn")
-    else ow.call("getBase", {l}) end
+    if bn != ow.UI.getAttribute("mTxt", "text") then ow.call("SetUIText", bn) ow.setVar("linkToMap", l) ow.call("SetUI")
+    else ow.call("GetBase", {l}) end
 end
 
 function btnLink0() getLink({0}) end  function btnLink10() getLink({10}) end  function btnLink20() getLink({20}) end  function btnLink30() getLink({30}) end

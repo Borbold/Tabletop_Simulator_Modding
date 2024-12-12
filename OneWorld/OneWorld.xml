@@ -9,7 +9,7 @@
 </Defaults>
 
 <Panel position='0 0 -6' width='652' height='860' scale='0.5' image='uiBackground' raycastTarget='false'>
-    <Button id='b1' class='workButton' width='80' height='50' offsetXY='370 -400' text='i' onClick='btnEnable' />
+    <Button id='b1' class='workButton' width='80' height='50' offsetXY='370 -400' text='Init' onClick='EnableOneWorld' />
 
     <Button id='b2' class='workButton' width='80' height='50' offsetXY='-370 400' text='←' onClick='EditMenu' tooltip='Menu' active='false' />
 
@@ -24,7 +24,7 @@
 
     <Button id='b9' class='workButton' width='120' height='80' offsetXY='390 400' onClick='btnBuild' active='false' />
 
-    <Button id='mTxt' width='680' height='140' offsetXY='260 -60' rotation='0 0 -90' text='One World' onClick='btnSelect' />
+    <Button id='mTxt' width='680' height='140' offsetXY='260 -60' rotation='0 0 -90' text='One World' onClick='SelectMap' />
     
     <TableLayout id='editMenuPanel' width='300' height='850' offsetXY='-570 0' active='false'>
         <Row>
