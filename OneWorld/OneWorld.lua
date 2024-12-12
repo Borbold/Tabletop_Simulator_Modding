@@ -13,7 +13,7 @@ function SelectMap()
   if butActive then EditMode() return end
   if not Global.getVar("oWisOn") or not aBase then return end
   if linkToMap then GetBase({linkToMap}) linkToMap = nil Wait.time(|| SetUI(), 0.1) return end
-  if ba[-1] != ba[0] then GetBase({ba[ba[-1]]}) SetUIText(parceData({ba[ba[-1]]})) end
+  if ba[-1] != ba[0] then GetBase({ba[ba[-1]]}) SetUIText(ParceData({ba[ba[-1]]})) end
 end
 
 function RecreateObjects()
@@ -73,7 +73,7 @@ function TogleEnable()
     mBag.lock()  mBag.setScale({0, 0, 0})  mBag.setPosition({-3,-50, 3})  mBag.interactable = false
     aBag.lock()  aBag.setScale({0, 0, 0})  aBag.setPosition({-3,-55, -3}) aBag.interactable = false
     vBase.interactable = false  vBase.lock()  vBase.setScale({sizePlate, 1, sizePlate})  vBase.setPosition({0, 0, 0})
-    wBase.interactable = false  wBase.lock()  wBase.setScale({1.85, 1, 1.85})  wBase.setPosition({p[1], p[2]+0.105, p[3]-(0.77*r2)})
+    wBase.interactable = false  wBase.lock()  wBase.setScale({1.85, 1, 1.85})  wBase.setPosition({p[1], p[2]+0.105, p[3]+(0.77*r2)})
     broadcastToAll("Running Version: "..self.getDescription(), {0.943, 0.745, 0.14})  wBase.setVar("o", 1)  Wait.time(|| popWB(), 0.2)
     Global.setVar("oWisOn", true)  SetUIText()  r1 = 0  r3= 0  r90 = 0
     rotBase() Wait.time(|| SetUI(), 0.1)
@@ -152,8 +152,8 @@ function PutVariable()
     local g = wBase.getDescription()
     if g != "" and getObjectFromGUID(g) then
       aBase = getObjectFromGUID(g)
-      _, r1, r3, pxy, r90, lnk = parceData({g})
-      wBase.call("setLinks")
+      _, r1, r3, pxy, r90, lnk = ParceData({g})
+      wBase.call("SetLinks")
     end
     if Global.getVar("oWisOn") then
       wBase.interactable = false
@@ -245,7 +245,7 @@ end
 function SetUIText(a)
   local g = a ~= nil and a or "One World"
   self.UI.setAttribute("mTxt", "text", g)
-  local b = parceData({ba[ba[0]]})
+  local b = ParceData({ba[ba[0]]})
   if(not aBase or g == b) then
     self.UI.setAttribute("mTxt", "textColor", "White")
   else
@@ -302,7 +302,7 @@ end
 
 function cbTObj()
     wBase = getObjectFromGUID(wbg)  vBase = getObjectFromGUID(vbg)  wBase.interactable = false  vBase.interactable = false
-    if wpx == nil or wpx == wBase.getDescription() then wBase.call("setLinks") end
+    if wpx == nil or wpx == wBase.getDescription() then wBase.call("SetLinks") end
     if nl then wBase.call("makeLink") end  self.setRotation({0, (2-r2)*90, 0})  rotBase()
     local sizeZone = {vBase.getBoundsNormalized().size.x, 10, vBase.getBoundsNormalized().size.z}
     local posZone = vBase.getPosition() + {x=0, y=vBase.getBoundsNormalized().size.y + 5, z=0}
@@ -339,7 +339,7 @@ end
 
 function rotBase()
   local n = 0  if r90 == 1 then n = 90 end vBase.setRotation({r1, n, r3})
-  if wpx == nil or wpx == wBase.getDescription() then  wBase.setRotation({r1, n, r3})  wBase.call("setLinks")  end
+  if wpx == nil or wpx == wBase.getDescription() then  wBase.setRotation({r1, n, r3})  wBase.call("SetLinks")  end
 end
 
 function btnProxy()
@@ -355,7 +355,7 @@ function btnProxy()
     end
   else
     if wpx then
-      wpx = nil  v.image = aBase.getCustomObject().image  bn, r1, r3, pxy, r90, lnk = parceData({aBase.guid})  pxy = nil
+      wpx = nil  v.image = aBase.getCustomObject().image  bn, r1, r3, pxy, r90, lnk = ParceData({aBase.guid})  pxy = nil
       SetUIText()  wBase.setCustomObject(v)  wBase.reload()  Wait.time(|| cbTObj(), 0.2)
     else
       if tBag then  broadcastToAll("Pack or Clear Zone to Enter Parent View.", {0.943, 0.745, 0.14})  return  end
@@ -479,7 +479,7 @@ function GetBase(a)
     linkToMap = nil
     if not Global.getVar("oWisOn") or a[1] == wBase.getDescription() then return end
     if tBag then clrSet() end  wBase.setDescription("")  aBase = nil
-    local g = a[1]  local t = lnk  bn, r1, r3, pxy, r90, lnk = parceData({g})  if bn == nil then return end
+    local g = a[1]  local t = lnk  bn, r1, r3, pxy, r90, lnk = ParceData({g})  if bn == nil then return end
     if pxy and not wpx then  wpx = g  broadcastToAll("Entering Parent View...", {0.286, 0.623, 0.118})
     else if wpx then lnk = t end  end
     if getObjectFromGUID(g) then cbGetBase(getObjectFromGUID(g)) return end
@@ -509,14 +509,23 @@ end
 
 function isPVw()  if wpx then broadcastToAll("Action Canceled While in Parent View.", {0.943, 0.745, 0.14})  return true  end  end
 
-function parceData(a)
-  local h = string.char(45)  local k = string.char(44)  local e = string.char(10)  local s = aBag.getLuaScript()
-  local g = a[1] local n = string.find(s, k, string.find(s, h..g..k))  local m = n
+function ParceData(a)
+  local h, k, e, s = string.char(45), string.char(44), string.char(10), aBag.getLuaScript()
+  local g, n = a[1], string.find(s, k, string.find(s, h..a[1]..k))
+  local m = n
   if not n then broadcastToAll("No base map.", {0.943, 0.745, 0.14})  return end
-  local d = {}  local i
-  for i = 1, 5 do  n = string.find(s, k, m+1)  d[i] = string.sub(s, m+1, n-1)  m = n  end
-  n = string.find(s, e, m+1)  d[6] = string.sub(s, m+1, n-1)  if d[6] == nil then d[6] = "" end
-  d[4] = tonumber(d[4])  if d[4] == 0 then d[4] = 8 elseif d[4] == 1 or d[4] == 2 then d[4] = nil end
+  local d = {}
+  for i = 1, 5 do
+    n = string.find(s, k, m+1)
+    d[i] = string.sub(s, m + 1, n - 1)
+    m = n
+  end
+  n = string.find(s, e, m+1)
+  d[6] = string.sub(s, m+1, n-1)
+  if d[6] == nil then d[6] = "" end
+  d[4] = tonumber(d[4])
+  if d[4] == 0 then d[4] = 8
+  elseif d[4] == 1 or d[4] == 2 then d[4] = nil end
   if wpx and wpx != g then d[4] = nil end
   return string.gsub(d[1], ";", ","), tonumber(d[2]), tonumber(d[3]), d[4], tonumber(d[5]), d[6]
 end
@@ -572,8 +581,7 @@ function mvPoint()
   if ba[-1] > ba[0] then
     ba[-1] = 2
   end
-  local b = parceData({ba[ba[-1]]})
-  SetUIText(b)
+  SetUIText(ParceData({ba[ba[-1]]}))
   Wait.time(|| SetUI(), 0.1)
   if aBase and ba[-1] == ba[0] then
     self.UI.setAttribute("mTxt", "textColor", "#b15959")
@@ -593,7 +601,7 @@ function btnLink()
   if linkToMap and ba[-1] == ba[0] and string.sub(aBase.getName(), 5) != self.UI.getAttribute("mTxt", "text") then
     local n = string.find(lnk, "@"..linkToMap)
     while n do  lnk = string.sub(lnk, 1, n-5)..string.sub(lnk, n+8)  n = string.find(lnk, "@"..linkToMap)  end
-    nl = linkToMap  linkToMap = nil  SetUIText(aBase.getName():sub(5))  Wait.time(|| SetUI(), 0.1) jotBase() wBase.call("setLinks")
+    nl = linkToMap  linkToMap = nil  SetUIText(aBase.getName():sub(5))  Wait.time(|| SetUI(), 0.1) jotBase() wBase.call("SetLinks")
   else nl = aBase.guid end
   wBase.call("makeLink")
   linkToMap = nil
