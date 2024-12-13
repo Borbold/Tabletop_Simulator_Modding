@@ -88,6 +88,10 @@ function addLink()
 end
 
 function SetLinks()
+  ow = getObjectFromGUID(Global.getVar("oW4TTale"))
+  local t = ow.getVar("lnk")
+  if(t == nil) then return end
+  
   local rot = self.getRotation().z == 0 and 1 or -1
   local xmlTable = {
     {
@@ -103,11 +107,10 @@ function SetLinks()
   }
 
   if self.getDescription() == "" then return end
-  ow = getObjectFromGUID(Global.getVar("oW4TTale"))
-  local r1 = ow.getVar("r1")  local r3 = ow.getVar("r3")  local t = ow.getVar("lnk")  local v, h
+  local r1 = ow.getVar("r1")  local r3 = ow.getVar("r3") local v, h
   if ow.getVar("r90") == 1 then h = self.getScale().x / 1.85 * 4.65  v = self.getScale().z / 1.85 * 2.63
-  else v = self.getScale().z / 1.85 * 4.65  h = self.getScale().x / 1.85 * 2.63  end
-  for i = 0, string.len(t)/12-1 do
+  else v = self.getScale().z / 1.85 * 4.65  h = self.getScale().x / 1.85 * 2.63 end
+  for i = 0, string.len(t)/12 do
     local n = i*12 + 1
     local x = (tonumber(string.sub(t, n, n + 1))*h/100 - (h/2 - 0.016))*100
     local y = ((v/2 - 0.018) - tonumber(string.sub(t, n + 2, n + 3))*v/100)*100

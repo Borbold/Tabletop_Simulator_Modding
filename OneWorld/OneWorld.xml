@@ -16,7 +16,8 @@
     <Button id='b3' class='workButton' width='80' height='50' offsetXY='-260 -455' text='...' onClick='btnVert' />
     <Button id='b4' class='workButton' width='80' height='50' offsetXY='-350 -360' rotation='0 0 270' text='...' onClick='btnHorz' />
 
-    <Button id='b5' class='workButton' width='40' height='40' offsetXY='-180 -445' onClick='btnFit' />
+    <Button id='b5' class='workButton' width='40' height='40' offsetXY='-180 -445' onClick='SettingSizeBase' tooltipPosition='Below' tooltip='You can change size base'
+        image='https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Windows_Settings_icon.svg/2184px-Windows_Settings_icon.svg.png' />
     <Button id='b6' class='workButton' width='40' height='40' offsetXY='-340 -280' rotation='0 0 270' onClick='btnProxy' tooltipPosition='Left' />
 
     <Button id='b7' class='workButton' width='50' height='80' offsetXY='280 360' onClick='btnHome' tooltip='Next' color='#ffffff00' />
