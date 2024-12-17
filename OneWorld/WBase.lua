@@ -22,25 +22,30 @@ function onCollisionEnter(a)
     o = a.collision_object  local ow = getObjectFromGUID(Global.getVar("oW4TTale"))
     local g = string.sub(o.getName(), 1, 4)  if g == "SET_" then g = "OWx_" end
     local i = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/x.png"
-    if self.getDescription() == "" and g == "SBx_" and o.name == "Custom_Token" then newBase()
+    if self.getDescription() == "" and g == "SBx_" and o.name == "Custom_Token" then NewBase()
       elseif self.getDescription() == "" and g == "OWx_" and o.name == "Bag" then doImport()
-      elseif self.getDescription() != "" and o.getCustomObject().image == i then addLink()
+      elseif self.getDescription() != "" and o.getCustomObject().image == i then AddLink()
       else
         if g == "SBx_" or g == "OWx_" then broadcastToAll("!! Clear Hub to Import !!", {0.95, 0.95, 0.95})
         else local v = ow.getVar("vBase")  local s = v.getLuaScript()  local n = string.len(s)
-          while string.sub(s, n) != "@" do  s = string.sub(s, 1, n-1)  n = n-1  end
-          g = o.guid  local n = string.find(s, g)  local b = ""  local q = "DO NOT PACK: "  if g then b = " ("..g..")" end
-          if n then  q = "WILL PACK: "  s = string.sub(s, 1, n-1)..string.sub(s, n+7)  else  s = s..g.."@"  end
-          v.setLuaScript(s)  broadcastToAll(q..a.collision_object.name..b, {0.943, 0.745, 0.14})
+          while string.sub(s, n) != "@" do
+            s = string.sub(s, 1, n-1)
+            n = n-1
+          end
+          g = o.guid local b, q, n = "", "DO NOT PACK: ", string.find(s, g)
+          if g then b = " ("..g..")" end
+          if n then q = "WILL PACK: " s = string.sub(s, 1, n-1)..string.sub(s, n+7) else s = s..g.."@" end
+          v.setLuaScript(s) broadcastToAll(q..a.collision_object.name..b, {0.943, 0.745, 0.14})
         end
     end
     Wait.time(|| ow.call("popWB"), 0.2)
 end
 
-function newBase()
-  local ow = getObjectFromGUID(Global.getVar("oW4TTale"))  local s = ow.getVar("aBag").getLuaScript()
-  if string.find(s, "-"..o.guid ..",") then broadcastToAll("Duplicate GUID.", {0.943, 0.745, 0.14})
-    else ow.call("putBase", {o.guid}) end
+function NewBase()
+  local ow = getObjectFromGUID(Global.getVar("oW4TTale"))
+  local s = ow.getVar("aBag").getLuaScript()
+  if string.find(s, o.getGUID()) then broadcastToAll("Duplicate GUID.", {0.943, 0.745, 0.14})
+  else ow.call("putBase", {o.getGUID()}) end
 end
 
 function doImport()
@@ -68,11 +73,15 @@ function cbCTBase(a)
   o.setDescription(a.guid)  a.setName("SBx_"..string.sub(o.getName(), 5))  ow.call("preImport", {a})
 end
 
-function addLink()
+function AddLink()
   local ow = getObjectFromGUID(Global.getVar("oW4TTale"))
   if ow.call("isPVw") then  o.destruct()  return end
-  if o.getDescription() == self.getDescription() then
-    o.destruct()  broadcastToAll("Link to Self.", {0.943, 0.745, 0.14})  return end
+  local s = ow.getVar("aBag").getLuaScript()
+  if o.getDescription() == self.getDescription() or s:find("@"..o.getDescription()) then
+    o.destruct()
+    broadcastToAll("Link to Self or duplicate Link", {0.943, 0.745, 0.14})
+    return
+  end
   local l1 = o.getVar("l1")  local l3 = o.getVar("l3")  local p = {}
   if not l1 then  p = o.getPosition()  l1 = p[1]  l3 = p[3]  end
   p = self.getPosition()  local h = 4.8  local v = 8.5
@@ -83,7 +92,7 @@ function addLink()
   if r1 == 180 then x = 99 - x end  if r3 == 180 then y = 99 - y end  local n = y
   if ow.getVar("r90") == 1 then  y = 99 - x  x = n  end
   y = string.sub("0"..y, string.len(y))  x = string.sub("0"..x, string.len(x))
-  ow.setVar("lnk", ow.getVar("lnk")..x..y.."@"..o.getDescription()..",")  o.destruct()  ow.call("jotBase")
+  ow.setVar("lnk", (ow.getVar("lnk") or "")..","..x..y.."@"..o.getDescription()) o.destruct() ow.call("JotBase")
   SetLinks()
 end
 
@@ -110,14 +119,13 @@ function SetLinks()
   local r1 = ow.getVar("r1")  local r3 = ow.getVar("r3") local v, h
   if ow.getVar("r90") == 1 then h = self.getScale().x / 1.85 * 4.65  v = self.getScale().z / 1.85 * 2.63
   else v = self.getScale().z / 1.85 * 4.65  h = self.getScale().x / 1.85 * 2.63 end
-  for i = 0, string.len(t)/12 do
-    local n = i*12 + 1
-    local x = (tonumber(string.sub(t, n, n + 1))*h/100 - (h/2 - 0.016))*100
-    local y = ((v/2 - 0.018) - tonumber(string.sub(t, n + 2, n + 3))*v/100)*100
+  for w in t:gmatch("[%d]*@") do
+    local x = (tonumber(string.sub(w, 1, 2))*h/100 - (h/2 - 0.016))*100
+    local y = ((v/2 - 0.018) - tonumber(string.sub(w, 3, 4))*v/100)*100
     local newButton = {
       tag = "Button",
       attributes = {
-        id = "link"..i,
+        id = "link"..#xmlTable[1].children,
         image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/x.png",
         width = 20,
         height = 20,
@@ -131,7 +139,7 @@ function SetLinks()
   self.UI.setXmlTable(xmlTable)
 end
 
-function makeLink()
+function MakeLink()
   local r2 = getObjectFromGUID(Global.getVar("oW4TTale")).getVar("r2")  local x = self.getPosition()
   x[1] = x[1]-(5.5 * r2)  x[2]=x[2]+2.5  local p = {}  p.type = "Custom_Token"  p.position = {x[1], x[2], x[3]}
   p.rotation = {0, 90, 0}  p.scale = {0.1, 0.1, 0.1}  p.callback = "cbMLink"  p.callback_owner = self
@@ -141,7 +149,7 @@ end
 function cbMLink(a)
   local ow = getObjectFromGUID(Global.getVar("oW4TTale"))  a.setDescription(ow.getVar("nl"))
   local bn = ow.call("ParceData", {ow.getVar("nl")})  a.setName(bn)  ow.setVar("nl", nil)
-  local s = self.getLuaScript()  s = string.sub(s, 6, string.find(s, "oW_4TT")-4)  a.setLuaScript(s)
+  local s = self.getLuaScript() s = s:sub(6, s:find("oW_4TT") - 4) a.setLuaScript(s)
 end
 
 function getLink(a)

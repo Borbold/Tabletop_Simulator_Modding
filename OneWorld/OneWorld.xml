@@ -2,22 +2,31 @@
     <Button font='Fonts/Allods' resizeTextForBestFit='True' resizeTextMaxSize='120' resizeTextMinSize='10'
         textColor='#ffffff' color='#ffffff00' textAlignment='MiddleCenter' fontStyle='Bold'
         tooltipFont='Fonts/Allods' tooltipFontSize='20' tooltipPosition='Above' />
+    <InputField font='Fonts/Allods' resizeTextForBestFit='True' resizeTextMaxSize='90' resizeTextMinSize='10'
+        textColor='#ffffff' color='#1f1f1ff1' textAlignment='MiddleCenter'
+        tooltipFont='Fonts/Allods' tooltipFontSize='20' tooltipPosition='Above' characterValidation='Alphanumeric' />
+    <Text font='Fonts/Allods' resizeTextForBestFit='True' resizeTextMaxSize='120' resizeTextMinSize='10'
+        color='#ffffff'
+        tooltipFont='Fonts/Allods' tooltipFontSize='20' tooltipPosition='Above'/>
     <Cell dontUseTableCellBackground='true' />
+    <Panel position='0 0 -6' scale='0.5' />
     
     <Button class='workButton' textColor='Black' color='White' image='uiBackButton' />
     <Button class='editMenuButton' textColor='Black' color='White' image='uiBackButton' resizeTextMaxSize='80' />
 </Defaults>
 
-<Panel position='0 0 -6' width='652' height='860' scale='0.5' image='uiBackground' raycastTarget='false'>
-    <Button id='b1' class='workButton' width='80' height='50' offsetXY='370 -400' text='Init' onClick='EnableOneWorld' />
+<Panel width='652' height='860' image='uiBackground' raycastTarget='false'>
+    <Button id='b1' class='workButton' offsetXY='370 -400' width='80' height='50' text='Init' onClick='EnableOneWorld' />
+</Panel>
 
-    <Button id='b2' class='workButton' width='80' height='50' offsetXY='-370 400' text='←' onClick='EditMenu' tooltip='Menu' active='false' />
+<Panel id='mainPanel' active='false' raycastTarget='false'>
+    <Button id='b2' class='workButton' width='80' height='50' offsetXY='-370 400' text='←' onClick='EditMenu' tooltip='Menu' />
 
     <Button id='b3' class='workButton' width='80' height='50' offsetXY='-260 -455' text='...' onClick='btnVert' />
     <Button id='b4' class='workButton' width='80' height='50' offsetXY='-350 -360' rotation='0 0 270' text='...' onClick='btnHorz' />
 
     <Button id='b5' class='workButton' width='40' height='40' offsetXY='-180 -445' onClick='SettingSizeBase' tooltipPosition='Below' tooltip='You can change size base'
-        image='https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Windows_Settings_icon.svg/2184px-Windows_Settings_icon.svg.png' />
+        icon='uiOneWorld_b5' />
     <Button id='b6' class='workButton' width='40' height='40' offsetXY='-340 -280' rotation='0 0 270' onClick='btnProxy' tooltipPosition='Left' />
 
     <Button id='b7' class='workButton' width='50' height='80' offsetXY='280 360' onClick='btnHome' tooltip='Next' color='#ffffff00' />
@@ -70,3 +79,22 @@
         </Row>
     </TableLayout>
 </Panel>
+
+<TableLayout id='settingSizes' position='-90 -280 -6' scale='0.5' width='200' height='160' color='Black' active='false'>
+    <Row>
+        <Cell columnSpan='5'>
+            <Text text='vBase' />
+        </Cell>
+        <Cell columnSpan='10'>
+            <InputField id='vBase' placeholder='25;25' onEndEdit='ChangeSettingSize' />
+        </Cell>
+    </Row>
+    <Row>
+        <Cell columnSpan='5'>
+            <Text text='wBase' />
+        </Cell>
+        <Cell columnSpan='10'>
+            <InputField id='wBase' placeholder='1.85;1.85' onEndEdit='ChangeSettingSize' />
+        </Cell>
+    </Row>
+</TableLayout>
