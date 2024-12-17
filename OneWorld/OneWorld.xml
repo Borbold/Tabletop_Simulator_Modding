@@ -2,9 +2,9 @@
     <Button font='Fonts/Allods' resizeTextForBestFit='True' resizeTextMaxSize='120' resizeTextMinSize='10'
         textColor='#ffffff' color='#ffffff00' textAlignment='MiddleCenter' fontStyle='Bold'
         tooltipFont='Fonts/Allods' tooltipFontSize='20' tooltipPosition='Above' />
-    <InputField font='Fonts/Allods' resizeTextForBestFit='True' resizeTextMaxSize='90' resizeTextMinSize='10'
-        textColor='#ffffff' color='#1f1f1ff1' textAlignment='MiddleCenter'
-        tooltipFont='Fonts/Allods' tooltipFontSize='20' tooltipPosition='Above' characterValidation='Alphanumeric' />
+    <InputField font='Fonts/Allods' resizeTextForBestFit='True' resizeTextMaxSize='30' resizeTextMinSize='10'
+        textColor='#ffffff' color='#1f1f1ff1' textAlignment='MiddleCenter' image='uiBackButton'
+        tooltipFont='Fonts/Allods' tooltipFontSize='20' tooltipPosition='Above' characterValidation='Decimal' />
     <Text font='Fonts/Allods' resizeTextForBestFit='True' resizeTextMaxSize='120' resizeTextMinSize='10'
         color='#ffffff'
         tooltipFont='Fonts/Allods' tooltipFontSize='20' tooltipPosition='Above'/>
@@ -80,21 +80,27 @@
     </TableLayout>
 </Panel>
 
-<TableLayout id='settingSizes' position='-90 -280 -6' scale='0.5' width='200' height='160' color='Black' active='false'>
+<TableLayout id='settingSizes' position='-90 -265 -6' scale='0.5' width='200' height='100' image='uiBackButton' color='Black' active='false'>
     <Row>
-        <Cell columnSpan='5'>
+        <Cell>
             <Text text='vBase' />
         </Cell>
-        <Cell columnSpan='10'>
-            <InputField id='vBase' placeholder='25;25' onEndEdit='ChangeSettingSize' />
+        <Cell>
+            <InputField id='vBaseX' text='25' onEndEdit='ChangeSettingSize' />
+        </Cell>
+        <Cell>
+            <InputField id='vBaseZ' text='25' onEndEdit='ChangeSettingSize' />
         </Cell>
     </Row>
     <Row>
-        <Cell columnSpan='5'>
+        <Cell>
             <Text text='wBase' />
         </Cell>
-        <Cell columnSpan='10'>
-            <InputField id='wBase' placeholder='1.85;1.85' onEndEdit='ChangeSettingSize' />
+        <Cell>
+            <InputField id='wBaseX' text='1.85' onEndEdit='ChangeSettingSize' />
+        </Cell>
+        <Cell>
+            <InputField id='wBaseZ' text='1.85' onEndEdit='ChangeSettingSize' />
         </Cell>
     </Row>
 </TableLayout>

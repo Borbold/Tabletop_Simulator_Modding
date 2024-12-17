@@ -127,8 +127,8 @@ function SetLinks()
       attributes = {
         id = "link"..#xmlTable[1].children,
         image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/x.png",
-        width = 20,
-        height = 20,
+        width = 15,
+        height = 15,
         offsetXY = (-y*rot).." "..(x*rot),
         onClick = "ButtonLink"
       }
@@ -142,7 +142,7 @@ end
 function MakeLink()
   local r2 = getObjectFromGUID(Global.getVar("oW4TTale")).getVar("r2")  local x = self.getPosition()
   x[1] = x[1]-(5.5 * r2)  x[2]=x[2]+2.5  local p = {}  p.type = "Custom_Token"  p.position = {x[1], x[2], x[3]}
-  p.rotation = {0, 90, 0}  p.scale = {0.1, 0.1, 0.1}  p.callback = "cbMLink"  p.callback_owner = self
+  p.rotation = {0, 90, 0}  p.scale = {0.07, 0.1, 0.07}  p.callback = "cbMLink"  p.callback_owner = self
   local o = spawnObject(p)  local i = {}  i.thickness = 0.01
   i.image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/x.png"  o.setCustomObject(i)
 end
