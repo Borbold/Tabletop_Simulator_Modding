@@ -15,7 +15,7 @@ end
 
 function Confer(savedData)
   RebuildAssets()
-  countSkills = 19
+  countSkills = 20
   local loadedData = JSON.decode(savedData or "")
   outfitBonus = FillingTable(0)
   majorValue = loadedData and loadedData.majorValue or FillingTable(0)
@@ -187,6 +187,7 @@ function SetTableValue(args)
   startValue2[17] = args.enum.Харизма*5
   startValue2[18] = args.enum.Харизма*4
   startValue2[19] = args.enum.Удача*5
+  startValue2[20] = args.enum.Сила*args.enum.Выносливость/args.enum.Харизма/1.5
 
   freeSkillPoints = args.freeSkillPoints
 
@@ -223,7 +224,7 @@ function ChangePage()
 end
 
 function RebuildAssets()
-  local backG = 'https://i.imgur.com/4KZbrYG.png'
+  local backG = 'https://i.imgur.com/yqC61bk.png'
   local stars = 'https://i.imgur.com/omMOtqc.png'
   local assets = {
     {name = 'uiBackGroun', url = backG},

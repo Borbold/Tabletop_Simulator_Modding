@@ -435,7 +435,7 @@
 			<Cell class='plugThird' />
 		</Row>
 		
-		<!-- Строка: Пилот/"Свободное место под навык" -->
+		<!-- Строка: Пилот/Запугивание -->
 		<Row>
 			<Cell class='plugFirst'>
 				<Panel>
@@ -464,7 +464,6 @@
 			</Cell>
 			
 			<Cell columnSpan='1'>
-				<!--
 				<Panel>
 					<Text id='major20' class='majorValue' />
 				</Panel>
@@ -474,7 +473,6 @@
 					<Text id='start20' class='startValue' />
 					<Button id='plusStart20' class='plusSkills' />
 				</Panel>
-				-->
 			</Cell>
 			
 			<Cell class='plugThird' />
@@ -819,7 +817,7 @@
 			
 			<Cell class='plugThird' />
 		</Row>
-		<!-- Строка: Пилот/"Свободное место под навык" -->
+		<!-- Строка: Пилот/Запугивание -->
 		<Row>
 			<Cell class='plugFirst' />
 			
@@ -840,17 +838,17 @@
 			<Cell class='plugSecond' />
 			
 			<Cell columnSpan='1'>
-				<!--
 				<Panel>
-					<Text id='major20' class='majorValue' />
+					<Button id='minusBaff20' class='minusBaff' />
+					<Text id='baff20' class='baffValue' />
+					<Button id='plusBaff20' class='plusBaff' />
 				</Panel>
 				
 				<Panel>
-					<Button id='minusStart20' class='minusSkills'/>
-					<Text id='start20' class='startValue' />
-					<Button id='plusStart20' class='plusSkills' />
+					<Button id='minusDebaff20' class='minusdebaff' />
+					<Text id='debaff20' class='debaffValue' />
+					<Button id='plusDebaff20' class='plusdebaff' />
 				</Panel>
-				-->
 			</Cell>
 			
 			<Cell class='plugThird' />
