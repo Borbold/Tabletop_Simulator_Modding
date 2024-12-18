@@ -1,19 +1,34 @@
---[[ l1 = nil  l3 = nil  lh = nil  u = nil
-
-function onPickedUp()  u = self.held_by_color  l1 = nil  l3 = nil
-  if math.abs(Player[u].lift_height - 0.03) > 0.005 then lh = Player[u].lift_height  end  Player[u].lift_height = 0.03
+local sciptLinkPlate = [[
+l1, l3, lh, u, sX, sZ = nil, nil, nil, nil, nil, nil
+function onPickedUp()
+  u = self.held_by_color l1 = nil l3 = nil
+  if math.abs(Player[u].lift_height - 0.03) > 0.005 then
+    lh = Player[u].lift_height
+  end
+  Player[u].lift_height = 0.03
 end
 
 function onDropped()
   local x = getObjectFromGUID(Global.getVar("oW4TTale")).getPosition()
-  local p = self.getPosition()  self.setPosition({p[1], x[2]+0.3, p[3]})  self.setPositionSmooth({p[1], x[2], p[3]})  l1 = p[1] l3 = p[3]
+  local p, s = self.getPosition(), self.getScale()
+  self.setPosition({p[1], x[2] + 0.3, p[3]})
+  self.setPositionSmooth({p[1], x[2], p[3]})
+  l1 = p[1] l3 = p[3]
+  sX = math.ceil(s.x*180) sZ = math.ceil(s.z*180)
 end
 
-function onCollisionEnter()  if u and lh then Player[u].lift_height = lh  u = nil  lh = nil  end  end
+function onCollisionEnter()
+  if u and lh then
+    Player[u].lift_height = lh u = nil lh = nil
+  end
+end
 
-function onDestroy()  if u and lh then Player[u].lift_height = lh  u = nil  lh = nil  end  end --oW_4TT ]]
-
--- ^^^  DO NOT ALTER OR REMOVE THESE LINES ABOVE  ^^^
+function onDestroy()
+  if u and lh then
+    Player[u].lift_height = lh u = nil lh = nil
+  end
+end
+]]
 
 o = nil
 
@@ -82,8 +97,8 @@ function AddLink()
     broadcastToAll("Link to Self or duplicate Link", {0.943, 0.745, 0.14})
     return
   end
-  local l1 = o.getVar("l1")  local l3 = o.getVar("l3")  local p = {}
-  if not l1 then  p = o.getPosition()  l1 = p[1]  l3 = p[3]  end
+  local l1, l3, sX, sZ, p = o.getVar("l1"), o.getVar("l3"), o.getVar("sX"), o.getVar("sZ"), {}
+  if not l1 then p = o.getPosition() l1 = p[1] l3 = p[3] end
   p = self.getPosition()  local h = 4.8  local v = 8.5
   local r1 = ow.getVar("r1")  local r3 = ow.getVar("r3")
   if p[2] < 1 then broadcastToAll("For Better Control, Raise HUB to Table.", {0.95, 0.95, 0.95})  end
@@ -92,7 +107,10 @@ function AddLink()
   if r1 == 180 then x = 99 - x end  if r3 == 180 then y = 99 - y end  local n = y
   if ow.getVar("r90") == 1 then  y = 99 - x  x = n  end
   y = string.sub("0"..y, string.len(y))  x = string.sub("0"..x, string.len(x))
-  ow.setVar("lnk", (ow.getVar("lnk") or "")..","..x..y.."@"..o.getDescription()) o.destruct() ow.call("JotBase")
+  local lnk = ow.getVar("lnk") ~= nil and ow.getVar("lnk").."," or ""
+  ow.setVar("lnk", lnk..x..y..sX..sZ.."@"..o.getDescription()..",")
+  o.destruct()
+  ow.call("JotBase")
   SetLinks()
 end
 
@@ -127,8 +145,8 @@ function SetLinks()
       attributes = {
         id = "link"..#xmlTable[1].children,
         image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/x.png",
-        width = 15,
-        height = 15,
+        width = tonumber(string.sub(w, 5, 6)),
+        height = tonumber(string.sub(w, 7, 8)),
         offsetXY = (-y*rot).." "..(x*rot),
         onClick = "ButtonLink"
       }
@@ -147,18 +165,18 @@ function MakeLink()
   i.image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/x.png"  o.setCustomObject(i)
 end
 function cbMLink(a)
-  local ow = getObjectFromGUID(Global.getVar("oW4TTale"))  a.setDescription(ow.getVar("nl"))
-  local bn = ow.call("ParceData", {ow.getVar("nl")})  a.setName(bn)  ow.setVar("nl", nil)
-  local s = self.getLuaScript() s = s:sub(6, s:find("oW_4TT") - 4) a.setLuaScript(s)
+  local ow = getObjectFromGUID(Global.getVar("oW4TTale")) a.setDescription(ow.getVar("nl"))
+  local bn = ow.call("ParceData", {ow.getVar("nl")})  a.setName(bn) ow.setVar("nl", nil)
+  a.setLuaScript(sciptLinkPlate)
 end
 
-function getLink(a)
+function GetLink(id)
   local ow = getObjectFromGUID(Global.getVar("oW4TTale"))
   if ow.getVar("butActive") then ow.call("EditMode") return end
-  local l = string.sub(ow.getVar("lnk"), a[1]*12+6, a[1]*12+11)
+  local l = string.sub(ow.getVar("lnk"), id*16+10, id*16+15)
   local bn = string.sub(ow.call("ParceData", {l}), 1, 21)
   if bn != ow.UI.getAttribute("mTxt", "text") then ow.call("SetUIText", bn) ow.setVar("linkToMap", l) ow.call("SetUI")
   else ow.call("GetBase", {l}) end
 end
 
-function ButtonLink(_, _, id) getLink({tonumber(id:gsub("%D", ""), 10)}) end
+function ButtonLink(_, _, id) GetLink(tonumber(id:gsub("%D", ""), 10)) end
