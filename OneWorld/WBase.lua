@@ -92,22 +92,23 @@ function AddLink()
   local ow = getObjectFromGUID(Global.getVar("oW4TTale"))
   if ow.call("isPVw") then  o.destruct()  return end
   local s = ow.getVar("aBag").getLuaScript()
-  if o.getDescription() == self.getDescription() or s:find("@"..o.getDescription()) then
+  if(o.getDescription() == self.getDescription()) then
     o.destruct()
     broadcastToAll("Link to Self or duplicate Link", {0.943, 0.745, 0.14})
     return
   end
   local l1, l3, sX, sZ, p = o.getVar("l1"), o.getVar("l3"), o.getVar("sX"), o.getVar("sZ"), {}
   if not l1 then p = o.getPosition() l1 = p[1] l3 = p[3] end
-  p = self.getPosition()  local h = 4.8  local v = 8.5
+  p = self.getPosition()
+  local h, v = 4.8, 8.5
   local r1 = ow.getVar("r1")  local r3 = ow.getVar("r3")
-  if p[2] < 1 then broadcastToAll("For Better Control, Raise HUB to Table.", {0.95, 0.95, 0.95})  end
-  local y = math.modf((l1-p[1]+v/2)*100/v)  if y < 0 then y = 0 elseif y > 99 then y = 99 end
-  local x = math.modf((l3-p[3]+h/2)*100/h)  if x < 0 then x = 0 elseif x > 99 then x = 99 end
-  if r1 == 180 then x = 99 - x end  if r3 == 180 then y = 99 - y end  local n = y
-  if ow.getVar("r90") == 1 then  y = 99 - x  x = n  end
+  local y = math.modf((l1 - p[1] + v/2)*100/v) if y < 0 then y = 0 elseif y > 99 then y = 99 end
+  local x = math.modf((l3 - p[3] + h/2)*100/h) if x < 0 then x = 0 elseif x > 99 then x = 99 end
+  if r1 == 180 then x = 99 - x end if r3 == 180 then y = 99 - y end
+  if ow.getVar("r90") == 1 then local n = y y = x x = n end
   y = string.sub("0"..y, string.len(y))  x = string.sub("0"..x, string.len(x))
-  local lnk = ow.getVar("lnk") ~= nil and ow.getVar("lnk").."," or ""
+  local lnk = ow.getVar("lnk")
+  lnk = lnk ~= nil and lnk ~= "" and lnk.."," or ""
   ow.setVar("lnk", lnk..x..y..sX..sZ.."@"..o.getDescription()..",")
   o.destruct()
   ow.call("JotBase")
@@ -134,9 +135,8 @@ function SetLinks()
   }
 
   if self.getDescription() == "" then return end
-  local r1 = ow.getVar("r1")  local r3 = ow.getVar("r3") local v, h
-  if ow.getVar("r90") == 1 then h = self.getScale().x / 1.85 * 4.65  v = self.getScale().z / 1.85 * 2.63
-  else v = self.getScale().z / 1.85 * 4.65  h = self.getScale().x / 1.85 * 2.63 end
+  local r1 = ow.getVar("r1")  local r3 = ow.getVar("r3")
+  local v, h = (1.85/self.getScale().z)*4.6, (1.85/self.getScale().x)*2.6
   for w in t:gmatch("[%d]*@") do
     local x = (tonumber(string.sub(w, 1, 2))*h/100 - (h/2 - 0.016))*100
     local y = ((v/2 - 0.018) - tonumber(string.sub(w, 3, 4))*v/100)*100
