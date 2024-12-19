@@ -354,8 +354,8 @@ function cbTObj()
 end
 
 function popWB() wBase.setVar("o", nil) end
-function btnHorz() if isPVw() then return end if aBase then r1 = 180 - r1 + r90 rotBase() JotBase() end end
-function btnVert() if isPVw() then return end if aBase then r3 = 180 - r3 rotBase() JotBase() end end
+function ButtonHorz() if isPVw() then return end if aBase then r1 = 180 - r1 + r90 rotBase() JotBase() end end
+function ButtonVert() if isPVw() then return end if aBase then r3 = 180 - r3 rotBase() JotBase() end end
 
 function FitBase()
   if isPVw() or not aBase or butActive then return end
@@ -390,7 +390,7 @@ function rotBase()
   if wpx == nil or wpx == wBase.getDescription() then wBase.setRotation({0, r1, r3}) wBase.call("SetLinks") end
 end
 
-function btnProxy()
+function ButtonProxy()
   if not Global.getVar("oWisOn") or not aBase then return end
   local v, f, g = {}, nil, "Ending Parent View..."
   if pxy then
@@ -418,7 +418,7 @@ function btnProxy()
   Wait.time(|| SetUI(), 0.1)
 end
 
-function btnPack()
+function ButtonPack()
     if isPVw() then return  end
     if not Global.getVar("oWisOn") or not aBase then return end
     if ss != "" or prs != "" then broadcastToAll("The Current Zone is Busy...", {0.943, 0.745, 0.14}) return end
@@ -621,7 +621,7 @@ function clrSet()
   end
 end
 
-function btnHome()
+function ButtonHome()
   if wpx then
     wpx = nil
     GetBase({ba[1]})
@@ -644,11 +644,11 @@ function btnHome()
   ba[-1] = ba[-1] + 1
   mvPoint()
 end
-function btnBack()
+function ButtonBack()
   if wpx then  wpx = nil  GetBase({ba[1]})  return end
   if butActive then EditMode()  return end
   if not Global.getVar("oWisOn") then return end  linkToMap = nil  Wait.time(|| SetUI(), 0.1)
-  if ba[0] < 3 then btnHome()  return  end
+  if ba[0] < 3 then ButtonHome()  return  end
   if not aBase then  GetBase({ba[ba[0]]}) return end
   ba[-1] = ba[-1]-1
   mvPoint()
@@ -674,7 +674,7 @@ function rollBack(a)
   else for i = n, ba[0] do  ba[i] = ba[i+1]  end  end  ba[ba[0] ] = a[1]  ba[-1] = ba[0]
 end
 
-function btnLink()
+function ButtonLink()
   if isPVw() then return end
   if not Global.getVar("oWisOn") or not aBase then return end
   if linkToMap and ba[-1] == ba[0] and string.sub(aBase.getName(), 5) != self.UI.getAttribute("mTxt", "text") then
@@ -711,7 +711,7 @@ function EditMode()
     JotBase()  stowBase()  noBase()  Wait.time(|| SetUI(), 0.1)  SetUIText()  butActive = nil  broadcastToAll("Packing Base...", {0.943, 0.745, 0.14}) end
 end  function sclBase(a)  if a.getScale().x == a.getScale().z then a.setScale({0.5, 1, 0.5}) end end
 
-function btnCopy()
+function ButtonCopy()
   if isPVw() then return  end
   if not Global.getVar("oWisOn") or not aBase then return end
   if ss != "" or prs != "" then  broadcastToAll("The Current Zone is Busy...", {0.943, 0.745, 0.14})  return  end
@@ -746,30 +746,45 @@ function cb4Copy()
   aBase.unlock()  noBase()  Wait.time(|| SetUI(), 0.1)  SetUIText()
 end
 
-function btnDelete()
-    if isPVw() then return  end
-    if not Global.getVar("oWisOn") or not aBase then return end
-    if aBase.getLuaScript() != "" and not tBag then broadcastToAll("Deploy Zone to Delete.", {0.943, 0.745, 0.14})  return end
-    if tBag then
-      currentBase = aBase.getGUID()
-      dumpSet()  clrSet()  aBase.setLuaScript("")  stowBase()  wBase.setDescription("")
-      Wait.time(|| cb2Delete(), 0.2)  broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
-    else
-      local g = aBase.getGUID()
-      if g == ba[1] then broadcastToAll("Can't Delete Home, Edit Art Instead.", {0.943, 0.745, 0.14})  return  end
-      local e = string.char(10)  local k = string.char(44)  local h = string.char(45)  local o = {}
-      local s = aBag.getLuaScript()  local n = string.find(s, h..g..k)
-      if n then  local m = string.find(s, e, n)  s = string.sub(s, 1, n-2)..string.sub(s, m+1)  end
-      ba[ba[0]] = nil  ba[0] = ba[0]-1  aBase.destruct()  noBase()  n = string.find(s, "@"..g..k)
-      while n do  s = string.sub(s, 1, n-5)..string.sub(s, n+8)  n = string.find(s, "@"..g..k)  end
-      aBag.setLuaScript(s)  o.smooth = false  o.callback = "cbDelete"  o.callback_owner = self
-      o.guid = g  o.position = {12, -21, -14}  aBag.takeObject(o)
-    end  Wait.time(|| SetUI(), 0.1)  SetUIText()
+function ButtonDelete()
+  if isPVw() then return  end
+  if not Global.getVar("oWisOn") or not aBase then return end
+  if aBase.getLuaScript() != "" and not tBag then broadcastToAll("Deploy Zone to Delete.", {0.943, 0.745, 0.14})  return end
+  if tBag then
+    currentBase = aBase.getGUID()
+    dumpSet() clrSet() aBase.setLuaScript("") stowBase() wBase.setDescription("")
+    Wait.time(|| cb2Delete(), 0.2)  broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
+  else
+    local g = aBase.getGUID()
+    if g == ba[1] then broadcastToAll("Can't Delete Home, Edit Art Instead.", {0.943, 0.745, 0.14}) return end
+    local e, k, h, s = string.char(10), string.char(44), string.char(45), aBag.getLuaScript()
+    ba[ba[0]] = nil
+    ba[0] = ba[0] - 1
+    local newS = ""
+    for str in s:gmatch("[^(\n)]+") do
+      if(str:find(h..g..k) == nil) then
+        if(str:find(g) == nil) then
+          newS = newS..str.."\n"
+        else
+          for word in str:gmatch("[^(,)]+") do
+            if(word:find(g) == nil) then
+              newS = newS..word..","
+            end
+          end
+          newS = newS.."\n"
+        end
+      end
+    end
+    aBag.setLuaScript(newS)
+    aBase.destruct()
+    noBase()
+  end
+  SetUIText()
+  Wait.time(|| SetUI(), 0.1)
 end
-function cbDelete(a) a.destruct() end
 function cb2Delete() GetBase({currentBase}) currentBase = nil end
 
-function btnExport()
+function ButtonExport()
   if isPVw() then return  end
   if not Global.getVar("oWisOn") or not aBase then return end
   if not tBag then broadcastToAll("Deploy Zone to Export.", {0.943, 0.745, 0.14})  return    else tBag.destruct()  tBag = nil  end
@@ -817,7 +832,7 @@ function cbImport()
   aBase.unlock()  aBag.putObject(aBase)  aBase = nil  iBag.unlock()  mBag.putObject(iBag)  iBag = nil
 end
 
-function btnSeeAll()
+function ButtonSeeAll()
     if not Global.getVar("oWisOn") then return end
     broadcastToAll("(scroll <Z-A>, all zones)", {0.7, 0.7, 0.7})  broadcastToAll("Use the One World Logo.", {0.943, 0.745, 0.14})
     if aBase then ba = {}  ba[-1] = 1  ba[0] = 1  ba[1] = aBase.getGUID()  return  end
@@ -831,10 +846,16 @@ function btnSeeAll()
     for i = 1, ct do  ba[i+1] = string.sub(t[i], 3, 8)  s = s..t[i]  end  s = s.."--"  aBag.setLuaScript(s)
 end
 
-function btnNew()
-  if os.clock()-prevTime < 0.7 then  prevTime = prevTime-1 CreateStartBags() TogleEnable()
-      broadcastToAll("(remove 1 pair from the table)", {0.7, 0.7, 0.7})  broadcastToAll("ReName these 2 Bags.", {0.943, 0.745, 0.14})
-    else  prevTime = os.clock()  Wait.time(|| sglClick(), 0.2)
+function ButtonNew()
+  if os.clock() - prevTime < 0.7 then
+    prevTime = prevTime - 1
+    CreateStartBags()
+    TogleEnable()
+    broadcastToAll("(remove 1 pair from the table)", {0.7, 0.7, 0.7})
+    broadcastToAll("ReName these 2 Bags.", {0.943, 0.745, 0.14})
+  else
+    prevTime = os.clock()
+    Wait.time(|| sglClick(), 0.2)
   end
 end
 function sglClick()
@@ -891,7 +912,7 @@ function cbNSync()
   if a then  currentBase = a.getScale()  a.setScale({0, 0, 0})  end
 end
 
-function btnBuild()
+function ButtonBuild()
     if butActive then EditMode() return end
     if currentBase then if string.sub(currentBase, 1, 3) == "xv." then newCode() return end end
     if not Global.getVar("oWisOn") or not aBase then return end

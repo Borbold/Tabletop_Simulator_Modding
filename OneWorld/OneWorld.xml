@@ -22,59 +22,59 @@
 <Panel id='mainPanel' active='false' raycastTarget='false'>
     <Button id='b2' class='workButton' width='80' height='50' offsetXY='-370 400' text='←' onClick='EditMenu' tooltip='Menu' />
 
-    <Button id='b3' class='workButton' width='80' height='50' offsetXY='-260 -455' text='...' onClick='btnVert' />
-    <Button id='b4' class='workButton' width='80' height='50' offsetXY='-350 -360' rotation='0 0 270' text='...' onClick='btnHorz' />
+    <Button id='b3' class='workButton' width='80' height='50' offsetXY='-260 -455' text='...' onClick='ButtonVert' />
+    <Button id='b4' class='workButton' width='80' height='50' offsetXY='-350 -360' rotation='0 0 270' text='...' onClick='ButtonHorz' />
 
     <Button id='b5' class='workButton' width='40' height='40' offsetXY='-180 -445' onClick='SettingSizeBase' tooltipPosition='Below' tooltip='You can change size base'
         icon='uiOneWorld_b5' />
-    <Button id='b6' class='workButton' width='40' height='40' offsetXY='-340 -280' rotation='0 0 270' onClick='btnProxy' tooltipPosition='Left' />
+    <Button id='b6' class='workButton' width='40' height='40' offsetXY='-340 -280' rotation='0 0 270' onClick='ButtonProxy' tooltipPosition='Left' />
 
-    <Button id='b7' class='workButton' width='50' height='80' offsetXY='280 360' onClick='btnHome' tooltip='Next' color='#ffffff00' />
-    <Button id='b8' class='workButton' width='50' height='80' offsetXY='220 360' onClick='btnBack' tooltip='Last' color='#ffffff00' />
+    <Button id='b7' class='workButton' width='50' height='80' offsetXY='280 360' onClick='ButtonHome' tooltip='Next' color='#ffffff00' />
+    <Button id='b8' class='workButton' width='50' height='80' offsetXY='220 360' onClick='ButtonBack' tooltip='Last' color='#ffffff00' />
 
-    <Button id='b9' class='workButton' width='120' height='80' offsetXY='390 400' onClick='btnBuild' active='false' />
+    <Button id='b9' class='workButton' width='120' height='80' offsetXY='390 400' onClick='ButtonBuild' active='false' />
 
     <Button id='mTxt' width='680' height='140' offsetXY='260 -60' rotation='0 0 -90' text='One World' onClick='SelectMap' />
     
     <TableLayout id='editMenuPanel' width='300' height='850' offsetXY='-570 0' active='false'>
         <Row>
             <Cell>
-                <Button id='EMP1' class='editMenuButton' text='Link' onClick='btnLink' />
+                <Button id='EMP1' class='editMenuButton' text='Link' onClick='ButtonLink' />
             </Cell>
         </Row>
         <Row>
             <Cell>
-                <Button id='EMP2' class='editMenuButton' text='Pack' onClick='btnPack' />
+                <Button id='EMP2' class='editMenuButton' text='Pack' onClick='ButtonPack' />
             </Cell>
         </Row>
         <Row>
             <Cell>
-                <Button id='EMP3' class='editMenuButton' text='Delete' onClick='btnDelete' />
+                <Button id='EMP3' class='editMenuButton' text='Delete' onClick='ButtonDelete' />
             </Cell>
         </Row>
         <Row>
             <Cell>
-                <Button id='EMP4' class='editMenuButton' text='Copy' onClick='btnCopy' />
+                <Button id='EMP4' class='editMenuButton' text='Copy' onClick='ButtonCopy' />
             </Cell>
         </Row>
         <Row>
             <Cell>
-                <Button id='EMP5' class='editMenuButton' text='Edit' onClick='btnEdit' />
+                <Button id='EMP5' class='editMenuButton' text='Edit' onClick='EditMode' />
             </Cell>
         </Row>
         <Row>
             <Cell>
-                <Button id='EMP6' class='editMenuButton' text='Export' onClick='btnExport' />
+                <Button id='EMP6' class='editMenuButton' text='Export' onClick='ButtonExport' />
             </Cell>
         </Row>
         <Row>
             <Cell>
-                <Button id='EMP7' class='editMenuButton' text='See all' onClick='btnSeeAll' />
+                <Button id='EMP7' class='editMenuButton' text='See all' onClick='ButtonSeeAll' />
             </Cell>
         </Row>
         <Row>
             <Cell>
-                <Button id='EMP8' class='editMenuButton' text='New' onClick='btnNew' />
+                <Button id='EMP8' class='editMenuButton' text='New' onClick='ButtonNew' />
             </Cell>
         </Row>
     </TableLayout>
