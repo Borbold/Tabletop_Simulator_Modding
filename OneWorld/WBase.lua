@@ -1,5 +1,5 @@
 local sciptLinkPlate = [[
-l1, l3, lh, u, sX, sZ = nil, nil, nil, nil, nil, nil
+l1, l3, lh, u, sX, sY = nil, nil, nil, nil, nil, nil
 function onPickedUp()
   u = self.held_by_color l1 = nil l3 = nil
   if math.abs(Player[u].lift_height - 0.03) > 0.005 then
@@ -14,7 +14,7 @@ function onDropped()
   self.setPosition({p[1], x[2] + 0.3, p[3]})
   self.setPositionSmooth({p[1], x[2], p[3]})
   l1 = p[1] l3 = p[3]
-  sX = math.ceil(s.x*180) sZ = math.ceil(s.z*180)
+  sX = math.ceil(s.x*180) sY = math.ceil(s.z*180)
 end
 
 function onCollisionEnter()
@@ -36,7 +36,7 @@ function onCollisionEnter(a)
     if not Global.getVar("oWisOn") or o == a.collision_object or o == 1 then return end
     o = a.collision_object  local ow = getObjectFromGUID(Global.getVar("oW4TTale"))
     local g = string.sub(o.getName(), 1, 4)  if g == "SET_" then g = "OWx_" end
-    local i = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/x.png"
+    local i = "https://steamusercontent-a.akamaihd.net/ugc/13045573010340250/36C6D007CDC8304626495A82A96511E910CC301B/"
     if self.getDescription() == "" and g == "SBx_" and o.name == "Custom_Token" then NewBase()
       elseif self.getDescription() == "" and g == "OWx_" and o.name == "Bag" then doImport()
       elseif self.getDescription() != "" and o.getCustomObject().image == i then AddLink()
@@ -60,7 +60,7 @@ function NewBase()
   local ow = getObjectFromGUID(Global.getVar("oW4TTale"))
   local s = ow.getVar("aBag").getLuaScript()
   if string.find(s, o.getGUID()) then broadcastToAll("Duplicate GUID.", {0.943, 0.745, 0.14})
-  else ow.call("putBase", {o.getGUID()}) end
+  else ow.call("PutBase", o.getGUID()) end
 end
 
 function doImport()
@@ -90,33 +90,33 @@ end
 
 function AddLink()
   local ow = getObjectFromGUID(Global.getVar("oW4TTale"))
-  if ow.call("isPVw") then  o.destruct()  return end
+  if ow.call("isPVw") then o.destruct() return end
   local s = ow.getVar("aBag").getLuaScript()
   if(o.getDescription() == self.getDescription()) then
     o.destruct()
     broadcastToAll("Link to Self or duplicate Link", {0.943, 0.745, 0.14})
     return
   end
-  local l1, l3, sX, sZ, p = o.getVar("l1"), o.getVar("l3"), o.getVar("sX"), o.getVar("sZ"), {}
-  if not l1 then p = o.getPosition() l1 = p[1] l3 = p[3] end
-  p = self.getPosition()
+  local l1, l3, sX, sY, p = o.getVar("l1"), o.getVar("l3"), o.getVar("sX"), o.getVar("sY"), self.getPosition()
   local h, v = 4.8, 8.5
-  local r1 = ow.getVar("r1")  local r3 = ow.getVar("r3")
-  local y = math.modf((l1 - p[1] + v/2)*100/v) if y < 0 then y = 0 elseif y > 99 then y = 99 end
-  local x = math.modf((l3 - p[3] + h/2)*100/h) if x < 0 then x = 0 elseif x > 99 then x = 99 end
-  if r1 == 180 then x = 99 - x end if r3 == 180 then y = 99 - y end
-  if ow.getVar("r90") == 1 then local n = y y = x x = n end
-  y = string.sub("0"..y, string.len(y))  x = string.sub("0"..x, string.len(x))
+  local r1, r3 = ow.getVar("r1"), ow.getVar("r3")
+  local x, y = (l3 - p[3] + h/2)*100/h, (l1 - p[1] + v/2)*100/v
+  if(ow.getVar("r90") == 1) then
+    x = (l1 - p[1] + h/2)*100/h
+    y = (l3 - p[3] + v/2)*100/v
+  end
+  x = Round(x, 2) y = Round(y, 2)
   local lnk = ow.getVar("lnk")
   lnk = lnk ~= nil and lnk ~= "" and lnk.."," or ""
-  ow.setVar("lnk", lnk..x..y..sX..sZ.."@"..o.getDescription()..",")
+  local newLnk = string.format("%s(%f;%f)(%f;%f)@%s", lnk, x, y, sX, sY, o.getDescription())
+  ow.setVar("lnk", newLnk)
   o.destruct()
   ow.call("JotBase")
   SetLinks()
 end
 
 function SetLinks()
-  ow = getObjectFromGUID(Global.getVar("oW4TTale"))
+  local ow = getObjectFromGUID(Global.getVar("oW4TTale"))
   local t = ow.getVar("lnk")
   if(t == nil) then return end
   
@@ -135,19 +135,27 @@ function SetLinks()
   }
 
   if self.getDescription() == "" then return end
-  local r1 = ow.getVar("r1")  local r3 = ow.getVar("r3")
+  local r1, r3 = ow.getVar("r1"), ow.getVar("r3")
   local v, h = (1.85/self.getScale().z)*4.6, (1.85/self.getScale().x)*2.6
-  for w in t:gmatch("[%d]*@") do
-    local x = (tonumber(string.sub(w, 1, 2))*h/100 - (h/2 - 0.016))*100
-    local y = ((v/2 - 0.018) - tonumber(string.sub(w, 3, 4))*v/100)*100
+  if(ow.getVar("r90") == 1) then v, h = (1.85/self.getScale().x)*4.6, (1.85/self.getScale().z)*2.6 end
+  for str in t:gmatch("[%(%d.%d;%d.%d%)]*@") do
+    local x, y, sX, sY
+    local words = {}
+    for w in str:gmatch("[^(;@,)]+") do
+      table.insert(words, w)
+    end
+    x = (tonumber(words[1])*h/100 - (h/2 - 0.016))*100
+    y = ((v/2 - 0.018) - tonumber(words[2])*v/100)*100
+    sX, sY = tonumber(words[3]), tonumber(words[4])
+
     local newButton = {
       tag = "Button",
       attributes = {
-        id = "link"..#xmlTable[1].children,
-        image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/x.png",
-        width = tonumber(string.sub(w, 5, 6)),
-        height = tonumber(string.sub(w, 7, 8)),
-        offsetXY = (-y*rot).." "..(x*rot),
+        id = "link"..(#xmlTable[1].children + 1),
+        image = "https://steamusercontent-a.akamaihd.net/ugc/13045573010340250/36C6D007CDC8304626495A82A96511E910CC301B/",
+        width = sX,
+        height = sY,
+        offsetXY = (-y*rot).." "..x,
         onClick = "ButtonLink"
       }
     }
@@ -162,7 +170,7 @@ function MakeLink()
   x[1] = x[1]-(5.5 * r2)  x[2]=x[2]+2.5  local p = {}  p.type = "Custom_Token"  p.position = {x[1], x[2], x[3]}
   p.rotation = {0, 90, 0}  p.scale = {0.07, 0.1, 0.07}  p.callback = "cbMLink"  p.callback_owner = self
   local o = spawnObject(p)  local i = {}  i.thickness = 0.01
-  i.image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/x.png"  o.setCustomObject(i)
+  i.image = "https://steamusercontent-a.akamaihd.net/ugc/13045573010340250/36C6D007CDC8304626495A82A96511E910CC301B/"  o.setCustomObject(i)
 end
 function cbMLink(a)
   local ow = getObjectFromGUID(Global.getVar("oW4TTale")) a.setDescription(ow.getVar("nl"))
@@ -173,10 +181,22 @@ end
 function GetLink(id)
   local ow = getObjectFromGUID(Global.getVar("oW4TTale"))
   if ow.getVar("butActive") then ow.call("EditMode") return end
-  local l = string.sub(ow.getVar("lnk"), id*16+10, id*16+15)
+  local l = ""
+  for w in ow.getVar("lnk"):gmatch("[^(@,)]+") do
+    if(w:find("%a")) then
+      if(id == 1) then
+        l = w:sub(1, 6)
+        break
+      end
+      id = id - 1
+    end
+  end
   local bn = string.sub(ow.call("ParceData", {l}), 1, 21)
   if bn != ow.UI.getAttribute("mTxt", "text") then ow.call("SetUIText", bn) ow.setVar("linkToMap", l) ow.call("SetUI")
   else ow.call("GetBase", {l}) end
 end
 
 function ButtonLink(_, _, id) GetLink(tonumber(id:gsub("%D", ""), 10)) end
+function Round(num, idp)
+  return math.ceil(num*(10^idp))/10^idp
+end

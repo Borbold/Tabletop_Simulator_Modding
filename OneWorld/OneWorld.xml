@@ -17,6 +17,7 @@
 
 <Panel width='652' height='860' image='uiBackground' raycastTarget='false'>
     <Button id='b1' class='workButton' offsetXY='370 -400' width='80' height='50' text='Init' onClick='EnableOneWorld' />
+    <Button id='mTxt' width='680' height='140' offsetXY='260 -60' rotation='0 0 -90' text='One World' onClick='SelectMap' />
 </Panel>
 
 <Panel id='mainPanel' active='false' raycastTarget='false'>
@@ -33,8 +34,6 @@
     <Button id='b8' class='workButton' width='50' height='80' offsetXY='220 360' onClick='ButtonBack' tooltip='Last' color='#ffffff00' />
 
     <Button id='b9' class='workButton' width='120' height='80' offsetXY='390 400' onClick='ButtonBuild' active='false' />
-
-    <Button id='mTxt' width='680' height='140' offsetXY='260 -60' rotation='0 0 -90' text='One World' onClick='SelectMap' />
     
     <TableLayout id='editMenuPanel' width='300' height='850' offsetXY='-570 0' active='false'>
         <Row>

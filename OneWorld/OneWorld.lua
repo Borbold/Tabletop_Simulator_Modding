@@ -279,57 +279,37 @@ function SetUIText(a)
 end
 
 function FindBags(allObj)
-    mBag, aBag, wBase = nil, nil, nil
-    local m, a, p = 3, 3, {}
-    local s = ""
-    for _,g in ipairs(allObj) do
-      if g.getDescription() == "_OW_mBaG" then
-        if mBag then
-          p = self.getPosition()
-          if mBag != "e" then
-            mBag.unlock() mBag.setScale({1, 1, 1})
-            mBag.setPosition({p[1]-3, p[2]+3, p[3]})  mBag.setPositionSmooth({p[1]-3, p[2]+2.5, p[3]})  mBag = "e"
-          end
-          g.setPosition({p[1]-3, p[2]+3, p[3]-m})  g.setPositionSmooth({p[1]-3, p[2]+2.5, p[3]-m})  m = m+3
-        else
-          mBag = g
-          if mBag.getPosition().y < -10 then mBag.interactable = false end
-        end
-      end
-      if string.sub(g.getDescription(), 1, 8) == "_OW_aBaG" then
-        if aBag then p = self.getPosition()
-          if aBag != "e" then
-            aBag.unlock()  aBag.setScale({1, 1, 1})
-            aBag.setPosition({p[1], p[2]+3, p[3]})  aBag.setPositionSmooth({p[1], p[2]+2.5, p[3]})  aBag = "e"
-          end
-          g.setPosition({p[1], p[2]+3, p[3]-a})  g.setPositionSmooth({p[1], p[2]+2.5, p[3]-a})  a = a+3
-        else aBag = g
-          if aBag.getPosition().y < -10 then aBag.interactable = false end
-        end
-      end
-      if g.getName() == "_OW_wBase" then wBase = g end
-    end
-    if not mBag or not aBag then
-      broadcastToAll("Missing bags. Zone Object Bag and Base Token Bag", {0.943, 0.745, 0.14})
-      CreateStartBags()
-    end
-    if mBag == "e" or aBag == "e" then broadcastToAll("Bag Count Error.", {0.943, 0.745, 0.14})  return false  end
-    if not wBase then
-      s = s.." Missing Hub View Token."
-      WebRequest.get("https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/wBaseLua.txt", self, "newWBase")
-    end
-    if s != "" then
-      broadcastToAll(s, {0.943, 0.745, 0.14})
-      return false
-    else
-      return true
-    end
+  local p, s = self.getPosition(), ""
+  for _,g in ipairs(allObj) do
+    if(g.getDescription() == "_OW_mBaG") then mBag = g end
+    if(g.getDescription():find("_OW_aBaG")) then aBag = g end
+    if(g.getName() == "_OW_wBase") then wBase = g end
+  end
+  if not mBag or not aBag then
+    broadcastToAll("Missing bags. Zone Object Bag and Base Token Bag", {0.943, 0.745, 0.14})
+    CreateStartBags()
+  end
+  if not wBase then
+    s = s.." Missing Hub View Token."
+    WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/WBase.lua", self, "NewWBase")
+  end
+  if s != "" then
+    broadcastToAll(s, {0.943, 0.745, 0.14})
+    return false
+  else
+    return true
+  end
 end
-function newWBase(request)
+function NewWBase(request)
   local p = self.getPosition()
-  local o = {} o.type = "Custom_Token" o.position = {p[1] + 3, p[2] + 2.5, p[3] + 1} o.callback_owner = self o.scale = {0.5, 1, 0.5}
+  local o = {
+    type = "Custom_Token", position = {p[1] + 3, p[2] + 2.5, p[3] + 1},
+    scale = {0.5, 1, 0.5}, callback_owner = self,
+  }
   wBase = spawnObject(o)
-  local i = {} i.image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/table_wood.jpg" i.thickness = 0.1
+  local i = {
+    image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/table_wood.jpg", thickness = 0.1
+  }
   wBase.setCustomObject(i)
   wBase.setLuaScript(request.text) wBase.setName("_OW_wBase")
 end
@@ -510,7 +490,7 @@ function JotBase(jotScaleW)
     end
   end
   local strScale = jotScaleW and jotScaleW or string.format("{%f;%d;%f}", wBase.getScale().x, 1, wBase.getScale().z)
-  aBag.setLuaScript(s..string.format("%s,%s,%s,%s,%s,%s,%s,%s\n--", aBase.getGUID(), name, strScale, r1, r3, x, r90, (lnk or "")))
+  aBag.setLuaScript(s..string.format("%s,%s,%s,%s,%s,%s,%s,%s\n--", aBase.getGUID(), name, strScale, r1, r3, x, r90, (lnk ~= nil and lnk ~= "" and lnk.."," or "")))
 end
 
 function stowBase()
@@ -530,11 +510,11 @@ function noBase()
   Wait.time(function() cbTObj() end, 0.2)
 end
 
-function putBase(a)
-  aBase = getObjectFromGUID(a[1]) JotBase()
+function PutBase(guid)
+  aBase = getObjectFromGUID(guid) JotBase()
   aBase.setLuaScript("")  aBase.setDescription("")  aBag.putObject(aBase)  wBase.setDescription("")
-  if not ba[1] then  ba[1] = a[1]  aBag.setDescription("_OW_aBaG_"..ba[1])  ba[0] = 1  end
-  currentBase = a[1]  broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
+  if not ba[1] then  ba[1] = guid  aBag.setDescription("_OW_aBaG_"..ba[1])  ba[0] = 1  end
+  currentBase = guid  broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
   Wait.time(|| cbPutBase(), 0.2)
 end
 function cbPutBase()
@@ -553,8 +533,7 @@ function GetBase(a)
   if(aBase and tSizeVPlates[aBase.getGUID()]) then vBase.setScale(tSizeVPlates[aBase.getGUID()]) end
   aBase = nil
   if bn == nil then return end
-  if pxy and not wpx then wpx = a[1] broadcastToAll("Entering Parent View...", {0.286, 0.623, 0.118})
-  else if wpx then lnk = t end end
+  if pxy and not wpx then wpx = a[1] broadcastToAll("Entering Parent View...", {0.286, 0.623, 0.118}) end
   if getObjectFromGUID(a[1]) then cbGetBase(getObjectFromGUID(a[1])) return end
   
   local t = {} t.guid = a[1] t.position = {0,-3, 0} t.rotation = {0, 0, 0} t.smooth = false
@@ -584,7 +563,7 @@ function ParceData(a)
   local m = n
   if not n then broadcastToAll("No base map.", {0.943, 0.745, 0.14})  return end
   local d, dFlag = {}, false
-  for w in aBag.getLuaScript():gmatch("[^(,--{})]+") do
+  for w in aBag.getLuaScript():gmatch("[^,--{}]+") do
     if(dFlag) then
       if(w == "\n") then break end
       table.insert(d, w)
@@ -679,7 +658,7 @@ function ButtonLink()
   if not Global.getVar("oWisOn") or not aBase then return end
   if linkToMap and ba[-1] == ba[0] and string.sub(aBase.getName(), 5) != self.UI.getAttribute("mTxt", "text") then
     local locLnk = lnk lnk = ""
-    for w in locLnk:gmatch("[^(,)]+") do
+    for w in locLnk:gmatch("[^,]+") do
       if(not w:find(linkToMap)) then lnk = lnk..w end
     end
     nl = linkToMap
