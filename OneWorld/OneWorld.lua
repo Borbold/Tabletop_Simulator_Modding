@@ -1,6 +1,9 @@
 function UpdateSave()
   local dataToSave = {
     ["tSizeVPlates"] = tSizeVPlates,
+    ["aBagGUID"] = aBag.getGUID(), ["mBagGUID"] = mBag.getGUID(),
+    ["vBaseGUID"] = vBase.getGUID(), ["wBaseGUID"] = wBase.getGUID(),
+    ["tZoneGUID"] = tZone and tZone.getGUID() or nil
   }
   local savedData = JSON.encode(dataToSave)
   self.script_state = savedData
@@ -9,6 +12,13 @@ end
 function onLoad(savedData)
   local loadedData = JSON.decode(savedData or "")
   tSizeVPlates = loadedData and loadedData.tSizeVPlates or {}
+  if(loadedData) then
+    aBag = loadedData.aBagGUID and getObjectFromGUID(loadedData.aBagGUID) or nil
+    mBag = loadedData.mBagGUID and getObjectFromGUID(loadedData.mBagGUID) or nil
+    vBase = loadedData.vBaseGUID and getObjectFromGUID(loadedData.vBaseGUID) or nil
+    wBase = loadedData.wBaseGUID and getObjectFromGUID(loadedData.wBaseGUID) or nil
+    tZone = loadedData.tZoneGUID and getObjectFromGUID(loadedData.tZoneGUID) or nil
+  end
 
   r1, r2, r3 = 0, 0, 0
   lnk, ss, prs, vbg, wbg = "", "", "", "", ""
@@ -29,7 +39,7 @@ end
 
 function RecreateObjects(allObj)
   for _,g in ipairs(allObj) do
-    if g.getName() == "_OW_vBase" then if vBase then g.destruct() else vBase = g end end
+    if g.getName() == "_OW_vBase" then vBase = g end
   end
   reStart()
   local o, i = {}, {}
@@ -40,9 +50,11 @@ function RecreateObjects(allObj)
     vBase = spawnObject(o)
     vBase.setCustomObject(i)
   end
-  local posZone = vBase.getPosition() + {x=0, y=vBase.getBoundsNormalized().size.y, z=0}
-  o.type = "ScriptingTrigger" o.rotation = vBase.getRotation() o.position = posZone o.scale = vBase.getBoundsNormalized().size
-  tZone = spawnObject(o)
+  if(not tZone) then
+    local posZone = vBase.getPosition() + {x=0, y=vBase.getBoundsNormalized().size.y, z=0}
+    o.type = "ScriptingTrigger" o.rotation = vBase.getRotation() o.position = posZone o.scale = vBase.getBoundsNormalized().size
+    tZone = spawnObject(o)
+  end
   Wait.time(|| PutVariable(), 0.2)
 end
 function EnableOneWorld(_, _, id)
@@ -69,9 +81,7 @@ function EnableOneWorld(_, _, id)
   end
 end
 function InitUnit(allObj)
-  if(not Global.getVar("oW4TTale")) then
-    Wait.time(|| RecreateObjects(allObj), 0.2)
-  end
+  Wait.time(|| RecreateObjects(allObj), 0.2)
   Global.setVar("oW4TTale", self.guid)
   if(not FindBags(allObj)) then return false end
   local s = ""
@@ -122,7 +132,7 @@ function TogleEnable()
     wBase.interactable = true  wBase.unlock()  wBase.setScale({0.5, 1, 0.5})
     wBase.setPosition({p[1]+3, p[2]+3, p[3]+1})  wBase.setPositionSmooth({p[1]+3, p[2]+2.5, p[3]+1})
     wpx = nil
-    reStart("END") Wait.time(|| SetUI(), 0.1)
+    reStart(self.UI.getAttribute("b1", "text")) Wait.time(|| SetUI(), 0.1)
     return
   end
   if tBag then
@@ -205,7 +215,7 @@ function reStart(what)
         if zoneObj[i].getName():find("SBx_") then
           if(what == "END") then
             Wait.time(function()
-              tZone.destruct()
+              if(tZone) then tZone.destruct() tZone = nil end
               aBag.putObject(zoneObj[i])
             end, 1)
           end
@@ -221,6 +231,7 @@ function reStart(what)
       zoneForSBx.destruct()
     end, function() return #zoneForSBx.getObjects() > 0 end)
   end
+  UpdateSave()
 end
 
 function SetUI()
@@ -296,9 +307,8 @@ function FindBags(allObj)
   if s != "" then
     broadcastToAll(s, {0.943, 0.745, 0.14})
     return false
-  else
-    return true
   end
+  return true
 end
 function NewWBase(request)
   local p = self.getPosition()
@@ -539,6 +549,7 @@ function GetBase(a)
   local t = {} t.guid = a[1] t.position = {0,-3, 0} t.rotation = {0, 0, 0} t.smooth = false
   t.callback = "cbGetBase" t.callback_owner = self
   aBag.takeObject(t)
+  UpdateSave()
 end
 function cbGetBase(a)
   local locPos = self.getPosition()
