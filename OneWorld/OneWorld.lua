@@ -511,9 +511,12 @@ function stowBase()
 end
 
 function noBase()
-  r1 = 0  r3 = 0  r90 = 0  rotBase()  wBase.setDescription("")  aBase, lnk = nil, ""
-  wBase.setScale({sizeWPlate, 1, sizeWPlate})  vBase.setScale({sizeVPlate, 1, sizeVPlate})
-  local c = {}  c.image = self.UI.getCustomAssets()[4].url
+  r1, r3, r90 = 0, 0, 0
+  aBase, lnk = nil, ""
+  rotBase()
+  wBase.setDescription("") wBase.setScale({sizeWPlate, 1, sizeWPlate})
+  vBase.setScale({sizeVPlate, 1, sizeVPlate})
+  local c = {} c.image = self.UI.getCustomAssets()[4].url
   vBase.setCustomObject(c) vBase.reload()
   wBase.setCustomObject(c) wBase.reload()
   wpx = nil  pxy = nil
@@ -522,9 +525,9 @@ end
 
 function PutBase(guid)
   aBase = getObjectFromGUID(guid) JotBase()
-  aBase.setLuaScript("")  aBase.setDescription("")  aBag.putObject(aBase)  wBase.setDescription("")
-  if not ba[1] then  ba[1] = guid  aBag.setDescription("_OW_aBaG_"..ba[1])  ba[0] = 1  end
-  currentBase = guid  broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
+  aBase.setLuaScript("") aBase.setDescription("") aBag.putObject(aBase) wBase.setDescription("")
+  if not ba[1] then ba[1] = guid aBag.setDescription("_OW_aBaG_"..ba[1]) ba[0] = 1 end
+  currentBase = guid broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
   Wait.time(|| cbPutBase(), 0.2)
 end
 function cbPutBase()
@@ -793,28 +796,36 @@ function cbExport()
 end
 
 function preImport(a)
-  if currentBase then local g = string.sub(currentBase, 1, 2)
+  if currentBase then
+    local g = string.sub(currentBase, 1, 2)
     if g == "i_" or g == "c_" then  if g == "c_" then a = a[1] end
       g = string.sub(currentBase, 3)  a.setDescription(g)  g = getObjectFromGUID(g).getLuaScript()
       if string.sub(g, string.len(g)-1) != string.char(13)..string.char(10) then g = g..string.char(13)..string.char(10) end
       a.setLuaScript(g)
     end
-  end  a.lock()  sclBase(a)  local t = {}  t.position = {3, -29, -7}
-  iBag = getObjectFromGUID(a.getDescription()).clone(t)  currentBase = a.guid  Wait.time(|| doImport(), 0.2)
+  end
+  a.lock() sclBase(a)
+  local t = {position = {3, -29, -7}}
+  iBag = getObjectFromGUID(a.getDescription()).clone(t)
+  currentBase = a.guid
+  Wait.time(|| doImport(), 0.2)
 end
 function doImport()
-  local t = {}  t.position = {0, -3, 0}  aBase = getObjectFromGUID(currentBase).clone(t)
-  iBag.setPosition({3, -39, -7})  iBag.lock()  Wait.time(|| cbImport(), 0.2)
+  local t = {position = {0, -3, 0}}
+  aBase = getObjectFromGUID(currentBase).clone(t)
+  iBag.setPosition({3, -39, -7})
+  iBag.lock()
+  Wait.time(|| cbImport(), 0.2)
 end
 function cbImport()
-  local p = self.getPosition()  p[1] = p[1]-(5.5 * r2)
-  aBase.setPosition({p[1], p[2]+4, p[3]})  aBase.setPositionSmooth({p[1], p[2]+1, p[3]})
-  Wait.time(|| cbImport(), 0.2)
-  local j = aBase.getPosition()  if j[2] > p[2]+3.5 then  return  end  
-  local e = string.char(10)  local k = string.char(44)
-  local s = string.sub(iBag.getName(), 5)  aBase.setName("SBx_"..s)
-  local g = iBag.getDescription()  if string.len(g) == 6 then  g = g..",0,0,2,0"  iBag.setDescription(g)  end
-  s = aBag.getLuaScript()  local n = string.len(s)  if string.sub(s, n) == e then s = string.sub(s, 1, n-1) end  if s == "" then s = "--" end
+  local p = self.getPosition()
+  p[1] = p[1] - (5.5*r2)
+  aBase.setPosition({p[1], p[2] + 4, p[3]})
+  aBase.setPositionSmooth({p[1], p[2] + 1, p[3]})
+  local e, k, s = string.char(10), string.char(44), string.sub(iBag.getName(), 5)
+  local g = iBag.getDescription() aBase.setName("SBx_"..s)
+  if string.len(g) == 6 then g = g..",0,0,2,0" iBag.setDescription(g) end
+  s = aBag.getLuaScript() local n = string.len(s)  if string.sub(s, n) == e then s = string.sub(s, 1, n-1) end  if s == "" then s = "--" end
   s = s..aBase.getGUID()..k..string.sub(aBase.getName(), 5)..string.sub(g, 7)..","..e.."--"  aBag.setLuaScript(s)
   iBag.setDescription("")  iBag.setName("")  aBase.setDescription(iBag.guid)  sclBase(aBase)
   getObjectFromGUID(getObjectFromGUID(currentBase).getDescription()).destruct()  getObjectFromGUID(currentBase).destruct()  currentBase = nil
