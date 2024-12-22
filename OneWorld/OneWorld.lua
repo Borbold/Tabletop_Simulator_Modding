@@ -32,7 +32,7 @@ end
 
 function SelectMap()
   if butActive then EditMode() return end
-  if not Global.getVar("oWisOn") or not aBase then return end
+  if not vBaseOn or not aBase then return end
   if linkToMap then GetBase({linkToMap}) linkToMap = nil Wait.time(|| SetUI(), 0.1) return end
   if ba[-1] != ba[0] then GetBase({ba[ba[-1]]}) SetUIText(ParceData({ba[ba[-1]]})) end
 end
@@ -82,7 +82,7 @@ function EnableOneWorld(_, _, id)
 end
 function InitUnit(allObj)
   Wait.time(|| RecreateObjects(allObj), 0.2)
-  Global.setVar("oW4TTale", self.guid)
+  Global.setVar("oneWorldGUID", self.guid)
   if(not FindBags(allObj)) then return false end
   local s = ""
   if mBag.getName() == "Same_Name_Here" or aBag.getName() == "Same_Name_Here" then s = s.." ReName Your Bags." end
@@ -91,9 +91,8 @@ function InitUnit(allObj)
   if(currentBase) then
     if(string.sub(currentBase, 1, 1) != "x") then udShow() return false end
     local p = aBag.getPosition()
-    if p[2] < -10 then
-      Global.setVar("oWisOn", true) else Global.setVar("oWisOn", false)
-    end
+    if p[2] < -10 then vBaseOn = true
+    else vBaseOn = false end
     broadcastToAll("(LOCK or continue from save)", {0.7, 0.7, 0.7})
     broadcastToAll("Initializing ONE WORLD...", {0.943, 0.745, 0.14})
     currentBase = nil
@@ -105,17 +104,17 @@ function TogleEnable()
   local p
   if ba[1] != string.sub(aBag.getDescription(), 10) then reStart() end
 
-  if not Global.getVar("oWisOn") then
+  if not vBaseOn then
     self.UI.setAttribute("mainPanel", "active", true)
     p = self.getPosition()  local r = self.getRotation()  if r[2] > 180 then r2 = -1 else r2 = 1  end
     self.interactable = false  self.lock()
     self.setRotation({0, (2-r2)*90, 0})  self.setScale({2.2,1,2.2})
     mBag.lock()  mBag.setScale({0, 0, 0})  mBag.setPosition({-3,-50, 3})  mBag.interactable = false
     aBag.lock()  aBag.setScale({0, 0, 0})  aBag.setPosition({-3,-55, -3}) aBag.interactable = false
-    vBase.interactable = false  vBase.lock()  vBase.setScale({sizeVPlate, 1, sizeVPlate})  vBase.setPosition({0, 1, 0})
+    vBase.interactable = false  vBase.lock()  vBase.setScale({sizeVPlate, 1, sizeVPlate})  vBase.setPosition({0, 0.91, 0})
     wBase.interactable = false  wBase.lock()  wBase.setScale({sizeWPlate, 1, sizeWPlate})  wBase.setPosition({p[1], p[2]+0.105, p[3]+(0.77*r2)})
     broadcastToAll("Running Version: "..self.getDescription(), {0.943, 0.745, 0.14})  wBase.setVar("o", 1)  Wait.time(|| popWB(), 0.2)
-    Global.setVar("oWisOn", true)  SetUIText()  r1 = 0  r3= 0  r90 = 0
+    vBaseOn = true SetUIText()  r1 = 0  r3= 0  r90 = 0
     rotBase() Wait.time(|| SetUI(), 0.1)
     return
   end
@@ -123,7 +122,7 @@ function TogleEnable()
     self.UI.setAttribute("mainPanel", "active", false)
     self.UI.setAttribute("b2", "text", "←")
     self.UI.setAttribute("editMenuPanel", "active", false)
-    Global.setVar("oWisOn", false)  p = self.getPosition()
+    vBaseOn, p = false, self.getPosition()
     self.interactable = true  self.unlock()  self.setPositionSmooth({p[1], p[2]+0.1, p[3]})
     mBag.unlock()  mBag.setScale({1, 1, 1})  mBag.setPosition({p[1]-3, p[2]+3, p[3]})  mBag.setPositionSmooth({p[1]-3, p[2]+2.5, p[3]})
     aBag.unlock()  aBag.setScale({1, 1, 1})  aBag.setPosition({p[1], p[2]+3, p[3]})  aBag.setPositionSmooth({p[1], p[2]+2.5, p[3]})
@@ -164,7 +163,7 @@ function PutVariable()
 
   vBase.setName("_OW_vBase") vbg = vBase.getGUID()
 
-  if Global.getVar("oWisOn") then
+  if vBaseOn then
     vBase.interactable = false
   end
 
@@ -186,7 +185,7 @@ function PutVariable()
       aBase = getObjectFromGUID(g)
       _, scalewBase, r1, r3, pxy, r90, lnk = ParceData({g})
     end
-    if Global.getVar("oWisOn") then
+    if vBaseOn then
       wBase.interactable = false
     end
   end,
@@ -202,11 +201,10 @@ function reStart(what)
   if ba[1] == "" then ba[1] = nil ba[0] = 0 end
   ba[-1] = ba[0]
 
-  local o = {}
-  o.type = "ScriptingTrigger"
-  o.scale = self.getBoundsNormalized().size + {x=0, y=10, z=0}
-  o.position = self.getPosition() - {x=0, y=5, z=0}
-  o.rotation = self.getRotation()
+  local o = {
+    type = "ScriptingTrigger", scale = self.getBoundsNormalized().size + {x=0, y=10, z=0},
+    position = self.getPosition() - {x=0, y=5, z=0}, rotation = self.getRotation()
+  }
   do
     local zoneForSBx = spawnObject(o)
     Wait.condition(function()
@@ -219,7 +217,7 @@ function reStart(what)
               aBag.putObject(zoneObj[i])
             end, 1)
           end
-          if Global.getVar("oWisOn") and zoneObj[i].guid == wBase.getDescription() then
+          if vBaseOn and zoneObj[i].guid == wBase.getDescription() then
             if zoneObj[i].guid == ba[1] then
               ba[2] = ba[1]  ba[0] = 2  ba[-1] = 2
             else
@@ -236,7 +234,7 @@ end
 
 function SetUI()
   local forText, g = "", "Init"
-  if Global.getVar("oWisOn") then
+  if vBaseOn then
     if wBase.getDescription() != "" then g = "CLR" else g = "END" end
   end
   self.UI.setAttribute("b1", "text", g)
@@ -336,11 +334,11 @@ function cbTObj()
     
     Wait.time(function()
       local boundsSize = wBase.getBoundsNormalized().size
-      if(r90 == 0 and (boundsSize.x > 9.5 or boundsSize.z > 5.3) or
-          r90 == 90 and (boundsSize.x > 5.3 or boundsSize.z > 9.5)) then
+      if(r90 == 0 and (boundsSize.x > 9.01 or boundsSize.z > 5.35) or
+          r90 == 90 and (boundsSize.x > 5.35 or boundsSize.z > 9.01)) then
         FitBase()
       end
-    end, 0.5)
+    end, 0.01, 4)
 end
 
 function popWB() wBase.setVar("o", nil) end
@@ -350,10 +348,10 @@ function ButtonVert() if isPVw() then return end if aBase then r3 = 180 - r3 rot
 function FitBase()
   if isPVw() or not aBase or butActive then return end
   local baseSize = wBase.getBoundsNormalized().size baseSize.y = 1
-  if baseSize.z > baseSize.x * 1.05 then r90 = 90
+  if baseSize.z > baseSize.x*1.05 then r90 = 90
   else r90 = 0 end
-  baseSize.x = r90 == 0 and (baseSize.x/9.25)*sizeWPlate or (baseSize.x/6.4)*sizeWPlate
-  baseSize.z = r90 == 0 and (baseSize.z/6.4)*sizeWPlate or (baseSize.z/9.25)*sizeWPlate
+  baseSize.x = r90 == 0 and (9.01/baseSize.x)*sizeWPlate or (5.35/baseSize.x)*sizeWPlate
+  baseSize.z = r90 == 0 and (5.35/baseSize.z)*sizeWPlate or (9.01/baseSize.z)*sizeWPlate
   wBase.setScale(baseSize)
   JotBase(string.format("{%f;%d;%f}", baseSize.x, 1, baseSize.z))
 end
@@ -363,13 +361,12 @@ function SettingSizeBase()
     self.UI.getAttribute("settingSizes", "active") == "false" and "true" or "false")
 end
 function ChangeSettingSize(player, input, id)
-  lnk = nil
   self.UI.setAttribute(id, "text", input)
   id = id:sub(1, #id - 1)
   Wait.time(function()
     local strScale = string.format("{%s;1;%s}", self.UI.getAttribute(id.."X", "text"), self.UI.getAttribute(id.."Z", "text"))
     if(id:find("wBase")) then JotBase(strScale) end
-    if(id:find("vBase")) then print(strScale) tSizeVPlates[aBase.getGUID()] = {} for w in strScale:gmatch("[^(;{})]+") do table.insert(tSizeVPlates[aBase.getGUID()], tonumber(w)) end end
+    if(id:find("vBase")) then tSizeVPlates[aBase.getGUID()] = {} for w in strScale:gmatch("[^(;{})]+") do table.insert(tSizeVPlates[aBase.getGUID()], tonumber(w)) end end
     broadcastToAll("{en}Update the base to confirm the changes{ru}Обновите базу для подтверждения изменений", {0.943, 0.745, 0.14})
     UpdateSave()
   end, 0.1)
@@ -381,7 +378,7 @@ function rotBase()
 end
 
 function ButtonProxy()
-  if not Global.getVar("oWisOn") or not aBase then return end
+  if not vBaseOn or not aBase then return end
   local v, f, g = {}, nil, "Ending Parent View..."
   if pxy then
     if wpx then
@@ -410,7 +407,7 @@ end
 
 function ButtonPack()
     if isPVw() then return  end
-    if not Global.getVar("oWisOn") or not aBase then return end
+    if not vBaseOn or not aBase then return end
     if ss != "" or prs != "" then broadcastToAll("The Current Zone is Busy...", {0.943, 0.745, 0.14}) return end
     if tBag then dumpSet() end
     local p, f, u, r, m  local s = ""  allObj = tZone.getObjects() local a, k = string.char(10), string.char(44)
@@ -490,7 +487,7 @@ function JotBase(jotScaleW)
   if pxy then x = 8 else x = 2 end
   while string.sub(s, n) != "-" do  s = string.sub(s, 1, n-1)  n = n-1  end
   n = string.find(s, h..wBase.getDescription()..",")
-  if n then  local m = string.find(s, e, n)  s = string.sub(s, 1, n - 2)..string.sub(s, m + 1)  end
+  if n then s = string.sub(s, 1, n - 2)..string.sub(s, string.find(s, e, n) + 1) end
   local name = string.sub(aBase.getName(), 5)  name = string.gsub(name, ",", ";")
   if r90 != 1 then
     if math.abs(wBase.getScale().x - wBase.getScale().z) > 0.01 then
@@ -523,22 +520,9 @@ function noBase()
   Wait.time(function() cbTObj() end, 0.2)
 end
 
-function PutBase(guid)
-  aBase = getObjectFromGUID(guid) JotBase()
-  aBase.setLuaScript("") aBase.setDescription("") aBag.putObject(aBase) wBase.setDescription("")
-  if not ba[1] then ba[1] = guid aBag.setDescription("_OW_aBaG_"..ba[1]) ba[0] = 1 end
-  currentBase = guid broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
-  Wait.time(|| cbPutBase(), 0.2)
-end
-function cbPutBase()
-  nl = currentBase
-  GetBase({currentBase})
-  currentBase = nil
-end
-
 function GetBase(a)
   linkToMap = nil
-  if not Global.getVar("oWisOn") or a[1] == wBase.getDescription() then return end
+  if not vBaseOn or a[1] == wBase.getDescription() then return end
   if tBag then clrSet() end
   wBase.setDescription("")
   bn, scalewBase, r1, r3, pxy, r90, lnk = ParceData({a[1]})
@@ -624,7 +608,7 @@ function ButtonHome()
     EditMode()
     return
   end
-  if not Global.getVar("oWisOn") then
+  if not vBaseOn then
     return 
   end
   linkToMap = nil Wait.time(|| SetUI(), 0.1)
@@ -640,7 +624,7 @@ end
 function ButtonBack()
   if wpx then  wpx = nil  GetBase({ba[1]})  return end
   if butActive then EditMode()  return end
-  if not Global.getVar("oWisOn") then return end  linkToMap = nil  Wait.time(|| SetUI(), 0.1)
+  if not vBaseOn then return end  linkToMap = nil  Wait.time(|| SetUI(), 0.1)
   if ba[0] < 3 then ButtonHome()  return  end
   if not aBase then  GetBase({ba[ba[0]]}) return end
   ba[-1] = ba[-1]-1
@@ -669,12 +653,12 @@ end
 
 function ButtonLink()
   if isPVw() then return end
-  if not Global.getVar("oWisOn") or not aBase then return end
+  if not vBaseOn or not aBase then return end
   if linkToMap and ba[-1] == ba[0] and string.sub(aBase.getName(), 5) != self.UI.getAttribute("mTxt", "text") then
-    local locLnk = lnk lnk = ""
-    for w in locLnk:gmatch("[^,]+") do
-      if(not w:find(linkToMap)) then lnk = lnk..w end
-    end
+    local tLnk = {}
+    for w in lnk:gmatch("[^,]+") do if(not w:find(linkToMap)) then table.insert(tLnk, w) end end
+    lnk = ""
+    for i,v in ipairs(tLnk) do lnk = lnk..v if(i ~= #tLnk) then lnk = lnk.."," end end
     nl = linkToMap
     linkToMap = nil
     SetUIText(aBase.getName():sub(5))
@@ -690,7 +674,7 @@ end
 
 function EditMode()
   if isPVw() then return end
-  if not Global.getVar("oWisOn") or wBase.getDescription() == "" then return end
+  if not vBaseOn or wBase.getDescription() == "" then return end
   aBase = getObjectFromGUID(wBase.getDescription())
   if tBag then broadcastToAll("Pack or Clear Zone before Edit.", {0.943, 0.745, 0.14})  return end
   if not butActive then
@@ -706,7 +690,7 @@ end  function sclBase(a)  if a.getScale().x == a.getScale().z then a.setScale({0
 
 function ButtonCopy()
   if isPVw() then return  end
-  if not Global.getVar("oWisOn") or not aBase then return end
+  if not vBaseOn or not aBase then return end
   if ss != "" or prs != "" then  broadcastToAll("The Current Zone is Busy...", {0.943, 0.745, 0.14})  return  end
   prs = aBase.getLuaScript()  local n  local a = {}  local o = {}  local p = {}
   if tBag and prs != "" then
@@ -741,7 +725,7 @@ end
 
 function ButtonDelete()
   if isPVw() then return  end
-  if not Global.getVar("oWisOn") or not aBase then return end
+  if not vBaseOn or not aBase then return end
   if aBase.getLuaScript() != "" and not tBag then broadcastToAll("Deploy Zone to Delete.", {0.943, 0.745, 0.14})  return end
   if tBag then
     currentBase = aBase.getGUID()
@@ -779,20 +763,26 @@ function cb2Delete() GetBase({currentBase}) currentBase = nil end
 
 function ButtonExport()
   if isPVw() then return  end
-  if not Global.getVar("oWisOn") or not aBase then return end
-  if not tBag then broadcastToAll("Deploy Zone to Export.", {0.943, 0.745, 0.14})  return    else tBag.destruct()  tBag = nil  end
+  if not vBaseOn or not aBase then return end
+  if not tBag then broadcastToAll("Deploy Zone to Export.", {0.943, 0.745, 0.14})  return
+  else tBag.destruct()  tBag = nil  end
   broadcastToAll("Bagging Export...", {0.943, 0.745, 0.14})
-  local t = {}  t.position = {-7, -23, -4}  eBase = aBase.clone(t)
-  t.type = "Bag"  t.position = {0, 4, 0}  iBag = spawnObject(t)  Wait.time(|| cbExport(), 0.2)
+  local t = {}
+  t.position = {-7, -23, -4} eBase = aBase.clone(t)
+  t.type = "Bag" t.position = {0, 4, 0} iBag = spawnObject(t)
+  Wait.time(|| cbExport(), 0.2)
 end
 function cbExport()
-  iBag.setName("OW"..string.sub(aBase.getName(), 3))  local s = aBase.getLuaScript() local n = 0
+  iBag.setName("OW"..string.sub(aBase.getName(), 3))
+  local s, n = aBase.getLuaScript(), 0
   while n+5 < string.len(s) do
-      local g = string.sub(s, n+3, n+8)
-      if getObjectFromGUID(g) then iBag.putObject(getObjectFromGUID(g)) end
-      n = string.find(s, string.char(10), n+3)
-  end  local k = string.char(44)  s = eBase.guid..k..r1..k..r3..",2,"..r90
-  iBag.setDescription(s)  eBase.setDescription(iBag.guid)  iBag.putObject(eBase)  eBase = nil  iBag = nil  Wait.time(|| SetUI(), 0.1)
+    local g = string.sub(s, n+3, n+8)
+    if getObjectFromGUID(g) then iBag.putObject(getObjectFromGUID(g)) end
+    n = string.find(s, string.char(10), n+3)
+  end
+  local sizes = tSizeVPlates[aBase.getGUID()] or {1.85, 1, 1.85}
+  s = string.format("%s,{%f;1;%f},%d,%d,2,%d", eBase.guid, sizes[1], sizes[3], r1, r3, r90)
+  iBag.setDescription(s) eBase.setDescription(iBag.guid) iBag.putObject(eBase) eBase = nil iBag = nil Wait.time(|| SetUI(), 0.1)
 end
 
 function preImport(a)
@@ -824,7 +814,13 @@ function cbImport()
   aBase.setPositionSmooth({p[1], p[2] + 1, p[3]})
   local e, k, s = string.char(10), string.char(44), string.sub(iBag.getName(), 5)
   local g = iBag.getDescription() aBase.setName("SBx_"..s)
-  if string.len(g) == 6 then g = g..",0,0,2,0" iBag.setDescription(g) end
+  if(#g == 6) then
+    g = g.."{1.85;1;1.85},0,0,2,0"
+    iBag.setDescription(g)
+  elseif(not g:find("{")) then
+    g = g.."{1.85;1;1.85},0,0,2,0"
+    iBag.setDescription(g)
+  end
   s = aBag.getLuaScript() local n = string.len(s)  if string.sub(s, n) == e then s = string.sub(s, 1, n-1) end  if s == "" then s = "--" end
   s = s..aBase.getGUID()..k..string.sub(aBase.getName(), 5)..string.sub(g, 7)..","..e.."--"  aBag.setLuaScript(s)
   iBag.setDescription("")  iBag.setName("")  aBase.setDescription(iBag.guid)  sclBase(aBase)
@@ -834,7 +830,7 @@ function cbImport()
 end
 
 function ButtonSeeAll()
-    if not Global.getVar("oWisOn") then return end
+    if not vBaseOn then return end
     broadcastToAll("(scroll <Z-A>, all zones)", {0.7, 0.7, 0.7})  broadcastToAll("Use the One World Logo.", {0.943, 0.745, 0.14})
     if aBase then ba = {}  ba[-1] = 1  ba[0] = 1  ba[1] = aBase.getGUID()  return  end
     local i, ii, g  local s = aBag.getLuaScript()  local e = string.char(10)  local t = {}  local ct = 0  local n = string.find(s, e)
@@ -916,7 +912,7 @@ end
 function ButtonBuild()
     if butActive then EditMode() return end
     if currentBase then if string.sub(currentBase, 1, 3) == "xv." then newCode() return end end
-    if not Global.getVar("oWisOn") or not aBase then return end
+    if not vBaseOn or not aBase then return end
     if tBag then netSync() return end
     if aBase.getDescription() == "" then return end
     if ss != "" or prs != "" then
@@ -934,25 +930,33 @@ function cbBuild(a)
   doBuild()
 end
 function doBuild()
-  local v = {} v = iBag.getObjects() prs = aBase.getLuaScript()
-  if prs == "" or not v[1] then return end
+  local bagObjects = iBag.getObjects() prs = aBase.getLuaScript()
+  if prs == "" or not bagObjects[1] then return end
   prs = string.gsub(prs, string.char(10), string.char(44))
-  local x, y, z  local ct = 1  local n  local dc = 0  local o = {}  local t = {}  ss = ""  zz = 0  currentBase = ""
-  while v[ct] do
-    n = string.find(prs, "-"..v[ct].guid..",")
-    if n then
-      o = getObjectFromGUID(v[ct].guid)
-      if o then
-        isDupe(o) dc = dc + 1
-      else
-        t.guid = v[ct].guid  n = n + 8  zz = zz + 1
-        x, n = snipIt({n})  y, n = snipIt({n})  z, n = snipIt({n})  t.position = {x, y, z}
-        x, n = snipIt({n})  y, n = snipIt({n})  z, n = snipIt({n})  t.rotation = {x, y, z}
-        t.callback = "unPack"  t.callback_owner = self  t.smooth = false  iBag.takeObject(t)
+  local x, y, z, n
+  do
+    local index, dc, o, t, ss, zz, currentBase = 1, 0, {}, {}, "", 0, ""
+    Wait.condition(function()
+      if zz > 0 then Wait.time(|| queZone(), 0.2, 10) end
+      if dc > 0 then broadcastToAll("Caution, Duplicate GUID ("..dc..") will be treated as Zone Objects.", {0.7, 0.7, 0.7}) end
+    end,
+    function()
+      n = string.find(prs, "-"..bagObjects[index].guid..",")
+      if n then
+        o = getObjectFromGUID(bagObjects[index].guid)
+        if o then
+          isDupe(o) dc = dc + 1
+        else
+          t.guid = bagObjects[index].guid  n = n + 8  zz = zz + 1
+          x, n = snipIt({n})  y, n = snipIt({n})  z, n = snipIt({n})  t.position = {x, y, z}
+          x, n = snipIt({n})  y, n = snipIt({n})  z, n = snipIt({n})  t.rotation = {x, y, z}
+          t.callback = "unPack"  t.callback_owner = self  t.smooth = false  iBag.takeObject(t)
+        end
       end
-    end  ct = ct + 1
-  end  if zz > 0 then Wait.time(|| queZone(), 0.2, 10) end
-  if dc > 0 then broadcastToAll("Caution, Duplicate GUID ("..dc..") will be treated as Zone Objects.", {0.7, 0.7, 0.7}) end
+      index = index + 1
+      return index == #bagObjects
+    end)
+  end
 end
 function isDupe(o)
   o.setLock(false)
@@ -966,7 +970,7 @@ function snipIt(a)
 end
 
 function unPack(a)
-  ss = ss..a.guid a.setLock(false)
+  ss = ss..a.guid a.setLock(true)
   if(a.hasTag("noInteract")) then a.interactable = false else a.interactable = true end
 end
 
@@ -989,7 +993,7 @@ function queZone()
     p = o.getPosition()  if p[2] < 95 then  o.setLock(true) else o.setPositionSmooth({p[1], 90, p[3]}) end
     if o.resting and p[2] < 108 then  o.setLock(true)
       n = string.find(prs, "-"..g..",")  r = o.getRotation()
-      if not n then  print("Excess Object...")  o.setLock(false)  o.setPosition({0, 8, 0})  g = nil  else  n = n+8
+      if not n then print("Excess Object...")  o.setLock(false)  o.setPosition({0, 8, 0})  g = nil  else  n = n+8
         y, n = snipIt({n})  z, n = snipIt({n})  x, n = snipIt({n})  o.setPosition({y, z, x})  a = y  b = z  c = x
         y, n = snipIt({n})  z, n = snipIt({n})  x, n = snipIt({n})  o.setRotation({y, z, x})  o.resting = true
         if math.abs(p[1]-a) < 0.0005 and math.abs(p[2]-b) < 0.0005 and math.abs(p[3]-c) < 0.0005 and
@@ -1000,12 +1004,20 @@ function queZone()
     end  if g then ss = s..g else  ss = s  zz = zz-1  end
   end
 end
-
 function pickLocks()
-  local s = aBase.getLuaScript() local n = 0
-  while n+5 < string.len(s) do
-    local g = string.sub(s, n+3, n+8)  n = string.find(s, string.char(10), n+3)
-    if getObjectFromGUID(g) and string.sub(s, n-1, n-1) == "0" then getObjectFromGUID(g).unlock() end
-  end
-  broadcastToAll("Finished Building.", {0.943, 0.745, 0.14})  Wait.time(|| SetUI(), 0.1)  if iBag then iBag.destruct()  iBag = nil  end
+  broadcastToAll("Finished Building.", {0.943, 0.745, 0.14})  Wait.time(|| SetUI(), 0.1)
+  if iBag then iBag.destruct() iBag = nil end
+end
+
+function PutBase(guid)
+  aBase = getObjectFromGUID(guid) JotBase()
+  aBase.setLuaScript("") aBase.setDescription("") aBag.putObject(aBase) wBase.setDescription("")
+  if not ba[1] then ba[1] = guid aBag.setDescription("_OW_aBaG_"..ba[1]) ba[0] = 1 end
+  currentBase = guid broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
+  Wait.time(|| cbPutBase(), 0.2)
+end
+function cbPutBase()
+  nl = currentBase
+  GetBase({currentBase})
+  currentBase = nil
 end

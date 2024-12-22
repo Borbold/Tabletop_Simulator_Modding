@@ -9,7 +9,7 @@ function onPickedUp()
 end
 
 function onDropped()
-  local x = getObjectFromGUID(Global.getVar("oW4TTale")).getPosition()
+  local x = getObjectFromGUID(Global.getVar("oneWorldGUID")).getPosition()
   local p, s = self.getPosition(), self.getScale()
   self.setPosition({p[1], x[2] + 0.3, p[3]})
   self.setPositionSmooth({p[1], x[2], p[3]})
@@ -33,41 +33,44 @@ end
 o = nil
 
 function onCollisionEnter(a)
-    if not Global.getVar("oWisOn") or o == a.collision_object or o == 1 then return end
-    o = a.collision_object  local ow = getObjectFromGUID(Global.getVar("oW4TTale"))
-    local g = string.sub(o.getName(), 1, 4) if g == "SET_" then g = "OWx_" end
-    local i = "https://steamusercontent-a.akamaihd.net/ugc/13045573010340250/36C6D007CDC8304626495A82A96511E910CC301B/"
-    if self.getDescription() == "" and g == "SBx_" and o.name == "Custom_Token" then NewBase()
-      elseif self.getDescription() == "" and g == "OWx_" and o.name == "Bag" then doImport()
-      elseif self.getDescription() != "" and o.getCustomObject().image == i then AddLink()
+  if(not Global.getVar("oneWorldGUID")) then return end
+
+  local ow = getObjectFromGUID(Global.getVar("oneWorldGUID"))
+  if not ow.getVar("vBaseOn") or o == a.collision_object or o == 1 then return end
+  o = a.collision_object  local ow = getObjectFromGUID(Global.getVar("oneWorldGUID"))
+  local g = string.sub(o.getName(), 1, 4) if g == "SET_" then g = "OWx_" end
+  local i = "https://steamusercontent-a.akamaihd.net/ugc/13045573010340250/36C6D007CDC8304626495A82A96511E910CC301B/"
+  if self.getDescription() == "" and g == "SBx_" and o.name == "Custom_Token" then NewBase()
+    elseif self.getDescription() == "" and g == "OWx_" and o.name == "Bag" then doImport()
+    elseif self.getDescription() != "" and o.getCustomObject().image == i then AddLink()
+    else
+      if g == "SBx_" or g == "OWx_" then
+        broadcastToAll("!! Clear Hub to Import !!", {0.95, 0.95, 0.95})
       else
-        if g == "SBx_" or g == "OWx_" then
-          broadcastToAll("!! Clear Hub to Import !!", {0.95, 0.95, 0.95})
-        else
-          local v, s, n = ow.getVar("vBase"), v.getLuaScript(), string.len(s)
-          while string.sub(s, n) != "@" do
-            s = string.sub(s, 1, n - 1)
-            n = n - 1
-          end
-          g = o.guid
-          local b, q, n = "", "DO NOT PACK: ", string.find(s, g)
-          if g then b = " ("..g..")" end
-          if n then q = "WILL PACK: " s = string.sub(s, 1, n-1)..string.sub(s, n+7) else s = s..g.."@" end
-          v.setLuaScript(s) broadcastToAll(q..a.collision_object.name..b, {0.943, 0.745, 0.14})
+        local v, s, n = ow.getVar("vBase"), v.getLuaScript(), string.len(s)
+        while string.sub(s, n) != "@" do
+          s = string.sub(s, 1, n - 1)
+          n = n - 1
         end
-    end
-    Wait.time(|| ow.call("popWB"), 0.2)
+        g = o.guid
+        local b, q, n = "", "DO NOT PACK: ", string.find(s, g)
+        if g then b = " ("..g..")" end
+        if n then q = "WILL PACK: " s = string.sub(s, 1, n-1)..string.sub(s, n+7) else s = s..g.."@" end
+        v.setLuaScript(s) broadcastToAll(q..a.collision_object.name..b, {0.943, 0.745, 0.14})
+      end
+  end
+  Wait.time(|| ow.call("popWB"), 0.2)
 end
 
 function NewBase()
-  local ow = getObjectFromGUID(Global.getVar("oW4TTale"))
+  local ow = getObjectFromGUID(Global.getVar("oneWorldGUID"))
   local s = ow.getVar("aBag").getLuaScript()
   if string.find(s, o.getGUID()) then broadcastToAll("Duplicate GUID.", {0.943, 0.745, 0.14})
   else ow.call("PutBase", o.getGUID()) end
 end
 
 function doImport()
-  local ow = getObjectFromGUID(Global.getVar("oW4TTale"))
+  local ow = getObjectFromGUID(Global.getVar("oneWorldGUID"))
   if ow.getVar("aBag").getDescription() == "_OW_aBaG" then
     broadcastToAll("!! Can Not Import to an Empty World !!", {0.95, 0.95, 0.95})
     return
@@ -98,12 +101,12 @@ function doImport()
   o.takeObject(t)
 end
 function cbCTBase(a)
-  local ow = getObjectFromGUID(Global.getVar("oW4TTale")) ow.setVar("currentBase", "c_"..o.guid)
+  local ow = getObjectFromGUID(Global.getVar("oneWorldGUID")) ow.setVar("currentBase", "c_"..o.guid)
   o.setDescription(a.guid) a.setName("SBx_"..string.sub(o.getName(), 5)) ow.call("preImport", {a})
 end
 
 function AddLink()
-  local ow = getObjectFromGUID(Global.getVar("oW4TTale"))
+  local ow = getObjectFromGUID(Global.getVar("oneWorldGUID"))
   if ow.call("isPVw") then o.destruct() return end
   local s = ow.getVar("aBag").getLuaScript()
   if(o.getDescription() == self.getDescription()) then
@@ -130,7 +133,7 @@ function AddLink()
 end
 
 function SetLinks()
-  local ow = getObjectFromGUID(Global.getVar("oW4TTale"))
+  local ow = getObjectFromGUID(Global.getVar("oneWorldGUID"))
   local t = ow.getVar("lnk")
   if(t == nil) then return end
   
@@ -180,20 +183,20 @@ function SetLinks()
 end
 
 function MakeLink()
-  local r2 = getObjectFromGUID(Global.getVar("oW4TTale")).getVar("r2")  local x = self.getPosition()
+  local r2 = getObjectFromGUID(Global.getVar("oneWorldGUID")).getVar("r2")  local x = self.getPosition()
   x[1] = x[1]-(5.5 * r2)  x[2]=x[2]+2.5  local p = {}  p.type = "Custom_Token"  p.position = {x[1], x[2], x[3]}
   p.rotation = {0, 90, 0}  p.scale = {0.07, 0.1, 0.07}  p.callback = "cbMLink"  p.callback_owner = self
   local o = spawnObject(p)  local i = {}  i.thickness = 0.01
   i.image = "https://steamusercontent-a.akamaihd.net/ugc/13045573010340250/36C6D007CDC8304626495A82A96511E910CC301B/"  o.setCustomObject(i)
 end
 function cbMLink(a)
-  local ow = getObjectFromGUID(Global.getVar("oW4TTale")) a.setDescription(ow.getVar("nl"))
+  local ow = getObjectFromGUID(Global.getVar("oneWorldGUID")) a.setDescription(ow.getVar("nl"))
   local bn = ow.call("ParceData", {ow.getVar("nl")})  a.setName(bn) ow.setVar("nl", nil)
   a.setLuaScript(sciptLinkPlate)
 end
 
 function GetLink(id)
-  local ow = getObjectFromGUID(Global.getVar("oW4TTale"))
+  local ow = getObjectFromGUID(Global.getVar("oneWorldGUID"))
   if ow.getVar("butActive") then ow.call("EditMode") return end
   local l = ""
   for w in ow.getVar("lnk"):gmatch("[^(@,)]+") do
