@@ -1,8 +1,8 @@
 function UpdateSave()
   local dataToSave = {
     ["tSizeVPlates"] = tSizeVPlates,
-    ["aBagGUID"] = aBag.getGUID(), ["mBagGUID"] = mBag.getGUID(),
-    ["vBaseGUID"] = vBase.getGUID(), ["wBaseGUID"] = wBase.getGUID(),
+    ["aBagGUID"] = aBag and aBag.getGUID() or nil, ["mBagGUID"] = mBag and mBag.getGUID() or nil,
+    ["vBaseGUID"] = vBase and vBase.getGUID() or nil, ["wBaseGUID"] = wBase and wBase.getGUID() or nil,
     ["tZoneGUID"] = tZone and tZone.getGUID() or nil
   }
   local savedData = JSON.encode(dataToSave)
@@ -21,7 +21,7 @@ function onLoad(savedData)
   end
 
   r1, r2, r3 = 0, 0, 0
-  lnk, ss, prs, vbg, wbg = "", "", "", "", ""
+  lnk, ss, prs, baseVGUID, baseWGUID = "", "", "", "", ""
   sizeVPlate, sizeWPlate = 25, 1.85
   zz, r90 = 0, 0
   wpx, pxy, aBase, nl, linkToMap, butActive = nil, nil, nil, nil, nil, nil
@@ -58,9 +58,15 @@ function RecreateObjects(allObj)
   Wait.time(|| PutVariable(), 0.2)
 end
 function EnableOneWorld(_, _, id)
+  if(aBag == null) then aBag = nil end if(mBag == null) then mBag = nil end
+  if(vBase == null) then vBase = nil end if(wBase == null) then wBase = nil end
+
   if(self.UI.getAttribute(id, "text") == "Init") then
     local posZone = self.getPosition() + {x=0, y=self.getScale().y*1.65, z=0}
-    local o = {} o.type = "ScriptingTrigger" o.rotation = self.getRotation() o.position = posZone o.scale = self.getBoundsNormalized().size + {x=0, y=3, z=0}
+    local o = {
+      type = "ScriptingTrigger", position = posZone,
+      rotation = self.getRotation(), scale = self.getBoundsNormalized().size + {x=0, y=3, z=0}
+    }
     do
       local locZone = spawnObject(o)
       Wait.condition(function()
@@ -82,7 +88,6 @@ function EnableOneWorld(_, _, id)
 end
 function InitUnit(allObj)
   Wait.time(|| RecreateObjects(allObj), 0.2)
-  Global.setVar("oneWorldGUID", self.guid)
   if(not FindBags(allObj)) then return false end
   local s = ""
   if mBag.getName() == "Same_Name_Here" or aBag.getName() == "Same_Name_Here" then s = s.." ReName Your Bags." end
@@ -101,18 +106,18 @@ function InitUnit(allObj)
 end
 function TogleEnable()
   if butActive then EditMode() return end
-  local p
   if ba[1] != string.sub(aBag.getDescription(), 10) then reStart() end
 
+  local p = self.getPosition()
   if not vBaseOn then
     self.UI.setAttribute("mainPanel", "active", true)
-    p = self.getPosition()  local r = self.getRotation()  if r[2] > 180 then r2 = -1 else r2 = 1  end
-    self.interactable = false  self.lock()
+    local r = self.getRotation()  if r[2] > 180 then r2 = -1 else r2 = 1  end
+    self.interactable = false self.lock()
     self.setRotation({0, (2-r2)*90, 0})  self.setScale({2.2,1,2.2})
     mBag.lock()  mBag.setScale({0, 0, 0})  mBag.setPosition({-3,-50, 3})  mBag.interactable = false
     aBag.lock()  aBag.setScale({0, 0, 0})  aBag.setPosition({-3,-55, -3}) aBag.interactable = false
-    vBase.interactable = false  vBase.lock()  vBase.setScale({sizeVPlate, 1, sizeVPlate})  vBase.setPosition({0, 0.91, 0})
-    wBase.interactable = false  wBase.lock()  wBase.setScale({sizeWPlate, 1, sizeWPlate})  wBase.setPosition({p[1], p[2]+0.105, p[3]+(0.77*r2)})
+    vBase.interactable = false  vBase.lock() vBase.setScale({sizeVPlate, 1, sizeVPlate}) vBase.setPosition({0, 0.91, 0})
+    wBase.interactable = false  wBase.lock() wBase.setScale({sizeWPlate, 1, sizeWPlate}) wBase.setPosition({p[1], p[2]+0.105, p[3]+(0.77*r2)})
     broadcastToAll("Running Version: "..self.getDescription(), {0.943, 0.745, 0.14})  wBase.setVar("o", 1)  Wait.time(|| popWB(), 0.2)
     vBaseOn = true SetUIText()  r1 = 0  r3= 0  r90 = 0
     rotBase() Wait.time(|| SetUI(), 0.1)
@@ -122,14 +127,14 @@ function TogleEnable()
     self.UI.setAttribute("mainPanel", "active", false)
     self.UI.setAttribute("b2", "text", "←")
     self.UI.setAttribute("editMenuPanel", "active", false)
-    vBaseOn, p = false, self.getPosition()
-    self.interactable = true  self.unlock()  self.setPositionSmooth({p[1], p[2]+0.1, p[3]})
-    mBag.unlock()  mBag.setScale({1, 1, 1})  mBag.setPosition({p[1]-3, p[2]+3, p[3]})  mBag.setPositionSmooth({p[1]-3, p[2]+2.5, p[3]})
-    aBag.unlock()  aBag.setScale({1, 1, 1})  aBag.setPosition({p[1], p[2]+3, p[3]})  aBag.setPositionSmooth({p[1], p[2]+2.5, p[3]})
-    mBag.interactable = true  aBag.interactable = true  vBase.interactable = true  vBase.unlock()  vBase.setScale({0.5, 1, 0.5})
-    vBase.setPosition({p[1]+3, p[2]+3, p[3]-1})  vBase.setPositionSmooth({p[1]+3, p[2]+2.5, p[3]-1})
-    wBase.interactable = true  wBase.unlock()  wBase.setScale({0.5, 1, 0.5})
-    wBase.setPosition({p[1]+3, p[2]+3, p[3]+1})  wBase.setPositionSmooth({p[1]+3, p[2]+2.5, p[3]+1})
+    vBaseOn = false
+    self.interactable = true self.unlock() self.setPositionSmooth({p[1], p[2]+0.1, p[3]})
+    mBag.unlock() mBag.setScale({1, 1, 1}) mBag.setPosition({p[1]-3, p[2]+3, p[3]}) mBag.setPositionSmooth({p[1]-3, p[2]+2.5, p[3]})
+    aBag.unlock() aBag.setScale({1, 1, 1}) aBag.setPosition({p[1], p[2]+3, p[3]}) aBag.setPositionSmooth({p[1], p[2]+2.5, p[3]})
+    mBag.interactable = true aBag.interactable = true vBase.interactable = true vBase.unlock() vBase.setScale({0.5, 1, 0.5})
+    vBase.setPosition({p[1]+3, p[2]+3, p[3]-1}) vBase.setPositionSmooth({p[1]+3, p[2]+2.5, p[3]-1})
+    wBase.interactable = true  wBase.unlock() wBase.setScale({0.5, 1, 0.5})
+    wBase.setPosition({p[1]+3, p[2]+3, p[3]+1}) wBase.setPositionSmooth({p[1]+3, p[2]+2.5, p[3]+1})
     wpx = nil
     reStart(self.UI.getAttribute("b1", "text")) Wait.time(|| SetUI(), 0.1)
     return
@@ -153,7 +158,6 @@ function EditMenu(_, _, id)
 end
 
 function PutVariable()
-  self.interactable = false
   local r = self.getRotation()
   if r[2] > 180 then
     r2 = -1
@@ -161,7 +165,7 @@ function PutVariable()
     r2 = 1
   end
 
-  vBase.setName("_OW_vBase") vbg = vBase.getGUID()
+  vBase.setName("_OW_vBase") baseVGUID = vBase.getGUID()
 
   if vBaseOn then
     vBase.interactable = false
@@ -170,7 +174,7 @@ function PutVariable()
   tZone.setName("_OW_tZone")
 
   Wait.condition(function()
-    wbg = wBase.getGUID()
+    baseWGUID = wBase.getGUID()
     r = wBase.getRotation()
     if r[1] > 170 then
       r1 = 180
@@ -314,7 +318,7 @@ function NewWBase(request)
     type = "Custom_Token", position = {p[1] + 3, p[2] + 2.5, p[3] + 1},
     scale = {0.5, 1, 0.5}, callback_owner = self,
   }
-  wBase = spawnObject(o)
+  wBase = spawnObject(o) wBase.setGMNotes(self.getGUID())
   local i = {
     image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/table_wood.jpg", thickness = 0.1
   }
@@ -323,22 +327,22 @@ function NewWBase(request)
 end
 
 function cbTObj()
-    wBase = getObjectFromGUID(wbg) wBase.interactable = false
-    vBase = getObjectFromGUID(vbg) vBase.interactable = false
-    if nl then wBase.call("MakeLink") end
-    self.setRotation({0, (2 - r2)*90, 0})
-    rotBase()
-    local sizeZone = {vBase.getBoundsNormalized().size.x, 10, vBase.getBoundsNormalized().size.z}
-    local posZone = vBase.getPosition() + {x=0, y=5, z=0}
-    tZone.setPosition(posZone) tZone.setScale(sizeZone) tZone.setRotation(vBase.getRotation())
-    
-    Wait.time(function()
-      local boundsSize = wBase.getBoundsNormalized().size
-      if(r90 == 0 and (boundsSize.x > 9.01 or boundsSize.z > 5.35) or
-          r90 == 90 and (boundsSize.x > 5.35 or boundsSize.z > 9.01)) then
-        FitBase()
-      end
-    end, 0.01, 4)
+  wBase = getObjectFromGUID(baseWGUID) wBase.interactable = false
+  vBase = getObjectFromGUID(baseVGUID) vBase.interactable = false
+  if nl then wBase.call("MakeLink") end
+  self.setRotation({0, (2 - r2)*90, 0})
+  rotBase()
+  local sizeZone = {vBase.getBoundsNormalized().size.x, 10, vBase.getBoundsNormalized().size.z}
+  local posZone = vBase.getPosition() + {x=0, y=5, z=0}
+  tZone.setPosition(posZone) tZone.setScale(sizeZone) tZone.setRotation(vBase.getRotation())
+  
+  Wait.time(function()
+    local boundsSize = wBase.getBoundsNormalized().size
+    if(r90 == 0 and (boundsSize.x > 9.01 or boundsSize.z > 5.35) or
+        r90 == 90 and (boundsSize.x > 5.35 or boundsSize.z > 9.01)) then
+      FitBase()
+    end
+  end, 0.01, 4)
 end
 
 function popWB() wBase.setVar("o", nil) end
@@ -517,7 +521,7 @@ function noBase()
   vBase.setCustomObject(c) vBase.reload()
   wBase.setCustomObject(c) wBase.reload()
   wpx = nil  pxy = nil
-  Wait.time(function() cbTObj() end, 0.2)
+  Wait.time(|| cbTObj(), 0.2)
 end
 
 function GetBase(a)
@@ -548,8 +552,7 @@ function cbGetBase(a)
   vBase.setCustomObject({image = a.getCustomObject().image}) vBase.reload()
   SetUIText(a.getName():sub(5))
   Wait.time(function()
-    SetUI()
-    cbTObj()
+    SetUI() cbTObj()
   end, 0.3)
 end
 
