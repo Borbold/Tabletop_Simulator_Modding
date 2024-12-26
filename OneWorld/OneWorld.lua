@@ -296,7 +296,7 @@ function FindBags(allObj)
     if(g.getName() == "_OW_wBase") then wBase = g end
   end
   if not mBag or not aBag then
-    broadcastToAll("Missing bags. Zone Object Bag and Base Token Bag", {0.943, 0.745, 0.14})
+    broadcastToAll("Missing bags. Zone Object Bag and(or) Base Token Bag", {0.943, 0.745, 0.14})
     CreateStartBags()
   end
   if not wBase then
@@ -313,7 +313,7 @@ function NewWBase(request)
   local p = self.getPosition()
   local o = {
     type = "Custom_Token", position = {p[1] + 3, p[2] + 2.5, p[3] + 1},
-    scale = {0.5, 1, 0.5}, callback_owner = self,
+    scale = {0.5, 1, 0.5}
   }
   wBase = spawnObject(o) wBase.setGMNotes(self.getGUID())
   local i = {
@@ -809,22 +809,28 @@ function cbNABase(a)
   p[1] = p[1]-(5.8 * r2)  a.setPosition({p[1], p[2]+3, p[3]})  a.setPositionSmooth({p[1], p[2]+2.5, p[3]})
 end
 function CreateStartBags()
-  local p
   if(not mBag) then
-    p = {}  p.type = "Bag"  p.position = {10, -4, 0}  p.callback = "cbNMBag"  p.callback_owner = self mBag = spawnObject(p)
+    WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/MBag.lua", self, "cbNMBag")
   end
   if(not aBag) then
-    p = {}  p.type = "Bag"  p.position = {0, -7, 10}  p.callback = "cbNABag"  p.callback_owner = self aBag = spawnObject(p)
+    local p = {
+      type = "Bag", position = {0, -7, 10},
+      callback_owner = self, callback = "cbNABag"
+    } aBag = spawnObject(p)
   end
 end
-function cbNMBag(a)
-  mBag = a
-  p = self.getPosition()  a.setDescription("_OW_mBaG")  a.setName("Same_Name_Here")  a.setColorTint({0.713, 0.247, 0.313})
-  a.setPosition({p[1]-3, p[2]+3, p[3]+(4.7*r2)})  a.setPositionSmooth({p[1]-3, p[2]+2.5, p[3]+(5*r2)})
+function cbNMBag(request)
+  local o = {
+    type = "Bag", position = {10, -4, 0}
+  } mBag = spawnObject(o) mBag.setGMNotes(self.getGUID()) mBag.setLuaScript(request.text)
+  mBag.setDescription("_OW_mBaG") mBag.setName("Same_Name_Here") mBag.setColorTint({0.713, 0.247, 0.313})
+  local p = self.getPosition()
+  mBag.setPosition({p[1] - 3, p[2] + 2.5, p[3]+(5*r2)})
 end
 function cbNABag(a)
-  p = self.getPosition()  a.setDescription("_OW_aBaG")  a.setName("Same_Name_Here")  a.setColorTint({0.713, 0.247, 0.313})
-  a.setPosition({p[1], p[2]+3, p[3]+(4.7*r2)})  a.setPositionSmooth({p[1], p[2]+2.5, p[3]+(5*r2)})
+  a.setDescription("_OW_aBaG") a.setName("Same_Name_Here") a.setColorTint({0.713, 0.247, 0.313})
+  local p = self.getPosition()
+  a.setPosition({p[1], p[2] + 2.5, p[3]+(5*r2)})
 end
 
 function netSync()
