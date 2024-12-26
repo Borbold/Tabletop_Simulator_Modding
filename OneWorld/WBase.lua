@@ -37,7 +37,7 @@ function onLoad()
 end
 
 function onCollisionEnter(a)
-  if not oneWorld.getVar("vBaseOn") or o == a.collision_object or o == 1 then return end
+  if(not oneWorld or not oneWorld.getVar("vBaseOn") or o == a.collision_object or o == 1) then return end
   o = a.collision_object
   local g = string.sub(o.getName(), 1, 4) if g == "SET_" then g = "OWx_" end
   local i = "https://steamusercontent-a.akamaihd.net/ugc/13045573010340250/36C6D007CDC8304626495A82A96511E910CC301B/"
