@@ -1,6 +1,7 @@
 function onLoad()
     oneWorld = getObjectFromGUID(self.getGMNotes())
 end
+
 -- Build --
 function CreateBugBuild(bag)
     oneWorld.setVar("iBag", bag)
@@ -60,13 +61,13 @@ end
 ----------
 
 -- Pack --
-function DoPack(a)
+function DoPack(obj)
     ss = oneWorld.getVar("ss")
     for i = 0, string.len(ss)/6 - 1 do
-        a.putObject(getObjectFromGUID(string.sub(ss, i*6 + 1, i*6 + 6)))
+        obj.putObject(getObjectFromGUID(string.sub(ss, i*6 + 1, i*6 + 6)))
     end
-    oneWorld.getVar("aBase").setDescription(a.guid)
-    iBag = a
+    oneWorld.getVar("aBase").setDescription(obj.getGUID())
+    iBag = obj
     local z2 = 1
     Wait.time(|| Pack(z2), 0.2, 5)
 end
@@ -116,7 +117,7 @@ function Export(bag)
     local s, n = eBase.getLuaScript(), 0
     while n + 5 < string.len(s) do
         local g = string.sub(s, n + 3, n + 8)
-        if getObjectFromGUID(g) then bag.putObject(getObjectFromGUID(g)) end
+        if getObjectFromGUID(g) then bag.putObject(getObjectFromGUID(g).clone()) end
         n = string.find(s, string.char(10), n + 3)
     end
     local sizes = oneWorld.getVar("tSizeVPlates")[oneWorld.getVar("aBase").getGUID()] or {1.85, 1, 1.85}
@@ -124,5 +125,32 @@ function Export(bag)
     bag.setDescription(s) eBase.setDescription(bag.getGUID()) bag.putObject(eBase)
     oneWorld.setVar("iBag", nil)
     Wait.time(|| oneWorld.call("SetUI"), 0.1)
+end
+----------
+
+-- Import --
+function PreImport(obj)
+    local currentBase = oneWorld.getVar("currentBase")
+    if currentBase then
+        local g = string.sub(currentBase, 1, 2)
+        if g == "i_" or g == "c_" then
+            g = string.sub(currentBase, 3)  obj.setDescription(g)  g = getObjectFromGUID(g).getLuaScript()
+        if string.sub(g, string.len(g)-1) != string.char(13)..string.char(10) then g = g..string.char(13)..string.char(10) end
+            obj.setLuaScript(g)
+        end
+    end
+    obj.lock()
+    local t = {position = {3, -29, -7}}
+    local nBag = getObjectFromGUID(obj.getDescription()).clone(t)
+    nBag.setPosition({3, -39, -7})
+    nBag.lock()
+    oneWorld.setVar("iBag", nBag)
+    Wait.time(|| DoImport(obj.getGUID()), 0.2)
+end
+function DoImport(currentGUID)
+    local t = {position = {0, -3, 0}}
+    oneWorld.setVar("aBase", getObjectFromGUID(currentGUID).clone(t))
+    oneWorld.setVar("currentBase", currentGUID)
+    Wait.time(|| oneWorld.call("CbImport"), 0.2)
 end
 ----------

@@ -30,19 +30,18 @@ function onDestroy()
 end
 ]]
 
-o = nil
-
 function onLoad()
+  o = nil
   oneWorld = getObjectFromGUID(self.getGMNotes())
 end
 
 function onCollisionEnter(a)
-  if(not oneWorld or not oneWorld.getVar("vBaseOn") or o == a.collision_object or o == 1) then return end
+  if(not oneWorld or not oneWorld.getVar("vBaseOn") or o == a.collision_object) then return end
   o = a.collision_object
   local g = string.sub(o.getName(), 1, 4) if g == "SET_" then g = "OWx_" end
   local i = "https://steamusercontent-a.akamaihd.net/ugc/13045573010340250/36C6D007CDC8304626495A82A96511E910CC301B/"
   if self.getDescription() == "" and g == "SBx_" and o.name == "Custom_Token" then NewBase()
-    elseif self.getDescription() == "" and g == "OWx_" and o.name == "Bag" then doImport()
+    elseif self.getDescription() == "" and g == "OWx_" and o.name == "Bag" then DoImport()
     elseif self.getDescription() != "" and o.getCustomObject().image == i then AddLink()
     else
       if g == "SBx_" or g == "OWx_" then
@@ -60,7 +59,6 @@ function onCollisionEnter(a)
         v.setLuaScript(s) broadcastToAll(q..a.collision_object.name..b, {0.943, 0.745, 0.14})
       end
   end
-  Wait.time(|| oneWorld.call("popWB"), 0.2)
 end
 
 function NewBase()
@@ -69,7 +67,7 @@ function NewBase()
   else oneWorld.call("PutBase", o.getGUID()) end
 end
 
-function doImport()
+function DoImport()
   if oneWorld.getVar("aBag").getDescription() == "_OW_aBaG" then
     broadcastToAll("!! Can Not Import to an Empty World !!", {0.95, 0.95, 0.95})
     return
@@ -85,22 +83,29 @@ function doImport()
     end
     if o.getDescription() == "" then
       broadcastToAll("Creating Hidden Base...", {0.943, 0.745, 0.14})
-      local t = {}  t.position = {-10, -45, 0}  t.callback = "cbCTBase"  t.callback_owner = self  local i = {}
-      i.image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/table_wood.jpg"  i.thickness = 0.1
-      t.type = "Custom_Token"
-      local newO = spawnObject(t) newO.setCustomObject(i)
+      local t = {
+        position = {-10, -45, 0},
+        callback_owner = self, callback = "cbCTBase"
+      }
+      local i = {
+        image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/table_wood.jpg",
+        thickness = 0.1, type = "Custom_Token"
+      }
+      spawnObject(t).setCustomObject(i)
       return
     end
   end
   broadcastToAll("Importing Art...", {0.943, 0.745, 0.14})
   local t = {
     position = {-10, -45, 0}, guid = string.sub(o.getDescription(), 1, 6),
-    callback = "preImport", callback_owner = oneWorld, smooth = false
+    callback = "PreImport", callback_owner = oneWorld.getVar("mBag"), smooth = false
   }
   o.takeObject(t)
 end
-function cbCTBase(a) oneWorld.setVar("currentBase", "c_"..o.guid)
-  o.setDescription(a.guid) a.setName("SBx_"..string.sub(o.getName(), 5)) oneWorld.call("preImport", {a})
+function cbCTBase(a)
+  oneWorld.setVar("currentBase", "c_"..o.getGUID())
+  o.setDescription(a.getGUID()) a.setName("SBx_"..string.sub(o.getName(), 5))
+  oneWorld.getVar("mBag").call("PreImport", a)
 end
 
 function AddLink()

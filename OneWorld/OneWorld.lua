@@ -118,8 +118,9 @@ function TogleEnable()
     aBag.lock()  aBag.setScale({0, 0, 0})  aBag.setPosition({-3,-55, -3}) aBag.interactable = false
     vBase.interactable = false  vBase.lock() vBase.setScale({sizeVPlate, 1, sizeVPlate}) vBase.setPosition({0, 0.91, 0})
     wBase.interactable = false  wBase.lock() wBase.setScale({sizeWPlate, 1, sizeWPlate}) wBase.setPosition({p[1], p[2]+0.105, p[3]+(0.77*r2)})
-    broadcastToAll("Running Version: "..self.getDescription(), {0.943, 0.745, 0.14})  wBase.setVar("o", 1)  Wait.time(|| popWB(), 0.2)
-    vBaseOn = true SetUIText()  r1 = 0  r3= 0  r90 = 0
+    broadcastToAll("Running Version: "..self.getDescription(), {0.943, 0.745, 0.14})
+    vBaseOn = true SetUIText()
+    r1, r3, r90 = 0, 0, 0
     rotBase() Wait.time(|| SetUI(), 0.1)
     return
   end
@@ -342,7 +343,6 @@ function cbTObj()
   end, 0.01, 4)
 end
 
-function popWB() wBase.setVar("o", nil) end
 function ButtonHorz() if isPVw() then return end if aBase then r1 = 180 - r1 + r90 rotBase() JotBase() end end
 function ButtonVert() if isPVw() then return end if aBase then r3 = 180 - r3 rotBase() JotBase() end end
 
@@ -462,7 +462,6 @@ function JotBase(jotScaleW)
 end
 
 function StowBase()
-  sclBase(aBase)
   aBase.unlock()
   aBag.putObject(aBase)
   aBase = nil
@@ -635,11 +634,11 @@ function EditMode()
     broadcastToAll("Alter this Token: Name, Custom Art or Tint.", {0.943, 0.745, 0.14})
     self.UI.setAttribute("mTxt", "text", "Exit Edit Mode")
     self.UI.setAttribute("mTxt", "textColor", "#f1b531")
-    aBase.interactable = true  aBase.unlock()  aBase.setRotation({0, 0, 0})  sclBase(aBase)
+    aBase.interactable = true  aBase.unlock()  aBase.setRotation({0, 0, 0})  
     aBase.setPosition({p[1], p[2]+3, p[3]+(4.7*r2)})  aBase.setPositionSmooth({p[1], p[2]+2.5, p[3]+(4.7*r2)})
   else
     JotBase()  StowBase()  NoBase()  Wait.time(|| SetUI(), 0.1)  SetUIText()  butActive = nil  broadcastToAll("Packing Base...", {0.943, 0.745, 0.14}) end
-end  function sclBase(a)  if a.getScale().x == a.getScale().z then a.setScale({0.5, 1, 0.5}) end end
+end
 
 function ButtonCopy()
   if isPVw() then return  end
@@ -670,7 +669,7 @@ function cb3Copy()
   ClearSet()  local p = {}  p.position = {6, -28, 6}  aBase = aBase.clone(p)  Wait.time(|| cb4Copy(), 0.2)
 end
 function cb4Copy()  
-  local x = self.getPosition()  x[1] = x[1]-(5.7 * r2)  aBase.setRotation({0, 90, 0})  sclBase(aBase)
+  local x = self.getPosition()  x[1] = x[1]-(5.7 * r2)  aBase.setRotation({0, 90, 0})  
   aBase.setPosition({x[1], x[2]+2.5, x[3]})  aBase.setPositionSmooth({x[1], x[2]+2, x[3]})  aBase.setLuaScript("")
   aBase.setName("SBx_Copy_"..string.sub(aBase.getName(), 5))  aBase.setDescription("")
   aBase.unlock()  NoBase()  Wait.time(|| SetUI(), 0.1)  SetUIText()
@@ -723,35 +722,14 @@ function ButtonExport()
   else tBag = false end
   broadcastToAll("Bagging Export...", {0.943, 0.745, 0.14})
   local t = {
-    type = "Bag", position = {0, 4, 0},
+    type = "Bag", position = self.getPosition()+{x=10,y=1,z=0},
     callback_owner = mBag, callback = "Export"
   } iBag = spawnObject(t)
   ss, prs = "", ""
+  Wait.time(|| ClearSet(), 0.2)
 end
 
-function preImport(a)
-  if currentBase then
-    local g = string.sub(currentBase, 1, 2)
-    if g == "i_" or g == "c_" then  if g == "c_" then a = a[1] end
-      g = string.sub(currentBase, 3)  a.setDescription(g)  g = getObjectFromGUID(g).getLuaScript()
-      if string.sub(g, string.len(g)-1) != string.char(13)..string.char(10) then g = g..string.char(13)..string.char(10) end
-      a.setLuaScript(g)
-    end
-  end
-  a.lock() sclBase(a)
-  local t = {position = {3, -29, -7}}
-  iBag = getObjectFromGUID(a.getDescription()).clone(t)
-  currentBase = a.guid
-  Wait.time(|| doImport(), 0.2)
-end
-function doImport()
-  local t = {position = {0, -3, 0}}
-  aBase = getObjectFromGUID(currentBase).clone(t)
-  iBag.setPosition({3, -39, -7})
-  iBag.lock()
-  Wait.time(|| cbImport(), 0.2)
-end
-function cbImport()
+function CbImport()
   local p = self.getPosition()
   p[1] = p[1] - (5.5*r2)
   aBase.setPosition({p[1], p[2] + 4, p[3]})
@@ -767,7 +745,7 @@ function cbImport()
   end
   s = aBag.getLuaScript() local n = string.len(s)  if string.sub(s, n) == e then s = string.sub(s, 1, n-1) end  if s == "" then s = "--" end
   s = s..aBase.getGUID()..k..string.sub(aBase.getName(), 5)..string.sub(g, 7)..","..e.."--"  aBag.setLuaScript(s)
-  iBag.setDescription("")  iBag.setName("")  aBase.setDescription(iBag.guid)  sclBase(aBase)
+  iBag.setDescription("")  iBag.setName("")  aBase.setDescription(iBag.guid)  
   getObjectFromGUID(getObjectFromGUID(currentBase).getDescription()).destruct()  getObjectFromGUID(currentBase).destruct()  currentBase = nil
   broadcastToAll("Import Complete.", {0.943, 0.745, 0.14})  nl = aBase.getGUID()  wBase.call("MakeLink")
   aBase.unlock()  aBag.putObject(aBase)  aBase = nil  iBag.unlock()  mBag.putObject(iBag)  iBag = nil
