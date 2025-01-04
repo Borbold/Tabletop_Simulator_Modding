@@ -9,7 +9,7 @@
 
     <Button class='buttonSave' text='---' onClick='SaveThrow' />
     <InputField class='inputBonus' text='0' onEndEdit='ChangeBonusThrow' onValueChanged='ChangeLongText' textAlignment='LowerRight' characterValidation='Integer' characterLimit='3' />
-    <InputField class='settingsInputField' textColor='#948773' fontStyle='Italic' image='' color='#ffffff00' />
+    <InputField class='settingsInputField' textColor='#948773' fontStyle='Italic' image='' color='#ffffff00' resizeTextMaxSize='40' />
 </Defaults>
 
 <Panel id='mainPanel' position='0 0 -6' height='1388' width='1620' image='uiBacground' scale='0.25' raycastTarget='false'>
@@ -49,16 +49,16 @@
                     tooltipPosition='Left' tooltip='Type in the name of the button. Click on any "---". To delete press right mous click' tooltipOffset='-500' />
             </Cell>
             <Cell columnSpan='5'>
-                <Button text='R' tooltipOffset='-100' tooltip='Reset bonuses and count throws' tooltipPosition='Right' onClick='Reset' />
+                <Button id='reset' text='R' tooltipOffset='-100' tooltip='Reset bonuses and count throws' tooltipPosition='Right' onClick='Reset' />
             </Cell>
         </Row>
         <Row id='rowThrow' preferredHeight='200'>
             <Cell columnSpan='10'>
-                <Button id='howThrow' text='Throw all' onClick='ChangePermitThrow'
+                <Button id='howThrow' text='All' onClick='ChangePermitThrow'
                     tooltipPosition='Below' tooltipOffset='-70' tooltip='Anybody can throw it | Throw it to the GM | Only the GM can throw it' />
             </Cell>
             <Cell columnSpan='20'>
-                <Button text='Throw' onClick='Throw' />
+                <Button id='throw' text='Throw' onClick='Throw' />
             </Cell>
         </Row>
     </TableLayout>
@@ -67,7 +67,7 @@
     <TableLayout color='black'>
         <Row>
             <Cell columnSpan='2'>
-                <InputField id='tableDices' placeholder='4|6|20|100' onEndEdit='ChangeTableDices' class='settingsInputField'
+                <InputField id='tableDices' placeholder='8|20|100' onEndEdit='ChangeTableDices' class='settingsInputField'
                     tooltipOffset='-20' tooltip='Type dices. List in order by |' tooltipPosition='Above' />
             </Cell>
         </Row>
