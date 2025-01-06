@@ -146,7 +146,7 @@ function onCollisionEnter(info)
                 if CheckPos(locPos, point.position) then
                     for tChar,values in pairs(pointsPos) do
                         for index,value in ipairs(values) do
-                            if CheckPos(value, point.position) then
+                            if value.x == Round(point.position.x, 2) and value.z == Round(point.position.z, 2) then
                                 local arg = {tChar = tChar, bonus = CalculateBonus(index)}
                                 throw.call("ChangeMemory", arg)
                                 return
@@ -163,7 +163,7 @@ function ChangeScaleObject(obj, locPos, scale, snapPos)
     for _,point in ipairs(snaps) do
         if CheckPos(locPos, point.position) then
             for i,p in ipairs(snapPos) do
-                if p.x == Round(point.position.x, 2) and p.z == Round(point.position.z, 2) then
+                if CheckPos(p, point.position) then
                     obj.setScale(scale)
                     return true
                 end
@@ -176,7 +176,7 @@ function ChangeCountOvershoot(obj, locPos)
     for _,point in ipairs(snaps) do
         if CheckPos(locPos, point.position) then
             for i,p in ipairs(pointOvershoot) do
-                if p.x == Round(point.position.x, 2) and p.z == Round(point.position.z, 2) then
+                if CheckPos(p, point.position) then
                     self.UI.setAttribute("OS"..i, "text", obj.getStateId())
                     self.UI.setAttribute("OS"..i, "value", obj.getTags()[1])
                     self.UI.setAttribute("OS"..i, "textColor", self.UI.getAttribute("OS"..i, "textColor"))
