@@ -1,23 +1,23 @@
 <Defaults>
-    <Button font='Fonts/Hanzi' fontStyle='Bold' resizeTextForBestFit='True' resizeTextMaxSize='200' resizeTextMinSize='10'
+    <Button resizeTextForBestFit='True' resizeTextMaxSize='200' resizeTextMinSize='10'
         tooltipFont='Fonts/Allods' tooltipFontSize='35' tooltipWidth='300' image='uiButtonBackground' />
-    <InputField font='Fonts/Hanzi' fontStyle='Bold' resizeTextForBestFit='True' resizeTextMaxSize='200' resizeTextMinSize='10' textAlignment='MiddleCenter'
+    <InputField resizeTextForBestFit='True' resizeTextMaxSize='200' resizeTextMinSize='10' textAlignment='MiddleCenter'
         tooltipFont='Fonts/Allods' tooltipFontSize='35' tooltipWidth='300' image='uiButtonBackground' />
     <Cell dontUseTableCellBackground='true' />
     <VerticalScrollView color='#ffffff00' scrollbarBackgroundColor='#000000dd'
         verticalScrollbarVisibility='AutoHideAndExpandViewport' horizontalScrollbarVisibility='Permanent' />
 
     <Button class='buttonSave' text='---' onClick='SaveThrow' />
-    <InputField class='inputBonus' text='0' onEndEdit='ChangeBonusThrow' onValueChanged='ChangeLongText' textAlignment='LowerRight' characterValidation='Integer' characterLimit='3' />
+    <InputField class='inputBonus' text='0' onEndEdit='ChangeBonusThrow' onValueChanged='ChangeLongText' textAlignment='MiddleCenter' characterValidation='Integer' characterLimit='3' />
     <InputField class='settingsInputField' textColor='#948773' fontStyle='Italic' image='' color='#ffffff00' resizeTextMaxSize='40' />
 </Defaults>
 
-<Panel id='mainPanel' position='0 0 -6' height='1388' width='1620' image='uiBacground' scale='0.25' raycastTarget='false'>
+<Panel id='mainPanel' position='0 0 -6' height='1388' width='1620' image='' color='#ffffff00' scale='0.25' raycastTarget='false'>
     <Button image='uiGear' color='#ffffff' height='100' width='100' offsetXY='750 750' visibility='Black' onClick='ShowHideSettingPanel' />
     <TableLayout cellSpacing='10'>
         <Row id='rowDiceThrow' preferredHeight='300'>
             <Cell columnSpan='6'>
-                <Button id='countThrow' text='1' onClick='ChangeCountThrow' textAlignment='MiddleRight'
+                <Button id='countThrow' text='1' onClick='ChangeCountThrow' textAlignment='MiddleCenter'
                     tooltipOffset='-100' tooltip='Count throw dice' tooltipPosition='Above' />
             </Cell>
             <Cell columnSpan='8' />

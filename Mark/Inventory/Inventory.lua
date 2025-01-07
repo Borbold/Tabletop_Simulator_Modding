@@ -149,6 +149,11 @@ function onCollisionEnter(info)
                             if value.x == Round(point.position.x, 2) and value.z == Round(point.position.z, 2) then
                                 local arg = {tChar = tChar, bonus = CalculateBonus(index)}
                                 throw.call("ChangeMemory", arg)
+                                for t,c in pairs(pointSkills) do
+                                    if(tChar == c) then
+                                        throw.call("ChangeMemory", {tChar = c, tTag = t, bonus = -1})
+                                    end
+                                end
                                 return
                             end
                         end

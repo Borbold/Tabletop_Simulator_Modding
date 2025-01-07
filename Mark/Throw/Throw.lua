@@ -19,6 +19,7 @@ function onLoad(savedData)
     countThrow, tableDices = 1, {8, 20, 100}
     buttonSaveThrows, maxBottunSave = 30, 30
     buttonBonusThrows = 5
+    saveColorText = "000000"
     local loadedData = JSON.decode(savedData)
     if(loadedData) then
         saveThrow = loadedData.saveThrow or saveThrow
@@ -28,10 +29,9 @@ function onLoad(savedData)
         saveColorText = loadedData.saveColorText or saveColorText
     end
 
+    Wait.time(|| CreateButtonBonusThrows(), 0.2)
     Wait.time(|| CreateButtonSaveThrows(), 0.5)
-    Wait.time(|| CreateButtonBonusThrows(), 0.6)
-    Wait.time(|| DonwloadSaveThrow(), 0.7)
-    if(saveColorText) then Wait.time(|| ChangeColor(_, saveColorText, "colorText"), 0.8) end
+    if(saveColorText) then Wait.time(|| ChangeColor(_, saveColorText, "colorText"), 0.6) end
     diceThrow = #tableDices
     self.UI.setAttribute("diceThrow", "text", tableDices[diceThrow])
 end
@@ -53,12 +53,6 @@ function ChangeDiceThrow(_, alt, id)
     if(diceThrow < 1) then diceThrow = #tableDices elseif(diceThrow > #tableDices) then diceThrow = 1 end
     self.UI.setAttribute(id, "text", tableDices[diceThrow])
     ChangeColor(_, saveColorText, "colorText")
-end
-
-function DonwloadSaveThrow()
-    for name,throw in pairs(saveThrow) do
-        self.UI.setAttribute(throw.idButton, "text", name)
-    end
 end
 
 function SaveThrow(player, alt, id)
@@ -159,6 +153,9 @@ function CreateButtonSaveThrows()
               class = "buttonSave"
             }
         }
+        for name,throw in pairs(saveThrow) do
+            if(saveButton.attributes.id == throw.idButton) then saveButton.attributes.text = name end
+        end
         table.insert(saveButtons, saveButton)
     end
     self.UI.setXmlTable(xmlTable)
@@ -253,12 +250,11 @@ function ChangeColor(_, input, id)
 end
 
 function ChangeMemory(arg)
-    local bChar = 0
     if(arg.tTag and saveThrow[arg.tTag]) then
         saveThrow[arg.tTag].BT[1] = saveThrow[arg.tChar].BT[1]
-        saveThrow[arg.tTag].BT[2] = arg.bonus
+        saveThrow[arg.tTag].BT[2] = arg.bonus ~= -1 and arg.bonus or saveThrow[arg.tTag].BT[2]
     elseif(arg.tChar and saveThrow[arg.tChar]) then
-        saveThrow[arg.tChar].BT[1] = arg.bonus
+        saveThrow[arg.tChar].BT[1] = arg.bonus ~= -1 and arg.bonus or saveThrow[arg.tChar].BT[1]
     end
     UpdateSave()
 end
