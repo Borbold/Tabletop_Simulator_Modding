@@ -369,6 +369,7 @@ function ChangeSettingSize(player, input, id)
     if(id:find("wBase")) then JotBase(strScale) end
     if(id:find("vBase")) then tSizeVPlates[aBase.getGUID()] = {} for w in strScale:gmatch("[^(;{})]+") do table.insert(tSizeVPlates[aBase.getGUID()], tonumber(w)) end end
     broadcastToAll("{en}Update the base to confirm the changes{ru}Обновите базу для подтверждения изменений", {0.943, 0.745, 0.14})
+    self.UI.setAttribute("b1", "text", "UPD")
     UpdateSave()
   end, 0.1)
 end
@@ -692,12 +693,12 @@ function ButtonDelete()
     ba[ba[0]] = nil
     ba[0] = ba[0] - 1
     local newS = ""
-    for str in s:gmatch("[^(\n)]+") do
+    for str in s:gmatch("[^\n]+") do
       if(str:find(h..g..k) == nil) then
         if(str:find(g) == nil) then
           newS = newS..str.."\n"
         else
-          for word in str:gmatch("[^(,)]+") do
+          for word in str:gmatch("[^,]+") do
             if(word:find(g) == nil) then
               newS = newS..word..","
             end
