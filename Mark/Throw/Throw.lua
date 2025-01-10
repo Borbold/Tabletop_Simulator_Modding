@@ -81,7 +81,7 @@ end
 
 function Throw(player, _, _, nameSaveButton)
     local howThrow = self.UI.getAttribute("howThrow", "text")
-    if(howThrow == "Throw GM" and player.color ~= "Black") then return end
+    if(howThrow == "GM" and player.color ~= "Black") then return end
 
     local colorBrackes = "["..hexColor[player.color].."]---[-]"
     local nameThrow = nameSaveButton ~= nil and ": "..nameSaveButton..colorBrackes or colorBrackes
@@ -130,7 +130,7 @@ function PrintThrow(numberThrow)
 end
 
 function ForWhoPrintThrow(howThrow, text, platerColor)
-    if(howThrow == "Throw close") then
+    if(howThrow == "GM and I") then
         printToColor(text, platerColor)
         if(Player["Black"].steam_name) then
             printToColor(text, "Black")
