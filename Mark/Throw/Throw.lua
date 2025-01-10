@@ -86,7 +86,7 @@ function Throw(player, _, _, nameSaveButton)
     ForWhoPrintThrow(howThrow, colorBrackes..player.steam_name..nameThrow, player.color)
     local totalAmount = 0
     for i = 1, countThrow do
-        totalAmount = totalAmount + PrintThrow(i)
+        totalAmount = totalAmount + PrintThrow(howThrow, i, player.color)
         if(i ~= countThrow) then
             ForWhoPrintThrow(howThrow, colorBrackes.."---"..colorBrackes, player.color)
         end
@@ -96,7 +96,7 @@ function Throw(player, _, _, nameSaveButton)
     end
 end
 
-function PrintThrow(numberThrow)
+function PrintThrow(howThrow, numberThrow, playerColor)
     local naturalThrow = math.random(1, tableDices[diceThrow])
     local resText = {}
     local s = string.format("Roll: D%d\n", tableDices[diceThrow])
@@ -117,11 +117,11 @@ function PrintThrow(numberThrow)
 
     if(self.UI.getAttribute("howThrow", "text") == "Throw GM") then
         for i = 1, #resText do
-            printToColor(resText[i], "Black")
+            broadcastToColor(resText[i], "Black")
         end
     else
         for i = 1, #resText do
-            printToAll(resText[i])
+            ForWhoPrintThrow(howThrow, resText[i], playerColor)
         end
     end
     return (naturalThrow + sumBonus)
@@ -129,15 +129,15 @@ end
 
 function ForWhoPrintThrow(howThrow, text, platerColor)
     if(howThrow == "GM and I") then
-        printToColor(text, platerColor)
+        broadcastToColor(text, platerColor)
         if(Player["Black"].steam_name) then
-            printToColor(text, "Black")
+            broadcastToColor(text, "Black")
         end
     elseif(howThrow == "GM") then
         if(Player["Black"].steam_name) then
-            printToColor(text, "Black")
+            broadcastToColor(text, "Black")
         end
-    else
+    elseif(howThrow == "All") then
         printToAll(text)
     end
 end
