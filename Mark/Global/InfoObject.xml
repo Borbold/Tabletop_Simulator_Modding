@@ -1,0 +1,12 @@
+<Defaults>
+    <Button width='100' height='100' textColor='White' fontSize='50' text='0' onClick='ChangeNumber' />
+</Defaults>
+
+<Panel position='0 0 -11' rotation='0 0 180'>
+    <Button id='b1' offsetXY='-110 195' image='uiBuff' />
+    <Button id='b2' offsetXY='-110 115' image='uiBuff' />
+    <Button id='b3' offsetXY='-110 35' image='uiBuff' />
+
+    <Button id='b4' offsetXY='-110 -195' image='uiDebuff' />
+    <Button id='b5' offsetXY='40 -195' image='uiDebuff' />
+</Panel>
