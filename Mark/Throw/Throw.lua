@@ -1,6 +1,6 @@
 local hexColor = {
     Black = "000000", White = "ffffff", Red = "ff0000", Green = "00ff00", Blue = "0000ff",
-    Pink = "ffaeff", Yellow = "ffff0f", Purple = "ff0fff", Orange = "ffae0f", Brown = "ae400f",
+    Pink = "ffaeff", Yellow = "ffff0f", Purple = "af0fff", Orange = "ffae0f", Brown = "ae400f",
     Teal = "0faeae"
 }
 
@@ -83,7 +83,7 @@ function Throw(player, _, _, nameSaveButton)
     local howThrow = self.UI.getAttribute("howThrow", "text")
     local colorBrackes = "["..hexColor[player.color].."]---[-]"
     local nameThrow = nameSaveButton ~= nil and ": "..nameSaveButton..colorBrackes or colorBrackes
-    ForWhoPrintThrow(howThrow, colorBrackes..player.steam_name..nameThrow, player.color)
+    ForWhoPrintThrow(howThrow, "["..hexColor[player.color].."]---"..player.steam_name..nameThrow.."[-]", player.color)
     ForWhoPrintThrow(howThrow, string.format("Roll: D%d", tableDices[diceThrow]), player.color)
     local totalAmount = 0
     for i = 1, countThrow do
@@ -111,7 +111,6 @@ function PrintThrow(howThrow, numberThrow, playerColor)
         end
     end
     if(sumBonus ~= 0) then
-        table.insert(resText, "Sum bonus: "..sumBonus)
         table.insert(resText, "Equals throw: "..(naturalThrow + sumBonus))
     end
 
