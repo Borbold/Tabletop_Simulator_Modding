@@ -84,6 +84,7 @@ function Throw(player, _, _, nameSaveButton)
     local colorBrackes = "["..hexColor[player.color].."]---[-]"
     local nameThrow = nameSaveButton ~= nil and ": "..nameSaveButton..colorBrackes or colorBrackes
     ForWhoPrintThrow(howThrow, colorBrackes..player.steam_name..nameThrow, player.color)
+    ForWhoPrintThrow(howThrow, string.format("Roll: D%d", tableDices[diceThrow]), player.color)
     local totalAmount = 0
     for i = 1, countThrow do
         totalAmount = totalAmount + PrintThrow(howThrow, i, player.color)
@@ -99,9 +100,8 @@ end
 function PrintThrow(howThrow, numberThrow, playerColor)
     local naturalThrow = math.random(1, tableDices[diceThrow])
     local resText = {}
-    local s = string.format("Roll: D%d\n", tableDices[diceThrow])
-    s = s..(countThrow == 1 and string.format("Thorw: %d", naturalThrow) or string.format("Throw %d: %d", numberThrow, naturalThrow))
-    table.insert(resText, s)
+    table.insert(resText, 
+        countThrow == 1 and string.format("Thorw: %d", naturalThrow) or string.format("Throw %d: %d", numberThrow, naturalThrow))
 
     local sumBonus = 0
     for i,b in ipairs(bonusThrow) do
@@ -115,27 +115,21 @@ function PrintThrow(howThrow, numberThrow, playerColor)
         table.insert(resText, "Equals throw: "..(naturalThrow + sumBonus))
     end
 
-    if(self.UI.getAttribute("howThrow", "text") == "Throw GM") then
-        for i = 1, #resText do
-            broadcastToColor(resText[i], "Black")
-        end
-    else
-        for i = 1, #resText do
-            ForWhoPrintThrow(howThrow, resText[i], playerColor)
-        end
+    for i = 1, #resText do
+        ForWhoPrintThrow(howThrow, resText[i], playerColor)
     end
     return (naturalThrow + sumBonus)
 end
 
-function ForWhoPrintThrow(howThrow, text, platerColor)
+function ForWhoPrintThrow(howThrow, text, playerColor)
     if(howThrow == "GM and I") then
-        broadcastToColor(text, platerColor)
+        printToColor(text, playerColor)
         if(Player["Black"].steam_name) then
-            broadcastToColor(text, "Black")
+            printToColor(text, "Black")
         end
     elseif(howThrow == "GM") then
         if(Player["Black"].steam_name) then
-            broadcastToColor(text, "Black")
+            printToColor(text, "Black")
         end
     elseif(howThrow == "All") then
         printToAll(text)

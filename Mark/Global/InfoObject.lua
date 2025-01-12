@@ -3,13 +3,13 @@ function onLoad()
     putObjects = {}
     avatar = getObjectFromGUID(self.getGMNotes())
     avatar.setVar("InfoObjectGUID", self.getGUID())
-    timeOut = false
+    timeOut = nil
     Wait.time(function() timeOut = true end, 5)
 end
 
 function onCollisionEnter(info)
     local obj = info.collision_object
-    if(timeOut == false) then
+    if(not timeOut) then
         Wait.time(|| AddBuff(obj), 5)
     else
         AddBuff(obj)
