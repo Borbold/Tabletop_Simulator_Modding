@@ -741,7 +741,7 @@ function CbImport()
     g = g.."{1.85;1;1.85},0,0,2,0"
     iBag.setDescription(g)
   elseif(not g:find("{")) then
-    g = g.."{1.85;1;1.85},0,0,2,0"
+    g = g:sub(1, 6).."{1.85;1;1.85},0,0,2,0"
     iBag.setDescription(g)
   end
   s = aBag.getLuaScript() local n = string.len(s)  if string.sub(s, n) == e then s = string.sub(s, 1, n-1) end  if s == "" then s = "--" end
