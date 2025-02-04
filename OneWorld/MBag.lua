@@ -19,7 +19,11 @@ function Build()
         ss = ""
         local index, dc, o = 1, 0, {}
         Wait.condition(function()
-            Wait.time(function() oneWorld.setVar("prs", prs) oneWorld.setVar("ss", ss) Wait.time(|| PickLocks(), 0.2) end, 0.2)
+            Wait.time(function()
+                oneWorld.setVar("prs", prs)
+                oneWorld.setVar("ss", ss)
+                Wait.time(|| PickLocks(), 0.2)
+            end, 0.2)
         end,
         function()
             if(index <= #bagObjects) then
@@ -36,7 +40,7 @@ function Build()
                 end
                 index = index + 1
             end
-            return index >= #bagObjects
+            return index > #bagObjects
         end)
     end
 end
@@ -68,16 +72,16 @@ function DoPack(obj)
     end
     oneWorld.getVar("aBase").setDescription(obj.getGUID())
     iBag = obj
-    local z2 = 1
-    Wait.time(|| Pack(z2), 0.2, 5)
+    do
+        local z2 = 1
+        Wait.condition(function()
+            Wait.time(|| EndPack(), 0.2)
+        end, function() Pack(z2) return ss == "" end)
+    end
 end
 function Pack(z2)
-    if ss == "" then
-        Wait.stopAll()
-        Wait.time(|| EndPack(), 0.2)
-    end
-    local i, g
-    for i = 0, string.len(ss)/6 - 1 do  g = string.sub(ss, i*6 + 1, i*6 + 6)
+    for i = 0, string.len(ss)/6 - 1 do
+        local g = string.sub(ss, i*6 + 1, i*6 + 6)
         if not getObjectFromGUID(g) then ss = string.sub(ss, 1, i*6)..string.sub(ss, i*6 + 7) end
     end
     if ss == "" then return end
@@ -88,7 +92,7 @@ function Pack(z2)
     if z2 > 68 then
         broadcastToAll("Manual Inspection Required.", {0.943, 0.745, 0.14})
         for i = 0, string.len(ss)/6 - 1 do
-            g = string.sub(ss, i*6 + 1, i*6 + 6)
+            local g = string.sub(ss, i*6 + 1, i*6 + 6)
             getObjectFromGUID(g).resting = true
             getObjectFromGUID(g).setPosition({0, 3, 0})
         end
