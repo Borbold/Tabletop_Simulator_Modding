@@ -683,9 +683,9 @@ function ButtonDelete()
   if tBag then
     currentBase = aBase.getGUID()
     ss, prs = "", ""
-    ButtonPack()
-    ClearSet() aBase.setLuaScript("") StowBase() wBase.setDescription("")
-    Wait.time(|| cb2Delete(), 0.2)  broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
+    ClearSet() wBase.setDescription("")
+    aBase.setLuaScript("")
+    broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
   else
     local g = aBase.getGUID()
     if g == ba[1] then broadcastToAll("Can't Delete Home, Edit Art Instead.", {0.943, 0.745, 0.14}) return end
@@ -714,7 +714,6 @@ function ButtonDelete()
   SetUIText()
   Wait.time(|| SetUI(), 0.1)
 end
-function cb2Delete() GetBase({currentBase}) currentBase = nil end
 
 function ButtonExport()
   if isPVw() then return  end
@@ -793,15 +792,13 @@ function CreateStartBags()
   end
   if(not aBag) then
     local p = {
-      type = "Bag", position = {0, -7, 10},
+      type = "Bag",
       callback_owner = self, callback = "cbNABag"
     } aBag = spawnObject(p)
   end
 end
 function cbNMBag(request)
-  local o = {
-    type = "Bag", position = {10, -4, 0}
-  } mBag = spawnObject(o) mBag.setGMNotes(self.getGUID()) mBag.setLuaScript(request.text)
+  mBag = spawnObject({type = "Bag"}) mBag.setGMNotes(self.getGUID()) mBag.setLuaScript(request.text)
   mBag.setDescription("_OW_mBaG") mBag.setName("Same_Name_Here") mBag.setColorTint({0.713, 0.247, 0.313})
   local p = self.getPosition()
   mBag.setPosition({p[1] - 3, p[2] + 2.5, p[3]+(5*r2)})
