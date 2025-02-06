@@ -847,7 +847,7 @@ end
 
 function PutBase(guid)
   aBase = getObjectFromGUID(guid) JotBase()
-  aBase.setLuaScript("") aBase.setDescription("") aBag.putObject(aBase) wBase.setDescription("")
+  aBase.setLuaScript("") aBase.setDescription("") wBase.setDescription("")
   if not ba[1] then ba[1] = guid aBag.setDescription("_OW_aBaG_"..ba[1]) ba[0] = 1 end
   currentBase = guid broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
   Wait.time(|| cbPutBase(), 0.2)
