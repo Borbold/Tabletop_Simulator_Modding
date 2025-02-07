@@ -140,9 +140,9 @@ function TogleEnable()
     reStart(self.UI.getAttribute("b1", "text")) Wait.time(|| SetUI(), 0.1)
     return
   end
-  if tBag then ClearSet()
+  if tBag then ClearSet("true")
   else NoBase() end
-  Wait.time(|| SetUI(), 0.1) SetUIText()
+  Wait.time(|| SetUI(), 0.1)
 end
 
 function EditMenu(_, _, id)
@@ -261,13 +261,8 @@ function SetUI()
   self.UI.setAttribute("b9", "active", false)
   if aBase then
     if aBase.getLuaScript() != "" and not pxy and string.sub(aBase.getName(), 5) == self.UI.getAttribute("mTxt", "text") then
-      if tBag then
-        forText = "sync"
-      else
-        forText = "BUILD"
-      end
-      self.UI.setAttribute("b9", "active", true)
-      self.UI.setAttribute("b9", "text", forText)
+      if(not tBag) then self.UI.setAttribute("b9", "active", true) end
+      self.UI.setAttribute("b9", "text", "BUILD")
     end
   end
 
@@ -407,32 +402,27 @@ function ButtonProxy()
   Wait.time(|| SetUI(), 0.1)
 end
 
-function ButtonPack()
-  if isPVw() then return  end
+function ButtonPack(_, _, _, keepBase)
+  if isPVw() then return end
   if not vBaseOn or not aBase then return end
-  if ss != "" or prs != "" then broadcastToAll("The Current Zone is Busy...", {0.943, 0.745, 0.14}) return end
-  local p, f, u, r, m  local s = "" allObj = tZone.getObjects() local a, k = string.char(10), string.char(44)
+  local p, f, u, r  local s = "" allObj = tZone.getObjects() local a, k = string.char(10), string.char(44)
   for _,g in ipairs(allObj) do
       p = g.getPosition() f = g.getGUID() u = 0
       if g.getLock() then u = 1 end
       if g.name ~= "_OW_vBase" then
-          if string.find("059864@3761d8@ff9bc3@2deca3@649822", f) then m = 1 end
           if not string.find("FogOfWarTrigger@ScriptingTrigger@3DText", g.name) and not string.find(vBase.getGUID(), f) then
             ss = ss..g.guid  r = g.getRotation()  s = s.."--"..f..k..p[1]..k..p[2]..k..p[3]..k..r[1]..k..r[2]..k..r[3]..k..u..a
           end
       end
   end
   if ss != "" then
-    if m then ss = ""  broadcastToAll("Pack Canceled. Remove SkyBox Tool.", {0.943, 0.745, 0.14})
-    else
-      tBag = false
-      aBase.setLuaScript(s)
-      broadcastToAll("Packing Zone...", {0.943, 0.745, 0.14})
-      local t = {
-        type = "Bag", position = {0, 4, 0},
-        callback_owner = mBag, callback = "DoPack"
-      } spawnObject(t)
-    end
+    tBag = false
+    aBase.setLuaScript(s)
+    broadcastToAll("Packing Zone...", {0.943, 0.745, 0.14})
+    local t = {
+      type = "Bag", position = {0, 4, 0},
+      callback_owner = mBag, callback = "DoPack"
+    } spawnObject(t).setName(keepBase)
   else
     broadcastToAll("(to empty a zone, use Delete)", {0.7, 0.7, 0.7})
     broadcastToAll("No Objects Found in Zone.", {0.943, 0.745, 0.14})
@@ -478,6 +468,7 @@ function NoBase()
   local c = {} c.image = self.UI.getCustomAssets()[4].url
   vBase.setCustomObject(c) vBase.reload()
   wBase.setCustomObject(c) wBase.reload()
+  SetUIText()
   Wait.time(|| cbTObj(), 0.2)
 end
 
@@ -513,12 +504,11 @@ function cbGetBase(a)
   end, 0.3)
 end
 
-function isPVw()  if wpx then broadcastToAll("Action Canceled While in Parent View.", {0.943, 0.745, 0.14})  return true  end  end
+function isPVw() if wpx then broadcastToAll("Action Canceled While in Parent View.", {0.943, 0.745, 0.14})  return true  end  end
 
 function ParceData(a)
   local h, k, e, s = string.char(45), string.char(44), string.char(10), aBag.getLuaScript()
   local g, n = a[1], string.find(s, k, string.find(s, h..a[1]..k))
-  local m = n
   if not n then broadcastToAll("No base map.", {0.943, 0.745, 0.14})  return end
   local d, dFlag = {}, false
   for w in aBag.getLuaScript():gmatch("[^,--{}]+") do
@@ -546,9 +536,9 @@ function ParceData(a)
   return string.gsub(d[1], ";", ","), scalewBase, tonumber(d[3]), tonumber(d[4]), d[5], tonumber(d[6]), d[7]
 end
 
-function ClearSet()
+function ClearSet(keepBase)
   ss, prs = "", ""
-  ButtonPack()
+  ButtonPack(nil, nil, nil, keepBase)
 end
 
 function ButtonHome()
@@ -809,28 +799,10 @@ function cbNABag(a)
   a.setPosition({p[1], p[2] + 2.5, p[3]+(5*r2)})
 end
 
-function netSync()
-  if ss != "" or prs != "" then  broadcastToAll("The Current Zone is Busy...", {0.943, 0.745, 0.14})  return  end
-  broadcastToAll("Attempting to Sync NetCode...", {0.943, 0.745, 0.14})
-  prs = aBase.getLuaScript()
-  if prs == "" then return end
-  ButtonPack()
-  prs = string.gsub(prs, string.char(10), string.char(44))  prs = string.sub(prs, string.find(prs, "%-%-")+2)
-  local a = {}  a = getObjectFromGUID(string.sub(prs, 1, 6))
-  if a then  currentBase = a.getScale()  a.setScale({0, 0, 0})  end  Wait.time(|| cbNSync(), 0.2)
-end
-function cbNSync()
-  local a = {}  a = getObjectFromGUID(string.sub(prs, 1, 6))  if a then a.setScale(currentBase) end  local n = string.find(prs, "%-%-")
-  if not n then    prs = ""  currentBase = nil  broadcastToAll("...Zone Objects Reset.", {0.943, 0.745, 0.14})  return  end
-  prs = string.sub(prs, n+2)  a = getObjectFromGUID(string.sub(prs, 1, 6))
-  if a then  currentBase = a.getScale()  a.setScale({0, 0, 0})  end
-end
-
 function ButtonBuild()
   if butActive then EditMode() return end
   if currentBase then if string.sub(currentBase, 1, 3) == "xv." then newCode() return end end
   if not vBaseOn or not aBase then return end
-  if tBag then netSync() return end
   if aBase.getDescription() == "" then return end
   if ss != "" or prs != "" then
     broadcastToAll("The Current Zone is Busy...", {0.943, 0.745, 0.14})

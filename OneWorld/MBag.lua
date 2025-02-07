@@ -22,7 +22,7 @@ function Build()
             Wait.time(function()
                 oneWorld.setVar("prs", prs)
                 oneWorld.setVar("ss", ss)
-                Wait.time(|| PickLocks(), 0.2)
+                Wait.time(|| EndBuild(), 0.2)
             end, 0.2)
         end,
         function()
@@ -54,7 +54,7 @@ function SnipIt(id)
     return string.sub(prs, id, e - 1), e + 1
 end
 
-function PickLocks()
+function EndBuild()
     broadcastToAll("Finished Building.", {0.943, 0.745, 0.14})
     if iBag then
         iBag.destruct()
@@ -75,7 +75,7 @@ function DoPack(obj)
     do
         local z2 = 1
         Wait.condition(function()
-            Wait.time(|| EndPack(), 0.2)
+            Wait.time(|| EndPack(obj.getName()), 0.2)
         end, function() Pack(z2) return ss == "" end)
     end
 end
@@ -99,18 +99,20 @@ function Pack(z2)
         ss = ""
     end
 end
-function EndPack()
+function EndPack(keepBase)
     if iBag then
         self.putObject(iBag)
         iBag = nil
     end
     oneWorld.call("JotBase")
-    oneWorld.call("StowBase")
-    oneWorld.call("NoBase")
-    oneWorld.call("SetUIText")
-    oneWorld.setVar("ss", ss)
+    if(not keepBase) then oneWorld.call("StowBase") oneWorld.call("NoBase") oneWorld.call("SetUIText") end
+    oneWorld.setVar("ss", "")
+    oneWorld.setVar("prs", "")
     broadcastToAll("Packing Complete.", {0.943, 0.745, 0.14})
-    Wait.time(|| oneWorld.call("SetUI"), 0.1)
+    Wait.condition(function()
+            oneWorld.call("SetUI")
+        end, function() return not tBag end
+    )
 end
 ----------
 
