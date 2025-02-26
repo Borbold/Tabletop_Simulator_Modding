@@ -81,6 +81,20 @@ local pointWearables = {
     {x = 0.38, z = -0.42}, {x = 0.13, z = -0.42}, {x = -0.12, z = -0.42},
     {x = -0.38, z = -0.42}
 }
+local pointConditions = {
+    Hunger = {
+        {x = 1.47, z = -0.69}, {x = 1.38, z = -0.69}, {x = 1.28, z = -0.69}, {x = 1.19, z = -0.69}
+    },
+    Thirst = {
+
+    },
+    Fatigue = {
+
+    },
+    Intoxication = {
+
+    }
+}
 
 function UpdateSave()
     local dataToSave = {
@@ -136,11 +150,29 @@ function onCollisionEnter(info)
         if(ChangeScaleObject(obj, locPos, {0.28, 0.1, 0.28}, pointWearables)) then return end
 
         local lTag = obj.getTags()[1]
-        if lTag ~= nil then --Skills
-            ChangeCountOvershoot(obj, locPos)
-            local bonusSkill = CalculateBonus(5 + obj.getStateId())
-            local arg = {tTag = lTag, bonus = bonusSkill, tChar = pointSkills[lTag]}
-            throw.call("ChangeMemory", arg)
+        if lTag ~= nil then --Skills/Conditions
+            if lTag == "Condition" then
+                for _,point in ipairs(snaps) do
+                    if CheckPos(locPos, point.position) then
+                        print("X: ", locPos.x, " Z: ", locPos.z)
+                        print("--------------------------------")
+                        for tCond,values in pairs(pointConditions) do
+                            for index,value in ipairs(values) do
+                                print("X: ", value.x, ":", Round(point.position.x, 2), " Z: ", value.z, ":", Round(point.position.z, 2))
+                                if CheckPos(value, point.position) then
+                                    ChangeState(nil, nil, tCond, index)
+                                    return
+                                end
+                            end
+                        end
+                    end
+                end
+            else
+                ChangeCountOvershoot(obj, locPos)
+                local bonusSkill = CalculateBonus(5 + obj.getStateId())
+                local arg = {tTag = lTag, bonus = bonusSkill, tChar = pointSkills[lTag]}
+                throw.call("ChangeMemory", arg)
+            end
         else --Characteristics
             for _,point in ipairs(snaps) do
                 if CheckPos(locPos, point.position) then
@@ -191,9 +223,13 @@ function ChangeCountOvershoot(obj, locPos)
     end
 end
 
-function ChangeState(player, alt, id)
-    local current = self.UI.getAttribute(id, "text")
-    state[id] = alt == "-2" and current - 1 or current + 1
+function ChangeState(player, alt, id, lState)
+    if lState then
+        state[id] = lState
+    else
+        local current = self.UI.getAttribute(id, "text")
+        state[id] = alt == "-2" and current - 1 or current + 1
+    end
     self.UI.setAttribute(id, "text", state[id])
     self.UI.setAttribute(id, "textColor", self.UI.getAttribute(id, "textColor"))
     ChangeBonusForState(player, id, state[id])
