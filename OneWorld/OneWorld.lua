@@ -403,30 +403,35 @@ function ButtonProxy()
 end
 
 function ButtonPack(_, _, _, keepBase)
-  if isPVw() then return end
-  if not vBaseOn or not aBase then return end
-  local p, f, u, r  local s = "" allObj = tZone.getObjects() local a, k = string.char(10), string.char(44)
-  for _,g in ipairs(allObj) do
-      p = g.getPosition() f = g.getGUID() u = 0
-      if g.getLock() then u = 1 end
-      if g.name ~= "_OW_vBase" then
-          if not string.find("FogOfWarTrigger@ScriptingTrigger@3DText", g.name) and not string.find(vBase.getGUID(), f) then
-            ss = ss..g.guid  r = g.getRotation()  s = s.."--"..f..k..p[1]..k..p[2]..k..p[3]..k..r[1]..k..r[2]..k..r[3]..k..u..a
-          end
-      end
-  end
-  if ss != "" then
-    tBag = false
-    aBase.setLuaScript(s)
-    broadcastToAll("Packing Zone...", {0.943, 0.745, 0.14})
-    local t = {
-      type = "Bag", position = {0, 4, 0},
-      callback_owner = mBag, callback = "DoPack"
-    } spawnObject(t).setName(keepBase)
-  else
-    broadcastToAll("(to empty a zone, use Delete)", {0.7, 0.7, 0.7})
-    broadcastToAll("No Objects Found in Zone.", {0.943, 0.745, 0.14})
-  end
+    if isPVw() then return end
+    if not vBaseOn or not aBase then return end
+
+    if ss == "" then
+        local p, f, u, r  local s = "" allObj = tZone.getObjects()
+        for i,g in ipairs(allObj) do
+            p, f = g.getPosition(), g.getGUID()
+            u = g.getLock() and 1 or 0
+            if g.name ~= "_OW_vBase" then
+                if not string.find("FogOfWarTrigger@ScriptingTrigger@3DText", g.name) and not string.find(vBase.getGUID(), f) then
+                    ss = ss..g.guid..","
+                    r = g.getRotation()
+                    s = s.."--"..f..","..p[1]..","..p[2]..","..p[3]..","..r[1]..","..r[2]..","..r[3]..","..u.."\n"
+                end
+            end
+        end
+    end
+    if ss != "" then
+        tBag = false
+        aBase.setLuaScript(s)
+        broadcastToAll("Packing Zone...", {0.943, 0.745, 0.14})
+        local t = {
+        type = "Bag", position = {0, 4, 0},
+        callback_owner = mBag, callback = "DoPack"
+        } spawnObject(t).setName(keepBase)
+    else
+        broadcastToAll("(to empty a zone, use Delete)", {0.7, 0.7, 0.7})
+        broadcastToAll("No Objects Found in Zone.", {0.943, 0.745, 0.14})
+    end
 end
 
 function JotBase(jotScaleW)
@@ -537,7 +542,6 @@ function ParceData(a)
 end
 
 function ClearSet(keepBase)
-  ss, prs = "", ""
   ButtonPack(nil, nil, nil, keepBase)
 end
 
@@ -812,7 +816,7 @@ function ButtonBuild()
   tBag = true
   local t = {
     smooth = false, guid = aBase.getDescription(), position = {-2, -46, 7},
-    callback = "CreateBugBuild", callback_owner = mBag
+    callback = "CreateBagBuild", callback_owner = mBag
   }
   mBag.takeObject(t)
 end

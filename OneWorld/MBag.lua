@@ -1,23 +1,25 @@
+local oneWorld, activeBag = nil, nil
 function onLoad()
     oneWorld = getObjectFromGUID(self.getGMNotes())
 end
 
 -- Build --
-function CreateBugBuild(bag)
+function CreateBagBuild(bag)
     oneWorld.setVar("iBag", bag)
-    bag.lock() iBag = bag
+    bag.lock() activeBag = bag
     Build()
 end
 
 function Build()
-    local bagObjects = iBag.getObjects()
     prs = oneWorld.getVar("aBase").getLuaScript()
-    if prs == "" or not bagObjects[1] then return end
-    prs = string.gsub(prs, string.char(10), string.char(44))
-    local pX, pY, pZ, rX, rY, rZ, n
+    if prs == "" or #activeBag.getObjects() == 0 then return end
     do
         ss = ""
-        local index, dc, o = 1, 0, {}
+        local objectsString = {}
+        for strok in prs:gmatch("[^\n]+") do
+            table.insert(objectsString, strok)
+        end
+        local index = 1
         Wait.condition(function()
             Wait.time(function()
                 oneWorld.setVar("prs", prs)
@@ -26,38 +28,32 @@ function Build()
             end, 0.2)
         end,
         function()
-            if(index <= #bagObjects) then
-                n = string.find(prs, "-"..bagObjects[index].guid..",")
-                if n then
-                    n = n + 8
-                    pX, n = SnipIt(n) pY, n = SnipIt(n) pZ, n = SnipIt(n)
-                    rX, n = SnipIt(n) rY, n = SnipIt(n) rZ, n = SnipIt(n)
-                    local t = {
-                        guid = bagObjects[index].guid, position = {pX, pY, pZ}, rotation = {rX, rY, rZ},
-                        callback = "UnderPack", callback_owner = self, smooth = false
-                    }
-                    iBag.takeObject(t)
-                end
-                index = index + 1
+            local objectWords = {}
+            for w in objectsString[index]:gmatch("[^,]+") do
+                table.insert(objectWords, w)
             end
-            return index > #bagObjects
+            local fLock = objectWords[8]
+            local t = {
+                guid = objectWords[1]:sub(3),
+                position = {x=tonumber(objectWords[2]), y=tonumber(objectWords[3]), z=tonumber(objectWords[4])},
+                rotation = {x=tonumber(objectWords[5]), y=tonumber(objectWords[6]), z=tonumber(objectWords[7])},
+                callback = "UnderPack", callback_owner = self, smooth = false
+            }
+            activeBag.takeObject(t).lock()
+            index = index + 1
+            return index > #objectsString
         end)
     end
 end
 function UnderPack(obj)
-    ss = ss..obj.guid obj.lock()
+    ss = ss..obj.guid..","
     if(obj.hasTag("noInteract")) then obj.interactable = false else obj.interactable = true end
-end
-
-function SnipIt(id)
-    local e = string.find(prs, string.char(44), id)
-    return string.sub(prs, id, e - 1), e + 1
 end
 
 function EndBuild()
     broadcastToAll("Finished Building.", {0.943, 0.745, 0.14})
-    if iBag then
-        iBag.destruct()
+    if activeBag then
+        activeBag.destruct()
         oneWorld.setVar("iBag", nil)
     end
     Wait.time(|| oneWorld.call("SetUI"), 0.1)
@@ -67,42 +63,28 @@ end
 -- Pack --
 function DoPack(obj)
     ss = oneWorld.getVar("ss")
-    for i = 0, string.len(ss)/6 - 1 do
-        obj.putObject(getObjectFromGUID(string.sub(ss, i*6 + 1, i*6 + 6)))
-    end
     oneWorld.getVar("aBase").setDescription(obj.getGUID())
-    iBag = obj
+    activeBag = obj
     do
-        local z2 = 1
-        Wait.condition(function()
-            Wait.time(|| EndPack(obj.getName()), 0.2)
-        end, function() Pack(z2) return ss == "" end)
-    end
-end
-function Pack(z2)
-    for i = 0, string.len(ss)/6 - 1 do
-        local g = string.sub(ss, i*6 + 1, i*6 + 6)
-        if not getObjectFromGUID(g) then ss = string.sub(ss, 1, i*6)..string.sub(ss, i*6 + 7) end
-    end
-    if ss == "" then return end
-    z2 = z2 + 1
-    if z2/10 == math.modf(z2/10) then
-        broadcastToAll("Pass"..(z2/10).."...", {0.943, 0.745, 0.14})
-    end
-    if z2 > 68 then
-        broadcastToAll("Manual Inspection Required.", {0.943, 0.745, 0.14})
-        for i = 0, string.len(ss)/6 - 1 do
-            local g = string.sub(ss, i*6 + 1, i*6 + 6)
-            getObjectFromGUID(g).resting = true
-            getObjectFromGUID(g).setPosition({0, 3, 0})
+        local packGUID, index = {}, 1
+        for w in ss:gmatch("[^,]+") do
+            table.insert(packGUID, w)
         end
-        ss = ""
+        Wait.condition(function()
+            ss = ""
+            Wait.time(|| EndPack(obj.getName()), 0.2)
+        end, function()
+            activeBag.putObject(getObjectFromGUID(packGUID[index]))
+            ss = ss.gsub(packGUID[index], "", 1)
+            index = index + 1
+            return index > #packGUID
+        end)
     end
 end
 function EndPack(keepBase)
-    if iBag then
-        self.putObject(iBag)
-        iBag = nil
+    if activeBag then
+        self.putObject(activeBag)
+        activeBag = nil
     end
     oneWorld.call("JotBase")
     if(not keepBase) then oneWorld.call("StowBase") oneWorld.call("NoBase") oneWorld.call("SetUIText") end
