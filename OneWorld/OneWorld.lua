@@ -719,8 +719,6 @@ function ButtonExport()
     type = "Bag", position = self.getPosition()+{x=10,y=1,z=0},
     callback_owner = mBag, callback = "Export"
   } iBag = spawnObject(t)
-  ss, prs = "", ""
-  Wait.time(|| ClearSet(), 0.2)
 end
 
 function CbImport()

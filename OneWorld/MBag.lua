@@ -102,17 +102,30 @@ end
 function Export(bag)
     local eBase = oneWorld.getVar("aBase").clone({position = {-7, -23, -4}})
     bag.setName("OW"..string.sub(eBase.getName(), 3))
-    local s, n = eBase.getLuaScript(), 0
-    while n + 5 < string.len(s) do
-        local g = string.sub(s, n + 3, n + 8)
-        if getObjectFromGUID(g) then bag.putObject(getObjectFromGUID(g).clone()) end
-        n = string.find(s, string.char(10), n + 3)
+    do
+        local objectsString, s = {}, eBase.getLuaScript()
+        for strok in s:gmatch("[^\n]+") do
+            table.insert(objectsString, strok)
+        end
+        local index = 1
+        Wait.condition(function()
+            local sizes = oneWorld.getVar("tSizeVPlates")[oneWorld.getVar("aBase").getGUID()] or {1.85, 1, 1.85}
+            s = string.format("%s,{%f;1;%f},%d,%d,2,%d", eBase.getGUID(), sizes[1], sizes[3], oneWorld.getVar("r1"), oneWorld.getVar("r3"), oneWorld.getVar("r90"))
+            bag.setDescription(s) eBase.setDescription(bag.getGUID()) bag.putObject(eBase)
+            oneWorld.setVar("iBag", nil)
+            Wait.time(|| oneWorld.call("SetUI"), 0.1)
+        end,
+        function()
+            local objectGUID
+            for w in objectsString[index]:gmatch("[^,]+") do
+                objectGUID = w:sub(3)
+                break
+            end
+            if getObjectFromGUID(objectGUID) then bag.putObject(getObjectFromGUID(objectGUID).clone()) end
+            index = index + 1
+            return index > #objectsString
+        end)
     end
-    local sizes = oneWorld.getVar("tSizeVPlates")[oneWorld.getVar("aBase").getGUID()] or {1.85, 1, 1.85}
-    s = string.format("%s,{%f;1;%f},%d,%d,2,%d", eBase.getGUID(), sizes[1], sizes[3], oneWorld.getVar("r1"), oneWorld.getVar("r3"), oneWorld.getVar("r90"))
-    bag.setDescription(s) eBase.setDescription(bag.getGUID()) bag.putObject(eBase)
-    oneWorld.setVar("iBag", nil)
-    Wait.time(|| oneWorld.call("SetUI"), 0.1)
 end
 ----------
 
