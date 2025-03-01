@@ -71,11 +71,12 @@ function DoPack(obj)
             table.insert(packGUID, w)
         end
         Wait.condition(function()
-            ss = ""
             Wait.time(|| EndPack(obj.getName()), 0.2)
         end, function()
-            activeBag.putObject(getObjectFromGUID(packGUID[index]))
-            ss = ss.gsub(packGUID[index], "", 1)
+            if(getObjectFromGUID(packGUID[index])) then
+                activeBag.putObject(getObjectFromGUID(packGUID[index]))
+                ss = ss.gsub(packGUID[index], "", 1)
+            end
             index = index + 1
             return index > #packGUID
         end)
@@ -88,8 +89,7 @@ function EndPack(keepBase)
     end
     oneWorld.call("JotBase")
     if(not keepBase) then oneWorld.call("StowBase") oneWorld.call("NoBase") oneWorld.call("SetUIText") end
-    oneWorld.setVar("ss", "")
-    oneWorld.setVar("prs", "")
+    ss = "" oneWorld.setVar("ss", ss)
     broadcastToAll("Packing Complete.", {0.943, 0.745, 0.14})
     Wait.condition(function()
             oneWorld.call("SetUI")
