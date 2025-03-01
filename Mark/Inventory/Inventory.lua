@@ -5,31 +5,31 @@ local pointsPos = {
         {x = 1.46, z = -1.91}, {x = 1.39, z = -1.91}, {x = 1.29, z = -1.91}, {x = 1.2, z = -1.9}, {x = 1.1, z = -1.9},
         {x = 1, z = -1.9}, {x = 0.92, z = -1.9}, {x = 0.82, z = -1.91}, {x = 0.72, z = -1.91}, {x = 0.62, z = -1.91},
     },
-    восприятие = {
+    восп = {
         {x = 1.47, z = -1.81}, {x = 1.39, z = -1.81}, {x = 1.29, z = -1.81}, {x = 1.19, z = -1.81}, {x = 1.1, z = -1.81},
         {x = 1.01, z = -1.81}, {x = 0.92, z = -1.81}, {x = 0.83, z = -1.82}, {x = 0.73, z = -1.81}, {x = 0.62, z = -1.81},
         {x = 1.46, z = -1.74}, {x = 1.38, z = -1.74}, {x = 1.28, z = -1.74}, {x = 1.19, z = -1.74}, {x = 1.1, z = -1.74},
         {x = 1.01, z = -1.74}, {x = 0.91, z = -1.74}, {x = 0.83, z = -1.74}, {x = 0.72, z = -1.74}, {x = 0.62, z = -1.74},
     },
-    выносливость = {
+    вын = {
         {x = 1.47, z = -1.65}, {x = 1.39, z = -1.64}, {x = 1.29, z = -1.65}, {x = 1.19, z = -1.65}, {x = 1.1, z = -1.65},
         {x = 1.01, z = -1.64}, {x = 0.92, z = -1.65}, {x = 0.83, z = -1.65}, {x = 0.72, z = -1.65}, {x = 0.62, z = -1.65},
         {x = 1.47, z = -1.57}, {x = 1.38, z = -1.57}, {x = 1.28, z = -1.57}, {x = 1.2, z = -1.57}, {x = 1.1, z = -1.58},
         {x = 1.01, z = -1.57}, {x = 0.92, z = -1.57}, {x = 0.83, z = -1.58}, {x = 0.73, z = -1.58}, {x = 0.62, z = -1.58},
     },
-    харизма = {
+    хар = {
         {x = 1.47, z = -1.48}, {x = 1.39, z = -1.48}, {x = 1.29, z = -1.48}, {x = 1.19, z = -1.48}, {x = 1.1, z = -1.48},
         {x = 1.01, z = -1.48}, {x = 0.92, z = -1.48}, {x = 0.83, z = -1.48}, {x = 0.73, z = -1.48}, {x = 0.62, z = -1.48},
         {x = 1.46, z = -1.41}, {x = 1.38, z = -1.4}, {x = 1.28, z = -1.41}, {x = 1.19, z = -1.41}, {x = 1.1, z = -1.41},
         {x = 1.01, z = -1.41}, {x = 0.92, z = -1.41}, {x = 0.83, z = -1.41}, {x = 0.72, z = -1.41}, {x = 0.62, z = -1.41},
     },
-    интеллект = {
-        {x = 1.47, z = -1.32}, {x = 1.39, z = -1.31}, {x = 1.29, z = -1.32}, {x = 1.19, z = -1.31}, {x = 1.1, z = -1.32},
+    инт = {
+        {x = 1.47, z = -1.32}, {x = 1.39, z = -1.31}, {x = 1.29, z = -1.32}, {x = 1.19, z = -1.31}, {x = 1.11, z = -1.32},
         {x = 1.01, z = -1.31}, {x = 0.92, z = -1.31}, {x = 0.83, z = -1.32}, {x = 0.73, z = -1.31}, {x = 0.62, z = -1.31},
         {x = 1.47, z = -1.24}, {x = 1.38, z = -1.24}, {x = 1.28, z = -1.24}, {x = 1.2, z = -1.24}, {x = 1.1, z = -1.24},
         {x = 1.01, z = -1.24}, {x = 0.92, z = -1.24}, {x = 0.82, z = -1.24}, {x = 0.73, z = -1.25}, {x = 0.62, z = -1.24},
     },
-    ловкость = {
+    ловк = {
         {x = 1.47, z = -1.14}, {x = 1.39, z = -1.15}, {x = 1.29, z = -1.15}, {x = 1.2, z = -1.15}, {x = 1.1, z = -1.15},
         {x = 1.01, z = -1.15}, {x = 0.92, z = -1.15}, {x = 0.83, z = -1.15}, {x = 0.73, z = -1.15}, {x = 0.62, z = -1.15},
         {x = 1.46, z = -1.08}, {x = 1.38, z = -1.07}, {x = 1.28, z = -1.08}, {x = 1.19, z = -1.07}, {x = 1.1, z = -1.08},
@@ -37,16 +37,16 @@ local pointsPos = {
     },
 }
 local pointSkills = {
-    Weightlifting = "сила", Riding = "ловкость", Theft = "ловкость",
-    Athletics = "ловкость", Disguise = "восприятие", Shooting = "восприятие",
-    Evasion = "ловкость", Fencing = "ловкость", Blocking = "сила",
-    MartialArts = "ловкость", Survival = "восприятие", LocalKnowledge = "интеллект",
-    ForeignLanguage = "интеллект", Medicine = "интеллект", Science = "интеллект",
-    Cooking = "восприятие", Herbalism = "восприятие", Observation = "восприятие",
-    Orientation = "восприятие", FirstAid = "восприятие", Mechanics = "интеллект",
+    Weightlifting = "сила", Riding = "ловк", Theft = "ловк",
+    Athletics = "ловк", Disguise = "восп", Shooting = "восп",
+    Evasion = "ловк", Fencing = "ловк", Blocking = "сила",
+    MartialArts = "ловк", Survival = "восп", LocalKnowledge = "инт",
+    ForeignLanguage = "инт", Medicine = "инт", Science = "инт",
+    Cooking = "восп", Herbalism = "восп", Observation = "восп",
+    Orientation = "восп", FirstAid = "восп", Mechanics = "инт",
     Armor = "сила", Gunsmith = "сила", Interrogation = "сила",
-    Livestock = "восприятие", Leadership = "харизма", Acting = "харизма",
-    Speechcraft = "харизма", Art = "восприятие", Trade = "харизма", Gambling = "ловкость"
+    Livestock = "восп", Leadership = "хар", Acting = "хар",
+    Speechcraft = "хар", Art = "восп", Trade = "хар", Gambling = "ловк"
 }
 local pointOvershoot = {
     {x = 1.51, z = 1.28}, {x = 1.20, z = 1.28}, {x = 0.92, z = 1.28},
@@ -240,11 +240,11 @@ function ChangeBonusForState(player, id, state)
         local text = id == "Hunger" and "голодает" or id == "Thirst" and "хочет пить" or id == "Fatigue" and "хочет спать" or "перепил"
         broadcastToAll("Кажется кто-то " .. text)
         local tChar = id == "Hunger" and "сила" or id == "Thirst" and "ловкость" or id == "Fatigue" and "интеллект"
-        local arg = {tChar = tChar, bonus = state < 7 and -10 or -20, state = true}
+        local arg = {tChar = tChar, bonus = state < 7 and -10 or -20, state = true, condition = true}
         throw.call("ChangeMemory", arg)
     else
         local tChar = id == "Hunger" and "сила" or id == "Thirst" and "ловкость" or id == "Fatigue" and "интеллект"
-        local arg = {tChar = tChar, bonus = 0, state = true}
+        local arg = {tChar = tChar, bonus = 0, state = true, condition = true}
         throw.call("ChangeMemory", arg)
     end
 end
