@@ -406,8 +406,9 @@ function ButtonPack(_, _, _, keepBase)
     if isPVw() then return end
     if not vBaseOn or not aBase then return end
 
+    local s = ""
     if ss == "" then
-        local p, f, u, r  local s = "" allObj = tZone.getObjects()
+        local p, f, u, r allObj = tZone.getObjects()
         for i,g in ipairs(allObj) do
             p, f = g.getPosition(), g.getGUID()
             u = g.getLock() and 1 or 0
