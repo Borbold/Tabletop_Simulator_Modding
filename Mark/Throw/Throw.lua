@@ -249,7 +249,11 @@ function ChangeMemory(arg)
         saveThrow[arg.tTag].BT[1] = saveThrow[arg.tChar].BT[1]
         saveThrow[arg.tTag].BT[2] = arg.bonus ~= -1 and arg.bonus or saveThrow[arg.tTag].BT[2]
     elseif(arg.tChar and saveThrow[arg.tChar]) then
-        saveThrow[arg.tChar].BT[1] = arg.bonus ~= -1 and arg.bonus or saveThrow[arg.tChar].BT[1]
+        if(arg.condition) then
+            saveThrow[arg.tChar].BT[3] = arg.bonus
+        else
+            saveThrow[arg.tChar].BT[1] = arg.bonus ~= -1 and arg.bonus or saveThrow[arg.tChar].BT[1]
+        end
     end
     UpdateSave()
 end
