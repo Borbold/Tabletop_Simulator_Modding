@@ -89,6 +89,7 @@ function EndPack(keepBase)
     end
     oneWorld.call("JotBase")
     if(not keepBase) then oneWorld.call("StowBase") oneWorld.call("NoBase") oneWorld.call("SetUIText") end
+    oneWorld.setVar("prs", "")
     ss = "" oneWorld.setVar("ss", ss)
     broadcastToAll("Packing Complete.", {0.943, 0.745, 0.14})
     Wait.condition(function()

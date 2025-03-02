@@ -138,12 +138,17 @@ function SetLinks()
   local t = oneWorld.getVar("lnk")
   if(t == nil) then return end
   
-  local rot = self.getRotation().z == 0 and 1 or -1
+  local rotZ = 0
+  if(oneWorld.getVar("r90") == 1) then
+    rotZ = ((self.getRotation().y == 270 and self.getRotation().z == 180) or (self.getRotation().y == 90 and self.getRotation().z == 180)) and -1 or 1
+  else
+    rotZ = self.getRotation().z == 0 and 1 or -1
+  end
   local xmlTable = {
     {
       tag = "Panel",
       attributes = {
-        position = "0 0 "..(-6*rot),
+        position = "0 0 "..(-6*rotZ),
         width = "500",
         height = "300",
         rotation = "0 "..self.getRotation().z.." 0"
@@ -173,7 +178,7 @@ function SetLinks()
         image = "https://steamusercontent-a.akamaihd.net/ugc/13045573010340250/36C6D007CDC8304626495A82A96511E910CC301B/",
         width = sX,
         height = sY,
-        offsetXY = (-y*rot).." "..x,
+        offsetXY = (-y*rotZ).." "..x,
         onClick = "ButtonLink"
       }
     }

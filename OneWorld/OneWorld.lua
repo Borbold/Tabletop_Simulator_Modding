@@ -332,19 +332,19 @@ function cbTObj()
   Wait.time(function()
     local boundsSize = wBase.getBoundsNormalized().size
     if(r90 == 0 and (boundsSize.x > 9.01 or boundsSize.z > 5.35) or
-        r90 == 90 and (boundsSize.x > 5.35 or boundsSize.z > 9.01)) then
+        r90 == 1 and (boundsSize.x > 5.35 or boundsSize.z > 9.01)) then
       FitBase()
     end
   end, 0.01, 4)
 end
 
-function ButtonHorz() if isPVw() then return end if aBase then r1 = 180 - r1 + r90 rotBase() JotBase() end end
+function ButtonHorz() if isPVw() then return end if aBase then r1 = 180 - r1 rotBase() JotBase() end end
 function ButtonVert() if isPVw() then return end if aBase then r3 = 180 - r3 rotBase() JotBase() end end
 
 function FitBase()
   if isPVw() or not aBase or butActive then return end
   local baseSize = wBase.getBoundsNormalized().size baseSize.y = 1
-  if baseSize.z > baseSize.x*1.05 then r90 = 90
+  if baseSize.z > baseSize.x*1.05 then r90 = 1
   else r90 = 0 end
   baseSize.x = r90 == 0 and (9.01/baseSize.x)*sizeWPlate or (5.35/baseSize.x)*sizeWPlate
   baseSize.z = r90 == 0 and (5.35/baseSize.z)*sizeWPlate or (9.01/baseSize.z)*sizeWPlate
@@ -370,8 +370,13 @@ function ChangeSettingSize(player, input, id)
 end
 
 function rotBase()
-  vBase.setRotation({0, r1, r3})
-  if wpx == nil or wpx == wBase.getDescription() then wBase.setRotation({0, r1, r3}) wBase.call("SetLinks") end
+  if(r90 == 0) then
+      vBase.setRotation({0, r1, r3})
+      if wpx == nil or wpx == wBase.getDescription() then wBase.setRotation({0, r1, r3}) wBase.call("SetLinks") end
+  else
+      vBase.setRotation({r3, 90, r1})
+      if wpx == nil or wpx == wBase.getDescription() then wBase.setRotation({r3, 90, r1}) wBase.call("SetLinks") end
+  end
 end
 
 function ButtonProxy()
@@ -381,7 +386,8 @@ function ButtonProxy()
     if wpx then
       if wpx == wBase.getDescription() then
         pxy = nil  f = 1  v.image = aBase.getCustomObject().image 
-      end  wpx = nil
+      end
+      wpx = nil
     else
       pxy = nil  f = 1  v.image = aBase.getCustomObject().image 
     end
@@ -390,9 +396,12 @@ function ButtonProxy()
       wpx = nil  v.image = aBase.getCustomObject().image bn, scalewBase, r1, r3, pxy, r90, lnk = ParceData({aBase.getGUID()})  pxy = nil
       SetUIText()  wBase.setCustomObject(v)  wBase.reload()  Wait.time(|| cbTObj(), 0.2)
     else
-      if tBag then  broadcastToAll("Pack or Clear Zone to Enter Parent View.", {0.943, 0.745, 0.14})  return  end
-      pxy = 8  f = 1  v.image = aBase.getCustomObject().image 
-      wpx = wBase.getDescription()  g = "Entering Parent View..."
+      if tBag then
+        broadcastToAll("Pack or Clear Zone to Enter Parent View.", {0.943, 0.745, 0.14})
+        return
+      end
+      pxy = true v.image = aBase.getCustomObject().image
+      wpx = wBase.getDescription() g = "Entering Parent View..."
     end
   end
   if f then
@@ -402,12 +411,16 @@ function ButtonProxy()
   Wait.time(|| SetUI(), 0.1)
 end
 
-function ButtonPack(_, _, _, keepBase)
+function ClearSet(keepBase, delete)
+  ButtonPack(delete, nil, nil, keepBase)
+end
+
+function ButtonPack(player, _, _, keepBase)
     if isPVw() then return end
     if not vBaseOn or not aBase then return end
 
     local s = ""
-    if ss == "" then
+    if player then
         local p, f, u, r allObj = tZone.getObjects()
         for i,g in ipairs(allObj) do
             p, f = g.getPosition(), g.getGUID()
@@ -421,9 +434,11 @@ function ButtonPack(_, _, _, keepBase)
             end
         end
     end
-    if ss != "" then
+    if #ss > 0 then
         tBag = false
-        aBase.setLuaScript(s)
+        if(player) then
+          aBase.setLuaScript(s)
+        end
         broadcastToAll("Packing Zone...", {0.943, 0.745, 0.14})
         local t = {
         type = "Bag", position = {0, 4, 0},
@@ -447,13 +462,6 @@ function JotBase(jotScaleW)
   n = string.find(s, h..wBase.getDescription()..",")
   if n then s = string.sub(s, 1, n - 2)..string.sub(s, string.find(s, e, n) + 1) end
   local name = string.sub(aBase.getName(), 5)  name = string.gsub(name, ",", ";")
-  if r90 != 1 then
-    if math.abs(wBase.getScale().x - wBase.getScale().z) > 0.01 then
-      r90 = 2
-    else
-      r90 = 0
-    end
-  end
   local strScale = jotScaleW and jotScaleW or string.format("{%f;%d;%f}", wBase.getScale().x, 1, wBase.getScale().z)
   aBag.setLuaScript(s..string.format("%s,%s,%s,%s,%s,%s,%s,%s\n--", aBase.getGUID(), name, strScale, r1, r3, x, r90, (lnk ~= nil and lnk ~= "" and lnk.."," or "")))
 end
@@ -540,10 +548,6 @@ function ParceData(a)
     i = i + 1
   end
   return string.gsub(d[1], ";", ","), scalewBase, tonumber(d[3]), tonumber(d[4]), d[5], tonumber(d[6]), d[7]
-end
-
-function ClearSet(keepBase)
-  ButtonPack(nil, nil, nil, keepBase)
 end
 
 function ButtonHome()
@@ -677,8 +681,7 @@ function ButtonDelete()
   if aBase.getLuaScript() != "" and not tBag then broadcastToAll("Deploy Zone to Delete.", {0.943, 0.745, 0.14})  return end
   if tBag then
     currentBase = aBase.getGUID()
-    ss, prs = "", ""
-    ClearSet() wBase.setDescription("")
+    ClearSet(nil, true) wBase.setDescription("")
     aBase.setLuaScript("")
     broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
   else
