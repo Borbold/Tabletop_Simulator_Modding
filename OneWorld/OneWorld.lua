@@ -45,8 +45,8 @@ function RecreateObjects(allObj)
   local o, i = {}, {}
   i.image = self.UI.getCustomAssets()[4].url  i.thickness = 0.1
   if not vBase then
-    local p = self.getPosition()
-    o.type = "Custom_Token" o.scale = {0.5, 1, 0.5} o.position = {p[1] + 3, p[2] + 2.5, p[3] - 1}
+    local p, rotY = self.getPosition(), math.rad(self.getRotation().y)
+    o.type = "Custom_Token" o.scale = {0.5, 1, 0.5} o.rotation = self.getRotation() o.position = {p[1] + 3*math.cos(rotY) + 1*math.sin(rotY), p[2] + 2.5, p[3] - 3*math.sin(rotY) - 1*math.cos(rotY)}
     vBase = spawnObject(o)
     vBase.setCustomObject(i)
   end
@@ -113,11 +113,11 @@ function TogleEnable()
     self.UI.setAttribute("mainPanel", "active", true)
     local r = self.getRotation()  if r[2] > 180 then r2 = -1 else r2 = 1  end
     self.interactable = false self.lock()
-    self.setRotation({0, (2-r2)*90, 0})  self.setScale({2.2,1,2.2})
     mBag.lock()  mBag.setScale({0, 0, 0})  mBag.setPosition({-3,-50, 3})  mBag.interactable = false
     aBag.lock()  aBag.setScale({0, 0, 0})  aBag.setPosition({-3,-55, -3}) aBag.interactable = false
-    vBase.interactable = false  vBase.lock() vBase.setScale({sizeVPlate, 1, sizeVPlate}) vBase.setPosition({0, 0.91, 0})
-    wBase.interactable = false  wBase.lock() wBase.setScale({sizeWPlate, 1, sizeWPlate}) wBase.setPosition({p[1], p[2]+0.105, p[3]+(0.77*r2)})
+    self.setRotation({x=0, y=0, z=0})
+    vBase.interactable = false vBase.lock() vBase.setScale({sizeVPlate, 1, sizeVPlate}) vBase.setPosition({0, 0.91, 0})
+    wBase.interactable = false wBase.lock() wBase.setScale({sizeWPlate, 1, sizeWPlate}) wBase.setPosition({p[1], p[2] + 0.105, p[3] - (0.77*r2)})
     broadcastToAll("Running Version: "..self.getDescription(), {0.943, 0.745, 0.14})
     vBaseOn = true SetUIText()
     r1, r3, r90 = 0, 0, 0
@@ -129,13 +129,13 @@ function TogleEnable()
     self.UI.setAttribute("b2", "text", "←")
     self.UI.setAttribute("editMenuPanel", "active", false)
     vBaseOn = false
-    self.interactable = true self.unlock() self.setPositionSmooth({p[1], p[2]+0.1, p[3]})
-    mBag.unlock() mBag.setScale({1, 1, 1}) mBag.setPosition({p[1]-3, p[2]+3, p[3]}) mBag.setPositionSmooth({p[1]-3, p[2]+2.5, p[3]})
-    aBag.unlock() aBag.setScale({1, 1, 1}) aBag.setPosition({p[1], p[2]+3, p[3]}) aBag.setPositionSmooth({p[1], p[2]+2.5, p[3]})
+    self.interactable = true self.unlock() self.setPositionSmooth({p[1], p[2] + 0.1, p[3]})
+    mBag.unlock() mBag.setScale({1, 1, 1}) mBag.setPosition({p[1] - 3, p[2] + 3, p[3]})
+    aBag.unlock() aBag.setScale({1, 1, 1}) aBag.setPosition({p[1], p[2] + 3, p[3]})
     mBag.interactable = true aBag.interactable = true vBase.interactable = true vBase.unlock() vBase.setScale({0.5, 1, 0.5})
-    vBase.setPosition({p[1]+3, p[2]+3, p[3]-1}) vBase.setPositionSmooth({p[1]+3, p[2]+2.5, p[3]-1})
+    vBase.setPosition({p[1] + 3, p[2] + 3, p[3] - 1})
     wBase.interactable = true  wBase.unlock() wBase.setScale({0.5, 1, 0.5})
-    wBase.setPosition({p[1]+3, p[2]+3, p[3]+1}) wBase.setPositionSmooth({p[1]+3, p[2]+2.5, p[3]+1})
+    wBase.setPosition({p[1] + 3, p[2] + 3, p[3] + 1})
     wpx = nil
     reStart(self.UI.getAttribute("b1", "text")) Wait.time(|| SetUI(), 0.1)
     return
@@ -306,9 +306,9 @@ function FindBags(allObj)
   return true
 end
 function NewWBase(request)
-  local p = self.getPosition()
+  local p, rotY = self.getPosition(), math.rad(self.getRotation().y)
   local o = {
-    type = "Custom_Token", position = {p[1] + 3, p[2] + 2.5, p[3] + 1},
+    type = "Custom_Token", position = {p[1] + 3*math.cos(rotY) - 1*math.sin(rotY), p[2] + 2.5, p[3] - 3*math.sin(rotY) + 1*math.cos(rotY)},
     scale = {0.5, 1, 0.5}
   }
   wBase = spawnObject(o) wBase.setGMNotes(self.getGUID())
@@ -317,13 +317,13 @@ function NewWBase(request)
   }
   wBase.setCustomObject(i)
   wBase.setLuaScript(request.text) wBase.setName("_OW_wBase")
+  wBase.setRotation(self.getRotation())
 end
 
 function cbTObj()
   wBase = getObjectFromGUID(baseWGUID) wBase.interactable = false
   vBase = getObjectFromGUID(baseVGUID) vBase.interactable = false
   if nl then wBase.call("MakeLink") end
-  self.setRotation({0, (2 - r2)*90, 0})
   rotBase()
   local sizeZone = {vBase.getBoundsNormalized().size.x, 10, vBase.getBoundsNormalized().size.z}
   local posZone = vBase.getPosition() + {x=0, y=5, z=0}
@@ -508,7 +508,7 @@ function cbGetBase(a)
   local locPos = self.getPosition()
   a.setPosition({locPos.x, locPos.y - 0.5, locPos.z})  a.lock()  a.interactable = false aBase = a
   wBase.setDescription(a.guid)
-  local p = self.getPosition() wBase.setPosition({p[1], p[2] + 0.05, p[3] + (0.77*r2)})
+  local p = self.getPosition() wBase.setPosition({p[1], p[2] + 0.05, p[3] - (0.77*r2)})
   rotBase() SetUIText() rollBack({a.guid})
   wBase.setCustomObject({image = a.getCustomObject().image}) wBase.reload()
   vBase.setCustomObject({image = a.getCustomObject().image}) vBase.reload()
@@ -635,7 +635,7 @@ function EditMode()
     self.UI.setAttribute("mTxt", "text", "Exit Edit Mode")
     self.UI.setAttribute("mTxt", "textColor", "#f1b531")
     aBase.interactable = true  aBase.unlock()  aBase.setRotation({0, 0, 0})  
-    aBase.setPosition({p[1], p[2]+3, p[3]+(4.7*r2)})  aBase.setPositionSmooth({p[1], p[2]+2.5, p[3]+(4.7*r2)})
+    aBase.setPosition({p[1], p[2] + 3, p[3] + (4.7*r2)})
   else
     JotBase()  StowBase()  NoBase()  Wait.time(|| SetUI(), 0.1)  SetUIText()  butActive = nil  broadcastToAll("Packing Base...", {0.943, 0.745, 0.14}) end
 end
@@ -670,7 +670,7 @@ function cb3Copy()
 end
 function cb4Copy()  
   local x = self.getPosition()  x[1] = x[1]-(5.7 * r2)  aBase.setRotation({0, 90, 0})  
-  aBase.setPosition({x[1], x[2]+2.5, x[3]})  aBase.setPositionSmooth({x[1], x[2]+2, x[3]})  aBase.setLuaScript("")
+  aBase.setPosition({x[1], x[2] + 2.5, x[3]}) aBase.setLuaScript("")
   aBase.setName("SBx_Copy_"..string.sub(aBase.getName(), 5))  aBase.setDescription("")
   aBase.unlock()  NoBase()  Wait.time(|| SetUI(), 0.1)  SetUIText()
 end
@@ -729,7 +729,6 @@ function CbImport()
   local p = self.getPosition()
   p[1] = p[1] - (5.5*r2)
   aBase.setPosition({p[1], p[2] + 4, p[3]})
-  aBase.setPositionSmooth({p[1], p[2] + 1, p[3]})
   local e, k, s = string.char(10), string.char(44), string.sub(iBag.getName(), 5)
   local g = iBag.getDescription() aBase.setName("SBx_"..s)
   if(#g == 6) then
@@ -780,7 +779,7 @@ function sglClick()
 end
 function cbNABase(a)
   local p = self.getPosition()  a.setScale({0.5, 1, 0.5})  a.setName("SBx_Name of Zone")
-  p[1] = p[1]-(5.8 * r2)  a.setPosition({p[1], p[2]+3, p[3]})  a.setPositionSmooth({p[1], p[2]+2.5, p[3]})
+  p[1] = p[1]-(5.8 * r2)  a.setPosition({p[1], p[2] + 3, p[3]})
 end
 function CreateStartBags()
   if(not mBag) then
@@ -796,13 +795,13 @@ end
 function cbNMBag(request)
   mBag = spawnObject({type = "Bag"}) mBag.setGMNotes(self.getGUID()) mBag.setLuaScript(request.text)
   mBag.setDescription("_OW_mBaG") mBag.setName("Same_Name_Here") mBag.setColorTint({0.713, 0.247, 0.313})
-  local p = self.getPosition()
-  mBag.setPosition({p[1] - 3, p[2] + 2.5, p[3]+(5*r2)})
+  local p, rotY = self.getPosition(), math.rad(self.getRotation().y)
+  mBag.setPosition({p[1] - 3*math.cos(rotY), p[2] + 2.5, p[3] + 3*math.sin(rotY)})
 end
 function cbNABag(a)
   a.setDescription("_OW_aBaG") a.setName("Same_Name_Here") a.setColorTint({0.713, 0.247, 0.313})
   local p = self.getPosition()
-  a.setPosition({p[1], p[2] + 2.5, p[3]+(5*r2)})
+  a.setPosition({p[1], p[2] + 2.5, p[3]})
 end
 
 function ButtonBuild()

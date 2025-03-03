@@ -9,19 +9,19 @@
         color='#ffffff'
         tooltipFont='Fonts/Allods' tooltipFontSize='20' tooltipPosition='Above'/>
     <Cell dontUseTableCellBackground='true' />
-    <Panel position='0 0 -6' scale='0.5' />
+    <Panel position='0 0 -6' scale='0.5' rotation='0 0 90' />
     
     <Button class='workButton' textColor='Black' color='White' image='uiBackButton' />
     <Button class='editMenuButton' textColor='Black' color='White' image='uiBackButton' resizeTextMaxSize='80' />
 </Defaults>
 
-<Panel width='652' height='860' image='uiBackground' raycastTarget='false'>
+<Panel id='backImage' width='652' height='860' image='uiBackground' raycastTarget='false'>
     <Button id='b1' class='workButton' offsetXY='370 -400' width='80' height='50' text='Init' onClick='EnableOneWorld' />
     <Button id='mTxt' width='680' height='140' offsetXY='260 -60' rotation='0 0 -90' text='One World' onClick='SelectMap' />
 </Panel>
 
 <Panel id='mainPanel' active='false' raycastTarget='false'>
-    <Button id='b2' class='workButton' width='80' height='50' offsetXY='-370 400' text='←' onClick='EditMenu' tooltip='Menu' />
+    <Button id='b2' class='workButton' width='80' height='50' offsetXY='-370 400' text='←' onClick='EditMenu' />
 
     <Button id='b3' class='workButton' width='80' height='50' offsetXY='-260 -455' text='...' onClick='ButtonVert' />
     <Button id='b4' class='workButton' width='80' height='50' offsetXY='-350 -360' rotation='0 0 270' text='...' onClick='ButtonHorz' />
@@ -77,29 +77,29 @@
             </Cell>
         </Row>
     </TableLayout>
-</Panel>
 
-<TableLayout id='settingSizes' position='-90 -265 -6' scale='0.5' width='200' height='100' image='uiBackButton' color='Black' active='false'>
-    <Row>
-        <Cell>
-            <Text text='vBase' />
-        </Cell>
-        <Cell>
-            <InputField id='vBaseX' text='25' onEndEdit='ChangeSettingSize' />
-        </Cell>
-        <Cell>
-            <InputField id='vBaseZ' text='25' onEndEdit='ChangeSettingSize' />
-        </Cell>
-    </Row>
-    <Row>
-        <Cell>
-            <Text text='wBase' />
-        </Cell>
-        <Cell>
-            <InputField id='wBaseX' text='1.85' onEndEdit='ChangeSettingSize' />
-        </Cell>
-        <Cell>
-            <InputField id='wBaseZ' text='1.85' onEndEdit='ChangeSettingSize' />
-        </Cell>
-    </Row>
-</TableLayout>
+    <TableLayout id='settingSizes' position='-180 -530 0' width='200' height='100' image='uiBackButton' color='Black' active='false'>
+        <Row>
+            <Cell>
+                <Text text='vBase' />
+            </Cell>
+            <Cell>
+                <InputField id='vBaseX' text='25' onEndEdit='ChangeSettingSize' />
+            </Cell>
+            <Cell>
+                <InputField id='vBaseZ' text='25' onEndEdit='ChangeSettingSize' />
+            </Cell>
+        </Row>
+        <Row>
+            <Cell>
+                <Text text='wBase' />
+            </Cell>
+            <Cell>
+                <InputField id='wBaseX' text='1.85' onEndEdit='ChangeSettingSize' />
+            </Cell>
+            <Cell>
+                <InputField id='wBaseZ' text='1.85' onEndEdit='ChangeSettingSize' />
+            </Cell>
+        </Row>
+    </TableLayout>
+</Panel>
