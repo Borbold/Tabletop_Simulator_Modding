@@ -27,7 +27,6 @@ function onLoad(savedData)
   wpx, pxy, aBase, nl, linkToMap, butActive = nil, nil, nil, nil, nil, nil
   ba = {}
   currentBase = "x"
-  prevTime = os.clock()
 end
 
 function SelectMap()
@@ -748,39 +747,32 @@ end
 
 function ButtonSeeAll()
     if not vBaseOn then return end
-    broadcastToAll("(scroll <Z-A>, all zones)", {0.7, 0.7, 0.7})  broadcastToAll("Use the One World Logo.", {0.943, 0.745, 0.14})
-    if aBase then ba = {}  ba[-1] = 1  ba[0] = 1  ba[1] = aBase.getGUID()  return  end
-    local i, ii, g  local s = aBag.getLuaScript()  local e = string.char(10)  local t = {}  local ct = 0  local n = string.find(s, e)
-    while string.len(s) > 6 do  ct = ct+1  t[ct] = string.sub(s, 1, n)  s = string.sub(s, n+1)  n = string.find(s, e)  end  s = ""
-    for i = 2, ct do
-      for ii = i, 2, -1 do
-        if string.sub(t[ii], 10) < string.sub(t[ii-1], 10) then g = t[ii]  t[ii] = t[ii-1]  t[ii-1] = g  end
+    broadcastToAll("Use the One World Logo.", {0.943, 0.745, 0.14})
+    if aBase then ba = {} ba[-1] = 1 ba[0] = 1 ba[1] = aBase.getGUID() return end
+    local s, t = aBag.getLuaScript(), {}
+    for strok in s:gmatch("[^\n]+") do
+      for w in strok:gmatch("[^,]+") do
+        if(#w > 3) then table.insert(t, w:sub(3)) end
+        break
       end
-    end  ba = {}  ba[-1] = 2  ba[0] = ct+1  ba[1] = string.sub(t[1], 3, 8)
-    for i = 1, ct do  ba[i+1] = string.sub(t[i], 3, 8)  s = s..t[i]  end  s = s.."--"  aBag.setLuaScript(s)
+    end
+    s = ""
+    ba = {} ba[-1] = 2 ba[0] = #t + 1 ba[1] = t[1]
+    for i,v in ipairs(t) do
+      ba[i + 1] = v
+    end
 end
 
 function ButtonNew()
-  if os.clock() - prevTime < 0.7 then
-    prevTime = prevTime - 1
-    CreateStartBags()
-    TogleEnable()
-    broadcastToAll("(remove 1 pair from the table)", {0.7, 0.7, 0.7})
-    broadcastToAll("ReName these 2 Bags.", {0.943, 0.745, 0.14})
-  else
-    prevTime = os.clock()
-    Wait.time(|| sglClick(), 0.2)
-  end
-end
-function sglClick()
   local p = {}  p.type = "Custom_Token"  p.position = {0, -23, 0}  p.rotation = {0, 90, 0}  p.callback = "cbNABase"
   p.callback_owner = self  local o = spawnObject(p)  local i = {}
   i.thickness = 0.1  i.image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/sample_token.png"  o.setCustomObject(i)
 end
 function cbNABase(a)
-  local p = self.getPosition()  a.setScale({0.5, 1, 0.5})  a.setName("SBx_Name of Zone")
-  p[1] = p[1]-(5.8 * r2)  a.setPosition({p[1], p[2] + 3, p[3]})
+  local p = self.getPosition() a.setScale({0.5, 1, 0.5}) a.setName("SBx_Name of Zone")
+  p[1] = p[1] - (5.8 * r2)  a.setPosition({p[1], p[2] + 3, p[3]})
 end
+
 function CreateStartBags()
   if(not mBag) then
     WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/MBag.lua", self, "cbNMBag")
