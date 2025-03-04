@@ -313,19 +313,21 @@ function ClearSet(keepBase, delete)
 end
 
 function JotBase(jotScaleW)
-    local e, h = string.char(10), string.char(45)
-    local x
-    local s = aBag.getLuaScript()
-    if s == "" then s = "--" end
-    local n = string.len(s)
-    if n < 6 then aBag.setDescription("_OW_aBaG_"..aBase.getGUID()) end
-    if pxy then x = 8 else x = 2 end
-    while string.sub(s, n) != "-" do  s = string.sub(s, 1, n-1)  n = n-1  end
-    n = string.find(s, h..wBase.getDescription()..",")
-    if n then s = string.sub(s, 1, n - 2)..string.sub(s, string.find(s, e, n) + 1) end
-    local name = string.sub(aBase.getName(), 5)  name = string.gsub(name, ",", ";")
+    local e = string.char(10)
+    local s, locS = aBag.getLuaScript(), ""
+    local findGUID = "-"..wBase.getDescription()..","
+    local n = string.find(s, findGUID)
+    if(n) then
+        for strok in s:gmatch("[^\n]+") do
+            if(not strok:find(findGUID)) then
+                locS = locS..strok.."\n"
+            end
+        end
+    else locS = s end
+    local name = string.sub(aBase.getName(), 5) name = string.gsub(name, ",", ";")
     local strScale = jotScaleW and jotScaleW or string.format("{%f;%d;%f}", wBase.getScale().x, 1, wBase.getScale().z)
-    aBag.setLuaScript(s..string.format("%s,%s,%s,%s,%s,%s,%s,%s\n--", aBase.getGUID(), name, strScale, r1, r3, x, r90, (lnk ~= nil and lnk ~= "" and lnk.."," or "")))
+    local parentFlag = pxy and 8 or 2
+    aBag.setLuaScript(locS..string.format("--%s,%s,%s,%s,%s,%s,%s,%s", aBase.getGUID(), name, strScale, r1, r3, parentFlag, r90, (lnk ~= nil and lnk ~= "" and lnk.."," or "")))
 end
 
 function StowBase()
@@ -465,8 +467,8 @@ function CbImport()
         g = g:sub(1, 6).."{1.85;1;1.85},0,0,2,0"
         iBag.setDescription(g)
     end
-    s = aBag.getLuaScript() local n = string.len(s)  if string.sub(s, n) == e then s = string.sub(s, 1, n-1) end  if s == "" then s = "--" end
-    s = s..aBase.getGUID()..k..string.sub(aBase.getName(), 5)..string.sub(g, 7)..","..e.."--"  aBag.setLuaScript(s)
+    s = aBag.getLuaScript() local n = string.len(s)  if string.sub(s, n) == e then s = string.sub(s, 1, n-1) end
+    s = s..aBase.getGUID()..k..string.sub(aBase.getName(), 5)..string.sub(g, 7)..","..e aBag.setLuaScript(s)
     iBag.setDescription("")  iBag.setName("")  aBase.setDescription(iBag.guid)  
     getObjectFromGUID(getObjectFromGUID(currentBase).getDescription()).destruct()  getObjectFromGUID(currentBase).destruct()  currentBase = nil
     broadcastToAll("Import Complete.", {0.943, 0.745, 0.14})  nl = aBase.getGUID()  wBase.call("MakeLink")
