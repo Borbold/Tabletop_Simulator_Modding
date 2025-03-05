@@ -278,15 +278,14 @@ function cbTObj()
     local posZone = vBase.getPosition() + {x=0, y=5, z=0}
     tZone.setPosition(posZone) tZone.setScale(sizeZone) tZone.setRotation(vBase.getRotation())
 
-    Wait.time(function()
+    Wait.condition(function()
         local boundsSize = wBase.getBoundsNormalized().size
-        if(r90 == 0 and (boundsSize.x > 9.01 or boundsSize.z > 5.35) or
-            r90 == 1 and (boundsSize.x > 5.35 or boundsSize.z > 9.01)) then
-        FitBase()
+        if(r90 == 0 and (Round(boundsSize.x, 2) > 9.01 or Round(boundsSize.z, 2) > 5.35) or
+            r90 == 1 and (Round(boundsSize.x, 2) > 5.35 or Round(boundsSize.z, 2) > 9.01)) then
+            FitBase()
         end
-    end, 0.01, 4)
+    end, function() return wBase and true or false end)
 end
-
 function FitBase()
     if isPVw() or not aBase or activeEdit then return end
     local baseSize = wBase.getBoundsNormalized().size baseSize.y = 1
@@ -803,3 +802,4 @@ function ChangeSettingSize(player, input, id)
     end, 0.1)
 end
 --- Buttons ---
+function Round(num, idp) return math.floor(num*(10^idp))/10^idp end
