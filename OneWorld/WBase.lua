@@ -179,8 +179,11 @@ function MakeLink()
     local obj = spawnObject(p)  local i = {}  i.thickness = 0.01
     i.image = "https://steamusercontent-a.akamaihd.net/ugc/13045573010340250/36C6D007CDC8304626495A82A96511E910CC301B/" obj.setCustomObject(i)
 end
-function cbMLink(a) a.setDescription(oneWorld.getVar("nl"))
-    local bn = oneWorld.call("ParceData", {oneWorld.getVar("nl")})  a.setName(bn) oneWorld.setVar("nl", nil)
+function cbMLink(a)
+    local nl = oneWorld.getVar("nl")
+    a.setDescription(nl)
+    local bn = oneWorld.call("ParceData", {nl})
+    a.setName(bn) oneWorld.setVar("nl", nil)
     a.setLuaScript(sciptLinkPlate) a.setGMNotes(self.getGMNotes())
 end
 
