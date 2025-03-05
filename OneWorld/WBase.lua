@@ -38,7 +38,7 @@ end
 
 function onCollisionEnter(a)
     if(not oneWorld or not oneWorld.getVar("vBaseOn") or collisionObj == a.collision_object) then return end
-    collisionObj = a.collision_object
+    collisionObj = a.collision_object collisionObj.setName(collisionObj.getName():gsub(",", ";"))
     local g = string.sub(collisionObj.getName(), 1, 4)
     local i = "https://steamusercontent-a.akamaihd.net/ugc/13045573010340250/36C6D007CDC8304626495A82A96511E910CC301B/"
     if self.getDescription() == "" and g == "SBx_" and collisionObj.name == "Custom_Token" then NewBase()
@@ -49,7 +49,7 @@ end
 
 function NewBase()
     local s = oneWorld.getVar("aBag").getLuaScript()
-    if string.find(s, collisionObj.getGUID()) then broadcastToAll("Duplicate GUID.", {0.943, 0.745, 0.14})
+    if(s:find(collisionObj.getGUID())) then broadcastToAll("Duplicate GUID.", {0.943, 0.745, 0.14})
     else oneWorld.call("PutBase", collisionObj.getGUID()) end
 end
 
@@ -123,49 +123,48 @@ function SetLinks()
     local t = oneWorld.getVar("lnk")
     if(t == nil) then return end
     
-    local rotZ = 0
-    if(oneWorld.getVar("r90") == 1) then
+    local rotZ, r90 = 0, oneWorld.getVar("r90")
+    if(r90 == 1) then
         rotZ = ((self.getRotation().y == 270 and self.getRotation().z == 180) or (self.getRotation().y == 90 and self.getRotation().z == 180)) and -1 or 1
     else
         rotZ = self.getRotation().z == 0 and 1 or -1
     end
     local xmlTable = {
         {
-        tag = "Panel",
-        attributes = {
-            position = "0 0 "..(-6*rotZ),
-            width = "500",
-            height = "300",
-            rotation = "0 "..self.getRotation().z.." 0"
-        },
-        children = {}
+            tag = "Panel",
+            attributes = {
+                position = "0 0 "..(-6*rotZ),
+                width = "500",
+                height = "300",
+                rotation = "0 "..self.getRotation().z.." 0"
+            },
+            children = {}
         }
     }
 
     if self.getDescription() == "" then return end
     local r1, r3 = oneWorld.getVar("r1"), oneWorld.getVar("r3")
     local v, h = (1.85/self.getScale().z)*4.6, (1.85/self.getScale().x)*2.6
-    if(oneWorld.getVar("r90") == 1) then v, h = (1.85/self.getScale().x)*4.6, (1.85/self.getScale().z)*2.6 end
     for str in t:gmatch("[%(%d.%d;%d.%d%)]*@") do
         local x, y, sX, sY
         local words = {}
         for w in str:gmatch("[^(;@,)]+") do
-        table.insert(words, w)
+            table.insert(words, w)
         end
         x = (tonumber(words[1])*h/100 - (h/2 - 0.016))*100
         y = ((v/2 - 0.018) - tonumber(words[2])*v/100)*100
         sX, sY = tonumber(words[3]), tonumber(words[4])
 
         local newButton = {
-        tag = "Button",
-        attributes = {
-            id = "link"..(#xmlTable[1].children + 1),
-            image = "https://steamusercontent-a.akamaihd.net/ugc/13045573010340250/36C6D007CDC8304626495A82A96511E910CC301B/",
-            width = sX,
-            height = sY,
-            offsetXY = (-y*rotZ).." "..x,
-            onClick = "ButtonLink"
-        }
+            tag = "Button",
+            attributes = {
+                id = "link"..(#xmlTable[1].children + 1),
+                image = "https://steamusercontent-a.akamaihd.net/ugc/13045573010340250/36C6D007CDC8304626495A82A96511E910CC301B/",
+                width = sX,
+                height = sY,
+                offsetXY = (-y*rotZ).." "..(r90 == 1 and -x or x),
+                onClick = "ButtonLink"
+            }
         }
         table.insert(xmlTable[1].children, newButton)
     end
@@ -203,6 +202,4 @@ function GetLink(id)
 end
 
 function ButtonLink(_, _, id) GetLink(tonumber(id:gsub("%D", ""), 10)) end
-function Round(num, idp)
-    return math.ceil(num*(10^idp))/10^idp
-end
+function Round(num, idp) return math.ceil(num*(10^idp))/10^idp end

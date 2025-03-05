@@ -316,15 +316,12 @@ function JotBase(jotScaleW)
     local e = string.char(10)
     local s, locS = aBag.getLuaScript(), ""
     local findGUID = "-"..wBase.getDescription()..","
-    local n = string.find(s, findGUID)
-    if(n) then
-        for strok in s:gmatch("[^\n]+") do
-            if(not strok:find(findGUID)) then
-                locS = locS..strok.."\n"
-            end
+    for strok in s:gmatch("[^\n]+") do
+        if(not strok:find(findGUID)) then
+            locS = locS..strok.."\n"
         end
-    else locS = s end
-    local name = string.sub(aBase.getName(), 5) name = string.gsub(name, ",", ";")
+    end
+    local name = aBase.getName():sub(5)
     local strScale = jotScaleW and jotScaleW or string.format("{%f;%d;%f}", wBase.getScale().x, 1, wBase.getScale().z)
     local parentFlag = pxy and 8 or 2
     aBag.setLuaScript(locS..string.format("--%s,%s,%s,%s,%s,%s,%s,%s", aBase.getGUID(), name, strScale, r1, r3, parentFlag, r90, (lnk ~= nil and lnk ~= "" and lnk.."," or "")))
@@ -373,7 +370,7 @@ function cbGetBase(a)
     a.setPosition({locPos.x, locPos.y - 0.5, locPos.z})  a.lock()  a.interactable = false aBase = a
     wBase.setDescription(a.guid)
     local p = self.getPosition() wBase.setPosition({p[1], p[2] + 0.05, p[3] - (0.77*r2)})
-    rotBase() SetUIText() rollBack({a.guid})
+    rotBase() SetUIText() RollBack(a.getGUID())
     wBase.setCustomObject({image = a.getCustomObject().image}) wBase.reload()
     vBase.setCustomObject({image = a.getCustomObject().image}) vBase.reload()
     SetUIText(a.getName():sub(5))
@@ -381,18 +378,25 @@ function cbGetBase(a)
         SetUI() cbTObj()
     end, 0.3)
 end
+function RollBack(guid)
+    local n = 0
+    for i = 2, treeMap[0] do if(treeMap[i] == guid)then n = i break end end
+    if n == 0 then treeMap[0] = treeMap[0] + 1
+    else for i = n, treeMap[0] do treeMap[i] = treeMap[i + 1] end end
+    treeMap[treeMap[0]] = guid treeMap[-1] = treeMap[0]
+end
 
 function isPVw() if wpx then broadcastToAll("Action Canceled While in Parent View.", {0.943, 0.745, 0.14}) return true end end
 
 function ParceData(a)
-    local h, k, e, s = string.char(45), string.char(44), string.char(10), aBag.getLuaScript()
-    local g, n = a[1], string.find(s, k, string.find(s, h..a[1]..k))
-    if not n then broadcastToAll("No base map.", {0.943, 0.745, 0.14})  return end
+    local h, k, e, s, g = string.char(45), string.char(44), string.char(10), aBag.getLuaScript(), a[1]
+    local fBase = string.find(s, k, string.find(s, h..g..k))
+    if not fBase then broadcastToAll("No base map.", {0.943, 0.745, 0.14}) return end
     local d, dFlag = {}, false
     for w in aBag.getLuaScript():gmatch("[^,--{}]+") do
-        if(dFlag) then
-        if(w == "\n") then break end
-        table.insert(d, w)
+        if(dFlag == true) then
+            if(w == "\n") then break end
+            table.insert(d, w)
         end
         if(g == w) then dFlag = true end
     end
@@ -405,13 +409,13 @@ function ParceData(a)
     if wpx and wpx != g then d[5] = nil end
 
     local scalewBase, i = {}, 1
-    for w in d[2]:gmatch("[^(;)]+") do
+    for w in d[2]:gmatch("[^;]+") do
         if(i == 1) then scalewBase.x = tonumber(w) end
         if(i == 2) then scalewBase.y = tonumber(w) end
         if(i == 3) then scalewBase.z = tonumber(w) end
         i = i + 1
     end
-    return string.gsub(d[1], ";", ","), scalewBase, tonumber(d[3]), tonumber(d[4]), d[5], tonumber(d[6]), d[7]
+    return d[1], scalewBase, tonumber(d[3]), tonumber(d[4]), d[5], tonumber(d[6]), d[7]
 end
 
 function mvPoint()
@@ -426,32 +430,6 @@ function mvPoint()
     if aBase and treeMap[-1] == treeMap[0] then
         self.UI.setAttribute("mTxt", "textColor", "#b15959")
     end
-end
-
-function rollBack(a)
-    local i  local n = 0
-    for i = 2, treeMap[0] do  if treeMap[i] == a[1] then n = i  break  end  end
-    if n == 0 then treeMap[0] = treeMap[0]+1
-    else for i = n, treeMap[0] do  treeMap[i] = treeMap[i+1]  end  end  treeMap[treeMap[0] ] = a[1]  treeMap[-1] = treeMap[0]
-end
-
-function cb2Copy()
-    local a = {}  local o = {}  local p = {}  a = getObjectFromGUID(string.sub(prs, 1, 6))
-    if a then  p = a.getPosition()  currentBase.setPosition({p[1], p[2]+66, p[3]})  end  local n = string.find(prs, "%-%-")
-    if not n then  
-        prs = ""  currentBase = nil  broadcastToAll("...Copy Complete.", {0.943, 0.745, 0.14})  Wait.time(|| cb3Copy(), 0.2)  return
-    end
-    prs = string.sub(prs, n+2)  a = getObjectFromGUID(string.sub(prs, 1, 6))
-    if a then  p = a.getPosition()  o.position = {p[1], p[2]+66, p[3]}  currentBase = a.clone(o)  end
-end
-function cb3Copy()
-    ClearSet()  local p = {}  p.position = {6, -28, 6}  aBase = aBase.clone(p)  Wait.time(|| cb4Copy(), 0.2)
-end
-function cb4Copy()  
-    local x = self.getPosition() x[1] = x[1] - (5.7*r2)  aBase.setRotation({0, 90, 0})  
-    aBase.setPosition({x[1], x[2] + 2.5, x[3]}) aBase.setLuaScript("")
-    aBase.setName("SBx_Copy_"..string.sub(aBase.getName(), 5))  aBase.setDescription("")
-    aBase.unlock()  NoBase()  Wait.time(|| SetUI(), 0.1)  SetUIText()
 end
 
 function CbImport()
@@ -748,20 +726,15 @@ function ButtonDelete()
 end
 
 function ButtonCopy()
-    if isPVw() then return  end
-    if not vBaseOn or not aBase then return end
-    if ss != "" or prs != "" then  broadcastToAll("The Current Zone is Busy...", {0.943, 0.745, 0.14})  return  end
-    prs = aBase.getLuaScript()  local n  local a = {}  local o = {}  local p = {}
-    if tBag and prs != "" then
-        broadcastToAll("Mapping Objects...", {0.943, 0.745, 0.14})
-        prs = string.gsub(prs, string.char(10), string.char(44))  n = string.find(prs, "%-%-")
-        while n do  a = getObjectFromGUID(string.sub(prs, n+2, n+7))  n = n+9
-        if a then  a.lock() p = a.getPosition()  a.setPosition({p[1], p[2]-66, p[3]})  end
-        n = string.find(prs, "%-%-", n)
-        end
-    end  a = nil  n = string.find(prs, "%-%-")
-    if n then prs = string.sub(prs, n+2)  a = getObjectFromGUID(string.sub(prs, 1, 6))  end
-    if a then  p = a.getPosition()  o.position = {p[1], p[2]+66, p[3]}  currentBase = a.clone(o)  end  Wait.time(|| cb2Copy(), 0.2)
+    if(isPVw()) then return end
+    if(not vBaseOn or not aBase) then return end
+    aBase = aBase.clone({position = {6, -28, 6}})
+    broadcastToAll("...Copy Complete.", {0.943, 0.745, 0.14})
+    local pos = self.getPosition() pos[1] = pos[1] - (5.7*r2) aBase.setRotation({0, 90, 0})  
+    aBase.setPosition({pos[1], pos[2] + 2.5, pos[3]}) aBase.setLuaScript("") aBase.setDescription("")
+    aBase.setName("SBx_Copy_"..string.sub(aBase.getName(), 5))
+    aBase.unlock() SetUIText()
+    Wait.time(|| SetUI(), 0.1)
 end
 
 function EditMode()
@@ -777,7 +750,8 @@ function EditMode()
         aBase.interactable = true  aBase.unlock()  aBase.setRotation({0, 0, 0})  
         aBase.setPosition({p[1], p[2] + 3, p[3] + (4.7*r2)})
     else
-        JotBase()  StowBase()  NoBase()  Wait.time(|| SetUI(), 0.1)  SetUIText()  activeEdit = nil  broadcastToAll("Packing Base...", {0.943, 0.745, 0.14}) end
+        JotBase()  StowBase()  NoBase()  Wait.time(|| SetUI(), 0.1)  SetUIText()  activeEdit = nil  broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
+    end
 end
 
 function ButtonExport()
