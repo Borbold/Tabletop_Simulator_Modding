@@ -326,12 +326,6 @@ function JotBase(jotScaleW)
     aBag.setLuaScript(locS..string.format("--%s,%s,%s,%s,%s,%s,%s,%s", aBase.getGUID(), name, strScale, r1, r3, parentFlag, r90, (lnk ~= nil and lnk ~= "" and lnk.."," or "")))
 end
 
-function StowBase()
-    aBase.unlock()
-    aBag.putObject(aBase)
-    aBase = nil
-end
-
 function NoBase()
     r1, r3, r90 = 0, 0, 0
     aBase, lnk = nil, ""
@@ -749,8 +743,15 @@ function EditMode()
         aBase.interactable = true  aBase.unlock()  aBase.setRotation({0, 0, 0})  
         aBase.setPosition({p[1], p[2] + 3, p[3] + (4.7*r2)})
     else
-        JotBase()  StowBase()  NoBase()  Wait.time(|| SetUI(), 0.1)  SetUIText()  activeEdit = nil  broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
+        JotBase() StowBase() NoBase() SetUIText() activeEdit = nil
+        broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
+        Wait.time(|| SetUI(), 0.1)
     end
+end
+function StowBase()
+    aBase.unlock()
+    aBag.putObject(aBase)
+    aBase = nil
 end
 
 function ButtonExport()
@@ -772,8 +773,8 @@ function ButtonSeeAll()
     local s, t = aBag.getLuaScript(), {}
     for strok in s:gmatch("[^\n]+") do
         for w in strok:gmatch("[^,]+") do
-        if(#w > 3) then table.insert(t, w:sub(3)) end
-        break
+            if(#w > 3) then table.insert(t, w:sub(3)) end
+            break
         end
     end
     s = ""
