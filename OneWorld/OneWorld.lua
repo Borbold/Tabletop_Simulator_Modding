@@ -124,20 +124,20 @@ function PutVariable()
         baseWGUID = wBase.getGUID()
         r = wBase.getRotation()
         if r[1] > 170 then
-        r1 = 180
+            r1 = 180
         end
 
         if r[3] > 170 then
-        r3 = 180
+            r3 = 180
         end
 
         local g = wBase.getDescription()
         if g != "" and getObjectFromGUID(g) then
-        aBase = getObjectFromGUID(g)
-        _, scalewBase, r1, r3, pxy, r90, lnk = ParceData({g})
+            aBase = getObjectFromGUID(g)
+            _, scalewBase, r1, r3, pxy, r90, lnk = ParceData(g)
         end
         if vBaseOn then
-        wBase.interactable = false
+            wBase.interactable = false
         end
     end,
     function() return wBase ~= nil end)
@@ -225,7 +225,7 @@ end
 function SetUIText(a)
     local g = a ~= nil and a or "One World"
     self.UI.setAttribute("mTxt", "text", g)
-    local b = ParceData({treeMap[treeMap[0]]})
+    local b = ParceData(treeMap[treeMap[0]])
     if(not aBase or g == b) then
         self.UI.setAttribute("mTxt", "textColor", "White")
     else
@@ -340,33 +340,35 @@ function NoBase()
     Wait.time(|| cbTObj(), 0.2)
 end
 
-function GetBase(a)
+function GetBase(bGuid)
     linkToMap = nil
-    if not vBaseOn or a[1] == wBase.getDescription() then return end
+    if not vBaseOn or bGuid == wBase.getDescription() then return end
     if tBag then ClearSet() end
     wBase.setDescription("")
-    bn, scalewBase, r1, r3, pxy, r90, lnk = ParceData({a[1]})
+    bn, scalewBase, r1, r3, pxy, r90, lnk = ParceData(bGuid)
     wBase.setScale(scalewBase)
     if(aBase and tSizeVPlates[aBase.getGUID()]) then vBase.setScale(tSizeVPlates[aBase.getGUID()]) end
     aBase = nil
     if bn == nil then return end
-    if pxy and not wpx then wpx = a[1] broadcastToAll("Entering Parent View...", {0.286, 0.623, 0.118}) end
-    if getObjectFromGUID(a[1]) then cbGetBase(getObjectFromGUID(a[1])) return end
+    if pxy and not wpx then wpx = bGuid broadcastToAll("Entering Parent View...", {0.286, 0.623, 0.118}) end
+    if getObjectFromGUID(bGuid) then cbGetBase(getObjectFromGUID(bGuid)) return end
 
-    local t = {} t.guid = a[1] t.position = {0,-3, 0} t.rotation = {0, 0, 0} t.smooth = false
-    t.callback = "cbGetBase" t.callback_owner = self
+    local t = {
+        guid = bGuid, position = {0,-3, 0}, rotation = {0, 0, 0},
+        smooth = false, callback = "cbGetBase", callback_owner = self
+    }
     aBag.takeObject(t)
     UpdateSave()
 end
-function cbGetBase(a)
+function cbGetBase(base)
     local locPos = self.getPosition()
-    a.setPosition({locPos.x, locPos.y - 0.5, locPos.z})  a.lock()  a.interactable = false aBase = a
-    wBase.setDescription(a.guid)
+    base.setPosition({locPos.x, locPos.y - 0.5, locPos.z})  base.lock()  base.interactable = false aBase = base
+    wBase.setDescription(base.guid)
     local p = self.getPosition() wBase.setPosition({p[1], p[2] + 0.05, p[3] - (0.77*r2)})
-    rotBase() SetUIText() RollBack(a.getGUID())
-    wBase.setCustomObject({image = a.getCustomObject().image}) wBase.reload()
-    vBase.setCustomObject({image = a.getCustomObject().image}) vBase.reload()
-    SetUIText(a.getName():sub(5))
+    rotBase() SetUIText() RollBack(base.getGUID())
+    wBase.setCustomObject({image = base.getCustomObject().image}) wBase.reload()
+    vBase.setCustomObject({image = base.getCustomObject().image}) vBase.reload()
+    SetUIText(base.getName():sub(5))
     Wait.time(function()
         SetUI() cbTObj()
     end, 0.3)
@@ -381,9 +383,9 @@ end
 
 function isPVw() if wpx then broadcastToAll("Action Canceled While in Parent View.", {0.943, 0.745, 0.14}) return true end end
 
-function ParceData(a)
-    local h, k, e, s, g = string.char(45), string.char(44), string.char(10), aBag.getLuaScript(), a[1]
-    local fBase = string.find(s, k, string.find(s, h..g..k))
+function ParceData(bGuid)
+    local h, k, e, s = string.char(45), string.char(44), string.char(10), aBag.getLuaScript()
+    local fBase = string.find(s, k, string.find(s, h..bGuid..k))
     if not fBase then broadcastToAll("No base map.", {0.943, 0.745, 0.14}) return end
     local d, dFlag = {}, false
     for w in aBag.getLuaScript():gmatch("[^,--{}]+") do
@@ -391,7 +393,7 @@ function ParceData(a)
             if(w == "\n") then break end
             table.insert(d, w)
         end
-        if(g == w) then dFlag = true end
+        if(bGuid == w) then dFlag = true end
     end
     for i = 8, #d do
         d[7] = d[7]..","..d[i]
@@ -399,7 +401,7 @@ function ParceData(a)
     d[5] = tonumber(d[5])
     if d[5] == 0 then d[5] = 8
     elseif d[5] == 1 or d[5] == 2 then d[5] = nil end
-    if wpx and wpx != g then d[5] = nil end
+    if wpx and wpx != bGuid then d[5] = nil end
 
     local scalewBase, i = {}, 1
     for w in d[2]:gmatch("[^;]+") do
@@ -418,7 +420,7 @@ function mvPoint()
     if treeMap[-1] > treeMap[0] then
         treeMap[-1] = 2
     end
-    SetUIText(ParceData({treeMap[treeMap[-1]]}))
+    SetUIText(ParceData(treeMap[treeMap[-1]]))
     Wait.time(|| SetUI(), 0.1)
     if aBase and treeMap[-1] == treeMap[0] then
         self.UI.setAttribute("mTxt", "textColor", "#b15959")
@@ -483,7 +485,7 @@ function PutBase(guid)
 end
 function cbPutBase()
     nl = currentBase
-    GetBase({currentBase})
+    GetBase(currentBase)
     currentBase = nil
 end
 
@@ -521,8 +523,8 @@ end
 function SelectMap()
     if activeEdit then EditMode() return end
     if not vBaseOn or not aBase then return end
-    if linkToMap then GetBase({linkToMap}) linkToMap = nil Wait.time(|| SetUI(), 0.1) return end
-    if treeMap[-1] != treeMap[0] then GetBase({treeMap[treeMap[-1]]}) SetUIText(ParceData({treeMap[treeMap[-1]]})) end
+    if linkToMap then GetBase(linkToMap) linkToMap = nil Wait.time(|| SetUI(), 0.1) return end
+    if treeMap[-1] != treeMap[0] then GetBase(treeMap[treeMap[-1]]) SetUIText(ParceData(treeMap[treeMap[-1]])) end
 end
 
 function EditMenu(_, _, id)
@@ -557,7 +559,7 @@ function ButtonProxy()
         end
     else
         if wpx then
-        wpx = nil  v.image = aBase.getCustomObject().image bn, scalewBase, r1, r3, pxy, r90, lnk = ParceData({aBase.getGUID()})  pxy = nil
+        wpx = nil  v.image = aBase.getCustomObject().image bn, scalewBase, r1, r3, pxy, r90, lnk = ParceData(aBase.getGUID())  pxy = nil
         SetUIText()  wBase.setCustomObject(v)  wBase.reload()  Wait.time(|| cbTObj(), 0.2)
         else
         if tBag then
@@ -579,7 +581,7 @@ function ButtonHome()
     if(activeEdit) then return end
     if wpx then
         wpx = nil
-        GetBase({treeMap[1]})
+        GetBase(treeMap[1])
         return
     end
     if not vBaseOn then
@@ -588,7 +590,7 @@ function ButtonHome()
     linkToMap = nil Wait.time(|| SetUI(), 0.1)
     if treeMap[0] < 2 or not aBase then
         if treeMap[1] then
-        GetBase({treeMap[1]})
+        GetBase(treeMap[1])
         end
         return
     end
@@ -598,10 +600,10 @@ end
 
 function ButtonBack()
     if activeEdit then return end
-    if wpx then  wpx = nil  GetBase({treeMap[1]})  return end
+    if wpx then  wpx = nil  GetBase(treeMap[1])  return end
     if not vBaseOn then return end  linkToMap = nil  Wait.time(|| SetUI(), 0.1)
     if treeMap[0] < 3 then ButtonHome()  return  end
-    if not aBase then  GetBase({treeMap[treeMap[0]]}) return end
+    if not aBase then  GetBase(treeMap[treeMap[0]]) return end
     treeMap[-1] = treeMap[-1]-1
     mvPoint()
 end

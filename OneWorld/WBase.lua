@@ -182,7 +182,7 @@ end
 function cbMLink(a)
     local nl = oneWorld.getVar("nl")
     a.setDescription(nl)
-    local bn = oneWorld.call("ParceData", {nl})
+    local bn = oneWorld.call("ParceData", nl)
     a.setName(bn) oneWorld.setVar("nl", nil)
     a.setLuaScript(sciptLinkPlate) a.setGMNotes(self.getGMNotes())
 end
@@ -199,9 +199,9 @@ function GetLink(id)
         id = id - 1
         end
     end
-    local bn = string.sub(oneWorld.call("ParceData", {l}), 1, 21)
+    local bn = string.sub(oneWorld.call("ParceData", l), 1, 21)
     if bn != oneWorld.UI.getAttribute("mTxt", "text") then oneWorld.call("SetUIText", bn) oneWorld.setVar("linkToMap", l) oneWorld.call("SetUI")
-    else oneWorld.call("GetBase", {l}) end
+    else oneWorld.call("GetBase", l) end
 end
 
 function ButtonLink(_, _, id) GetLink(tonumber(id:gsub("%D", ""), 10)) end
