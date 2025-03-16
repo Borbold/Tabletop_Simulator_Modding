@@ -81,7 +81,7 @@
     <TableLayout id='settingSizes' position='-180 -530 0' width='200' height='100' image='uiBackButton' color='Black' active='false'>
         <Row>
             <Cell>
-                <Text text='vBase' />
+                <Text text='Table map' resizeTextForBestFit='False' fontSize='15' />
             </Cell>
             <Cell>
                 <InputField id='vBaseX' text='25' onEndEdit='ChangeSettingSize' />
@@ -92,7 +92,7 @@
         </Row>
         <Row>
             <Cell>
-                <Text text='wBase' />
+                <Text text='Mini map' resizeTextForBestFit='False' fontSize='15' />
             </Cell>
             <Cell>
                 <InputField id='wBaseX' text='1.85' onEndEdit='ChangeSettingSize' />
