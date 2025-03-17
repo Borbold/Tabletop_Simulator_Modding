@@ -1,6 +1,5 @@
 function UpdateSave()
     local dataToSave = {
-        ["tSizeVPlates"] = tSizeVPlates,
         ["aBagGUID"] = aBag and aBag.getGUID() or nil, ["mBagGUID"] = mBag and mBag.getGUID() or nil,
         ["vBaseGUID"] = vBase and vBase.getGUID() or nil, ["wBaseGUID"] = wBase and wBase.getGUID() or nil,
         ["tZoneGUID"] = tZone and tZone.getGUID() or nil
@@ -11,7 +10,6 @@ end
 
 function onLoad(savedData)
     local loadedData = JSON.decode(savedData or "")
-    tSizeVPlates = loadedData and loadedData.tSizeVPlates or {}
     if(loadedData) then
         aBag = loadedData.aBagGUID and getObjectFromGUID(loadedData.aBagGUID) or nil
         mBag = loadedData.mBagGUID and getObjectFromGUID(loadedData.mBagGUID) or nil
@@ -134,7 +132,7 @@ function PutVariable()
         local g = wBase.getDescription()
         if g != "" and getObjectFromGUID(g) then
             aBase = getObjectFromGUID(g)
-            _, scalewBase, r1, r3, pxy, r90, lnk = ParceData(g)
+            _, _, _, r1, r3, pxy, r90, lnk = ParceData(g)
         end
         if vBaseOn then
             wBase.interactable = false
@@ -168,13 +166,13 @@ function reStart(what)
                 aBag.putObject(zoneObj[i])
                 end, 1)
             end
-            if vBaseOn and zoneObj[i].guid == wBase.getDescription() then
-                if zoneObj[i].guid == treeMap[1] then
-                treeMap[2] = treeMap[1]  treeMap[0] = 2  treeMap[-1] = 2
-                else
-                treeMap[2] = treeMap[1]  treeMap[3] = zoneObj[i].guid  treeMap[0] = 3  treeMap[-1] = 3
+                if vBaseOn and zoneObj[i].guid == wBase.getDescription() then
+                    if zoneObj[i].guid == treeMap[1] then
+                    treeMap[2] = treeMap[1]  treeMap[0] = 2  treeMap[-1] = 2
+                    else
+                    treeMap[2] = treeMap[1]  treeMap[3] = zoneObj[i].guid  treeMap[0] = 3  treeMap[-1] = 3
+                    end
                 end
-            end
             end
         end
         zoneForSBx.destruct()
@@ -311,7 +309,7 @@ function ClearSet(keepBase, delete)
     ButtonPack(delete, nil, nil, keepBase)
 end
 
-function JotBase(jotScaleW)
+function JotBase(wScaleBase, vScaleBase)
     local e = string.char(10)
     local s, locS = aBag.getLuaScript(), ""
     local findGUID = "-"..wBase.getDescription()..","
@@ -321,9 +319,10 @@ function JotBase(jotScaleW)
         end
     end
     local name = aBase.getName():sub(5)
-    local strScale = jotScaleW and jotScaleW or string.format("{%f;%d;%f}", wBase.getScale().x, 1, wBase.getScale().z)
+    local strWScale = wScaleBase and wScaleBase or string.format("{%f;%d;%f}", wBase.getScale().x, 1, wBase.getScale().z)
+    local strVScale = vScaleBase and vScaleBase or string.format("{%f;%d;%f}", vBase.getScale().x, 1, vBase.getScale().z)
     local parentFlag = pxy and 8 or 2
-    aBag.setLuaScript(locS..string.format("--%s,%s,%s,%s,%s,%s,%s,%s", aBase.getGUID(), name, strScale, r1, r3, parentFlag, r90, (lnk ~= nil and lnk ~= "" and lnk.."," or "")))
+    aBag.setLuaScript(locS..string.format("--%s,%s,%s,%s,%s,%s,%s,%s", aBase.getGUID(), name, strWScale, strVScale, r1, r3, parentFlag, r90, (lnk ~= nil and lnk ~= "" and lnk.."," or "")))
 end
 
 function NoBase()
@@ -345,11 +344,11 @@ function GetBase(bGuid)
     if not vBaseOn or bGuid == wBase.getDescription() then return end
     if tBag then ClearSet() end
     wBase.setDescription("")
-    bn, scalewBase, r1, r3, pxy, r90, lnk = ParceData(bGuid)
-    wBase.setScale(scalewBase)
-    if(aBase and tSizeVPlates[aBase.getGUID()]) then vBase.setScale(tSizeVPlates[aBase.getGUID()]) end
-    aBase = nil
+    bn, scalewBase, scalevBase, r1, r3, pxy, r90, lnk = ParceData(bGuid)
     if bn == nil then return end
+    wBase.setScale(scalewBase)
+    vBase.setScale(scalevBase)
+    aBase = nil
     if pxy and not wpx then wpx = bGuid broadcastToAll("Entering Parent View...", {0.286, 0.623, 0.118}) end
     if getObjectFromGUID(bGuid) then cbGetBase(getObjectFromGUID(bGuid)) return end
 
@@ -395,13 +394,13 @@ function ParceData(bGuid)
         end
         if(bGuid == w) then dFlag = true end
     end
-    for i = 8, #d do
-        d[7] = d[7]..","..d[i]
+    for i = 9, #d do
+        d[8] = d[8]..","..d[i]
     end
-    d[5] = tonumber(d[5])
-    if d[5] == 0 then d[5] = 8
-    elseif d[5] == 1 or d[5] == 2 then d[5] = nil end
-    if wpx and wpx != bGuid then d[5] = nil end
+    d[6] = tonumber(d[6])
+    if d[6] == 0 then d[6] = 8
+    elseif d[6] == 1 or d[6] == 2 then d[6] = nil end
+    if wpx and wpx != bGuid then d[6] = nil end
 
     local scalewBase, i = {}, 1
     for w in d[2]:gmatch("[^;]+") do
@@ -410,7 +409,14 @@ function ParceData(bGuid)
         if(i == 3) then scalewBase.z = tonumber(w) end
         i = i + 1
     end
-    return d[1], scalewBase, tonumber(d[3]), tonumber(d[4]), d[5], tonumber(d[6]), d[7]
+    local scalevBase, i = {}, 1
+    for w in d[3]:gmatch("[^;]+") do
+        if(i == 1) then scalevBase.x = tonumber(w) end
+        if(i == 2) then scalevBase.y = tonumber(w) end
+        if(i == 3) then scalevBase.z = tonumber(w) end
+        i = i + 1
+    end
+    return d[1], scalewBase, scalevBase, tonumber(d[4]), tonumber(d[5]), d[6], tonumber(d[7]), d[8]
 end
 
 function mvPoint()
@@ -550,24 +556,27 @@ function ButtonProxy()
     local v, f, g = {}, nil, "Ending Parent View..."
     if pxy then
         if wpx then
-        if wpx == wBase.getDescription() then
-            pxy = nil  f = 1  v.image = aBase.getCustomObject().image 
-        end
-        wpx = nil
+            if wpx == wBase.getDescription() then
+                pxy = nil  f = 1  v.image = aBase.getCustomObject().image 
+            end
+            wpx = nil
         else
-        pxy = nil  f = 1  v.image = aBase.getCustomObject().image 
+            pxy = nil  f = 1  v.image = aBase.getCustomObject().image 
         end
     else
         if wpx then
-        wpx = nil  v.image = aBase.getCustomObject().image bn, scalewBase, r1, r3, pxy, r90, lnk = ParceData(aBase.getGUID())  pxy = nil
-        SetUIText()  wBase.setCustomObject(v)  wBase.reload()  Wait.time(|| cbTObj(), 0.2)
+            v.image = aBase.getCustomObject().image
+            _, _, _, r1, r3, pxy, r90, lnk = ParceData(aBase.getGUID())
+            pxy = nil wpx = nil
+            SetUIText() wBase.setCustomObject(v) wBase.reload()
+            Wait.time(|| cbTObj(), 0.2)
         else
-        if tBag then
-            broadcastToAll("Pack or Clear Zone to Enter Parent View.", {0.943, 0.745, 0.14})
-            return
-        end
-        pxy = true v.image = aBase.getCustomObject().image
-        wpx = wBase.getDescription() g = "Entering Parent View..."
+            if tBag then
+                broadcastToAll("Pack or Clear Zone to Enter Parent View.", {0.943, 0.745, 0.14})
+                return
+            end
+            pxy = true v.image = aBase.getCustomObject().image
+            wpx = wBase.getDescription() g = "Entering Parent View..."
         end
     end
     if f then
@@ -791,18 +800,19 @@ function ButtonNew()
     p.callback_owner = self  local o = spawnObject(p)  local i = {}
     i.thickness = 0.1  i.image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/sample_token.png"  o.setCustomObject(i)
 end
-
+--- Buttons ---
+--- Input ---
 function ChangeSettingSize(player, input, id)
     self.UI.setAttribute(id, "text", input)
     id = id:sub(1, #id - 1)
     Wait.time(function()
         local strScale = string.format("{%s;1;%s}", self.UI.getAttribute(id.."X", "text"), self.UI.getAttribute(id.."Z", "text"))
         if(id:find("wBase")) then JotBase(strScale) end
-        if(id:find("vBase")) then tSizeVPlates[aBase.getGUID()] = {} for w in strScale:gmatch("[^(;{})]+") do table.insert(tSizeVPlates[aBase.getGUID()], tonumber(w)) end end
+        if(id:find("vBase")) then JotBase(nil, strScale) end
         broadcastToAll("{en}Update the base to confirm the changes{ru}Обновите базу для подтверждения изменений", {0.943, 0.745, 0.14})
         self.UI.setAttribute("b1", "text", "UPD")
         UpdateSave()
     end, 0.1)
 end
---- Buttons ---
+--- Input ---
 function Round(num, idp) return math.floor(num*(10^idp))/10^idp end

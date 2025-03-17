@@ -78,26 +78,26 @@
         </Row>
     </TableLayout>
 
-    <TableLayout id='settingSizes' position='-180 -530 0' width='200' height='100' image='uiBackButton' color='Black' active='false'>
+    <TableLayout id='settingSizes' position='-180 -530 0' width='300' height='100' image='uiBackButton' color='Black' active='false'>
         <Row>
-            <Cell>
-                <Text text='Table map' resizeTextForBestFit='False' fontSize='15' />
+            <Cell columnSpan='2'>
+                <Text text='Table map' />
             </Cell>
-            <Cell>
+            <Cell columnSpan='1'>
                 <InputField id='vBaseX' text='25' onEndEdit='ChangeSettingSize' />
             </Cell>
-            <Cell>
+            <Cell columnSpan='1'>
                 <InputField id='vBaseZ' text='25' onEndEdit='ChangeSettingSize' />
             </Cell>
         </Row>
         <Row>
-            <Cell>
-                <Text text='Mini map' resizeTextForBestFit='False' fontSize='15' />
+            <Cell columnSpan='2'>
+                <Text text='Mini map' />
             </Cell>
-            <Cell>
+            <Cell columnSpan='1'>
                 <InputField id='wBaseX' text='1.85' onEndEdit='ChangeSettingSize' />
             </Cell>
-            <Cell>
+            <Cell columnSpan='1'>
                 <InputField id='wBaseZ' text='1.85' onEndEdit='ChangeSettingSize' />
             </Cell>
         </Row>
