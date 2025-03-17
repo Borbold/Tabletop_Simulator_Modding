@@ -110,8 +110,9 @@ function Export(bag)
         end
         local index = 1
         Wait.condition(function()
-            local sizes = oneWorld.getVar("tSizeVPlates")[oneWorld.getVar("aBase").getGUID()] or {1.85, 1, 1.85}
-            s = string.format("%s,{%f;1;%f},%d,%d,2,%d", eBase.getGUID(), sizes[1], sizes[3], oneWorld.getVar("r1"), oneWorld.getVar("r3"), oneWorld.getVar("r90"))
+            local wSize = oneWorld.getVar("wBase").getScale()
+            local vSize = oneWorld.getVar("vBase").getScale()
+            s = string.format("%s,{%f;1.0;%f},{%f;1.0;%f},%d,%d,2,%d", eBase.getGUID(), wSize[1], wSize[3], vSize[1], vSize[3], oneWorld.getVar("r1"), oneWorld.getVar("r3"), oneWorld.getVar("r90"))
             bag.setDescription(s) eBase.setDescription(bag.getGUID()) bag.putObject(eBase)
             oneWorld.setVar("iBag", nil)
             Wait.time(|| oneWorld.call("SetUI"), 0.1)

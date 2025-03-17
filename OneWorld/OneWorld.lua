@@ -440,18 +440,18 @@ function CbImport()
     local e, k, s = string.char(10), string.char(44), string.sub(iBag.getName(), 5)
     local g = iBag.getDescription() aBase.setName("SBx_"..s)
     if(#g == 6) then
-        g = g.."{1.85;1;1.85},0,0,2,0"
+        g = g.."{1.85;1;1.85},{25.0;1.0;25.0},0,0,2,0"
         iBag.setDescription(g)
     elseif(not g:find("{")) then
-        g = g:sub(1, 6).."{1.85;1;1.85},0,0,2,0"
+        g = g:sub(1, 6).."{1.85;1;1.85},{25.0;1.0;25.0},0,0,2,0"
         iBag.setDescription(g)
     end
-    s = aBag.getLuaScript() local n = string.len(s)  if string.sub(s, n) == e then s = string.sub(s, 1, n-1) end
-    s = s..aBase.getGUID()..k..string.sub(aBase.getName(), 5)..string.sub(g, 7)..","..e aBag.setLuaScript(s)
+    s = aBag.getLuaScript()
+    s = s.."\n--"..aBase.getGUID()..k..string.sub(aBase.getName(), 5)..string.sub(g, 7)..","..e aBag.setLuaScript(s)
     iBag.setDescription("")  iBag.setName("")  aBase.setDescription(iBag.guid)  
-    getObjectFromGUID(getObjectFromGUID(currentBase).getDescription()).destruct()  getObjectFromGUID(currentBase).destruct()  currentBase = nil
-    broadcastToAll("Import Complete.", {0.943, 0.745, 0.14})  nl = aBase.getGUID()  wBase.call("MakeLink")
-    aBase.unlock()  aBag.putObject(aBase)  aBase = nil  iBag.unlock()  mBag.putObject(iBag)  iBag = nil
+    getObjectFromGUID(getObjectFromGUID(currentBase).getDescription()).destruct() getObjectFromGUID(currentBase).destruct()  currentBase = nil
+    broadcastToAll("Import Complete.", {0.943, 0.745, 0.14}) nl = aBase.getGUID() wBase.call("MakeLink")
+    aBase.unlock() aBag.putObject(aBase) aBase = nil iBag.unlock() mBag.putObject(iBag) iBag = nil
 end
 
 function cbNABase(a)
@@ -768,8 +768,7 @@ end
 function ButtonExport()
     if isPVw() then return  end
     if not vBaseOn or not aBase then return end
-    if not tBag then broadcastToAll("Deploy Zone to Export.", {0.943, 0.745, 0.14})  return
-    else tBag = false end
+    if not tBag then broadcastToAll("Deploy Zone to Export.", {0.943, 0.745, 0.14}) return end
     broadcastToAll("Bagging Export...", {0.943, 0.745, 0.14})
     local t = {
         type = "Bag", position = self.getPosition()+{x=10,y=1,z=0},
