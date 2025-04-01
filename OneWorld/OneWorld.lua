@@ -322,7 +322,7 @@ function JotBase(wScaleBase, vScaleBase)
     local strWScale = wScaleBase and wScaleBase or string.format("{%f;%d;%f}", wBase.getScale().x, 1, wBase.getScale().z)
     local strVScale = vScaleBase and vScaleBase or string.format("{%f;%d;%f}", vBase.getScale().x, 1, vBase.getScale().z)
     local parentFlag = pxy and 8 or 2
-    aBag.setLuaScript(locS..string.format("--%s,%s,%s,%s,%s,%s,%s,%s", aBase.getGUID(), name, strWScale, strVScale, r1, r3, parentFlag, r90, (lnk ~= nil and lnk ~= "" and lnk.."," or "")))
+    aBag.setLuaScript(locS..string.format("--%s,%s,%s,%s,%s,%s,%s,%s,%s", aBase.getGUID(), name, strWScale, strVScale, r1, r3, parentFlag, r90, (lnk ~= nil and lnk ~= "" and lnk.."," or "")))
 end
 
 function NoBase()
@@ -682,8 +682,8 @@ function ButtonPack(player, _, _, keepBase)
         end
         broadcastToAll("Packing Zone...", {0.943, 0.745, 0.14})
         local t = {
-        type = "Bag", position = {0, 4, 0},
-        callback_owner = mBag, callback = "DoPack"
+            type = "Bag", position = {0, 4, 0},
+            callback_owner = mBag, callback = "DoPack"
         } spawnObject(t).setName(keepBase)
     else
         broadcastToAll("(to empty a zone, use Delete)", {0.7, 0.7, 0.7})

@@ -29,6 +29,7 @@ function Build()
         end,
         function()
             local objectWords = {}
+            if(index > #objectsString) then return true end
             for w in objectsString[index]:gmatch("[^,]+") do
                 table.insert(objectWords, w)
             end
@@ -55,26 +56,26 @@ function EndBuild()
     if activeBag then
         activeBag.destruct()
         oneWorld.setVar("iBag", nil)
+        activeBag = nil
     end
     Wait.time(|| oneWorld.call("SetUI"), 0.1)
 end
 ----------
 
 -- Pack --
-function DoPack(obj)
+function DoPack(mBag)
     ss = oneWorld.getVar("ss")
-    oneWorld.getVar("aBase").setDescription(obj.getGUID())
-    activeBag = obj
+    oneWorld.getVar("aBase").setDescription(mBag.getGUID())
     do
         local packGUID, index = {}, 1
         for w in ss:gmatch("[^,]+") do
             table.insert(packGUID, w)
         end
         Wait.condition(function()
-            Wait.time(|| EndPack(obj.getName()), 0.2)
+            Wait.time(|| EndPack(mBag, mBag.getName()), 0.2)
         end, function()
             if(getObjectFromGUID(packGUID[index])) then
-                activeBag.putObject(getObjectFromGUID(packGUID[index]))
+                mBag.putObject(getObjectFromGUID(packGUID[index]))
                 ss = ss.gsub(packGUID[index], "", 1)
             end
             index = index + 1
@@ -82,11 +83,8 @@ function DoPack(obj)
         end)
     end
 end
-function EndPack(keepBase)
-    if activeBag then
-        self.putObject(activeBag)
-        activeBag = nil
-    end
+function EndPack(mBag, keepBase)
+    if mBag then self.putObject(mBag) end
     oneWorld.call("JotBase")
     if(not keepBase) then oneWorld.call("StowBase") oneWorld.call("NoBase") oneWorld.call("SetUIText") end
     oneWorld.setVar("prs", "")
