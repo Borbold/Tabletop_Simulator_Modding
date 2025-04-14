@@ -74,8 +74,8 @@ function TogleEnable()
         self.UI.setAttribute("mainPanel", "active", true)
         local r = self.getRotation()  if r[2] > 180 then r2 = -1 else r2 = 1  end
         self.interactable = false self.lock()
-        mBag.lock()  mBag.setScale({0, 0, 0})  mBag.setPosition({-3,-50, 3})  mBag.interactable = false
-        aBag.lock()  aBag.setScale({0, 0, 0})  aBag.setPosition({-3,-55, -3}) aBag.interactable = false
+        mBag.lock() mBag.setScale({0, 0, 0}) mBag.setPosition({-10, -50, 10}) mBag.interactable = false
+        aBag.lock() aBag.setScale({0, 0, 0}) aBag.setPosition({-10, -55, -10}) aBag.interactable = false
         self.setRotation({x=0, y=0, z=0})
         vBase.interactable = false vBase.lock() vBase.setScale({sizeVPlate, 1, sizeVPlate}) vBase.setPosition({0, 0.91, 0})
         wBase.interactable = false wBase.lock() wBase.setScale({sizeWPlate, 1, sizeWPlate}) wBase.setPosition({p[1], p[2] + 0.105, p[3] - (0.77*r2)})
