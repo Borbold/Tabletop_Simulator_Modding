@@ -1,5 +1,10 @@
 local sciptLinkPlate = [[
 l1, l3, lh, u, sX, sY = nil, nil, nil, nil, nil, nil
+function onDropped()
+    local p, s = self.getPosition(), self.getScale()
+    sX, sY = math.ceil(s.x*180), math.ceil(s.z*180)
+end
+
 function onPickedUp()
     u = self.held_by_color l1 = nil l3 = nil
     if math.abs(Player[u].lift_height - 0.03) > 0.005 then
@@ -7,38 +12,29 @@ function onPickedUp()
     end
     Player[u].lift_height = 0.03
 end
-
-function onDropped()
-    local x = getObjectFromGUID(self.getGMNotes()).getPosition()
-    local p, s = self.getPosition(), self.getScale()
-    self.setPosition({p[1], x[2] + 0.3, p[3]})
-    self.setPositionSmooth({p[1], x[2], p[3]})
-    l1 = p[1] l3 = p[3]
-    sX = math.ceil(s.x*180) sY = math.ceil(s.z*180)
+local function returnLiftHeight()
+    if u and lh then
+        Player[u].lift_height = lh u = nil lh = nil
+    end
 end
-
 function onCollisionEnter()
-    if u and lh then
-        Player[u].lift_height = lh u = nil lh = nil
-    end
+    returnLiftHeight()
 end
-
 function onDestroy()
-    if u and lh then
-        Player[u].lift_height = lh u = nil lh = nil
-    end
+    returnLiftHeight()
 end
 ]]
 
+local UIscale = {x = 460, z = 250}
 local collisionObj, oneWorld = nil, nil
 function onLoad()
     collisionObj = nil
     oneWorld = getObjectFromGUID(self.getGMNotes())
 end
 
-function onCollisionEnter(a)
-    if(not oneWorld or not oneWorld.getVar("vBaseOn") or collisionObj == a.collision_object) then return end
-    collisionObj = a.collision_object collisionObj.setName(collisionObj.getName():gsub(",", ";"))
+function onCollisionEnter(info)
+    if(not oneWorld or not oneWorld.getVar("vBaseOn") or collisionObj == info.collision_object) then return end
+    collisionObj = info.collision_object collisionObj.setName(collisionObj.getName():gsub(",", ";"))
     local g = string.sub(collisionObj.getName(), 1, 4)
     local i = "https://steamusercontent-a.akamaihd.net/ugc/13045573010340250/36C6D007CDC8304626495A82A96511E910CC301B/"
     if self.getDescription() == "" and g == "SBx_" and collisionObj.name == "Custom_Token" then NewBase()
@@ -87,10 +83,10 @@ function DoImport()
     }
     collisionObj.takeObject(t)
 end
-function cbCTBase(a)
+function cbCTBase(base)
     oneWorld.setVar("currentBase", "c_"..collisionObj.getGUID())
-    collisionObj.setDescription(a.getGUID()) a.setName("SBx_"..string.sub(collisionObj.getName(), 5))
-    oneWorld.getVar("mBag").call("PreImport", a)
+    collisionObj.setDescription(base.getGUID()) base.setName("SBx_"..string.sub(collisionObj.getName(), 5))
+    oneWorld.getVar("mBag").call("PreImport", base)
 end
 
 function AddLink()
@@ -101,18 +97,15 @@ function AddLink()
         broadcastToAll("Link to Self or duplicate Link", {0.943, 0.745, 0.14})
         return
     end
-    local l1, l3, sX, sY, p = collisionObj.getVar("l1"), collisionObj.getVar("l3"), collisionObj.getVar("sX"), collisionObj.getVar("sY"), self.getPosition()
-    local h, v = 4.8, 8.5
-    local r1, r3 = oneWorld.getVar("r1"), oneWorld.getVar("r3")
-    local x, y = (l3 - p[3] + h/2)*100/h, (l1 - p[1] + v/2)*100/v
-    if(oneWorld.getVar("r90") == 1) then
-        x = (l1 - p[1] + h/2)*100/h
-        y = (l3 - p[3] + v/2)*100/v
-    end
-    x = Round(x, 2) y = Round(y, 2)
+    local locP = self.positionToLocal(collisionObj.getPosition())
+    local lX, lZ, sX, sY = locP.x, locP.z, collisionObj.getVar("sX"), collisionObj.getVar("sY")
+    local mapScale, mapBounds = self.getScale(), self.getBounds()
+    local w, h = (UIscale.z + (mapScale.z - 1.85)*UIscale.z)/(mapBounds.size.z/2), (UIscale.x + (mapScale.x - 1.85)*UIscale.x)/(mapBounds.size.x/2)
+    local x, z = Round(lX*h, 2), Round(lZ*w, 2)
+    if(oneWorld.getVar("r90") == 1 and self.getRotation().z == 180) then x = x*(-1) end
     local lnk = oneWorld.getVar("lnk")
     lnk = lnk ~= nil and lnk ~= "" and lnk.."," or ""
-    local newLnk = string.format("%s(%f;%f)(%f;%f)@%s", lnk, x, y, sX, sY, collisionObj.getDescription())
+    local newLnk = string.format("%s(%f;%f)(%f;%f)@%s", lnk, x, z, sX, sY, collisionObj.getDescription())
     oneWorld.setVar("lnk", newLnk)
     collisionObj.destruct()
     oneWorld.call("JotBase")
@@ -129,31 +122,30 @@ function SetLinks()
     else
         rotZ = self.getRotation().z == 0 and 1 or -1
     end
+    local h, w = UIscale.z + (self.getScale().z - 1.85)*UIscale.z, UIscale.x + (self.getScale().x - 1.85)*UIscale.x
     local xmlTable = {
         {
             tag = "Panel",
             attributes = {
+                scale = 1.85/self.getScale().x.." 1 "..1.85/self.getScale().z,
                 position = "0 0 "..(-6*rotZ),
-                width = "500",
-                height = "300",
+                width = rotZ == 1 and tostring(w) or tostring(h),
+                height = rotZ == 1 and tostring(h) or tostring(w),
                 rotation = "0 "..self.getRotation().z.." 0"
             },
-            children = {}
+            children = {
+            }
         }
     }
 
     if self.getDescription() == "" then return end
-    local r1, r3 = oneWorld.getVar("r1"), oneWorld.getVar("r3")
-    local v, h = (1.85/self.getScale().z)*4.6, (1.85/self.getScale().x)*2.6
-    for str in t:gmatch("[%(%d.%d;%d.%d%)]*@") do
-        local x, y, sX, sY
+    for str in t:gmatch("[%(%-?%d.%d;%-?%d.%d%)]*@") do
         local words = {}
-        for w in str:gmatch("[^(;@,)]+") do
-            table.insert(words, w)
+        for word in str:gmatch("[^(;@,)]+") do
+            table.insert(words, word)
         end
-        x = (tonumber(words[1])*h/100 - (h/2 - 0.016))*100
-        y = ((v/2 - 0.018) - tonumber(words[2])*v/100)*100
-        sX, sY = tonumber(words[3]), tonumber(words[4])
+        local x, y = tonumber(words[1]), tonumber(words[2])
+        local sX, sY = tonumber(words[3]), tonumber(words[4])
 
         local newButton = {
             tag = "Button",
@@ -162,7 +154,7 @@ function SetLinks()
                 image = "https://steamusercontent-a.akamaihd.net/ugc/13045573010340250/36C6D007CDC8304626495A82A96511E910CC301B/",
                 width = sX,
                 height = sY,
-                offsetXY = (-y*rotZ).." "..(r90 == 1 and -x or x),
+                offsetXY = x.." "..y,
                 onClick = "ButtonLink"
             }
         }
@@ -179,12 +171,12 @@ function MakeLink()
     local obj = spawnObject(p)  local i = {}  i.thickness = 0.01
     i.image = "https://steamusercontent-a.akamaihd.net/ugc/13045573010340250/36C6D007CDC8304626495A82A96511E910CC301B/" obj.setCustomObject(i)
 end
-function cbMLink(a)
+function cbMLink(base)
     local nl = oneWorld.getVar("nl")
-    a.setDescription(nl)
+    base.setDescription(nl)
     local bn = oneWorld.call("ParceData", nl)
-    a.setName(bn) oneWorld.setVar("nl", nil)
-    a.setLuaScript(sciptLinkPlate) a.setGMNotes(self.getGMNotes())
+    base.setName(bn) oneWorld.setVar("nl", nil)
+    base.setLuaScript(sciptLinkPlate) base.setGMNotes(self.getGMNotes())
 end
 
 function GetLink(id)

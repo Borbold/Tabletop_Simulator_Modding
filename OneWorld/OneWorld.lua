@@ -387,12 +387,12 @@ function ParceData(bGuid)
     local fBase = string.find(s, k, string.find(s, h..bGuid..k))
     if not fBase then broadcastToAll("No base map.", {0.943, 0.745, 0.14}) return end
     local d, dFlag = {}, false
-    for w in aBag.getLuaScript():gmatch("[^,--{}]+") do
+    for w in aBag.getLuaScript():gmatch("[^,{}\n]+") do
         if(dFlag == true) then
-            if(w == "\n") then break end
+            if(w:find("%-%-")) then break end
             table.insert(d, w)
         end
-        if(bGuid == w) then dFlag = true end
+        if(w == "--" .. bGuid) then dFlag = true end
     end
     for i = 9, #d do
         d[8] = d[8]..","..d[i]
