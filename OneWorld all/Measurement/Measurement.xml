@@ -1,0 +1,26 @@
+<Defaults>
+    <InputField font='Fonts/Doors' resizeTextForBestFit='True' resizeTextMaxSize='120' resizeTextMinSize='10'
+        textColor='#ffffff' color='#bbbbbb7f' textAlignment='MiddleCenter'
+        characterValidation='Integer' />
+    <Text font='Fonts/Doors' resizeTextForBestFit='True' resizeTextMaxSize='500' resizeTextMinSize='10'
+        color='#ffffff'/>
+    <Cell dontUseTableCellBackground='true' />
+</Defaults>
+
+<TableLayout scale='0.5' width='350' height='360' position='0 42 -820' rotation='59 0 180'>
+    <Row id='calibration' active='false'>
+        <Cell>
+            <InputField placeholder='Cal.' onEndEdit='calibrationFunction' />
+        </Cell>
+    </Row>
+    <Row>
+        <Cell>
+            <Text id='distance' text='' />
+        </Cell>
+    </Row>
+    <Row>
+        <Cell>
+            <Text text='feet' />
+        </Cell>
+    </Row>
+</TableLayout>
