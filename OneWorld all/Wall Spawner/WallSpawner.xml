@@ -1,0 +1,18 @@
+<Defaults>
+    <Button font='Fonts/Allods' resizeTextForBestFit='True' resizeTextMaxSize='500' resizeTextMinSize='10'
+        textColor='#000000' color='#bbbbbb7f' textAlignment='MiddleCenter' fontStyle='Bold' />
+    <InputField font='Fonts/Doors' resizeTextForBestFit='True' resizeTextMaxSize='120' resizeTextMinSize='10'
+        textColor='#ffffff' color='#bbbbbb7f' textAlignment='MiddleCenter'
+        characterValidation='Integer' />
+    <Text font='Fonts/Doors' resizeTextForBestFit='True' resizeTextMaxSize='500' resizeTextMinSize='10'
+        color='#ffffff'/>
+    <Cell dontUseTableCellBackground='true' />
+</Defaults>
+
+<TableLayout scale='0.5' width='400' height='200' position='0 -50 -20'>
+    <Row>
+        <Cell>
+            <Button id='typeSpawn' text='OFF' onClick='buttonClick_toggleEnabled' />
+        </Cell>
+    </Row>
+</TableLayout>
