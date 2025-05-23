@@ -361,7 +361,7 @@ function GetBase(bGuid)
 end
 function cbGetBase(base)
     local locPos = self.getPosition()
-    base.setPosition({locPos.x, locPos.y - 0.5, locPos.z})  base.lock()  base.interactable = false aBase = base
+    base.setPosition({locPos.x, locPos.y - 0.5, locPos.z}) base.lock() base.interactable = false aBase = base
     wBase.setDescription(base.guid)
     local p = self.getPosition() wBase.setPosition({p[1], p[2] + 0.05, p[3] - (0.77*r2)})
     rotBase() SetUIText() RollBack(base.getGUID())

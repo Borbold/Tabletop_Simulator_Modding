@@ -110,16 +110,14 @@ local function rebuildContextMenu()
     else
         self.addContextMenuItem("[ ] Alt. Diagonals", toggleAlternateDiag)
     end
-    self.addContextMenuItem("Toggle Grid", function() Grid.show_lines = not Grid.show_lines end)
 end
 
 function onSave()
-    local save_state = JSON.encode({
+    return JSON.encode({
         enableCalibration = enableCalibration,
         vertexMode = vertexMode,
         alternateDiag = alternateDiag
     })
-    return save_state
 end
 
 function onLoad(save_state)
@@ -192,18 +190,6 @@ function onObjectPickUp(player_color, targetObj)
     end
 end
 
-function resetScales()
-    local allObjects = getAllObjects()
-    for _, obj in ipairs(allObjects) do
-        if obj ~= self and obj ~= nil then
-            local typeCheck = obj.getVar("className")
-            if typeCheck == "MeasurementToken" then
-                 obj.call("resetScale")
-            end
-        end
-    end
-end
-
 function calibrationFunction(player, input, id)
     if playerLastObject and input ~= "" then
         pointA = self.getPosition()
@@ -226,6 +212,5 @@ function calibrationFunction(player, input, id)
         end
         Grid.offsetX = pointA[1] - displacement
         Grid.offsetY = pointA[3] - displacement
-        resetScales()
     end
 end
