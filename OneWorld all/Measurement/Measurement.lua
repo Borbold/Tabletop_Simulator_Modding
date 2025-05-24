@@ -5,7 +5,6 @@ finalDistance = 1
 
 local function distanceUpdate()
     if toggleMeasure == 0 then
-        self.UI.setAttribute("distance", "text", "")
         return
     end
 
@@ -135,7 +134,6 @@ function onLoad(save_state)
     rebuildContextMenu()
     self.setVectorLines({})
 
-    Wait.time(|| distanceUpdate(), 0.2, -1)
 end
 
 function toggleEnableVertexMode()
@@ -154,22 +152,16 @@ function toggleAlternateDiag()
     rebuildContextMenu()
 end
 
-local function destabilize()
-    local rb = self.getComponent("Rigidbody")
-    rb.set("freezeRotation", false)
-end
+local idWT = 0
 function onPickUp(player_color)
-    destabilize()
+    idWT = Wait.time(|| distanceUpdate(), 0.2, -1)
 end
 
-local function stabilize()
-    local rb = self.getComponent("Rigidbody")
-    rb.set("freezeRotation", true)
-end
 function onCollisionEnter(player_color)
-    stabilize()
     rotationVector, positionVector = self.getRotation(), self.getPosition()
     pickedUp = 0
+    Wait.stop(idWT)
+    Wait.time(|| self.UI.setAttribute("distance", "text", ""), 1)
 end
 
 function onObjectPickUp(player_color, targetObj)
