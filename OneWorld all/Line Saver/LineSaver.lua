@@ -18,7 +18,6 @@ function onLoad(saved_data)
             oneWorldLines = loaded_data.oneWorldLines
         end
     end
-    revertToSave()
     rebuildContextMenu()
 end
 

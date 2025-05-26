@@ -1,6 +1,3 @@
-local wallHeight = 1.0;
-local wallOffset = 0;
-local enabled = 0;
 local firstPoint = nil;
 local secondPoint = nil;
 local thirdPoint = nil;
@@ -17,13 +14,10 @@ end
 function onLoad(saved_data)
     if saved_data ~= "" then
         local loaded_data = JSON.decode(saved_data);
-        if loaded_data.wall_height ~= nil then
-            wallHeight = loaded_data.wall_height;
-        end
-        if loaded_data.wall_offset ~= nil then
-            wallOffset = loaded_data.wall_offset;
-        end
+        wallHeight = loaded_data.wall_height and loaded_data.wall_height or 1
+        wallOffset = loaded_data.wall_offset and loaded_data.wall_offset or 0
     end
+    enabled = 0
     buildContextMenu();
     refreshButtons();
     Wait.frames(stabilize, 1);

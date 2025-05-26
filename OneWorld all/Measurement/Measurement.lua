@@ -96,19 +96,11 @@ local function rebuildContextMenu()
     self.clearContextMenu()
     if enableCalibration == true then
         self.addContextMenuItem("[X] Calibration", toggleEnableCalibration)
-        if vertexMode == true then
-            self.addContextMenuItem("[X] Vertex Mode", toggleEnableVertexMode)
-        else
-            self.addContextMenuItem("[ ] Vertex Mode", toggleEnableVertexMode)
-        end
+        self.addContextMenuItem(string.format("%s Vertex Mode", vertexMode and "[X]" or "[ ]"), toggleEnableVertexMode)
     else
         self.addContextMenuItem("[ ] Calibration", toggleEnableCalibration)
     end
-    if alternateDiag == true then
-        self.addContextMenuItem("[X] Alt. Diagonals", toggleAlternateDiag)
-    else
-        self.addContextMenuItem("[ ] Alt. Diagonals", toggleAlternateDiag)
-    end
+    self.addContextMenuItem(string.format("%s Alt. Diagonals", alternateDiag and "[X]" or "[ ]"), toggleEnableVertexMode)
 end
 
 function onSave()
