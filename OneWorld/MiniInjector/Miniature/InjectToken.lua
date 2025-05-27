@@ -1331,7 +1331,6 @@ function setInjectVariables(info)
     health, mana, extra = info.health, info.mana, info.extra
     options, xml = info.options, info.xml
     statNames = info.statNames
-    onSaveFrameCount = -1
-    updateSave()
+    startLuaCoroutine(self, "updateSaveActual")
     Wait.time(|| self.reload(), 0.5)
 end
