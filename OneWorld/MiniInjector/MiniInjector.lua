@@ -479,11 +479,7 @@ function onCollisionEnter(collision_info)
 end
 
 local function setMiniVariable(object, stats)
-    object.setVar("statNames", stats)
-    object.setVar("health", {value = options.hp, max = options.hp})
-    object.setVar("mana", {value = options.mana, max = options.mana})
-    object.setVar("extra", {value = options.extra, max = options.extra})
-    object.setVar("options", {
+    local locOptions = {
         HP2Desc = options.HP2Desc,
         belowZero = false,
         aboveMax = false,
@@ -503,7 +499,14 @@ local function setMiniVariable(object, stats)
         initRealValue = 0,
         initMockActive = false,
         initMockValue = 0
+    }
+    object.call("setInjectVariables", {
+        health = {value = options.hp, max = options.hp},
+        mana = {value = options.mana, max = options.mana},
+        extra = {value = options.extra, max = options.extra},
+        options = locOptions,
     })
+    object.setVar("statNames", stats)
     object.setVar("player", options.playerChar)
     object.setVar("measureMove", options.measureMove)
     object.setVar("alternateDiag", options.alternateDiag)

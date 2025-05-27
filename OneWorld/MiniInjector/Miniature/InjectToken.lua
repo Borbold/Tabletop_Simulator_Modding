@@ -17,37 +17,7 @@ triggerNames = {}
 showing = false
 savedAttachScales = {}
 
-player = false
-measureMove = false
-alternateDiag = false
-metricMode = false
-stabilizeOnDrop = false
-miniHighlight = "highlightNone"
-highlightToggle = true
-hideFromPlayers = false
 firstEdit = true
-
-options = {
-    HP2Desc = false,
-    belowZero = false,
-    aboveMax = false,
-    heightModifier = 110,
-    showBaseButtons = false,
-    showBarButtons = false,
-    hideHp = false,
-    hideMana = true,
-    hideExtra = true,
-    incrementBy = 1,
-    rotation = 90,
-    initSettingsIncluded = true,
-    initSettingsRolling = true,
-    initSettingsMod = 0,
-    initSettingsValue = 100,
-    initRealActive = false,
-    initRealValue = 0,
-    initMockActive = false,
-    initMockValue = 0
-}
 
 function resetInitiative()
     options.initSettingsValue = 100
@@ -241,33 +211,14 @@ local function onLoad_helper()
         if saved_data.calibrated_once ~= nil then
             calibratedOnce = saved_data.calibrated_once
         end
-        if saved_data.player ~= nil then
-            player = saved_data.player
-        end
-        if saved_data.measureMove ~= nil then
-            measureMove = saved_data.measureMove
-        end
-        if saved_data.alternateDiag ~= nil then
-            alternateDiag = saved_data.alternateDiag
-        end
-        if saved_data.metricMode ~= nil then
-            metricMode = saved_data.metricMode
-        end
-        if saved_data.stabilizeOnDrop ~= nil then
-            stabilizeOnDrop = saved_data.stabilizeOnDrop
-        end
-        if saved_data.miniHighlight ~= nil then
-            miniHighlight = saved_data.miniHighlight
-        end
-        if saved_data.highlightToggle ~= nil then
-            highlightToggle = saved_data.highlightToggle
-        end
-        if saved_data.hideFromPlayers ~= nil then
-            hideFromPlayers = saved_data.hideFromPlayers
-            if player == true then
-                hideFromPlayers = false
-            end
-        end
+        player = saved_data.player and saved_data.player or false
+        measureMove = saved_data.measureMove and saved_data.measureMove or false
+        alternateDiag = saved_data.alternateDiag and saved_data.alternateDiag or false
+        metricMode = saved_data.metricMode and saved_data.metricMode or false
+        stabilizeOnDrop = saved_data.stabilizeOnDrop and saved_data.stabilizeOnDrop or false
+        miniHighlight = saved_data.miniHighlight and saved_data.miniHighlight or "highlightNone"
+        highlightToggle = saved_data.highlightToggle and saved_data.highlightToggle or true
+        hideFromPlayers = (saved_data.hideFromPlayers and player == false) and saved_data.hideFromPlayers or false
         if saved_data.saveVersion ~= nil then
             saveVersion = saved_data.saveVersion
             if debuggingEnabled then
@@ -276,14 +227,6 @@ local function onLoad_helper()
         end
     end
     className = "InjectTokenMini"
-    player = player
-    measureMove = measureMove
-    alternateDiag = alternateDiag
-    metricMode = metricMode
-    stabilizeOnDrop = stabilizeOnDrop
-    miniHighlight = miniHighlight
-    highlightToggle = highlightToggle
-    hideFromPlayers = hideFromPlayers
 
     coroutine.yield(0)
     coroutine.yield(0)
@@ -1378,4 +1321,9 @@ function getStatsCount()
         end
     end
     return count
+end
+
+function setInjectVariables(info)
+    health, mana, extra = info.health, info.mana, info.extra
+    options = info.options
 end
