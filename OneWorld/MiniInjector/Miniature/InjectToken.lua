@@ -20,6 +20,7 @@ health = {value = 10, max = 10}
 mana = {value = 0, max = 0}
 extra = {value = 0, max = 0}
 
+statNames = {}
 options = {
     HP2Desc = false,
     belowZero = false,
@@ -281,17 +282,14 @@ function loadStageTwo()
     for i,j in pairs(statNames) do
         if j == true then
             self.UI.setAttribute(i, "active", true)
-            coroutine.yield(0)
         end
     end
-    coroutine.yield(0)
+    
     self.UI.setAttribute("statePanel", "width", getStatsCount()*300)
-
     if options.showBarButtons == true then
         self.UI.setAttribute("addSub", "active", true)
         self.UI.setAttribute("addSubS", "active", true)
         self.UI.setAttribute("addSubE", "active", true)
-        coroutine.yield(0)
     end
 
     if health.max == 0 then
@@ -346,7 +344,6 @@ function loadStageTwo()
                 self.UI.setAttribute("AlternateDiagToggle", "textColor", alternateDiag == true and "#AA2222" or "#FFFFFF")
                 metricMode = injOptions.metricMode
                 self.UI.setAttribute("MetricModeToggle", "textColor", metricMode == true and "#AA2222" or "#FFFFFF")
-                coroutine.yield(0)
                 if player == true then
                     self.UI.setAttribute("progressBar", "visibility", "")
                     self.UI.setAttribute("progressBarS", "visibility", "")
@@ -368,7 +365,6 @@ function loadStageTwo()
                     self.UI.setAttribute("leftSide3", "visibility", "")
                     self.UI.setAttribute("editButton3", "visibility", "")
                     self.UI.setAttribute("editButtonS3", "visibility", "")
-                    coroutine.yield(0)
                 else
                     if injOptions.hideBar == true then
                         self.UI.setAttribute("progressBar", "visibility", "Black")
@@ -400,7 +396,6 @@ function loadStageTwo()
                         self.UI.setAttribute("editPanel", "visibility", "")
                     end
                     self.UI.setAttribute("panel", "active", injOptions.showAll == true and "true" or "false")
-                    coroutine.yield(0)
                     self.UI.setAttribute("editButton0", "visibility", "Black")
                     self.UI.setAttribute("leftSide1", "visibility", "Black")
                     self.UI.setAttribute("editButton1", "visibility", "Black")
@@ -411,7 +406,6 @@ function loadStageTwo()
                     self.UI.setAttribute("leftSide3", "visibility", "Black")
                     self.UI.setAttribute("editButton3", "visibility", "Black")
                     self.UI.setAttribute("editButtonS3", "visibility", "Black")
-                    coroutine.yield(0)
                 end
             end
         end
@@ -443,8 +437,6 @@ function loadStageTwo()
             print(self.getName() .. " gone.")
         end
         self.setInvisibleTo(aColors)
-        -- In this case attachments are already shrunk, don't worry about them
-        coroutine.yield(0)
     end
 
     updateSave()
@@ -480,7 +472,6 @@ function afowr_helper()
 end
 function autoFogOfWarReveal()
     if player == true then
-        -- We're a PC, set IFOW for a single frame, then reset
         startLuaCoroutine(self, "afowr_helper")
     end
 end
@@ -491,12 +482,9 @@ function instantiateTriggers()
         if self.AssetBundle ~= nil and self.AssetBundle.getTriggerEffects() ~= nil and self.AssetBundle.getTriggerEffects()[i] ~= nil then
             a[i] = false
             triggerNames[i] = self.AssetBundle.getTriggerEffects()[i].name
-            -- create a new global function
             _G["TriggerFunction" .. i] = function()
-                -- that simply calls our real target function
                 self.AssetBundle.playTriggerEffect(i - 1)
             end
-            coroutine.yield(0)
         end
     end
 end
@@ -1341,6 +1329,6 @@ end
 function setInjectVariables(info)
     health, mana, extra = info.health, info.mana, info.extra
     options, xml = info.options, info.xml
-    updateSaveActual()
+    updateSave()
     Wait.time(|| self.reload(), 0.2)
 end
