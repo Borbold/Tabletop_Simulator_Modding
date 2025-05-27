@@ -17,10 +17,6 @@ triggerNames = {}
 showing = false
 savedAttachScales = {}
 
-health = {value = 10, max = 10}
-mana = {value = 10, max = 10}
-extra = {value = 10, max = 10}
-
 player = false
 measureMove = false
 alternateDiag = false

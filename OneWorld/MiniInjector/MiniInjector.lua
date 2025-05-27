@@ -38,6 +38,18 @@ options = {
 
 initFigures = {}
 
+-- Function to perform a deep copy of a table
+local function deepCopy(original)
+    local copy = {}
+    for key, value in pairs(original) do
+        if type(value) == "table" then
+            value = deepCopy(value)
+        end
+        copy[key] = value
+    end
+    return copy
+end
+
 function onSave()
     local save_state = JSON.encode({
         debugging_enabled = debuggingEnabled,
@@ -471,6 +483,31 @@ local function setMiniVariable(object, stats)
     object.setVar("health", {value = options.hp, max = options.hp})
     object.setVar("mana", {value = options.mana, max = options.mana})
     object.setVar("extra", {value = options.extra, max = options.extra})
+    object.setVar("options", {
+        HP2Desc = options.HP2Desc,
+        belowZero = false,
+        aboveMax = false,
+        heightModifier = 110,
+        showBaseButtons = false,
+        showBarButtons = false,
+        hideHp = options.hp == 0,
+        hideMana = options.mana == 0,
+        hideExtra = options.extra == 0,
+        incrementBy = 1,
+        rotation = 90,
+        initSettingsIncluded = true,
+        initSettingsRolling = true,
+        initSettingsMod = 0,
+        initSettingsValue = 100,
+        initRealActive = false,
+        initRealValue = 0,
+        initMockActive = false,
+        initMockValue = 0
+    })
+    object.setVar("player", options.playerChar)
+    object.setVar("measureMove", options.measureMove)
+    object.setVar("alternateDiag", options.alternateDiag)
+    object.setVar("metricMode", options.metricMode)
 end
 
 function injectToken(object)
@@ -483,57 +520,32 @@ function injectToken(object)
         xmlStats = xmlStats .. '<Button id="' .. i.name .. '" color="#FFFFFF00" active="false"><Image image="' .. i.name .. '" preserveAspect="true"></Image></Button>\n'
     end
     xml = xml:gsub("STATSIMAGE", xmlStats)
+    xml = xml:gsub('<VerticalLayout id="bars" height="200">', '<VerticalLayout id="bars" height="' .. 200 + (options.mana == 0 and -100 or 0) + (options.extra ~= 0 and 100 or 0) .. '">')
+    if options.playerChar == false then
+        if options.hideText == true then
+            xml = xml:gsub('id="hpText" visibility=""', 'id="hpText" visibility="Black"')
+            xml = xml:gsub('id="manaText" visibility=""', 'id="manaText" visibility="Black"')
+            xml = xml:gsub('id="extraText" visibility=""', 'id="extraText" visibility="Black"')
+        end
+        if options.hideBar == true then
+            xml = xml:gsub('id="progressBar" visibility=""', 'id="progressBar" visibility="Black"')
+            xml = xml:gsub('id="progressBarS" visibility=""', 'id="progressBarS" visibility="Black"')
+            xml = xml:gsub('id="extraProgress" visibility=""', 'id="extraProgress" visibility="Black"')
+        end
+        if options.editText == true then
+            xml = xml:gsub('id="addSub" visibility=""', 'id="addSub" visibility="Black"')
+            xml = xml:gsub('id="addSubS" visibility=""', 'id="addSubS" visibility="Black"')
+            xml = xml:gsub('id="addSubE" visibility=""', 'id="addSubE" visibility="Black"')
+            xml = xml:gsub('id="editPanel" visibility=""', 'id="editPanel" visibility="Black"')
+        end
+    end
+    xml = xml:gsub('<Panel id="panel" position="0 0 -220"', '<Panel id="panel" position="0 0 ' .. object.getBounds().size.y / object.getScale().y * 110 .. '"')
 
-    local newScript = injectMiniLua
     if not options.hideText and options.HP2Desc then
         object.setDescription(options.hp .. "/" .. options.hp)
     end
 
-    if options.hp == 0 then
-        newScript = newScript:gsub("hideHp = false,", "hideHp = true,")
-    end
-    if options.mana == 0 then
-        newScript = newScript:gsub("hideMana = false,", "hideMana = true,")
-    end
-    if options.extra ~= 0 then
-        newScript = newScript:gsub("hideExtra = true,", "hideExtra = false,")
-    end
-    newScript = newScript:gsub('<VerticalLayout id="bars" height="200">', '<VerticalLayout id="bars" height="' .. 200 + (options.mana == 0 and -100 or 0) + (options.extra ~= 0 and 100 or 0) .. '">')
-
-    if options.measureMove == true then
-        newScript = newScript:gsub("measureMove = false", "measureMove = true")
-    end
-    if options.alternateDiag == true then
-        newScript = newScript:gsub("alternateDiag = false", "alternateDiag = true")
-    end
-    if options.metricMode == true then
-        newScript = newScript:gsub("metricMode = false", "metricMode = true")
-    end
-    if options.playerChar == true then
-        newScript = newScript:gsub("player = false", "player = true")
-        if options.HP2Desc == true then
-            newScript = newScript:gsub("HP2Desc = false,", "HP2Desc = true,")
-        end
-    else
-        if options.hideText == true then
-            newScript = newScript:gsub('id="hpText" visibility=""', 'id="hpText" visibility="Black"')
-            newScript = newScript:gsub('id="manaText" visibility=""', 'id="manaText" visibility="Black"')
-            newScript = newScript:gsub('id="extraText" visibility=""', 'id="extraText" visibility="Black"')
-        end
-        if options.hideBar == true then
-            newScript = newScript:gsub('id="progressBar" visibility=""', 'id="progressBar" visibility="Black"')
-            newScript = newScript:gsub('id="progressBarS" visibility=""', 'id="progressBarS" visibility="Black"')
-            newScript = newScript:gsub('id="extraProgress" visibility=""', 'id="extraProgress" visibility="Black"')
-        end
-        if options.editText == true then
-            newScript = newScript:gsub('id="addSub" visibility=""', 'id="addSub" visibility="Black"')
-            newScript = newScript:gsub('id="addSubS" visibility=""', 'id="addSubS" visibility="Black"')
-            newScript = newScript:gsub('id="addSubE" visibility=""', 'id="addSubE" visibility="Black"')
-            newScript = newScript:gsub('id="editPanel" visibility=""', 'id="editPanel" visibility="Black"')
-        end
-    end
-    newScript = newScript:gsub('<Panel id="panel" position="0 0 -220"', '<Panel id="panel" position="0 0 ' .. object.getBounds().size.y / object.getScale().y * 110 .. '"')
-    object.setLuaScript(newScript)
+    object.setLuaScript(injectMiniLua)
     object.UI.setXml(xml)
     object.reload()
     Wait.time(|| setMiniVariable(object, stats), 0.5)
