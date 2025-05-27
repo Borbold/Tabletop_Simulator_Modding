@@ -154,151 +154,152 @@ function updateSaveActual()
     return 1
 end
 
-function onLoad(save_state)
-    function onLoad_helper()
+local function onLoad_helper()
+    coroutine.yield(0)
+    if stabilizeOnDrop == true and self.held_by_color == nil then
         coroutine.yield(0)
-        if stabilizeOnDrop == true and self.held_by_color == nil then
-            coroutine.yield(0)
-            stabilize()
-        end
-        local saved_data = nil
-        local my_saved_data = nil
-        local bestVersion = 0
-        if save_state ~= "" then
-            saved_data = JSON.decode(save_state)
-            my_saved_data = saved_data
-            if saved_data.saveVersion ~= nil then
-                bestVersion = saved_data.saveVersion
-            end
-        end
-        -- ALRIGHTY, let's see which state data we need to use
-        states = self.getStates()
-        if states ~= nil then
-            for _, s in pairs(states) do
-                test_data = JSON.decode(s.lua_script_state)
-                if test_data ~= nil and test_data.saveVersion ~= nil and test_data.saveVersion > bestVersion then
-                    saved_data = test_data
-                    bestVersion = test_data.saveVersion
-                    coroutine.yield(0)
-                end
-            end
-        end
-        if debuggingEnabled then
-            print(self.getName() .. " best version: " .. bestVersion)
-        end
-        if saved_data ~= nil then
-            if saved_data.health then
-                for heal,_ in pairs(health) do
-                    health[heal] = saved_data.health[heal]
-                end
-            end
-            if saved_data.mana then
-                for res,_ in pairs(mana) do
-                    mana[res] = saved_data.mana[res]
-                end
-            end
-            if saved_data.extra then
-                for res,_ in pairs(extra) do
-                    extra[res] = saved_data.extra[res]
-                end
-            end
-            if saved_data.options then
-                for opt,_ in pairs(options) do
-                    if saved_data.options[opt] ~= nil then
-                        options[opt] = saved_data.options[opt]
-                    end
-                end
-            end
-            if saved_data.encodedAttachScales then
-                for _,encodedScale in pairs(saved_data.encodedAttachScales) do
-                    if debuggingEnabled then
-                        print("loaded vector: " .. encodedScale.x .. ", " .. encodedScale.y .. ", " .. encodedScale.z)
-                    end
-                    table.insert(savedAttachScales, vector(encodedScale.x, encodedScale.y, encodedScale.z))
-                    coroutine.yield(0)
-                end
-            end
-            if saved_data.statNames then
-                for stat,_ in pairs(statNames) do
-                    statNames[stat] = saved_data.statNames[stat]
-                end
-            end
-            -- Check if we need to override the scale calibration
-            -- This state's calibration takes precedence over other states
-            if my_saved_data ~= nil and my_saved_data.calibrated_once == true then
-                saved_data.calibrated_once = my_saved_data.calibrated_once
-                saved_data.scale_multiplier_x = my_saved_data.scale_multiplier_x
-                saved_data.scale_multiplier_y = my_saved_data.scale_multiplier_y
-                saved_data.scale_multiplier_z = my_saved_data.scale_multiplier_z
-                if my_saved_data.options ~= nil then
-                    options["heightModifier"] = my_saved_data.options["heightModifier"]
-                end
-            end
-            if saved_data.scale_multiplier_x ~= nil then
-                scaleMultiplierX = saved_data.scale_multiplier_x
-            end
-            if saved_data.scale_multiplier_y ~= nil then
-                scaleMultiplierY = saved_data.scale_multiplier_y
-            end
-            if saved_data.scale_multiplier_z ~= nil then
-                scaleMultiplierZ = saved_data.scale_multiplier_z
-            end
-            if saved_data.calibrated_once ~= nil then
-                calibratedOnce = saved_data.calibrated_once
-            end
-            if saved_data.player ~= nil then
-                player = saved_data.player
-            end
-            if saved_data.measureMove ~= nil then
-                measureMove = saved_data.measureMove
-            end
-            if saved_data.alternateDiag ~= nil then
-                alternateDiag = saved_data.alternateDiag
-            end
-            if saved_data.metricMode ~= nil then
-                metricMode = saved_data.metricMode
-            end
-            if saved_data.stabilizeOnDrop ~= nil then
-                stabilizeOnDrop = saved_data.stabilizeOnDrop
-            end
-            if saved_data.miniHighlight ~= nil then
-                miniHighlight = saved_data.miniHighlight
-            end
-            if saved_data.highlightToggle ~= nil then
-                highlightToggle = saved_data.highlightToggle
-            end
-            if saved_data.hideFromPlayers ~= nil then
-                hideFromPlayers = saved_data.hideFromPlayers
-                if player == true then
-                    hideFromPlayers = false
-                end
-            end
-            if saved_data.saveVersion ~= nil then
-                saveVersion = saved_data.saveVersion
-                if debuggingEnabled then
-                    print(self.getName() .. " loading, version " .. saveVersion .. ".")
-                end
-            end
-        end
-        className = "InjectTokenMini"
-        self.setVar("player", player)
-        self.setVar("measureMove", measureMove)
-        self.setVar("alternateDiag", alternateDiag)
-        self.setVar("metricMode", metricMode)
-        self.setVar("stabilizeOnDrop", stabilizeOnDrop)
-        self.setVar("miniHighlight", miniHighlight)
-        self.setVar("highlightToggle", highlightToggle)
-        self.setVar("hideFromPlayers", hideFromPlayers)
-
-        coroutine.yield(0)
-        coroutine.yield(0)
-        loadStageTwo()
-        coroutine.yield(0)
-
-        finishedLoading = true
-        self.setVar("finishedLoading", true)
-        return 1
+        stabilize()
     end
+    local saved_data = nil
+    local my_saved_data = nil
+    local bestVersion = 0
+    if save_state ~= "" then
+        saved_data = JSON.decode(save_state)
+        my_saved_data = saved_data
+        if saved_data.saveVersion ~= nil then
+            bestVersion = saved_data.saveVersion
+        end
+    end
+    -- ALRIGHTY, let's see which state data we need to use
+    states = self.getStates()
+    if states ~= nil then
+        for _, s in pairs(states) do
+            test_data = JSON.decode(s.lua_script_state)
+            if test_data ~= nil and test_data.saveVersion ~= nil and test_data.saveVersion > bestVersion then
+                saved_data = test_data
+                bestVersion = test_data.saveVersion
+                coroutine.yield(0)
+            end
+        end
+    end
+    if debuggingEnabled then
+        print(self.getName() .. " best version: " .. bestVersion)
+    end
+    if saved_data ~= nil then
+        if saved_data.health then
+            for heal,_ in pairs(health) do
+                health[heal] = saved_data.health[heal]
+            end
+        end
+        if saved_data.mana then
+            for res,_ in pairs(mana) do
+                mana[res] = saved_data.mana[res]
+            end
+        end
+        if saved_data.extra then
+            for res,_ in pairs(extra) do
+                extra[res] = saved_data.extra[res]
+            end
+        end
+        if saved_data.options then
+            for opt,_ in pairs(options) do
+                if saved_data.options[opt] ~= nil then
+                    options[opt] = saved_data.options[opt]
+                end
+            end
+        end
+        if saved_data.encodedAttachScales then
+            for _,encodedScale in pairs(saved_data.encodedAttachScales) do
+                if debuggingEnabled then
+                    print("loaded vector: " .. encodedScale.x .. ", " .. encodedScale.y .. ", " .. encodedScale.z)
+                end
+                table.insert(savedAttachScales, vector(encodedScale.x, encodedScale.y, encodedScale.z))
+                coroutine.yield(0)
+            end
+        end
+        if saved_data.statNames then
+            for stat,_ in pairs(statNames) do
+                statNames[stat] = saved_data.statNames[stat]
+            end
+        end
+        -- Check if we need to override the scale calibration
+        -- This state's calibration takes precedence over other states
+        if my_saved_data ~= nil and my_saved_data.calibrated_once == true then
+            saved_data.calibrated_once = my_saved_data.calibrated_once
+            saved_data.scale_multiplier_x = my_saved_data.scale_multiplier_x
+            saved_data.scale_multiplier_y = my_saved_data.scale_multiplier_y
+            saved_data.scale_multiplier_z = my_saved_data.scale_multiplier_z
+            if my_saved_data.options ~= nil then
+                options["heightModifier"] = my_saved_data.options["heightModifier"]
+            end
+        end
+        if saved_data.scale_multiplier_x ~= nil then
+            scaleMultiplierX = saved_data.scale_multiplier_x
+        end
+        if saved_data.scale_multiplier_y ~= nil then
+            scaleMultiplierY = saved_data.scale_multiplier_y
+        end
+        if saved_data.scale_multiplier_z ~= nil then
+            scaleMultiplierZ = saved_data.scale_multiplier_z
+        end
+        if saved_data.calibrated_once ~= nil then
+            calibratedOnce = saved_data.calibrated_once
+        end
+        if saved_data.player ~= nil then
+            player = saved_data.player
+        end
+        if saved_data.measureMove ~= nil then
+            measureMove = saved_data.measureMove
+        end
+        if saved_data.alternateDiag ~= nil then
+            alternateDiag = saved_data.alternateDiag
+        end
+        if saved_data.metricMode ~= nil then
+            metricMode = saved_data.metricMode
+        end
+        if saved_data.stabilizeOnDrop ~= nil then
+            stabilizeOnDrop = saved_data.stabilizeOnDrop
+        end
+        if saved_data.miniHighlight ~= nil then
+            miniHighlight = saved_data.miniHighlight
+        end
+        if saved_data.highlightToggle ~= nil then
+            highlightToggle = saved_data.highlightToggle
+        end
+        if saved_data.hideFromPlayers ~= nil then
+            hideFromPlayers = saved_data.hideFromPlayers
+            if player == true then
+                hideFromPlayers = false
+            end
+        end
+        if saved_data.saveVersion ~= nil then
+            saveVersion = saved_data.saveVersion
+            if debuggingEnabled then
+                print(self.getName() .. " loading, version " .. saveVersion .. ".")
+            end
+        end
+    end
+    className = "InjectTokenMini"
+    player = player
+    measureMove = measureMove
+    alternateDiag = alternateDiag
+    metricMode = metricMode
+    stabilizeOnDrop = stabilizeOnDrop
+    miniHighlight = miniHighlight
+    highlightToggle = highlightToggle
+    hideFromPlayers = hideFromPlayers
+
+    coroutine.yield(0)
+    coroutine.yield(0)
+    loadStageTwo()
+    coroutine.yield(0)
+
+    finishedLoading = true
+    self.setVar("finishedLoading", true)
+    return 1
+end
+
+function onLoad(save_state)
     startLuaCoroutine(self, "onLoad_helper")
 
     WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/MiniInjector/Miniature/MoveToken.lua",

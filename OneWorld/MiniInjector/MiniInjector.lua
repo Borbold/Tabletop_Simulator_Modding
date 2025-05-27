@@ -466,6 +466,13 @@ function onCollisionEnter(collision_info)
     table.insert(collisionProcessing, collision_info)
 end
 
+local function setMiniVariable(object, stats)
+    object.setVar("statNames", stats)
+    object.setVar("health", {value = options.hp, max = options.hp})
+    object.setVar("mana", {value = options.mana, max = options.mana})
+    object.setVar("extra", {value = options.extra, max = options.extra})
+end
+
 function injectToken(object)
     local assets = self.UI.getCustomAssets()
     local xml = injectMiniXML
@@ -481,9 +488,6 @@ function injectToken(object)
     if not options.hideText and options.HP2Desc then
         object.setDescription(options.hp .. "/" .. options.hp)
     end
-    newScript = newScript:gsub("health = {value = 10, max = 10}", "health = {value = " .. options.hp ..", max = " .. options.hp .. "}")
-    newScript = newScript:gsub("mana = {value = 10, max = 10}", "mana = {value = " .. options.mana ..", max = " .. options.mana .. "}")
-    newScript = newScript:gsub("extra = {value = 10, max = 10}", "extra = {value = " .. options.extra ..", max = " .. options.extra .. "}")
 
     if options.hp == 0 then
         newScript = newScript:gsub("hideHp = false,", "hideHp = true,")
@@ -532,7 +536,7 @@ function injectToken(object)
     object.setLuaScript(newScript)
     object.UI.setXml(xml)
     object.reload()
-    Wait.time(|| object.setVar("statNames", stats), 0.5)
+    Wait.time(|| setMiniVariable(object, stats), 0.5)
 end
 
 function getOneWorldHub()
