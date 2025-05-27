@@ -17,8 +17,30 @@ showing = false
 savedAttachScales = {}
 
 health = {value = 10, max = 10}
-mana = {value = 10, max = 10}
-extra = {value = 10, max = 10}
+mana = {value = 0, max = 0}
+extra = {value = 0, max = 0}
+
+options = {
+    HP2Desc = false,
+    belowZero = false,
+    aboveMax = false,
+    heightModifier = 110,
+    showBaseButtons = false,
+    showBarButtons = false,
+    hideHp = false,
+    hideMana = true,
+    hideExtra = true,
+    incrementBy = 1,
+    rotation = 90,
+    initSettingsIncluded = true,
+    initSettingsRolling = true,
+    initSettingsMod = 0,
+    initSettingsValue = 100,
+    initRealActive = false,
+    initRealValue = 0,
+    initMockActive = false,
+    initMockValue = 0
+}
 
 firstEdit = true
 
