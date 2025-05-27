@@ -218,7 +218,7 @@ function onLoad_helper(save_state)
                 table.insert(savedAttachScales, vector(encodedScale.x, encodedScale.y, encodedScale.z))
             end
         end
-        if saved_data.statNames and type(saved_data.statNames) == "table" then
+        if saved_data.statNames then
             statNames = deepCopy(saved_data.statNames)
         end
         -- Check if we need to override the scale calibration
@@ -1330,6 +1330,7 @@ end
 function setInjectVariables(info)
     health, mana, extra = info.health, info.mana, info.extra
     options, xml = info.options, info.xml
+    statNames = info.statNames
     updateSave()
     Wait.time(|| self.reload(), 0.5)
 end

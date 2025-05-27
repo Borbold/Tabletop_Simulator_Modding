@@ -504,9 +504,8 @@ local function setMiniVariable(object, stats, xml)
         mana = {value = options.mana, max = options.mana},
         extra = {value = options.extra, max = options.extra},
         options = locOptions,
-        xml = xml,
+        xml = xml, statNames = stats,
     })
-    object.setVar("statNames", stats)
     object.setVar("player", options.playerChar)
     object.setVar("measureMove", options.measureMove)
     object.setVar("alternateDiag", options.alternateDiag)
@@ -516,10 +515,10 @@ end
 function injectToken(object)
     local assets = self.UI.getCustomAssets()
     local xml = injectMiniXML
-    local stats = "statNames = {"
+    local stats = {}
     local xmlStats = ""
     for j,i in pairs(assets) do
-        stats = stats .. i.name .. " = false, "
+        stats[i.name] = false
         xmlStats = xmlStats .. '<Button id="' .. i.name .. '" color="#FFFFFF00" active="false"><Image image="' .. i.name .. '" preserveAspect="true"></Image></Button>\n'
     end
     xml = xml:gsub("STATSIMAGE", xmlStats)
