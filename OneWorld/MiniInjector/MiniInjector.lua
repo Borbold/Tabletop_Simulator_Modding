@@ -212,14 +212,22 @@ function onLoad(save_state)
 
     Wait.time(|| checkObjects(), 0.2, -1)
 
-    WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/MiniInjector/Miniature/InjectToken.lua", self,
+    WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/MiniInjector/Miniature/InjectToken.lua",
         function(request)
-            injectMiniLua = request.text
+            if request.is_error then
+                log(request.error)
+            else
+                injectMiniLua = request.text
+            end
         end
     )
-    WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/MiniInjector/Miniature/InjectToken.xml", self,
+    WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/MiniInjector/Miniature/InjectToken.xml",
         function(request)
-            injectMiniXML = request.text
+            if request.is_error then
+                log(request.error)
+            else
+                injectMiniXML = request.text
+            end
         end
     )
 end

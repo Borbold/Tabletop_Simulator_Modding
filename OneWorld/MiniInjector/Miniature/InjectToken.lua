@@ -301,7 +301,7 @@ function onLoad(save_state)
     end
     startLuaCoroutine(self, "onLoad_helper")
 
-    WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/MiniInjector/Miniature/MoveToken.lua", self,
+    WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/MiniInjector/Miniature/MoveToken.lua",
         function(request)
             moveMiniLua = request.text
         end
