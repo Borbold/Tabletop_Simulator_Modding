@@ -478,7 +478,7 @@ function onCollisionEnter(collision_info)
     table.insert(collisionProcessing, collision_info)
 end
 
-local function setMiniVariable(object, stats)
+local function setMiniVariable(object, stats, xml)
     local locOptions = {
         HP2Desc = options.HP2Desc,
         belowZero = false,
@@ -505,6 +505,7 @@ local function setMiniVariable(object, stats)
         mana = {value = options.mana, max = options.mana},
         extra = {value = options.extra, max = options.extra},
         options = locOptions,
+        xml = xml,
     })
     object.setVar("statNames", stats)
     object.setVar("player", options.playerChar)
@@ -549,9 +550,7 @@ function injectToken(object)
     end
 
     object.setLuaScript(injectMiniLua)
-    object.UI.setXml(xml)
-    object.reload()
-    Wait.time(|| setMiniVariable(object, stats), 0.5)
+    Wait.time(|| setMiniVariable(object, stats, xml), 0.5)
 end
 
 function getOneWorldHub()

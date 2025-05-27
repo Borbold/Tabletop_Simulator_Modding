@@ -576,7 +576,7 @@ function rebuildContextMenu()
         self.addContextMenuItem("[ ] Calibrate Scale", calibrateScale)
     end
     self.addContextMenuItem("Reset Scale", resetScale)
-    self.addContextMenuItem("Reload Mini", reloadMini)
+    self.addContextMenuItem("Reload Mini", function() self.reload() end)
     if debuggingEnabled == true then
         self.addContextMenuItem("[X] Debugging", toggleDebug)
     else
@@ -784,10 +784,6 @@ function calibrateScale()
     end
     rebuildContextMenu()
     updateSave()
-end
-
-function reloadMini()
-    self.reload()
 end
 
 function resetScale()
@@ -1326,4 +1322,6 @@ end
 function setInjectVariables(info)
     health, mana, extra = info.health, info.mana, info.extra
     options = info.options
+    self.UI.setXml(info.xml)
+    self.reload()
 end
