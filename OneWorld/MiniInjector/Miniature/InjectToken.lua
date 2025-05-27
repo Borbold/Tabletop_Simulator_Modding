@@ -258,10 +258,11 @@ function onLoad_helper(save_state)
                 print(self.getName() .. " loading, version " .. saveVersion .. ".")
             end
         end
+        xml = saved_data.xml and saved_data.xml or ""
         self.UI.setXml(saved_data.xml and saved_data.xml or "")
     end
     className = "InjectTokenMini"
-    Wait.time(|| loadStageTwo(), 0.2)
+    Wait.time(|| loadStageTwo(), 0.5)
     finishedLoading = true
     return 1
 end
@@ -1330,5 +1331,5 @@ function setInjectVariables(info)
     health, mana, extra = info.health, info.mana, info.extra
     options, xml = info.options, info.xml
     updateSave()
-    Wait.time(|| self.reload(), 0.2)
+    Wait.time(|| self.reload(), 0.5)
 end
