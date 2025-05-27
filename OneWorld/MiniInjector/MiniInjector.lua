@@ -530,8 +530,9 @@ function injectToken(object)
     end
     newScript = newScript:gsub('<Panel id="panel" position="0 0 -220"', '<Panel id="panel" position="0 0 ' .. object.getBounds().size.y / object.getScale().y * 110 .. '"')
     object.setLuaScript(newScript)
-    object.setXml(xml)
+    object.UI.setXml(xml)
     object.reload()
+    Wait.time(|| object.setVar("statNames", stats), 0.5)
 end
 
 function getOneWorldHub()

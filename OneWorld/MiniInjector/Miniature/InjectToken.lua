@@ -1365,7 +1365,7 @@ end
 
 function onCollisionEnter(a) -- if colliding with a status token, destroy it and apply to UI
     local newState = a.collision_object.getName()
-    if statNames[newState] ~= nil then
+    if statNames and statNames[newState] ~= nil then
         statNames[newState] = true
         a.collision_object.destruct()
         self.UI.setAttribute(newState, "active", true)
