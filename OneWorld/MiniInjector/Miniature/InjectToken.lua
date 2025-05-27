@@ -218,7 +218,7 @@ function onLoad_helper(save_state)
                 table.insert(savedAttachScales, vector(encodedScale.x, encodedScale.y, encodedScale.z))
             end
         end
-        if saved_data.statNames then
+        if saved_data.statNames and type(saved_data.statNames) == "table" then
             statNames = deepCopy(saved_data.statNames)
         end
         -- Check if we need to override the scale calibration
@@ -280,11 +280,9 @@ function loadStageTwo()
     self.UI.setAttribute("InitModInput", "text", options.initSettingsMod)
     self.UI.setAttribute("InitValueInput", "text", options.initSettingsValue)
 
-    if type(statNames) == "table" then
-        for i,j in pairs(statNames) do
-            if j == true then
-                self.UI.setAttribute(i, "active", true)
-            end
+    for i,j in pairs(statNames) do
+        if j == true then
+            self.UI.setAttribute(i, "active", true)
         end
     end
     
