@@ -280,9 +280,11 @@ function loadStageTwo()
     self.UI.setAttribute("InitModInput", "text", options.initSettingsMod)
     self.UI.setAttribute("InitValueInput", "text", options.initSettingsValue)
 
-    for i,j in pairs(statNames) do
-        if j == true then
-            self.UI.setAttribute(i, "active", true)
+    if type(statNames) == "table" then
+        for i,j in pairs(statNames) do
+            if j == true then
+                self.UI.setAttribute(i, "active", true)
+            end
         end
     end
     
