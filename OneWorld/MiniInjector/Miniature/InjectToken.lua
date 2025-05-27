@@ -115,7 +115,8 @@ function updateSaveActual()
         miniHighlight = miniHighlight,
         highlightToggle = highlightToggle,
         hideFromPlayers = hideFromPlayers,
-        saveVersion = saveVersion
+        saveVersion = saveVersion,
+        xml = xml
     })
     return 1
 end
@@ -235,6 +236,7 @@ local function onLoad_helper()
 
     finishedLoading = true
     self.setVar("finishedLoading", true)
+    self.UI.setXml(saved_data.xml and saved_data.xml or "")
     return 1
 end
 
@@ -1321,7 +1323,7 @@ end
 
 function setInjectVariables(info)
     health, mana, extra = info.health, info.mana, info.extra
-    options = info.options
-    self.UI.setXml(info.xml)
-    self.reload()
+    options, xml = info.options, info.xml
+    updateSaveActual()
+    Wait.time(|| self.reload(), 0.2)
 end
