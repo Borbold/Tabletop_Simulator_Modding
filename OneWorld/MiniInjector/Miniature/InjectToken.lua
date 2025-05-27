@@ -1,4 +1,3 @@
-className = "DNDMiniInjector_Mini"
 versionNumber = "4.7.9"
 scaleMultiplierX = 1.0
 scaleMultiplierY = 1.0
@@ -121,10 +120,8 @@ function updateSaveActual()
     return 1
 end
 
-local function onLoad_helper()
-    coroutine.yield(0)
+function onLoad_helper(save_state)
     if stabilizeOnDrop == true and self.held_by_color == nil then
-        coroutine.yield(0)
         stabilize()
     end
     local saved_data = nil
@@ -145,7 +142,6 @@ local function onLoad_helper()
             if test_data ~= nil and test_data.saveVersion ~= nil and test_data.saveVersion > bestVersion then
                 saved_data = test_data
                 bestVersion = test_data.saveVersion
-                coroutine.yield(0)
             end
         end
     end
@@ -181,7 +177,6 @@ local function onLoad_helper()
                     print("loaded vector: " .. encodedScale.x .. ", " .. encodedScale.y .. ", " .. encodedScale.z)
                 end
                 table.insert(savedAttachScales, vector(encodedScale.x, encodedScale.y, encodedScale.z))
-                coroutine.yield(0)
             end
         end
         if saved_data.statNames then
@@ -226,23 +221,17 @@ local function onLoad_helper()
                 print(self.getName() .. " loading, version " .. saveVersion .. ".")
             end
         end
+        self.UI.setXml(saved_data.xml and saved_data.xml or "")
     end
     className = "InjectTokenMini"
-
-    coroutine.yield(0)
-    coroutine.yield(0)
-    loadStageTwo()
-    coroutine.yield(0)
-
+    startLuaCoroutine(self, "loadStageTwo")
     finishedLoading = true
     self.setVar("finishedLoading", true)
-    self.UI.setXml(saved_data.xml and saved_data.xml or "")
     return 1
 end
 
 function onLoad(save_state)
-    startLuaCoroutine(self, "onLoad_helper")
-
+    Wait.time(|| onLoad_helper(save_state), 0.2)
     WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/MiniInjector/Miniature/MoveToken.lua",
         function(request)
             moveMiniLua = request.text

@@ -86,7 +86,7 @@ local function checkObjects()
                         if objClassName ~= "MiniInjector" and
                            objClassName ~= "MeasurementToken" and
                            objClassName ~= "MeasurementToken_Move" and
-                           objClassName ~= "DNDMiniInjector_Mini" and
+                           objClassName ~= "InjectTokenMini" and
                            objClassName ~= "DNDMiniInjector_Mini_Move" and
                            objClassName ~= "MeasurementTool" then
                             if debuggingEnabled == true then
@@ -97,7 +97,7 @@ local function checkObjects()
                             break
                         end
                     elseif self.getRotationValue() == "[ff0000]REMOVE[-]" then
-                        if object.getVar("className") == "MeasurementToken" or object.getVar("className") == "DNDMiniInjector_Mini" then
+                        if object.getVar("className") == "MeasurementToken" or object.getVar("className") == "InjectTokenMini" then
                             if debuggingEnabled == true then
                                 print("[ff0000]Removing[-] injection from " .. object.getName() .. ".")
                             end
@@ -131,7 +131,7 @@ local function checkObjects()
                     objClassName = obj.getVar("className")
                     if objClassName ~= "MeasurementToken" and
                        objClassName ~= "MeasurementToken_Move" and
-                       objClassName ~= "DNDMiniInjector_Mini" and
+                       objClassName ~= "InjectTokenMini" and
                        objClassName ~= "DNDMiniInjector_Mini_Move" and
                        objClassName ~= "MeasurementTool" then
                         print("[00ff00]Injecting[-] mini " .. obj.getName() .. ".")
@@ -153,7 +153,7 @@ local function checkObjects()
             for _, obj in ipairs(allObjects) do
                 if obj ~= self and obj ~= nil then
                     objClassName = obj.getVar("className")
-                    if objClassName == "MeasurementToken" or objClassName == "DNDMiniInjector_Mini" then
+                    if objClassName == "MeasurementToken" or objClassName == "InjectTokenMini" then
                         tokenVersion = obj.getVar("versionNumber")
                         if versionNumber ~= tokenVersion then
                             -- Wait for the mini to fully load before killing it
@@ -327,7 +327,7 @@ end
 function toggleMetricMode()
     options.metricMode = not options.metricMode
     for k, v in pairs(getAllObjects()) do
-        if v.getVar("className") == "MeasurementToken" or v.getVar("className") == "DNDMiniInjector_Mini" then
+        if v.getVar("className") == "MeasurementToken" or v.getVar("className") == "InjectTokenMini" then
             v.call("toggleMetricMode")
         end
     end
@@ -434,7 +434,7 @@ function toggleHideBars(player, value, id)
     options.hideAll = not options.hideAll
     for i,j in pairs(getAllObjects()) do
         if j ~= self and not j.getName():find("DND Mini Panel") then
-            if j.getVar("className") == "DNDMiniInjector_Mini" then
+            if j.getVar("className") == "InjectTokenMini" then
                 if options.hideAll then
                     j.UI.setAttribute("resourceBar", "active", "false")
                     j.UI.setAttribute("resourceBarS", "active", "false")
@@ -454,14 +454,13 @@ function toggleHideBars(player, value, id)
     end
 end
 
-
 function toggleOnOff(skipToggle)
     if skipToggle ~= true then
         options.showAll = not options.showAll
         rebuildContextMenu()
     end
     for i,j in pairs(getAllObjects()) do
-        if j ~= self and j.getVar("className") == "DNDMiniInjector_Mini" then
+        if j ~= self and j.getVar("className") == "InjectTokenMini" then
             j.UI.setAttribute("panel", "active", options.showAll == true and "true" or "false")
         end
     end
@@ -611,13 +610,13 @@ function getInitiativeFigures()
             if hitTable ~= nil
                and hitTable.hit_object ~= nil
                and (hitTable.hit_object.getVar("className") == "MeasurementToken"
-                    or hitTable.hit_object.getVar("className") == "DNDMiniInjector_Mini") then
+                    or hitTable.hit_object.getVar("className") == "InjectTokenMini") then
                 handleInitMiniature(hitTable.hit_object)
             end
         end
     else
         for k, v in pairs(getAllObjects()) do
-            if v.getVar("className") == "MeasurementToken" or v.getVar("className") == "DNDMiniInjector_Mini" then
+            if v.getVar("className") == "MeasurementToken" or v.getVar("className") == "InjectTokenMini" then
                 handleInitMiniature(v)
             end
         end
