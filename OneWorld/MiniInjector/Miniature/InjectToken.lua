@@ -446,7 +446,7 @@ function onLoad_helper(save_state)
         self.UI.setXml(saved_data.xml and saved_data.xml or "")
     end
     className = "InjectTokenMini"
-    startLuaCoroutine(self, "loadStageTwo")
+    loadStageTwo()
     finishedLoading = true
     self.setVar("finishedLoading", true)
     return 1
