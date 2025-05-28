@@ -499,6 +499,10 @@ local function setMiniVariable(object, stats, xml)
         initMockActive = false,
         initMockValue = 0
     }
+    object.setVar("player", options.playerChar)
+    object.setVar("measureMove", options.measureMove)
+    object.setVar("alternateDiag", options.alternateDiag)
+    object.setVar("metricMode", options.metricMode)
     object.call("setInjectVariables", {
         health = {value = options.hp, max = options.hp},
         mana = {value = options.mana, max = options.mana},
@@ -506,10 +510,6 @@ local function setMiniVariable(object, stats, xml)
         options = locOptions,
         xml = xml, statNames = stats,
     })
-    object.setVar("player", options.playerChar)
-    object.setVar("measureMove", options.measureMove)
-    object.setVar("alternateDiag", options.alternateDiag)
-    object.setVar("metricMode", options.metricMode)
 end
 
 function injectToken(object)
