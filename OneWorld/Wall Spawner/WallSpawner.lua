@@ -17,7 +17,7 @@ function onLoad(saved_data)
         wallHeight = loaded_data.wall_height and loaded_data.wall_height or 1
         wallOffset = loaded_data.wall_offset and loaded_data.wall_offset or 0
     end
-    enabled = 0
+    enabled = 1
     buildContextMenu();
     refreshButtons();
     Wait.frames(stabilize, 1);
@@ -84,68 +84,25 @@ function buildContextMenu()
     self.addContextMenuItem("Wall Offset DOWN", wallOffsetDown);
 end
 
+local enumType = {
+    "OFF", "NORMAL", "CHAIN", "SQUARE", "BLOCK"
+}
 function refreshButtons()
-    self.clearButtons();
-    self.clearInputs();
-    if enabled == 1 then
-        self.UI.setAttribute("typeSpawn", "text", "NORMAL")
-    elseif enabled == 2 then
-        self.UI.setAttribute("typeSpawn", "text", "CHAIN")
-    elseif enabled == 3 then
-        self.UI.setAttribute("typeSpawn", "text", "SQUARE")
-    elseif enabled == 4 then
-        self.UI.setAttribute("typeSpawn", "text", "BLOCK")
-    else
-        self.UI.setAttribute("typeSpawn", "text", "OFF")
-    end
-    self.createInput({
-        label = "H",
-        input_function = "inputChange_height",
-        function_owner = self,
-        position = {0.6,0.2,-1.5},
-        rotation = {0,180,0},
-        height = 300,
-        width = 500,
-        font_size = 250,
-        color = {0,0,0},
-        font_color = {1,1,1},
-        alignment = 3,
-        value = wallHeight,
-        validation = 3,
-        tab = 2,
-        tooltip = "Wall Height"
-    });
-    self.createInput({
-        label = "O",
-        input_function = "inputChange_offset",
-        function_owner = self,
-        position = {-0.6,0.2,-1.5},
-        rotation = {0,180,0},
-        height = 300,
-        width = 500,
-        font_size = 250,
-        color = {0,0,0},
-        font_color = {1,1,1},
-        alignment = 3,
-        value = wallOffset,
-        validation = 3,
-        tab = 2,
-        tooltip = "Wall Vertical Offset"
-    });
+    self.UI.setAttribute("typeSpawn", "text", enumType[enabled])
 end
 
 function buttonClick_toggleEnabled()
     enabled = enabled + 1;
-    if enabled > 4 then
-        enabled = 0;
-        firstPoint = nil;
-        secondPoint = nil;
-        thirdPoint = nil;
+    if enabled > #enumType then
+        enabled = 1
+        firstPoint = nil
+        secondPoint = nil
+        thirdPoint = nil
     end
-    refreshButtons();
+    refreshButtons()
 end
 
-function inputChange_height(obj, color, input, stillEditing)
+function inputChange_height(player, input, id)
     if not stillEditing then
         if input == "" then
             input = "1"
@@ -162,7 +119,7 @@ function inputChange_height(obj, color, input, stillEditing)
     end
 end
 
-function inputChange_offset(obj, color, input, stillEditing)
+function inputChange_offset(player, input, id)
     if not stillEditing then
         if input == "" then
             input = "0"
@@ -180,13 +137,10 @@ function inputChange_offset(obj, color, input, stillEditing)
 end
 
 function onPlayerPing(player, position)
-    --print(player.color .. " pinged " .. position:string())
-    if enabled == 3 then
+    if enabled == 4 then
         -- Figure out which square the player pinged
         local gridX = math.ceil((position.x - Grid.offsetX) / Grid.sizeX) - 0.5;
         local gridY = math.ceil((position.z - Grid.offsetY) / Grid.sizeY) - 0.5;
-
-        --print("Grid: " .. gridX .. " -/- " .. gridY)
 
         local startLoc = self.getPosition();
         local hitList = Physics.cast({
@@ -226,7 +180,7 @@ function onPlayerPing(player, position)
         firstPoint = nil;
         secondPoint = nil;
         thirdPoint = nil;
-    elseif enabled == 4 then
+    elseif enabled == 5 then
         if firstPoint == nil then
             firstPoint = vector(position.x, 0, position.z);
             return
@@ -265,28 +219,15 @@ function onPlayerPing(player, position)
 
         -- Length of the rectangle is the distance between first two points
         local length = firstPoint:distance(secondPoint);
-        --print("length: " .. length);
         -- Width of the rectangle is the distance of third point from the line between first two points.
         local widthDenominator = math.sqrt(math.pow(secondPoint.x - firstPoint.x, 2) + math.pow(secondPoint.z - firstPoint.z, 2));
         local width =  math.abs(((secondPoint.x - firstPoint.x)*(firstPoint.z - thirdPoint.z)) - ((firstPoint.x - thirdPoint.x)*(secondPoint.z - firstPoint.z))) / widthDenominator;
-        --print("width: " .. width);
         local directionWidth = (((secondPoint.x - firstPoint.x)*(firstPoint.z - thirdPoint.z)) - ((firstPoint.x - thirdPoint.x)*(secondPoint.z - firstPoint.z))) / widthDenominator;
-        --print("directionWidth: " .. directionWidth);
         local vect = Vector.between(firstPoint, secondPoint):normalized();
         local angle = vect:heading('y');
         vect = vect:rotateOver('y', 90 * (directionWidth / math.abs(directionWidth))):scale(width);
-        -- print("new_vectx: " .. vect.x);
-        -- print("new_vectz: " .. vect.z);
-        -- print("new_vecty: " .. vect.y);
-        -- print("new_angle: " .. vect:heading('y'));
         local boundryPoint = firstPoint:add(vect);
-        -- print("boundry_x: " .. boundryPoint.x);
-        -- print("boundry_z: " .. boundryPoint.z);
-        -- print("boundry_y: " .. boundryPoint.y);
         local midPoint = Vector.between(boundryPoint, secondPoint):scale(0.5):add(boundryPoint);
-        -- print("midPoint_x: " .. midPoint.x);
-        -- print("midPoint_z: " .. midPoint.z);
-        -- print("midPoint_y: " .. midPoint.y);
         local newWall = spawnObject({
             type = "BlockSquare",
             position = {midPoint.x, avgY + (wallHeight * Grid.sizeX / 2.0), midPoint.z},
@@ -300,7 +241,7 @@ function onPlayerPing(player, position)
         firstPoint = nil;
         secondPoint = nil;
         thirdPoint = nil;
-    elseif enabled ~= 0 then
+    elseif enabled ~= 1 then
         if firstPoint == nil then
             firstPoint = vector(position.x, 0, position.z);
             return
@@ -344,7 +285,7 @@ function onPlayerPing(player, position)
         });
         newWall.setLock(true);
         newWall.setColorTint(self.getColorTint());
-        if enabled == 2 then
+        if enabled == 3 then
             firstPoint = secondPoint;
             secondPoint = nil;
             thirdPoint = nil;

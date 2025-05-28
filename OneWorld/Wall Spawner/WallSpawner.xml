@@ -1,18 +1,29 @@
 <Defaults>
     <Button font='Fonts/Allods' resizeTextForBestFit='True' resizeTextMaxSize='500' resizeTextMinSize='10'
-        textColor='#000000' color='#bbbbbb7f' textAlignment='MiddleCenter' fontStyle='Bold' />
+        textColor='#000000' color='#bbbbbb' textAlignment='MiddleCenter' fontStyle='Bold' />
     <InputField font='Fonts/Doors' resizeTextForBestFit='True' resizeTextMaxSize='120' resizeTextMinSize='10'
-        textColor='#ffffff' color='#bbbbbb7f' textAlignment='MiddleCenter'
-        characterValidation='Integer' />
+        textColor='#ffffff' color='#000000' textAlignment='MiddleCenter' characterValidation='Integer'
+        tooltipFont='Fonts/Allods' tooltipFontSize='40' tooltipOffset='40' tooltipPosition='Below' />
     <Text font='Fonts/Doors' resizeTextForBestFit='True' resizeTextMaxSize='500' resizeTextMinSize='10'
         color='#ffffff'/>
     <Cell dontUseTableCellBackground='true' />
 </Defaults>
 
-<TableLayout scale='0.5' width='400' height='200' position='0 -50 -20'>
+<TableLayout scale='0.5' width='500' height='500' position='0 0 -18' cellSpacing='5'>
     <Row>
-        <Cell>
+        <Cell columnSpan='6'>
             <Button id='typeSpawn' text='OFF' onClick='buttonClick_toggleEnabled' />
         </Cell>
+    </Row>
+    <Row preferredHeight='50' />
+    <Row preferredHeight='150'>
+        <Cell columnSpan='1' />
+        <Cell columnSpan='2'>
+            <InputField id='wallHeight' text='1' onEndEdit='inputChange_height' tooltip='Wall Height' />
+        </Cell>
+        <Cell columnSpan='2'>
+            <InputField id='wallOffset' text='0' onEndEdit='inputChange_offset' tooltip='Wall Vertical Offset' />
+        </Cell>
+        <Cell columnSpan='1' />
     </Row>
 </TableLayout>

@@ -1,12 +1,12 @@
 <Defaults>
     <Button font='Fonts/Allods' resizeTextForBestFit='True' resizeTextMaxSize='500' resizeTextMinSize='10'
-        textColor='#ffffff' color='#0000007f' textAlignment='MiddleCenter' fontStyle='Bold' />
+        textColor='#ffffff' color='#000000' textAlignment='MiddleCenter' fontStyle='Bold' />
     <Text font='Fonts/Doors' resizeTextForBestFit='True' resizeTextMaxSize='500' resizeTextMinSize='10'
         color='#ffffff'/>
     <Cell dontUseTableCellBackground='true' />
 </Defaults>
 
-<TableLayout scale='0.5' width='300' height='200' position='0 50 -20'>
+<TableLayout scale='0.5' width='500' height='300' position='0 0 -18'>
     <Row>
         <Cell>
             <Button text='FoW' onClick='buttonClick_spawnFOW' />
