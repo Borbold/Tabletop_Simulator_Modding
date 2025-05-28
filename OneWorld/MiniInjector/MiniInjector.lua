@@ -593,7 +593,7 @@ end
 
 function getInitiativeFigures()
     figures = {}
-        if initTableOnly then
+    if initTableOnly then
         -- Only gather minis from the center of the table.
         local checkBounds = getMapBounds(false)
         checkBounds.y = 40
@@ -607,8 +607,8 @@ function getInitiativeFigures()
         })
         for _, hitTable in ipairs(hitList) do
             if hitTable ~= nil
-               and hitTable.hit_object ~= nil
-               and (hitTable.hit_object.getVar("className") == "MeasurementToken"
+                and hitTable.hit_object ~= nil
+                and (hitTable.hit_object.getVar("className") == "MeasurementToken"
                     or hitTable.hit_object.getVar("className") == "InjectTokenMini") then
                 handleInitMiniature(hitTable.hit_object)
             end
@@ -997,7 +997,7 @@ end
 function rebuildUI()
     local xmlUI = self.UI.getXmlTable()
     -- clear out existing figures
-    xmlUI[2].children = {}
+    xmlUI[3].children = {}
 
     local allObjects = getAllObjects()
     local minilist = {
@@ -1205,7 +1205,7 @@ function rebuildUI()
     local calcHeight = 93 * creatureCount
     minilist.attributes.height = calcHeight..''
     minilist.attributes.minHeight = calcHeight..''
-    table.insert(xmlUI[2].children, {
+    table.insert(xmlUI[3].children, {
         tag='Defaults', children={
             {tag='Text', attributes={color='#cccccc', fontSize='15', alignment='MiddleLeft', visibility='Black'}},
             {tag='InputField', attributes={fontSize='15', preferredHeight='60', visibility='Black'}},
@@ -1214,7 +1214,7 @@ function rebuildUI()
             {tag='Toggle', attributes={textColor='#cccccc', visibility='Black'}},
         }
     })
-    table.insert(xmlUI[2].children, {tag='Panel', attributes={ height=calcHeight..'', width='790', rectAlignment='UpperCenter'},
+    table.insert(xmlUI[3].children, {tag='Panel', attributes={ height=calcHeight..'', width='790', rectAlignment='UpperCenter'},
         children={
             {tag='VerticalLayout', attributes={childForceExpandHeight=false, minHeight='0', spacing=10, rectAlignment='UpperCenter'}, children={
                 {tag='HorizontalLayout', attributes={preferredHeight=80, childForceExpandWidth=false, flexibleHeight=0, spacing=20, padding='10 10 10 10'}, children={}},

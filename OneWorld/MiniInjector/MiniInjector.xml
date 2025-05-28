@@ -1,7 +1,7 @@
 <Defaults>
     <Button font='Fonts/Allods' resizeTextForBestFit='True' resizeTextMaxSize='500' resizeTextMinSize='10'
         textColor='#000000' color='#bbbbbb7f' textAlignment='MiddleCenter' fontStyle='Bold' />
-    <InputField font='Fonts/Doors' resizeTextForBestFit='True' resizeTextMaxSize='120' resizeTextMinSize='10'
+    <InputField font='Fonts/Doors' resizeTextForBestFit='True' resizeTextMaxSize='500' resizeTextMinSize='10'
         textColor='#ffffff' color='#bbbbbb7f' textAlignment='MiddleCenter'
         characterValidation='Integer' />
     <Text font='Fonts/Doors' resizeTextForBestFit='True' resizeTextMaxSize='500' resizeTextMinSize='10'
@@ -50,7 +50,7 @@
         scale="0.2 0.2 0.2"
         rotation="0 0 0"
         width="880"
-        height="400"
+        height="300"
         fontSize="250"
         color="#80808000"
         textColor="#FFFFFF"
@@ -60,11 +60,11 @@
         visibility="Black"/>
     <InputField id="mana"
         position="-265 -165 -60"
-        text="10"
+        text="0"
         scale="0.2 0.2 0.2"
         rotation="0 0 0"
         width="880"
-        height="400"
+        height="300"
         fontSize="250"
         color="#80808000"
         textColor="#FFFFFF"
@@ -74,11 +74,11 @@
         visibility="Black"/>
     <InputField id="extra"
         position="-265 -239 -60"
-        text="10"
+        text="0"
         scale="0.2 0.2 0.2"
         rotation="0 0 0"
         width="880"
-        height="400"
+        height="300"
         fontSize="250"
         color="#80808000"
         textColor="#FFFFFF"
