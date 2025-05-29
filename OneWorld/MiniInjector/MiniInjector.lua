@@ -36,6 +36,13 @@ options = {
 
 initFigures = {}
 
+local MAGIC_NUMBER_60 = 60
+local MAGIC_NUMBER_10 = 10
+local MAGIC_NUMBER_5 = 5
+local MAGIC_NUMBER_200 = 200
+local MAGIC_STRING_INIT = "[00ff00]INJECT[-]"
+local MAGIC_STRING_REMOVE = "[ff0000]REMOVE[-]"
+
 -- Function to perform a deep copy of a table
 local function deepCopy(original)
     local copy = {}
@@ -60,65 +67,77 @@ function onSave()
     return save_state
 end
 
+local function isExcludedClassName(className)
+    local excludedClasses = {
+        "MiniInjector",
+        "MeasurementToken",
+        "MeasurementToken_Move",
+        "InjectTokenMini",
+        "DNDMiniInjector_Mini_Move",
+        "MeasurementTool"
+    }
+    for _, excludedClass in ipairs(excludedClasses) do
+        if className == excludedClass then
+            return true
+        end
+    end
+    return false
+end
+
+local function processHitObject(hitTable, object)
+    if self.getRotationValue() == MAGIC_STRING_INIT then
+        local objClassName = object.getVar("className")
+        if not isExcludedClassName(objClassName) then
+            if debuggingEnabled then
+                print("[00ff00]Injecting[-] mini " .. object.getName() .. ".")
+            end
+            injectToken(object)
+            injectedFrameLimiter = MAGIC_NUMBER_60
+        end
+    elseif self.getRotationValue() == MAGIC_STRING_REMOVE then
+        if object.getVar("className") == "MeasurementToken" or object.getVar("className") == "InjectTokenMini" then
+            if debuggingEnabled then
+                print("[ff0000]Removing[-] injection from " .. object.getName() .. ".")
+            end
+            object.call("destroyMoveToken")
+            object.script_state = ""
+            object.script_code = ""
+            object.setLuaScript("")
+            object.reload()
+        end
+    else
+        error("Invalid rotation.")
+    end
+end
+
+local function handleCollisionInfo(collision_info)
+    local object = collision_info.collision_object
+    if object ~= nil then
+        local hitList = Physics.cast({
+            origin = object.getBounds().center,
+            direction = {0, -1, 0},
+            type = 1,
+            max_distance = 10,
+            debug = false,
+        })
+        for _, hitTable in ipairs(hitList) do
+            if hitTable ~= nil and hitTable.hit_object == self then
+                processHitObject(hitTable, object)
+                break
+            end
+        end
+    end
+end
+
 local function checkObjects()
     if injectedFrameLimiter > 0 then
         injectedFrameLimiter = injectedFrameLimiter - 1
     end
     if injectedFrameLimiter == 0 and #collisionProcessing > 0 then
         local collision_info = table.remove(collisionProcessing)
-        local object = collision_info.collision_object
-        if object ~= nil then
-            local hitList = Physics.cast({
-                origin       = object.getBounds().center,
-                direction    = {0,-1,0},
-                type         = 1,
-                max_distance = 10,
-                debug        = false,
-            })
-            local attemptCount = 1
-            for _, hitTable in ipairs(hitList) do
-                -- This hit makes sure the injector is the first object directly below the mini
-                if hitTable ~= nil and hitTable.hit_object == self then
-                    if self.getRotationValue() == "[00ff00]INJECT[-]" then
-                        objClassName = object.getVar("className")
-                        if objClassName ~= "MiniInjector" and
-                           objClassName ~= "MeasurementToken" and
-                           objClassName ~= "MeasurementToken_Move" and
-                           objClassName ~= "InjectTokenMini" and
-                           objClassName ~= "DNDMiniInjector_Mini_Move" and
-                           objClassName ~= "MeasurementTool" then
-                            if debuggingEnabled == true then
-                                print("[00ff00]Injecting[-] mini " .. object.getName() .. ".")
-                            end
-                            injectToken(object)
-                            injectedFrameLimiter = 60
-                            break
-                        end
-                    elseif self.getRotationValue() == "[ff0000]REMOVE[-]" then
-                        if object.getVar("className") == "MeasurementToken" or object.getVar("className") == "InjectTokenMini" then
-                            if debuggingEnabled == true then
-                                print("[ff0000]Removing[-] injection from " .. object.getName() .. ".")
-                            end
-                            object.call("destroyMoveToken")
-                            object.script_state = ""
-                            object.script_code = ""
-                            object.setLuaScript("")
-                            object.reload()
-                            break
-                        end
-                    else
-                        error("Invalid rotation.")
-                        break
-                    end
-                else
-                    attemptCount = attemptCount + 1
-                    if (debuggingEnabled) then
-                        print("Did not find injector, index "..tostring(attemptCount)..".")
-                    end
-                end
-            end
-        end
+        handleCollisionInfo(collision_info)
     end
+
     if injectEverythingActive == true then
         injectEverythingFrameCount = injectEverythingFrameCount + 1
         if injectEverythingFrameCount >= 5 then
@@ -221,6 +240,12 @@ function onLoad(save_state)
     )
 end
 
+local function updateUIAttribute(id, value)
+    self.UI.setAttribute(id, "value", value)
+    self.UI.setAttribute(id, "text", value == "true" and "✘" or "")
+    self.UI.setAttribute(id, "textColor", "#FFFFFF")
+end
+
 function updateSettingUI()
     self.UI.setAttribute("hp", "text", options.hp)
     self.UI.setAttribute("mana", "text", options.mana)
@@ -228,14 +253,7 @@ function updateSettingUI()
 
     for opt,_ in pairs(options) do
         if opt == "measureMove" or opt == "alternateDiag" or opt == "playerChar" or opt == "hideBar" or opt == "hideText" or opt == "editText" then
-            if options[opt] then
-                self.UI.setAttribute(opt, "value", "true")
-                self.UI.setAttribute(opt, "text", "✘")
-            else
-                self.UI.setAttribute(opt, "value", "false")
-                self.UI.setAttribute(opt, "text", "")
-            end
-            self.UI.setAttribute(opt, "textColor", "#FFFFFF")
+            updateUIAttribute(opt, tostring(options[opt]))
         end
     end
 
@@ -529,8 +547,9 @@ function injectToken(object)
 end
 
 function getOneWorldHub()
+    local OW_HUB_NAME = "OW_Hub"
     for _, obj in ipairs(getAllObjects()) do
-        if obj ~= self and obj ~= nil and obj.getName() == "OW_Hub" then
+        if obj ~= self and obj ~= nil and obj.getName() == OW_HUB_NAME then
             return obj
         end
     end
@@ -538,8 +557,9 @@ function getOneWorldHub()
 end
 
 function getOneWorldMap()
+    local ONE_WORLD_MAP_NAME = "_OW_vBase"
     for _, obj in ipairs(getAllObjects()) do
-        if obj ~= self and obj ~= nil and obj.getName() == "_OW_vBase" then
+        if obj ~= self and obj ~= nil and obj.getName() == ONE_WORLD_MAP_NAME then
             return obj
         end
     end
@@ -547,7 +567,7 @@ function getOneWorldMap()
 end
 
 function getMapBounds(debug)
-    local defaultBounds = {x = 88.07, y = 1, z = 52.02}
+    local DEFAULT_BOUNDS = {x = 88.07, y = 1, z = 52.02}
     local oneWorldMap = getOneWorldMap()
     if oneWorldMap ~= nil then
         local oneWorldBounds = oneWorldMap.getBounds();
@@ -560,12 +580,12 @@ function getMapBounds(debug)
         if debug or debuggingEnabled then
             print("A OneWorld map is not deployed! Using default bounds.")
         end
-        return defaultBounds
+        return DEFAULT_BOUNDS
     end
     if debug or debuggingEnabled then
         print("OneWorld is not available! Using default bounds.")
     end
-    return defaultBounds
+    return DEFAULT_BOUNDS
 end
 
 function getInitiativeFigures()
@@ -929,14 +949,17 @@ function updateInitPlayerBackward(player)
     end
 end
 
-function setInitiativeNotes()
-    --Format each result into a string that goes into notes
-    local noteString = "[CFCFCF]-------- INITIATIVE --------\n-------- ROUND " .. options.initCurrentRound .. " ---------\n-----------------------------\n[-]"
-    for i, figure in ipairs(initFigures) do
-        noteString = noteString .. getInitiativeString(figure)
+local function buildNoteString(figures)
+    local noteString = {"[CFCFCF]-------- INITIATIVE --------\n-------- ROUND " .. options.initCurrentRound .. " ---------\n-----------------------------\n[-]"}
+    for i, figure in ipairs(figures) do
+        table.insert(noteString, getInitiativeString(figure))
     end
-    noteString = noteString .. "[CFCFCF]-----------------------------[-]"
-    --Put that string into notes
+    table.insert(noteString, "[CFCFCF]-----------------------------[-]")
+    return table.concat(noteString)
+end
+
+function setInitiativeNotes()
+    local noteString = buildNoteString(initFigures)
     setNotes(noteString)
 end
 
