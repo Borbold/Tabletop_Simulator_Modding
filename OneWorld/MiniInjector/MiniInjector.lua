@@ -1,6 +1,4 @@
 className = "MiniInjector"
-versionNumber = "4.7.9"
-finishedLoading = false
 debuggingEnabled = false
 pingInitMinis = true
 autostartOneWorld = true
@@ -149,25 +147,6 @@ local function checkObjects()
         updateEverythingFrameCount = updateEverythingFrameCount + 1
         if updateEverythingFrameCount >= 5 then
             updateEverythingFrameCount = 0
-            local allObjects = getAllObjects()
-            for _, obj in ipairs(allObjects) do
-                if obj ~= self and obj ~= nil then
-                    objClassName = obj.getVar("className")
-                    if objClassName == "MeasurementToken" or objClassName == "InjectTokenMini" then
-                        tokenVersion = obj.getVar("versionNumber")
-                        if versionNumber ~= tokenVersion then
-                            -- Wait for the mini to fully load before killing it
-                            if obj.getVar("finishedLoading") ~= true then
-                                return
-                            end
-                            print("[00ff00]Updating[-] mini " .. updateEverythingIndex .. ".")
-                            updateEverythingIndex = updateEverythingIndex + 1
-                            injectToken(obj)
-                            return
-                        end
-                    end
-                end
-            end
             updateEverythingActive = false
             updateEverythingIndex = 1
             print("[00ff00]All minis updated.[-]")
@@ -208,8 +187,6 @@ function onLoad(save_state)
     end
 
     rebuildContextMenu()
-    finishedLoading = true
-    self.setName("DND Mini Injector " .. versionNumber)
 
     addHotkey("Initiative Forward", forwardInitiative, false)
     addHotkey("Initiative Backward", backwardInitiative, false)

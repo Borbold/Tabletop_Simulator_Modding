@@ -1,4 +1,3 @@
-versionNumber = "4.7.9"
 scaleMultiplierX = 1.0
 scaleMultiplierY = 1.0
 scaleMultiplierZ = 1.0
@@ -448,7 +447,7 @@ function loadStageTwo()
 end
 
 function onLoad(save_state)
-    Wait.time(|| onLoad_helper(save_state), 0.2)
+    Wait.time(|| onLoad_helper(save_state), 1)
     WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/MiniInjector/Miniature/MoveToken.lua",
         function(request)
             moveMiniLua = request.text
@@ -537,7 +536,7 @@ function updateHighlight()
     updateSave()
 end
 
-function onUpdate()
+function onFixedUpdate()
     onUpdateTriggerCount = onUpdateTriggerCount + 1
     if onUpdateTriggerCount > 60 then
         onUpdateTriggerCount = 0
