@@ -9,6 +9,91 @@ move_drawLocations = {}
 move_lastTargetLoc = nil
 move_numDiagonals = 0
 
+local function updateInformation()
+    if move_startLocation == nil then
+        move_startLocation = self.getPosition()
+        local fontSize = 600
+        if metricMode then
+            fontSize = 500
+        end
+        self.createButton({
+            click_function = "onLoad",
+            function_owner = self,
+            label = "00",
+            position = {x=0, y=0.1, z=0},
+            width = 0,
+            height = 0,
+            font_size = fontSize
+        })
+        local gd = getGridDims()
+        if gd.width < gd.height then
+            self.setScale({
+                x= gd.width / 2.2,
+                y= 0.2,
+                z= gd.width / 2.2
+            })
+        else
+            self.setScale({
+                x= gd.height / 2.2,
+                y= 0.2,
+                z= gd.height / 2.2
+            })
+        end
+        updateCurrentLocation(move_startLocation)
+    end
+    if move_targetObject == nil or move_targetObject.held_by_color == nil then
+        destroyObject(self)
+        return
+    end
+    local targetLoc = move_targetObject.getPosition()
+    if move_lastTargetLoc ~= nil and targetLoc:distance(move_lastTargetLoc) < 0.05 then
+        return
+    end
+    local targetSameHeight = targetLoc.set
+    local acceptDistance = getAcceptDistance()
+    if #move_allLocations > 1 and
+       math.abs(targetLoc.x - move_startLocation.x) < acceptDistance
+       and math.abs(targetLoc.z - move_startLocation.z) < acceptDistance then
+        resetMoves()
+    end
+    -- the target has moved
+    -- see if it's outside the bounding box/circle
+    if Grid.type == 2 or Grid.type == 3 then
+        -- we are using hex grids, use a circle from start to determine bounding
+        local maxDistance = getFirstAdjacentLocation():distance(move_currentLocation)
+        local currentDistance = targetLoc:distance(move_currentLocation)
+        if currentDistance > maxDistance then
+            -- we are outside the bounding circle, move to closest adjacent
+            updateCurrentLocation(getClosestAdjacentLocation(targetLoc))
+        end
+    else
+        -- we are using square grids, use the square bounding box
+        local gd = getGridDims()
+        if targetLoc.x < move_currentLocation.x - gd.width or
+           targetLoc.x > move_currentLocation.x + gd.width or
+           targetLoc.z < move_currentLocation.z - gd.height or
+           targetLoc.z > move_currentLocation.z + gd.height then
+            -- we are outside the bounding box, move to closest adjacent
+            updateCurrentLocation(getClosestAdjacentLocation(targetLoc))
+        end
+    end
+    --see if it's nearby an adjacent location
+    for i,point in ipairs(move_currentAdjacentLocations) do
+        local testPoint = Vector(point.x, targetLoc.y, point.y)
+        if testPoint:distance(targetLoc) < acceptDistance then
+            if point.isDiagonal == true then
+                move_numDiagonals = move_numDiagonals + 1
+            end
+            updateCurrentLocation(testPoint)
+        end
+    end
+    move_lastTargetLoc = targetLoc
+end
+
+function onLoad()
+    Wait.time(|| updateInformation(), 0.1, -1)
+end
+
 function getDistance()
     local multiplier = move_const_sectionMultiplier
     if metricMode == true then
@@ -117,89 +202,6 @@ function pingAdjacents()
         end
         break
     end
-end
-
-function onUpdate()
-    if move_startLocation == nil then
-        move_startLocation = self.getPosition()
-        local fontSize = 600
-        if metricMode then
-            fontSize = 500
-        end
-        self.createButton({
-            click_function = "onLoad",
-            function_owner = self,
-            label = "00",
-            position = {x=0, y=0.1, z=0},
-            width = 0,
-            height = 0,
-            font_size = fontSize
-        })
-        local gd = getGridDims()
-        if gd.width < gd.height then
-            self.setScale({
-                x= gd.width / 2.2,
-                y= 0.2,
-                z= gd.width / 2.2
-            })
-        else
-            self.setScale({
-                x= gd.height / 2.2,
-                y= 0.2,
-                z= gd.height / 2.2
-            })
-        end
-        updateCurrentLocation(move_startLocation)
-    end
-    if move_targetObject == nil or move_targetObject.held_by_color == nil then
-        destroyObject(self)
-        return
-    end
-    local targetLoc = move_targetObject.getPosition()
-    if move_lastTargetLoc ~= nil and targetLoc:distance(move_lastTargetLoc) < 0.05 then
-        --print("nomove")
-        return
-    end
-    local targetSameHeight = targetLoc.set
-    local acceptDistance = getAcceptDistance()
-    if #move_allLocations > 1 and
-       math.abs(targetLoc.x - move_startLocation.x) < acceptDistance
-       and math.abs(targetLoc.z - move_startLocation.z) < acceptDistance then
-        resetMoves()
-    end
-    -- the target has moved
-    -- see if it's outside the bounding box/circle
-    if Grid.type == 2 or Grid.type == 3 then
-        -- we are using hex grids, use a circle from start to determine bounding
-        local maxDistance = getFirstAdjacentLocation():distance(move_currentLocation)
-        local currentDistance = targetLoc:distance(move_currentLocation)
-        if currentDistance > maxDistance then
-            -- we are outside the bounding circle, move to closest adjacent
-            updateCurrentLocation(getClosestAdjacentLocation(targetLoc))
-        end
-    else
-        -- we are using square grids, use the square bounding box
-        local gd = getGridDims()
-        if targetLoc.x < move_currentLocation.x - gd.width or
-           targetLoc.x > move_currentLocation.x + gd.width or
-           targetLoc.z < move_currentLocation.z - gd.height or
-           targetLoc.z > move_currentLocation.z + gd.height then
-            -- we are outside the bounding box, move to closest adjacent
-            updateCurrentLocation(getClosestAdjacentLocation(targetLoc))
-        end
-    end
-    --see if it's nearby an adjacent location
-    for i,point in ipairs(move_currentAdjacentLocations) do
-        local testPoint = Vector(point.x, targetLoc.y, point.y)
-        if testPoint:distance(targetLoc) < acceptDistance then
-            if point.isDiagonal == true then
-                move_numDiagonals = move_numDiagonals + 1
-                --print("diagonals: " .. move_numDiagonals)
-            end
-            updateCurrentLocation(testPoint)
-        end
-    end
-    move_lastTargetLoc = targetLoc
 end
 
 function getFirstAdjacentLocation()

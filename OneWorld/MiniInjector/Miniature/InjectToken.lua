@@ -158,115 +158,7 @@ function updateSaveActual()
     return 1
 end
 
-function onLoad_helper(save_state)
-    if stabilizeOnDrop == true and self.held_by_color == nil then
-        stabilize()
-    end
-    local saved_data = nil
-    local my_saved_data = nil
-    local bestVersion = 0
-    if save_state ~= "" then
-        saved_data = JSON.decode(save_state)
-        my_saved_data = saved_data
-        if saved_data.saveVersion ~= nil then
-            bestVersion = saved_data.saveVersion
-        end
-    end
-    -- ALRIGHTY, let's see which state data we need to use
-    states = self.getStates()
-    if states ~= nil then
-        for _, s in pairs(states) do
-            test_data = JSON.decode(s.lua_script_state)
-            if test_data ~= nil and test_data.saveVersion ~= nil and test_data.saveVersion > bestVersion then
-                saved_data = test_data
-                bestVersion = test_data.saveVersion
-            end
-        end
-    end
-    if debuggingEnabled then
-        print(self.getName() .. " best version: " .. bestVersion)
-    end
-    if saved_data ~= nil then
-        if saved_data.health then
-            for heal,_ in pairs(health) do
-                health[heal] = saved_data.health[heal]
-            end
-        end
-        if saved_data.mana then
-            for res,_ in pairs(mana) do
-                mana[res] = saved_data.mana[res]
-            end
-        end
-        if saved_data.extra then
-            for res,_ in pairs(extra) do
-                extra[res] = saved_data.extra[res]
-            end
-        end
-        if saved_data.options then
-            for opt,_ in pairs(options) do
-                if saved_data.options[opt] ~= nil then
-                    options[opt] = saved_data.options[opt]
-                end
-            end
-        end
-        if saved_data.encodedAttachScales then
-            for _,encodedScale in pairs(saved_data.encodedAttachScales) do
-                if debuggingEnabled then
-                    print("loaded vector: " .. encodedScale.x .. ", " .. encodedScale.y .. ", " .. encodedScale.z)
-                end
-                table.insert(savedAttachScales, vector(encodedScale.x, encodedScale.y, encodedScale.z))
-            end
-        end
-        if saved_data.statNames then
-            statNames = deepCopy(saved_data.statNames)
-        end
-        -- Check if we need to override the scale calibration
-        -- This state's calibration takes precedence over other states
-        if my_saved_data ~= nil and my_saved_data.calibrated_once == true then
-            saved_data.calibrated_once = my_saved_data.calibrated_once
-            saved_data.scale_multiplier_x = my_saved_data.scale_multiplier_x
-            saved_data.scale_multiplier_y = my_saved_data.scale_multiplier_y
-            saved_data.scale_multiplier_z = my_saved_data.scale_multiplier_z
-            if my_saved_data.options ~= nil then
-                options["heightModifier"] = my_saved_data.options["heightModifier"]
-            end
-        end
-        if saved_data.scale_multiplier_x ~= nil then
-            scaleMultiplierX = saved_data.scale_multiplier_x
-        end
-        if saved_data.scale_multiplier_y ~= nil then
-            scaleMultiplierY = saved_data.scale_multiplier_y
-        end
-        if saved_data.scale_multiplier_z ~= nil then
-            scaleMultiplierZ = saved_data.scale_multiplier_z
-        end
-        if saved_data.calibrated_once ~= nil then
-            calibratedOnce = saved_data.calibrated_once
-        end
-        player = saved_data.player and saved_data.player or false
-        measureMove = saved_data.measureMove and saved_data.measureMove or false
-        alternateDiag = saved_data.alternateDiag and saved_data.alternateDiag or false
-        metricMode = saved_data.metricMode and saved_data.metricMode or false
-        stabilizeOnDrop = saved_data.stabilizeOnDrop and saved_data.stabilizeOnDrop or false
-        miniHighlight = saved_data.miniHighlight and saved_data.miniHighlight or "highlightNone"
-        highlightToggle = saved_data.highlightToggle and saved_data.highlightToggle or true
-        hideFromPlayers = (saved_data.hideFromPlayers and player == false) and saved_data.hideFromPlayers or false
-        if saved_data.saveVersion ~= nil then
-            saveVersion = saved_data.saveVersion
-            if debuggingEnabled then
-                print(self.getName() .. " loading, version " .. saveVersion .. ".")
-            end
-        end
-        xml = saved_data.xml and saved_data.xml or ""
-        self.UI.setXml(saved_data.xml and saved_data.xml or "")
-    end
-    className = "InjectTokenMini"
-    Wait.time(|| loadStageTwo(), 0.5)
-    finishedLoading = true
-    return 1
-end
-
-function loadStageTwo()
+local function loadStageTwo()
     self.UI.setAttribute("panel", "position", "0 0 -" .. options.heightModifier)
     self.UI.setAttribute("progressBar", "percentage", health.value / health.max * 100)
     self.UI.setAttribute("hpText", "text", health.value .. "/" .. health.max)
@@ -446,6 +338,138 @@ function loadStageTwo()
     return 1
 end
 
+local function updateInformation()
+    if onUpdateScale ~= self.getScale().y then
+        local newScale = dec3(0.3 * (1.0 / self.getScale().y))
+        self.UI.setAttribute("panel", "scale", newScale .. " " .. newScale)
+        self.UI.setAttribute("panel", "position", "0 0 -" .. (options.heightModifier + 1))
+        self.UI.setAttribute("panel", "position", "0 0 -" .. options.heightModifier)
+        local vertical = 0
+        vertical = vertical + (options.hideHp == true and 0 or 25)
+        vertical = vertical + (options.hideMana == true and 0 or 25)
+        vertical = vertical + (options.hideExtra == true and 0 or 25)
+        self.UI.setAttribute("hiddenButtonBar", "active", (options.hideHp == true and options.hideMana == true and options.hideExtra == true) and "True" or "False")
+        self.UI.setAttribute("resourceBar", "active", options.hideHp == true and "False" or "True")
+        self.UI.setAttribute("resourceBarS", "active", options.hideMana == true and "False" or "True")
+        self.UI.setAttribute("extraBar", "active", options.hideExtra == true and "False" or "True")
+        self.UI.setAttribute("bars", "height", vertical)
+        onUpdateScale = self.getScale().y
+        updateSave()
+    end
+    if onUpdateGridSize ~= Grid.sizeX then
+        resetScale()
+    end
+end
+
+local function onLoad_helper(save_state)
+    if stabilizeOnDrop == true and self.held_by_color == nil then
+        stabilize()
+    end
+    local saved_data = nil
+    local my_saved_data = nil
+    local bestVersion = 0
+    if save_state ~= "" then
+        saved_data = JSON.decode(save_state)
+        my_saved_data = saved_data
+        if saved_data.saveVersion ~= nil then
+            bestVersion = saved_data.saveVersion
+        end
+    end
+    -- ALRIGHTY, let's see which state data we need to use
+    states = self.getStates()
+    if states ~= nil then
+        for _, s in pairs(states) do
+            test_data = JSON.decode(s.lua_script_state)
+            if test_data ~= nil and test_data.saveVersion ~= nil and test_data.saveVersion > bestVersion then
+                saved_data = test_data
+                bestVersion = test_data.saveVersion
+            end
+        end
+    end
+    if debuggingEnabled then
+        print(self.getName() .. " best version: " .. bestVersion)
+    end
+    if saved_data ~= nil then
+        if saved_data.health then
+            for heal,_ in pairs(health) do
+                health[heal] = saved_data.health[heal]
+            end
+        end
+        if saved_data.mana then
+            for res,_ in pairs(mana) do
+                mana[res] = saved_data.mana[res]
+            end
+        end
+        if saved_data.extra then
+            for res,_ in pairs(extra) do
+                extra[res] = saved_data.extra[res]
+            end
+        end
+        if saved_data.options then
+            for opt,_ in pairs(options) do
+                if saved_data.options[opt] ~= nil then
+                    options[opt] = saved_data.options[opt]
+                end
+            end
+        end
+        if saved_data.encodedAttachScales then
+            for _,encodedScale in pairs(saved_data.encodedAttachScales) do
+                if debuggingEnabled then
+                    print("loaded vector: " .. encodedScale.x .. ", " .. encodedScale.y .. ", " .. encodedScale.z)
+                end
+                table.insert(savedAttachScales, vector(encodedScale.x, encodedScale.y, encodedScale.z))
+            end
+        end
+        if saved_data.statNames then
+            statNames = deepCopy(saved_data.statNames)
+        end
+        -- Check if we need to override the scale calibration
+        -- This state's calibration takes precedence over other states
+        if my_saved_data ~= nil and my_saved_data.calibrated_once == true then
+            saved_data.calibrated_once = my_saved_data.calibrated_once
+            saved_data.scale_multiplier_x = my_saved_data.scale_multiplier_x
+            saved_data.scale_multiplier_y = my_saved_data.scale_multiplier_y
+            saved_data.scale_multiplier_z = my_saved_data.scale_multiplier_z
+            if my_saved_data.options ~= nil then
+                options["heightModifier"] = my_saved_data.options["heightModifier"]
+            end
+        end
+        if saved_data.scale_multiplier_x ~= nil then
+            scaleMultiplierX = saved_data.scale_multiplier_x
+        end
+        if saved_data.scale_multiplier_y ~= nil then
+            scaleMultiplierY = saved_data.scale_multiplier_y
+        end
+        if saved_data.scale_multiplier_z ~= nil then
+            scaleMultiplierZ = saved_data.scale_multiplier_z
+        end
+        if saved_data.calibrated_once ~= nil then
+            calibratedOnce = saved_data.calibrated_once
+        end
+        player = saved_data.player and saved_data.player or false
+        measureMove = saved_data.measureMove and saved_data.measureMove or false
+        alternateDiag = saved_data.alternateDiag and saved_data.alternateDiag or false
+        metricMode = saved_data.metricMode and saved_data.metricMode or false
+        stabilizeOnDrop = saved_data.stabilizeOnDrop and saved_data.stabilizeOnDrop or false
+        miniHighlight = saved_data.miniHighlight and saved_data.miniHighlight or "highlightNone"
+        highlightToggle = saved_data.highlightToggle and saved_data.highlightToggle or true
+        hideFromPlayers = (saved_data.hideFromPlayers and player == false) and saved_data.hideFromPlayers or false
+        if saved_data.saveVersion ~= nil then
+            saveVersion = saved_data.saveVersion
+            if debuggingEnabled then
+                print(self.getName() .. " loading, version " .. saveVersion .. ".")
+            end
+        end
+        xml = saved_data.xml and saved_data.xml or ""
+        self.UI.setXml(saved_data.xml and saved_data.xml or "")
+    end
+    className = "InjectTokenMini"
+    Wait.time(|| loadStageTwo(), 0.5)
+    Wait.time(|| updateInformation(), 1, -1)
+    finishedLoading = true
+    return 1
+end
+
 function onLoad(save_state)
     Wait.time(|| onLoad_helper(save_state), 1)
     WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/MiniInjector/Miniature/MoveToken.lua",
@@ -534,33 +558,6 @@ function updateHighlight()
         self.highlightOn(Color.Black)
     end
     updateSave()
-end
-
-function onFixedUpdate()
-    onUpdateTriggerCount = onUpdateTriggerCount + 1
-    if onUpdateTriggerCount > 60 then
-        onUpdateTriggerCount = 0
-        if finishedLoading == true and onUpdateScale ~= self.getScale().y then
-            local newScale = dec3(0.3 * (1.0 / self.getScale().y))
-            self.UI.setAttribute("panel", "scale", newScale .. " " .. newScale)
-            self.UI.setAttribute("panel", "position", "0 0 -" .. (options.heightModifier + 1))
-            self.UI.setAttribute("panel", "position", "0 0 -" .. options.heightModifier)
-            local vertical = 0
-            vertical = vertical + (options.hideHp == true and 0 or 25)
-            vertical = vertical + (options.hideMana == true and 0 or 25)
-            vertical = vertical + (options.hideExtra == true and 0 or 25)
-            self.UI.setAttribute("hiddenButtonBar", "active", (options.hideHp == true and options.hideMana == true and options.hideExtra == true) and "True" or "False")
-            self.UI.setAttribute("resourceBar", "active", options.hideHp == true and "False" or "True")
-            self.UI.setAttribute("resourceBarS", "active", options.hideMana == true and "False" or "True")
-            self.UI.setAttribute("extraBar", "active", options.hideExtra == true and "False" or "True")
-            self.UI.setAttribute("bars", "height", vertical)
-            onUpdateScale = self.getScale().y
-            updateSave()
-        end
-        if finishedLoading == true and onUpdateGridSize ~= Grid.sizeX then
-            resetScale()
-        end
-    end
 end
 
 function dec3(input)
