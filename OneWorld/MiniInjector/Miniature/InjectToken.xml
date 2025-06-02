@@ -7,7 +7,7 @@
         color='#000000FF' textColor='#FFFFFF' characterValidation='Integer'/>
 </Defaults>
 
-<Panel id='panel' position='0 0 -220' rotation='60 270 90' scale='0.2 0.2'>
+<Panel id='panel' position='0 0 -220' rotation='90 270 90' scale='0.2 0.2'>
     <VerticalLayout id='bars' height='300'>
         <Panel id='hiddenButtonBar' active='false'>
             <HorizontalLayout height='25' width='400'>
