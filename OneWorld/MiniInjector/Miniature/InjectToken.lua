@@ -675,7 +675,7 @@ function togglePlayer()
     if player == true and hideFromPlayers == true then
         toggleHideFromPlayers()
     end
-    Wait.time(confer(), 0.2)
+    Wait.time(|| confer(), 0.2)
     updateSave()
 end
 
