@@ -337,7 +337,8 @@ end
 
 local function updateInformation()
     if onUpdateScale ~= self.getScale().y then
-        local newScale = string.format("%.2f", (0.2 * (1 / self.getScale().y)))
+        onUpdateScale = self.getScale().y
+        local newScale = string.format("%.2f", 0.2*onUpdateScale)
         self.UI.setAttribute("panel", "scale", newScale .. " " .. newScale)
         self.UI.setAttribute("panel", "position", "0 0 -" .. (options.heightModifier + 1))
         self.UI.setAttribute("panel", "position", "0 0 -" .. options.heightModifier)
@@ -350,7 +351,6 @@ local function updateInformation()
         self.UI.setAttribute("resourceBarS", "active", options.hideMana == true and "False" or "True")
         self.UI.setAttribute("extraBar", "active", options.hideExtra == true and "False" or "True")
         self.UI.setAttribute("bars", "height", vertical)
-        onUpdateScale = self.getScale().y
         updateSave()
     end
     if onUpdateGridSize ~= Grid.sizeX then
