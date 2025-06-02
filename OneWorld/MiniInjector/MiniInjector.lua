@@ -1249,6 +1249,17 @@ function tintToHex(objColor)
     return hexColor
 end
 
+local function checkWorkingObjects(obj)
+    for _, wObj in ipairs(workingObjects) do
+        if wObj.getGUID() == obj.getGUID() then
+            return false
+        end
+    end
+    return true
+end
 function addNewWorkingObjects(obj)
-    table.insert(workingObjects, obj)
+    if obj and checkWorkingObjects(obj) then
+        print(obj)
+        table.insert(workingObjects, obj)
+    end
 end
