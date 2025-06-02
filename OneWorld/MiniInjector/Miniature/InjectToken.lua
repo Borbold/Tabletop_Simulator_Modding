@@ -467,7 +467,6 @@ local function onLoad_helper(save_state)
 end
 
 function onLoad(save_state)
-    if dontLoad == true then return end
     Wait.time(|| onLoad_helper(save_state), 1)
     WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/MiniInjector/Miniature/MoveToken.lua",
         function(request)
@@ -1317,7 +1316,6 @@ function getStatsCount()
 end
 
 function setInjectVariables(info)
-    dontLoad = true
     health, mana, extra = info.health, info.mana, info.extra
     options, xml = info.options, info.xml
     statNames = info.statNames
