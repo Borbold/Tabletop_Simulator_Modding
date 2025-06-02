@@ -136,20 +136,20 @@ local function checkObjects()
         handleCollisionInfo(collision_info)
     end
 
-    if injectEverythingActive == true then
+    if injectEverythingActive then
         startLuaCoroutine(self, "addingInjectionsMini")
         injectEverythingActive = false
         print("[00ff00]Inject EVERYTHING complete.[-]")
     end
 
-    if updateEverythingActive == true then
+    if updateEverythingActive then
         updateEverythingFrameCount = updateEverythingFrameCount + 1
         if updateEverythingFrameCount >= 5 then
             updateEverythingFrameCount = 0
             updateEverythingActive = false
             updateEverythingIndex = 1
             print("[00ff00]All minis updated.[-]")
-            if options.initActive == true then
+            if options.initActive then
                 Wait.frames(rollInitiative, 60)
             end
         end
@@ -312,43 +312,40 @@ function toggleCheckBox(player, value, id)
         options[id] = false
     end
     self.UI.setAttribute(id, "textColor", "#FFFFFF")
-    for i,j in pairs(getAllObjects()) do
-        if j ~= self then
-            if j.getVar("className") == "InjectTokenMini" then
-                if id == "alternateDiag" then
-                    j.call('toggleAlternateDiag')
-                end
-                if j.getVar("player") then
-                    if id == "hideBar" then
-                        j.UI.setAttribute("progressBar", "visibility", "")
-                        j.UI.setAttribute("progressBarS", "visibility", "")
-                        j.UI.setAttribute("extraProgress", "visibility", "")
-                    elseif id == "hideText" then
-                        j.UI.setAttribute("hpText", "visibility", "")
-                        j.UI.setAttribute("manaText", "visibility", "")
-                        j.UI.setAttribute("extraText", "visibility", "")
-                    elseif id == "editText" then
-                        j.UI.setAttribute("addSub", "visibility", "")
-                        j.UI.setAttribute("addSubS", "visibility", "")
-                        j.UI.setAttribute("addSubE", "visibility", "")
-                        j.UI.setAttribute("editPanel", "visibility", "")
-                    end
-                else
-                    if id == "hideBar" then
-                        j.UI.setAttribute("progressBar", "visibility", options[id] == true and "Black" or "")
-                        j.UI.setAttribute("progressBarS", "visibility", options[id] == true and "Black" or "")
-                        j.UI.setAttribute("extraProgress", "visibility", options[id] == true and "Black" or "")
-                    elseif id == "hideText" then
-                        j.UI.setAttribute("hpText", "visibility", options[id] == true and "Black" or "")
-                        j.UI.setAttribute("manaText", "visibility", options[id] == true and "Black" or "")
-                        j.UI.setAttribute("extraText", "visibility", options[id] == true and "Black" or "")
-                    elseif id == "editText" then
-                        j.UI.setAttribute("addSub", "visibility", options[id] == true and "Black" or "")
-                        j.UI.setAttribute("addSubS", "visibility", options[id] == true and "Black" or "")
-                        j.UI.setAttribute("addSubE", "visibility", options[id] == true and "Black" or "")
-                        j.UI.setAttribute("editPanel", "visibility", options[id] == true and "Black" or "")
-                    end
-                end
+    for _,j in ipairs(workingObjects) do
+        if id == "alternateDiag" then
+            j.call('toggleAlternateDiag')
+        end
+        if j.getVar("player") then
+            if id == "hideBar" then
+                j.UI.setAttribute("progressBar", "visibility", "")
+                j.UI.setAttribute("progressBarS", "visibility", "")
+                j.UI.setAttribute("extraProgress", "visibility", "")
+            elseif id == "hideText" then
+                j.UI.setAttribute("hpText", "visibility", "")
+                j.UI.setAttribute("manaText", "visibility", "")
+                j.UI.setAttribute("extraText", "visibility", "")
+            elseif id == "editText" then
+                j.UI.setAttribute("addSub", "visibility", "")
+                j.UI.setAttribute("addSubS", "visibility", "")
+                j.UI.setAttribute("addSubE", "visibility", "")
+                j.UI.setAttribute("editPanel", "visibility", "")
+            end
+        else
+            if id == "hideBar" then
+                --print("Hello ", " ", options[id])
+                j.UI.setAttribute("progressBar", "visibility", options[id] and "Black" or "")
+                j.UI.setAttribute("progressBarS", "visibility", options[id] and "Black" or "")
+                j.UI.setAttribute("extraProgress", "visibility", options[id] and "Black" or "")
+            elseif id == "hideText" then
+                j.UI.setAttribute("hpText", "visibility", options[id] and "Black" or "")
+                j.UI.setAttribute("manaText", "visibility", options[id] and "Black" or "")
+                j.UI.setAttribute("extraText", "visibility", options[id] and "Black" or "")
+            elseif id == "editText" then
+                j.UI.setAttribute("addSub", "visibility", options[id] and "Black" or "")
+                j.UI.setAttribute("addSubS", "visibility", options[id] and "Black" or "")
+                j.UI.setAttribute("addSubE", "visibility", options[id] and "Black" or "")
+                j.UI.setAttribute("editPanel", "visibility", options[id] and "Black" or "")
             end
         end
     end
@@ -385,7 +382,7 @@ function toggleOnOff(skipToggle)
     end
     for i,j in pairs(getAllObjects()) do
         if j ~= self and j.getVar("className") == "InjectTokenMini" then
-            j.UI.setAttribute("panel", "active", options.showAll == true and "true" or "false")
+            j.UI.setAttribute("panel", "active", options.showAll and "true" or "false")
         end
     end
 end
@@ -448,17 +445,17 @@ function injectToken(object)
     xml = xml:gsub("STATSIMAGE", xmlStats)
     xml = xml:gsub('<VerticalLayout id="bars" height="200">', '<VerticalLayout id="bars" height="' .. 200 + (options.mana == 0 and -100 or 0) + (options.extra ~= 0 and 100 or 0) .. '">')
     if options.playerChar == false then
-        if options.hideText == true then
+        if options.hideText then
             xml = xml:gsub('id="hpText" visibility=""', 'id="hpText" visibility="Black"')
             xml = xml:gsub('id="manaText" visibility=""', 'id="manaText" visibility="Black"')
             xml = xml:gsub('id="extraText" visibility=""', 'id="extraText" visibility="Black"')
         end
-        if options.hideBar == true then
+        if options.hideBar then
             xml = xml:gsub('id="progressBar" visibility=""', 'id="progressBar" visibility="Black"')
             xml = xml:gsub('id="progressBarS" visibility=""', 'id="progressBarS" visibility="Black"')
             xml = xml:gsub('id="extraProgress" visibility=""', 'id="extraProgress" visibility="Black"')
         end
-        if options.editText == true then
+        if options.editText then
             xml = xml:gsub('id="addSub" visibility=""', 'id="addSub" visibility="Black"')
             xml = xml:gsub('id="addSubS" visibility=""', 'id="addSubS" visibility="Black"')
             xml = xml:gsub('id="addSubE" visibility=""', 'id="addSubE" visibility="Black"')
@@ -531,10 +528,10 @@ function handleInitMiniature(miniature)
     -- Grab miniature options
     local objTable = miniature.getTable("options")
     -- Only add minis that are initiative included
-    if objTable.initSettingsIncluded == true then
+    if objTable.initSettingsIncluded then
         local player = miniature.getVar("player")
         local colorTint = miniature.getColorTint()
-        if player == true then
+        if player then
             local miniHighlight = miniature.getVar("miniHighlight")
             if miniHighlight == "highlightWhite" then
                 colorTint = Color.White
@@ -609,7 +606,7 @@ function refreshInitiative(player)
         return
     end
     getInitiativeFigures()
-    if options.initActive == true then
+    if options.initActive then
         updateInitPlayer(player)
     end
     rebuildUI()
@@ -683,7 +680,7 @@ function updateInitPlayer(player)
         end
         options.initCurrentRound = options.initCurrentRound + 1
     end
-    if changedInitFigure == true and pingInitMinis and player ~= nil then
+    if changedInitFigure and pingInitMinis and player ~= nil then
         figureObj = getObjectFromGUID(options.initCurrentGUID)
         if player.team == nil then
             -- We're a color, not a player, assign the player object
@@ -725,7 +722,7 @@ function updateInitPlayerForward(player)
     for _, figure in ipairs(initFigures) do
         if figure.guidValue == options.initCurrentGUID then
             foundInitFigure = true
-        elseif foundInitFigure == true then
+        elseif foundInitFigure then
             options.initCurrentValue = figure.initValue
             options.initCurrentGUID = figure.guidValue
             changedInitFigure = true
@@ -753,7 +750,7 @@ function updateInitPlayerForward(player)
         end
         options.initCurrentRound = options.initCurrentRound + 1
     end
-    if changedInitFigure == true and pingInitMinis and player ~= nil then
+    if changedInitFigure and pingInitMinis and player ~= nil then
         figureObj = getObjectFromGUID(options.initCurrentGUID)
         if player.team == nil then
             -- We're a color, not a player, assign the player object
@@ -827,7 +824,7 @@ function updateInitPlayerBackward(player)
         changedInitFigure = true
         options.initCurrentRound = options.initCurrentRound - 1
     end
-    if changedInitFigure == true and pingInitMinis and player ~= nil then
+    if changedInitFigure and pingInitMinis and player ~= nil then
         figureObj = getObjectFromGUID(options.initCurrentGUID)
         if player.team == nil then
             -- We're a color, not a player, assign the player object
@@ -875,7 +872,7 @@ end
 function checkPlayersSet()
     local noteCheck = ""
     for _, figure in ipairs(initFigures) do
-        if (figure.player == true or figure.initRolling == false) and figure.initValue == 100 then
+        if (figure.player or figure.initRolling == false) and figure.initValue == 100 then
             print(figure.name .. " has not set their initiative.")
             noteCheck = noteCheck .. figure.name .. " has not set their initiative.\n"
         end
@@ -909,7 +906,7 @@ function rebuildUI()
         local colorVar = '#202020'
         if options.initCurrentGUID == figure.guidValue then
             colorVar = '#505050'
-        elseif figure.player == true then
+        elseif figure.player then
             colorVar = '#401010'
         end
 
