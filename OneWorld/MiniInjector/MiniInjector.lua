@@ -1259,7 +1259,6 @@ local function checkWorkingObjects(obj)
 end
 function addNewWorkingObjects(obj)
     if obj and checkWorkingObjects(obj) then
-        print(obj)
         table.insert(workingObjects, obj)
     end
 end
