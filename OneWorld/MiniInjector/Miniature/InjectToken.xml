@@ -1,10 +1,13 @@
 <Defaults>
-    <Button onClick='onClick' fontSize='80' fontStyle='Bold' textColor='#FFFFFF' color='#000000FF'/>
-    <Text fontSize='80' fontStyle='Bold' color='#FFFFFF'/>
-    <InputField fontSize='70' color='#000000FF' textColor='#FFFFFF' characterValidation='Integer'/>
+    <Button font='Fonts/Allods' resizeTextForBestFit='True' resizeTextMaxSize='500' resizeTextMinSize='10'
+        onClick='onClick' fontStyle='Bold' textColor='#FFFFFF' color='#000000FF'/>
+    <Text font='Fonts/Allods' resizeTextForBestFit='True' resizeTextMaxSize='500' resizeTextMinSize='10'
+        fontStyle='Bold' color='#FFFFFF'/>
+    <InputField font='Fonts/Allods' resizeTextForBestFit='True' resizeTextMaxSize='500' resizeTextMinSize='10'
+        color='#000000FF' textColor='#FFFFFF' characterValidation='Integer'/>
 </Defaults>
 
-<Panel id='panel' position='0 0 -220' rotation='90 270 90' scale='0.2 0.2'>
+<Panel id='panel' position='0 0 -220' rotation='60 270 90' scale='0.2 0.2'>
     <VerticalLayout id='bars' height='300'>
         <Panel id='hiddenButtonBar' active='false'>
             <HorizontalLayout height='25' width='400'>
