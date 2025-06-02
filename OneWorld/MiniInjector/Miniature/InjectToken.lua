@@ -1,3 +1,4 @@
+className = "InjectTokenMini"
 scaleMultiplierX = 1.0
 scaleMultiplierY = 1.0
 scaleMultiplierZ = 1.0
@@ -310,8 +311,8 @@ local function loadStageTwo()
     self.auto_raise = true
     self.interactable = true
 
-    onUpdateScale = 1.0
-    onUpdateGridSize = 1.0
+    onUpdateScale = 0
+    onUpdateGridSize = 1
     loadTime = os.clock()
 
     instantiateTriggers()
@@ -340,14 +341,14 @@ end
 
 local function updateInformation()
     if onUpdateScale ~= self.getScale().y then
-        local newScale = dec3(0.3 * (1.0 / self.getScale().y))
+        local newScale = string.format("%.2%f" (0.2 * (1 / self.getScale().y)))
         self.UI.setAttribute("panel", "scale", newScale .. " " .. newScale)
         self.UI.setAttribute("panel", "position", "0 0 -" .. (options.heightModifier + 1))
         self.UI.setAttribute("panel", "position", "0 0 -" .. options.heightModifier)
         local vertical = 0
-        vertical = vertical + (options.hideHp == true and 0 or 25)
-        vertical = vertical + (options.hideMana == true and 0 or 25)
-        vertical = vertical + (options.hideExtra == true and 0 or 25)
+        vertical = vertical + (options.hideHp == true and 0 or 100)
+        vertical = vertical + (options.hideMana == true and 0 or 100)
+        vertical = vertical + (options.hideExtra == true and 0 or 100)
         self.UI.setAttribute("hiddenButtonBar", "active", (options.hideHp == true and options.hideMana == true and options.hideExtra == true) and "True" or "False")
         self.UI.setAttribute("resourceBar", "active", options.hideHp == true and "False" or "True")
         self.UI.setAttribute("resourceBarS", "active", options.hideMana == true and "False" or "True")
@@ -463,7 +464,6 @@ local function onLoad_helper(save_state)
         xml = saved_data.xml and saved_data.xml or ""
         self.UI.setXml(saved_data.xml and saved_data.xml or "")
     end
-    className = "InjectTokenMini"
     Wait.time(|| loadStageTwo(), 0.5)
     Wait.time(|| updateInformation(), 1, -1)
     finishedLoading = true
@@ -558,10 +558,6 @@ function updateHighlight()
         self.highlightOn(Color.Black)
     end
     updateSave()
-end
-
-function dec3(input)
-    return math.floor(input * 1000.0) / 1000.0
 end
 
 function rebuildContextMenu()
@@ -1072,7 +1068,7 @@ function onClick(player_in, value, id)
             self.UI.setAttribute("HH", "textColor", options.hideHp == true and "#FFFFFF" or "#AA2222")
             self.UI.setAttribute("hiddenButtonBar", "active", (options.hideHp == true and options.hideMana == true and options.hideExtra == true) and "True" or "False")
             self.UI.setAttribute("resourceBar", "active", options.hideHp == true and "False" or "True")
-            self.UI.setAttribute("bars", "height", vertical + (options.hideHp == true and -25 or 25))
+            self.UI.setAttribute("bars", "height", vertical + (options.hideHp == true and -100 or 100))
         end, 1)
     elseif id == "HM" then
         options.hideMana = not options.hideMana
@@ -1081,7 +1077,7 @@ function onClick(player_in, value, id)
             self.UI.setAttribute("HM", "textColor", options.hideMana == true and "#FFFFFF" or "#AA2222")
             self.UI.setAttribute("hiddenButtonBar", "active", (options.hideHp == true and options.hideMana == true and options.hideExtra == true) and "True" or "False")
             self.UI.setAttribute("resourceBarS", "active", options.hideMana == true and "False" or "True")
-            self.UI.setAttribute("bars", "height", vertical + (options.hideMana == true and -25 or 25))
+            self.UI.setAttribute("bars", "height", vertical + (options.hideMana == true and -100 or 100))
         end, 1)
     elseif id == "HE" then
         options.hideExtra = not options.hideExtra
@@ -1090,7 +1086,7 @@ function onClick(player_in, value, id)
             self.UI.setAttribute("HE", "textColor", options.hideExtra == true and "#FFFFFF" or "#AA2222")
             self.UI.setAttribute("hiddenButtonBar", "active", (options.hideHp == true and options.hideMana == true and options.hideExtra == true) and "True" or "False")
             self.UI.setAttribute("extraBar", "active", options.hideExtra == true and "False" or "True")
-            self.UI.setAttribute("bars", "height", vertical + (options.hideExtra == true and -25 or 25))
+            self.UI.setAttribute("bars", "height", vertical + (options.hideExtra == true and -100 or 100))
         end, 1)
     elseif id == "HB" or id == "editButtonS1" or id == "editButtonS2" or id == "editButtonS3" then
         if options.showBarButtons then

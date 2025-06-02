@@ -1,5 +1,3 @@
-className = "MiniInjector"
-debuggingEnabled = false
 pingInitMinis = true
 autostartOneWorld = true
 initTableOnly = true
@@ -35,13 +33,14 @@ options = {
 }
 
 initFigures = {}
+workingObjects = {}
 
 local MAGIC_NUMBER_60 = 60
 local MAGIC_NUMBER_10 = 10
 local MAGIC_NUMBER_5 = 5
 local MAGIC_NUMBER_200 = 200
-local MAGIC_STRING_INIT = "[00ff00]INJECT[-]"
-local MAGIC_STRING_REMOVE = "[ff0000]REMOVE[-]"
+local CONST_INJECT = "[00ff00]INJECT[-]"
+local CONST_REMOVE = "[ff0000]REMOVE[-]"
 
 -- Function to perform a deep copy of a table
 local function deepCopy(original)
@@ -57,7 +56,6 @@ end
 
 function onSave()
     local save_state = JSON.encode({
-        debugging_enabled = debuggingEnabled,
         ping_init_minis = pingInitMinis,
         autostart_oneworld = autostartOneWorld,
         init_table_only = initTableOnly,
@@ -69,7 +67,6 @@ end
 
 local function isExcludedClassName(className)
     local excludedClasses = {
-        "MiniInjector",
         "MeasurementToken",
         "MeasurementToken_Move",
         "InjectTokenMini",
@@ -85,20 +82,14 @@ local function isExcludedClassName(className)
 end
 
 local function processHitObject(hitTable, object)
-    if self.getRotationValue() == MAGIC_STRING_INIT then
+    if self.getRotationValue() == CONST_INJECT then
         local objClassName = object.getVar("className")
         if not isExcludedClassName(objClassName) then
-            if debuggingEnabled then
-                print("[00ff00]Injecting[-] mini " .. object.getName() .. ".")
-            end
             injectToken(object)
             injectedFrameLimiter = MAGIC_NUMBER_60
         end
-    elseif self.getRotationValue() == MAGIC_STRING_REMOVE then
+    elseif self.getRotationValue() == CONST_REMOVE then
         if object.getVar("className") == "MeasurementToken" or object.getVar("className") == "InjectTokenMini" then
-            if debuggingEnabled then
-                print("[ff0000]Removing[-] injection from " .. object.getName() .. ".")
-            end
             object.call("destroyMoveToken")
             object.script_state = ""
             object.script_code = ""
@@ -129,6 +120,18 @@ local function handleCollisionInfo(collision_info)
     end
 end
 
+function addingInjectionsMini()
+    for _, obj in ipairs(getInjectingFigures()) do
+        if obj.getVar("className") ~= "InjectTokenMini" then
+            print("[00ff00]Injecting[-] mini " .. obj.getName() .. ".")
+            injectToken(obj)
+            addNewWorkingObjects(obj)
+        end
+        coroutine.yield(0)
+    end
+    return 1
+end
+
 local function checkObjects()
     if injectedFrameLimiter > 0 then
         injectedFrameLimiter = injectedFrameLimiter - 1
@@ -139,27 +142,9 @@ local function checkObjects()
     end
 
     if injectEverythingActive == true then
-        injectEverythingFrameCount = injectEverythingFrameCount + 1
-        if injectEverythingFrameCount >= 5 then
-            injectEverythingFrameCount = 0
-            local allObjects = getAllObjects()
-            for _, obj in ipairs(allObjects) do
-                if obj ~= self and obj ~= nil then
-                    objClassName = obj.getVar("className")
-                    if objClassName ~= "MeasurementToken" and
-                       objClassName ~= "MeasurementToken_Move" and
-                       objClassName ~= "InjectTokenMini" and
-                       objClassName ~= "DNDMiniInjector_Mini_Move" and
-                       objClassName ~= "MeasurementTool" then
-                        print("[00ff00]Injecting[-] mini " .. obj.getName() .. ".")
-                        injectToken(obj)
-                        return
-                    end
-                end
-            end
-            injectEverythingActive = false
-            print("[00ff00]Inject EVERYTHING complete.[-]")
-        end
+        startLuaCoroutine(self, "addingInjectionsMini")
+        injectEverythingActive = false
+        print("[00ff00]Inject EVERYTHING complete.[-]")
     end
 
     if updateEverythingActive == true then
@@ -186,9 +171,6 @@ function onLoad(save_state)
                         options[opt] = saved_data.options[opt]
                     end
                 end
-            end
-            if saved_data.debugging_enabled ~= nil then
-                debuggingEnabled = saved_data.debugging_enabled
             end
             if saved_data.ping_init_minis ~= nil then
                 pingInitMinis = saved_data.ping_init_minis
@@ -296,22 +278,12 @@ function rebuildContextMenu()
     else
         self.addContextMenuItem("[ ] Metric Mode", toggleMetricMode)
     end
-    self.addContextMenuItem("Inject EVERYTHING", injectEverything)
-    if (debuggingEnabled) then
-        self.addContextMenuItem("[X] Debugging", toggleDebug)
-    else
-        self.addContextMenuItem("[ ] Debugging", toggleDebug)
-    end
+    self.addContextMenuItem("Inject mini", injectMini)
     if (options.showAll) then
         self.addContextMenuItem("[X] Show Mini UI", toggleOnOff)
     else
         self.addContextMenuItem("[ ] Show Mini UI", toggleOnOff)
     end
-end
-
-function toggleDebug()
-    debuggingEnabled = not debuggingEnabled
-    rebuildContextMenu()
 end
 
 function toggleAutostartOneWorld()
@@ -353,9 +325,10 @@ function toggleAutoCalibrate()
     rebuildContextMenu()
 end
 
-function injectEverything()
+function injectMini()
     if injectEverythingAllowed == false then
-        print("INJECT EVERYTHING. This will inject movement tokens into literally every object in this save. Only use this in an empty save with only miniatures and measurement tools. Click it again to confirm.")
+        print("Inject mini. This command performs Inject with all objects on the global map of OneWorld.")
+        print("Warning: to make it work correctly, select a pre-made map in OneWorld (e.g. the starting map), set the thumbnails on it and then run Inject.")
         injectEverythingAllowed = true
         return
     end
@@ -556,58 +529,36 @@ function getOneWorldHub()
     return nil
 end
 
-function getOneWorldMap()
-    local ONE_WORLD_MAP_NAME = "_OW_vBase"
+local function getOneWorldScriptingZone()
+    local ONE_WORLD_SCRIPT_ZONE_NAME = "_OW_tZone"
     for _, obj in ipairs(getAllObjects()) do
-        if obj ~= self and obj ~= nil and obj.getName() == ONE_WORLD_MAP_NAME then
+        if obj.getName() == ONE_WORLD_SCRIPT_ZONE_NAME then
             return obj
         end
     end
     return nil
 end
 
-function getMapBounds(debug)
-    local DEFAULT_BOUNDS = {x = 88.07, y = 1, z = 52.02}
-    local oneWorldMap = getOneWorldMap()
-    if oneWorldMap ~= nil then
-        local oneWorldBounds = oneWorldMap.getBounds();
-        if oneWorldBounds.size.x > 10 then
-            if debuggingEnabled then
-                print("Using OneWorld map bounds.")
-            end
-            return oneWorldBounds.size
+function getInjectingFigures()
+    local figures = {}
+    -- Only gather minis from the center of the table.
+    local checkSZ = getOneWorldScriptingZone()
+    for _, objZone in ipairs(checkSZ.getObjects()) do
+        if objZone.getName() ~= "_OW_vBase" then
+            table.insert(figures, objZone)
         end
-        if debug or debuggingEnabled then
-            print("A OneWorld map is not deployed! Using default bounds.")
-        end
-        return DEFAULT_BOUNDS
     end
-    if debug or debuggingEnabled then
-        print("OneWorld is not available! Using default bounds.")
-    end
-    return DEFAULT_BOUNDS
+    return figures
 end
 
 function getInitiativeFigures()
-    figures = {}
+    initFigures = {}
     if initTableOnly then
         -- Only gather minis from the center of the table.
-        local checkBounds = getMapBounds(false)
-        checkBounds.y = 40
-        local hitList = Physics.cast({
-            origin       = {0, 15, 0},
-            direction    = {0, -1, 0},
-            max_distance = 0,
-            type         = 3,
-            size         = checkBounds,
-            debug        = false,
-        })
-        for _, hitTable in ipairs(hitList) do
-            if hitTable ~= nil
-                and hitTable.hit_object ~= nil
-                and (hitTable.hit_object.getVar("className") == "MeasurementToken"
-                    or hitTable.hit_object.getVar("className") == "InjectTokenMini") then
-                handleInitMiniature(hitTable.hit_object)
+        local checkSZ = getOneWorldScriptingZone()
+        for _, objZone in ipairs(checkSZ.getObjects()) do
+            if objZone.getVar("className") == "InjectTokenMini" then
+                handleInitMiniature(objZone)
             end
         end
     else
@@ -629,9 +580,7 @@ function getInitiativeFigures()
         -- Then by name
         return figA.name < figB.name
     end
-    table.sort(figures, figureSorter)
-    initFigures = figures
-    return figures
+    table.sort(initFigures, figureSorter)
 end
 
 function handleInitMiniature(miniature)
@@ -1358,4 +1307,8 @@ function tintToHex(objColor)
         hexColor = hexColor..hex
     end
     return hexColor
+end
+
+function addNewWorkingObjects(obj)
+    table.insert(workingObjects, obj)
 end
