@@ -1321,9 +1321,10 @@ function setInjectVariables(info)
     statNames = info.statNames
     options.heightModifier = self.getBounds().size.y / self.getScale().y * options.heightModifier
     startLuaCoroutine(self, "updateSaveActual")
-    Wait.time(|| self.reload(), 0.5)
+    Wait.time(|| self.reload(), 0.8)
 end
 
 function onObjectDestroy()
+    print("Hello")
     Wait.stopAll()
 end
