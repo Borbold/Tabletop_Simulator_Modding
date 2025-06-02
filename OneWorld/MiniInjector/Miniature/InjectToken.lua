@@ -159,7 +159,7 @@ function updateSaveActual()
     return 1
 end
 
-local function loadStageTwo()
+local function confer()
     self.UI.setAttribute("panel", "position", "0 0 -" .. options.heightModifier)
     self.UI.setAttribute("progressBar", "percentage", health.value / health.max * 100)
     self.UI.setAttribute("hpText", "text", health.value .. "/" .. health.max)
@@ -341,7 +341,7 @@ end
 
 local function updateInformation()
     if onUpdateScale ~= self.getScale().y then
-        local newScale = string.format("%.2%f" (0.2 * (1 / self.getScale().y)))
+        local newScale = string.format("%.2%f", (0.2 * (1 / self.getScale().y)))
         self.UI.setAttribute("panel", "scale", newScale .. " " .. newScale)
         self.UI.setAttribute("panel", "position", "0 0 -" .. (options.heightModifier + 1))
         self.UI.setAttribute("panel", "position", "0 0 -" .. options.heightModifier)
@@ -464,10 +464,10 @@ local function onLoad_helper(save_state)
         xml = saved_data.xml and saved_data.xml or ""
         self.UI.setXml(saved_data.xml and saved_data.xml or "")
     end
-    Wait.time(|| loadStageTwo(), 0.5)
+    Wait.time(|| confer(), 0.5)
     Wait.time(|| updateInformation(), 1, -1)
+    Wait.time(|| getObjectFromGUID(self.getGMNotes()).call("addNewWorkingObjects", self), 2)
     finishedLoading = true
-    return 1
 end
 
 function onLoad(save_state)
@@ -679,7 +679,7 @@ function togglePlayer()
     if player == true and hideFromPlayers == true then
         toggleHideFromPlayers()
     end
-    Wait.time(loadStageTwo(), 0.2)
+    Wait.time(confer(), 0.2)
     updateSave()
 end
 

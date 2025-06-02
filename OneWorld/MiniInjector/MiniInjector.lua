@@ -1,6 +1,4 @@
 pingInitMinis = true
-autostartOneWorld = true
-initTableOnly = true
 hideUpsideDownMinis = true
 autoCalibrateEnabled = false
 injectEverythingAllowed = false
@@ -57,8 +55,6 @@ end
 function onSave()
     local save_state = JSON.encode({
         ping_init_minis = pingInitMinis,
-        autostart_oneworld = autostartOneWorld,
-        init_table_only = initTableOnly,
         auto_calibrate_enabled = autoCalibrateEnabled,
         options = options,
     })
@@ -125,7 +121,6 @@ function addingInjectionsMini()
         if obj.getVar("className") ~= "InjectTokenMini" then
             print("[00ff00]Injecting[-] mini " .. obj.getName() .. ".")
             injectToken(obj)
-            addNewWorkingObjects(obj)
         end
         coroutine.yield(0)
     end
@@ -175,12 +170,6 @@ function onLoad(save_state)
             if saved_data.ping_init_minis ~= nil then
                 pingInitMinis = saved_data.ping_init_minis
             end
-            if saved_data.autostart_oneworld ~= nil then
-                autostartOneWorld = saved_data.autostart_oneworld
-            end
-            if saved_data.init_table_only ~= nil then
-                initTableOnly = saved_data.init_table_only
-            end
             if saved_data.auto_calibrate_enabled ~= nil then
                 autoCalibrateEnabled = saved_data.auto_calibrate_enabled
             end
@@ -194,12 +183,8 @@ function onLoad(save_state)
     addHotkey("Initiative Refresh", refreshInitiative, false)
     addHotkey("Initiative Roll", rollInitiative, false)
 
-    Wait.frames(updateSettingUI, 10)
-
-    Wait.frames(initOneWorld, 60)
-
-    Wait.frames(updateEverything, 120)
-
+    Wait.time(updateSettingUI, 0.5)
+    Wait.time(updateEverything, 1)
     Wait.time(|| checkObjects(), 0.2, -1)
 
     WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/MiniInjector/Miniature/InjectToken.lua",
@@ -242,15 +227,6 @@ function updateSettingUI()
     toggleOnOff(true)
 end
 
-function initOneWorld()
-    if autostartOneWorld then
-        local owHub = getOneWorldHub()
-        if owHub ~= nil and owHub.getVar("iu") ~= nil then
-            owHub.call("chkIUnit")
-        end
-    end
-end
-
 function rebuildContextMenu()
     self.clearContextMenu()
     if (pingInitMinis) then
@@ -258,20 +234,10 @@ function rebuildContextMenu()
     else
         self.addContextMenuItem("[ ] Ping Init Minis", togglePingInitMinis)
     end
-    if (initTableOnly) then
-        self.addContextMenuItem("[X] Init Table Only", toggleInitTableOnly)
-    else
-        self.addContextMenuItem("[ ] Init Table Only", toggleInitTableOnly)
-    end
     if (autoCalibrateEnabled) then
         self.addContextMenuItem("[X] Auto-Calibrate", toggleAutoCalibrate)
     else
         self.addContextMenuItem("[ ] Auto-Calibrate", toggleAutoCalibrate)
-    end
-    if (autostartOneWorld) then
-        self.addContextMenuItem("[X] Auto-OneWorld", toggleAutostartOneWorld)
-    else
-        self.addContextMenuItem("[ ] Auto-OneWorld", toggleAutostartOneWorld)
     end
     if (options.metricMode) then
         self.addContextMenuItem("[X] Metric Mode", toggleMetricMode)
@@ -286,16 +252,11 @@ function rebuildContextMenu()
     end
 end
 
-function toggleAutostartOneWorld()
-    autostartOneWorld = not autostartOneWorld
-    rebuildContextMenu()
-end
-
 function toggleMetricMode()
     options.metricMode = not options.metricMode
-    for k, v in pairs(getAllObjects()) do
-        if v.getVar("className") == "MeasurementToken" or v.getVar("className") == "InjectTokenMini" then
-            v.call("toggleMetricMode")
+    for _, obj in ipairs(workingObjects) do
+        if obj.getVar("className") == "MeasurementToken" or obj.getVar("className") == "InjectTokenMini" then
+            obj.call("toggleMetricMode")
         end
     end
     rebuildContextMenu()
@@ -303,11 +264,6 @@ end
 
 function togglePingInitMinis()
     pingInitMinis = not pingInitMinis
-    rebuildContextMenu()
-end
-
-function toggleInitTableOnly()
-    initTableOnly = not initTableOnly
     rebuildContextMenu()
 end
 
@@ -515,6 +471,7 @@ function injectToken(object)
         object.setDescription(options.hp .. "/" .. options.hp)
     end
 
+    object.setGMNotes(self.getGUID())
     object.setLuaScript(injectMiniLua)
     Wait.time(|| setMiniVariable(object, stats, xml), 0.5)
 end
@@ -541,7 +498,6 @@ end
 
 function getInjectingFigures()
     local figures = {}
-    -- Only gather minis from the center of the table.
     local checkSZ = getOneWorldScriptingZone()
     for _, objZone in ipairs(checkSZ.getObjects()) do
         if objZone.getName() ~= "_OW_vBase" then
@@ -553,31 +509,19 @@ end
 
 function getInitiativeFigures()
     initFigures = {}
-    if initTableOnly then
-        -- Only gather minis from the center of the table.
-        local checkSZ = getOneWorldScriptingZone()
-        for _, objZone in ipairs(checkSZ.getObjects()) do
-            if objZone.getVar("className") == "InjectTokenMini" then
-                handleInitMiniature(objZone)
-            end
-        end
-    else
-        for k, v in pairs(getAllObjects()) do
-            if v.getVar("className") == "MeasurementToken" or v.getVar("className") == "InjectTokenMini" then
-                handleInitMiniature(v)
-            end
+    local checkSZ = getOneWorldScriptingZone()
+    for _, objZone in ipairs(checkSZ.getObjects()) do
+        if objZone.getVar("className") == "InjectTokenMini" then
+            handleInitMiniature(objZone)
         end
     end
     local figureSorter = function(figA, figB)
-        -- Sort by initiative value
         if figA.initValue ~= figB.initValue then
             return figA.initValue > figB.initValue
         end
-        -- Then by initiative mod
         if figA.initMod ~= figB.initMod then
             return figA.initMod > figB.initMod
         end
-        -- Then by name
         return figA.name < figB.name
     end
     table.sort(initFigures, figureSorter)
@@ -948,7 +892,6 @@ function rebuildUI()
     -- clear out existing figures
     xmlUI[3].children = {}
 
-    local allObjects = getAllObjects()
     local minilist = {
         tag='VerticalLayout',
         attributes={id='scroll', minHeight='100', width='600', inertia=false, scrollSensitivity=4, color='#00000000', visibility='Black', rectAlignment='UpperCenter'},
