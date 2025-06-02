@@ -341,7 +341,7 @@ end
 
 local function updateInformation()
     if onUpdateScale ~= self.getScale().y then
-        local newScale = string.format("%.2%f", (0.2 * (1 / self.getScale().y)))
+        local newScale = string.format("%.2%d", (0.2 * (1 / self.getScale().y)))
         self.UI.setAttribute("panel", "scale", newScale .. " " .. newScale)
         self.UI.setAttribute("panel", "position", "0 0 -" .. (options.heightModifier + 1))
         self.UI.setAttribute("panel", "position", "0 0 -" .. options.heightModifier)
