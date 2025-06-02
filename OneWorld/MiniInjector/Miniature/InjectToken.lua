@@ -1323,3 +1323,7 @@ function setInjectVariables(info)
     startLuaCoroutine(self, "updateSaveActual")
     Wait.time(|| self.reload(), 0.5)
 end
+
+function onObjectDestroy()
+    Wait.stopAll()
+end
