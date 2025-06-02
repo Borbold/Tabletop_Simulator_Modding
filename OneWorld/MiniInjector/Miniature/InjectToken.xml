@@ -70,9 +70,9 @@
                     <Button id='addHeight' text='►'></Button>
                 </HorizontalLayout>
                 <HorizontalLayout spacing='10' minheight='100'>
-                    <Button id='subRotation' text='◄' minwidth='90'></Button>
-                    <Text>Rotation</Text>
-                    <Button id='addRotation' text='►' minwidth='90'></Button>
+                    <Button id='subRotation' text='◄' />
+                    <Text text='Rotation' />
+                    <Button id='addRotation' text='►' />
                 </HorizontalLayout>
                 <HorizontalLayout minheight='100'>
                     <Button id='PlayerCharToggle' onClick='togglePlayer' fontSize='70' text='Player Character' color='#000000FF'></Button>
