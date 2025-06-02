@@ -333,7 +333,6 @@ function toggleCheckBox(player, value, id)
             end
         else
             if id == "hideBar" then
-                --print("Hello ", " ", options[id])
                 j.UI.setAttribute("progressBar", "visibility", options[id] and "Black" or "")
                 j.UI.setAttribute("progressBarS", "visibility", options[id] and "Black" or "")
                 j.UI.setAttribute("extraProgress", "visibility", options[id] and "Black" or "")
@@ -1258,7 +1257,7 @@ local function checkWorkingObjects(obj)
     return true
 end
 function addNewWorkingObjects(obj)
-    if obj and checkWorkingObjects(obj) then
+    if obj and tostring(obj) ~= "null" and checkWorkingObjects(obj) then
         table.insert(workingObjects, obj)
     end
 end
