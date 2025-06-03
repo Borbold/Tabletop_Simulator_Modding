@@ -116,7 +116,7 @@ function onLoad()
     move_currentAdjacentLocations, move_lastTargetLoc = nil, nil
     move_allLocations, move_drawLocations = {}, {}
     move_numDiagonals = 0
-    Wait.time(|| updateInformation(), 0.1, -1)
+    Wait.time(|| updateInformation(), 0.05, -1)
 end
 
 function getDistance()
@@ -175,9 +175,9 @@ function updateCurrentLocation(newLocation)
         debug = false,
     })
 
-    for _, hitTable in ipairs(hitList) do
-        if hitTable ~= nil and hitTable.point ~= nil and hitTable.hit_object ~= self then
-            newLocation = hitTable.point
+    for _, hObj in ipairs(hitList) do
+        if hObj ~= nil and hObj.point ~= nil and hObj.hit_object.getGUID() ~= self.getGUID() then
+            newLocation = hObj.point
             newLocation.y = newLocation.y + 0.2
             break
         elseif debuggingEnabled then
