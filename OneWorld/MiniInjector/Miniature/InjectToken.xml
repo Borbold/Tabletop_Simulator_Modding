@@ -19,7 +19,7 @@
             <Text id='hpText' visibility='' height='100' width='600' text='10/10'></Text>
             <HorizontalLayout id='editButtonBar' height='100' width='600'>
                  <Button id='leftSide1' text='' color='#00000000'></Button>
-                 <Button id='editButton1' color='#00000000'></Button>
+                 <Button id='editButton1' color='#00000000' visibility='Black'></Button>
                  <Button id='editButtonS1' text='' color='#00000000'></Button>
             </HorizontalLayout>
             <Panel id='addSub' visibility='' height='100' width='825' active='false'>
@@ -34,7 +34,7 @@
             <Text id='manaText' visibility='' height='100' width='600' text='10/10'></Text>
             <HorizontalLayout id='editButtonBar' height='100' width='600'>
                  <Button id='leftSide2' text='' color='#00000000'></Button>
-                 <Button id='editButton2' color='#00000000'></Button>
+                 <Button id='editButton2' color='#00000000' visibility='Black'></Button>
                  <Button id='editButtonS2' text='' color='#00000000'></Button>
             </HorizontalLayout>
             <Panel id='addSubS' visibility='' height='100' width='825' active='false'>
@@ -49,7 +49,7 @@
             <Text id='extraText' visibility='' height='100' width='600' text='10/10'></Text>
             <HorizontalLayout id='editButtonBar' height='100' width='600'>
                  <Button id='leftSide3' text='' color='#00000000'></Button>
-                 <Button id='editButton3' color='#00000000'></Button>
+                 <Button id='editButton3' color='#00000000' visibility='Black'></Button>
                  <Button id='editButtonS3' text='' color='#00000000'></Button>
             </HorizontalLayout>
             <Panel id='addSubE' visibility='' height='100' width='825' active='false'>

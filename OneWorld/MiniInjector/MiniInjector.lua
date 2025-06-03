@@ -183,8 +183,8 @@ function onLoad(save_state)
     addHotkey("Initiative Refresh", refreshInitiative, false)
     addHotkey("Initiative Roll", rollInitiative, false)
 
-    Wait.time(updateSettingUI, 0.5)
-    Wait.time(updateEverything, 1)
+    Wait.condition(|| updateSettingUI(), function() return #workingObjects > 0 end)
+    Wait.time(function() updateEverythingActive = true end, 4)
     Wait.time(|| checkObjects(), 0.2, -1)
 
     WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/MiniInjector/Miniature/InjectToken.lua",
@@ -214,6 +214,7 @@ local function updateUIAttribute(id, value)
 end
 
 function updateSettingUI()
+    print("Hello")
     self.UI.setAttribute("hp", "text", options.hp)
     self.UI.setAttribute("mana", "text", options.mana)
     self.UI.setAttribute("extra", "text", options.extra)
@@ -265,10 +266,6 @@ end
 function togglePingInitMinis()
     pingInitMinis = not pingInitMinis
     rebuildContextMenu()
-end
-
-function updateEverything()
-    updateEverythingActive = true
 end
 
 function toggleAutoCalibrate()
@@ -379,10 +376,8 @@ function toggleOnOff(skipToggle)
         options.showAll = not options.showAll
         rebuildContextMenu()
     end
-    for i,j in pairs(getAllObjects()) do
-        if j ~= self and j.getVar("className") == "InjectTokenMini" then
-            j.UI.setAttribute("panel", "active", options.showAll and "true" or "false")
-        end
+    for _,obj in ipairs(workingObjects) do
+        obj.UI.setAttribute("panel", "active", options.showAll and "true" or "false")
     end
 end
 
@@ -1257,7 +1252,7 @@ local function checkWorkingObjects(obj)
     return false
 end
 function addNewWorkingObjects(obj)
-    if checkWorkingObjects(obj) == false then
+    if tostring(obj) ~= "null" and checkWorkingObjects(obj) == false then
         table.insert(workingObjects, obj)
     end
 end
