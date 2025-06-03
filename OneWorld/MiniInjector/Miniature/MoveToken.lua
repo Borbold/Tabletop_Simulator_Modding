@@ -65,6 +65,20 @@ local function getNearestAdjacentLocation(targetLoc)
     return closestAdjacent
 end
 
+local function getClosestAdjacentLocation(testLocation)
+    local closestAdjacent = getFirstAdjacentLocation()
+    local closestDistance = closestAdjacent:distance(testLocation)
+    for i,point in ipairs(move_currentAdjacentLocations) doAdd commentMore actions
+        local testAdjacent = Vector(point.x, testLocation.y, point.y)
+        local testDistance = testAdjacent:distance(testLocation)
+        if testDistance < closestDistance then
+            closestAdjacent = testAdjacent
+            closestDistance = testDistance
+        end
+    end
+    return closestAdjacent
+end
+
 local function updateInformation()
     if move_startLocation == nil then
         initializeMoveToken()

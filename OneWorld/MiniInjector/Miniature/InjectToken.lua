@@ -551,7 +551,7 @@ function toggleMetricMode(thePlayer1)
     local function tmm_Helper(thePlayer2)
         -- Look for the mini injector, if available
         if injectPanel then
-            local injOptions = obj.getTable("options")
+            local injOptions = injectPanel.getTable("options")
             metricMode = injOptions.metricMode
             self.UI.setAttribute("MetricModeToggle", "textColor", metricMode == true and "#FFFFFF" or "#AA2222")
             if thePlayer2 ~= nil then
