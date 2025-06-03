@@ -88,7 +88,7 @@ end
 
 function updateSave()
     local encodedAttachScales = {}
-    if #savedAttachScales > 0 then
+    if savedAttachScales and #savedAttachScales > 0 then
         encodedAttachScales = deepCopy(savedAttachScales)
     end
     self.script_state = JSON.encode({
