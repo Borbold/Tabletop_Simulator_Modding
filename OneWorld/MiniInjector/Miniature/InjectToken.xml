@@ -11,7 +11,7 @@
     <VerticalLayout id='bars' height='300'>
         <Panel id='hiddenButtonBar' active='false'>
             <HorizontalLayout height='25' width='400'>
-                 <Button id='editButton0' color='#00000000' image='UpArrow' />
+                 <Button id='editButton0' image='UpArrow' visibility='Black' />
             </HorizontalLayout>
         </Panel>
         <Panel id='resourceBar' active='true'>

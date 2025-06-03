@@ -462,7 +462,8 @@ local function onLoad_helper(save_state)
     end
     Wait.time(|| confer(), 0.5)
     Wait.time(|| updateInformation(), 1, -1)
-    Wait.time(|| getObjectFromGUID(self.getGMNotes()).call("addNewWorkingObjects", self), 2)
+    injectPanel = getObjectFromGUID(self.getGMNotes())
+    Wait.time(|| injectPanel.call("addNewWorkingObjects", self), 2)
     finishedLoading = true
 end
 
@@ -1322,4 +1323,8 @@ function setInjectVariables(info)
     options.heightModifier = self.getBounds().size.y / self.getScale().y * options.heightModifier
     startLuaCoroutine(self, "updateSaveActual")
     Wait.time(|| self.reload(), 0.5)
+end
+
+function onObjectDestroy()
+    Wait.time(|| injectPanel.call("removeOldWorkingObjects", self), 3)
 end
