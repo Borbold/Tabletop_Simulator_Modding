@@ -166,13 +166,11 @@ function getHighlightColor(miniHighlight)
 end
 
 function updateCurrentLocation(newLocation)
-    newLocation = Vector(newLocation.x, move_targetObject.getBounds().center.y, newLocation.z)
     local hitList = Physics.cast({
         origin = newLocation,
         direction = {0, -move_targetObject.getBounds().center.y, 0},
         type = 1,
-        max_distance = 10,
-        debug = false,
+        max_distance = 10
     })
 
     for _, hObj in ipairs(hitList) do
