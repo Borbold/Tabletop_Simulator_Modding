@@ -117,7 +117,7 @@ local function handleCollisionInfo(collision_info)
 end
 
 function addingInjectionsMini()
-    for _, obj in ipairs(getInjectingFigures()) do
+    for _, obj in ipairs(getInjectingMiniatures()) do
         if obj.getVar("className") ~= "InjectTokenMini" then
             print("[00ff00]Injecting[-] mini " .. obj.getName() .. ".")
             injectToken(obj)
@@ -214,7 +214,6 @@ local function updateUIAttribute(id, value)
 end
 
 function updateSettingUI()
-    print("Hello")
     self.UI.setAttribute("hp", "text", options.hp)
     self.UI.setAttribute("mana", "text", options.mana)
     self.UI.setAttribute("extra", "text", options.extra)
@@ -487,20 +486,21 @@ local function getOneWorldScriptingZone()
     return nil
 end
 
-function getInjectingFigures()
-    local figures = {}
+function getInjectingMiniatures()
+    local miniatures = {}
     local checkSZ = getOneWorldScriptingZone()
     for _, objZone in ipairs(checkSZ.getObjects()) do
         if objZone.getName() ~= "_OW_vBase" then
-            table.insert(figures, objZone)
+            table.insert(miniatures, objZone)
         end
     end
-    return figures
+    return miniatures
 end
 
 function getInitiativeFigures()
     initFigures = {}
     local checkSZ = getOneWorldScriptingZone()
+    if checkSZ == nil then return end
     for _, objZone in ipairs(checkSZ.getObjects()) do
         if objZone.getVar("className") == "InjectTokenMini" then
             handleInitMiniature(objZone)
@@ -577,7 +577,7 @@ function handleInitMiniature(miniature)
             initText = initText .. figure.initMod .. ']'
         end
         figure.initText = initText
-        table.insert(figures, figure)
+        table.insert(initFigures, figure)
     end
 end
 
@@ -835,7 +835,7 @@ end
 
 local function buildNoteString(figures)
     local noteString = {"[CFCFCF]-------- INITIATIVE --------\n-------- ROUND " .. options.initCurrentRound .. " ---------\n-----------------------------\n[-]"}
-    for i, figure in ipairs(figures) do
+    for _, figure in ipairs(figures) do
         table.insert(noteString, getInitiativeString(figure))
     end
     table.insert(noteString, "[CFCFCF]-----------------------------[-]")
@@ -885,15 +885,13 @@ function rebuildUI()
 
     local minilist = {
         tag='VerticalLayout',
-        attributes={id='scroll', minHeight='100', width='600', inertia=false, scrollSensitivity=4, color='#00000000', visibility='Black', rectAlignment='UpperCenter'},
+        attributes={id='scroll', minHeight='200', width='1200', inertia=false, scrollSensitivity=4, color='#00000000', visibility='Black', rectAlignment='UpperCenter'},
         children = {
             {tag='VerticalLayout', attributes={childForceExpandHeight=false, contentSizeFitter='vertical', spacing='5', padding='5 5 5 5', visibility='Black', rectAlignment='UpperCenter'}, children={}}
         }
     }
 
-    local creatureCount = 0
-    for i, figure in ipairs(initFigures) do
-        creatureCount = creatureCount + 1
+    for _, figure in ipairs(initFigures) do
         local c = figure.colorTint
         local color = '#'..string.format('%02x', math.ceil(c.r * 255))..string.format('%02x', math.ceil(c.g * 255))..string.format('%02x', math.ceil(c.b * 255))
 
@@ -909,19 +907,19 @@ function rebuildUI()
         local maxHealth = figure.health.max
         local perc = (maxHealth == 0) and 0 or (currentHealth * 1.0) / (maxHealth * 1.0)
         if (perc <= 0) then
-            extraText = ' (Dead)'
+            extraText = " (Dead)"
         elseif (perc <= 0.05) then
-            extraText = ' (Deaths Door)'
+            extraText = " (Deaths Door)"
         elseif (perc <= 0.25) then
-            extraText = ' (Spicy)'
+            extraText = " (Spicy)"
         elseif (perc <= 0.5) then
-            extraText = ' (Bloody)'
+            extraText = " (Bloody)"
         elseif (perc <= 0.75) then
-            extraText = ' (Feeling it now Mr. Krabs?)'
+            extraText = " (Feeling it now Mr. Krabs?)"
         elseif (perc < 1.0) then
-            extraText = ' (Healthy)'
+            extraText = " (Healthy)"
         else
-            extraText = ' (Untouched)'
+            extraText = " (Untouched)"
         end
         extraText = striptags(figure.name)..extraText
         local percMax = tonumber(perc * 100.0)
@@ -938,7 +936,7 @@ function rebuildUI()
                 {
                     tag='horizontallayout',
                     attributes={
-                        preferredHeight = 60,
+                        preferredHeight = 120,
                         childForceExpandHeight=false,
                         childForceExpandWidth=false,
                         spacing=5
@@ -949,10 +947,7 @@ function rebuildUI()
                             attributes={
                                 id=figure.guidValue ..'_header_init',
                                 alignment='MiddleLeft',
-                                preferredHeight=60,
-                                fontSize='32',
-                                resizeTextForBestFit=true,
-                                minWidth='113',
+                                preferredHeight='120',
                                 text=figure.initText
                             }
                         },
@@ -962,8 +957,7 @@ function rebuildUI()
                                 color=color,
                                 preferredWidth = 10,
                                 flexibleWidth = 0,
-                                preferredHeight=60,
-                                minWidth='10'
+                                preferredHeight='120'
                             }
                         },
                         {
@@ -971,9 +965,7 @@ function rebuildUI()
                             attributes={
                                 id=figure.guidValue ..'_header_title',
                                 alignment='MiddleLeft',
-                                preferredHeight=60,
-                                fontSize='32',
-                                resizeTextForBestFit=true,
+                                preferredHeight='120',
                                 preferredWidth=10000,
                                 text=extraText
                             }
@@ -983,7 +975,7 @@ function rebuildUI()
                 {
                     tag='horizontallayout',
                     attributes={
-                        preferredHeight=60,
+                        preferredHeight='120',
                         childForceExpandHeight=false,
                         childForceExpandWidth=false,
                         spacing=5
@@ -993,10 +985,9 @@ function rebuildUI()
                             tag='InputField',
                             attributes={
                                 id=figure.guidValue ..'_input_change',
-                                preferredHeight='60',
-                                preferredWidth='130',
+                                preferredHeight='120',
+                                preferredWidth='260',
                                 flexibleWidth=0,
-                                fontSize='38',
                                 alignment='MiddleCenter',
                                 offsetXY='150 0',
                                 color='rgb(0.3,0.3,0.3)',
@@ -1010,10 +1001,9 @@ function rebuildUI()
                             tag='InputField',
                             attributes={
                                 id=figure.guidValue ..'_input_current',
-                                preferredHeight='60',
-                                preferredWidth='130',
+                                preferredHeight='120',
+                                preferredWidth='260',
                                 flexibleWidth=0,
-                                fontSize='38',
                                 alignment='MiddleCenter',
                                 offsetXY='150 0',
                                 text=currentHealth,
@@ -1026,8 +1016,8 @@ function rebuildUI()
                             tag='Button',
                             attributes={
                                 id=figure.guidValue ..'_barReduce',
-                                preferredWidth='30',
-                                preferredHeight='60',
+                                preferredWidth='60',
+                                preferredHeight='120',
                                 flexibleWidth=0,
                                 image='ui_arrow_l2',
                                 onClick='barReduce'
@@ -1036,8 +1026,8 @@ function rebuildUI()
                         {
                             tag='panel',
                             attributes={
-                                preferredHeight='60',
-                                preferredWidth='300'
+                                preferredHeight='120',
+                                preferredWidth='600'
                             },
                             children={
                                 {
@@ -1057,8 +1047,8 @@ function rebuildUI()
                             tag='Button',
                             attributes={
                                 id=figure.guidValue ..'_barIncrease',
-                                preferredWidth='30',
-                                preferredHeight='60',
+                                preferredWidth='60',
+                                preferredHeight='120',
                                 image='ui_arrow_r2',
                                 flexibleWidth=0,
                                 onClick='barIncrease'
@@ -1068,9 +1058,8 @@ function rebuildUI()
                             tag='InputField',
                             attributes={
                                 id=figure.guidValue ..'_input_maximum',
-                                preferredHeight='60',
-                                preferredWidth='130',
-                                fontSize='38',
+                                preferredHeight='120',
+                                preferredWidth='260',
                                 text=maxHealth,
                                 characterValidation='Integer',
                                 onEndEdit='barChangeMaximum',
@@ -1085,22 +1074,22 @@ function rebuildUI()
         table.insert(minilist.children[1].children, miniui)
     end
 
-    local calcHeight = 93 * creatureCount
-    minilist.attributes.height = calcHeight..''
-    minilist.attributes.minHeight = calcHeight..''
+    local calcHeight = 186*#initFigures
+    minilist.attributes.height = calcHeight
+    minilist.attributes.minHeight = calcHeight
     table.insert(xmlUI[3].children, {
         tag='Defaults', children={
-            {tag='Text', attributes={color='#cccccc', fontSize='15', alignment='MiddleLeft', visibility='Black'}},
-            {tag='InputField', attributes={fontSize='15', preferredHeight='60', visibility='Black'}},
-            {tag='ToggleButton', attributes={fontSize='15', preferredHeight='60', colors='#ffcc33|#ffffff|#808080|#606060', selectedBackgroundColor='#dddddd', deselectedBackgroundColor='#999999', visibility='Black'}},
-            {tag='Button', attributes={fontSize='15', preferredHeight='60', colors='#dddddd|#ffffff|#808080|#606060', visibility='Black'}},
+            {tag='Text', attributes={color='#cccccc', alignment='MiddleLeft', visibility='Black'}},
+            {tag='InputField', attributes={preferredHeight='120', visibility='Black'}},
+            {tag='ToggleButton', attributes={preferredHeight='120', colors='#ffcc33|#ffffff|#808080|#606060', selectedBackgroundColor='#dddddd', deselectedBackgroundColor='#999999', visibility='Black'}},
+            {tag='Button', attributes={preferredHeight='120', colors='#dddddd|#ffffff|#808080|#606060', visibility='Black'}},
             {tag='Toggle', attributes={textColor='#cccccc', visibility='Black'}},
         }
     })
-    table.insert(xmlUI[3].children, {tag='Panel', attributes={ height=calcHeight..'', width='790', rectAlignment='UpperCenter'},
+    table.insert(xmlUI[3].children, {tag='Panel', attributes={ height=calcHeight, width='1580', rectAlignment='UpperCenter'},
         children={
             {tag='VerticalLayout', attributes={childForceExpandHeight=false, minHeight='0', spacing=10, rectAlignment='UpperCenter'}, children={
-                {tag='HorizontalLayout', attributes={preferredHeight=80, childForceExpandWidth=false, flexibleHeight=0, spacing=20, padding='10 10 10 10'}, children={}},
+                {tag='HorizontalLayout', attributes={preferredHeight=160, childForceExpandWidth=false, flexibleHeight=0, spacing=20, padding='10 10 10 10'}, children={}},
                 minilist
             }}
         }
@@ -1191,24 +1180,24 @@ end
 
 function barReduce(player, value, id)
     local guid = id:sub(1, -11)
-    local token = getObjectFromGUID(guid)
-    if token ~= nil then
+    local miniature = getObjectFromGUID(guid)
+    if miniature ~= nil then
         if value == "-1" then
-            token.call('reduceHP')
+            miniature.call('reduceHP')
         else
-            token.call('adjustHP', -10)
+            miniature.call('adjustHP', -10)
         end
     end
 end
 
 function barIncrease(player, value, id)
     local guid = id:sub(1, -13)
-    local token = getObjectFromGUID(guid)
-    if token ~= nil then
+    local miniature = getObjectFromGUID(guid)
+    if miniature ~= nil then
         if value == "-1" then
-            token.call('increaseHP')
+            miniature.call('increaseHP')
         else
-            token.call('adjustHP', 10)
+            miniature.call('adjustHP', 10)
         end
     end
 end

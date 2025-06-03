@@ -990,13 +990,7 @@ function setHPMax(newHPMax)
 end
 
 function updateRollers()
-    local allObjects = getAllObjects()
-    for _, obj in ipairs(allObjects) do
-        local className = obj.getVar("className")
-        if className == "MiniInjector" then
-            obj.call("updateFromGuid", self.guid)
-        end
-    end
+    injectPanel.call("updateFromGuid", self.getGUID())
 end
 
 function onEndEdit(player, value, id)
@@ -1036,7 +1030,7 @@ function onClick(player_in, value, id)
             showing = false
         end
     elseif id == "editButton0" or id == "editButton1" or id == "editButton2" or id == "editButton3" then
-        if firstEdit == true or self.UI.getAttribute("editPanel", "active") == "False" or self.UI.getAttribute("editPanel", "active") == nil then
+        if firstEdit == true or self.UI.getAttribute("editPanel", "active") == "False" then
             self.UI.setAttribute("editPanel", "active", true)
             self.UI.setAttribute("statePanel", "active", false)
             firstEdit = false
