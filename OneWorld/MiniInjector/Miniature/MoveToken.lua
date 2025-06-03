@@ -39,7 +39,7 @@ local function isTargetOutsideBounds(targetLoc)
 end
 
 local function isTargetNearAdjacentLocation(targetLoc)
-    for i, point in ipairs(move_currentAdjacentLocations) do
+    for _, point in ipairs(move_currentAdjacentLocations) do
         local testPoint = Vector(point.x, targetLoc.y, point.y)
         if testPoint:distance(targetLoc) < getAcceptDistance() then
             if point.isDiagonal then
@@ -54,7 +54,7 @@ end
 local function getNearestAdjacentLocation(targetLoc)
     local closestAdjacent = getFirstAdjacentLocation()
     local closestDistance = closestAdjacent:distance(targetLoc)
-    for i, point in ipairs(move_currentAdjacentLocations) do
+    for _, point in ipairs(move_currentAdjacentLocations) do
         local testAdjacent = Vector(point.x, targetLoc.y, point.y)
         local testDistance = testAdjacent:distance(targetLoc)
         if testDistance < closestDistance then
@@ -68,7 +68,7 @@ end
 local function getClosestAdjacentLocation(testLocation)
     local closestAdjacent = getFirstAdjacentLocation()
     local closestDistance = closestAdjacent:distance(testLocation)
-    for i,point in ipairs(move_currentAdjacentLocations) doAdd commentMore actions
+    for _,point in ipairs(move_currentAdjacentLocations) do
         local testAdjacent = Vector(point.x, testLocation.y, point.y)
         local testDistance = testAdjacent:distance(testLocation)
         if testDistance < closestDistance then
@@ -205,7 +205,7 @@ end
 
 function pingAdjacents()
     for _, player in ipairs(Player.getPlayers()) do
-        for i, point in ipairs(move_currentAdjacentLocations) do
+        for _, point in ipairs(move_currentAdjacentLocations) do
             local pinger = Vector(point.x, self.getPosition().y, point.y)
             player.pingTable(pinger)
         end
@@ -214,7 +214,7 @@ function pingAdjacents()
 end
 
 function getFirstAdjacentLocation()
-    for i, point in ipairs(move_currentAdjacentLocations) do
+    for _, point in ipairs(move_currentAdjacentLocations) do
         return Vector(point.x, self.getPosition().y, point.y)
     end
 end
