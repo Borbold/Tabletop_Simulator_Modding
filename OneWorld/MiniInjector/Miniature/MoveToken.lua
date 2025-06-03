@@ -1,33 +1,3 @@
-local function updateInformation()
-    if move_startLocation == nil then
-        initializeMoveToken()
-    end
-
-    if move_targetObject == nil or move_targetObject.held_by_color == nil then
-        destroyObject(self)
-        return
-    end
-
-    local targetLoc = move_targetObject.getPosition()
-    if move_lastTargetLoc ~= nil and targetLoc:distance(move_lastTargetLoc) < 0.05 then
-        return
-    end
-
-    if isTargetWithinBounds(targetLoc) then
-        resetMoves()
-    end
-
-    if isTargetOutsideBounds(targetLoc) then
-        updateCurrentLocation(getClosestAdjacentLocation(targetLoc))
-    end
-
-    if isTargetNearAdjacentLocation(targetLoc) then
-        updateCurrentLocation(getNearestAdjacentLocation(targetLoc))
-    end
-
-    move_lastTargetLoc = targetLoc
-end
-
 local function initializeMoveToken()
     move_startLocation = self.getPosition()
     self.createButton({
@@ -93,6 +63,36 @@ local function getNearestAdjacentLocation(targetLoc)
         end
     end
     return closestAdjacent
+end
+
+local function updateInformation()
+    if move_startLocation == nil then
+        initializeMoveToken()
+    end
+
+    if move_targetObject == nil or move_targetObject.held_by_color == nil then
+        destroyObject(self)
+        return
+    end
+
+    local targetLoc = move_targetObject.getPosition()
+    if move_lastTargetLoc ~= nil and targetLoc:distance(move_lastTargetLoc) < 0.05 then
+        return
+    end
+
+    if isTargetWithinBounds(targetLoc) then
+        resetMoves()
+    end
+
+    if isTargetOutsideBounds(targetLoc) then
+        updateCurrentLocation(getClosestAdjacentLocation(targetLoc))
+    end
+
+    if isTargetNearAdjacentLocation(targetLoc) then
+        updateCurrentLocation(getNearestAdjacentLocation(targetLoc))
+    end
+
+    move_lastTargetLoc = targetLoc
 end
 
 function onLoad()
