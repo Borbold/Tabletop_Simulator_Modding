@@ -957,7 +957,7 @@ function setHP(newHP)
     if health.value > health.max and not options.aboveMax then health.value = health.max end
     if health.value < 0 and not options.belowZero then health.value = 0 end
     if player == false and health.value <= 0 and options.initSettingsIncluded == true and options.initRealActive == true then
-        options.initSettingsIncluded = false
+        toggleInitiativeInclude()
         self.UI.setAttribute("InitiativeIncludeToggle", "textColor", options.initSettingsIncluded == true and "#FFFFFF" or "#AA2222")
         miniHighlight = "highlightNone"
         updateHighlight()
@@ -980,7 +980,7 @@ function setHPMax(newHPMax)
     if health.value > health.max and not options.aboveMax then health.value = health.max end
     if health.value < 0 and not options.belowZero then health.value = 0 end
     if player == false and health.value <= 0 and options.initSettingsIncluded == true and options.initRealActive == true then
-        options.initSettingsIncluded = false
+        toggleInitiativeInclude()
         self.UI.setAttribute("InitiativeIncludeToggle", "textColor", options.initSettingsIncluded == true and "#FFFFFF" or "#AA2222")
     end
     self.UI.setAttribute("hpText", "text", health.value .. "/" .. health.max)
@@ -1182,7 +1182,7 @@ function onClick(player_in, value, id)
             self.setDescription(health.value .. "/" .. health.max)
         end
         if player == false and health.value <= 0 and options.initSettingsIncluded == true and options.initRealActive == true then
-            options.initSettingsIncluded = false
+            toggleInitiativeInclude()
             self.UI.setAttribute("InitiativeIncludeToggle", "textColor", options.initSettingsIncluded == true and "#FFFFFF" or "#AA2222")
         end
         updateRollers()

@@ -150,7 +150,7 @@ local function checkObjects()
             updateEverythingIndex = 1
             print("[00ff00]All minis updated.[-]")
             if options.initActive then
-                Wait.frames(rollInitiative, 60)
+                Wait.time(rollInitiative, 1)
             end
         end
     end
@@ -1100,35 +1100,18 @@ end
 function updateFromGuid(guid)
     local token = getObjectFromGUID(guid)
     if (token ~= nil) then
-        local extraText = ''
         local healthTable = token.getTable("health")
         local currentHealth = healthTable.value
         local maxHealth = healthTable.max
         local perc = (maxHealth == 0) and 0 or (currentHealth * 1.0) / (maxHealth * 1.0)
-        if (perc <= 0) then
-            extraText = ' (Dead)'
-            local player = token.getVar("player")
-            if player == false and options.initActive then
-                Wait.frames(rollInitiative, 5)
-            end
-        elseif (perc <= 0.05) then
-            extraText = ' (Deaths Door)'
-        elseif (perc <= 0.25) then
-            extraText = ' (Spicy)'
-        elseif (perc <= 0.5) then
-            extraText = ' (Bloody)'
-        elseif (perc <= 0.75) then
-            extraText = ' (Feeling it now Mr. Krabs?)'
-        elseif (perc < 1.0) then
-            extraText = ' (Healthy)'
-        else
-            extraText = ' (Untouched)'
-        end
+        local extraText = string.format(" %s", perc <= 0 and " (Dead)" or perc <= 0.05 and " (Deaths Door)" or perc <= 0.05 and " (Deaths Door)" or
+            perc <= 0.25 and " (Spicy)" or perc <= 0.5 and " (Bloody)" or perc <= 0.75 and " (Feeling it now Mr. Krabs?)" or
+            perc < 1 and " (Healthy)" or " (Untouched)")
         local percMax = tonumber(perc * 100.0)
-        self.UI.setAttribute(guid..'_header_title', 'text', striptags(token.getName())..extraText)
-        self.UI.setAttribute(guid..'_input_current', 'text', currentHealth)
-        self.UI.setAttribute(guid..'_bar', 'percentage', percMax)
-        self.UI.setAttribute(guid..'_input_maximum', 'text', maxHealth)
+        self.UI.setAttribute(guid.."_header_title", "text", striptags(token.getName())..extraText)
+        self.UI.setAttribute(guid.."_input_current", "text", currentHealth)
+        self.UI.setAttribute(guid.."_bar", "percentage", percMax)
+        self.UI.setAttribute(guid.."_input_maximum", "text", maxHealth)
     end
 end
 
