@@ -1,6 +1,8 @@
 local function initializeMoveToken()
     move_startLocation = self.getPosition()
     self.createButton({
+        click_function = "onLoad",
+        function_owner = self,
         label = "00",
         position = {x=0, y=0.1, z=0},
         width = 0,
