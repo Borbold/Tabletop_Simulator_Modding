@@ -4,7 +4,6 @@ scaleMultiplierY = 1.0
 scaleMultiplierZ = 1.0
 finishedLoading = false
 calibratedOnce = false
-debuggingEnabled = false
 onUpdateTriggerCount = 0
 onSaveFrameCount = 0
 onUpdateScale = 1.0
@@ -69,9 +68,6 @@ end
 
 function getInitiative(inputActive)
     if options.initRealActive == true then
-        if debuggingEnabled then
-            print(self.getName() .. ' init real cache ' .. options.initRealValue)
-        end
         return options.initRealValue
     end
     if inputActive == true then
@@ -81,23 +77,14 @@ function getInitiative(inputActive)
         else
             options.initRealValue = calculateInitiative()
         end
-        if debuggingEnabled then
-            print(self.getName() .. ' init real calc' .. options.initRealValue)
-        end
         updateSave()
         return options.initRealValue
     end
     if options.initMockActive == true then
-        if debuggingEnabled then
-            print(self.getName() .. ' init mock cache ' .. options.initMockValue)
-        end
         return options.initMockValue
     end
     options.initMockActive = true
     options.initMockValue = calculateInitiative()
-    if debuggingEnabled then
-        print(self.getName() .. ' init mock calc ' .. options.initMockValue)
-    end
     updateSave()
     return options.initMockValue
 end
@@ -125,9 +112,6 @@ function updateSaveActual()
         coroutine.yield(0)
     end
     saveVersion = saveVersion + 1
-    if debuggingEnabled then
-        print(self.getName() .. " saving, version " .. saveVersion .. ".")
-    end
     local encodedAttachScales = {}
     if #savedAttachScales > 0 then
         for _, scaleVector in ipairs(savedAttachScales) do
@@ -326,9 +310,6 @@ local function confer()
         end
         table.insert(aColors, "Grey")
         table.insert(aColors, "White")
-        if debuggingEnabled then
-            print(self.getName() .. " gone.")
-        end
         self.setInvisibleTo(aColors)
     end
     updateSave()
@@ -383,9 +364,6 @@ local function onLoad_helper(save_state)
             end
         end
     end
-    if debuggingEnabled then
-        print(self.getName() .. " best version: " .. bestVersion)
-    end
     if saved_data ~= nil then
         if saved_data.health then
             for heal,_ in pairs(health) do
@@ -411,9 +389,6 @@ local function onLoad_helper(save_state)
         end
         if saved_data.encodedAttachScales then
             for _,encodedScale in pairs(saved_data.encodedAttachScales) do
-                if debuggingEnabled then
-                    print("loaded vector: " .. encodedScale.x .. ", " .. encodedScale.y .. ", " .. encodedScale.z)
-                end
                 table.insert(savedAttachScales, vector(encodedScale.x, encodedScale.y, encodedScale.z))
             end
         end
@@ -453,9 +428,6 @@ local function onLoad_helper(save_state)
         hideFromPlayers = (saved_data.hideFromPlayers and player == false) and saved_data.hideFromPlayers or false
         if saved_data.saveVersion ~= nil then
             saveVersion = saved_data.saveVersion
-            if debuggingEnabled then
-                print(self.getName() .. " loading, version " .. saveVersion .. ".")
-            end
         end
         xml = saved_data.xml and saved_data.xml or ""
         self.UI.setXml(saved_data.xml and saved_data.xml or "")
@@ -574,11 +546,6 @@ function rebuildContextMenu()
     end
     self.addContextMenuItem("Reset Scale", resetScale)
     self.addContextMenuItem("Reload Mini", function() self.reload() end)
-    if debuggingEnabled == true then
-        self.addContextMenuItem("[X] Debugging", toggleDebug)
-    else
-        self.addContextMenuItem("[ ] Debugging", toggleDebug)
-    end
 end
 
 function uiHeightUp()
@@ -599,12 +566,6 @@ function uiRotate90()
     updateSave()
 end
 
-function toggleDebug()
-    debuggingEnabled = not debuggingEnabled
-    rebuildContextMenu()
-    updateSave()
-end
-
 function toggleHideFromPlayers()
     if player == true and hideFromPlayers == false then
         print(self.getName() .. " is a player character, cannot hide.")
@@ -620,42 +581,23 @@ function toggleHideFromPlayers()
         end
         table.insert(aColors, "Grey")
         table.insert(aColors, "White")
-        if debuggingEnabled then
-            print(self.getName() .. " gone.")
-        end
         self.setInvisibleTo(aColors)
         -- If the object has attachments, make them invisible too
         myAttach = self.removeAttachments()
         if #myAttach > 0 then
             savedAttachScales = {}
-            if debuggingEnabled then
-                print(self.getName() .. " has attach.")
-            end
             for _, attachObj in ipairs(myAttach) do
-                if debuggingEnabled then
-                    print(attachObj.getName() .. " gone.")
-                end
-                --attachObj.setInvisibleTo(aColors)
                 table.insert(savedAttachScales, attachObj.getScale())
                 attachObj.setScale(vector(0, 0, 0))
                 self.addAttachment(attachObj)
             end
         end
     else
-        if debuggingEnabled then
-            print(self.getName() .. " back.")
-        end
         self.setInvisibleTo({})
         -- If the object has attachments, make them visible too
         myAttach = self.removeAttachments()
         if #myAttach > 0 then
-            if debuggingEnabled then
-                print(self.getName() .. " has attach.")
-            end
             for attachIndex, attachObj in ipairs(myAttach) do
-                if debuggingEnabled then
-                    print(attachObj.getName() .. " back.")
-                end
                 attachObj.setScale(savedAttachScales[attachIndex])
                 self.addAttachment(attachObj)
             end
@@ -776,26 +718,17 @@ function calibrateScale()
     scaleMultiplierY = currentScale.y / Grid.sizeX
     scaleMultiplierZ = currentScale.z / Grid.sizeX
     calibratedOnce = true
-    if debuggingEnabled then
-        print(self.getName() .. ": Calibrated scale with reference to grid.")
-    end
     rebuildContextMenu()
     updateSave()
 end
 
 function resetScale()
     if calibratedOnce == false then
-        if debuggingEnabled == true then
-            print(self.getName() .. ": Mini not calibrated to grid yet.")
-        end
         return
     end
     newScaleX = Grid.sizeX * scaleMultiplierX
     newScaleY = Grid.sizeX * scaleMultiplierY
     newScaleZ = Grid.sizeX * scaleMultiplierZ
-    if debuggingEnabled == true then
-        print(self.getName() .. ": Reset scale with reference to grid.")
-    end
     scaleVector = vector(newScaleX, newScaleY, newScaleZ)
     self.setScale(scaleVector)
     onUpdateGridSize = Grid.sizeX
@@ -821,9 +754,6 @@ function onRotate(spin, flip, player_color, old_spin, old_flip)
                     return
                 end
                 if stabilizeOnDrop == true then
-                    if debuggingEnabled == true then
-                        print(self.getName() .. ": Stabilizing after rotation.")
-                    end
                     stabilize()
                 end
             end
@@ -849,17 +779,11 @@ function onDrop(dcolor)
 end
 
 function stabilize()
-    if debuggingEnabled == true then
-        print(self.getName() .. ": stabilizing.")
-    end
     local rb = self.getComponent("Rigidbody")
     rb.set("freezeRotation", true)
 end
 
 function destabilize()
-    if debuggingEnabled == true then
-        print(self.getName() .. ": de-stabilizing.")
-    end
     local rb = self.getComponent("Rigidbody")
     rb.set("freezeRotation", false)
 end
@@ -894,10 +818,6 @@ function createMoveToken(mcolor, mtoken)
         if hitTable ~= nil and hitTable.point ~= nil and hitTable.hit_object ~= mtoken then
             startloc = hitTable.point
             break
-        else
-            if debuggingEnabled == true then
-                print("Did not find object below mini.")
-            end
         end
     end
     tokenScale = {
