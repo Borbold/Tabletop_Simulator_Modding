@@ -206,86 +206,78 @@ local function confer()
     self.UI.setAttribute("InitiativeRollingToggle", "textColor", options.initSettingsRolling == true and "#FFFFFF" or "#AA2222")
 
     -- Look for the mini injector, if available
-    local allObjects = getAllObjects()
-    for _, obj in ipairs(allObjects) do
-        if obj ~= self and obj ~= nil then
-            local typeCheck = obj.getVar("className")
-            if typeCheck == "MiniInjector" then
-                autoCalibrate = obj.getVar("autoCalibrateEnabled")
-                if autoCalibrate == true then
-                    calibrateScale()
-                end
-                -- grab ui settings
-                local injOptions = obj.getTable("options")
-                alternateDiag = injOptions.alternateDiag
-                self.UI.setAttribute("AlternateDiagToggle", "textColor", alternateDiag == true and "#FFFFFF" or "#AA2222")
-                metricMode = injOptions.metricMode
-                self.UI.setAttribute("MetricModeToggle", "textColor", metricMode == true and "#FFFFFF" or "#AA2222")
-                if player == true then
-                    self.UI.setAttribute("progressBar", "visibility", "")
-                    self.UI.setAttribute("progressBarS", "visibility", "")
-                    self.UI.setAttribute("extraProgress", "visibility", "")
-                    self.UI.setAttribute("hpText", "visibility", "")
-                    self.UI.setAttribute("manaText", "visibility", "")
-                    self.UI.setAttribute("extraText", "visibility", "")
-                    self.UI.setAttribute("addSub", "visibility", "")
-                    self.UI.setAttribute("addSubS", "visibility", "")
-                    self.UI.setAttribute("addSubE", "visibility", "")
-                    self.UI.setAttribute("editPanel", "visibility", "")
-                    self.UI.setAttribute("leftSide1", "visibility", "")
-                    self.UI.setAttribute("editButton0", "visibility", "")
-                    self.UI.setAttribute("editButton1", "visibility", "")
-                    self.UI.setAttribute("editButtonS1", "visibility", "")
-                    self.UI.setAttribute("leftSide2", "visibility", "")
-                    self.UI.setAttribute("editButton2", "visibility", "")
-                    self.UI.setAttribute("editButtonS2", "visibility", "")
-                    self.UI.setAttribute("leftSide3", "visibility", "")
-                    self.UI.setAttribute("editButton3", "visibility", "")
-                    self.UI.setAttribute("editButtonS3", "visibility", "")
-                else
-                    if injOptions.hideBar == true then
-                        self.UI.setAttribute("progressBar", "visibility", "Black")
-                        self.UI.setAttribute("progressBarS", "visibility", "Black")
-                        self.UI.setAttribute("extraProgress", "visibility", "Black")
-                    else
-                        self.UI.setAttribute("progressBar", "visibility", "")
-                        self.UI.setAttribute("progressBarS", "visibility", "")
-                        self.UI.setAttribute("extraProgress", "visibility", "")
-                    end
-                    if injOptions.hideText == true then
-                        self.UI.setAttribute("hpText", "visibility", "Black")
-                        self.UI.setAttribute("manaText", "visibility", "Black")
-                        self.UI.setAttribute("extraText", "visibility", "Black")
-                    else
-                        self.UI.setAttribute("hpText", "visibility", "")
-                        self.UI.setAttribute("manaText", "visibility", "")
-                        self.UI.setAttribute("extraText", "visibility", "")
-                    end
-                    if injOptions.editText == true then
-                        self.UI.setAttribute("addSub", "visibility", "Black")
-                        self.UI.setAttribute("addSubS", "visibility", "Black")
-                        self.UI.setAttribute("addSubE", "visibility", "Black")
-                        self.UI.setAttribute("editPanel", "visibility", "Black")
-                    else
-                        self.UI.setAttribute("addSub", "visibility", "")
-                        self.UI.setAttribute("addSubS", "visibility", "")
-                        self.UI.setAttribute("addSubE", "visibility", "")
-                        self.UI.setAttribute("editPanel", "visibility", "")
-                    end
-                    self.UI.setAttribute("panel", "active", injOptions.showAll == true and "true" or "false")
-                    self.UI.setAttribute("editButton0", "visibility", "Black")
-                    self.UI.setAttribute("leftSide1", "visibility", "Black")
-                    self.UI.setAttribute("editButton1", "visibility", "Black")
-                    self.UI.setAttribute("editButtonS1", "visibility", "Black")
-                    self.UI.setAttribute("leftSide2", "visibility", "Black")
-                    self.UI.setAttribute("editButton2", "visibility", "Black")
-                    self.UI.setAttribute("editButtonS2", "visibility", "Black")
-                    self.UI.setAttribute("leftSide3", "visibility", "Black")
-                    self.UI.setAttribute("editButton3", "visibility", "Black")
-                    self.UI.setAttribute("editButtonS3", "visibility", "Black")
-                end
-            end
+    autoCalibrate = injectPanel.getVar("autoCalibrateEnabled")
+    if autoCalibrate == true then
+        calibrateScale()
+    end
+    -- grab ui settings
+    local injOptions = injectPanel.getTable("options")
+    alternateDiag = injOptions.alternateDiag
+    self.UI.setAttribute("AlternateDiagToggle", "textColor", alternateDiag == true and "#FFFFFF" or "#AA2222")
+    metricMode = injOptions.metricMode
+    self.UI.setAttribute("MetricModeToggle", "textColor", metricMode == true and "#FFFFFF" or "#AA2222")
+    if player == true then
+        self.UI.setAttribute("progressBar", "visibility", "")
+        self.UI.setAttribute("progressBarS", "visibility", "")
+        self.UI.setAttribute("extraProgress", "visibility", "")
+        self.UI.setAttribute("hpText", "visibility", "")
+        self.UI.setAttribute("manaText", "visibility", "")
+        self.UI.setAttribute("extraText", "visibility", "")
+        self.UI.setAttribute("addSub", "visibility", "")
+        self.UI.setAttribute("addSubS", "visibility", "")
+        self.UI.setAttribute("addSubE", "visibility", "")
+        self.UI.setAttribute("editPanel", "visibility", "")
+        self.UI.setAttribute("leftSide1", "visibility", "")
+        self.UI.setAttribute("editButton0", "visibility", "")
+        self.UI.setAttribute("editButton1", "visibility", "")
+        self.UI.setAttribute("editButtonS1", "visibility", "")
+        self.UI.setAttribute("leftSide2", "visibility", "")
+        self.UI.setAttribute("editButton2", "visibility", "")
+        self.UI.setAttribute("editButtonS2", "visibility", "")
+        self.UI.setAttribute("leftSide3", "visibility", "")
+        self.UI.setAttribute("editButton3", "visibility", "")
+        self.UI.setAttribute("editButtonS3", "visibility", "")
+    else
+        if injOptions.hideBar == true then
+            self.UI.setAttribute("progressBar", "visibility", "Black")
+            self.UI.setAttribute("progressBarS", "visibility", "Black")
+            self.UI.setAttribute("extraProgress", "visibility", "Black")
+        else
+            self.UI.setAttribute("progressBar", "visibility", "")
+            self.UI.setAttribute("progressBarS", "visibility", "")
+            self.UI.setAttribute("extraProgress", "visibility", "")
         end
+        if injOptions.hideText == true then
+            self.UI.setAttribute("hpText", "visibility", "Black")
+            self.UI.setAttribute("manaText", "visibility", "Black")
+            self.UI.setAttribute("extraText", "visibility", "Black")
+        else
+            self.UI.setAttribute("hpText", "visibility", "")
+            self.UI.setAttribute("manaText", "visibility", "")
+            self.UI.setAttribute("extraText", "visibility", "")
+        end
+        if injOptions.editText == true then
+            self.UI.setAttribute("addSub", "visibility", "Black")
+            self.UI.setAttribute("addSubS", "visibility", "Black")
+            self.UI.setAttribute("addSubE", "visibility", "Black")
+            self.UI.setAttribute("editPanel", "visibility", "Black")
+        else
+            self.UI.setAttribute("addSub", "visibility", "")
+            self.UI.setAttribute("addSubS", "visibility", "")
+            self.UI.setAttribute("addSubE", "visibility", "")
+            self.UI.setAttribute("editPanel", "visibility", "")
+        end
+        self.UI.setAttribute("panel", "active", injOptions.showAll == true and "true" or "false")
+        self.UI.setAttribute("editButton0", "visibility", "Black")
+        self.UI.setAttribute("leftSide1", "visibility", "Black")
+        self.UI.setAttribute("editButton1", "visibility", "Black")
+        self.UI.setAttribute("editButtonS1", "visibility", "Black")
+        self.UI.setAttribute("leftSide2", "visibility", "Black")
+        self.UI.setAttribute("editButton2", "visibility", "Black")
+        self.UI.setAttribute("editButtonS2", "visibility", "Black")
+        self.UI.setAttribute("leftSide3", "visibility", "Black")
+        self.UI.setAttribute("editButton3", "visibility", "Black")
+        self.UI.setAttribute("editButtonS3", "visibility", "Black")
     end
 
     rebuildContextMenu()
@@ -340,71 +332,36 @@ local function updateInformation()
 end
 
 local function onLoad_helper(save_state)
-    if stabilizeOnDrop == true and self.held_by_color == nil then
-        stabilize()
-    end
-    local saved_data = nil
-    local my_saved_data = nil
-    local bestVersion = 0
-    if save_state ~= "" then
-        saved_data = JSON.decode(save_state)
-        my_saved_data = saved_data
-        if saved_data.saveVersion ~= nil then
-            bestVersion = saved_data.saveVersion
-        end
-    end
-    -- ALRIGHTY, let's see which state data we need to use
-    states = self.getStates()
-    if states ~= nil then
-        for _, s in pairs(states) do
-            test_data = JSON.decode(s.lua_script_state)
-            if test_data ~= nil and test_data.saveVersion ~= nil and test_data.saveVersion > bestVersion then
-                saved_data = test_data
-                bestVersion = test_data.saveVersion
-            end
-        end
-    end
-    if saved_data ~= nil then
+    local function loadSavedData(saved_data)
         if saved_data.health then
-            for heal,_ in pairs(health) do
-                health[heal] = saved_data.health[heal]
+            for k, v in pairs(health) do
+                health[k] = saved_data.health[k]
             end
         end
         if saved_data.mana then
-            for res,_ in pairs(mana) do
-                mana[res] = saved_data.mana[res]
+            for k, v in pairs(mana) do
+                mana[k] = saved_data.mana[k]
             end
         end
         if saved_data.extra then
-            for res,_ in pairs(extra) do
-                extra[res] = saved_data.extra[res]
+            for k, v in pairs(extra) do
+                extra[k] = saved_data.extra[k]
             end
         end
         if saved_data.options then
-            for opt,_ in pairs(options) do
-                if saved_data.options[opt] ~= nil then
-                    options[opt] = saved_data.options[opt]
+            for k, v in pairs(options) do
+                if saved_data.options[k] ~= nil then
+                    options[k] = saved_data.options[k]
                 end
             end
         end
         if saved_data.encodedAttachScales then
-            for _,encodedScale in pairs(saved_data.encodedAttachScales) do
+            for _, encodedScale in ipairs(saved_data.encodedAttachScales) do
                 table.insert(savedAttachScales, vector(encodedScale.x, encodedScale.y, encodedScale.z))
             end
         end
         if saved_data.statNames then
             statNames = deepCopy(saved_data.statNames)
-        end
-        -- Check if we need to override the scale calibration
-        -- This state's calibration takes precedence over other states
-        if my_saved_data ~= nil and my_saved_data.calibrated_once == true then
-            saved_data.calibrated_once = my_saved_data.calibrated_once
-            saved_data.scale_multiplier_x = my_saved_data.scale_multiplier_x
-            saved_data.scale_multiplier_y = my_saved_data.scale_multiplier_y
-            saved_data.scale_multiplier_z = my_saved_data.scale_multiplier_z
-            if my_saved_data.options ~= nil then
-                options["heightModifier"] = my_saved_data.options["heightModifier"]
-            end
         end
         if saved_data.scale_multiplier_x ~= nil then
             scaleMultiplierX = saved_data.scale_multiplier_x
@@ -432,10 +389,52 @@ local function onLoad_helper(save_state)
         xml = saved_data.xml and saved_data.xml or ""
         self.UI.setXml(saved_data.xml and saved_data.xml or "")
     end
-    Wait.time(|| confer(), 0.5)
-    Wait.time(|| updateInformation(), 1, -1)
+
+    local function processStateData(state)
+        local test_data = JSON.decode(state.lua_script_state)
+        if test_data ~= nil and test_data.saveVersion ~= nil and test_data.saveVersion > bestVersion then
+            saved_data = test_data
+            bestVersion = test_data.saveVersion
+        end
+    end
+
+    local saved_data = nil
+    local my_saved_data = nil
+    local bestVersion = 0
+
+    if save_state ~= "" then
+        saved_data = JSON.decode(save_state)
+        my_saved_data = saved_data
+        if saved_data.saveVersion ~= nil then
+            bestVersion = saved_data.saveVersion
+        end
+    end
+
+    local states = self.getStates()
+    if states ~= nil then
+        for _, s in pairs(states) do
+            processStateData(s)
+        end
+    end
+
+    if saved_data ~= nil then
+        loadSavedData(saved_data)
+
+        if my_saved_data ~= nil and my_saved_data.calibrated_once == true then
+            saved_data.calibrated_once = my_saved_data.calibrated_once
+            saved_data.scale_multiplier_x = my_saved_data.scale_multiplier_x
+            saved_data.scale_multiplier_y = my_saved_data.scale_multiplier_y
+            saved_data.scale_multiplier_z = my_saved_data.scale_multiplier_z
+            if my_saved_data.options ~= nil then
+                options["heightModifier"] = my_saved_data.options["heightModifier"]
+            end
+        end
+    end
+
     injectPanel = getObjectFromGUID(self.getGMNotes())
-    Wait.time(|| injectPanel.call("addNewWorkingObjects", self), 2)
+    Wait.time(confer, 0.5)
+    Wait.time(updateInformation, 1, -1)
+    Wait.time(function() injectPanel.call("addNewWorkingObjects", self) end, 2)
     finishedLoading = true
 end
 
@@ -632,21 +631,15 @@ function toggleAlternateDiag(thePlayer1)
     local myPlayer = thePlayer1
     local function tad_Helper(thePlayer2)
         -- Look for the mini injector, if available
-        local allObjects = getAllObjects()
-        for _, obj in ipairs(allObjects) do
-            if obj ~= self and obj ~= nil then
-                local typeCheck = obj.getVar("className")
-                if typeCheck == "MiniInjector" then
-                    local injOptions = obj.getTable("options")
-                    alternateDiag = injOptions.alternateDiag
-                    self.UI.setAttribute("AlternateDiagToggle", "textColor", alternateDiag == true and "#FFFFFF" or "#AA2222")
-                    if thePlayer2 ~= nil then
-                        broadcastToAll("Injector is present. Use the injector to toggle measurement style.", thePlayer2.color)
-                    end
-                    updateSave()
-                    return
-                end
+        if injectPanel then
+            local injOptions = injectPanel.getTable("options")
+            alternateDiag = injOptions.alternateDiag
+            self.UI.setAttribute("AlternateDiagToggle", "textColor", alternateDiag == true and "#FFFFFF" or "#AA2222")
+            if thePlayer2 ~= nil then
+                broadcastToAll("Injector is present. Use the injector to toggle measurement style.", thePlayer2.color)
             end
+            updateSave()
+            return
         end
         alternateDiag = not alternateDiag
         self.UI.setAttribute("AlternateDiagToggle", "textColor", alternateDiag == true and "#FFFFFF" or "#AA2222")
@@ -659,21 +652,15 @@ function toggleMetricMode(thePlayer1)
     local myPlayer = thePlayer1
     local function tmm_Helper(thePlayer2)
         -- Look for the mini injector, if available
-        local allObjects = getAllObjects()
-        for _, obj in ipairs(allObjects) do
-            if obj ~= self and obj ~= nil then
-                local typeCheck = obj.getVar("className")
-                if typeCheck == "MiniInjector" then
-                    local injOptions = obj.getTable("options")
-                    metricMode = injOptions.metricMode
-                    self.UI.setAttribute("MetricModeToggle", "textColor", metricMode == true and "#FFFFFF" or "#AA2222")
-                    if thePlayer2 ~= nil then
-                        broadcastToAll("Injector is present. Use the injector to toggle metric mode.", thePlayer2.color)
-                    end
-                    updateSave()
-                    return
-                end
+        if injectPanel then
+            local injOptions = obj.getTable("options")
+            metricMode = injOptions.metricMode
+            self.UI.setAttribute("MetricModeToggle", "textColor", metricMode == true and "#FFFFFF" or "#AA2222")
+            if thePlayer2 ~= nil then
+                broadcastToAll("Injector is present. Use the injector to toggle metric mode.", thePlayer2.color)
             end
+            updateSave()
+            return
         end
         metricMode = not metricMode
         self.UI.setAttribute("MetricModeToggle", "textColor", metricMode == true and "#FFFFFF" or "#AA2222")
