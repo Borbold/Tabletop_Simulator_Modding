@@ -120,7 +120,7 @@ local function confer()
         self.UI.setAttribute("manaText", "text", mana.value .. "/" .. mana.max)
         self.UI.setAttribute("extraProgress", "percentage", extra.value / extra.max * 100)
         self.UI.setAttribute("extraText", "text", extra.value .. "/" .. extra.max)
-        self.UI.setAttribute("manaText", "textColor", "#FFFFFF")
+        self.UI.setAttribute("manaText", "textColor", "#ffffff")
         self.UI.setAttribute("increment", "text", options.incrementBy)
         self.UI.setAttribute("InitModInput", "text", options.initSettingsMod)
         self.UI.setAttribute("InitValueInput", "text", options.initSettingsValue)
@@ -144,20 +144,20 @@ local function confer()
 
         self.UI.setAttribute("panel", "rotation", options.rotation .. " 270 90")
 
-        self.UI.setAttribute("PlayerCharToggle", "textColor", player and "#FFFFFF" or "#AA2222")
-        self.UI.setAttribute("MeasureMoveToggle", "textColor", measureMove and "#FFFFFF" or "#AA2222")
-        self.UI.setAttribute("AlternateDiagToggle", "textColor", alternateDiag and "#FFFFFF" or "#AA2222")
-        self.UI.setAttribute("MetricModeToggle", "textColor", metricMode and "#FFFFFF" or "#AA2222")
-        self.UI.setAttribute("StabilizeToggle", "textColor", stabilizeOnDrop and "#FFFFFF" or "#AA2222")
-        self.UI.setAttribute("HH", "textColor", options.hideHp and "#FFFFFF" or "#AA2222")
-        self.UI.setAttribute("HM", "textColor", options.hideMana and "#FFFFFF" or "#AA2222")
-        self.UI.setAttribute("HE", "textColor", options.hideExtra and "#FFFFFF" or "#AA2222")
-        self.UI.setAttribute("HB", "textColor", options.showBarButtons and "#FFFFFF" or "#AA2222")
-        self.UI.setAttribute("BZ", "textColor", options.belowZero and "#FFFFFF" or "#AA2222")
-        self.UI.setAttribute("AM", "textColor", options.aboveMax and "#FFFFFF" or "#AA2222")
+        self.UI.setAttribute("PlayerCharToggle", "textColor", player and "#ffffff" or "#aa2222")
+        self.UI.setAttribute("MeasureMoveToggle", "textColor", measureMove and "#ffffff" or "#aa2222")
+        self.UI.setAttribute("AlternateDiagToggle", "textColor", alternateDiag and "#ffffff" or "#aa2222")
+        self.UI.setAttribute("MetricModeToggle", "textColor", metricMode and "#ffffff" or "#aa2222")
+        self.UI.setAttribute("StabilizeToggle", "textColor", stabilizeOnDrop and "#ffffff" or "#aa2222")
+        self.UI.setAttribute("HH", "textColor", options.hideHp and "#ffffff" or "#aa2222")
+        self.UI.setAttribute("HM", "textColor", options.hideMana and "#ffffff" or "#aa2222")
+        self.UI.setAttribute("HE", "textColor", options.hideExtra and "#ffffff" or "#aa2222")
+        self.UI.setAttribute("HB", "textColor", options.showBarButtons and "#ffffff" or "#aa2222")
+        self.UI.setAttribute("BZ", "textColor", options.belowZero and "#ffffff" or "#aa2222")
+        self.UI.setAttribute("AM", "textColor", options.aboveMax and "#ffffff" or "#aa2222")
 
-        self.UI.setAttribute("InitiativeIncludeToggle", "textColor", options.initSettingsIncluded and "#FFFFFF" or "#AA2222")
-        self.UI.setAttribute("InitiativeRollingToggle", "textColor", options.initSettingsRolling and "#FFFFFF" or "#AA2222")
+        self.UI.setAttribute("InitiativeIncludeToggle", "textColor", options.initSettingsIncluded and "#ffffff" or "#aa2222")
+        self.UI.setAttribute("InitiativeRollingToggle", "textColor", options.initSettingsRolling and "#ffffff" or "#aa2222")
     end
 
     local function handleInjectPanel()
@@ -168,9 +168,9 @@ local function confer()
 
         local injOptions = injectPanel.getTable("options")
         alternateDiag = injOptions.alternateDiag
-        self.UI.setAttribute("AlternateDiagToggle", "textColor", alternateDiag and "#FFFFFF" or "#AA2222")
+        self.UI.setAttribute("AlternateDiagToggle", "textColor", alternateDiag and "#ffffff" or "#aa2222")
         metricMode = injOptions.metricMode
-        self.UI.setAttribute("MetricModeToggle", "textColor", metricMode and "#FFFFFF" or "#AA2222")
+        self.UI.setAttribute("MetricModeToggle", "textColor", metricMode and "#ffffff" or "#aa2222")
 
         if player then
             self.UI.setAttribute("progressBar", "visibility", "")
@@ -266,10 +266,10 @@ local function updateInformation()
         vertical = vertical + (options.hideHp == true and 0 or 100)
         vertical = vertical + (options.hideMana == true and 0 or 100)
         vertical = vertical + (options.hideExtra == true and 0 or 100)
-        self.UI.setAttribute("hiddenButtonBar", "active", (options.hideHp == true and options.hideMana == true and options.hideExtra == true) and "True" or "False")
-        self.UI.setAttribute("resourceBar", "active", options.hideHp == true and "False" or "True")
-        self.UI.setAttribute("resourceBarS", "active", options.hideMana == true and "False" or "True")
-        self.UI.setAttribute("extraBar", "active", options.hideExtra == true and "False" or "True")
+        self.UI.setAttribute("hiddenButtonBar", "active", (options.hideHp == true and options.hideMana == true and options.hideExtra == true) and "true" or "false")
+        self.UI.setAttribute("resourceBar", "active", options.hideHp == true and "false" or "true")
+        self.UI.setAttribute("resourceBarS", "active", options.hideMana == true and "false" or "true")
+        self.UI.setAttribute("extraBar", "active", options.hideExtra == true and "false" or "true")
         self.UI.setAttribute("bars", "height", vertical)
         updateSave()
     end
@@ -501,7 +501,7 @@ end
 function togglePlayer()
     player = not player
     autoFogOfWarReveal()
-    self.UI.setAttribute("PlayerCharToggle", "textColor", player == true and "#FFFFFF" or "#AA2222")
+    self.UI.setAttribute("PlayerCharToggle", "textColor", player == true and "#ffffff" or "#aa2222")
     if player == true then
         resetInitiative()
     end
@@ -514,7 +514,7 @@ end
 
 function toggleMeasure()
     measureMove = not measureMove
-    self.UI.setAttribute("MeasureMoveToggle", "textColor", measureMove == true and "#FFFFFF" or "#AA2222")
+    self.UI.setAttribute("MeasureMoveToggle", "textColor", measureMove == true and "#ffffff" or "#aa2222")
     updateSave()
 end
 
@@ -525,7 +525,7 @@ function toggleAlternateDiag(thePlayer1)
         if injectPanel then
             local injOptions = injectPanel.getTable("options")
             alternateDiag = injOptions.alternateDiag
-            self.UI.setAttribute("AlternateDiagToggle", "textColor", alternateDiag == true and "#FFFFFF" or "#AA2222")
+            self.UI.setAttribute("AlternateDiagToggle", "textColor", alternateDiag == true and "#ffffff" or "#aa2222")
             if thePlayer2 ~= nil then
                 broadcastToAll("Injector is present. Use the injector to toggle measurement style.", thePlayer2.color)
             end
@@ -533,7 +533,7 @@ function toggleAlternateDiag(thePlayer1)
             return
         end
         alternateDiag = not alternateDiag
-        self.UI.setAttribute("AlternateDiagToggle", "textColor", alternateDiag == true and "#FFFFFF" or "#AA2222")
+        self.UI.setAttribute("AlternateDiagToggle", "textColor", alternateDiag == true and "#ffffff" or "#aa2222")
         updateSave()
     end
     Wait.frames(function() tad_Helper(myPlayer) end, 30)
@@ -546,7 +546,7 @@ function toggleMetricMode(thePlayer1)
         if injectPanel then
             local injOptions = injectPanel.getTable("options")
             metricMode = injOptions.metricMode
-            self.UI.setAttribute("MetricModeToggle", "textColor", metricMode == true and "#FFFFFF" or "#AA2222")
+            self.UI.setAttribute("MetricModeToggle", "textColor", metricMode == true and "#ffffff" or "#aa2222")
             if thePlayer2 ~= nil then
                 broadcastToAll("Injector is present. Use the injector to toggle metric mode.", thePlayer2.color)
             end
@@ -554,7 +554,7 @@ function toggleMetricMode(thePlayer1)
             return
         end
         metricMode = not metricMode
-        self.UI.setAttribute("MetricModeToggle", "textColor", metricMode == true and "#FFFFFF" or "#AA2222")
+        self.UI.setAttribute("MetricModeToggle", "textColor", metricMode == true and "#ffffff" or "#aa2222")
         updateSave()
     end
     Wait.frames(function() tmm_Helper(myPlayer) end, 30)
@@ -562,7 +562,7 @@ end
 
 function toggleStabilizeOnDrop()
     stabilizeOnDrop = not stabilizeOnDrop
-    self.UI.setAttribute("StabilizeToggle", "textColor", stabilizeOnDrop == true and "#FFFFFF" or "#AA2222")
+    self.UI.setAttribute("StabilizeToggle", "textColor", stabilizeOnDrop == true and "#ffffff" or "#aa2222")
     updateSave()
 end
 
@@ -574,7 +574,7 @@ function toggleInitiativeInclude()
         options.initMockActive = false
         options.initMockValue = 0
     end
-    self.UI.setAttribute("InitiativeIncludeToggle", "textColor", options.initSettingsIncluded == true and "#FFFFFF" or "#AA2222")
+    self.UI.setAttribute("InitiativeIncludeToggle", "textColor", options.initSettingsIncluded == true and "#ffffff" or "#aa2222")
     updateSave()
 end
 
@@ -586,7 +586,7 @@ function toggleInitiativeRolling()
         options.initMockActive = false
         options.initMockValue = 0
     end
-    self.UI.setAttribute("InitiativeRollingToggle", "textColor", options.initSettingsRolling == true and "#FFFFFF" or "#AA2222")
+    self.UI.setAttribute("InitiativeRollingToggle", "textColor", options.initSettingsRolling == true and "#ffffff" or "#aa2222")
     updateSave()
 end
 
@@ -732,7 +732,7 @@ function adjustHP(difference)
     if health.value < 0 and not options.belowZero then health.value = 0 end
     if player == false and health.value <= 0 and options.initSettingsIncluded == true and options.initRealActive == true then
         options.initSettingsIncluded = false
-        self.UI.setAttribute("InitiativeIncludeToggle", "textColor", options.initSettingsIncluded == true and "#FFFFFF" or "#AA2222")
+        self.UI.setAttribute("InitiativeIncludeToggle", "textColor", options.initSettingsIncluded == true and "#ffffff" or "#aa2222")
         miniHighlight = "highlightNone"
         updateHighlight()
     end
@@ -749,7 +749,7 @@ function setHP(newHP)
     if health.value < 0 and not options.belowZero then health.value = 0 end
     if player == false and health.value <= 0 and options.initSettingsIncluded == true and options.initRealActive == true then
         toggleInitiativeInclude()
-        self.UI.setAttribute("InitiativeIncludeToggle", "textColor", options.initSettingsIncluded == true and "#FFFFFF" or "#AA2222")
+        self.UI.setAttribute("InitiativeIncludeToggle", "textColor", options.initSettingsIncluded == true and "#ffffff" or "#aa2222")
         miniHighlight = "highlightNone"
         updateHighlight()
     end
@@ -772,7 +772,7 @@ function setHPMax(newHPMax)
     if health.value < 0 and not options.belowZero then health.value = 0 end
     if player == false and health.value <= 0 and options.initSettingsIncluded == true and options.initRealActive == true then
         toggleInitiativeInclude()
-        self.UI.setAttribute("InitiativeIncludeToggle", "textColor", options.initSettingsIncluded == true and "#FFFFFF" or "#AA2222")
+        self.UI.setAttribute("InitiativeIncludeToggle", "textColor", options.initSettingsIncluded == true and "#ffffff" or "#aa2222")
     end
     self.UI.setAttribute("hpText", "text", health.value .. "/" .. health.max)
     self.UI.setAttribute("progressBar", "percentage", health.value / health.max * 100)
@@ -814,7 +814,7 @@ function sub() onClick(-1, - 1, "sub") end
 
 function onClick(player_in, value, id)
     if id == "editButton0" or id == "editButton1" or id == "editButton2" or id == "editButton3" then
-        if firstEdit == true or self.UI.getAttribute("editPanel", "active") == "False" then
+        if firstEdit == true or self.UI.getAttribute("editPanel", "active") == "false" then
             self.UI.setAttribute("editPanel", "active", true)
             self.UI.setAttribute("statePanel", "active", false)
             firstEdit = false
@@ -840,27 +840,27 @@ function onClick(player_in, value, id)
         options.hideHp = not options.hideHp
         local vertical = self.UI.getAttribute("bars", "height")
         Wait.frames(function()
-            self.UI.setAttribute("HH", "textColor", options.hideHp == true and "#FFFFFF" or "#AA2222")
-            self.UI.setAttribute("hiddenButtonBar", "active", (options.hideHp == true and options.hideMana == true and options.hideExtra == true) and "True" or "False")
-            self.UI.setAttribute("resourceBar", "active", options.hideHp == true and "False" or "True")
+            self.UI.setAttribute("HH", "textColor", options.hideHp == true and "#ffffff" or "#aa2222")
+            self.UI.setAttribute("hiddenButtonBar", "active", (options.hideHp == true and options.hideMana == true and options.hideExtra == true) and "true" or "false")
+            self.UI.setAttribute("resourceBar", "active", options.hideHp == true and "false" or "true")
             self.UI.setAttribute("bars", "height", vertical + (options.hideHp == true and -100 or 100))
         end, 1)
     elseif id == "HM" then
         options.hideMana = not options.hideMana
         local vertical = self.UI.getAttribute("bars", "height")
         Wait.frames(function()
-            self.UI.setAttribute("HM", "textColor", options.hideMana == true and "#FFFFFF" or "#AA2222")
-            self.UI.setAttribute("hiddenButtonBar", "active", (options.hideHp == true and options.hideMana == true and options.hideExtra == true) and "True" or "False")
-            self.UI.setAttribute("resourceBarS", "active", options.hideMana == true and "False" or "True")
+            self.UI.setAttribute("HM", "textColor", options.hideMana == true and "#ffffff" or "#aa2222")
+            self.UI.setAttribute("hiddenButtonBar", "active", (options.hideHp == true and options.hideMana == true and options.hideExtra == true) and "true" or "false")
+            self.UI.setAttribute("resourceBarS", "active", options.hideMana == true and "false" or "true")
             self.UI.setAttribute("bars", "height", vertical + (options.hideMana == true and -100 or 100))
         end, 1)
     elseif id == "HE" then
         options.hideExtra = not options.hideExtra
         local vertical = self.UI.getAttribute("bars", "height")
         Wait.frames(function()
-            self.UI.setAttribute("HE", "textColor", options.hideExtra == true and "#FFFFFF" or "#AA2222")
-            self.UI.setAttribute("hiddenButtonBar", "active", (options.hideHp == true and options.hideMana == true and options.hideExtra == true) and "True" or "False")
-            self.UI.setAttribute("extraBar", "active", options.hideExtra == true and "False" or "True")
+            self.UI.setAttribute("HE", "textColor", options.hideExtra == true and "#ffffff" or "#aa2222")
+            self.UI.setAttribute("hiddenButtonBar", "active", (options.hideHp == true and options.hideMana == true and options.hideExtra == true) and "true" or "false")
+            self.UI.setAttribute("extraBar", "active", options.hideExtra == true and "false" or "true")
             self.UI.setAttribute("bars", "height", vertical + (options.hideExtra == true and -100 or 100))
         end, 1)
     elseif id == "HB" or id == "editButtonS1" or id == "editButtonS2" or id == "editButtonS3" then
@@ -875,10 +875,10 @@ function onClick(player_in, value, id)
             self.UI.setAttribute("addSubE", "active", true)
             options.showBarButtons = true
         end
-        self.UI.setAttribute("HB", "textColor", options.showBarButtons == true and "#FFFFFF" or "#AA2222")
+        self.UI.setAttribute("HB", "textColor", options.showBarButtons == true and "#ffffff" or "#aa2222")
     elseif id == "BZ" then
         options.belowZero = not options.belowZero
-        self.UI.setAttribute("BZ", "textColor", options.belowZero == true and "#FFFFFF" or "#AA2222")
+        self.UI.setAttribute("BZ", "textColor", options.belowZero == true and "#ffffff" or "#aa2222")
         if health.value > health.max and not options.aboveMax then health.value = health.max end
         if health.value < 0 and not options.belowZero then health.value = 0 end
         if mana.value > mana.max and not options.aboveMax then mana.value = mana.max end
@@ -897,7 +897,7 @@ function onClick(player_in, value, id)
         updateRollers()
     elseif id == "AM" then
         options.aboveMax = not options.aboveMax
-        self.UI.setAttribute("AM", "textColor", options.aboveMax == true and "#FFFFFF" or "#AA2222")
+        self.UI.setAttribute("AM", "textColor", options.aboveMax == true and "#ffffff" or "#aa2222")
         if health.value > health.max and not options.aboveMax then health.value = health.max end
         if health.value < 0 and not options.belowZero then health.value = 0 end
         if mana.value > mana.max and not options.aboveMax then mana.value = mana.max end
@@ -967,12 +967,12 @@ function onClick(player_in, value, id)
         end
         if player == false and health.value <= 0 and options.initSettingsIncluded == true and options.initRealActive == true then
             toggleInitiativeInclude()
-            self.UI.setAttribute("InitiativeIncludeToggle", "textColor", options.initSettingsIncluded == true and "#FFFFFF" or "#AA2222")
+            self.UI.setAttribute("InitiativeIncludeToggle", "textColor", options.initSettingsIncluded == true and "#ffffff" or "#aa2222")
         end
         updateRollers()
     end
-    self.UI.setAttribute("hpText", "textColor", "#FFFFFF")
-    self.UI.setAttribute("manaText", "textColor", "#FFFFFF")
+    self.UI.setAttribute("hpText", "textColor", "#ffffff")
+    self.UI.setAttribute("manaText", "textColor", "#ffffff")
     updateSave()
 end
 
@@ -1023,7 +1023,7 @@ end
 function getStatsCount()
     local count = 0
     for i,j in pairs(statNames) do
-        if self.UI.getAttribute(i, "active") == "True" or self.UI.getAttribute(i, "active") == "true" then
+        if self.UI.getAttribute(i, "active") == "true" or self.UI.getAttribute(i, "active") == "true" then
             count = count + 1
         end
     end

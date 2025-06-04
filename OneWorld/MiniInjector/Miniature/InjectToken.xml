@@ -1,9 +1,9 @@
 <Defaults>
-    <Button font='Fonts/Allods' resizeTextForBestFit='True' resizeTextMaxSize='500' resizeTextMinSize='10'
+    <Button font='Fonts/Allods' resizeTextForBestFit='true' resizeTextMaxSize='500' resizeTextMinSize='10'
         onClick='onClick' fontStyle='Bold' textColor='#ffffff' color='#000000'/>
-    <Text font='Fonts/Allods' resizeTextForBestFit='True' resizeTextMaxSize='500' resizeTextMinSize='10'
+    <Text font='Fonts/Allods' resizeTextForBestFit='true' resizeTextMaxSize='500' resizeTextMinSize='10'
         fontStyle='Bold' color='#ffffff'/>
-    <InputField font='Fonts/Allods' resizeTextForBestFit='True' resizeTextMaxSize='500' resizeTextMinSize='10'
+    <InputField font='Fonts/Allods' resizeTextForBestFit='true' resizeTextMaxSize='500' resizeTextMinSize='10'
         color='#000000' textColor='#ffffff' characterValidation='Integer'/>
     <Cell dontUseTableCellBackground='true' />
 </Defaults>
@@ -53,7 +53,7 @@
         </Row>
     </TableLayout>
     <!--=============================-->
-    <Panel id='editPanel' height='1620' width='800' color='#330000' position='0 1290 0' active='False'>
+    <Panel id='editPanel' height='1620' width='800' color='#330000' position='0 1290 0' active='false'>
         <HorizontalLayout>
             <VerticalLayout>
                 <HorizontalLayout spacing='10' minheight='100'>
