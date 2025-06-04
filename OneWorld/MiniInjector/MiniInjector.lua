@@ -1,42 +1,17 @@
-pingInitMinis = true
-hideUpsideDownMinis = true
-autoCalibrateEnabled = false
-injectEverythingAllowed = false
-injectEverythingActive = false
-injectEverythingFrameCount = 0
-updateEverythingActive = false
-updateEverythingFrameCount = 0
-updateEverythingIndex = 1
-injectedSecondsLimiter = 0
+injectEverythingAllowed, injectEverythingActive, updateEverythingActive, updateEverythingFrameCount, injectedSecondsLimiter = false, false, false, 0, 0
 collisionProcessing = {}
+OW_tZone = nil
 
 options = {
-    hideText = false,
-    editText = false,
-    hideBar = false,
-    hideAll = false,
-    showAll = true,
-    measureMove = false,
-    alternateDiag = false,
-    metricMode = false,
-    playerChar = false,
-    HP2Desc = false,
-    hp = 10,
-    mana = 0,
-    extra = 0,
-    initActive = false,
-    initCurrentValue = 0,
-    initCurrentRound = 1,
+    hideText = false, editText = false, hideBar = false, hideAll = false, showAll = true,
+    measureMove = false, alternateDiag = false, metricMode = false, playerChar = false, HP2Desc = false,
+    hp = 10, mana = 0, extra = 0, initActive = false, initCurrentValue = 0, initCurrentRound = 1,
     initCurrentGUID = ""
 }
 
-initFigures = {}
-workingObjects = {}
+initFigures, workingObjects = {}, {}
+CONST_INJECT, CONST_REMOVE = "[00ff00]INJECT[-]", "[ff0000]REMOVE[-]"
 
-local CONST_INJECT = "[00ff00]INJECT[-]"
-local CONST_REMOVE = "[ff0000]REMOVE[-]"
-
--- Function to perform a deep copy of a table
 local function deepCopy(original)
     local copy = {}
     for key, value in pairs(original) do
@@ -50,21 +25,13 @@ end
 
 function onSave()
     local save_state = JSON.encode({
-        ping_init_minis = pingInitMinis,
-        auto_calibrate_enabled = autoCalibrateEnabled,
-        options = options,
+        ping_init_minis = pingInitMinis, auto_calibrate_enabled = autoCalibrateEnabled, options = options,
     })
     return save_state
 end
 
 local function isExcludedClassName(className)
-    local excludedClasses = {
-        "MeasurementToken",
-        "MeasurementToken_Move",
-        "InjectTokenMini",
-        "DNDMiniInjector_Mini_Move",
-        "MeasurementTool"
-    }
+    local excludedClasses = {"MeasurementToken", "MeasurementToken_Move", "InjectTokenMini", "DNDMiniInjector_Mini_Move", "MeasurementTool"}
     for _, excludedClass in ipairs(excludedClasses) do
         if className == excludedClass then
             return true
@@ -97,11 +64,7 @@ local function handleCollisionInfo(collision_info)
     local object = collision_info.collision_object
     if object ~= nil then
         local hitList = Physics.cast({
-            origin = object.getBounds().center,
-            direction = {0, -1, 0},
-            type = 1,
-            max_distance = 10,
-            debug = false,
+            origin = object.getBounds().center, direction = {0, -1, 0}, type = 1, max_distance = 10, debug = false,
         })
         for _, hitTable in ipairs(hitList) do
             if hitTable ~= nil and hitTable.hit_object == self then
@@ -112,7 +75,29 @@ local function handleCollisionInfo(collision_info)
     end
 end
 
-function addingInjectionsMini()
+local function getOneWorldScriptingZone()
+    if OW_tZone then return end
+    for _, obj in ipairs(getAllObjects()) do
+        if obj.getName() == "_OW_tZone" then
+            OW_tZone = obj
+        end
+    end
+    print("Warning: OW scripting zone not found!", "#b15959")
+end
+
+local function getInjectingMiniatures()
+    local miniatures = {}
+    getOneWorldScriptingZone()
+    if OW_tZone == nil then return end
+    for _, objZone in ipairs(OW_tZone.getObjects()) do
+        if objZone.getName() ~= "_OW_vBase" then
+            table.insert(miniatures, objZone)
+        end
+    end
+    return miniatures
+end
+
+local function addingInjectionsMini()
     for _, obj in ipairs(getInjectingMiniatures()) do
         if obj.getVar("className") ~= "InjectTokenMini" then
             print("[00ff00]Injecting[-] mini " .. obj.getName() .. ".")
@@ -143,7 +128,6 @@ local function checkObjects()
         if updateEverythingFrameCount >= 5 then
             updateEverythingFrameCount = 0
             updateEverythingActive = false
-            updateEverythingIndex = 1
             print("[00ff00]All minis updated.[-]")
             if options.initActive then
                 Wait.time(rollInitiative, 1)
@@ -154,21 +138,17 @@ end
 
 function onLoad(save_state)
     if save_state ~= "" then
-        saved_data = JSON.decode(save_state)
+        local saved_data = JSON.decode(save_state)
         if saved_data ~= nil then
             if saved_data.options ~= nil then
-                for opt,_ in pairs(saved_data.options) do
+                for opt, _ in pairs(saved_data.options) do
                     if saved_data.options[opt] ~= nil then
                         options[opt] = saved_data.options[opt]
                     end
                 end
             end
-            if saved_data.ping_init_minis ~= nil then
-                pingInitMinis = saved_data.ping_init_minis
-            end
-            if saved_data.auto_calibrate_enabled ~= nil then
-                autoCalibrateEnabled = saved_data.auto_calibrate_enabled
-            end
+            pingInitMinis = saved_data.ping_init_minis and saved_data.ping_init_minis or true
+            autoCalibrateEnabled = saved_data.auto_calibrate_enabled and saved_data.auto_calibrate_enabled or false
         end
     end
 
@@ -214,32 +194,32 @@ function updateSettingUI()
     self.UI.setAttribute("mana", "text", options.mana)
     self.UI.setAttribute("extra", "text", options.extra)
 
-    for opt,_ in pairs(options) do
+    for opt, _ in pairs(options) do
         if opt == "measureMove" or opt == "alternateDiag" or opt == "playerChar" or opt == "hideBar" or opt == "hideText" or opt == "editText" then
             updateUIAttribute(opt, tostring(options[opt]))
         end
-    end    
+    end
 end
 
 function rebuildContextMenu()
     self.clearContextMenu()
-    if (pingInitMinis) then
+    if pingInitMinis then
         self.addContextMenuItem("[X] Ping Init Minis", togglePingInitMinis)
     else
         self.addContextMenuItem("[ ] Ping Init Minis", togglePingInitMinis)
     end
-    if (autoCalibrateEnabled) then
+    if autoCalibrateEnabled then
         self.addContextMenuItem("[X] Auto-Calibrate", toggleAutoCalibrate)
     else
         self.addContextMenuItem("[ ] Auto-Calibrate", toggleAutoCalibrate)
     end
-    if (options.metricMode) then
+    if options.metricMode then
         self.addContextMenuItem("[X] Metric Mode", toggleMetricMode)
     else
         self.addContextMenuItem("[ ] Metric Mode", toggleMetricMode)
     end
     self.addContextMenuItem("Inject mini", injectMini)
-    if (options.showAll) then
+    if options.showAll then
         self.addContextMenuItem("[X] Show Mini UI", toggleOnOff)
     else
         self.addContextMenuItem("[ ] Show Mini UI", toggleOnOff)
@@ -278,17 +258,8 @@ function injectMini()
         injectEverythingAllowed = true
         return
     end
+    injectEverythingAllowed = false
     injectEverythingActive = true
-end
-
-function allOff()
-    for i,j in pairs(getAllObjects()) do
-        if j ~= self then
-            if j.getVar("className") == "InjectTokenMini" then
-                j.UI.setAttribute("panel", "active", "false")
-            end
-        end
-    end
 end
 
 function toggleCheckBox(player, value, id)
@@ -302,39 +273,39 @@ function toggleCheckBox(player, value, id)
         options[id] = false
     end
     self.UI.setAttribute(id, "textColor", "#FFFFFF")
-    for _,j in ipairs(workingObjects) do
+    for _, obj in ipairs(workingObjects) do
         if id == "alternateDiag" then
-            j.call('toggleAlternateDiag')
+            obj.call('toggleAlternateDiag')
         end
-        if j.getVar("player") then
+        if obj.getVar("player") then
             if id == "hideBar" then
-                j.UI.setAttribute("progressBar", "visibility", "")
-                j.UI.setAttribute("progressBarS", "visibility", "")
-                j.UI.setAttribute("extraProgress", "visibility", "")
+                obj.UI.setAttribute("progressBar", "visibility", "")
+                obj.UI.setAttribute("progressBarS", "visibility", "")
+                obj.UI.setAttribute("extraProgress", "visibility", "")
             elseif id == "hideText" then
-                j.UI.setAttribute("hpText", "visibility", "")
-                j.UI.setAttribute("manaText", "visibility", "")
-                j.UI.setAttribute("extraText", "visibility", "")
+                obj.UI.setAttribute("hpText", "visibility", "")
+                obj.UI.setAttribute("manaText", "visibility", "")
+                obj.UI.setAttribute("extraText", "visibility", "")
             elseif id == "editText" then
-                j.UI.setAttribute("addSub", "visibility", "")
-                j.UI.setAttribute("addSubS", "visibility", "")
-                j.UI.setAttribute("addSubE", "visibility", "")
-                j.UI.setAttribute("editPanel", "visibility", "")
+                obj.UI.setAttribute("addSub", "visibility", "")
+                obj.UI.setAttribute("addSubS", "visibility", "")
+                obj.UI.setAttribute("addSubE", "visibility", "")
+                obj.UI.setAttribute("editPanel", "visibility", "")
             end
         else
             if id == "hideBar" then
-                j.UI.setAttribute("progressBar", "visibility", options[id] and "Black" or "")
-                j.UI.setAttribute("progressBarS", "visibility", options[id] and "Black" or "")
-                j.UI.setAttribute("extraProgress", "visibility", options[id] and "Black" or "")
+                obj.UI.setAttribute("progressBar", "visibility", options[id] and "Black" or "")
+                obj.UI.setAttribute("progressBarS", "visibility", options[id] and "Black" or "")
+                obj.UI.setAttribute("extraProgress", "visibility", options[id] and "Black" or "")
             elseif id == "hideText" then
-                j.UI.setAttribute("hpText", "visibility", options[id] and "Black" or "")
-                j.UI.setAttribute("manaText", "visibility", options[id] and "Black" or "")
-                j.UI.setAttribute("extraText", "visibility", options[id] and "Black" or "")
+                obj.UI.setAttribute("hpText", "visibility", options[id] and "Black" or "")
+                obj.UI.setAttribute("manaText", "visibility", options[id] and "Black" or "")
+                obj.UI.setAttribute("extraText", "visibility", options[id] and "Black" or "")
             elseif id == "editText" then
-                j.UI.setAttribute("addSub", "visibility", options[id] and "Black" or "")
-                j.UI.setAttribute("addSubS", "visibility", options[id] and "Black" or "")
-                j.UI.setAttribute("addSubE", "visibility", options[id] and "Black" or "")
-                j.UI.setAttribute("editPanel", "visibility", options[id] and "Black" or "")
+                obj.UI.setAttribute("addSub", "visibility", options[id] and "Black" or "")
+                obj.UI.setAttribute("addSubS", "visibility", options[id] and "Black" or "")
+                obj.UI.setAttribute("addSubE", "visibility", options[id] and "Black" or "")
+                obj.UI.setAttribute("editPanel", "visibility", options[id] and "Black" or "")
             end
         end
     end
@@ -342,23 +313,19 @@ end
 
 function toggleHideBars(player, value, id)
     options.hideAll = not options.hideAll
-    for i,j in pairs(getAllObjects()) do
-        if j ~= self and not j.getName():find("DND Mini Panel") then
-            if j.getVar("className") == "InjectTokenMini" then
-                if options.hideAll then
-                    j.UI.setAttribute("resourceBar", "active", "false")
-                    j.UI.setAttribute("resourceBarS", "active", "false")
-                    j.UI.setAttribute("extraBar", "active", "false")
-                else
-                    j.UI.setAttribute("resourceBar", "active", "true")
-                    local objTable = j.getTable("options")
-                    if not objTable.hideMana then
-                        j.UI.setAttribute("resourceBarS", "active", "true")
-                    end
-                    if not objTable.hideExtra then
-                        j.UI.setAttribute("extraBar", "active", "true")
-                    end
-                end
+    for _, obj in ipairs(workingObjects) do
+        if options.hideAll then
+            obj.UI.setAttribute("resourceBar", "active", "false")
+            obj.UI.setAttribute("resourceBarS", "active", "false")
+            obj.UI.setAttribute("extraBar", "active", "false")
+        else
+            obj.UI.setAttribute("resourceBar", "active", "true")
+            local objTable = obj.getTable("options")
+            if not objTable.hideMana then
+                obj.UI.setAttribute("resourceBarS", "active", "true")
+            end
+            if not objTable.hideExtra then
+                obj.UI.setAttribute("extraBar", "active", "true")
             end
         end
     end
@@ -369,7 +336,7 @@ function toggleOnOff(skipToggle)
         options.showAll = not options.showAll
         rebuildContextMenu()
     end
-    for _,obj in ipairs(workingObjects) do
+    for _, obj in ipairs(workingObjects) do
         obj.UI.setAttribute("panel", "active", options.showAll and "true" or "false")
     end
 end
@@ -387,36 +354,14 @@ end
 
 local function setMiniVariable(object, stats, xml)
     local locOptions = {
-        HP2Desc = options.HP2Desc,
-        belowZero = false,
-        aboveMax = false,
-        heightModifier = 110,
-        showBaseButtons = false,
-        showBarButtons = false,
-        hideHp = options.hp == 0,
-        hideMana = options.mana == 0,
-        hideExtra = options.extra == 0,
-        incrementBy = 1,
-        rotation = 90,
-        initSettingsIncluded = true,
-        initSettingsRolling = true,
-        initSettingsMod = 0,
-        initSettingsValue = 100,
-        initRealActive = false,
-        initRealValue = 0,
-        initMockActive = false,
-        initMockValue = 0
+        HP2Desc = options.HP2Desc, belowZero = false, aboveMax = false, heightModifier = 110, showBaseButtons = false, showBarButtons = false, hideHp = options.hp == 0, hideMana = options.mana == 0, hideExtra = options.extra == 0, incrementBy = 1, rotation = 90, initSettingsIncluded = true, initSettingsRolling = true, initSettingsMod = 0, initSettingsValue = 100, initRealActive = false, initRealValue = 0, initMockActive = false, initMockValue = 0
     }
     object.setVar("player", options.playerChar)
     object.setVar("measureMove", options.measureMove)
     object.setVar("alternateDiag", options.alternateDiag)
     object.setVar("metricMode", options.metricMode)
     object.call("setInjectVariables", {
-        health = {value = options.hp, max = options.hp},
-        mana = {value = options.mana, max = options.mana},
-        extra = {value = options.extra, max = options.extra},
-        options = locOptions,
-        xml = xml, statNames = stats,
+        health = {value = options.hp, max = options.hp}, mana = {value = options.mana, max = options.mana}, extra = {value = options.extra, max = options.extra}, options = locOptions, xml = xml, statNames = stats,
     })
 end
 
@@ -425,13 +370,13 @@ function injectToken(object)
     local xml = injectMiniXML
     local stats = {}
     local xmlStats = ""
-    for j,i in pairs(assets) do
-        stats[i.name] = false
-        xmlStats = xmlStats .. '<Button id="' .. i.name .. '" color="#FFFFFF00" active="false"><Image image="' .. i.name .. '" preserveAspect="true"></Image></Button>\n'
+    for _, asset in pairs(assets) do
+        stats[asset.name] = false
+        xmlStats = xmlStats .. '<Button id="' .. asset.name .. '" color="#FFFFFF00" active="false"><Image image="' .. asset.name .. '" preserveAspect="true"></Image></Button>\n'
     end
     xml = xml:gsub("STATSIMAGE", xmlStats)
     xml = xml:gsub('<VerticalLayout id="bars" height="200">', '<VerticalLayout id="bars" height="' .. 200 + (options.mana == 0 and -100 or 0) + (options.extra ~= 0 and 100 or 0) .. '">')
-    if options.playerChar == false then
+    if not options.playerChar then
         if options.hideText then
             xml = xml:gsub('id="hpText" visibility=""', 'id="hpText" visibility="Black"')
             xml = xml:gsub('id="manaText" visibility=""', 'id="manaText" visibility="Black"')
@@ -460,42 +405,11 @@ function injectToken(object)
     Wait.time(|| setMiniVariable(object, stats, xml), 0.5)
 end
 
-function getOneWorldHub()
-    local OW_HUB_NAME = "OW_Hub"
-    for _, obj in ipairs(getAllObjects()) do
-        if obj ~= self and obj ~= nil and obj.getName() == OW_HUB_NAME then
-            return obj
-        end
-    end
-    return nil
-end
-
-local function getOneWorldScriptingZone()
-    local ONE_WORLD_SCRIPT_ZONE_NAME = "_OW_tZone"
-    for _, obj in ipairs(getAllObjects()) do
-        if obj.getName() == ONE_WORLD_SCRIPT_ZONE_NAME then
-            return obj
-        end
-    end
-    return nil
-end
-
-function getInjectingMiniatures()
-    local miniatures = {}
-    local checkSZ = getOneWorldScriptingZone()
-    for _, objZone in ipairs(checkSZ.getObjects()) do
-        if objZone.getName() ~= "_OW_vBase" then
-            table.insert(miniatures, objZone)
-        end
-    end
-    return miniatures
-end
-
 function getInitiativeFigures()
     initFigures = {}
-    local checkSZ = getOneWorldScriptingZone()
+    getOneWorldScriptingZone()
     if checkSZ == nil then return end
-    for _, objZone in ipairs(checkSZ.getObjects()) do
+    for _, objZone in ipairs(OW_tZone.getObjects()) do
         if objZone.getVar("className") == "InjectTokenMini" then
             handleInitMiniature(objZone)
         end

@@ -71,7 +71,7 @@ end
 local function getClosestAdjacentLocation(testLocation)
     local closestAdjacent = getFirstAdjacentLocation()
     local closestDistance = closestAdjacent:distance(testLocation)
-    for _,point in ipairs(move_currentAdjacentLocations) do
+    for _, point in ipairs(move_currentAdjacentLocations) do
         local testAdjacent = Vector(point.x, testLocation.y, point.y)
         local testDistance = testAdjacent:distance(testLocation)
         if testDistance < closestDistance then
@@ -121,8 +121,7 @@ function onLoad()
 end
 
 function getDistance()
-    local move_const_sectionMultiplier_metric, move_const_sectionMultiplier = 1.5, 5
-    local multiplier = metricMode and move_const_sectionMultiplier_metric or move_const_sectionMultiplier
+    local multiplier = metricMode and 1.5 or 5
     local totalDistance = (#move_allLocations - 1) * multiplier
     if alternateDiag then
         totalDistance = totalDistance + (math.floor(move_numDiagonals / 2.0) * multiplier)
@@ -221,9 +220,8 @@ function getFirstAdjacentLocation()
 end
 
 function getAcceptDistance()
-    local move_const_gridTargetScale = 0.3
     local gd = getGridDims()
-    return move_const_gridTargetScale * math.min(gd.width, gd.height)
+    return 0.3 * math.min(gd.width, gd.height)
 end
 
 function getGridDims()

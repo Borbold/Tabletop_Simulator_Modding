@@ -1,38 +1,15 @@
 className = "InjectTokenMini"
-onUpdateScale = 1.0
-onUpdateGridSize = 1.0
-a = {}
-triggerNames = {}
-
-health = {value = 10, max = 10}
-mana = {value = 0, max = 0}
-extra = {value = 0, max = 0}
+onUpdateScale, onUpdateGridSize = 1.0, 1.0
+a, triggerNames = {}, {}
+health, mana, extra = {value = 10, max = 10}, {value = 0, max = 0}, {value = 0, max = 0}
 
 options = {
-    HP2Desc = false,
-    belowZero = false,
-    aboveMax = false,
-    heightModifier = 110,
-    showBaseButtons = false,
-    showBarButtons = false,
-    hideHp = false,
-    hideMana = true,
-    hideExtra = true,
-    incrementBy = 1,
-    rotation = 90,
-    initSettingsIncluded = true,
-    initSettingsRolling = true,
-    initSettingsMod = 0,
-    initSettingsValue = 100,
-    initRealActive = false,
-    initRealValue = 0,
-    initMockActive = false,
-    initMockValue = 0
+    HP2Desc = false, belowZero = false, aboveMax = false, heightModifier = 110, showBaseButtons = false,
+    showBarButtons = false, hideHp = false, hideMana = true, hideExtra = true, incrementBy = 1,
+    rotation = 90, initSettingsIncluded = true, initSettingsRolling = true, initSettingsMod = 0,
+    initSettingsValue = 100, initRealActive = false, initRealValue = 0, initMockActive = false, initMockValue = 0
 }
 
-firstEdit = true
-
--- Function to perform a deep copy of a table
 local function deepCopy(original)
     local copy = {}
     for key, value in pairs(original) do
@@ -46,29 +23,22 @@ end
 
 function resetInitiative()
     options.initSettingsValue = 100
-    options.initRealActive = false
-    options.initRealValue = 0
-    options.initMockActive = false
-    options.initMockValue = 0
+    options.initRealActive, options.initRealValue, options.initMockActive, options.initMockValue = false, 0, false, 0
     self.UI.setAttribute("InitValueInput", "text", options.initSettingsValue)
     updateSave()
 end
 
 function getInitiative(inputActive)
-    if options.initRealActive == true then
+    if options.initRealActive then
         return options.initRealValue
     end
-    if inputActive == true then
+    if inputActive then
         options.initRealActive = true
-        if options.initMockActive == true then
-            options.initRealValue = options.initMockValue
-        else
-            options.initRealValue = calculateInitiative()
-        end
+        options.initRealValue = options.initMockActive and options.initMockValue or calculateInitiative()
         updateSave()
         return options.initRealValue
     end
-    if options.initMockActive == true then
+    if options.initMockActive then
         return options.initMockValue
     end
     options.initMockActive = true
@@ -78,36 +48,16 @@ function getInitiative(inputActive)
 end
 
 function calculateInitiative()
-    if options.initSettingsRolling == true then
-        return math.random(1,20) + tonumber(options.initSettingsMod)
-    else
-        return tonumber(options.initSettingsValue)
-    end
+    return options.initSettingsRolling and math.random(1, 20) + tonumber(options.initSettingsMod) or tonumber(options.initSettingsValue)
 end
 
 function updateSave()
-    local encodedAttachScales = {}
-    if savedAttachScales and #savedAttachScales > 0 then
-        encodedAttachScales = deepCopy(savedAttachScales)
-    end
+    local encodedAttachScales = savedAttachScales and #savedAttachScales > 0 and deepCopy(savedAttachScales) or {}
     self.script_state = JSON.encode({
-        scale_multiplier = scaleMultiplier,
-        calibrated_once = calibratedOnce,
-        health = health,
-        mana = mana,
-        extra = extra,
-        options = options,
-        encodedAttachScales = encodedAttachScales,
-        statNames = statNames,
-        player = player,
-        measureMove = measureMove,
-        alternateDiag = alternateDiag,
-        metricMode = metricMode,
-        stabilizeOnDrop = stabilizeOnDrop,
-        miniHighlight = miniHighlight,
-        highlightToggle = highlightToggle,
-        hideFromPlayers = hideFromPlayers,
-        xml = xml
+        scale_multiplier = scaleMultiplier, calibrated_once = calibratedOnce, health = health, mana = mana, extra = extra,
+        options = options, encodedAttachScales = encodedAttachScales, statNames = statNames, player = player, measureMove = measureMove,
+        alternateDiag = alternateDiag, metricMode = metricMode, stabilizeOnDrop = stabilizeOnDrop, miniHighlight = miniHighlight,
+        highlightToggle = highlightToggle, hideFromPlayers = hideFromPlayers, xml = xml
     })
 end
 
@@ -120,7 +70,6 @@ local function confer()
         self.UI.setAttribute("manaText", "text", mana.value .. "/" .. mana.max)
         self.UI.setAttribute("extraProgress", "percentage", extra.value / extra.max * 100)
         self.UI.setAttribute("extraText", "text", extra.value .. "/" .. extra.max)
-        self.UI.setAttribute("manaText", "textColor", "#ffffff")
         self.UI.setAttribute("increment", "text", options.incrementBy)
         self.UI.setAttribute("InitModInput", "text", options.initSettingsMod)
         self.UI.setAttribute("InitValueInput", "text", options.initSettingsValue)
@@ -141,7 +90,6 @@ local function confer()
         self.UI.setAttribute("extraBar", "active", not options.hideExtra)
 
         self.UI.setAttribute("hiddenButtonBar", "active", options.hideHp and options.hideMana and options.hideExtra)
-
         self.UI.setAttribute("panel", "rotation", options.rotation .. " 270 90")
 
         self.UI.setAttribute("PlayerCharToggle", "textColor", player and "#ffffff" or "#aa2222")
@@ -167,9 +115,8 @@ local function confer()
         end
 
         local injOptions = injectPanel.getTable("options")
-        alternateDiag = injOptions.alternateDiag
+        alternateDiag, metricMode = injOptions.alternateDiag, injOptions.metricMode
         self.UI.setAttribute("AlternateDiagToggle", "textColor", alternateDiag and "#ffffff" or "#aa2222")
-        metricMode = injOptions.metricMode
         self.UI.setAttribute("MetricModeToggle", "textColor", metricMode and "#ffffff" or "#aa2222")
 
         if player then
@@ -235,10 +182,8 @@ local function confer()
     handleInjectPanel()
     rebuildContextMenu()
     updateHighlight()
-    self.auto_raise = true
-    self.interactable = true
-    onUpdateScale = 0
-    onUpdateGridSize = 1
+    self.auto_raise, self.interactable = true, true
+    onUpdateScale, onUpdateGridSize = 0, 1
     instantiateTriggers()
     if hideFromPlayers then
         aColors = Player.getAvailableColors()
@@ -258,7 +203,7 @@ end
 local function updateInformation()
     if onUpdateScale ~= self.getScale().y then
         onUpdateScale = self.getScale().y
-        local newScale = string.format("%.2f", 0.2*onUpdateScale)
+        local newScale = string.format("%.2f", 0.2 * onUpdateScale)
         self.UI.setAttribute("panel", "scale", newScale .. " " .. newScale)
         self.UI.setAttribute("panel", "position", "0 0 -" .. (options.heightModifier + 1))
         self.UI.setAttribute("panel", "position", "0 0 -" .. options.heightModifier)
@@ -315,7 +260,7 @@ local function onLoad_helper(save_state)
         highlightToggle = saved_data.highlightToggle and saved_data.highlightToggle or true
         hideFromPlayers = (saved_data.hideFromPlayers and player == false) and saved_data.hideFromPlayers or false
         xml = saved_data.xml and saved_data.xml or ""
-        self.UI.setXml(saved_data.xml and saved_data.xml or "")
+        Wait.time(|| self.UI.setXml(saved_data.xml and saved_data.xml or ""), 0.2)
     end
 
     if save_state ~= "" then
@@ -353,6 +298,7 @@ function afowr_helper()
     self.ignore_fog_of_war = false
     return 1
 end
+
 function autoFogOfWarReveal()
     if player == true then
         startLuaCoroutine(self, "afowr_helper")
@@ -373,8 +319,7 @@ function instantiateTriggers()
 end
 
 function onPlayerConnect(player)
-    -- Wait 30 seconds for them to load fully.
-    Wait.time(updateHighlight, 30)
+    Wait.time(updateHighlight, 20)
 end
 
 function changeHighlight(player, value, id)
@@ -389,32 +334,10 @@ function toggleHighlight(player, value, id)
 end
 
 function updateHighlight()
-    if highlightToggle == false then
+    if not highlightToggle or miniHighlight == "highlightNone" then
         self.highlightOff()
-    elseif miniHighlight == "highlightNone" then
-        self.highlightOff()
-    elseif miniHighlight == "highlightWhite" then
-        self.highlightOn(Color.White)
-    elseif miniHighlight == "highlightBrown" then
-        self.highlightOn(Color.Brown)
-    elseif miniHighlight == "highlightRed" then
-        self.highlightOn(Color.Red)
-    elseif miniHighlight == "highlightOrange" then
-        self.highlightOn(Color.Orange)
-    elseif miniHighlight == "highlightYellow" then
-        self.highlightOn(Color.Yellow)
-    elseif miniHighlight == "highlightGreen" then
-        self.highlightOn(Color.Green)
-    elseif miniHighlight == "highlightTeal" then
-        self.highlightOn(Color.Teal)
-    elseif miniHighlight == "highlightBlue" then
-        self.highlightOn(Color.Blue)
-    elseif miniHighlight == "highlightPurple" then
-        self.highlightOn(Color.Purple)
-    elseif miniHighlight == "highlightPink" then
-        self.highlightOn(Color.Pink)
-    elseif miniHighlight == "highlightBlack" then
-        self.highlightOn(Color.Black)
+    else
+        self.highlightOn(Color[miniHighlight:gsub("highlight", "")])
     end
     updateSave()
 end
@@ -424,16 +347,8 @@ function rebuildContextMenu()
     self.addContextMenuItem("UI Height UP", uiHeightUp, true)
     self.addContextMenuItem("UI Height DOWN", uiHeightDown, true)
     self.addContextMenuItem("UI Rotate 90", uiRotate90, true)
-    if hideFromPlayers == true then
-        self.addContextMenuItem("[X] Hide from players", toggleHideFromPlayers)
-    else
-        self.addContextMenuItem("[ ] Hide from players", toggleHideFromPlayers)
-    end
-    if calibratedOnce == true then
-        self.addContextMenuItem("[X] Calibrate Scale", calibrateScale)
-    else
-        self.addContextMenuItem("[ ] Calibrate Scale", calibrateScale)
-    end
+    self.addContextMenuItem(string.format("%s Hide from players", hideFromPlayers and "[X]" or "[ ]") "[X] Hide from players", toggleHideFromPlayers)
+    self.addContextMenuItem(string.format("%s Calibrate Scale", calibratedOnce and "[X]" or "[ ]") "[X] Hide from players", toggleHideFromPlayers)
     self.addContextMenuItem("Reset Scale", resetScale)
     self.addContextMenuItem("Reload Mini", function() self.reload() end)
 end
@@ -814,14 +729,8 @@ function sub() onClick(-1, - 1, "sub") end
 
 function onClick(player_in, value, id)
     if id == "editButton0" or id == "editButton1" or id == "editButton2" or id == "editButton3" then
-        if firstEdit == true or self.UI.getAttribute("editPanel", "active") == "false" then
-            self.UI.setAttribute("editPanel", "active", true)
-            self.UI.setAttribute("statePanel", "active", false)
-            firstEdit = false
-        else
-            self.UI.setAttribute("editPanel", "active", false)
-            self.UI.setAttribute("statePanel", "active", true)
-        end
+        self.UI.setAttribute("editPanel", "active", self.UI.getAttribute("editPanel", "active") == "false" and "true" or "false")
+        self.UI.setAttribute("statePanel", "active", self.UI.getAttribute("statePanel", "active") == "false" and "true" or "false")
     elseif id == "subHeight" or id == "addHeight" then
         if id == "addHeight" then
             options.heightModifier = options.heightModifier + getIncrement(value)

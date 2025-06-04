@@ -1,104 +1,37 @@
 <Defaults>
-    <Button font='Fonts/Allods' resizeTextForBestFit='True' resizeTextMaxSize='500' resizeTextMinSize='10'
+    <Button font='Fonts/Allods' resizeTextForBestFit='true' resizeTextMaxSize='500' resizeTextMinSize='10'
         textColor='#ffffff' color='#ffffff00' textAlignment='MiddleCenter' fontStyle='Bold' visibility='Black' />
-    <InputField font='Fonts/Doors' resizeTextForBestFit='True' resizeTextMaxSize='500' resizeTextMinSize='10'
+    <InputField font='Fonts/Doors' resizeTextForBestFit='true' resizeTextMaxSize='500' resizeTextMinSize='10'
         textColor='#ffffff' color='#ffffff00' textAlignment='MiddleCenter'
         characterValidation='Integer' visibility='Black' />
-    <Text font='Fonts/Doors' resizeTextForBestFit='True' resizeTextMaxSize='500' resizeTextMinSize='10'
+    <Text font='Fonts/Doors' resizeTextForBestFit='true' resizeTextMaxSize='500' resizeTextMinSize='10'
         color='#ffffff'/>
     <Cell dontUseTableCellBackground='true' />
     <Button class='toggleBox' width='270' height='210' onClick='toggleCheckBox' value='false' />
 </Defaults>
 
 <Panel scale='0.2' position='0 0 -60'>
-    <Button id='measureMove'
-        offsetXY='-2590 700'
-        class='toggleBox' />
-    <Button id='alternateDiag'
-        offsetXY='-2590 305'
-        class='toggleBox' />
-    <Button id='playerChar'
-        offsetXY='-2590 -90'
-        class='toggleBox' />
+    <Button id='measureMove' offsetXY='-2590 700' class='toggleBox' />
+    <Button id='alternateDiag' offsetXY='-2590 305' class='toggleBox' />
+    <Button id='playerChar' offsetXY='-2590 -90' class='toggleBox' />
 
-    <InputField id='hp'
-        offsetXY='-1325 -425'
-        text='10'
-        width='880'
-        height='300'
-        characterValidation='Integer'
-        textAlignment='MiddleCenter'
-        onEndEdit='onEndEdit'/>
-    <InputField id='mana'
-        offsetXY='-1325 -825'
-        text='0'
-        width='880'
-        height='300'
-        characterValidation='Integer'
-        textAlignment='MiddleCenter'
-        onEndEdit='onEndEdit'/>
-    <InputField id='extra'
-        offsetXY='-1325 -1195'
-        text='0'
-        width='880'
-        height='300'
-        characterValidation='Integer'
-        textAlignment='MiddleCenter'
-        onEndEdit='onEndEdit'/>
-    <Button id='hideBar'
-        offsetXY='-2590 -1640'
-        class='toggleBox' />
-    <Button id='hideText'
-        offsetXY='-2590 -2035'
-        class='toggleBox' />
-    <Button id='editText'
-        offsetXY='-2590 -2410'
-        class='toggleBox' />
+    <InputField id='hp' offsetXY='-1325 -425' text='10' width='880' height='300' onEndEdit='onEndEdit' />
+    <InputField id='mana' offsetXY='-1325 -825' text='0' width='880' height='300' onEndEdit='onEndEdit' />
+    <InputField id='extra' offsetXY='-1325 -1195' text='0' width='880' height='300' onEndEdit='onEndEdit' />
 
-    <Button id='initiativeReset'
-        value='true'
-        offsetXY='860 3625'
-        width='1000'
-        height='310'
-        onClick='resetInitiative'/>
-    <Button id='initiativeRefresh'
-        value='true'
-        offsetXY='2175 3625'
-        width='1000'
-        height='310'
-        onClick='refreshInitiative'/>
-    <Button id='initiativeRoll'
-        value='true'
-        offsetXY='3450 3625'
-        width='1000'
-        height='310'
-        onClick='rollInitiative'/>
-    <Button id='initiativeBackward'
-        value='true'
-        offsetXY='1350 3125'
-        width='1500'
-        height='410'
-        onClick='backwardInitiative'/>
-    <Button id='initiativeForward'
-        value='true'
-        offsetXY='3000 3125'
-        width='1500'
-        height='410'
-        onClick='forwardInitiative'/>
+    <Button id='hideBar' offsetXY='-2590 -1640' class='toggleBox' />
+    <Button id='hideText' offsetXY='-2590 -2035' class='toggleBox' />
+    <Button id='editText' offsetXY='-2590 -2410' class='toggleBox' />
 
-    <Button id='HideBars'
-        value='true'
-        offsetXY='-1615 -3335'
-        width='2230'
-        height='520'
-        onClick='toggleHideBars'/>
+    <Button id='initiativeReset' value='true' offsetXY='860 3625' width='1000' height='310' onClick='resetInitiative' />
+    <Button id='initiativeRefresh' value='true' offsetXY='2175 3625' width='1000' height='310' onClick='refreshInitiative' />
+    <Button id='initiativeRoll' value='true' offsetXY='3450 3625' width='1000' height='310' onClick='rollInitiative' />
+    <Button id='initiativeBackward' value='true' offsetXY='1350 3125' width='1500' height='410' onClick='backwardInitiative' />
+    <Button id='initiativeForward' value='true' offsetXY='3000 3125' width='1500' height='410' onClick='forwardInitiative' />
 
-    <Text
-        offsetXY='2160 -695'
-        text='CHOOSE THE BLACK(GM) COLOR TO USE THIS TOOL'
-        width='3500'
-        height='3000'
-        color='#ffffff'
-        visibility='White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink|Grey'/>
+    <Button id='HideBars' value='true' offsetXY='-1615 -3335' width='2230' height='520' onClick='toggleHideBars' />
+
+    <Text offsetXY='2160 -695' text='CHOOSE THE BLACK(GM) COLOR TO USE THIS TOOL' width='3500' height='3000' color='#ffffff' visibility='White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink|Grey'/>
 </Panel>
+
 <Panel id='initiativePanel' scale='0.5' width='1580' height='2800' position='432 -129 -60' color='black' visibility='Black' />
