@@ -3,7 +3,7 @@ collisionProcessing = {}
 OW_tZone = nil
 
 options = {
-    hideText = false, editText = false, hideBar = false, hideAll = false, showAll = true,
+    hideBar = false, hideAll = false, showAll = true,
     measureMove = false, alternateDiag = false, metricMode = false, playerChar = false, HP2Desc = false,
     hp = 10, mana = 0, extra = 0, initActive = false, initCurrentValue = 0, initCurrentRound = 1,
     initCurrentGUID = ""
@@ -195,7 +195,7 @@ function updateSettingUI()
     self.UI.setAttribute("extra", "text", options.extra)
 
     for opt, _ in pairs(options) do
-        if opt == "measureMove" or opt == "alternateDiag" or opt == "playerChar" or opt == "hideBar" or opt == "hideText" or opt == "editText" then
+        if opt == "measureMove" or opt == "alternateDiag" or opt == "playerChar" or opt == "hideBar" then
             updateUIAttribute(opt, tostring(options[opt]))
         end
     end
@@ -335,21 +335,8 @@ function injectToken(object)
     xml = xml:gsub("STATSIMAGE", xmlStats)
     xml = xml:gsub('<VerticalLayout id="bars" height="200">', '<VerticalLayout id="bars" height="' .. 200 + (options.mana == 0 and -100 or 0) + (options.extra ~= 0 and 100 or 0) .. '">')
     if not options.playerChar then
-        if options.hideText then
-            xml = xml:gsub('id="hpText" visibility=""', 'id="hpText" visibility="Black"')
-            xml = xml:gsub('id="manaText" visibility=""', 'id="manaText" visibility="Black"')
-            xml = xml:gsub('id="extraText" visibility=""', 'id="extraText" visibility="Black"')
-        end
         if options.hideBar then
-            xml = xml:gsub('id="progressBar" visibility=""', 'id="progressBar" visibility="Black"')
-            xml = xml:gsub('id="progressBarS" visibility=""', 'id="progressBarS" visibility="Black"')
-            xml = xml:gsub('id="extraProgress" visibility=""', 'id="extraProgress" visibility="Black"')
-        end
-        if options.editText then
-            xml = xml:gsub('id="addSub" visibility=""', 'id="addSub" visibility="Black"')
-            xml = xml:gsub('id="addSubS" visibility=""', 'id="addSubS" visibility="Black"')
-            xml = xml:gsub('id="addSubE" visibility=""', 'id="addSubE" visibility="Black"')
-            xml = xml:gsub('id="editPanel" visibility=""', 'id="editPanel" visibility="Black"')
+            xml = xml:gsub("id='bars' visibility=''", "id='bars' visibility='Black'")
         end
     end
     xml = xml:gsub('<Panel id="panel" position="0 0 -220"', '<Panel id="panel" position="0 0 ' .. object.getBounds().size.y / object.getScale().y * 110 .. '"')
