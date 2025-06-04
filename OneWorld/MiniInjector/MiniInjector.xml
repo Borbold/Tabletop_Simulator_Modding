@@ -20,8 +20,6 @@
     <InputField id='extra' offsetXY='-1325 -1195' text='0' width='880' height='300' onEndEdit='onEndEdit' />
 
     <Button id='hideBar' offsetXY='-2590 -1640' class='toggleBox' />
-    <Button id='hideText' offsetXY='-2590 -2035' class='toggleBox' />
-    <Button id='editText' offsetXY='-2590 -2410' class='toggleBox' />
 
     <Button id='initiativeReset' value='true' offsetXY='860 3625' width='1000' height='310' onClick='resetInitiative' />
     <Button id='initiativeRefresh' value='true' offsetXY='2175 3625' width='1000' height='310' onClick='refreshInitiative' />
