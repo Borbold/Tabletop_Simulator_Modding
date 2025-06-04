@@ -120,61 +120,10 @@ local function confer()
         self.UI.setAttribute("MetricModeToggle", "textColor", metricMode and "#ffffff" or "#aa2222")
 
         if player then
-            self.UI.setAttribute("progressBar", "visibility", "")
-            self.UI.setAttribute("progressBarS", "visibility", "")
-            self.UI.setAttribute("extraProgress", "visibility", "")
-            self.UI.setAttribute("hpText", "visibility", "")
-            self.UI.setAttribute("manaText", "visibility", "")
-            self.UI.setAttribute("extraText", "visibility", "")
-            self.UI.setAttribute("addSub", "visibility", "")
-            self.UI.setAttribute("addSubS", "visibility", "")
-            self.UI.setAttribute("addSubE", "visibility", "")
-            self.UI.setAttribute("editPanel", "visibility", "")
-            self.UI.setAttribute("editButton0", "visibility", "")
-            self.UI.setAttribute("editButton1", "visibility", "")
-            self.UI.setAttribute("editButtonS1", "visibility", "")
-            self.UI.setAttribute("editButton2", "visibility", "")
-            self.UI.setAttribute("editButtonS2", "visibility", "")
-            self.UI.setAttribute("editButton3", "visibility", "")
-            self.UI.setAttribute("editButtonS3", "visibility", "")
+            self.UI.setAttribute("bars", "visibility", "")
         else
-            if injOptions.hideBar then
-                self.UI.setAttribute("progressBar", "visibility", "Black")
-                self.UI.setAttribute("progressBarS", "visibility", "Black")
-                self.UI.setAttribute("extraProgress", "visibility", "Black")
-            else
-                self.UI.setAttribute("progressBar", "visibility", "")
-                self.UI.setAttribute("progressBarS", "visibility", "")
-                self.UI.setAttribute("extraProgress", "visibility", "")
-            end
-            if injOptions.hideText then
-                self.UI.setAttribute("hpText", "visibility", "Black")
-                self.UI.setAttribute("manaText", "visibility", "Black")
-                self.UI.setAttribute("extraText", "visibility", "Black")
-            else
-                self.UI.setAttribute("hpText", "visibility", "")
-                self.UI.setAttribute("manaText", "visibility", "")
-                self.UI.setAttribute("extraText", "visibility", "")
-            end
-            if injOptions.editText then
-                self.UI.setAttribute("addSub", "visibility", "Black")
-                self.UI.setAttribute("addSubS", "visibility", "Black")
-                self.UI.setAttribute("addSubE", "visibility", "Black")
-                self.UI.setAttribute("editPanel", "visibility", "Black")
-            else
-                self.UI.setAttribute("addSub", "visibility", "")
-                self.UI.setAttribute("addSubS", "visibility", "")
-                self.UI.setAttribute("addSubE", "visibility", "")
-                self.UI.setAttribute("editPanel", "visibility", "")
-            end
+            self.UI.setAttribute("bars", "visibility", injOptions.hideBar and "Black" or "")
             self.UI.setAttribute("panel", "active", injOptions.showAll and "true" or "false")
-            self.UI.setAttribute("editButton0", "visibility", "Black")
-            self.UI.setAttribute("editButton1", "visibility", "Black")
-            self.UI.setAttribute("editButtonS1", "visibility", "Black")
-            self.UI.setAttribute("editButton2", "visibility", "Black")
-            self.UI.setAttribute("editButtonS2", "visibility", "Black")
-            self.UI.setAttribute("editButton3", "visibility", "Black")
-            self.UI.setAttribute("editButtonS3", "visibility", "Black")
         end
     end
 
