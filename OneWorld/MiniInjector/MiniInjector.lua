@@ -260,34 +260,10 @@ function toggleCheckBox(player, value, id)
             obj.call('toggleAlternateDiag')
         end
         if obj.getVar("player") then
-            if id == "hideBar" then
-                obj.UI.setAttribute("progressBar", "visibility", "")
-                obj.UI.setAttribute("progressBarS", "visibility", "")
-                obj.UI.setAttribute("extraProgress", "visibility", "")
-            elseif id == "hideText" then
-                obj.UI.setAttribute("hpText", "visibility", "")
-                obj.UI.setAttribute("manaText", "visibility", "")
-                obj.UI.setAttribute("extraText", "visibility", "")
-            elseif id == "editText" then
-                obj.UI.setAttribute("addSub", "visibility", "")
-                obj.UI.setAttribute("addSubS", "visibility", "")
-                obj.UI.setAttribute("addSubE", "visibility", "")
-                obj.UI.setAttribute("editPanel", "visibility", "")
-            end
+            self.UI.setAttribute("bars", "visibility", "")
         else
             if id == "hideBar" then
-                obj.UI.setAttribute("progressBar", "visibility", options[id] and "Black" or "")
-                obj.UI.setAttribute("progressBarS", "visibility", options[id] and "Black" or "")
-                obj.UI.setAttribute("extraProgress", "visibility", options[id] and "Black" or "")
-            elseif id == "hideText" then
-                obj.UI.setAttribute("hpText", "visibility", options[id] and "Black" or "")
-                obj.UI.setAttribute("manaText", "visibility", options[id] and "Black" or "")
-                obj.UI.setAttribute("extraText", "visibility", options[id] and "Black" or "")
-            elseif id == "editText" then
-                obj.UI.setAttribute("addSub", "visibility", options[id] and "Black" or "")
-                obj.UI.setAttribute("addSubS", "visibility", options[id] and "Black" or "")
-                obj.UI.setAttribute("addSubE", "visibility", options[id] and "Black" or "")
-                obj.UI.setAttribute("editPanel", "visibility", options[id] and "Black" or "")
+                self.UI.setAttribute("bars", "visibility", options[id] and "Black" or "")
             end
         end
     end
