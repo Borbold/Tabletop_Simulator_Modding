@@ -3,7 +3,6 @@ onUpdateScale = 1.0
 onUpdateGridSize = 1.0
 a = {}
 triggerNames = {}
-showing = false
 
 health = {value = 10, max = 10}
 mana = {value = 0, max = 0}
@@ -184,14 +183,11 @@ local function confer()
             self.UI.setAttribute("addSubS", "visibility", "")
             self.UI.setAttribute("addSubE", "visibility", "")
             self.UI.setAttribute("editPanel", "visibility", "")
-            self.UI.setAttribute("leftSide1", "visibility", "")
             self.UI.setAttribute("editButton0", "visibility", "")
             self.UI.setAttribute("editButton1", "visibility", "")
             self.UI.setAttribute("editButtonS1", "visibility", "")
-            self.UI.setAttribute("leftSide2", "visibility", "")
             self.UI.setAttribute("editButton2", "visibility", "")
             self.UI.setAttribute("editButtonS2", "visibility", "")
-            self.UI.setAttribute("leftSide3", "visibility", "")
             self.UI.setAttribute("editButton3", "visibility", "")
             self.UI.setAttribute("editButtonS3", "visibility", "")
         else
@@ -226,13 +222,10 @@ local function confer()
             end
             self.UI.setAttribute("panel", "active", injOptions.showAll and "true" or "false")
             self.UI.setAttribute("editButton0", "visibility", "Black")
-            self.UI.setAttribute("leftSide1", "visibility", "Black")
             self.UI.setAttribute("editButton1", "visibility", "Black")
             self.UI.setAttribute("editButtonS1", "visibility", "Black")
-            self.UI.setAttribute("leftSide2", "visibility", "Black")
             self.UI.setAttribute("editButton2", "visibility", "Black")
             self.UI.setAttribute("editButtonS2", "visibility", "Black")
-            self.UI.setAttribute("leftSide3", "visibility", "Black")
             self.UI.setAttribute("editButton3", "visibility", "Black")
             self.UI.setAttribute("editButtonS3", "visibility", "Black")
         end
@@ -820,14 +813,7 @@ function add() onClick(-1, - 1, "add") end
 function sub() onClick(-1, - 1, "sub") end
 
 function onClick(player_in, value, id)
-    if id == "leftSide1" or id == "leftSide2" or id == "leftSide3" then
-        if showing ~= true then
-            showAllButtons()
-        else
-            self.clearButtons()
-            showing = false
-        end
-    elseif id == "editButton0" or id == "editButton1" or id == "editButton2" or id == "editButton3" then
+    if id == "editButton0" or id == "editButton1" or id == "editButton2" or id == "editButton3" then
         if firstEdit == true or self.UI.getAttribute("editPanel", "active") == "False" then
             self.UI.setAttribute("editPanel", "active", true)
             self.UI.setAttribute("statePanel", "active", false)
@@ -996,70 +982,6 @@ function getIncrement(value)
     else
         return 10
     end
-end
-
-function showAllButtons()
-    local foundTriggers = false
-    posi = 16
-    posiY = 2
-    counter = 0
-    for k = 0, 99 do
-        if triggerNames[k] ~= nil and triggerNames[k] ~= "Reset" then
-            foundTriggers = true
-            -- typical button params
-            local button_parameters1 = {}
-            button_parameters1.click_function = "trigger"
-
-            button_parameters1.function_owner = self
-            button_parameters1.label = triggerNames[k]
-            button_parameters1.position = {posi, 4, posiY}
-            button_parameters1.rotation = {0, 90, 0}
-            button_parameters1.width = 2000
-            button_parameters1.height = 400
-            button_parameters1.font_size = 150
-
-            if a[k] == true then
-                button_parameters1.color = {74 / 255, 186 / 255, 74 / 255}
-                button_parameters1.hover_color = {74 / 255, 186 / 255, 74 / 255}
-            end
-
-            counter = counter + 1
-            if counter < 16 then
-                posi = posi - 1
-
-                if counter == 11 then
-                    if posiY == 21.5 then
-                        posiY = posiY + 6
-                        posi = 16
-                        counter = 0
-                    end
-                end
-            else
-                posi = 16
-                if posiY == 2 then
-                    posiY = posiY + 6
-                else
-                    posiY = posiY + 4.5
-                end
-                counter = 0
-            end
-
-            -- create a new global function
-            _G["ClickFunction" .. k] = function(obj, col)
-                -- that simply calls our real target function
-                RealClickFunction(obj, k)
-            end
-
-            button_parameters1.click_function = "ClickFunction" .. k
-
-            self.createButton(button_parameters1)
-        end
-    end
-    if triggerNames == false then
-        print("No triggers found.")
-        return
-    end
-    showing = true
 end
 
 function RealClickFunction(obj, index)

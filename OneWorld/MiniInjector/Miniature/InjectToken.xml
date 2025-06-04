@@ -1,73 +1,65 @@
 <Defaults>
     <Button font='Fonts/Allods' resizeTextForBestFit='True' resizeTextMaxSize='500' resizeTextMinSize='10'
-        onClick='onClick' fontStyle='Bold' textColor='#FFFFFF' color='#000000FF'/>
+        onClick='onClick' fontStyle='Bold' textColor='#ffffff' color='#000000'/>
     <Text font='Fonts/Allods' resizeTextForBestFit='True' resizeTextMaxSize='500' resizeTextMinSize='10'
-        fontStyle='Bold' color='#FFFFFF'/>
+        fontStyle='Bold' color='#ffffff'/>
     <InputField font='Fonts/Allods' resizeTextForBestFit='True' resizeTextMaxSize='500' resizeTextMinSize='10'
-        color='#000000FF' textColor='#FFFFFF' characterValidation='Integer'/>
+        color='#000000' textColor='#ffffff' characterValidation='Integer'/>
+    <Cell dontUseTableCellBackground='true' />
 </Defaults>
 
 <Panel id='panel' position='0 0 -220' rotation='90 270 90' scale='0.2 0.2'>
-    <VerticalLayout id='bars' height='300'>
-        <Panel id='hiddenButtonBar' active='false'>
-            <HorizontalLayout height='25' width='400'>
-                 <Button id='editButton0' image='UpArrow' visibility='Black' />
+    <TableLayout id='bars' height='300' width='600'>
+        <Row id='hiddenButtonBar' active='false'>
+            <Cell>
+                 <Button id='editButton0' image='UpArrow' />
+            </Cell>
+        </Row>
+        <Row id='resourceBar' active='true'>
+            <ProgressBar id='progressBar' height='100' width='600' showPercentageText='false' color='#000000' percentage='100' fillImageColor='#710000'/>
+            <Text id='hpText' height='100' width='600' text='10/10' />
+            <Cell id='editButtonBar'>
+                <Button id='editButton1' color='#00000000' />
+                <Button id='editButtonS1' color='#00000000' />
+            </Cell>
+            <HorizontalLayout id='addSub' height='100' width='825' active='false' spacing='625'>
+                <Button id='sub' text='-' color='#ffffff' textColor='#000000'/>
+                <Button id='add' text='+' color='#ffffff' textColor='#000000'/>
             </HorizontalLayout>
-        </Panel>
-        <Panel id='resourceBar' active='true'>
-            <ProgressBar id='progressBar' visibility='' height='100' width='600' showPercentageText='false' color='#000000FF' percentage='100' fillImageColor='#710000'></ProgressBar>
-            <Text id='hpText' visibility='' height='100' width='600' text='10/10'></Text>
-            <HorizontalLayout id='editButtonBar' height='100' width='600'>
-                 <Button id='leftSide1' text='' color='#00000000'></Button>
-                 <Button id='editButton1' color='#00000000' visibility='Black'></Button>
-                 <Button id='editButtonS1' text='' color='#00000000'></Button>
+        </Row>
+        <Row id='resourceBarS' active='true'>
+            <ProgressBar id='progressBarS' height='100' width='600' showPercentageText='false' color='#000000' percentage='100' fillImageColor='#000071'/>
+            <Text id='manaText' height='100' width='600' text='10/10' />
+            <Cell id='editButtonBar'>
+                 <Button id='editButton2' color='#00000000' />
+                 <Button id='editButtonS2' color='#00000000' />
+            </Cell>
+            <HorizontalLayout id='addSubS' height='100' width='825' active='false' spacing='625'>
+                <Button id='subS' text='-' color='#ffffff' textColor='#000000'/>
+                <Button id='addS' text='+' color='#ffffff' textColor='#000000'/>
             </HorizontalLayout>
-            <Panel id='addSub' visibility='' height='100' width='825' active='false'>
-                <HorizontalLayout spacing='625'>
-                    <Button id='sub' text='-' color='#FFFFFF' textColor='#000000'></Button>
-                    <Button id='add' text='+' color='#FFFFFF' textColor='#000000'></Button>
-                </HorizontalLayout>
-            </Panel>
-        </Panel>
-        <Panel id='resourceBarS' active='true'>
-            <ProgressBar id='progressBarS' visibility='' height='100' width='600' showPercentageText='false' color='#000000FF' percentage='100' fillImageColor='#000071'></ProgressBar>
-            <Text id='manaText' visibility='' height='100' width='600' text='10/10'></Text>
-            <HorizontalLayout id='editButtonBar' height='100' width='600'>
-                 <Button id='leftSide2' text='' color='#00000000'></Button>
-                 <Button id='editButton2' color='#00000000' visibility='Black'></Button>
-                 <Button id='editButtonS2' text='' color='#00000000'></Button>
+        </Row>
+        <Row id='extraBar' active='true'>
+            <ProgressBar id='extraProgress' height='100' width='600' showPercentageText='false' color='#000000' percentage='100' fillImageColor='#FFCF00'/>
+            <Text id='extraText' height='100' width='600' text='10/10' />
+            <Cell id='editButtonBar'>
+                 <Button id='editButton3' color='#00000000' />
+                 <Button id='editButtonS3' color='#00000000' />
+            </Cell>
+            <HorizontalLayout id='addSubE' height='100' width='825' active='false' spacing='625'>
+                <Button id='subE' text='-' color='#ffffff' textColor='#000000'/>
+                <Button id='addE' text='+' color='#ffffff' textColor='#000000'/>
             </HorizontalLayout>
-            <Panel id='addSubS' visibility='' height='100' width='825' active='false'>
-                <HorizontalLayout spacing='625'>
-                    <Button id='subS' text='-' color='#FFFFFF' textColor='#000000'></Button>
-                    <Button id='addS' text='+' color='#FFFFFF' textColor='#000000'></Button>
-                </HorizontalLayout>
-            </Panel>
-        </Panel>
-        <Panel id='extraBar' active='true'>
-            <ProgressBar id='extraProgress' visibility='' height='100' width='600' showPercentageText='false' color='#000000FF' percentage='100' fillImageColor='#FFCF00'></ProgressBar>
-            <Text id='extraText' visibility='' height='100' width='600' text='10/10'></Text>
-            <HorizontalLayout id='editButtonBar' height='100' width='600'>
-                 <Button id='leftSide3' text='' color='#00000000'></Button>
-                 <Button id='editButton3' color='#00000000' visibility='Black'></Button>
-                 <Button id='editButtonS3' text='' color='#00000000'></Button>
-            </HorizontalLayout>
-            <Panel id='addSubE' visibility='' height='100' width='825' active='false'>
-                <HorizontalLayout spacing='625'>
-                    <Button id='subE' text='-' color='#FFFFFF' textColor='#000000'></Button>
-                    <Button id='addE' text='+' color='#FFFFFF' textColor='#000000'></Button>
-                </HorizontalLayout>
-            </Panel>
-        </Panel>
-    </VerticalLayout>
-    <Panel id='editPanel' height='1620' width='800' color='#330000FF' position='0 1290 0' active='False' visibility='Black'>
-        <ProgressBar id='blackBackground' visibility='' height='1620' width='800' showPercentageText='false' color='#330000FF' percentage='100' fillImageColor='#330000FF' position='0 -320 0'></ProgressBar>
+        </Row>
+    </TableLayout>
+    <!--=============================-->
+    <Panel id='editPanel' height='1620' width='800' color='#330000' position='0 1290 0' active='False'>
         <HorizontalLayout>
             <VerticalLayout>
                 <HorizontalLayout spacing='10' minheight='100'>
-                    <Button id='subHeight' text='◄'></Button>
+                    <Button id='subHeight' text='◄' />
                     <Text>Height</Text>
-                    <Button id='addHeight' text='►'></Button>
+                    <Button id='addHeight' text='►'/>
                 </HorizontalLayout>
                 <HorizontalLayout spacing='10' minheight='100'>
                     <Button id='subRotation' text='◄' />
@@ -75,78 +67,78 @@
                     <Button id='addRotation' text='►' />
                 </HorizontalLayout>
                 <HorizontalLayout minheight='100'>
-                    <Button id='PlayerCharToggle' onClick='togglePlayer' fontSize='70' text='Player Character' color='#000000FF'></Button>
+                    <Button id='PlayerCharToggle' onClick='togglePlayer' text='Player Character' color='#000000' />
                 </HorizontalLayout>
                 <HorizontalLayout minheight='160'>
-                    <Button id='MeasureMoveToggle' onClick='toggleMeasure' fontSize='70' text='Measure Moves' color='#000000FF'></Button>
-                    <Button id='AlternateDiagToggle' onClick='toggleAlternateDiag' fontSize='60' text='Alternate Diagonals' color='#000000FF'></Button>
+                    <Button id='MeasureMoveToggle' onClick='toggleMeasure' text='Measure Moves' color='#000000' />
+                    <Button id='AlternateDiagToggle' onClick='toggleAlternateDiag' fontSize='60' text='Alternate Diagonals' color='#000000' />
                 </HorizontalLayout>
                 <HorizontalLayout minheight='100'>
-                    <Button id='MetricModeToggle' onClick='toggleMetricMode' fontSize='70' text='Metric Mode' color='#000000FF'></Button>
+                    <Button id='MetricModeToggle' onClick='toggleMetricMode' text='Metric Mode' color='#000000' />
                 </HorizontalLayout>
                 <HorizontalLayout minheight='160'>
-                    <Button id='StabilizeToggle' onClick='toggleStabilizeOnDrop' fontSize='70' text='Stable Mini' color='#000000FF'></Button>
-                    <Button id='HB' fontSize='70' text='Bar Edit Buttons' color='#000000FF'></Button>
+                    <Button id='StabilizeToggle' onClick='toggleStabilizeOnDrop' text='Stable Mini' color='#000000' />
+                    <Button id='HB' text='Bar Edit Buttons' color='#000000' />
                 </HorizontalLayout>
                 <HorizontalLayout minheight='160'>
-                    <Button id='BZ' fontSize='70' text='Below Zero' color='#000000FF'></Button>
-                    <Button id='AM' fontSize='70' text='Above Max' color='#000000FF'></Button>
+                    <Button id='BZ' text='Below Zero' color='#000000' />
+                    <Button id='AM' text='Above Max' color='#000000' />
                 </HorizontalLayout>
                 <HorizontalLayout minheight='100'>
-                    <Button id='HH' fontSize='70' text='Hide Health Bar' color='#000000FF'></Button>
+                    <Button id='HH' text='Hide Health Bar' color='#000000' />
                 </HorizontalLayout>
                 <HorizontalLayout minheight='100'>
-                    <Button id='HM' fontSize='70' text='Hide Bar 2' color='#000000FF'></Button>
+                    <Button id='HM' text='Hide Bar 2' color='#000000' />
                 </HorizontalLayout>
                 <HorizontalLayout minheight='100'>
-                    <Button id='HE' fontSize='70' text='Hide Bar 3' color='#000000FF'></Button>
+                    <Button id='HE' text='Hide Bar 3' color='#000000' />
                 </HorizontalLayout>
                 <HorizontalLayout spacing='55'  minheight='100'>
-                    <Button id='subMax' text='◄' minwidth='115'></Button>
+                    <Button id='subMax' text='◄' minwidth='115' />
                     <Text>Max HP</Text>
-                    <Button id='addMax' text='►' minwidth='115'></Button>
+                    <Button id='addMax' text='►' minwidth='115' />
                 </HorizontalLayout>
                 <HorizontalLayout spacing='55'  minheight='100'>
-                    <Button id='subMaxS' text='◄' minwidth='90'></Button>
+                    <Button id='subMaxS' text='◄' minwidth='90' />
                     <Text>Max 2</Text>
-                    <Button id='addMaxS' text='►' minwidth='90'></Button>
+                    <Button id='addMaxS' text='►' minwidth='90' />
                 </HorizontalLayout>
                 <HorizontalLayout spacing='55'  minheight='100'>
-                    <Button id='subMaxE' text='◄' minwidth='90'></Button>
+                    <Button id='subMaxE' text='◄' minwidth='90' />
                     <Text>Max 3</Text>
-                    <Button id='addMaxE' text='►' minwidth='90'></Button>
+                    <Button id='addMaxE' text='►' minwidth='90' />
                 </HorizontalLayout>
                 <HorizontalLayout minheight='160'>
-                    <Button id='InitiativeIncludeToggle' onClick='toggleInitiativeInclude' fontSize='70' text='Initiative Include' color='#000000FF'></Button>
-                    <Button id='InitiativeRollingToggle' onClick='toggleInitiativeRolling' fontSize='70' text='Initiative Rolling' color='#000000FF'></Button>
+                    <Button id='InitiativeIncludeToggle' onClick='toggleInitiativeInclude' text='Initiative Include' color='#000000' />
+                    <Button id='InitiativeRollingToggle' onClick='toggleInitiativeRolling' text='Initiative Rolling' color='#000000' />
                 </HorizontalLayout>
-                <HorizontalLayout spacing='10' minheight='100'>
-                    <Text fontSize='50'>Initiative Mod:</Text>
-                    <InputField id='InitModInput' onEndEdit='onEndEdit' minwidth='200' text='0'></InputField>
+                <HorizontalLayout spacing='10' minheight='100' color='#330000'>
+                    <Text minwidth='300'>Initiative Mod:</Text>
+                    <InputField id='InitModInput' onEndEdit='onEndEdit' minwidth='75' text='0' />
                 </HorizontalLayout>
-                <HorizontalLayout spacing='10' minheight='100'>
-                    <Text fontSize='50'>Initiative Value:</Text>
-                    <InputField id='InitValueInput' onEndEdit='onEndEdit' minwidth='200' text='0'></InputField>
+                <HorizontalLayout spacing='10' minheight='100' color='#330000'>
+                    <Text minwidth='300'>Initiative Value:</Text>
+                    <InputField id='InitValueInput' onEndEdit='onEndEdit' minwidth='75' text='0' />
                 </HorizontalLayout>
-                <HorizontalLayout spacing='10' minheight='100'>
-                    <Text fontSize='50'>Increment by:</Text>
-                    <InputField id='increment' onEndEdit='onEndEdit' minwidth='200' text='1'></InputField>
+                <HorizontalLayout spacing='10' minheight='100' color='#330000'>
+                    <Text minwidth='300'>Increment by:</Text>
+                    <InputField id='increment' onEndEdit='onEndEdit' minwidth='75' text='1' />
                 </HorizontalLayout>
             </VerticalLayout>
             <VerticalLayout>
-                <Button id='highlightNone' onClick='changeHighlight' minwidth='200' minheight='90' fontSize='70' text='None' color='Grey'></Button>
-                <Button id='highlightWhite' onClick='changeHighlight' minwidth='200' minheight='90' fontSize='70' text='' color='White'></Button>
-                <Button id='highlightBrown' onClick='changeHighlight' minwidth='200' minheight='90' fontSize='70' text='' color='Brown'></Button>
-                <Button id='highlightRed' onClick='changeHighlight' minwidth='200' minheight='90' fontSize='70' text='' color='Red'></Button>
-                <Button id='highlightOrange' onClick='changeHighlight' minwidth='200' minheight='90' fontSize='70' text='' color='Orange'></Button>
-                <Button id='highlightYellow' onClick='changeHighlight' minwidth='200' minheight='90' fontSize='70' text='' color='Yellow'></Button>
-                <Button id='highlightGreen' onClick='changeHighlight' minwidth='200' minheight='90' fontSize='70' text='' color='Green'></Button>
-                <Button id='highlightTeal' onClick='changeHighlight' minwidth='200' minheight='90' fontSize='70' text='' color='Teal'></Button>
-                <Button id='highlightBlue' onClick='changeHighlight' minwidth='200' minheight='90' fontSize='70' text='' color='Blue'></Button>
-                <Button id='highlightPurple' onClick='changeHighlight' minwidth='200' minheight='90' fontSize='70' text='' color='Purple'></Button>
-                <Button id='highlightPink' onClick='changeHighlight' minwidth='200' minheight='90' fontSize='70' text='' color='Pink'></Button>
-                <Button id='highlightBlack' onClick='changeHighlight' minwidth='200' minheight='90' fontSize='70' text='' color='Black'></Button>
-                <Button id='highlightToggle' onClick='toggleHighlight' minwidth='200' minheight='180' fontSize='50' text='Toggle' color='Grey'></Button>
+                <Button id='highlightNone' onClick='changeHighlight' minwidth='200' minheight='90' text='None' color='Grey' />
+                <Button id='highlightWhite' onClick='changeHighlight' minwidth='200' minheight='90' text='' color='White' />
+                <Button id='highlightBrown' onClick='changeHighlight' minwidth='200' minheight='90' text='' color='Brown' />
+                <Button id='highlightRed' onClick='changeHighlight' minwidth='200' minheight='90' text='' color='Red' />
+                <Button id='highlightOrange' onClick='changeHighlight' minwidth='200' minheight='90' text='' color='Orange' />
+                <Button id='highlightYellow' onClick='changeHighlight' minwidth='200' minheight='90' text='' color='Yellow' />
+                <Button id='highlightGreen' onClick='changeHighlight' minwidth='200' minheight='90' text='' color='Green' />
+                <Button id='highlightTeal' onClick='changeHighlight' minwidth='200' minheight='90' text='' color='Teal' />
+                <Button id='highlightBlue' onClick='changeHighlight' minwidth='200' minheight='90' text='' color='Blue' />
+                <Button id='highlightPurple' onClick='changeHighlight' minwidth='200' minheight='90' text='' color='Purple' />
+                <Button id='highlightPink' onClick='changeHighlight' minwidth='200' minheight='90' text='' color='Pink' />
+                <Button id='highlightBlack' onClick='changeHighlight' minwidth='200' minheight='90' text='' color='Black' />
+                <Button id='highlightToggle' onClick='toggleHighlight' minwidth='200' minheight='180' text='Toggle' color='Grey' />
             </VerticalLayout>
         </HorizontalLayout>
     </Panel>
