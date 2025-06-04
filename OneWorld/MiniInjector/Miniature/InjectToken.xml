@@ -9,7 +9,7 @@
 </Defaults>
 
 <Panel id='panel' position='0 0 -220' rotation='90 270 90' scale='0.2 0.2'>
-    <TableLayout id='bars' height='300' width='600'>
+    <TableLayout id='bars' visibility='' height='300' width='600'>
         <Row id='hiddenButtonBar' active='false'>
             <Cell>
                 <Button id='editButton0' image='UpArrow'/>
