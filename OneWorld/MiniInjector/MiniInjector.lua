@@ -260,10 +260,10 @@ function toggleCheckBox(player, value, id)
             obj.call('toggleAlternateDiag')
         end
         if obj.getVar("player") then
-            self.UI.setAttribute("bars", "visibility", "")
+            obj.UI.setAttribute("bars", "visibility", "")
         else
             if id == "hideBar" then
-                self.UI.setAttribute("bars", "visibility", options[id] and "Black" or "")
+                obj.UI.setAttribute("bars", "visibility", options[id] and "Black" or "")
             end
         end
     end
