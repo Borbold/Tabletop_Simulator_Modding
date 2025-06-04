@@ -434,7 +434,6 @@ function toggleMeasure()
 end
 
 function toggleAlternateDiag(thePlayer1)
-    local myPlayer = thePlayer1
     local function tad_Helper(thePlayer2)
         -- Look for the mini injector, if available
         if injectPanel then
@@ -451,11 +450,10 @@ function toggleAlternateDiag(thePlayer1)
         self.UI.setAttribute("AlternateDiagToggle", "textColor", alternateDiag == true and "#ffffff" or "#aa2222")
         updateSave()
     end
-    Wait.frames(function() tad_Helper(myPlayer) end, 30)
+    Wait.time(function() tad_Helper(thePlayer1) end, 0.5)
 end
 
 function toggleMetricMode(thePlayer1)
-    local myPlayer = thePlayer1
     local function tmm_Helper(thePlayer2)
         -- Look for the mini injector, if available
         if injectPanel then
@@ -472,7 +470,7 @@ function toggleMetricMode(thePlayer1)
         self.UI.setAttribute("MetricModeToggle", "textColor", metricMode == true and "#ffffff" or "#aa2222")
         updateSave()
     end
-    Wait.frames(function() tmm_Helper(myPlayer) end, 30)
+    Wait.time(function() tmm_Helper(thePlayer1) end, 0.5)
 end
 
 function toggleStabilizeOnDrop()
