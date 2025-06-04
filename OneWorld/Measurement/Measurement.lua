@@ -125,7 +125,6 @@ function onLoad(save_state)
 
     rebuildContextMenu()
     self.setVectorLines({})
-
 end
 
 function toggleEnableVertexMode()

@@ -348,7 +348,7 @@ function rebuildContextMenu()
     self.addContextMenuItem("UI Height DOWN", uiHeightDown, true)
     self.addContextMenuItem("UI Rotate 90", uiRotate90, true)
     self.addContextMenuItem(string.format("%s Hide from players", hideFromPlayers and "[X]" or "[ ]"), toggleHideFromPlayers)
-    self.addContextMenuItem(string.format("%s Calibrate Scale", calibratedOnce and "[X]" or "[ ]"), toggleHideFromPlayers)
+    self.addContextMenuItem(string.format("%s Calibrate Scale", calibratedOnce and "[X]" or "[ ]"), calibrateScale)
     self.addContextMenuItem("Reset Scale", resetScale)
     self.addContextMenuItem("Reload Mini", function() self.reload() end)
 end

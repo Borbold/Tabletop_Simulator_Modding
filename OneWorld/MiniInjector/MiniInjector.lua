@@ -31,7 +31,7 @@ function onSave()
 end
 
 local function isExcludedClassName(className)
-    local excludedClasses = {"MeasurementToken", "MeasurementToken_Move", "InjectTokenMini", "DNDMiniInjector_Mini_Move", "MeasurementTool"}
+    local excludedClasses = {"MeasurementToken_Move", "InjectTokenMini", "DNDMiniInjector_Mini_Move", "MeasurementTool"}
     for _, excludedClass in ipairs(excludedClasses) do
         if className == excludedClass then
             return true
@@ -48,7 +48,7 @@ local function processHitObject(hitTable, object)
             injectedSecondsLimiter = 10
         end
     elseif self.getRotationValue() == CONST_REMOVE then
-        if object.getVar("className") == "MeasurementToken" or object.getVar("className") == "InjectTokenMini" then
+        if object.getVar("className") == "InjectTokenMini" then
             object.call("destroyMoveToken")
             object.script_state = ""
             object.script_code = ""
@@ -203,35 +203,17 @@ end
 
 function rebuildContextMenu()
     self.clearContextMenu()
-    if pingInitMinis then
-        self.addContextMenuItem("[X] Ping Init Minis", togglePingInitMinis)
-    else
-        self.addContextMenuItem("[ ] Ping Init Minis", togglePingInitMinis)
-    end
-    if autoCalibrateEnabled then
-        self.addContextMenuItem("[X] Auto-Calibrate", toggleAutoCalibrate)
-    else
-        self.addContextMenuItem("[ ] Auto-Calibrate", toggleAutoCalibrate)
-    end
-    if options.metricMode then
-        self.addContextMenuItem("[X] Metric Mode", toggleMetricMode)
-    else
-        self.addContextMenuItem("[ ] Metric Mode", toggleMetricMode)
-    end
+    self.addContextMenuItem(string.format("%s Ping Init Minis", pingInitMinis and "[X]" or "[ ]"), togglePingInitMinis)
+    self.addContextMenuItem(string.format("%s Auto-Calibrate", autoCalibrateEnabled and "[X]" or "[ ]"), toggleAutoCalibrate)
+    self.addContextMenuItem(string.format("%s Metric Mode", options.metricMode and "[X]" or "[ ]"), toggleMetricMode)
     self.addContextMenuItem("Inject mini", injectMini)
-    if options.showAll then
-        self.addContextMenuItem("[X] Show Mini UI", toggleOnOff)
-    else
-        self.addContextMenuItem("[ ] Show Mini UI", toggleOnOff)
-    end
+    self.addContextMenuItem(string.format("%s Show Mini UI", options.showAll and "[X]" or "[ ]"), toggleOnOff)
 end
 
 function toggleMetricMode()
     options.metricMode = not options.metricMode
     for _, obj in ipairs(workingObjects) do
-        if obj.getVar("className") == "MeasurementToken" or obj.getVar("className") == "InjectTokenMini" then
-            obj.call("toggleMetricMode")
-        end
+        obj.call("toggleMetricMode")
     end
     rebuildContextMenu()
 end
