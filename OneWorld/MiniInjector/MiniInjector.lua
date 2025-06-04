@@ -7,7 +7,7 @@ injectEverythingFrameCount = 0
 updateEverythingActive = false
 updateEverythingFrameCount = 0
 updateEverythingIndex = 1
-injectedFrameLimiter = 0
+injectedSecondsLimiter = 0
 collisionProcessing = {}
 
 options = {
@@ -22,7 +22,7 @@ options = {
     playerChar = false,
     HP2Desc = false,
     hp = 10,
-    mana = 10,
+    mana = 0,
     extra = 0,
     initActive = false,
     initCurrentValue = 0,
@@ -33,10 +33,6 @@ options = {
 initFigures = {}
 workingObjects = {}
 
-local MAGIC_NUMBER_60 = 60
-local MAGIC_NUMBER_10 = 10
-local MAGIC_NUMBER_5 = 5
-local MAGIC_NUMBER_200 = 200
 local CONST_INJECT = "[00ff00]INJECT[-]"
 local CONST_REMOVE = "[ff0000]REMOVE[-]"
 
@@ -82,7 +78,7 @@ local function processHitObject(hitTable, object)
         local objClassName = object.getVar("className")
         if not isExcludedClassName(objClassName) then
             injectToken(object)
-            injectedFrameLimiter = MAGIC_NUMBER_60
+            injectedSecondsLimiter = 10
         end
     elseif self.getRotationValue() == CONST_REMOVE then
         if object.getVar("className") == "MeasurementToken" or object.getVar("className") == "InjectTokenMini" then
@@ -128,10 +124,10 @@ function addingInjectionsMini()
 end
 
 local function checkObjects()
-    if injectedFrameLimiter > 0 then
-        injectedFrameLimiter = injectedFrameLimiter - 1
+    if injectedSecondsLimiter > 0 then
+        injectedSecondsLimiter = injectedSecondsLimiter - 1
     end
-    if injectedFrameLimiter == 0 and #collisionProcessing > 0 then
+    if injectedSecondsLimiter == 0 and #collisionProcessing > 0 then
         local collision_info = table.remove(collisionProcessing)
         handleCollisionInfo(collision_info)
     end
@@ -183,7 +179,7 @@ function onLoad(save_state)
     addHotkey("Initiative Refresh", refreshInitiative, false)
     addHotkey("Initiative Roll", rollInitiative, false)
 
-    Wait.condition(|| updateSettingUI(), function() return #workingObjects > 0 end)
+    Wait.condition(|| toggleOnOff(true), function() return #workingObjects > 0 end, 3, || updateSettingUI())
     Wait.time(function() updateEverythingActive = true end, 4)
     Wait.time(|| checkObjects(), 0.2, -1)
 
@@ -222,9 +218,7 @@ function updateSettingUI()
         if opt == "measureMove" or opt == "alternateDiag" or opt == "playerChar" or opt == "hideBar" or opt == "hideText" or opt == "editText" then
             updateUIAttribute(opt, tostring(options[opt]))
         end
-    end
-
-    toggleOnOff(true)
+    end    
 end
 
 function rebuildContextMenu()
