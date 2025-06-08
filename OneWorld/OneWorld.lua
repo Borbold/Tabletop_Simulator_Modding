@@ -195,21 +195,20 @@ function SetUI()
     for i = 1, 8 do
         self.UI.setAttribute("EMP"..i, "active", false)
     end
-    if(aBase) then
+    if aBase then
         for i = 1, 6 do
-        self.UI.setAttribute("EMP"..i, "active", true)
+            self.UI.setAttribute("EMP"..i, "active", true)
         end
     else
         for i = 7, 8 do
-        self.UI.setAttribute("EMP"..i, "active", true)
+            self.UI.setAttribute("EMP"..i, "active", true)
         end
     end
 
     self.UI.setAttribute("b9", "active", false)
     if aBase then
         if aBase.getLuaScript() != "" and not pxy and string.sub(aBase.getName(), 5) == self.UI.getAttribute("mTxt", "text") then
-        if(not tBag) then self.UI.setAttribute("b9", "active", true) end
-        self.UI.setAttribute("b9", "text", "BUILD")
+            if(not tBag) then self.UI.setAttribute("b9", "active", true) end
         end
     end
 
