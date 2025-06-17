@@ -61,6 +61,16 @@ function updateSave()
     })
 end
 
+local function getStatsCount()
+    local count = 1
+    for name,_ in pairs(statNames) do
+        if self.UI.getAttribute(name, "active"):lower() == "true" then
+            count = count + 1
+        end
+    end
+    return count
+end
+
 local function confer()
     local function updateUIAttributes()
         self.UI.setAttribute("panel", "position", "0 0 -" .. options.heightModifier)
@@ -80,7 +90,7 @@ local function confer()
             end
         end
 
-        self.UI.setAttribute("statePanel", "width", getStatsCount() * 300)
+        self.UI.setAttribute("statePanel", "width", getStatsCount()*300)
         self.UI.setAttribute("addSub", "active", options.showBarButtons)
         self.UI.setAttribute("addSubS", "active", options.showBarButtons)
         self.UI.setAttribute("addSubE", "active", options.showBarButtons)
@@ -772,7 +782,7 @@ function onClick(player_in, value, id)
         updateRollers()
     elseif statNames[id] ~= nil then
         self.UI.setAttribute(id, "active", false)
-        self.UI.setAttribute("statePanel", "width", tonumber(self.UI.getAttribute("statePanel", "width")-300))
+        self.UI.setAttribute("statePanel", "width", tonumber(self.UI.getAttribute("statePanel", "width") - 300))
         statNames[id] = false
     else
         if id == "add" then
@@ -865,8 +875,9 @@ function updateTriggerAgain()
         end
     end
 end
--- if colliding with a status token, destroy it and apply to UI
-function onCollisionEnter(info) 
+
+function onCollisionEnter(info)
+    if(info.collision_object.getPosition().y <= self.getPosition().y) then return end
     local newState = info.collision_object.getName()
     if statNames and statNames[newState] ~= nil then
         statNames[newState] = true
@@ -874,16 +885,6 @@ function onCollisionEnter(info)
         self.UI.setAttribute(newState, "active", true)
         Wait.frames(function() self.UI.setAttribute("statePanel", "width", getStatsCount()*300) end, 1)
     end
-end
-
-function getStatsCount()
-    local count = 0
-    for i,j in pairs(statNames) do
-        if self.UI.getAttribute(i, "active") == "true" or self.UI.getAttribute(i, "active") == "true" then
-            count = count + 1
-        end
-    end
-    return count
 end
 
 function setInjectVariables(info)

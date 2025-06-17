@@ -143,9 +143,9 @@
         </HorizontalLayout>
     </Panel>
 
-    <Panel id='statePanel' height='300' width='-5' position='0 370 0'>
+    <Panel id='statePanel' height='300' width='0' position='0 370 0'>
         <VerticalLayout>
-            <HorizontalLayout spacing='5'>
+            <HorizontalLayout>
                 STATSIMAGE
             </HorizontalLayout>
         </VerticalLayout>
