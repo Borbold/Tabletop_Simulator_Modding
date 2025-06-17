@@ -143,7 +143,7 @@
         </HorizontalLayout>
     </Panel>
 
-    <GridLayout id='statePanel' cellSize='300 300' height='900' width='600' position='0 520 0'>
+    <GridLayout id='statePanel' cellSize='300 300' height='910' width='610' position='0 540 0' childAlignment='LowerLeft'>
         STATSIMAGE
     </GridLayout>
 </Panel>
