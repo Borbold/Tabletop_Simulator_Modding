@@ -61,16 +61,6 @@ function updateSave()
     })
 end
 
-local function getStatsCount()
-    local count = 1
-    for name,_ in pairs(statNames) do
-        if self.UI.getAttribute(name, "active"):lower() == "true" then
-            count = count + 1
-        end
-    end
-    return count
-end
-
 local function confer()
     local function updateUIAttributes()
         self.UI.setAttribute("panel", "position", "0 0 -" .. options.heightModifier)
@@ -86,11 +76,10 @@ local function confer()
 
         for statName, active in pairs(statNames) do
             if active then
-                self.UI.setAttribute(statName, "active", true)
+                self.UI.setAttribute(statName, "active", "true")
             end
         end
 
-        self.UI.setAttribute("statePanel", "width", getStatsCount()*300)
         self.UI.setAttribute("addSub", "active", options.showBarButtons)
         self.UI.setAttribute("addSubS", "active", options.showBarButtons)
         self.UI.setAttribute("addSubE", "active", options.showBarButtons)
@@ -883,7 +872,6 @@ function onCollisionEnter(info)
         statNames[newState] = true
         info.collision_object.destruct()
         self.UI.setAttribute(newState, "active", true)
-        Wait.frames(function() self.UI.setAttribute("statePanel", "width", getStatsCount()*300) end, 1)
     end
 end
 

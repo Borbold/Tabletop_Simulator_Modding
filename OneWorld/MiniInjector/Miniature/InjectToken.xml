@@ -143,11 +143,7 @@
         </HorizontalLayout>
     </Panel>
 
-    <Panel id='statePanel' height='300' width='0' position='0 370 0'>
-        <VerticalLayout>
-            <HorizontalLayout>
-                STATSIMAGE
-            </HorizontalLayout>
-        </VerticalLayout>
-    </Panel>
+    <GridLayout id='statePanel' cellSize='300 300' height='900' width='600' position='0 520 0'>
+        STATSIMAGE
+    </GridLayout>
 </Panel>
