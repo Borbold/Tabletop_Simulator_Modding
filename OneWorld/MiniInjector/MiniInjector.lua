@@ -330,7 +330,7 @@ function injectToken(object)
     local xmlStats = ""
     for _, asset in pairs(assets) do
         stats[asset.name] = false
-        xmlStats = xmlStats .. '<Button id="' .. asset.name .. '" color="#FFFFFF00" active="false"><Image image="' .. asset.name .. '" preserveAspect="true"></Image></Button>\n'
+        xmlStats = xmlStats .. '<Button id="' .. asset.name .. '" image="' .. asset.name .. '" active="false" />\n'
     end
     xml = xml:gsub("STATSIMAGE", xmlStats)
     xml = xml:gsub('<VerticalLayout id="bars" height="200">', '<VerticalLayout id="bars" height="' .. 200 + (options.mana == 0 and -100 or 0) + (options.extra ~= 0 and 100 or 0) .. '">')
