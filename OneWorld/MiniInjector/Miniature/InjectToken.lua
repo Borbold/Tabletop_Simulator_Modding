@@ -720,14 +720,14 @@ function onClick(player_in, value, id)
         end, 1)
     elseif id == "HB" or id == "editButtonS1" or id == "editButtonS2" or id == "editButtonS3" then
         if options.showBarButtons then
-            self.UI.setAttribute("addSub", "active", false)
-            self.UI.setAttribute("addSubS", "active", false)
-            self.UI.setAttribute("addSubE", "active", false)
+            self.UI.setAttribute("addSub", "active", "false")
+            self.UI.setAttribute("addSubS", "active", "false")
+            self.UI.setAttribute("addSubE", "active", "false")
             options.showBarButtons = false
         else
-            self.UI.setAttribute("addSub", "active", true)
-            self.UI.setAttribute("addSubS", "active", true)
-            self.UI.setAttribute("addSubE", "active", true)
+            self.UI.setAttribute("addSub", "active", "true")
+            self.UI.setAttribute("addSubS", "active", "true")
+            self.UI.setAttribute("addSubE", "active", "true")
             options.showBarButtons = true
         end
         self.UI.setAttribute("HB", "textColor", options.showBarButtons == true and "#ffffff" or "#aa2222")
@@ -770,8 +770,7 @@ function onClick(player_in, value, id)
         end
         updateRollers()
     elseif statNames[id] ~= nil then
-        self.UI.setAttribute(id, "active", false)
-        self.UI.setAttribute("statePanel", "width", tonumber(self.UI.getAttribute("statePanel", "width") - 300))
+        self.UI.setAttribute(id, "active", "false")
         statNames[id] = false
     else
         if id == "add" then
@@ -871,7 +870,7 @@ function onCollisionEnter(info)
     if statNames and statNames[newState] ~= nil then
         statNames[newState] = true
         info.collision_object.destruct()
-        self.UI.setAttribute(newState, "active", true)
+        self.UI.setAttribute(newState, "active", "true")
     end
 end
 
