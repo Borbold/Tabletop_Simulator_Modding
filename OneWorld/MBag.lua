@@ -20,7 +20,7 @@ function Build()
             table.insert(objectsString, strok)
         end
         local index = 1
-        while index < #objectsString do
+        while index <= #objectsString do
             local objectWords = {}
             if(index > #objectsString) then return true end
             for w in objectsString[index]:gmatch("[^,]+") do
@@ -95,23 +95,41 @@ end
 
 -- Pack --
 function DoPack(mBag)
-    ss = oneWorld.getVar("ss")
-    oneWorld.getVar("aBase").setDescription(mBag.getGUID())
-    do
+    if(oneWorld.getVar("toggleMapBuild")) then
+        ss = oneWorld.getVar("ss")
+        oneWorld.getVar("aBase").setDescription(mBag.getGUID())
         local packGUID, index = {}, 1
         for w in ss:gmatch("[^,]+") do
             table.insert(packGUID, w)
         end
-        Wait.condition(function()
-            Wait.time(|| EndPack(mBag, mBag.getName()), 0.2)
-        end, function()
+        while(index <= #packGUID) do
             if(getObjectFromGUID(packGUID[index])) then
                 mBag.putObject(getObjectFromGUID(packGUID[index]))
                 ss = ss.gsub(packGUID[index], "", 1)
             end
             index = index + 1
-            return index > #packGUID
-        end)
+            if(index >= 5001) then print("[ff0000]ERROR[-]") break end
+        end
+        Wait.time(|| EndPack(mBag, mBag.getName()), 0.2)
+    else
+        ss = oneWorld.getVar("ss")
+        oneWorld.getVar("aBase").setDescription(mBag.getGUID())
+        do
+            local packGUID, index = {}, 1
+            for w in ss:gmatch("[^,]+") do
+                table.insert(packGUID, w)
+            end
+            Wait.condition(function()
+                Wait.time(|| EndPack(mBag, mBag.getName()), 0.2)
+            end, function()
+                if(getObjectFromGUID(packGUID[index])) then
+                    mBag.putObject(getObjectFromGUID(packGUID[index]))
+                    ss = ss.gsub(packGUID[index], "", 1)
+                end
+                index = index + 1
+                return index > #packGUID
+            end)
+        end
     end
 end
 function EndPack(mBag, keepBase)
