@@ -13,21 +13,14 @@ end
 function Build()
     prs = oneWorld.getVar("aBase").getLuaScript()
     if prs == "" or #activeBag.getObjects() == 0 then return end
-    do
+    if(oneWorld.getVar("toggleMapBuild")) then
         ss = ""
         local objectsString = {}
         for strok in prs:gmatch("[^\n]+") do
             table.insert(objectsString, strok)
         end
         local index = 1
-        Wait.condition(function()
-            Wait.time(function()
-                oneWorld.setVar("prs", prs)
-                oneWorld.setVar("ss", ss)
-                Wait.time(|| EndBuild(), 0.2)
-            end, 0.2)
-        end,
-        function()
+        while index < #objectsString do
             local objectWords = {}
             if(index > #objectsString) then return true end
             for w in objectsString[index]:gmatch("[^,]+") do
@@ -42,8 +35,46 @@ function Build()
             }
             activeBag.takeObject(t).lock()
             index = index + 1
-            return index > #objectsString
-        end)
+            if(index >= 5001) then print("[ff0000]ERROR[-]") break end
+        end
+        Wait.time(function()
+            oneWorld.setVar("prs", prs)
+            oneWorld.setVar("ss", ss)
+            Wait.time(|| EndBuild(), 0.2)
+        end, 0.2)
+    else
+        do
+            ss = ""
+            local objectsString = {}
+            for strok in prs:gmatch("[^\n]+") do
+                table.insert(objectsString, strok)
+            end
+            local index = 1
+            Wait.condition(function()
+                Wait.time(function()
+                    oneWorld.setVar("prs", prs)
+                    oneWorld.setVar("ss", ss)
+                    Wait.time(|| EndBuild(), 0.2)
+                end, 0.2)
+            end,
+            function()
+                local objectWords = {}
+                if(index > #objectsString) then return true end
+                for w in objectsString[index]:gmatch("[^,]+") do
+                    table.insert(objectWords, w)
+                end
+                local fLock = objectWords[8]
+                local t = {
+                    guid = objectWords[1]:sub(3),
+                    position = {x=tonumber(objectWords[2]), y=tonumber(objectWords[3]), z=tonumber(objectWords[4])},
+                    rotation = {x=tonumber(objectWords[5]), y=tonumber(objectWords[6]), z=tonumber(objectWords[7])},
+                    callback = "UnderPack", callback_owner = self, smooth = false
+                }
+                activeBag.takeObject(t).lock()
+                index = index + 1
+                return index > #objectsString
+            end)
+        end
     end
 end
 function UnderPack(obj)

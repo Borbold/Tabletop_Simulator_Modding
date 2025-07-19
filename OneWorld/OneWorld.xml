@@ -28,12 +28,14 @@
 
     <Button id='b5' class='workButton' width='40' height='40' offsetXY='-180 -445' onClick='SettingSizeBase' tooltipPosition='Right' tooltip='You can change size base'
         icon='uiOneWorld_b5' />
-    <Button id='b6' class='workButton' width='40' height='40' offsetXY='-340 -280' rotation='0 0 270' onClick='ButtonProxy' tooltipPosition='Left' />
+    <Button id='b6' class='workButton' width='40' height='40' offsetXY='-340 -280' rotation='0 0 270' onClick='ButtonProxy' tooltipPosition='Left' tooltip='Parent' />
 
     <Button id='b7' class='workButton' width='50' height='80' offsetXY='280 360' onClick='ButtonHome' tooltip='Next' color='#ffffff00' />
     <Button id='b8' class='workButton' width='50' height='80' offsetXY='220 360' onClick='ButtonBack' tooltip='Last' color='#ffffff00' />
 
     <Button id='b9' text='BUILD' class='workButton' width='120' height='80' offsetXY='390 400' onClick='ButtonBuild' active='false' />
+
+    <Button id='b10' class='workButton' width='40' height='40' offsetXY='-340 -220' rotation='0 0 270' onClick='toggleBuildMap' tooltipPosition='Left' tooltip='Toggle map build' />
     
     <TableLayout id='editMenuPanel' width='300' height='850' offsetXY='-570 0' active='false'>
         <Row>

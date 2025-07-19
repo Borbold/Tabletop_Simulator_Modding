@@ -25,6 +25,7 @@ function onLoad(savedData)
     wpx, pxy, aBase, nl, linkToMap, activeEdit = nil, nil, nil, nil, nil, nil
     treeMap = {}
     currentBase = "x"
+    toggleMapBuild = false
 end
 
 function RecreateObjects(allObj)
@@ -190,7 +191,9 @@ function SetUI()
 
     if wpx or pxy then forText = "*" end
     self.UI.setAttribute("b6", "text", forText)
-    self.UI.setAttribute("b6", "tooltip", "Parent")
+    forText = ""
+    if toggleMapBuild then forText = "*" end
+    self.UI.setAttribute("b10", "text", forText)
 
     for i = 1, 8 do
         self.UI.setAttribute("EMP"..i, "active", false)
@@ -814,3 +817,8 @@ function ChangeSettingSize(player, input, id)
 end
 --- Input ---
 function Round(num, idp) return math.floor(num*(10^idp))/10^idp end
+
+function toggleBuildMap()
+    toggleMapBuild = not toggleMapBuild
+    Wait.time(|| SetUI(), 0.1)
+end
