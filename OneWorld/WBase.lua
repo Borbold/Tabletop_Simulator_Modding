@@ -180,7 +180,8 @@ function cbMLink(base)
 end
 
 function GetLink(id)
-    if oneWorld.getVar("butActive") then oneWorld.call("EditMode") return end
+    if(oneWorld.getVar("mapIsBuild")) then broadcastToAll("Pack map objects", {0.94, 0.65, 0.02}) return end
+    if(oneWorld.getVar("activeEdit")) then oneWorld.call("EditMode") return end
     local l = ""
     for w in oneWorld.getVar("lnk"):gmatch("[^(@,)]+") do
         if(w:find("%a")) then

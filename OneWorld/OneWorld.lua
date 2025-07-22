@@ -26,6 +26,7 @@ function onLoad(savedData)
     treeMap = {}
     currentBase = "x"
     toggleMapBuild = false
+    mapIsBuild = false
 end
 
 function RecreateObjects(allObj)
@@ -529,6 +530,7 @@ function EnableOneWorld(_, _, id)
 end
 
 function SelectMap()
+    if(mapIsBuild) then broadcastToAll("Pack map objects", {0.94, 0.65, 0.02}) return end
     if activeEdit then EditMode() return end
     if not vBaseOn or not aBase then return end
     if linkToMap then GetBase(linkToMap) linkToMap = nil Wait.time(|| SetUI(), 0.1) return end
@@ -635,6 +637,7 @@ function ButtonBuild()
         callback = "CreateBagBuild", callback_owner = mBag
     }
     mBag.takeObject(t)
+    mapIsBuild = true
 end
 
 function ButtonLink()
@@ -687,6 +690,7 @@ function ButtonPack(player, _, _, keepBase)
             type = "Bag", position = {0, 4, 0},
             callback_owner = mBag, callback = "DoPack"
         } spawnObject(t).setName(keepBase)
+        mapIsBuild = false
     else
         broadcastToAll("(to empty a zone, use Delete)", {0.7, 0.7, 0.7})
         broadcastToAll("No Objects Found in Zone.", {0.943, 0.745, 0.14})
