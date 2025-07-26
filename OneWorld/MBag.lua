@@ -1,12 +1,14 @@
-local oneWorld, activeBag = nil, nil
+local oneWorld, activeBag, cloneActiveBag = nil, nil, nil
 function onLoad()
     oneWorld = getObjectFromGUID(self.getGMNotes())
 end
 
 -- Build --
 function CreateBagBuild(bag)
-    oneWorld.setVar("iBag", bag)
     bag.lock() activeBag = bag
+    cloneActiveBag = activeBag.clone()
+    cloneActiveBag.setColorTint({0.713, 0.247, 0.313, 0.2})
+    cloneActiveBag.setName("Copy build map")
     Build()
 end
 
@@ -32,8 +34,7 @@ function Build()
                 position = {x=tonumber(objectWords[2]), y=tonumber(objectWords[3]), z=tonumber(objectWords[4])},
                 rotation = {x=tonumber(objectWords[5]), y=tonumber(objectWords[6]), z=tonumber(objectWords[7])},
                 callback = "UnderPack", callback_owner = self, smooth = false
-            }
-            activeBag.takeObject(t).lock()
+            } activeBag.takeObject(t).lock()
             index = index + 1
             if(index >= 5001) then print("[ff0000]ERROR[-]") break end
         end
@@ -69,8 +70,7 @@ function Build()
                     position = {x=tonumber(objectWords[2]), y=tonumber(objectWords[3]), z=tonumber(objectWords[4])},
                     rotation = {x=tonumber(objectWords[5]), y=tonumber(objectWords[6]), z=tonumber(objectWords[7])},
                     callback = "UnderPack", callback_owner = self, smooth = false
-                }
-                activeBag.takeObject(t).lock()
+                } activeBag.takeObject(t).lock()
                 index = index + 1
                 return index > #objectsString
             end)
@@ -86,7 +86,6 @@ function EndBuild()
     broadcastToAll("Finished Building.", {0.943, 0.745, 0.14})
     if activeBag then
         activeBag.destruct()
-        oneWorld.setVar("iBag", nil)
         activeBag = nil
     end
     Wait.time(|| oneWorld.call("SetUI"), 0.1)
@@ -102,13 +101,23 @@ function DoPack(mBag)
         for w in ss:gmatch("[^,]+") do
             table.insert(packGUID, w)
         end
-        while(index <= #packGUID) do
-            if(getObjectFromGUID(packGUID[index])) then
-                mBag.putObject(getObjectFromGUID(packGUID[index]))
-                ss = ss.gsub(packGUID[index], "", 1)
+        if(not mBag.getName()) then
+            while(index <= #packGUID) do
+                if(getObjectFromGUID(packGUID[index])) then
+                    mBag.putObject(getObjectFromGUID(packGUID[index]))
+                    ss = ss.gsub(packGUID[index], "", 1)
+                end
+                index = index + 1
+                if(index >= 5001) then print("[ff0000]ERROR[-]") break end
             end
-            index = index + 1
-            if(index >= 5001) then print("[ff0000]ERROR[-]") break end
+        else
+            while(index <= #packGUID) do
+                if(getObjectFromGUID(packGUID[index])) then
+                    getObjectFromGUID(packGUID[index]).destruct()
+                end
+                index = index + 1
+                if(index >= 5001) then print("[ff0000]ERROR[-]") break end
+            end
         end
         Wait.time(|| EndPack(mBag, mBag.getName()), 0.2)
     else
@@ -122,9 +131,15 @@ function DoPack(mBag)
             Wait.condition(function()
                 Wait.time(|| EndPack(mBag, mBag.getName()), 0.2)
             end, function()
-                if(getObjectFromGUID(packGUID[index])) then
-                    mBag.putObject(getObjectFromGUID(packGUID[index]))
-                    ss = ss.gsub(packGUID[index], "", 1)
+                if(not mBag.getName()) then
+                    if(getObjectFromGUID(packGUID[index])) then
+                        mBag.putObject(getObjectFromGUID(packGUID[index]))
+                        ss = ss.gsub(packGUID[index], "", 1)
+                    end
+                else
+                    if(getObjectFromGUID(packGUID[index])) then
+                        getObjectFromGUID(packGUID[index]).destruct()
+                    end
                 end
                 index = index + 1
                 return index > #packGUID
@@ -133,7 +148,14 @@ function DoPack(mBag)
     end
 end
 function EndPack(mBag, keepBase)
-    if mBag then self.putObject(mBag) end
+    if mBag then
+        if(not keepBase) then
+            self.putObject(mBag)
+        else
+            oneWorld.getVar("aBase").setDescription(cloneActiveBag.getGUID())
+            mBag.destruct() self.putObject(cloneActiveBag) cloneActiveBag = nil
+        end
+    end
     oneWorld.call("JotBase")
     if(not keepBase) then oneWorld.call("StowBase") oneWorld.call("NoBase") oneWorld.call("SetUIText") end
     oneWorld.setVar("prs", "")
