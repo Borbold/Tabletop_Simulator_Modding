@@ -2,7 +2,9 @@ function UpdateSave()
     local dataToSave = {
         ["aBagGUID"] = aBag and aBag.getGUID() or nil, ["mBagGUID"] = mBag and mBag.getGUID() or nil,
         ["vBaseGUID"] = vBase and vBase.getGUID() or nil, ["wBaseGUID"] = wBase and wBase.getGUID() or nil,
-        ["tZoneGUID"] = tZone and tZone.getGUID() or nil
+        ["tZoneGUID"] = tZone and tZone.getGUID() or nil,
+        ["OWEnable"] = OWEnable, ["mapIsBuild"] = mapIsBuild, ["tBag"] = tBag,
+        ["baseVGUID"] = baseVGUID, ["baseWGUID"] = baseWGUID
     }
     local savedData = JSON.encode(dataToSave)
     self.script_state = savedData
@@ -11,22 +13,28 @@ end
 function onLoad(savedData)
     local loadedData = JSON.decode(savedData or "")
     if(loadedData) then
+        baseVGUID = loadedData.baseVGUID or ""
+        baseWGUID = loadedData.baseWGUID or ""
+        OWEnable = loadedData.OWEnable or false
+        mapIsBuild = loadedData.mapIsBuild or false
+        tBag = loadedData.tBag or false
         aBag = loadedData.aBagGUID and getObjectFromGUID(loadedData.aBagGUID) or nil
         mBag = loadedData.mBagGUID and getObjectFromGUID(loadedData.mBagGUID) or nil
         vBase = loadedData.vBaseGUID and getObjectFromGUID(loadedData.vBaseGUID) or nil
         wBase = loadedData.wBaseGUID and getObjectFromGUID(loadedData.wBaseGUID) or nil
         tZone = loadedData.tZoneGUID and getObjectFromGUID(loadedData.tZoneGUID) or nil
+        if(wBase) then aBase = getObjectFromGUID(wBase.getDescription()) end
     end
 
     r1, r2, r3 = 0, 0, 0
-    lnk, ss, prs, baseVGUID, baseWGUID = "", "", "", "", ""
+    lnk, ss, prs = "", "", ""
     sizeVPlate, sizeWPlate = 25, 1.85
     r90 = 0, 0
-    wpx, pxy, aBase, nl, linkToMap, activeEdit = nil, nil, nil, nil, nil, nil
+    wpx, pxy, nl, linkToMap, activeEdit = nil, nil, nil, nil, nil
     treeMap = {}
     currentBase = "x"
     toggleMapBuild = false
-    mapIsBuild = false
+    if(OWEnable) then Wait.time(function() ContinueUnit() end, 1) end
 end
 
 function RecreateObjects(allObj)
@@ -38,7 +46,8 @@ function RecreateObjects(allObj)
     i.image = self.UI.getCustomAssets()[4].url  i.thickness = 0.1
     if not vBase then
         local p, rotY = self.getPosition(), math.rad(self.getRotation().y)
-        o.type = "Custom_Token" o.scale = {0.5, 1, 0.5} o.rotation = self.getRotation() o.position = {p[1] + 3*math.cos(rotY) + 1*math.sin(rotY), p[2] + 2.5, p[3] - 3*math.sin(rotY) - 1*math.cos(rotY)}
+        o.type = "Custom_Token" o.scale = {0.5, 1, 0.5} o.rotation = self.getRotation()
+        o.position = {p[1] + 3*math.cos(rotY) + 1*math.sin(rotY), p[2] + 2.5, p[3] - 3*math.sin(rotY) - 1*math.cos(rotY)}
         vBase = spawnObject(o)
         vBase.setCustomObject(i)
     end
@@ -49,7 +58,7 @@ function RecreateObjects(allObj)
     end
     Wait.time(|| PutVariable(), 0.2)
 end
-function InitUnit(allObj)
+local function InitUnit(allObj)
     Wait.time(|| RecreateObjects(allObj), 0.2)
     if(not FindBags(allObj)) then return false end
     local s = ""
@@ -57,7 +66,6 @@ function InitUnit(allObj)
     if mBag.getName() != aBag.getName() then s = s.." Unmatched Bag Names." end
     if(#s > 0) then broadcastToAll(s, {0.943, 0.745, 0.14}) return false end
     if(currentBase) then
-        if(string.sub(currentBase, 1, 1) != "x") then udShow() return false end
         local p = aBag.getPosition()
         if p[2] < -10 then vBaseOn = true
         else vBaseOn = false end
@@ -67,6 +75,26 @@ function InitUnit(allObj)
     end
     return true
 end
+function ContinueUnit()
+    self.interactable = false self.lock()
+    mBag.lock() mBag.interactable = false
+    aBag.lock() aBag.interactable = false
+    vBase.interactable = false vBase.lock()
+    wBase.interactable = false wBase.lock()
+    vBaseOn = true reStart()
+    local p = aBag.getPosition()
+    broadcastToAll("Continue ONE WORLD...", {0.943, 0.745, 0.14})
+    currentBase = aBase.getGUID()
+    local bn = ""
+    bn, _, _, r1, r3, pxy, r90, lnk = ParceData(wBase.getDescription())
+    self.UI.setAttribute("mainPanel", "active", true)
+    local r = self.getRotation() if r[2] > 180 then r2 = -1 else r2 = 1 end
+    broadcastToAll("Running Version: "..self.getDescription(), {0.943, 0.745, 0.14})
+    SetUIText(bn)
+    r1, r3, r90 = 0, 0, 0
+    rotBase() Wait.time(|| SetUI(), 0.1)
+end
+
 function TogleEnable()
     if activeEdit then EditMode() return end
     if treeMap[1] != string.sub(aBag.getDescription(), 10) then reStart() end
@@ -74,7 +102,7 @@ function TogleEnable()
     local p = self.getPosition()
     if not vBaseOn then
         self.UI.setAttribute("mainPanel", "active", true)
-        local r = self.getRotation()  if r[2] > 180 then r2 = -1 else r2 = 1  end
+        local r = self.getRotation() if r[2] > 180 then r2 = -1 else r2 = 1 end
         self.interactable = false self.lock()
         mBag.lock() mBag.setScale({0, 0, 0}) mBag.setPosition({-10, -50, 10}) mBag.interactable = false
         aBag.lock() aBag.setScale({0, 0, 0}) aBag.setPosition({-10, -55, -10}) aBag.interactable = false
@@ -88,6 +116,7 @@ function TogleEnable()
         return
     end
     if not aBase then
+        OWEnable = false
         self.UI.setAttribute("mainPanel", "active", false)
         self.UI.setAttribute("b2", "text", "←")
         self.UI.setAttribute("editMenuPanel", "active", false)
@@ -147,7 +176,6 @@ function PutVariable()
 end
 
 function reStart(what)
-    prs, ss = "", ""
     treeMap = {} treeMap[1] = string.sub(aBag.getDescription(), 10) treeMap[0] = 1
     if treeMap[1] == "" then treeMap[1] = nil treeMap[0] = 0 end
     treeMap[-1] = treeMap[0]
@@ -164,15 +192,15 @@ function reStart(what)
             if zoneObj[i].getName():find("SBx_") then
             if(what == "END") then
                 Wait.time(function()
-                if(tZone) then tZone.destruct() tZone = nil end
-                aBag.putObject(zoneObj[i])
+                    if(tZone) then tZone.destruct() tZone = nil end
+                    aBag.putObject(zoneObj[i])
                 end, 1)
             end
                 if vBaseOn and zoneObj[i].guid == wBase.getDescription() then
                     if zoneObj[i].guid == treeMap[1] then
-                    treeMap[2] = treeMap[1]  treeMap[0] = 2  treeMap[-1] = 2
+                        treeMap[2] = treeMap[1] treeMap[0] = 2 treeMap[-1] = 2
                     else
-                    treeMap[2] = treeMap[1]  treeMap[3] = zoneObj[i].guid  treeMap[0] = 3  treeMap[-1] = 3
+                        treeMap[2] = treeMap[1] treeMap[3] = zoneObj[i].guid treeMap[0] = 3 treeMap[-1] = 3
                     end
                 end
             end
@@ -192,8 +220,8 @@ function SetUI()
 
     if wpx or pxy then forText = "*" end
     self.UI.setAttribute("b6", "text", forText)
-    forText = ""
-    if toggleMapBuild then forText = "*" end
+    forText = "S"
+    if toggleMapBuild then forText = "F" end
     self.UI.setAttribute("b10", "text", forText)
 
     for i = 1, 8 do
@@ -347,6 +375,7 @@ function GetBase(bGuid)
     if not vBaseOn or bGuid == wBase.getDescription() then return end
     if tBag then ClearSet() end
     wBase.setDescription("")
+    local bn, scalewBase, scalevBase = "", {}, {}
     bn, scalewBase, scalevBase, r1, r3, pxy, r90, lnk = ParceData(bGuid)
     if bn == nil then return end
     wBase.setScale(scalewBase)
@@ -377,7 +406,7 @@ function cbGetBase(base)
 end
 function RollBack(guid)
     local n = 0
-    for i = 2, treeMap[0] do if(treeMap[i] == guid)then n = i break end end
+    for i = 2, treeMap[0] do if(treeMap[i] == guid) then n = i break end end
     if n == 0 then treeMap[0] = treeMap[0] + 1
     else for i = n, treeMap[0] do treeMap[i] = treeMap[i + 1] end end
     treeMap[treeMap[0]] = guid treeMap[-1] = treeMap[0]
@@ -504,14 +533,15 @@ function EnableOneWorld(_, _, id)
     if(vBase == null) then vBase = nil end if(wBase == null) then wBase = nil end
 
     if(self.UI.getAttribute(id, "text") == "Init") then
+        OWEnable = true
         local posZone = self.getPosition() + {x=0, y=self.getScale().y*1.65, z=0}
         local o = {
-        type = "ScriptingTrigger", position = posZone,
-        rotation = self.getRotation(), scale = self.getBoundsNormalized().size + {x=0, y=3, z=0}
+            type = "ScriptingTrigger", position = posZone,
+            rotation = self.getRotation(), scale = self.getBoundsNormalized().size + {x=0, y=3, z=0}
         }
         do
-        local locZone = spawnObject(o)
-        Wait.condition(function()
+            local locZone = spawnObject(o)
+            Wait.condition(function()
                 if(InitUnit(locZone.getObjects())) then
                     Wait.time(|| TogleEnable(), 0.2)
                 end
@@ -530,7 +560,7 @@ function EnableOneWorld(_, _, id)
 end
 
 function SelectMap()
-    if(mapIsBuild) then broadcastToAll("Pack map objects", {0.94, 0.65, 0.02}) return end
+    if(mapIsBuild) then broadcastToAll("Pack or Clear map", {0.94, 0.65, 0.02}) return end
     if activeEdit then EditMode() return end
     if not vBaseOn or not aBase then return end
     if linkToMap then GetBase(linkToMap) linkToMap = nil Wait.time(|| SetUI(), 0.1) return end
@@ -638,6 +668,7 @@ function ButtonBuild()
     }
     mBag.takeObject(t)
     mapIsBuild = true
+    UpdateSave()
 end
 
 function ButtonLink()
@@ -686,11 +717,18 @@ function ButtonPack(player, _, _, keepBase)
             aBase.setLuaScript(s)
         end
         broadcastToAll("Packing Zone...", {0.943, 0.745, 0.14})
-        local t = {
-            type = "Bag", position = {0, 4, 0},
-            callback_owner = mBag, callback = "DoPack"
-        } spawnObject(t).setName(keepBase)
+        local t = {}
+        if(keepBase) then
+            mBag.call("DoClear")
+        else
+            t = {
+                type = "Bag", position = {0, 4, 0},
+                callback_owner = mBag, callback = "DoPack"
+            }
+            spawnObject(t)
+        end
         mapIsBuild = false
+        UpdateSave()
     else
         broadcastToAll("(to empty a zone, use Delete)", {0.7, 0.7, 0.7})
         broadcastToAll("No Objects Found in Zone.", {0.943, 0.745, 0.14})

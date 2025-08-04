@@ -1,6 +1,25 @@
-local oneWorld, activeBag, cloneActiveBag = nil, nil, nil
-function onLoad()
+local oneWorld, activeBag = nil, nil
+function UpdateSave()
+    local dataToSave = {
+        ["cloneActiveBagGUID"] = cloneActiveBag and cloneActiveBag.getGUID() or nil,
+        ["ss"] = ss, ["prs"] = prs
+    }
+    local savedData = JSON.encode(dataToSave)
+    self.script_state = savedData
+end
+
+function onLoad(savedData)
+    local loadedData = JSON.decode(savedData or "")
+    if(loadedData) then
+        prs = loadedData.prs or ""
+        ss = loadedData.ss or ""
+        cloneActiveBag = loadedData.cloneActiveBagGUID and getObjectFromGUID(loadedData.cloneActiveBagGUID) or nil
+    end
     oneWorld = getObjectFromGUID(self.getGMNotes())
+    Wait.time(function()
+        oneWorld.setVar("prs", prs)
+        oneWorld.setVar("ss", ss)
+    end, 1.1)
 end
 
 -- Build --
@@ -89,57 +108,50 @@ function EndBuild()
         activeBag = nil
     end
     Wait.time(|| oneWorld.call("SetUI"), 0.1)
+    UpdateSave()
 end
 ----------
 
--- Pack --
-function DoPack(mBag)
+-- Clear --
+local function EndClear()
+    self.putObject(cloneActiveBag) cloneActiveBag = nil
+    oneWorld.call("JotBase")
+    oneWorld.setVar("prs", "")
+    ss = "" oneWorld.setVar("ss", ss)
+    broadcastToAll("Clearing Complete.", {0.943, 0.745, 0.14})
+    Wait.condition(function()
+            oneWorld.call("SetUI")
+        end, function() return not tBag end
+    )
+    UpdateSave()
+end
+function DoClear()
+    ss = oneWorld.getVar("ss")
+    oneWorld.getVar("aBase").setDescription(cloneActiveBag.getGUID())
     if(oneWorld.getVar("toggleMapBuild")) then
-        ss = oneWorld.getVar("ss")
-        oneWorld.getVar("aBase").setDescription(mBag.getGUID())
         local packGUID, index = {}, 1
         for w in ss:gmatch("[^,]+") do
             table.insert(packGUID, w)
         end
-        if(not mBag.getName()) then
-            while(index <= #packGUID) do
-                if(getObjectFromGUID(packGUID[index])) then
-                    mBag.putObject(getObjectFromGUID(packGUID[index]))
-                    ss = ss.gsub(packGUID[index], "", 1)
-                end
-                index = index + 1
-                if(index >= 5001) then print("[ff0000]ERROR[-]") break end
+        while(index <= #packGUID) do
+            if(getObjectFromGUID(packGUID[index])) then
+                getObjectFromGUID(packGUID[index]).destruct()
             end
-        else
-            while(index <= #packGUID) do
-                if(getObjectFromGUID(packGUID[index])) then
-                    getObjectFromGUID(packGUID[index]).destruct()
-                end
-                index = index + 1
-                if(index >= 5001) then print("[ff0000]ERROR[-]") break end
-            end
+            index = index + 1
+            if(index >= 5001) then print("[ff0000]ERROR[-]") break end
         end
-        Wait.time(|| EndPack(mBag, mBag.getName()), 0.2)
+        Wait.time(|| EndClear(), 0.2)
     else
-        ss = oneWorld.getVar("ss")
-        oneWorld.getVar("aBase").setDescription(mBag.getGUID())
         do
             local packGUID, index = {}, 1
             for w in ss:gmatch("[^,]+") do
                 table.insert(packGUID, w)
             end
             Wait.condition(function()
-                Wait.time(|| EndPack(mBag, mBag.getName()), 0.2)
+                Wait.time(|| EndClear(), 0.2)
             end, function()
-                if(not mBag.getName()) then
-                    if(getObjectFromGUID(packGUID[index])) then
-                        mBag.putObject(getObjectFromGUID(packGUID[index]))
-                        ss = ss.gsub(packGUID[index], "", 1)
-                    end
-                else
-                    if(getObjectFromGUID(packGUID[index])) then
-                        getObjectFromGUID(packGUID[index]).destruct()
-                    end
+                if(getObjectFromGUID(packGUID[index])) then
+                    getObjectFromGUID(packGUID[index]).destruct()
                 end
                 index = index + 1
                 return index > #packGUID
@@ -147,17 +159,49 @@ function DoPack(mBag)
         end
     end
 end
-function EndPack(mBag, keepBase)
-    if mBag then
-        if(not keepBase) then
-            self.putObject(mBag)
-        else
-            oneWorld.getVar("aBase").setDescription(cloneActiveBag.getGUID())
-            mBag.destruct() self.putObject(cloneActiveBag) cloneActiveBag = nil
+-- Clear --
+
+-- Pack --
+function DoPack(mBag)
+    ss = oneWorld.getVar("ss")
+    oneWorld.getVar("aBase").setDescription(mBag.getGUID())
+    if(oneWorld.getVar("toggleMapBuild")) then
+        local packGUID, index = {}, 1
+        for w in ss:gmatch("[^,]+") do
+            table.insert(packGUID, w)
+        end
+        while(index <= #packGUID) do
+            if(getObjectFromGUID(packGUID[index])) then
+                mBag.putObject(getObjectFromGUID(packGUID[index]))
+                ss = ss.gsub(packGUID[index], "", 1)
+            end
+            index = index + 1
+            if(index >= 5001) then print("[ff0000]ERROR[-]") break end
+        end
+        Wait.time(|| EndPack(mBag), 0.2)
+    else
+        do
+            local packGUID, index = {}, 1
+            for w in ss:gmatch("[^,]+") do
+                table.insert(packGUID, w)
+            end
+            Wait.condition(function()
+                Wait.time(|| EndPack(mBag), 0.2)
+            end, function()
+                if(getObjectFromGUID(packGUID[index])) then
+                    mBag.putObject(getObjectFromGUID(packGUID[index]))
+                    ss = ss.gsub(packGUID[index], "", 1)
+                end
+                index = index + 1
+                return index > #packGUID
+            end)
         end
     end
+end
+function EndPack(mBag)
+    self.putObject(mBag)
     oneWorld.call("JotBase")
-    if(not keepBase) then oneWorld.call("StowBase") oneWorld.call("NoBase") oneWorld.call("SetUIText") end
+    oneWorld.call("StowBase") oneWorld.call("NoBase") oneWorld.call("SetUIText")
     oneWorld.setVar("prs", "")
     ss = "" oneWorld.setVar("ss", ss)
     broadcastToAll("Packing Complete.", {0.943, 0.745, 0.14})
