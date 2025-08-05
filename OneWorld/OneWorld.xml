@@ -28,7 +28,7 @@
 
     <Button id='b5' class='workButton' width='40' height='40' offsetXY='-180 -445' onClick='SettingSizeBase' tooltipPosition='Right' tooltip='You can change size base'
         icon='uiOneWorld_b5' />
-    <Button id='b6' class='workButton' width='40' height='40' offsetXY='-340 -280' rotation='0 0 270' onClick='ButtonProxy' tooltipPosition='Left' tooltip='Parent' />
+    <Button id='b6' class='workButton' width='40' height='40' offsetXY='-340 -280' rotation='0 0 270' onClick='ButtonParent' tooltipPosition='Left' tooltip='Parent' />
 
     <Button id='b7' class='workButton' width='50' height='80' offsetXY='280 360' onClick='ButtonHome' tooltip='Next' color='#ffffff00' />
     <Button id='b8' class='workButton' width='50' height='80' offsetXY='220 360' onClick='ButtonBack' tooltip='Last' color='#ffffff00' />

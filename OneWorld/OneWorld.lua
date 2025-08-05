@@ -251,12 +251,14 @@ function SetUI()
     end
 end
 
-function SetUIText(a)
-    local g = a ~= nil and a or "One World"
+function SetUIText(text)
+    local g = text ~= nil and text or "One World"
     self.UI.setAttribute("mTxt", "text", g)
     local b = ParceData(treeMap[treeMap[0]])
     if(not aBase or g == b) then
         self.UI.setAttribute("mTxt", "textColor", "White")
+    elseif(pxy) then
+        self.UI.setAttribute("mTxt", "textColor", "Green")
     else
         self.UI.setAttribute("mTxt", "textColor", "Grey")
     end
@@ -375,13 +377,13 @@ function GetBase(bGuid)
     if not vBaseOn or bGuid == wBase.getDescription() then return end
     if tBag then ClearSet() end
     wBase.setDescription("")
-    local bn, scalewBase, scalevBase = "", {}, {}
-    bn, scalewBase, scalevBase, r1, r3, pxy, r90, lnk = ParceData(bGuid)
-    if bn == nil then return end
-    wBase.setScale(scalewBase)
-    vBase.setScale(scalevBase)
+    local preLNK = lnk
+    _, _, _, r1, r3, pxy, r90, lnk = ParceData(bGuid)
     aBase = nil
-    if pxy and not wpx then wpx = bGuid broadcastToAll("Entering Parent View...", {0.286, 0.623, 0.118}) end
+    if pxy and not wpx then
+        wpx = bGuid
+        broadcastToAll("Entering Parent View...", {0.286, 0.623, 0.118})
+    elseif(wpx) then lnk = preLNK end
     if getObjectFromGUID(bGuid) then cbGetBase(getObjectFromGUID(bGuid)) return end
 
     local t = {
@@ -391,25 +393,37 @@ function GetBase(bGuid)
     aBag.takeObject(t)
     UpdateSave()
 end
-function cbGetBase(base)
-    local locPos = self.getPosition()
-    base.setPosition({locPos.x, locPos.y - 0.5, locPos.z}) base.lock() base.interactable = false aBase = base
-    wBase.setDescription(base.guid)
-    local p = self.getPosition() wBase.setPosition({p[1], p[2] + 0.05, p[3] - (0.77*r2)})
-    rotBase() SetUIText() RollBack(base.getGUID())
-    wBase.setCustomObject({image = base.getCustomObject().image}) wBase.reload()
-    vBase.setCustomObject({image = base.getCustomObject().image}) vBase.reload()
-    SetUIText(base.getName():sub(5))
-    Wait.time(function()
-        SetUI() cbTObj()
-    end, 0.3)
-end
-function RollBack(guid)
+local function RollBack(guid)
     local n = 0
     for i = 2, treeMap[0] do if(treeMap[i] == guid) then n = i break end end
     if n == 0 then treeMap[0] = treeMap[0] + 1
     else for i = n, treeMap[0] do treeMap[i] = treeMap[i + 1] end end
     treeMap[treeMap[0]] = guid treeMap[-1] = treeMap[0]
+end
+function cbGetBase(base)
+    local scalewBase, scalevBase = {}, {}
+    _, scalewBase, scalevBase = ParceData(base.getGUID())
+    local locPos = self.getPosition()
+    base.setPosition({locPos.x, locPos.y - 0.5, locPos.z}) base.lock() base.interactable = false aBase = base
+    wBase.setDescription(base.getGUID())
+    local p = self.getPosition() wBase.setPosition({p[1], p[2] + 0.05, p[3] - (0.77*r2)})
+    RollBack(base.getGUID())
+    local v = {}
+    if wpx and wpx != wBase.getDescription() then
+        v.image = base.getCustomObject().image
+    else
+        wBase.setCustomObject({image = base.getCustomObject().image}) wBase.setScale(scalewBase) wBase.reload()
+        if pxy then
+            v.image = getObjectFromGUID(wpx).getCustomObject().image
+        else
+            v.image = base.getCustomObject().image
+        end
+    end
+    vBase.setCustomObject(v) vBase.setScale(scalevBase) vBase.reload()
+    rotBase() SetUIText(base.getName():sub(5))
+    Wait.time(function()
+        SetUI() cbTObj()
+    end, 0.3)
 end
 
 function isPVw() if wpx then broadcastToAll("Action Canceled While in Parent View.", {0.943, 0.745, 0.14}) return true end end
@@ -486,9 +500,9 @@ function CbImport()
     aBase.unlock() aBag.putObject(aBase) aBase = nil iBag.unlock() mBag.putObject(iBag) iBag = nil
 end
 
-function cbNABase(a)
-    local p = self.getPosition() a.setScale({0.5, 1, 0.5}) a.setName("SBx_Name of Zone")
-    p[1] = p[1] - (5.8 * r2)  a.setPosition({p[1], p[2] + 3, p[3]})
+function cbNABase(base)
+    local p = self.getPosition() base.setScale({0.5, 1, 0.5}) base.setName("SBx_Name of Zone")
+    p[1] = p[1] - (5.8 * r2)  base.setPosition({p[1], p[2] + 3, p[3]})
 end
 
 function CreateStartBags()
@@ -508,10 +522,10 @@ function cbNMBag(request)
     local p, rotY = self.getPosition(), math.rad(self.getRotation().y)
     mBag.setPosition({p[1] - 3*math.cos(rotY), p[2] + 2.5, p[3] + 3*math.sin(rotY)})
 end
-function cbNABag(a)
-    a.setDescription("_OW_aBaG") a.setName("Same_Name_Here") a.setColorTint({0.713, 0.247, 0.313})
+function cbNABag(bag)
+    bag.setDescription("_OW_aBaG") bag.setName("Same_Name_Here") bag.setColorTint({0.713, 0.247, 0.313})
     local p = self.getPosition()
-    a.setPosition({p[1], p[2] + 2.5, p[3]})
+    bag.setPosition({p[1], p[2] + 2.5, p[3]})
 end
 
 function PutBase(guid)
@@ -585,17 +599,17 @@ function SettingSizeBase()
         self.UI.getAttribute("settingSizes", "active") == "false" and "true" or "false")
 end
 
-function ButtonProxy()
+function ButtonParent()
     if not vBaseOn or not aBase then return end
     local v, f, g = {}, nil, "Ending Parent View..."
     if pxy then
         if wpx then
             if wpx == wBase.getDescription() then
-                pxy = nil  f = 1  v.image = aBase.getCustomObject().image 
+                pxy = nil f = 1 v.image = aBase.getCustomObject().image
             end
             wpx = nil
         else
-            pxy = nil  f = 1  v.image = aBase.getCustomObject().image 
+            pxy = nil f = 1 v.image = aBase.getCustomObject().image
         end
     else
         if wpx then
@@ -633,7 +647,7 @@ function ButtonHome()
     linkToMap = nil Wait.time(|| SetUI(), 0.1)
     if treeMap[0] < 2 or not aBase then
         if treeMap[1] then
-        GetBase(treeMap[1])
+            GetBase(treeMap[1])
         end
         return
     end
@@ -643,11 +657,11 @@ end
 
 function ButtonBack()
     if activeEdit then return end
-    if wpx then  wpx = nil  GetBase(treeMap[1])  return end
+    if wpx then  wpx = nil GetBase(treeMap[1]) return end
     if not vBaseOn then return end  linkToMap = nil  Wait.time(|| SetUI(), 0.1)
-    if treeMap[0] < 3 then ButtonHome()  return  end
+    if treeMap[0] < 3 then ButtonHome() return end
     if not aBase then  GetBase(treeMap[treeMap[0]]) return end
-    treeMap[-1] = treeMap[-1]-1
+    treeMap[-1] = treeMap[-1] - 1
     mvPoint()
 end
 

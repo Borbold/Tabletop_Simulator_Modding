@@ -17,8 +17,8 @@ function onLoad(savedData)
     end
     oneWorld = getObjectFromGUID(self.getGMNotes())
     Wait.time(function()
-        oneWorld.setVar("prs", prs)
-        oneWorld.setVar("ss", ss)
+        if(prs) then oneWorld.setVar("prs", prs) end
+        if(ss) then oneWorld.setVar("ss", ss) end
     end, 1.1)
 end
 
@@ -162,6 +162,19 @@ end
 -- Clear --
 
 -- Pack --
+local function EndPack(mBag)
+    if(cloneActiveBag) then cloneActiveBag.destruct() cloneActiveBag = nil end
+    self.putObject(mBag)
+    oneWorld.call("JotBase")
+    oneWorld.call("StowBase") oneWorld.call("NoBase") oneWorld.call("SetUIText")
+    oneWorld.setVar("prs", "")
+    ss = "" oneWorld.setVar("ss", ss)
+    broadcastToAll("Packing Complete.", {0.943, 0.745, 0.14})
+    Wait.condition(function()
+            oneWorld.call("SetUI")
+        end, function() return not tBag end
+    )
+end
 function DoPack(mBag)
     ss = oneWorld.getVar("ss")
     oneWorld.getVar("aBase").setDescription(mBag.getGUID())
@@ -197,18 +210,6 @@ function DoPack(mBag)
             end)
         end
     end
-end
-function EndPack(mBag)
-    self.putObject(mBag)
-    oneWorld.call("JotBase")
-    oneWorld.call("StowBase") oneWorld.call("NoBase") oneWorld.call("SetUIText")
-    oneWorld.setVar("prs", "")
-    ss = "" oneWorld.setVar("ss", ss)
-    broadcastToAll("Packing Complete.", {0.943, 0.745, 0.14})
-    Wait.condition(function()
-            oneWorld.call("SetUI")
-        end, function() return not tBag end
-    )
 end
 ----------
 
