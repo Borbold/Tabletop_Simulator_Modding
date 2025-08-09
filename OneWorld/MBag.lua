@@ -116,7 +116,7 @@ end
 local function EndClear()
     self.putObject(cloneActiveBag) cloneActiveBag = nil
     oneWorld.call("JotBase")
-    oneWorld.setVar("prs", "")
+    prs = "" oneWorld.setVar("prs", "")
     ss = "" oneWorld.setVar("ss", ss)
     broadcastToAll("Clearing Complete.", {0.943, 0.745, 0.14})
     Wait.condition(function()
