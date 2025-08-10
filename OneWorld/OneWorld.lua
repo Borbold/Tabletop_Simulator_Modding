@@ -710,17 +710,19 @@ function ButtonPack(player, _, _, keepBase)
     if isPVw() then return end
     if not vBaseOn or not aBase then return end
 
-    local s = ""
+    local preLoad = ""
     if player then
-        local p, f, u, r allObj = tZone.getObjects()
-        for i,g in ipairs(allObj) do
-            p, f = g.getPosition(), g.getGUID()
-            u = g.getLock() and 1 or 0
-            if g.name ~= "_OW_vBase" then
-                if not string.find("FogOfWarTrigger@ScriptingTrigger@3DText", g.name) and not string.find(vBase.getGUID(), f) then
-                    ss = ss..g.guid..","
-                    r = g.getRotation()
-                    s = s.."--"..f..","..p[1]..","..p[2]..","..p[3]..","..r[1]..","..r[2]..","..r[3]..","..u.."\n"
+        local iPos, iGuid, iLock, iRot
+        for _, item in ipairs(tZone.getObjects()) do
+            iPos, iGuid = item.getPosition(), item.getGUID()
+            iLock = item.getLock() and 1 or 0
+            if item.name ~= "_OW_vBase" then
+                if not string.find("FogOfWarTrigger@ScriptingTrigger@3DText", item.name) and
+                not vBase.getGUID():find(iGuid) and
+                not item.hasTag("noPack") then
+                    ss = ss..item.guid..","
+                    iRot = item.getRotation()
+                    preLoad = preLoad.."--"..iGuid..","..iPos[1]..","..iPos[2]..","..iPos[3]..","..iRot[1]..","..iRot[2]..","..iRot[3]..","..iLock.."\n"
                 end
             end
         end
@@ -728,7 +730,7 @@ function ButtonPack(player, _, _, keepBase)
     if #ss > 0 then
         tBag = false
         if(player) then
-            aBase.setLuaScript(s)
+            aBase.setLuaScript(preLoad)
         end
         broadcastToAll("Packing Zone...", {0.943, 0.745, 0.14})
         local t = {}

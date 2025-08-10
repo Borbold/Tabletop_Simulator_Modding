@@ -31,66 +31,56 @@ function CreateBagBuild(bag)
     Build()
 end
 
+local function EndBuild()
+    oneWorld.setVar("prs", prs)
+    oneWorld.setVar("ss", ss)
+    broadcastToAll("Finished Building.", {0.943, 0.745, 0.14})
+    if activeBag then
+        activeBag.destruct()
+        activeBag = nil
+    end
+    Wait.time(|| oneWorld.call("SetUI"), 0.1)
+    UpdateSave()
+end
+local function PutObjectsBuild(objectsString, index)
+    local objectWords = {}
+    for w in objectsString[index]:gmatch("[^,]+") do
+        table.insert(objectWords, w)
+    end
+    local fLock = objectWords[8]
+    local t = {
+        guid = objectWords[1]:sub(3),
+        position = {x=tonumber(objectWords[2]), y=tonumber(objectWords[3]), z=tonumber(objectWords[4])},
+        rotation = {x=tonumber(objectWords[5]), y=tonumber(objectWords[6]), z=tonumber(objectWords[7])},
+        callback = "UnderPack", callback_owner = self, smooth = false
+    } activeBag.takeObject(t).setLock(fLock == 1 and false or true)
+    return index + 1
+end
 function Build()
     prs = oneWorld.getVar("aBase").getLuaScript()
     if prs == "" or #activeBag.getObjects() == 0 then return end
+    ss = ""
+    local objectsString, index = {}, 1
+    for strok in prs:gmatch("[^\n]+") do
+        table.insert(objectsString, strok)
+    end
     if(oneWorld.getVar("toggleMapBuild")) then
-        ss = ""
-        local objectsString = {}
-        for strok in prs:gmatch("[^\n]+") do
-            table.insert(objectsString, strok)
-        end
-        local index = 1
         while index <= #objectsString do
-            local objectWords = {}
-            if(index > #objectsString) then return true end
-            for w in objectsString[index]:gmatch("[^,]+") do
-                table.insert(objectWords, w)
-            end
-            local fLock = objectWords[8]
-            local t = {
-                guid = objectWords[1]:sub(3),
-                position = {x=tonumber(objectWords[2]), y=tonumber(objectWords[3]), z=tonumber(objectWords[4])},
-                rotation = {x=tonumber(objectWords[5]), y=tonumber(objectWords[6]), z=tonumber(objectWords[7])},
-                callback = "UnderPack", callback_owner = self, smooth = false
-            } activeBag.takeObject(t).lock()
-            index = index + 1
+            index = PutObjectsBuild(objectsString, index)
             if(index >= 5001) then print("[ff0000]ERROR[-]") break end
         end
         Wait.time(function()
-            oneWorld.setVar("prs", prs)
-            oneWorld.setVar("ss", ss)
             Wait.time(|| EndBuild(), 0.2)
         end, 0.2)
     else
         do
-            ss = ""
-            local objectsString = {}
-            for strok in prs:gmatch("[^\n]+") do
-                table.insert(objectsString, strok)
-            end
-            local index = 1
             Wait.condition(function()
                 Wait.time(function()
-                    oneWorld.setVar("prs", prs)
-                    oneWorld.setVar("ss", ss)
                     Wait.time(|| EndBuild(), 0.2)
                 end, 0.2)
             end,
             function()
-                local objectWords = {}
-                if(index > #objectsString) then return true end
-                for w in objectsString[index]:gmatch("[^,]+") do
-                    table.insert(objectWords, w)
-                end
-                local fLock = objectWords[8]
-                local t = {
-                    guid = objectWords[1]:sub(3),
-                    position = {x=tonumber(objectWords[2]), y=tonumber(objectWords[3]), z=tonumber(objectWords[4])},
-                    rotation = {x=tonumber(objectWords[5]), y=tonumber(objectWords[6]), z=tonumber(objectWords[7])},
-                    callback = "UnderPack", callback_owner = self, smooth = false
-                } activeBag.takeObject(t).lock()
-                index = index + 1
+                index = PutObjectsBuild(objectsString, index)
                 return index > #objectsString
             end)
         end
@@ -99,16 +89,6 @@ end
 function UnderPack(obj)
     ss = ss..obj.guid..","
     if(obj.hasTag("noInteract")) then obj.interactable = false else obj.interactable = true end
-end
-
-function EndBuild()
-    broadcastToAll("Finished Building.", {0.943, 0.745, 0.14})
-    if activeBag then
-        activeBag.destruct()
-        activeBag = nil
-    end
-    Wait.time(|| oneWorld.call("SetUI"), 0.1)
-    UpdateSave()
 end
 ----------
 
