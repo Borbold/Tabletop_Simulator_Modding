@@ -217,7 +217,7 @@ function Export(bag)
                 objectGUID = w:sub(3)
                 break
             end
-            if getObjectFromGUID(objectGUID) then bag.putObject(getObjectFromGUID(objectGUID).clone()) end
+            if getObjectFromGUID(objectGUID) then bag.putObject(getObjectFromGUID(objectGUID)) end
             index = index + 1
             return index > #objectsString
         end)
