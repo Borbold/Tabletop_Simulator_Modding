@@ -674,6 +674,14 @@ function ButtonBuild()
         broadcastToAll("The Current Zone is Busy...", {0.943, 0.745, 0.14})
         return
     end
+    if #tZone.getObjects() > 0 then
+        for _, item in ipairs(tZone.getObjects()) do
+            if item.getName() ~= "_OW_vBase" then
+                local iPos = item.getPosition()
+                item.setPosition({iPos[1], tZone.getBoundsNormalized().size.y, iPos[3]})
+            end
+        end
+    end
     broadcastToAll("Recalling Zone Objects...", {0.943, 0.745, 0.14})
     tBag = true
     local t = {
@@ -716,14 +724,12 @@ function ButtonPack(player, _, _, keepBase)
         for _, item in ipairs(tZone.getObjects()) do
             iPos, iGuid = item.getPosition(), item.getGUID()
             iLock = item.getLock() and 1 or 0
-            if item.name ~= "_OW_vBase" then
-                if not string.find("FogOfWarTrigger@ScriptingTrigger@3DText", item.name) and
-                not vBase.getGUID():find(iGuid) and
-                not item.hasTag("noPack") then
-                    ss = ss..item.guid..","
-                    iRot = item.getRotation()
-                    preLoad = preLoad.."--"..iGuid..","..iPos[1]..","..iPos[2]..","..iPos[3]..","..iRot[1]..","..iRot[2]..","..iRot[3]..","..iLock.."\n"
-                end
+            if item.getName() ~= "_OW_vBase" and
+            not string.find("FogOfWarTrigger@ScriptingTrigger@3DText", item.name) and
+            not item.hasTag("noPack") then
+                ss = ss..item.guid..","
+                iRot = item.getRotation()
+                preLoad = preLoad.."--"..iGuid..","..iPos[1]..","..iPos[2]..","..iPos[3]..","..iRot[1]..","..iRot[2]..","..iRot[3]..","..iLock.."\n"
             end
         end
     end
