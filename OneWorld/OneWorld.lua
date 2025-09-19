@@ -122,12 +122,12 @@ function TogleEnable()
         self.UI.setAttribute("editMenuPanel", "active", false)
         vBaseOn = false
         self.interactable = true self.unlock() self.setPositionSmooth({p[1], p[2] + 0.1, p[3]})
-        mBag.unlock() mBag.setScale({1, 1, 1}) mBag.setPosition({p[1] - 3, p[2] + 3, p[3]})
-        aBag.unlock() aBag.setScale({1, 1, 1}) aBag.setPosition({p[1], p[2] + 3, p[3]})
+        mBag.unlock() mBag.setScale({1, 1, 1}) mBag.setPosition({p[1] - 3, p[2] + 3, p[3]}) mBag.setPositionSmooth({p[1] - 3, p[2] + 2, p[3]})
+        aBag.unlock() aBag.setScale({1, 1, 1}) aBag.setPosition({p[1], p[2] + 3, p[3]}) aBag.setPositionSmooth({p[1], p[2] + 2, p[3]})
         mBag.interactable = true aBag.interactable = true vBase.interactable = true vBase.unlock() vBase.setScale({0.5, 1, 0.5})
-        vBase.setPosition({p[1] + 3, p[2] + 3, p[3] - 1})
+        vBase.setPosition({p[1] + 3, p[2] + 3, p[3] - 1}) vBase.setPositionSmooth({p[1] + 3, p[2] + 2, p[3] - 1})
         wBase.interactable = true  wBase.unlock() wBase.setScale({0.5, 1, 0.5})
-        wBase.setPosition({p[1] + 3, p[2] + 3, p[3] + 1})
+        wBase.setPosition({p[1] + 3, p[2] + 3, p[3] + 1}) wBase.setPositionSmooth({p[1] + 3, p[2] + 2, p[3] + 1})
         wpx = nil
         reStart(self.UI.getAttribute("b1", "text")) Wait.time(|| SetUI(), 0.1)
         return
@@ -521,11 +521,13 @@ function cbNMBag(request)
     mBag.setDescription("_OW_mBaG") mBag.setName("Same_Name_Here") mBag.setColorTint({0.713, 0.247, 0.313})
     local p, rotY = self.getPosition(), math.rad(self.getRotation().y)
     mBag.setPosition({p[1] - 3*math.cos(rotY), p[2] + 2.5, p[3] + 3*math.sin(rotY)})
+    mBag.setPositionSmooth({p[1] - 3*math.cos(rotY), p[2] + 1.5, p[3] + 3*math.sin(rotY)})
 end
 function cbNABag(bag)
     bag.setDescription("_OW_aBaG") bag.setName("Same_Name_Here") bag.setColorTint({0.713, 0.247, 0.313})
     local p = self.getPosition()
     bag.setPosition({p[1], p[2] + 2.5, p[3]})
+    bag.setPositionSmooth({p[1], p[2] + 1.5, p[3]})
 end
 
 function PutBase(guid)
