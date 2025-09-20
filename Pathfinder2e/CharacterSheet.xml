@@ -182,17 +182,17 @@
                     </VerticalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
-                    <Text id="01_charProfBonus" text="proficiency" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Black"  />
-                    <Text id="02_charProfBonus" text="proficiency" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="White"  />
-                    <Text id="03_charProfBonus" text="proficiency" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Brown"  />
-                    <Text id="04_charProfBonus" text="proficiency" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Red"    />
-                    <Text id="05_charProfBonus" text="proficiency" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Orange" />
-                    <Text id="06_charProfBonus" text="proficiency" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Yellow" />
-                    <Text id="07_charProfBonus" text="proficiency" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Green"  />
-                    <Text id="08_charProfBonus" text="proficiency" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Teal"   />
-                    <Text id="09_charProfBonus" text="proficiency" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Blue"   />
-                    <Text id="10_charProfBonus" text="proficiency" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Purple" />
-                    <Text id="11_charProfBonus" text="proficiency" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Pink"   />
+                    <Text id="01_charProfBonus" text="proficiency" fontSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Black"  />
+                    <Text id="02_charProfBonus" text="proficiency" fontSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="White"  />
+                    <Text id="03_charProfBonus" text="proficiency" fontSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Brown"  />
+                    <Text id="04_charProfBonus" text="proficiency" fontSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Red"    />
+                    <Text id="05_charProfBonus" text="proficiency" fontSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Orange" />
+                    <Text id="06_charProfBonus" text="proficiency" fontSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Yellow" />
+                    <Text id="07_charProfBonus" text="proficiency" fontSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Green"  />
+                    <Text id="08_charProfBonus" text="proficiency" fontSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Teal"   />
+                    <Text id="09_charProfBonus" text="proficiency" fontSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Blue"   />
+                    <Text id="10_charProfBonus" text="proficiency" fontSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Purple" />
+                    <Text id="11_charProfBonus" text="proficiency" fontSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Pink"   />
                     <Button id="01_charInitAddButton" text="initiative" preferredWidth="200" visibility="Black"  onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
                     <Button id="02_charInitAddButton" text="initiative" preferredWidth="200" visibility="White"  onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
                     <Button id="03_charInitAddButton" text="initiative" preferredWidth="200" visibility="Brown"  onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />

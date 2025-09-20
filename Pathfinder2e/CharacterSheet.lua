@@ -171,11 +171,10 @@ function onLoad(saved_data)
         main_Table[i].pPerceptionMod = 0
 
         main_Table[i].attributes = {}
-        main_Table[i].saves = {false,false,false,false,false,false}
+        main_Table[i].saves = {Fortitude = false, Reflex = false, Will = false}
         main_Table[i].savesMod = {Fortitude = 0, Reflex = 0, Will = 0}
         for ii=1,6 do
             main_Table[i].attributes[ii] = 10   -- modifier: (attr -10) /2
-            main_Table[i].saves[ii] = false
         end
         main_Table[i].skills = {}
         for ii=1,18 do
@@ -524,10 +523,10 @@ end
 function charSaveButton(pl,vl,thisID)
     local nameST = string.match(thisID, "^[^_]+_[^_]+_([^_]+)")
     if editModeVisibility[nFromPl(pl)] then
-        main_Table[nFromPl(pl)].saves[enumSTnC[nameST]] = not main_Table[nFromPl(pl)].saves[enumSTnC[nameST]]
+        main_Table[nFromPl(pl)].saves[nameST] = not main_Table[nFromPl(pl)].saves[nameST]
     else
         plColHex = "["..Color[pl.color]:toHex(false).."]"
-        if main_Table[numFromStr(thisID)].saves[enumSTnC[nameST]] then
+        if main_Table[numFromStr(thisID)].saves[nameST] then
             modStr = "1d20"..PoM(modFromAttr(main_Table[numFromStr(thisID)].attributes[enumSTnC[nameST]]) + main_Table[numFromStr(thisID)].savesMod[nameST] + main_Table[numFromStr(thisID)].charProfBonus) .. modFromAttr(main_Table[numFromStr(thisID)].attributes[enumSTnC[nameST]]) + main_Table[numFromStr(thisID)].savesMod[nameST] + main_Table[numFromStr(thisID)].charProfBonus
         else
             modStr = "1d20"..PoM(modFromAttr(main_Table[numFromStr(thisID)].attributes[enumSTnC[nameST]]) + main_Table[numFromStr(thisID)].savesMod[nameST]) .. modFromAttr(main_Table[numFromStr(thisID)].attributes[enumSTnC[nameST]]) + main_Table[numFromStr(thisID)].savesMod[nameST]
@@ -1725,19 +1724,19 @@ function UI_upd(i)
         UI_xmlElementUpdate(strFromNum(i).."_charDeathSaveButton_"..strFromNum(ii), "active", dSavesActive)
         UI_xmlElementUpdate(strFromNum(i).."_charDeathSaveButton_"..strFromNum(ii), "text", dSavesStr_table[main_Table[i].deathSaves[ii]])
     end
-        
+
     for ii=1,6 do
         UI_xmlElementUpdate(strFromNum(i).."_charAttrValue_"..strFromNum(ii), "text", main_Table[i].attributes[ii])
         UI_xmlElementUpdate(strFromNum(i).."_charAttrMod_"..strFromNum(ii), "text", PoM(modFromAttr(main_Table[i].attributes[ii]))..modFromAttr(main_Table[i].attributes[ii]))
-        if main_Table[i].saves[ii] then fontStr = "bold" else fontStr = "italic" end
     end
 
     for smN,smV in pairs(main_Table[i].savesMod) do
+        if main_Table[i].saves[smN] then fontStr = "bold" else fontStr = "italic" end
         if smV != 0 then saveModStr = "\n"..PoM(smV)..smV else saveModStr = "" end
         UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..smN, "text", lang_table[enumLangSet[lang_set]][14]..saveModStr)
         UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..smN, "fontStyle", fontStr)
     end
-        
+
     for ii=1,18 do
         if main_Table[i].skills[ii].proficient then fontStr = "bold" else fontStr = "italic" end
         if main_Table[i].skills[ii].expertize then exStr = " ("..lang_table[enumLangSet[lang_set]][33]..")" else exStr = "" end
@@ -1969,11 +1968,11 @@ function language_UI_update()   --  tooltipBackgroundColor="#000000" tooltipPosi
     UI_xmlElementUpdate("charSheetUtilButton_09", "tooltip", lang_table[enumLangSet[lang_set]][77])
 
     for i=2,11 do
-        UI_xmlElementUpdate("assighedPlayerButton_"..strFromNum(i), "tooltip", lang_table[enumLangSet[lang_set]][86])
+        UI_xmlElementUpdate("assighedPlayerButton_"..strFromNum(i), "tooltip", lang_table[enumLangSet[lang_set]][85])
     end
 
     for i=1,11 do
-        UI_xmlElementUpdate(strFromNum(i).."_charInitAddButton", "tooltip", lang_table[enumLangSet[lang_set]][87])
+        UI_xmlElementUpdate(strFromNum(i).."_charInitAddButton", "tooltip", lang_table[enumLangSet[lang_set]][86])
     end
 
     UI_xmlElementUpdate("initPassButton", "text", lang_table[enumLangSet[lang_set]][84])
