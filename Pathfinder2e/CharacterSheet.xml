@@ -547,86 +547,47 @@
                 </HorizontalLayout>
             </VerticalLayout>
             <VerticalLayout preferredWidth="25" >
-                <Button id="01_charSaveButton_01"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="02_charSaveButton_01"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="03_charSaveButton_01"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="04_charSaveButton_01"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="05_charSaveButton_01"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="06_charSaveButton_01"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="07_charSaveButton_01"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="08_charSaveButton_01"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="09_charSaveButton_01"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="10_charSaveButton_01"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="11_charSaveButton_01"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="01_charSaveButton_02"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above"    />
-                <Button id="02_charSaveButton_02"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="03_charSaveButton_02"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="04_charSaveButton_02"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="05_charSaveButton_02"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="06_charSaveButton_02"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="07_charSaveButton_02"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="08_charSaveButton_02"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="09_charSaveButton_02"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="10_charSaveButton_02"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="11_charSaveButton_02"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="01_charSaveButton_03"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above"    />
-                <Button id="02_charSaveButton_03"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="03_charSaveButton_03"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="04_charSaveButton_03"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="05_charSaveButton_03"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="06_charSaveButton_03"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="07_charSaveButton_03"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="08_charSaveButton_03"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="09_charSaveButton_03"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="10_charSaveButton_03"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="11_charSaveButton_03"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="01_charSaveButton_04"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above"    />
-                <Button id="02_charSaveButton_04"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="03_charSaveButton_04"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="04_charSaveButton_04"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="05_charSaveButton_04"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="06_charSaveButton_04"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="07_charSaveButton_04"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="08_charSaveButton_04"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="09_charSaveButton_04"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="10_charSaveButton_04"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="11_charSaveButton_04"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="01_charSaveButton_05"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above"    />
-                <Button id="02_charSaveButton_05"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="03_charSaveButton_05"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="04_charSaveButton_05"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="05_charSaveButton_05"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="06_charSaveButton_05"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="07_charSaveButton_05"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="08_charSaveButton_05"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="09_charSaveButton_05"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="10_charSaveButton_05"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="11_charSaveButton_05"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="01_charSaveButton_06"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above"    />
-                <Button id="02_charSaveButton_06"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="03_charSaveButton_06"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="04_charSaveButton_06"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="05_charSaveButton_06"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="06_charSaveButton_06"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="07_charSaveButton_06"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="08_charSaveButton_06"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="09_charSaveButton_06"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="10_charSaveButton_06"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="11_charSaveButton_06"  resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="01_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="02_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="03_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="04_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="05_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="06_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="07_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="08_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="09_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="10_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="11_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="01_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above"    />
+                <Button id="02_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="03_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="04_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="05_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="06_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="07_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="08_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="09_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="10_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="11_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="01_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above"    />
+                <Button id="02_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="03_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="04_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="05_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="06_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="07_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="08_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="09_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="10_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="11_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
             </VerticalLayout >
             <VerticalLayout id="savesModsButtons" preferredWidth="13" visibility="noone">
-                <Button id="01_charSaveModEdButton_01" onClick="setCharSaveMod" text="+" />
-                <Button id="02_charSaveModEdButton_01" onClick="setCharSaveMod" text="-" />
-                <Button id="01_charSaveModEdButton_02" onClick="setCharSaveMod" text="+" />
-                <Button id="02_charSaveModEdButton_02" onClick="setCharSaveMod" text="-" />
-                <Button id="01_charSaveModEdButton_03" onClick="setCharSaveMod" text="+" />
-                <Button id="02_charSaveModEdButton_03" onClick="setCharSaveMod" text="-" />
-                <Button id="01_charSaveModEdButton_04" onClick="setCharSaveMod" text="+" />
-                <Button id="02_charSaveModEdButton_04" onClick="setCharSaveMod" text="-" />
-                <Button id="01_charSaveModEdButton_05" onClick="setCharSaveMod" text="+" />
-                <Button id="02_charSaveModEdButton_05" onClick="setCharSaveMod" text="-" />
-                <Button id="01_charSaveModEdButton_06" onClick="setCharSaveMod" text="+" />
-                <Button id="02_charSaveModEdButton_06" onClick="setCharSaveMod" text="-" />
+                <Button id="01_charSaveModEdButton_Fortitude" onClick="setCharSaveMod" text="+" />
+                <Button id="02_charSaveModEdButton_Fortitude" onClick="setCharSaveMod" text="-" />
+                <Button id="01_charSaveModEdButton_Reflex" onClick="setCharSaveMod" text="+" />
+                <Button id="02_charSaveModEdButton_Reflex" onClick="setCharSaveMod" text="-" />
+                <Button id="01_charSaveModEdButton_Will" onClick="setCharSaveMod" text="+" />
+                <Button id="02_charSaveModEdButton_Will" onClick="setCharSaveMod" text="-" />
             </VerticalLayout>
             <Text  preferredWidth="5" />
             <VerticalLayout preferredWidth="220" >

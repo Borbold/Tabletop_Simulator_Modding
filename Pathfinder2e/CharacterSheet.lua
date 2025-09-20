@@ -1,3 +1,5 @@
+local enumSTnC = {Fortitude = 3, Reflex = 2, Will = 5}
+
 function onSave()
     if resetGlobalLuaSave then
         --lang_set = 1
@@ -171,11 +173,10 @@ function onLoad(saved_data)
 
         main_Table[i].attributes = {}
         main_Table[i].saves = {false,false,false,false,false,false}
-        main_Table[i].savesMod = {}
+        main_Table[i].savesMod = {Fortitude = 0, Reflex = 0, Will = 0}
         for ii=1,6 do
             main_Table[i].attributes[ii] = 10   -- modifier: (attr -10) /2
             main_Table[i].saves[ii] = false
-            main_Table[i].savesMod[ii] = 0
         end
         main_Table[i].skills = {}
         for ii=1,18 do
@@ -497,14 +498,15 @@ function setCharAttr(pl,vl,thisID)
 end
 
 function setCharSaveMod(pl,vl,thisID)
+    local nameST = string.match(thisID, "^[^_]+_[^_]+_([^_]+)")
     if vl == "-1" then num_add = 1 elseif vl == "-2" then num_add = 5 end
     if numFromStr(thisID) == 1 then
-        main_Table[nFromPl(pl)].savesMod[numFromStrEnd(thisID)] = main_Table[nFromPl(pl)].savesMod[numFromStrEnd(thisID)] + num_add
+        main_Table[nFromPl(pl)].savesMod[nameST] = main_Table[nFromPl(pl)].savesMod[nameST] + num_add
     else
-        main_Table[nFromPl(pl)].savesMod[numFromStrEnd(thisID)] = main_Table[nFromPl(pl)].savesMod[numFromStrEnd(thisID)] - num_add
+        main_Table[nFromPl(pl)].savesMod[nameST] = main_Table[nFromPl(pl)].savesMod[nameST] - num_add
     end
-    if main_Table[nFromPl(pl)].savesMod[numFromStrEnd(thisID)] < -15 then main_Table[nFromPl(pl)].savesMod[numFromStrEnd(thisID)] = 15  end
-    if main_Table[nFromPl(pl)].savesMod[numFromStrEnd(thisID)] > 15  then main_Table[nFromPl(pl)].savesMod[numFromStrEnd(thisID)] = -15 end
+    if main_Table[nFromPl(pl)].savesMod[nameST] < -15 then main_Table[nFromPl(pl)].savesMod[nameST] = 15  end
+    if main_Table[nFromPl(pl)].savesMod[nameST] > 15  then main_Table[nFromPl(pl)].savesMod[nameST] = -15 end
     singleColor_UI_update(nFromPl(pl))
 end
 
@@ -522,21 +524,22 @@ function rollAttribute(pl,vl,thisID)
 end
 
 function charSaveButton(pl,vl,thisID)
+    local nameST = string.match(thisID, "^[^_]+_[^_]+_([^_]+)")
     if editModeVisibility[nFromPl(pl)] then
-        main_Table[nFromPl(pl)].saves[numFromStrEnd(thisID)] = not main_Table[nFromPl(pl)].saves[numFromStrEnd(thisID)]
+        main_Table[nFromPl(pl)].saves[enumSTnC[nameST]] = not main_Table[nFromPl(pl)].saves[enumSTnC[nameST]]
     else
         plColHex = "["..Color[pl.color]:toHex(false).."]"
-        if main_Table[numFromStr(thisID)].saves[numFromStrEnd(thisID)] then
-            modStr = "1d20"..PoM(modFromAttr(main_Table[numFromStr(thisID)].attributes[numFromStrEnd(thisID)]) + main_Table[numFromStr(thisID)].savesMod[numFromStrEnd(thisID)] + main_Table[numFromStr(thisID)].charProfBonus) .. modFromAttr(main_Table[numFromStr(thisID)].attributes[numFromStrEnd(thisID)]) + main_Table[numFromStr(thisID)].savesMod[numFromStrEnd(thisID)] + main_Table[numFromStr(thisID)].charProfBonus
+        if main_Table[numFromStr(thisID)].saves[enumSTnC[nameST]] then
+            modStr = "1d20"..PoM(modFromAttr(main_Table[numFromStr(thisID)].attributes[enumSTnC[nameST]]) + main_Table[numFromStr(thisID)].savesMod[nameST] + main_Table[numFromStr(thisID)].charProfBonus) .. modFromAttr(main_Table[numFromStr(thisID)].attributes[enumSTnC[nameST]]) + main_Table[numFromStr(thisID)].savesMod[nameST] + main_Table[numFromStr(thisID)].charProfBonus
         else
-            modStr = "1d20"..PoM(modFromAttr(main_Table[numFromStr(thisID)].attributes[numFromStrEnd(thisID)]) + main_Table[numFromStr(thisID)].savesMod[numFromStrEnd(thisID)]) .. modFromAttr(main_Table[numFromStr(thisID)].attributes[numFromStrEnd(thisID)]) + main_Table[numFromStr(thisID)].savesMod[numFromStrEnd(thisID)]
+            modStr = "1d20"..PoM(modFromAttr(main_Table[numFromStr(thisID)].attributes[enumSTnC[nameST]]) + main_Table[numFromStr(thisID)].savesMod[nameST]) .. modFromAttr(main_Table[numFromStr(thisID)].attributes[enumSTnC[nameST]]) + main_Table[numFromStr(thisID)].savesMod[nameST]
         end
         if vl == "-1" then
-            stringRoller(modStr,pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[lang_set][numFromStrEnd(thisID) + 7].." "..lang_table[lang_set][40]..":",1,false)
+            stringRoller(modStr,pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[lang_set][enumSTnC[nameST] + 7].." "..lang_table[lang_set][40]..":",1,false)
         elseif vl == "-2" then
             doubleRoll = 2
-            stringRoller(modStr,pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[lang_set][numFromStrEnd(thisID) + 7].." "..lang_table[lang_set][40]..":",2,false)
-            stringRoller(modStr,pl, rollOutputHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[lang_set][numFromStrEnd(thisID) + 7].." "..lang_table[lang_set][40]..":",4,false)
+            stringRoller(modStr,pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[lang_set][enumSTnC[nameST] + 7].." "..lang_table[lang_set][40]..":",2,false)
+            stringRoller(modStr,pl, rollOutputHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[lang_set][enumSTnC[nameST] + 7].." "..lang_table[lang_set][40]..":",4,false)
         end
     end
     singleColor_UI_update(nFromPl(pl))
@@ -1715,7 +1718,6 @@ function UI_upd(i)
         UI_xmlElementUpdate("charHPsetVisibilityButton", "text", "GM")
     end
 
-
     if main_Table[i].hp < 1 then
         dSavesActive = "True"
     else
@@ -1730,9 +1732,12 @@ function UI_upd(i)
         UI_xmlElementUpdate(strFromNum(i).."_charAttrValue_"..strFromNum(ii), "text", main_Table[i].attributes[ii])
         UI_xmlElementUpdate(strFromNum(i).."_charAttrMod_"..strFromNum(ii), "text", PoM(modFromAttr(main_Table[i].attributes[ii]))..modFromAttr(main_Table[i].attributes[ii]))
         if main_Table[i].saves[ii] then fontStr = "bold" else fontStr = "italic" end
-        if main_Table[i].savesMod[ii] != 0 then saveModStr = "\n"..PoM(main_Table[i].savesMod[ii])..main_Table[i].savesMod[ii] else saveModStr = "" end
-        UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..strFromNum(ii), "text", lang_table[lang_set][14]..saveModStr)
-        UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..strFromNum(ii), "fontStyle", fontStr)
+    end
+
+    for smN,smV in pairs(main_Table[i].savesMod) do
+        if smV != 0 then saveModStr = "\n"..PoM(smV)..smV else saveModStr = "" end
+        UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..smN, "text", lang_table[lang_set][14]..saveModStr)
+        UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..smN, "fontStyle", fontStr)
     end
         
     for ii=1,18 do
@@ -1946,7 +1951,11 @@ function language_UI_update()   --  tooltipBackgroundColor="#000000" tooltipPosi
     for i=1,11 do
         for ii=1,6 do
             UI_xmlElementUpdate(strFromNum(i).."_charAttrMod_"..strFromNum(ii), "tooltip", lang_table[lang_set][33+ii])
-            UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..strFromNum(ii), "tooltip", lang_table[lang_set][61+ii])
+        end
+        local j = 1
+        for smN,_ in pairs(main_Table[i].savesMod) do
+            UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..smN, "tooltip", lang_table[lang_set][61+j])
+            j = j + 1
         end
     end
     for i=1,18 do
@@ -2692,7 +2701,7 @@ function defineLangTable() -- lang_table[lang_set]
         "Character\nportrait url", "Character name", "Current\nHit Points", "Maximum\nHit Points", "Toggle token HP-bar visibility:\nEveryone / GM-only", -- 49 50 51 52 53
         "Damage", "Take set value\nas damage", "Enter value for\ndamage / heal / temp HP", "Heal", "Heal set value\nof HP", "Temp", "Apply set value\nas temporary HP", -- 54 55 56 57 58 59 60
         "Death save mark\n(click to change)", -- 61
-        "Strength save-throw", "Dexterity save-throw", "Constitution save-throw", "Intelligence save-throw", "Wisdom save-throw", "Charisma save-throw", -- 62 63 64 65 66 67
+        "Fortitude save-throw", "Reflex save-throw", "Will save-throw", -- 62 63 64 (65 66 67)
         "Expertize", -- 68
         "attacks", "resourses", "spell slots", "notes", "conditions", "character UI set", "look at char", "edit character", -- 69 70 71 72 73 74 75 76
         "Adjust 3d interface\non the character\nfigurine", "Center camera\non the character", "Edit mode:\n\nincludes most secondary panels\n\n'+' and '-' buttons may be used with\nright click for increased value\n\nsave-throws and skills buttons switch\nproficiency in edit mode\n\nWhile edit mode is on,\nquickly Right click this button 5 times\nto reset the character",
@@ -2732,7 +2741,7 @@ function defineLangTable() -- lang_table[lang_set]
         "Портрет персонажа\n(ссылка)", "Имя персонажа", "Текущие\nОчки Здоровья", "Максимальные\nОчки Здоровья", "Переключить видимость\nздоровья персонажа:\nВсе / только ГМ", -- 49 50 51 52 53
         "Урон", "Получить указанное\nколичество урона", "Введите значение для\nурона / лечения / временных ОД", "Лечить", "Вылечить указанное\nколичество Очков Здоровья", "Врм.", "Установить временные\nОчки Здоровья", -- 54 55 56 57 58 59 60
         "Отметка спас-броска от смерти\n(нажать для изменения)", -- 61
-        "Спас-бросок\nсилы", "Спас-бросок\nловкости", "Спас-бросок\nтелосложения", "Спас-бросок\nинтеллекта", "Спас-бросок\nмудрости", "Спас-бросок\nхаризмы", -- 62 63 64 65 66 67
+        "Спас-бросок\nстойкости", "Спас-бросок\nрефлексов", "Спас-бросок\nволи", -- 62 63 64 (65 66 67)
         "Компетентность", -- 68
         "атаки", "ресурсы", "ячейки магии", "заметки", "состояния", "настройки UI", "найти персонажа", "редактировать", -- 69 70 71 72 73 74 75 76
         "Подогнать 3д интерфейс\nпод фигурку персонажа", "Центрировать камеру\nна персонаже", "Режим редактирования:\n\nзадействует все панели персонажа\n\nкнопки '+' и '-' можно использовать\nправым кликом для большего шага\n\nкнопки спас-бросков и навыков переключают\nвладение в режиме редактирования\n\nпри включйнном редактировании\n5 быстрых Правых кликов по этой кнопке\nполностью сбросят персонажа",
@@ -2935,11 +2944,10 @@ function defineCharLua()
             charSave_table.pPerceptionMod = 0
             charSave_table.attributes = {}
             charSave_table.saves = {false,false,false,false,false,false}
-            charSave_table.savesMod = {}
+            charSave_table.savesMod = {Fortitude = 0, Reflex = 0, Will = 0}
             for ii=1,6 do
                 charSave_table.attributes[ii] = 10   -- modifier: (attr -10) /2
                 charSave_table.saves[ii] = false
-                charSave_table.savesMod[ii] = 0
             end
             charSave_table.skills = {}
             for ii=1,18 do
