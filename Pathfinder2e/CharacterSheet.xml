@@ -182,21 +182,17 @@
                     </VerticalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
-                    <Text id="01_charProfBonus" text="proficiency bonus: +6" fontStyle="bold" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Black"  />
-                    <Text id="02_charProfBonus" text="proficiency bonus: +6" fontStyle="bold" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="White"  />
-                    <Text id="03_charProfBonus" text="proficiency bonus: +6" fontStyle="bold" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Brown"  />
-                    <Text id="04_charProfBonus" text="proficiency bonus: +6" fontStyle="bold" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Red"    />
-                    <Text id="05_charProfBonus" text="proficiency bonus: +6" fontStyle="bold" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Orange" />
-                    <Text id="06_charProfBonus" text="proficiency bonus: +6" fontStyle="bold" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Yellow" />
-                    <Text id="07_charProfBonus" text="proficiency bonus: +6" fontStyle="bold" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Green"  />
-                    <Text id="08_charProfBonus" text="proficiency bonus: +6" fontStyle="bold" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Teal"   />
-                    <Text id="09_charProfBonus" text="proficiency bonus: +6" fontStyle="bold" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Blue"   />
-                    <Text id="10_charProfBonus" text="proficiency bonus: +6" fontStyle="bold" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Purple" />
-                    <Text id="11_charProfBonus" text="proficiency bonus: +6" fontStyle="bold" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Pink"   />
-                    <VerticalLayout id="charProfBonusEdit" preferredWidth="20" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charProfBonusButton_01" onClick="setCharProfBonus" text="+" fontSize="10" />
-                        <Button id="charProfBonusButton_02" onClick="setCharProfBonus" text="-" fontSize="10" />
-                    </VerticalLayout>
+                    <Text id="01_charProfBonus" text="proficiency" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Black"  />
+                    <Text id="02_charProfBonus" text="proficiency" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="White"  />
+                    <Text id="03_charProfBonus" text="proficiency" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Brown"  />
+                    <Text id="04_charProfBonus" text="proficiency" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Red"    />
+                    <Text id="05_charProfBonus" text="proficiency" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Orange" />
+                    <Text id="06_charProfBonus" text="proficiency" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Yellow" />
+                    <Text id="07_charProfBonus" text="proficiency" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Green"  />
+                    <Text id="08_charProfBonus" text="proficiency" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Teal"   />
+                    <Text id="09_charProfBonus" text="proficiency" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Blue"   />
+                    <Text id="10_charProfBonus" text="proficiency" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Purple" />
+                    <Text id="11_charProfBonus" text="proficiency" fontSize="12" preferredWidth="100" horizontalOverflow="Wrap" visibility="Pink"   />
                     <Button id="01_charInitAddButton" text="initiative" preferredWidth="200" visibility="Black"  onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
                     <Button id="02_charInitAddButton" text="initiative" preferredWidth="200" visibility="White"  onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
                     <Button id="03_charInitAddButton" text="initiative" preferredWidth="200" visibility="Brown"  onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
@@ -945,78 +941,78 @@
 <!-- SCREEN ROLLER (DONE) -->
 <Panel allowDragging="true" returnToOriginalPositionWhenReleased="false" color="#ffffff02" rectAlignment="UpperCenter" height="20" width="240" offsetXY="-207,-70" visibility="Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink">
     <HorizontalLayout height="20" width="240">
-        <Button id="roll_1d4"  onClick="screenRoller" fontStyle="bold" text="d4" />
-        <Button id="roll_1d6"  onClick="screenRoller" fontStyle="bold" text="d6" />
-        <Button id="roll_1d8"  onClick="screenRoller" fontStyle="bold" text="d8" />
-        <Button id="roll_1d10" onClick="screenRoller" fontStyle="bold" text="d10" />
-        <Button id="roll_1d12" onClick="screenRoller" fontStyle="bold" text="d12" />
-        <Button id="roll_1d20" onClick="screenRoller" fontStyle="bold" text="d20" />
+        <Button id="roll_1d4"  onClick="screenRoller" text="d4" />
+        <Button id="roll_1d6"  onClick="screenRoller" text="d6" />
+        <Button id="roll_1d8"  onClick="screenRoller" text="d8" />
+        <Button id="roll_1d10" onClick="screenRoller" text="d10" />
+        <Button id="roll_1d12" onClick="screenRoller" text="d12" />
+        <Button id="roll_1d20" onClick="screenRoller" text="d20" />
     </HorizontalLayout>
     <Button id="screenRollerMinimizer" height="20" width="20" text=">" fontStyle="bold" rotation="0,0,270" offsetXY="130,0" onClick="colorToggleScreenRoller" tooltipBackgroundColor="#000000" tooltipPosition="Below" />
     <Panel id="screenRollerBigPanel" height="200" width="240" offsetXY="0,-110" visibility="noone">
         <GridLayout cellSize="40 20" constraint="FixedColumnCount" constraintCount="6" childAlignment="UpperCenter">
-            <Button id="roll_2d4"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="2d4" />
-            <Button id="roll_2d6"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="2d6" />
-            <Button id="roll_2d8"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="2d8" />
-            <Button id="roll_2d10" onClick="screenRoller" fontStyle="bold" fontSize="12" text="2d10"/>
-            <Button id="roll_2d12" onClick="screenRoller" fontStyle="bold" fontSize="12" text="2d12"/>
-            <Button id="roll_2d20" onClick="screenRoller" fontStyle="bold" fontSize="12" text="2d20"/>
+            <Button id="roll_2d4"  onClick="screenRoller" fontSize="12" text="2d4" />
+            <Button id="roll_2d6"  onClick="screenRoller" fontSize="12" text="2d6" />
+            <Button id="roll_2d8"  onClick="screenRoller" fontSize="12" text="2d8" />
+            <Button id="roll_2d10" onClick="screenRoller" fontSize="12" text="2d10"/>
+            <Button id="roll_2d12" onClick="screenRoller" fontSize="12" text="2d12"/>
+            <Button id="roll_2d20" onClick="screenRoller" fontSize="12" text="2d20"/>
 
-            <Button id="roll_3d4"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="3d4" />
-            <Button id="roll_3d6"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="3d6" />
-            <Button id="roll_3d8"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="3d8" />
-            <Button id="roll_3d10" onClick="screenRoller" fontStyle="bold" fontSize="12" text="3d10"/>
-            <Button id="roll_3d12" onClick="screenRoller" fontStyle="bold" fontSize="12" text="3d12"/>
-            <Button id="roll_3d20" onClick="screenRoller" fontStyle="bold" fontSize="12" text="3d20"/>
+            <Button id="roll_3d4"  onClick="screenRoller" fontSize="12" text="3d4" />
+            <Button id="roll_3d6"  onClick="screenRoller" fontSize="12" text="3d6" />
+            <Button id="roll_3d8"  onClick="screenRoller" fontSize="12" text="3d8" />
+            <Button id="roll_3d10" onClick="screenRoller" fontSize="12" text="3d10"/>
+            <Button id="roll_3d12" onClick="screenRoller" fontSize="12" text="3d12"/>
+            <Button id="roll_3d20" onClick="screenRoller" fontSize="12" text="3d20"/>
 
-            <Button id="roll_4d4"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="4d4" />
-            <Button id="roll_4d6"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="4d6" />
-            <Button id="roll_4d8"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="4d8" />
-            <Button id="roll_4d10" onClick="screenRoller" fontStyle="bold" fontSize="12" text="4d10"/>
-            <Button id="roll_4d12" onClick="screenRoller" fontStyle="bold" fontSize="12" text="4d12"/>
-            <Button id="roll_4d20" onClick="screenRoller" fontStyle="bold" fontSize="12" text="4d20"/>
+            <Button id="roll_4d4"  onClick="screenRoller" fontSize="12" text="4d4" />
+            <Button id="roll_4d6"  onClick="screenRoller" fontSize="12" text="4d6" />
+            <Button id="roll_4d8"  onClick="screenRoller" fontSize="12" text="4d8" />
+            <Button id="roll_4d10" onClick="screenRoller" fontSize="12" text="4d10"/>
+            <Button id="roll_4d12" onClick="screenRoller" fontSize="12" text="4d12"/>
+            <Button id="roll_4d20" onClick="screenRoller" fontSize="12" text="4d20"/>
 
-            <Button id="roll_5d4"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="5d4" />
-            <Button id="roll_5d6"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="5d6" />
-            <Button id="roll_5d8"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="5d8" />
-            <Button id="roll_5d10" onClick="screenRoller" fontStyle="bold" fontSize="12" text="5d10"/>
-            <Button id="roll_5d12" onClick="screenRoller" fontStyle="bold" fontSize="12" text="5d12"/>
-            <Button id="roll_5d20" onClick="screenRoller" fontStyle="bold" fontSize="12" text="5d20"/>
+            <Button id="roll_5d4"  onClick="screenRoller" fontSize="12" text="5d4" />
+            <Button id="roll_5d6"  onClick="screenRoller" fontSize="12" text="5d6" />
+            <Button id="roll_5d8"  onClick="screenRoller" fontSize="12" text="5d8" />
+            <Button id="roll_5d10" onClick="screenRoller" fontSize="12" text="5d10"/>
+            <Button id="roll_5d12" onClick="screenRoller" fontSize="12" text="5d12"/>
+            <Button id="roll_5d20" onClick="screenRoller" fontSize="12" text="5d20"/>
 
-            <Button id="roll_6d4"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="6d4" />
-            <Button id="roll_6d6"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="6d6" />
-            <Button id="roll_6d8"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="6d8" />
-            <Button id="roll_6d10" onClick="screenRoller" fontStyle="bold" fontSize="12" text="6d10"/>
-            <Button id="roll_6d12" onClick="screenRoller" fontStyle="bold" fontSize="12" text="6d12"/>
-            <Button id="roll_6d20" onClick="screenRoller" fontStyle="bold" fontSize="12" text="6d20"/>
+            <Button id="roll_6d4"  onClick="screenRoller" fontSize="12" text="6d4" />
+            <Button id="roll_6d6"  onClick="screenRoller" fontSize="12" text="6d6" />
+            <Button id="roll_6d8"  onClick="screenRoller" fontSize="12" text="6d8" />
+            <Button id="roll_6d10" onClick="screenRoller" fontSize="12" text="6d10"/>
+            <Button id="roll_6d12" onClick="screenRoller" fontSize="12" text="6d12"/>
+            <Button id="roll_6d20" onClick="screenRoller" fontSize="12" text="6d20"/>
 
-            <Button id="roll_7d4"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="7d4" />
-            <Button id="roll_7d6"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="7d6" />
-            <Button id="roll_7d8"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="7d8" />
-            <Button id="roll_7d10" onClick="screenRoller" fontStyle="bold" fontSize="12" text="7d10"/>
-            <Button id="roll_7d12" onClick="screenRoller" fontStyle="bold" fontSize="12" text="7d12"/>
-            <Button id="roll_7d20" onClick="screenRoller" fontStyle="bold" fontSize="12" text="7d20"/>
+            <Button id="roll_7d4"  onClick="screenRoller" fontSize="12" text="7d4" />
+            <Button id="roll_7d6"  onClick="screenRoller" fontSize="12" text="7d6" />
+            <Button id="roll_7d8"  onClick="screenRoller" fontSize="12" text="7d8" />
+            <Button id="roll_7d10" onClick="screenRoller" fontSize="12" text="7d10"/>
+            <Button id="roll_7d12" onClick="screenRoller" fontSize="12" text="7d12"/>
+            <Button id="roll_7d20" onClick="screenRoller" fontSize="12" text="7d20"/>
 
-            <Button id="roll_8d4"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="8d4" />
-            <Button id="roll_8d6"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="8d6" />
-            <Button id="roll_8d8"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="8d8" />
-            <Button id="roll_8d10" onClick="screenRoller" fontStyle="bold" fontSize="12" text="8d10"/>
-            <Button id="roll_8d12" onClick="screenRoller" fontStyle="bold" fontSize="12" text="8d12"/>
-            <Button id="roll_8d20" onClick="screenRoller" fontStyle="bold" fontSize="12" text="8d20"/>
+            <Button id="roll_8d4"  onClick="screenRoller" fontSize="12" text="8d4" />
+            <Button id="roll_8d6"  onClick="screenRoller" fontSize="12" text="8d6" />
+            <Button id="roll_8d8"  onClick="screenRoller" fontSize="12" text="8d8" />
+            <Button id="roll_8d10" onClick="screenRoller" fontSize="12" text="8d10"/>
+            <Button id="roll_8d12" onClick="screenRoller" fontSize="12" text="8d12"/>
+            <Button id="roll_8d20" onClick="screenRoller" fontSize="12" text="8d20"/>
 
-            <Button id="roll_9d4"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="9d4" />
-            <Button id="roll_9d6"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="9d6" />
-            <Button id="roll_9d8"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="9d8" />
-            <Button id="roll_9d10" onClick="screenRoller" fontStyle="bold" fontSize="12" text="9d10"/>
-            <Button id="roll_9d12" onClick="screenRoller" fontStyle="bold" fontSize="12" text="9d12"/>
-            <Button id="roll_9d20" onClick="screenRoller" fontStyle="bold" fontSize="12" text="9d20"/>
+            <Button id="roll_9d4"  onClick="screenRoller" fontSize="12" text="9d4" />
+            <Button id="roll_9d6"  onClick="screenRoller" fontSize="12" text="9d6" />
+            <Button id="roll_9d8"  onClick="screenRoller" fontSize="12" text="9d8" />
+            <Button id="roll_9d10" onClick="screenRoller" fontSize="12" text="9d10"/>
+            <Button id="roll_9d12" onClick="screenRoller" fontSize="12" text="9d12"/>
+            <Button id="roll_9d20" onClick="screenRoller" fontSize="12" text="9d20"/>
 
-            <Button id="roll_10d4"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="10d4" />
-            <Button id="roll_10d6"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="10d6" />
-            <Button id="roll_10d8"  onClick="screenRoller" fontStyle="bold" fontSize="12" text="10d8" />
-            <Button id="roll_10d10" onClick="screenRoller" fontStyle="bold" fontSize="10" text="10d10"/>
-            <Button id="roll_10d12" onClick="screenRoller" fontStyle="bold" fontSize="10" text="10d12"/>
-            <Button id="roll_10d20" onClick="screenRoller" fontStyle="bold" fontSize="10" text="10d20"/>
+            <Button id="roll_10d4"  onClick="screenRoller" fontSize="12" text="10d4" />
+            <Button id="roll_10d6"  onClick="screenRoller" fontSize="12" text="10d6" />
+            <Button id="roll_10d8"  onClick="screenRoller" fontSize="12" text="10d8" />
+            <Button id="roll_10d10" onClick="screenRoller" fontSize="10" text="10d10"/>
+            <Button id="roll_10d12" onClick="screenRoller" fontSize="10" text="10d12"/>
+            <Button id="roll_10d20" onClick="screenRoller" fontSize="10" text="10d20"/>
         </GridLayout>
         <Panel width="240" height="30" offsetXY="0,-95">
             <HorizontalLayout>

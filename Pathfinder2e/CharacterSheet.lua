@@ -245,8 +245,8 @@ function onLoad(saved_data)
     WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/Pathfinder2e/Character.lua",
         function(request) charLua = request.text end)
     lang_table = {}
-    WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/Pathfinder2e/DefineLangTable",
-        function(request) lang_table = JSON.decode(t) end)
+    WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/Pathfinder2e/DefineLangTable.json",
+        function(request) lang_table = JSON.decode(request.text) end)
     Wait.time(function()
         language_UI_update()
         mainSheet_UI_update()
@@ -256,7 +256,7 @@ function onLoad(saved_data)
         noCharSelectedPanelCheck()
     end, 2)
 
-    loadTime = os.clock()
+    Wait.time(|| repetitionUpdate(), 1, -1)
 
     --miniMap_zoom = 10
     --miniMap_offset = {0,0}
@@ -267,16 +267,13 @@ end
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 
-function onUpdate()
+function repetitionUpdate()
     if charBaseSpin then
-        if (os.clock() - loadTime) > 1 then
-            loadTime = os.clock()
-            for u=1,11 do
-                if getObjectFromGUID(lastPickedCharGUID_table[u]) != nil then
-                    getObjectFromGUID(lastPickedCharGUID_table[u]).call("selectSpin")
-                end
+        for u=1,11 do
+            if getObjectFromGUID(lastPickedCharGUID_table[u]) != nil then
+                getObjectFromGUID(lastPickedCharGUID_table[u]).call("selectSpin")
             end
-        end    
+        end
     end
 end
 
