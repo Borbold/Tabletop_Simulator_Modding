@@ -1976,7 +1976,7 @@ function language_UI_update()   --  tooltipBackgroundColor="#000000" tooltipPosi
         UI_xmlElementUpdate(strFromNum(i).."_charInitAddButton", "tooltip", lang_table[enumLangSet[lang_set]][87])
     end
 
-    UI_xmlElementUpdate("initPassButton", "text", lang_table[enumLangSet[lang_set]][85])
+    UI_xmlElementUpdate("initPassButton", "text", lang_table[enumLangSet[lang_set]][84])
 
     UI_xmlElementUpdate("atkEditIconSetButton", "tooltip", lang_table[enumLangSet[lang_set]][88])
     for i=1,11 do
@@ -2002,26 +2002,24 @@ function language_UI_update()   --  tooltipBackgroundColor="#000000" tooltipPosi
     end
 
     UI_xmlElementUpdate("UIset_text_01", "text", lang_table[enumLangSet[lang_set]][118])
-    UI_xmlElementUpdate("UIset_text_02", "text", lang_table[enumLangSet[lang_set]][119])
+    UI_xmlElementUpdate("UIset_text_02", "text", lang_table[enumLangSet[lang_set]][120])
 
     UI_xmlElementUpdate("addCharModeText", "text", lang_table[enumLangSet[lang_set]][120])
     
-    UI_xmlElementUpdate("GM_toolsButton_01", "tooltip", lang_table[enumLangSet[lang_set]][119])
-    UI_xmlElementUpdate("GM_toolsButton_02", "tooltip", lang_table[enumLangSet[lang_set]][120])
-    UI_xmlElementUpdate("GM_toolsButton_03", "tooltip", lang_table[enumLangSet[lang_set]][123])
-    UI_xmlElementUpdate("GM_toolsButton_04", "tooltip", lang_table[enumLangSet[lang_set]][124])
-    UI_xmlElementUpdate("GM_toolsButton_05", "tooltip", lang_table[enumLangSet[lang_set]][125])
-    UI_xmlElementUpdate("GM_toolsButton_06", "tooltip", lang_table[enumLangSet[lang_set]][126])
-    UI_xmlElementUpdate("GM_toolsButton_07", "tooltip", lang_table[enumLangSet[lang_set]][127])
+    UI_xmlElementUpdate("GM_toolsButton_01", "tooltip", lang_table[enumLangSet[lang_set]][120])
+    UI_xmlElementUpdate("GM_toolsButton_02", "tooltip", lang_table[enumLangSet[lang_set]][121])
+    UI_xmlElementUpdate("GM_toolsButton_03", "tooltip", lang_table[enumLangSet[lang_set]][124])
+    UI_xmlElementUpdate("GM_toolsButton_04", "tooltip", lang_table[enumLangSet[lang_set]][125])
+    UI_xmlElementUpdate("GM_toolsButton_05", "tooltip", lang_table[enumLangSet[lang_set]][126])
+    UI_xmlElementUpdate("GM_toolsButton_06", "tooltip", lang_table[enumLangSet[lang_set]][127])
+    UI_xmlElementUpdate("GM_toolsButton_07", "tooltip", lang_table[enumLangSet[lang_set]][128])
 
     UI_xmlElementUpdate("projectorToggleButton", "tooltip", lang_table[enumLangSet[lang_set]][128])
 
     UI_xmlElementUpdate("screenRollerMinimizer", "tooltip", lang_table[enumLangSet[lang_set]][129])
     
-
-    UI_xmlElementUpdate("setInvisButton", "text", lang_table[enumLangSet[lang_set]][130])
-    UI_xmlElementUpdate("setInvisButton", "tooltip", lang_table[enumLangSet[lang_set]][131])
-
+    UI_xmlElementUpdate("setInvisButton", "text", lang_table[enumLangSet[lang_set]][129])
+    UI_xmlElementUpdate("setInvisButton", "tooltip", lang_table[enumLangSet[lang_set]][130])
 
     UI_xmlElementUpdate("copyCharModeText", "text", lang_table[enumLangSet[lang_set]][132])
     UI_xmlElementUpdate("GM_toolsButton_08", "tooltip", lang_table[enumLangSet[lang_set]][133])
