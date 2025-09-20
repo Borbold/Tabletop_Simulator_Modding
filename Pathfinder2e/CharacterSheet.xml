@@ -60,7 +60,7 @@
 </Panel>
 
 <!-- CHAR SHEET (DONE) -->
-<Panel id="panel_main" allowDragging="true" returnToOriginalPositionWhenReleased="false" rectAlignment="LowerCenter" height="300" width="800" color="#ffffff" visibility="Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink" outline="#440044ff" outlineSize="1 -1">
+<Panel id="panel_main" allowDragging="true" returnToOriginalPositionWhenReleased="false" rectAlignment="LowerCenter" height="300" width="800" color="#ffffff" visibility="Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink" outline="#440044ff" outlineSize="1 -1" image='CharacterSheetBackground'>
     <VerticalLayout height="200" width="100" offsetXY="-350 -50" >
         <Panel color="#ffffff" />
         <Panel color="#dddddd" />
@@ -212,17 +212,17 @@
                     </VerticalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
-                    <Text id="01_charPassivePerception" text="passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Black"  />
-                    <Text id="02_charPassivePerception" text="passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="White"  />
-                    <Text id="03_charPassivePerception" text="passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Brown"  />
-                    <Text id="04_charPassivePerception" text="passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Red"    />
-                    <Text id="05_charPassivePerception" text="passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Orange" />
-                    <Text id="06_charPassivePerception" text="passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Yellow" />
-                    <Text id="07_charPassivePerception" text="passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Green"  />
-                    <Text id="08_charPassivePerception" text="passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Teal"   />
-                    <Text id="09_charPassivePerception" text="passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Blue"   />
-                    <Text id="10_charPassivePerception" text="passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Purple" />
-                    <Text id="11_charPassivePerception" text="passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Pink"   />
+                    <Text id="01_charPassivePerception" text="Passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Black"  />
+                    <Text id="02_charPassivePerception" text="Passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="White"  />
+                    <Text id="03_charPassivePerception" text="Passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Brown"  />
+                    <Text id="04_charPassivePerception" text="Passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Red"    />
+                    <Text id="05_charPassivePerception" text="Passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Orange" />
+                    <Text id="06_charPassivePerception" text="Passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Yellow" />
+                    <Text id="07_charPassivePerception" text="Passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Green"  />
+                    <Text id="08_charPassivePerception" text="Passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Teal"   />
+                    <Text id="09_charPassivePerception" text="Passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Blue"   />
+                    <Text id="10_charPassivePerception" text="Passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Purple" />
+                    <Text id="11_charPassivePerception" text="Passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Pink"   />
                     <VerticalLayout id="charPassPercEdit" preferredWidth="20" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charPassPerceptionButton_01" onClick="setCharPassPerceptionMod" text="+" fontSize="10" />
                         <Button id="charPassPerceptionButton_02" onClick="setCharPassPerceptionMod" text="-" fontSize="10" />

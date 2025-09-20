@@ -1959,77 +1959,75 @@ function language_UI_update()   --  tooltipBackgroundColor="#000000" tooltipPosi
         end
     end
     for i=1,18 do
-        UI_xmlElementUpdate("charSkillButtonE_"..strFromNum(i), "tooltip", lang_table[lang_set][68])
+        UI_xmlElementUpdate("charSkillButtonE_"..strFromNum(i), "tooltip", lang_table[lang_set][65])
         UI_xmlElementUpdate("charSkillButtonE_"..strFromNum(i), "text", lang_table[lang_set][33])
     end
     for i=1,8 do
-        UI_xmlElementUpdate("charSheetUtilButton_"..strFromNum(i), "text", lang_table[lang_set][68+i])
+        UI_xmlElementUpdate("charSheetUtilButton_"..strFromNum(i), "text", lang_table[lang_set][65+i])
     end
-    UI_xmlElementUpdate("charSheetUtilButton_06", "tooltip", lang_table[lang_set][77])
-    UI_xmlElementUpdate("charSheetUtilButton_07", "tooltip", lang_table[lang_set][78])
-    UI_xmlElementUpdate("charSheetUtilButton_08", "tooltip", lang_table[lang_set][79])
-    UI_xmlElementUpdate("charSheetUtilButton_09", "tooltip", lang_table[lang_set][80])
+    UI_xmlElementUpdate("charSheetUtilButton_06", "tooltip", lang_table[lang_set][74])
+    UI_xmlElementUpdate("charSheetUtilButton_07", "tooltip", lang_table[lang_set][75])
+    UI_xmlElementUpdate("charSheetUtilButton_08", "tooltip", lang_table[lang_set][76])
+    UI_xmlElementUpdate("charSheetUtilButton_09", "tooltip", lang_table[lang_set][77])
 
     for i=2,11 do
-        UI_xmlElementUpdate("assighedPlayerButton_"..strFromNum(i), "tooltip", lang_table[lang_set][89])
+        UI_xmlElementUpdate("assighedPlayerButton_"..strFromNum(i), "tooltip", lang_table[lang_set][86])
     end
 
     for i=1,11 do
-        UI_xmlElementUpdate(strFromNum(i).."_charInitAddButton", "tooltip", lang_table[lang_set][90])
+        UI_xmlElementUpdate(strFromNum(i).."_charInitAddButton", "tooltip", lang_table[lang_set][87])
     end
 
-    UI_xmlElementUpdate("initPassButton", "text", lang_table[lang_set][88])
-    
-    
+    UI_xmlElementUpdate("initPassButton", "text", lang_table[lang_set][86])
 
-    UI_xmlElementUpdate("atkEditIconSetButton", "tooltip", lang_table[lang_set][91])
+    UI_xmlElementUpdate("atkEditIconSetButton", "tooltip", lang_table[lang_set][88])
     for i=1,11 do
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditRollAtkButton", "tooltip", lang_table[lang_set][92])
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditAtkAttrButton", "tooltip", lang_table[lang_set][93])
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditProfButton", "tooltip", lang_table[lang_set][94])
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditRollDmgButton", "tooltip", lang_table[lang_set][95])
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditDmgAttrButton", "tooltip", lang_table[lang_set][96])
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditResUsedButton", "tooltip", lang_table[lang_set][97])
+        UI_xmlElementUpdate(strFromNum(i).."_atkEditRollAtkButton", "tooltip", lang_table[lang_set][89])
+        UI_xmlElementUpdate(strFromNum(i).."_atkEditAtkAttrButton", "tooltip", lang_table[lang_set][90])
+        UI_xmlElementUpdate(strFromNum(i).."_atkEditProfButton", "tooltip", lang_table[lang_set][91])
+        UI_xmlElementUpdate(strFromNum(i).."_atkEditRollDmgButton", "tooltip", lang_table[lang_set][92])
+        UI_xmlElementUpdate(strFromNum(i).."_atkEditDmgAttrButton", "tooltip", lang_table[lang_set][93])
+        UI_xmlElementUpdate(strFromNum(i).."_atkEditResUsedButton", "tooltip", lang_table[lang_set][94])
     end
     for i=1,11 do
         for ii=1,9 do
-            UI_xmlElementUpdate(strFromNum(i).."_spellSlotButton_"..strFromNum(ii), "tooltip", lang_table[lang_set][98])
+            UI_xmlElementUpdate(strFromNum(i).."_spellSlotButton_"..strFromNum(ii), "tooltip", lang_table[lang_set][95])
         end
-        UI_xmlElementUpdate("spellSlotButtonMax_"..strFromNum(i), "tooltip", lang_table[lang_set][98])
+        UI_xmlElementUpdate("spellSlotButtonMax_"..strFromNum(i), "tooltip", lang_table[lang_set][95])
     end
-    UI_xmlElementUpdate("notesPanelTitle", "text", lang_table[lang_set][99])
+    UI_xmlElementUpdate("notesPanelTitle", "text", lang_table[lang_set][96])
     
     for i=1,11 do
         for ii=1,20 do
-            UI_xmlElementUpdate(strFromNum(i).."_conditionButton_"..strFromNum(ii), "tooltip", lang_table[lang_set][100+ii])
+            UI_xmlElementUpdate(strFromNum(i).."_conditionButton_"..strFromNum(ii), "tooltip", lang_table[lang_set][97+ii])
         end
     end
 
-    UI_xmlElementUpdate("UIset_text_01", "text", lang_table[lang_set][121])
-    UI_xmlElementUpdate("UIset_text_02", "text", lang_table[lang_set][122])
+    UI_xmlElementUpdate("UIset_text_01", "text", lang_table[lang_set][118])
+    UI_xmlElementUpdate("UIset_text_02", "text", lang_table[lang_set][119])
 
-    UI_xmlElementUpdate("addCharModeText", "text", lang_table[lang_set][123])
+    UI_xmlElementUpdate("addCharModeText", "text", lang_table[lang_set][120])
     
-    UI_xmlElementUpdate("GM_toolsButton_01", "tooltip", lang_table[lang_set][124])
-    UI_xmlElementUpdate("GM_toolsButton_02", "tooltip", lang_table[lang_set][125])
-    UI_xmlElementUpdate("GM_toolsButton_03", "tooltip", lang_table[lang_set][126])
-    UI_xmlElementUpdate("GM_toolsButton_04", "tooltip", lang_table[lang_set][127])
-    UI_xmlElementUpdate("GM_toolsButton_05", "tooltip", lang_table[lang_set][128])
-    UI_xmlElementUpdate("GM_toolsButton_06", "tooltip", lang_table[lang_set][129])
-    UI_xmlElementUpdate("GM_toolsButton_07", "tooltip", lang_table[lang_set][130])
+    UI_xmlElementUpdate("GM_toolsButton_01", "tooltip", lang_table[lang_set][119])
+    UI_xmlElementUpdate("GM_toolsButton_02", "tooltip", lang_table[lang_set][120])
+    UI_xmlElementUpdate("GM_toolsButton_03", "tooltip", lang_table[lang_set][123])
+    UI_xmlElementUpdate("GM_toolsButton_04", "tooltip", lang_table[lang_set][124])
+    UI_xmlElementUpdate("GM_toolsButton_05", "tooltip", lang_table[lang_set][125])
+    UI_xmlElementUpdate("GM_toolsButton_06", "tooltip", lang_table[lang_set][126])
+    UI_xmlElementUpdate("GM_toolsButton_07", "tooltip", lang_table[lang_set][127])
 
-    UI_xmlElementUpdate("projectorToggleButton", "tooltip", lang_table[lang_set][131])
+    UI_xmlElementUpdate("projectorToggleButton", "tooltip", lang_table[lang_set][128])
 
-    UI_xmlElementUpdate("screenRollerMinimizer", "tooltip", lang_table[lang_set][132])
+    UI_xmlElementUpdate("screenRollerMinimizer", "tooltip", lang_table[lang_set][129])
     
 
-    UI_xmlElementUpdate("setInvisButton", "text", lang_table[lang_set][133])
-    UI_xmlElementUpdate("setInvisButton", "tooltip", lang_table[lang_set][134])
+    UI_xmlElementUpdate("setInvisButton", "text", lang_table[lang_set][130])
+    UI_xmlElementUpdate("setInvisButton", "tooltip", lang_table[lang_set][131])
 
 
-    UI_xmlElementUpdate("copyCharModeText", "text", lang_table[lang_set][135])
-    UI_xmlElementUpdate("GM_toolsButton_08", "tooltip", lang_table[lang_set][136])
-    UI_xmlElementUpdate("GM_toolsButton_09", "tooltip", lang_table[lang_set][137])
+    UI_xmlElementUpdate("copyCharModeText", "text", lang_table[lang_set][132])
+    UI_xmlElementUpdate("GM_toolsButton_08", "tooltip", lang_table[lang_set][133])
+    UI_xmlElementUpdate("GM_toolsButton_09", "tooltip", lang_table[lang_set][134])
 end
 
 function toggleCharBaseSpin()
@@ -2701,21 +2699,21 @@ function defineLangTable() -- lang_table[lang_set]
         "Character\nportrait url", "Character name", "Current\nHit Points", "Maximum\nHit Points", "Toggle token HP-bar visibility:\nEveryone / GM-only", -- 49 50 51 52 53
         "Damage", "Take set value\nas damage", "Enter value for\ndamage / heal / temp HP", "Heal", "Heal set value\nof HP", "Temp", "Apply set value\nas temporary HP", -- 54 55 56 57 58 59 60
         "Death save mark\n(click to change)", -- 61
-        "Fortitude save-throw", "Reflex save-throw", "Will save-throw", -- 62 63 64 (65 66 67)
-        "Expertize", -- 68
-        "attacks", "resourses", "spell slots", "notes", "conditions", "character UI set", "look at char", "edit character", -- 69 70 71 72 73 74 75 76
+        "Fortitude save-throw", "Reflex save-throw", "Will save-throw", -- 62 63 64
+        "Expertize", -- 65
+        "attacks", "resourses", "spell slots", "notes", "conditions", "character UI set", "look at char", "edit character", -- 66 67 68 69 70 71 72 73
         "Adjust 3d interface\non the character\nfigurine", "Center camera\non the character", "Edit mode:\n\nincludes most secondary panels\n\n'+' and '-' buttons may be used with\nright click for increased value\n\nsave-throws and skills buttons switch\nproficiency in edit mode\n\nWhile edit mode is on,\nquickly Right click this button 5 times\nto reset the character",
-        "Left click:\nhide this panel\n\nRight click:\n hide all panels", -- 80
-        "","","","","","","","PASS","Allow this color\nto control the character","Add character to\nthe initiative queue", -- 90
+        "Left click:\nhide this panel\n\nRight click:\n hide all panels", -- 77
+        "","","","","","","","PASS","Allow this color\nto control the character","Add character to\nthe initiative queue", -- 87
         ---------------------------------------------------------------------------
-        "Set icon", "Toggle attack roll", "Right / Left click -\nset attack attribute", "Toggle proficiency", -- 91 92 93 94
-        "Toggle damage roll", "Right / Left click -\nset damage attribute", "Right / Left click -\nset resourse, used for attack", -- 95 96 97
-        "Left click: -\nRight click: +", -- 98
-        "Notes","", -- 99 100
+        "Set icon", "Toggle attack roll", "Right / Left click -\nset attack attribute", "Toggle proficiency", -- 88 89 90 91
+        "Toggle damage roll", "Right / Left click -\nset damage attribute", "Right / Left click -\nset resourse, used for attack", -- 92 93 94
+        "Left click: -\nRight click: +", -- 95
+        "Notes","", -- 96 97
         ---------------------------------------------------------------------------
         "Blinded", "Deafened", "Charmed", "Frightened", "Grappled", "Incapacitated", "Invisible", "Paralyzed", "Petrified", "Poisoned", "Prone", "Restrained", "Stunned", "Unconscious", "Wounded", "On fire", "Buffed", "Exhaustion", "Dodge (full defence)", "Dead",
         ---------------------------------------------------------------------------
-        "angle", "scale", -- 121 122
+        "angle", "scale", -- 118 119
         "PICK THE NEW CHARACTER", "Change language", "Toggle character selection\nmarker animation\n\nExperimental! May cause lag\nof client-side UI update", "Left click:\nAdd character scripts\ninto a new figurine\n\nRight click:\nupdate script for every\ncharacter on the table", "Right / Left click\nset average autosave interval\nfor characters\n\nincrease to lower the\nautosave lag\ndefault: 10s",
         "Toggle every dice\noutput on rolls", "Toggle hidden GM\ndice rolls", "Toggle\nauto-promote", "Image projector\n\nWhen on, any image token that\nGM points at and presses 'R',\nwill be projected here\n\nGM can force on/off for everyone\nwith Right click",
         "Dice roller\n\nWhen used with Right click\nrolls twice\n\nUse text input for custom rolls\nExample: 6d18 + 1d100 + 22 - 1d2",
@@ -2742,20 +2740,20 @@ function defineLangTable() -- lang_table[lang_set]
         "Урон", "Получить указанное\nколичество урона", "Введите значение для\nурона / лечения / временных ОД", "Лечить", "Вылечить указанное\nколичество Очков Здоровья", "Врм.", "Установить временные\nОчки Здоровья", -- 54 55 56 57 58 59 60
         "Отметка спас-броска от смерти\n(нажать для изменения)", -- 61
         "Спас-бросок\nстойкости", "Спас-бросок\nрефлексов", "Спас-бросок\nволи", -- 62 63 64 (65 66 67)
-        "Компетентность", -- 68
-        "атаки", "ресурсы", "ячейки магии", "заметки", "состояния", "настройки UI", "найти персонажа", "редактировать", -- 69 70 71 72 73 74 75 76
+        "Компетентность", -- 65
+        "атаки", "ресурсы", "ячейки магии", "заметки", "состояния", "настройки UI", "найти персонажа", "редактировать", -- 66 67 68 69 70 71 72 73
         "Подогнать 3д интерфейс\nпод фигурку персонажа", "Центрировать камеру\nна персонаже", "Режим редактирования:\n\nзадействует все панели персонажа\n\nкнопки '+' и '-' можно использовать\nправым кликом для большего шага\n\nкнопки спас-бросков и навыков переключают\nвладение в режиме редактирования\n\nпри включйнном редактировании\n5 быстрых Правых кликов по этой кнопке\nполностью сбросят персонажа",
-        "Левый клик:\nскрыть эту панель\n\nПравый клик:\nскрыть все панели", -- 80
-        "","","","","","","","ХОД","Разрешить этому цвету\nконтролировать персонажа","Добавить персонажа\nв инициативу", -- 90
+        "Левый клик:\nскрыть эту панель\n\nПравый клик:\nскрыть все панели", -- 77
+        "","","","","","","","ХОД","Разрешить этому цвету\nконтролировать персонажа","Добавить персонажа\nв инициативу", -- 87
         ---------------------------------------------------------------------------
-        "Настроить иконку", "Вкл / выкл\nбросок атаки", "Левый / Правый клик -\nнастроить характиристику атаки", "Вкл / выкл\nвладение", -- 91 92 93 94
-        "Вкл / выкл\nбросок урона", "Левый / Правый клик -\nнастроить характиристику урона", "Левый / Правый клик -\nнастроить ресурс,\nиспользуемый при атаке", -- 95 96 97
-        "Левый клик: -\nПравый клик: +", -- 98
-        "Заметки","", -- 99 100
+        "Настроить иконку", "Вкл / выкл\nбросок атаки", "Левый / Правый клик -\nнастроить характиристику атаки", "Вкл / выкл\nвладение", -- 88 89 90 91
+        "Вкл / выкл\nбросок урона", "Левый / Правый клик -\nнастроить характиристику урона", "Левый / Правый клик -\nнастроить ресурс,\nиспользуемый при атаке", -- 92 93 94
+        "Левый клик: -\nПравый клик: +", -- 95
+        "Заметки","", -- 96 97
         ---------------------------------------------------------------------------
         "Ослепленный", "Оглушенный", "Очарованный", "Испуганный", "Схваченный", "Недееспособный", "Невидимый", "Парализованый", "Окаменевший", "Отравленный", "Лежит ничком", "Опутанный", "Ошеломленный", "Безсознательный", "Раненный", "Горящий", "Усиленный", "Истощение", "Уклонение (полная оборона)", "Мёртвый",
         ---------------------------------------------------------------------------
-        "поворот", "размер", -- 121 122
+        "поворот", "размер", -- 118 119
         "КОСНИТЕСЬ НОВОГО ПЕРСОНАЖА", "Сменить язык", "Вкл / выкл анимацию\nмаркера выделения персонажей\n\nМожет вызвать задержку\nобновления интерфейса\nна клиентской стороне", "Левый клик:\nВставить скрипт персонажа\nв новую фигурку\n\nПравый клик:\nобновить скрипт в каждой\nфигурке персонажа на столе",  "Правый / Левый клик\nнастроить интервал\nавтосохранения персонажей\n\nувеличьте для снижения\nлагов при автосохранении\nпо умолчанию: 10s",
         "Вкл / выкл отображение\nрезультата каждой кости\nпри бросках", "Вкл / выкл скрытые\nброски ГМ", "Вкл / выкл автоматическую\nвыдачу повышенных прав", "Проектор изображений\n\nКогда включен, проецирует любой\nтокен с картинкой, на который ГМ\nукажет и нажмёт 'R'\n\nГМ может включит/выключить\nпроектор для всех (Правый клик)",
         "Броски костей\n\nПри использовании Правым кликом,\nпроизводит двойной бросок\n\nИспользуйте текстовый ввод для\nнестандартных или комбинированных бросков\nпример: 6d18 + 1d100 + 22 - 1d2",
