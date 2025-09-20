@@ -1694,7 +1694,7 @@ function UI_upd(i)
     UI_xmlElementUpdate(strFromNum(i).."_charProfBonus", "text", lang_table[lang_set][5].."+"..main_Table[i].charProfBonus)
 
     if main_Table[i].initMod != 0 then initModStr = "  ("..PoM(main_Table[i].initMod)..main_Table[i].initMod..")" else initModStr = "" end
-    UI_xmlElementUpdate(strFromNum(i).."_charInitAddButton", "text", lang_table[lang_set][6]..PoM(modFromAttr(main_Table[i].attributes[2]) + main_Table[i].initMod)..(modFromAttr(main_Table[i].attributes[2]) + main_Table[i].initMod)..initModStr)
+    UI_xmlElementUpdate(strFromNum(i).."_charInitAddButton", "text", lang_table[lang_set][6]..PoM(modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[12].mod + main_Table[i].initMod)..(modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[12].mod + main_Table[i].initMod)..initModStr)
         
     pPerseptionBase = 10 + modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[12].mod
     if main_Table[i].skills[12].proficient then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
@@ -1978,7 +1978,7 @@ function language_UI_update()   --  tooltipBackgroundColor="#000000" tooltipPosi
         UI_xmlElementUpdate(strFromNum(i).."_charInitAddButton", "tooltip", lang_table[lang_set][87])
     end
 
-    UI_xmlElementUpdate("initPassButton", "text", lang_table[lang_set][86])
+    UI_xmlElementUpdate("initPassButton", "text", lang_table[lang_set][85])
 
     UI_xmlElementUpdate("atkEditIconSetButton", "tooltip", lang_table[lang_set][88])
     for i=1,11 do
@@ -2763,8 +2763,6 @@ function defineLangTable() -- lang_table[lang_set]
         }
     }
 end
-
-
 
 function defineCharLua()
     charLua = [[

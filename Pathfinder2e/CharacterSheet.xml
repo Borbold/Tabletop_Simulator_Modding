@@ -1,10 +1,12 @@
 <Defaults>
     <InputField resizeTextForBestFit="True" font='Fonts/Allods' tooltipFont='Fonts/Allods' />
     <Text resizeTextForBestFit="True" font='Fonts/Allods' tooltipFont='Fonts/Allods' />
-    <Button resizeTextForBestFit="True" resizeTextMaxSize="13" class="skillButton" onClick="skillButtonMain" textAlignment="MiddleLeft" preferredWidth="170"  fontStyle="bold" fontSize="13" tooltipPosition="Above" tooltipBackgroundColor="#aaaaff" font='Fonts/Allods' tooltipFont='Fonts/Allods' />
+    <Button resizeTextForBestFit="True" font='Fonts/Allods' tooltipFont='Fonts/Allods' colors='#FFFFFFa0|#FFFFFFa0|#C8C8C8a0|rgba(0.78,0.78,0.78,0.5)' />
+    <!--   -->
+    <Button class="skillButton" resizeTextMaxSize="13" onClick="skillButtonMain" textAlignment="MiddleLeft" preferredWidth="170"  fontStyle="bold" fontSize="13" tooltipPosition="Above" tooltipBackgroundColor="#aaaaff" />
     <Button class="atkButton" color="#ffffff08" onClick="atkButton" tooltipBackgroundColor="#000044" tooltipPosition="Above" tooltip="atkTooltip" />
-    <Button class="spellSlotButton" resizeTextForBestFit="true" resizeTextMaxSize="20" fontStyle="bold" textAlignment="MiddleLeft" text=" 1. ●●●○○○" onClick="spellSlotButtonMain" />
-    <Text class="resTextName" resizeTextForBestFit="True" resizeTextMaxSize="13" Alignment="MiddleLeft" fontStyle="bold" text= " 1. resourseName" />
+    <Button class="spellSlotButton" resizeTextMaxSize="20" fontStyle="bold" textAlignment="MiddleLeft" text=" 1. ●●●○○○" onClick="spellSlotButtonMain" />
+    <Text class="resTextName" resizeTextMaxSize="13" Alignment="MiddleLeft" fontStyle="bold" text= " 1. resourseName" />
     <Text class="resTextNum" Alignment="MiddleCenter" fontStyle="bold" text= "235 / 991" />
     <Button class="conditionButton" color="#ffffff02" onClick="contitionButt" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
     <Text class="miniMap_text" text="♠" fontStyle="bold" height="100" width="100" fontSize="30" rectAlignment="MiddleCenter" tooltipBackgroundColor="#000000" tooltipPosition="Above" outline="#00000000" outlineSize="1 -1" /><!-- ♠ ▲ ⇑ -->
@@ -195,17 +197,17 @@
                         <Button id="charProfBonusButton_01" onClick="setCharProfBonus" text="+" fontSize="10" />
                         <Button id="charProfBonusButton_02" onClick="setCharProfBonus" text="-" fontSize="10" />
                     </VerticalLayout>
-                    <Button id="01_charInitAddButton" text="+2" fontStyle="bold" preferredWidth="200" visibility="Black"  onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button id="02_charInitAddButton" text="+2" fontStyle="bold" preferredWidth="200" visibility="White"  onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button id="03_charInitAddButton" text="+2" fontStyle="bold" preferredWidth="200" visibility="Brown"  onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button id="04_charInitAddButton" text="+2" fontStyle="bold" preferredWidth="200" visibility="Red"    onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button id="05_charInitAddButton" text="+2" fontStyle="bold" preferredWidth="200" visibility="Orange" onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button id="06_charInitAddButton" text="+2" fontStyle="bold" preferredWidth="200" visibility="Yellow" onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button id="07_charInitAddButton" text="+2" fontStyle="bold" preferredWidth="200" visibility="Green"  onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button id="08_charInitAddButton" text="+2" fontStyle="bold" preferredWidth="200" visibility="Teal"   onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button id="09_charInitAddButton" text="+2" fontStyle="bold" preferredWidth="200" visibility="Blue"   onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button id="10_charInitAddButton" text="+2" fontStyle="bold" preferredWidth="200" visibility="Purple" onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button id="11_charInitAddButton" text="+2" fontStyle="bold" preferredWidth="200" visibility="Pink"   onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                    <Button id="01_charInitAddButton" text="initiative" preferredWidth="200" visibility="Black"  onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                    <Button id="02_charInitAddButton" text="initiative" preferredWidth="200" visibility="White"  onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                    <Button id="03_charInitAddButton" text="initiative" preferredWidth="200" visibility="Brown"  onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                    <Button id="04_charInitAddButton" text="initiative" preferredWidth="200" visibility="Red"    onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                    <Button id="05_charInitAddButton" text="initiative" preferredWidth="200" visibility="Orange" onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                    <Button id="06_charInitAddButton" text="initiative" preferredWidth="200" visibility="Yellow" onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                    <Button id="07_charInitAddButton" text="initiative" preferredWidth="200" visibility="Green"  onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                    <Button id="08_charInitAddButton" text="initiative" preferredWidth="200" visibility="Teal"   onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                    <Button id="09_charInitAddButton" text="initiative" preferredWidth="200" visibility="Blue"   onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                    <Button id="10_charInitAddButton" text="initiative" preferredWidth="200" visibility="Purple" onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                    <Button id="11_charInitAddButton" text="initiative" preferredWidth="200" visibility="Pink"   onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
                     <VerticalLayout id="charInitEdit" preferredWidth="20" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charInitModButton_01" onClick="setCharInitMod" text="+" fontSize="10" />
                         <Button id="charInitModButton_02" onClick="setCharInitMod" text="-" fontSize="10" />
@@ -546,7 +548,7 @@
                     <Button preferredWidth="30" id="11_charAttrMod_06" text="+2" fontStyle="bold" visibility="Pink"   onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
                 </HorizontalLayout>
             </VerticalLayout>
-            <VerticalLayout preferredWidth="25" >
+            <VerticalLayout spacing='25' preferredWidth="25" >
                 <Button id="01_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
                 <Button id="02_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
                 <Button id="03_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
@@ -581,7 +583,7 @@
                 <Button id="10_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
                 <Button id="11_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
             </VerticalLayout >
-            <VerticalLayout id="savesModsButtons" preferredWidth="13" visibility="noone">
+            <VerticalLayout id="savesModsButtons" spacing='25' preferredWidth="13" visibility="noone">
                 <Button id="01_charSaveModEdButton_Fortitude" onClick="setCharSaveMod" text="+" />
                 <Button id="02_charSaveModEdButton_Fortitude" onClick="setCharSaveMod" text="-" />
                 <Button id="01_charSaveModEdButton_Reflex" onClick="setCharSaveMod" text="+" />
