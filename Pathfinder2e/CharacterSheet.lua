@@ -1,4 +1,5 @@
 local enumSTnC = {Fortitude = 3, Reflex = 2, Will = 5}
+local enumLangSet = {[1] = "EN", [2] = "RU"}
 
 function onSave()
     if resetGlobalLuaSave then
@@ -240,23 +241,20 @@ function onLoad(saved_data)
         applyCharAutosaveDelay()
     end, 3)
 
+    charLua = ""
+    WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/Pathfinder2e/Character.lua",
+        function(request) charLua = request.text end)
     lang_table = {}
-    Wait.condition(function()
+    WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/Pathfinder2e/DefineLangTable",
+        function(request) lang_table = JSON.decode(t) end)
+    Wait.time(function()
         language_UI_update()
-    end, function() return #lang_table > 0 end,
-    1, function()
-        WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/Pathfinder2e/DefineLangTable", self,
-            function(request) lang_table = JSON.encode(request.text) end)
-    end)
-    
-    Wait.frames(function()
         mainSheet_UI_update()
         initiative_UI_update()
-    end, 60)
-
-    Wait.frames(function()
+    end, 1)
+    Wait.time(function()
         noCharSelectedPanelCheck()
-    end, 120)
+    end, 2)
 
     loadTime = os.clock()
 
@@ -313,7 +311,7 @@ function onObjectPickUp(plCl, pObj)
         GM_settingsPanel_UI_update()
     else
         if plCl == "Black" and addCharMode then
-            pObj.setLuaScript(defineCharLua())
+            pObj.setLuaScript(charLua)
             pObj.reload()
             addCharMode = false
             self.UI.setAttribute("addCharModePanel", "active", "False")
@@ -518,11 +516,11 @@ end
 function rollAttribute(pl,vl,thisID)
     plColHex = "["..Color[pl.color]:toHex(false).."]"
     if vl == "-1" then
-        stringRoller("1d20"..PoM(modFromAttr(main_Table[numFromStr(thisID)].attributes[numFromStrEnd(thisID)]))..modFromAttr(main_Table[numFromStr(thisID)].attributes[numFromStrEnd(thisID)]),pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[lang_set][numFromStrEnd(thisID) + 7]..":",1,false)
+        stringRoller("1d20"..PoM(modFromAttr(main_Table[numFromStr(thisID)].attributes[numFromStrEnd(thisID)]))..modFromAttr(main_Table[numFromStr(thisID)].attributes[numFromStrEnd(thisID)]),pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[enumLangSet[lang_set]][numFromStrEnd(thisID) + 7]..":",1,false)
     elseif vl == "-2" then
         doubleRoll = 2
-        stringRoller("1d20"..PoM(modFromAttr(main_Table[numFromStr(thisID)].attributes[numFromStrEnd(thisID)]))..modFromAttr(main_Table[numFromStr(thisID)].attributes[numFromStrEnd(thisID)]),pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[lang_set][numFromStrEnd(thisID) + 7]..":",2,false)
-        stringRoller("1d20"..PoM(modFromAttr(main_Table[numFromStr(thisID)].attributes[numFromStrEnd(thisID)]))..modFromAttr(main_Table[numFromStr(thisID)].attributes[numFromStrEnd(thisID)]),pl, rollOutputHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[lang_set][numFromStrEnd(thisID) + 7]..":",4,false)
+        stringRoller("1d20"..PoM(modFromAttr(main_Table[numFromStr(thisID)].attributes[numFromStrEnd(thisID)]))..modFromAttr(main_Table[numFromStr(thisID)].attributes[numFromStrEnd(thisID)]),pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[enumLangSet[lang_set]][numFromStrEnd(thisID) + 7]..":",2,false)
+        stringRoller("1d20"..PoM(modFromAttr(main_Table[numFromStr(thisID)].attributes[numFromStrEnd(thisID)]))..modFromAttr(main_Table[numFromStr(thisID)].attributes[numFromStrEnd(thisID)]),pl, rollOutputHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[enumLangSet[lang_set]][numFromStrEnd(thisID) + 7]..":",4,false)
     end
 end
 
@@ -538,11 +536,11 @@ function charSaveButton(pl,vl,thisID)
             modStr = "1d20"..PoM(modFromAttr(main_Table[numFromStr(thisID)].attributes[enumSTnC[nameST]]) + main_Table[numFromStr(thisID)].savesMod[nameST]) .. modFromAttr(main_Table[numFromStr(thisID)].attributes[enumSTnC[nameST]]) + main_Table[numFromStr(thisID)].savesMod[nameST]
         end
         if vl == "-1" then
-            stringRoller(modStr,pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[lang_set][enumSTnC[nameST] + 7].." "..lang_table[lang_set][40]..":",1,false)
+            stringRoller(modStr,pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[enumLangSet[lang_set]][enumSTnC[nameST] + 7].." "..lang_table[enumLangSet[lang_set]][40]..":",1,false)
         elseif vl == "-2" then
             doubleRoll = 2
-            stringRoller(modStr,pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[lang_set][enumSTnC[nameST] + 7].." "..lang_table[lang_set][40]..":",2,false)
-            stringRoller(modStr,pl, rollOutputHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[lang_set][enumSTnC[nameST] + 7].." "..lang_table[lang_set][40]..":",4,false)
+            stringRoller(modStr,pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[enumLangSet[lang_set]][enumSTnC[nameST] + 7].." "..lang_table[enumLangSet[lang_set]][40]..":",2,false)
+            stringRoller(modStr,pl, rollOutputHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[enumLangSet[lang_set]][enumSTnC[nameST] + 7].." "..lang_table[enumLangSet[lang_set]][40]..":",4,false)
         end
     end
     singleColor_UI_update(nFromPl(pl))
@@ -563,11 +561,11 @@ function skillButtonMain(pl,vl,thisID)
             thisSkillMod = thisSkillMod + main_Table[numFromStr(thisID)].charProfBonus
         end
         if vl == "-1" then
-            stringRoller("1d20"..PoM(thisSkillMod)..thisSkillMod,pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[lang_set][numFromStrEnd(thisID) + 14]..":",1,false)
+            stringRoller("1d20"..PoM(thisSkillMod)..thisSkillMod,pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[enumLangSet[lang_set]][numFromStrEnd(thisID) + 14]..":",1,false)
         elseif vl == "-2" then
             doubleRoll = 2
-            stringRoller("1d20"..PoM(thisSkillMod)..thisSkillMod,pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[lang_set][numFromStrEnd(thisID) + 14]..":",2,false)
-            stringRoller("1d20"..PoM(thisSkillMod)..thisSkillMod,pl, rollOutputHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[lang_set][numFromStrEnd(thisID) + 14]..":",4,false)
+            stringRoller("1d20"..PoM(thisSkillMod)..thisSkillMod,pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[enumLangSet[lang_set]][numFromStrEnd(thisID) + 14]..":",2,false)
+            stringRoller("1d20"..PoM(thisSkillMod)..thisSkillMod,pl, rollOutputHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[enumLangSet[lang_set]][numFromStrEnd(thisID) + 14]..":",4,false)
         end
     end
     singleColor_UI_update(nFromPl(pl))
@@ -703,17 +701,17 @@ function atkButton(pl,vl,thisID)
             if main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].dmgRolled then
                 if main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].dmgAttr != 0 then
                     dmgAttrStr = PoM_add(modFromAttr(main_Table[nFromPl(pl)].attributes[main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].dmgAttr]))
-                    dmgAttrStrText = " + ".. lang_table[lang_set][main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].dmgAttr + 7]
+                    dmgAttrStrText = " + ".. lang_table[enumLangSet[lang_set]][main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].dmgAttr + 7]
                 else
                     dmgAttrStr = ""
                     dmgAttrStrText = ""
                 end
 
                 if critRolled then
-                    stringRoller(main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].dmgStr..dmgAttrStr,pl, lang_table[lang_set][45]..main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].dmgStr..dmgAttrStrText.." :",3,false)
-                    stringRoller(main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].dmgStrCrit,pl, lang_table[lang_set][46]..main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].dmgStrCrit.." :",4,true)
+                    stringRoller(main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].dmgStr..dmgAttrStr,pl, lang_table[enumLangSet[lang_set]][45]..main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].dmgStr..dmgAttrStrText.." :",3,false)
+                    stringRoller(main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].dmgStrCrit,pl, lang_table[enumLangSet[lang_set]][46]..main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].dmgStrCrit.." :",4,true)
                 else
-                    stringRoller(main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].dmgStr..dmgAttrStr,pl, lang_table[lang_set][45]..main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].dmgStr.. dmgAttrStrText.." :",dmgRollType,false)
+                    stringRoller(main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].dmgStr..dmgAttrStr,pl, lang_table[enumLangSet[lang_set]][45]..main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].dmgStr.. dmgAttrStrText.." :",dmgRollType,false)
                 end
 
             end
@@ -1045,8 +1043,8 @@ function addCharToInitiative(pl,vl,thisID)
 end
 
 function initiative_UI_update()   -------------
-    UI_xmlElementUpdate("initTitleText", "text", lang_table[lang_set][47])
-    UI_xmlElementUpdate("initRoundCounter", "text", lang_table[lang_set][48]..initRound)
+    UI_xmlElementUpdate("initTitleText", "text", lang_table[enumLangSet[lang_set]][47])
+    UI_xmlElementUpdate("initRoundCounter", "text", lang_table[enumLangSet[lang_set]][48]..initRound)
     for i=1,15 do
         if i <= #init_table then
             if i == initTurnPos then
@@ -1573,18 +1571,18 @@ function atkEdit_UI_update(pl_N,atk_N)
     if main_Table[pl_N].attacks[atk_N].atkRolled then tempColorStr = "#8888ffff" else tempColorStr = "#ffffff00" end
     UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditRollAtkButton","textOutline",tempColorStr)
     if main_Table[pl_N].attacks[atk_N].atkAttr != 0 then
-        UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditAtkAttrButton","text",lang_table[lang_set][main_Table[pl_N].attacks[atk_N].atkAttr + 7])
+        UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditAtkAttrButton","text",lang_table[enumLangSet[lang_set]][main_Table[pl_N].attacks[atk_N].atkAttr + 7])
     else
         UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditAtkAttrButton","text","")
     end
     if main_Table[pl_N].attacks[atk_N].proficient then tempColorStr = "#8888ffff" else tempColorStr = "#ffffff00" end
     UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditProfButton","textOutline",tempColorStr)
-    UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditMinCritText","text",lang_table[lang_set][41]..main_Table[pl_N].attacks[atk_N].minCrit)
-    UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditAtkModText","text",lang_table[lang_set][42]..PoM_add(main_Table[pl_N].attacks[atk_N].atkMod))
+    UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditMinCritText","text",lang_table[enumLangSet[lang_set]][41]..main_Table[pl_N].attacks[atk_N].minCrit)
+    UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditAtkModText","text",lang_table[enumLangSet[lang_set]][42]..PoM_add(main_Table[pl_N].attacks[atk_N].atkMod))
     if main_Table[pl_N].attacks[atk_N].dmgRolled then tempColorStr = "#8888ffff" else tempColorStr = "#ffffff00" end
     UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditRollDmgButton","textOutline",tempColorStr)
     if main_Table[pl_N].attacks[atk_N].dmgAttr != 0 then
-        UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditDmgAttrButton","text",lang_table[lang_set][main_Table[pl_N].attacks[atk_N].dmgAttr + 7])
+        UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditDmgAttrButton","text",lang_table[enumLangSet[lang_set]][main_Table[pl_N].attacks[atk_N].dmgAttr + 7])
     else
         UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditDmgAttrButton","text","")
     end
@@ -1595,8 +1593,8 @@ function atkEdit_UI_update(pl_N,atk_N)
         UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditResUsedButton","text","")
     end
 
-    UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditDmgStrText","text",lang_table[lang_set][43]..main_Table[pl_N].attacks[atk_N].dmgStr)
-    UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditCritDmgStrText","text",lang_table[lang_set][44]..main_Table[pl_N].attacks[atk_N].dmgStrCrit)
+    UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditDmgStrText","text",lang_table[enumLangSet[lang_set]][43]..main_Table[pl_N].attacks[atk_N].dmgStr)
+    UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditCritDmgStrText","text",lang_table[enumLangSet[lang_set]][44]..main_Table[pl_N].attacks[atk_N].dmgStrCrit)
     
     UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditIconImg","image",atkIconsUrl_Table[main_Table[pl_N].attacks[atk_N].icon])
 
@@ -1664,7 +1662,7 @@ end
 
 function mainSheet_UI_update()
     for ii=1,6 do
-        UI_xmlElementUpdate("attrName_"..strFromNum(ii), "text", lang_table[lang_set][ii + 7])
+        UI_xmlElementUpdate("attrName_"..strFromNum(ii), "text", lang_table[enumLangSet[lang_set]][ii + 7])
     end
     for i=1,11 do
         singleColor_UI_update(i)
@@ -1691,19 +1689,19 @@ function UI_upd(i)
     UI_xmlElementUpdate(strFromNum(i).."_charPortraitUrlInput", "text", main_Table[i].portraitUrl)
         
     UI_xmlElementUpdate(strFromNum(i).."_charName", "text", main_Table[i].charName)
-    UI_xmlElementUpdate(strFromNum(i).."_charLvl", "text", lang_table[lang_set][2]..main_Table[i].charLvl)
-    UI_xmlElementUpdate(strFromNum(i).."_charAC", "text", lang_table[lang_set][3]..main_Table[i].AC)
-    UI_xmlElementUpdate(strFromNum(i).."_charSpeed", "text", lang_table[lang_set][4]..main_Table[i].speed)
-    UI_xmlElementUpdate(strFromNum(i).."_charProfBonus", "text", lang_table[lang_set][5].."+"..main_Table[i].charProfBonus)
+    UI_xmlElementUpdate(strFromNum(i).."_charLvl", "text", lang_table[enumLangSet[lang_set]][2]..main_Table[i].charLvl)
+    UI_xmlElementUpdate(strFromNum(i).."_charAC", "text", lang_table[enumLangSet[lang_set]][3]..main_Table[i].AC)
+    UI_xmlElementUpdate(strFromNum(i).."_charSpeed", "text", lang_table[enumLangSet[lang_set]][4]..main_Table[i].speed)
+    UI_xmlElementUpdate(strFromNum(i).."_charProfBonus", "text", lang_table[enumLangSet[lang_set]][5].."+"..main_Table[i].charProfBonus)
 
     if main_Table[i].initMod != 0 then initModStr = "  ("..PoM(main_Table[i].initMod)..main_Table[i].initMod..")" else initModStr = "" end
-    UI_xmlElementUpdate(strFromNum(i).."_charInitAddButton", "text", lang_table[lang_set][6]..PoM(modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[12].mod + main_Table[i].initMod)..(modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[12].mod + main_Table[i].initMod)..initModStr)
+    UI_xmlElementUpdate(strFromNum(i).."_charInitAddButton", "text", lang_table[enumLangSet[lang_set]][6]..PoM(modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[12].mod + main_Table[i].initMod)..(modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[12].mod + main_Table[i].initMod)..initModStr)
         
     pPerseptionBase = 10 + modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[12].mod
     if main_Table[i].skills[12].proficient then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
     if main_Table[i].skills[12].expertize  then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
     if main_Table[i].pPerceptionMod != 0 then ppModStr = " ("..PoM(main_Table[i].pPerceptionMod)..main_Table[i].pPerceptionMod..")" else ppModStr = "" end
-    UI_xmlElementUpdate(strFromNum(i).."_charPassivePerception", "text", lang_table[lang_set][7]..(main_Table[i].pPerceptionMod + pPerseptionBase)..ppModStr)
+    UI_xmlElementUpdate(strFromNum(i).."_charPassivePerception", "text", lang_table[enumLangSet[lang_set]][7]..(main_Table[i].pPerceptionMod + pPerseptionBase)..ppModStr)
 
     UI_xmlElementUpdate(strFromNum(i).."_charHPbar", "width", math.floor(main_Table[i].hp / main_Table[i].hpMax * 386))
     UI_xmlElementUpdate(strFromNum(i).."_charHPbar", "offsetXY", "-"..(193 - math.floor(main_Table[i].hp / main_Table[i].hpMax * 193))..",-15")
@@ -1739,16 +1737,16 @@ function UI_upd(i)
 
     for smN,smV in pairs(main_Table[i].savesMod) do
         if smV != 0 then saveModStr = "\n"..PoM(smV)..smV else saveModStr = "" end
-        UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..smN, "text", lang_table[lang_set][14]..saveModStr)
+        UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..smN, "text", lang_table[enumLangSet[lang_set]][14]..saveModStr)
         UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..smN, "fontStyle", fontStr)
     end
         
     for ii=1,18 do
         if main_Table[i].skills[ii].proficient then fontStr = "bold" else fontStr = "italic" end
-        if main_Table[i].skills[ii].expertize then exStr = " ("..lang_table[lang_set][33]..")" else exStr = "" end
+        if main_Table[i].skills[ii].expertize then exStr = " ("..lang_table[enumLangSet[lang_set]][33]..")" else exStr = "" end
         if main_Table[i].skills[ii].mod != 0 then sklModStr = " "..PoM(main_Table[i].skills[ii].mod)..main_Table[i].skills[ii].mod else sklModStr = "" end
-        --UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "text", lang_table[lang_set][14 + ii].." ("..lang_table[lang_set][7 + defSkillsAttr_table[ii]]..")"..exStr)
-        UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "text", lang_table[lang_set][14 + ii].." ("..string.sub(lang_table[lang_set][7 + defSkillsAttr_table[ii]],1,1)..")"..exStr..sklModStr)
+        --UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "text", lang_table[enumLangSet[lang_set]][14 + ii].." ("..lang_table[enumLangSet[lang_set]][7 + defSkillsAttr_table[ii]]..")"..exStr)
+        UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "text", lang_table[enumLangSet[lang_set]][14 + ii].." ("..string.sub(lang_table[enumLangSet[lang_set]][7 + defSkillsAttr_table[ii]],1,1)..")"..exStr..sklModStr)
         UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "fontStyle", fontStr)
 
         thisSkillMod = modFromAttr(main_Table[i].attributes[defSkillsAttr_table[ii]]) + main_Table[i].skills[ii].mod
@@ -1860,14 +1858,14 @@ function teamBar_UI_update()
             if main_Table[i].pPerceptionMod != 0 then ppModStr = " ("..PoM(main_Table[i].pPerceptionMod)..main_Table[i].pPerceptionMod..")" else ppModStr = "" end
             
             UI_xmlElementUpdate(strFromNum(i).."_bigPortraitTeam", "tooltip", main_Table[i].charName.."\n"..
-            lang_table[lang_set][2]..main_Table[i].charLvl.."  "..lang_table[lang_set][3]..main_Table[i].AC.."  "..lang_table[lang_set][4]..main_Table[i].speed.."\n"..
-            lang_table[lang_set][7]..(main_Table[i].pPerceptionMod + pPerseptionBase)..ppModStr.."\n"..
-            lang_table[lang_set][8].." ".. main_Table[i].attributes[1].."("..PoM_add(modFromAttr(main_Table[i].attributes[1]))..")   "..
-            lang_table[lang_set][9].." ".. main_Table[i].attributes[2].."("..PoM_add(modFromAttr(main_Table[i].attributes[2]))..")   \n"..
-            lang_table[lang_set][10].." "..main_Table[i].attributes[3].."("..PoM_add(modFromAttr(main_Table[i].attributes[3]))..")   "..
-            lang_table[lang_set][11].." "..main_Table[i].attributes[4].."("..PoM_add(modFromAttr(main_Table[i].attributes[4]))..")   \n"..
-            lang_table[lang_set][12].." "..main_Table[i].attributes[5].."("..PoM_add(modFromAttr(main_Table[i].attributes[5]))..")   "..
-            lang_table[lang_set][13].." "..main_Table[i].attributes[6].."("..PoM_add(modFromAttr(main_Table[i].attributes[6]))..")   "
+            lang_table[enumLangSet[lang_set]][2]..main_Table[i].charLvl.."  "..lang_table[enumLangSet[lang_set]][3]..main_Table[i].AC.."  "..lang_table[enumLangSet[lang_set]][4]..main_Table[i].speed.."\n"..
+            lang_table[enumLangSet[lang_set]][7]..(main_Table[i].pPerceptionMod + pPerseptionBase)..ppModStr.."\n"..
+            lang_table[enumLangSet[lang_set]][8].." ".. main_Table[i].attributes[1].."("..PoM_add(modFromAttr(main_Table[i].attributes[1]))..")   "..
+            lang_table[enumLangSet[lang_set]][9].." ".. main_Table[i].attributes[2].."("..PoM_add(modFromAttr(main_Table[i].attributes[2]))..")   \n"..
+            lang_table[enumLangSet[lang_set]][10].." "..main_Table[i].attributes[3].."("..PoM_add(modFromAttr(main_Table[i].attributes[3]))..")   "..
+            lang_table[enumLangSet[lang_set]][11].." "..main_Table[i].attributes[4].."("..PoM_add(modFromAttr(main_Table[i].attributes[4]))..")   \n"..
+            lang_table[enumLangSet[lang_set]][12].." "..main_Table[i].attributes[5].."("..PoM_add(modFromAttr(main_Table[i].attributes[5]))..")   "..
+            lang_table[enumLangSet[lang_set]][13].." "..main_Table[i].attributes[6].."("..PoM_add(modFromAttr(main_Table[i].attributes[6]))..")   "
             )
             UI_xmlElementUpdate(strFromNum(i).."_teamBarHP", "percentage", math.floor(main_Table[i].hp / main_Table[i].hpMax * 100))
             --UI_xmlElementUpdate(strFromNum(i).."_teamBarHP", "width", math.floor(main_Table[i].hp / main_Table[i].hpMax * 55))
@@ -1927,110 +1925,110 @@ function set_UI_Language(pl,vl,thisID)
 end
 
 function language_UI_update()   --  tooltipBackgroundColor="#000000" tooltipPosition="Above"
-    UI_xmlElementUpdate("noCharSelectedBlockText", "text", lang_table[lang_set][1])
+    UI_xmlElementUpdate("noCharSelectedBlockText", "text", lang_table[enumLangSet[lang_set]][1])
     for i=1,11 do
-        UI_xmlElementUpdate(strFromNum(i).."_charPortraitUrlInput", "tooltip", lang_table[lang_set][49])
+        UI_xmlElementUpdate(strFromNum(i).."_charPortraitUrlInput", "tooltip", lang_table[enumLangSet[lang_set]][49])
     end
-    UI_xmlElementUpdate("charNameInput", "tooltip", lang_table[lang_set][50])
-    UI_xmlElementUpdate("charHPsetInput_01", "tooltip", lang_table[lang_set][51])
-    UI_xmlElementUpdate("charHPsetInput_02", "tooltip", lang_table[lang_set][52])
-    UI_xmlElementUpdate("charHPsetVisibilityButton", "tooltip", lang_table[lang_set][53])
+    UI_xmlElementUpdate("charNameInput", "tooltip", lang_table[enumLangSet[lang_set]][50])
+    UI_xmlElementUpdate("charHPsetInput_01", "tooltip", lang_table[enumLangSet[lang_set]][51])
+    UI_xmlElementUpdate("charHPsetInput_02", "tooltip", lang_table[enumLangSet[lang_set]][52])
+    UI_xmlElementUpdate("charHPsetVisibilityButton", "tooltip", lang_table[enumLangSet[lang_set]][53])
     
-    UI_xmlElementUpdate("charHP_dmgButton", "text", lang_table[lang_set][54])
-    UI_xmlElementUpdate("charHP_dmgButton", "tooltip", lang_table[lang_set][55])
+    UI_xmlElementUpdate("charHP_dmgButton", "text", lang_table[enumLangSet[lang_set]][54])
+    UI_xmlElementUpdate("charHP_dmgButton", "tooltip", lang_table[enumLangSet[lang_set]][55])
     for i=1,11 do
-        UI_xmlElementUpdate(strFromNum(i).."_charHealDmgValueInput", "tooltip", lang_table[lang_set][56])
+        UI_xmlElementUpdate(strFromNum(i).."_charHealDmgValueInput", "tooltip", lang_table[enumLangSet[lang_set]][56])
     end
-    UI_xmlElementUpdate("charHP_healButton", "text", lang_table[lang_set][57])
-    UI_xmlElementUpdate("charHP_healButton", "tooltip", lang_table[lang_set][58])
-    UI_xmlElementUpdate("charHP_tempButton", "text", lang_table[lang_set][59])
-    UI_xmlElementUpdate("charHP_tempButton", "tooltip", lang_table[lang_set][60])
+    UI_xmlElementUpdate("charHP_healButton", "text", lang_table[enumLangSet[lang_set]][57])
+    UI_xmlElementUpdate("charHP_healButton", "tooltip", lang_table[enumLangSet[lang_set]][58])
+    UI_xmlElementUpdate("charHP_tempButton", "text", lang_table[enumLangSet[lang_set]][59])
+    UI_xmlElementUpdate("charHP_tempButton", "tooltip", lang_table[enumLangSet[lang_set]][60])
 
     for i=1,11 do
         for ii=1,5 do
-            UI_xmlElementUpdate(strFromNum(i).."_charDeathSaveButton_"..strFromNum(ii), "tooltip", lang_table[lang_set][61])
+            UI_xmlElementUpdate(strFromNum(i).."_charDeathSaveButton_"..strFromNum(ii), "tooltip", lang_table[enumLangSet[lang_set]][61])
         end
     end
     for i=1,11 do
         for ii=1,6 do
-            UI_xmlElementUpdate(strFromNum(i).."_charAttrMod_"..strFromNum(ii), "tooltip", lang_table[lang_set][33+ii])
+            UI_xmlElementUpdate(strFromNum(i).."_charAttrMod_"..strFromNum(ii), "tooltip", lang_table[enumLangSet[lang_set]][33+ii])
         end
         local j = 1
         for smN,_ in pairs(main_Table[i].savesMod) do
-            UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..smN, "tooltip", lang_table[lang_set][61+j])
+            UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..smN, "tooltip", lang_table[enumLangSet[lang_set]][61+j])
             j = j + 1
         end
     end
     for i=1,18 do
-        UI_xmlElementUpdate("charSkillButtonE_"..strFromNum(i), "tooltip", lang_table[lang_set][65])
-        UI_xmlElementUpdate("charSkillButtonE_"..strFromNum(i), "text", lang_table[lang_set][33])
+        UI_xmlElementUpdate("charSkillButtonE_"..strFromNum(i), "tooltip", lang_table[enumLangSet[lang_set]][65])
+        UI_xmlElementUpdate("charSkillButtonE_"..strFromNum(i), "text", lang_table[enumLangSet[lang_set]][33])
     end
     for i=1,8 do
-        UI_xmlElementUpdate("charSheetUtilButton_"..strFromNum(i), "text", lang_table[lang_set][65+i])
+        UI_xmlElementUpdate("charSheetUtilButton_"..strFromNum(i), "text", lang_table[enumLangSet[lang_set]][65+i])
     end
-    UI_xmlElementUpdate("charSheetUtilButton_06", "tooltip", lang_table[lang_set][74])
-    UI_xmlElementUpdate("charSheetUtilButton_07", "tooltip", lang_table[lang_set][75])
-    UI_xmlElementUpdate("charSheetUtilButton_08", "tooltip", lang_table[lang_set][76])
-    UI_xmlElementUpdate("charSheetUtilButton_09", "tooltip", lang_table[lang_set][77])
+    UI_xmlElementUpdate("charSheetUtilButton_06", "tooltip", lang_table[enumLangSet[lang_set]][74])
+    UI_xmlElementUpdate("charSheetUtilButton_07", "tooltip", lang_table[enumLangSet[lang_set]][75])
+    UI_xmlElementUpdate("charSheetUtilButton_08", "tooltip", lang_table[enumLangSet[lang_set]][76])
+    UI_xmlElementUpdate("charSheetUtilButton_09", "tooltip", lang_table[enumLangSet[lang_set]][77])
 
     for i=2,11 do
-        UI_xmlElementUpdate("assighedPlayerButton_"..strFromNum(i), "tooltip", lang_table[lang_set][86])
+        UI_xmlElementUpdate("assighedPlayerButton_"..strFromNum(i), "tooltip", lang_table[enumLangSet[lang_set]][86])
     end
 
     for i=1,11 do
-        UI_xmlElementUpdate(strFromNum(i).."_charInitAddButton", "tooltip", lang_table[lang_set][87])
+        UI_xmlElementUpdate(strFromNum(i).."_charInitAddButton", "tooltip", lang_table[enumLangSet[lang_set]][87])
     end
 
-    UI_xmlElementUpdate("initPassButton", "text", lang_table[lang_set][85])
+    UI_xmlElementUpdate("initPassButton", "text", lang_table[enumLangSet[lang_set]][85])
 
-    UI_xmlElementUpdate("atkEditIconSetButton", "tooltip", lang_table[lang_set][88])
+    UI_xmlElementUpdate("atkEditIconSetButton", "tooltip", lang_table[enumLangSet[lang_set]][88])
     for i=1,11 do
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditRollAtkButton", "tooltip", lang_table[lang_set][89])
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditAtkAttrButton", "tooltip", lang_table[lang_set][90])
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditProfButton", "tooltip", lang_table[lang_set][91])
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditRollDmgButton", "tooltip", lang_table[lang_set][92])
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditDmgAttrButton", "tooltip", lang_table[lang_set][93])
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditResUsedButton", "tooltip", lang_table[lang_set][94])
+        UI_xmlElementUpdate(strFromNum(i).."_atkEditRollAtkButton", "tooltip", lang_table[enumLangSet[lang_set]][89])
+        UI_xmlElementUpdate(strFromNum(i).."_atkEditAtkAttrButton", "tooltip", lang_table[enumLangSet[lang_set]][90])
+        UI_xmlElementUpdate(strFromNum(i).."_atkEditProfButton", "tooltip", lang_table[enumLangSet[lang_set]][91])
+        UI_xmlElementUpdate(strFromNum(i).."_atkEditRollDmgButton", "tooltip", lang_table[enumLangSet[lang_set]][92])
+        UI_xmlElementUpdate(strFromNum(i).."_atkEditDmgAttrButton", "tooltip", lang_table[enumLangSet[lang_set]][93])
+        UI_xmlElementUpdate(strFromNum(i).."_atkEditResUsedButton", "tooltip", lang_table[enumLangSet[lang_set]][94])
     end
     for i=1,11 do
         for ii=1,9 do
-            UI_xmlElementUpdate(strFromNum(i).."_spellSlotButton_"..strFromNum(ii), "tooltip", lang_table[lang_set][95])
+            UI_xmlElementUpdate(strFromNum(i).."_spellSlotButton_"..strFromNum(ii), "tooltip", lang_table[enumLangSet[lang_set]][95])
         end
-        UI_xmlElementUpdate("spellSlotButtonMax_"..strFromNum(i), "tooltip", lang_table[lang_set][95])
+        UI_xmlElementUpdate("spellSlotButtonMax_"..strFromNum(i), "tooltip", lang_table[enumLangSet[lang_set]][95])
     end
-    UI_xmlElementUpdate("notesPanelTitle", "text", lang_table[lang_set][96])
+    UI_xmlElementUpdate("notesPanelTitle", "text", lang_table[enumLangSet[lang_set]][96])
     
     for i=1,11 do
         for ii=1,20 do
-            UI_xmlElementUpdate(strFromNum(i).."_conditionButton_"..strFromNum(ii), "tooltip", lang_table[lang_set][97+ii])
+            UI_xmlElementUpdate(strFromNum(i).."_conditionButton_"..strFromNum(ii), "tooltip", lang_table[enumLangSet[lang_set]][97+ii])
         end
     end
 
-    UI_xmlElementUpdate("UIset_text_01", "text", lang_table[lang_set][118])
-    UI_xmlElementUpdate("UIset_text_02", "text", lang_table[lang_set][119])
+    UI_xmlElementUpdate("UIset_text_01", "text", lang_table[enumLangSet[lang_set]][118])
+    UI_xmlElementUpdate("UIset_text_02", "text", lang_table[enumLangSet[lang_set]][119])
 
-    UI_xmlElementUpdate("addCharModeText", "text", lang_table[lang_set][120])
+    UI_xmlElementUpdate("addCharModeText", "text", lang_table[enumLangSet[lang_set]][120])
     
-    UI_xmlElementUpdate("GM_toolsButton_01", "tooltip", lang_table[lang_set][119])
-    UI_xmlElementUpdate("GM_toolsButton_02", "tooltip", lang_table[lang_set][120])
-    UI_xmlElementUpdate("GM_toolsButton_03", "tooltip", lang_table[lang_set][123])
-    UI_xmlElementUpdate("GM_toolsButton_04", "tooltip", lang_table[lang_set][124])
-    UI_xmlElementUpdate("GM_toolsButton_05", "tooltip", lang_table[lang_set][125])
-    UI_xmlElementUpdate("GM_toolsButton_06", "tooltip", lang_table[lang_set][126])
-    UI_xmlElementUpdate("GM_toolsButton_07", "tooltip", lang_table[lang_set][127])
+    UI_xmlElementUpdate("GM_toolsButton_01", "tooltip", lang_table[enumLangSet[lang_set]][119])
+    UI_xmlElementUpdate("GM_toolsButton_02", "tooltip", lang_table[enumLangSet[lang_set]][120])
+    UI_xmlElementUpdate("GM_toolsButton_03", "tooltip", lang_table[enumLangSet[lang_set]][123])
+    UI_xmlElementUpdate("GM_toolsButton_04", "tooltip", lang_table[enumLangSet[lang_set]][124])
+    UI_xmlElementUpdate("GM_toolsButton_05", "tooltip", lang_table[enumLangSet[lang_set]][125])
+    UI_xmlElementUpdate("GM_toolsButton_06", "tooltip", lang_table[enumLangSet[lang_set]][126])
+    UI_xmlElementUpdate("GM_toolsButton_07", "tooltip", lang_table[enumLangSet[lang_set]][127])
 
-    UI_xmlElementUpdate("projectorToggleButton", "tooltip", lang_table[lang_set][128])
+    UI_xmlElementUpdate("projectorToggleButton", "tooltip", lang_table[enumLangSet[lang_set]][128])
 
-    UI_xmlElementUpdate("screenRollerMinimizer", "tooltip", lang_table[lang_set][129])
+    UI_xmlElementUpdate("screenRollerMinimizer", "tooltip", lang_table[enumLangSet[lang_set]][129])
     
 
-    UI_xmlElementUpdate("setInvisButton", "text", lang_table[lang_set][130])
-    UI_xmlElementUpdate("setInvisButton", "tooltip", lang_table[lang_set][131])
+    UI_xmlElementUpdate("setInvisButton", "text", lang_table[enumLangSet[lang_set]][130])
+    UI_xmlElementUpdate("setInvisButton", "tooltip", lang_table[enumLangSet[lang_set]][131])
 
 
-    UI_xmlElementUpdate("copyCharModeText", "text", lang_table[lang_set][132])
-    UI_xmlElementUpdate("GM_toolsButton_08", "tooltip", lang_table[lang_set][133])
-    UI_xmlElementUpdate("GM_toolsButton_09", "tooltip", lang_table[lang_set][134])
+    UI_xmlElementUpdate("copyCharModeText", "text", lang_table[enumLangSet[lang_set]][132])
+    UI_xmlElementUpdate("GM_toolsButton_08", "tooltip", lang_table[enumLangSet[lang_set]][133])
+    UI_xmlElementUpdate("GM_toolsButton_09", "tooltip", lang_table[enumLangSet[lang_set]][134])
 end
 
 function toggleCharBaseSpin()
@@ -2079,7 +2077,7 @@ function updateLuaForAllChars()
         end
     end
     for i=1,#objectsToUpdate do
-        objectsToUpdate[i].setLuaScript(defineCharLua())
+        objectsToUpdate[i].setLuaScript(charLua)
         objectsToUpdate[i].reload()
         Wait.frames(function()
             objectsToUpdate[i].call("UI_update")
@@ -2680,416 +2678,4 @@ function defineAtkIcons()
             UI_xmlElementUpdate("atkEditIconsGrid_"..strFromNum(i), "color", "#00000000")
         end
     end
-end
-
-function defineCharLua()
-    charLua = [[
-        function onSave()
-            rndSave = math.random(1,3)
-            if rndSave == 1 or self.getDescription() == "save" then
-                data_to_save={}
-                data_to_save.charSave_table = self.getTable("charSave_table")
-                data_to_save.Selected = Selected
-                saved_data = JSON.encode(data_to_save)
-                return saved_data
-            end
-        end
-        function onLoad(saved_data)
-            THIS_IS_A_SCRIPTED_DND_4E_CHARACTER_TOKEN = true
-            ------------------------------------------
-            --saved_data = "" -- MUST BE COMMENTED !!!
-            ------------------------------------------
-            if saved_data != nil and saved_data != "" then
-                loaded_data = JSON.decode(saved_data)
-                self.setTable("charSave_table", loaded_data.charSave_table)
-                Selected = loaded_data.Selected
-            else
-                Selected = 0 -- clr index, 0 - idle
-                resetChar()
-            end
-            plColorsHexTable= {"#3f3f3f","#ffffff","#703a16","#da1917","#f3631c","#e6e42b","#30b22a","#20b09a","#1e87ff","#9f1fef","#f46fcd"}
-            plColors_Table = {"Black","White","Brown","Red","Orange","Yellow","Green","Teal","Blue","Purple","Pink"}
-            self.UI.setXml(charXml())
-            hideThisChar()
-        end
-        function hideThisChar()
-            if charSave_table.charHidden then
-                hideFromTbl = {"Grey"}
-                for i=2,11 do
-                    if not charSave_table.aColors[i] then
-                        table.insert(hideFromTbl, plColors_Table[i])
-                    end
-                end
-                self.setInvisibleTo(hideFromTbl)
-            else
-                self.setInvisibleTo({})
-            end
-            Wait.frames(function()
-                UI_update()
-            end, 3)
-        end
-        function UI_update()
-            UI_xmlElementUpdate("tokenUIbase", "position", (charSave_table.tokenGUI_settings[3] * 10)..","..(charSave_table.tokenGUI_settings[1] * 10)..","..(charSave_table.tokenGUI_settings[2] * (-10)))
-            UI_xmlElementUpdate("tokenUIbase", "rotation", "0,0,"..charSave_table.tokenGUI_settings[4] * 15 + 90)
-            UI_xmlElementUpdate("tokenUIbase", "scale", (1.1 ^ (charSave_table.tokenGUI_settings[5] - 6))..","..(1.1 ^ (charSave_table.tokenGUI_settings[5] - 6))..","..(1.1 ^ (charSave_table.tokenGUI_settings[5] - 6)))
-            HP_i = math.floor(charSave_table.hp / charSave_table.hpMax * 20)
-
-            showToStr = "Black"
-            for i=2,11 do
-                if charSave_table.aColors[i] then
-                    addColStr = plColors_Table[i]
-                    showToStr = showToStr.."|"..addColStr
-                end
-            end
-
-            
-            if charSave_table.charHidden then
-                UI_xmlElementUpdate("conditionsPanel", "visibility", showToStr)
-                UI_xmlElementUpdate("selectedMarker", "visibility", showToStr)
-                UI_xmlElementUpdate("hpBar", "visibility", showToStr)
-                UI_xmlElementUpdate("hiddenMarker", "active", "True")
-                UI_xmlElementUpdate("hiddenMarker", "visibility", showToStr)
-            else
-                UI_xmlElementUpdate("conditionsPanel", "visibility", "Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink|Grey")
-                UI_xmlElementUpdate("selectedMarker", "visibility",  "Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink|Grey")
-                --UI_xmlElementUpdate("hpBar", "visibility", "Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink|Grey")
-                UI_xmlElementUpdate("hiddenMarker", "active", "False")
-                if charSave_table.hpVisibleToPlayers then
-                    UI_xmlElementUpdate("hpBar", "visibility", "Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink|Grey")
-                else
-                    UI_xmlElementUpdate("hpBar", "visibility", showToStr)
-                end
-            end
-
-            for i=1,20 do
-                if i <= HP_i or (i == 1 and charSave_table.hp > 0) then
-                    UI_xmlElementUpdate("hpBarText_"..strFromNum(i), "color", "#aa2222")
-                else
-                    UI_xmlElementUpdate("hpBarText_"..strFromNum(i), "color", "#662222")
-                end
-                if charSave_table.hpTemp > 0 and i > 1 and i < 20 then
-                    UI_xmlElementUpdate("hpBarText_"..strFromNum(i), "outline", "#ffaa0022")
-                elseif charSave_table.hpTemp == 0 and i > 1 and i < 20 then
-                    UI_xmlElementUpdate("hpBarText_"..strFromNum(i), "outline", "#66004400")
-                end
-            end
-            if Selected != 0 then 
-                UI_xmlElementUpdate("selectedMarker", "active", "True")
-                for i=1,4 do
-                    UI_xmlElementUpdate("selectedMarker_"..strFromNum(i), "outline", plColorsHexTable[Selected].."ff")
-                    --UI_xmlElementUpdate("selectedMarker_"..strFromNum(i), "outline", baseOutlnHexTable[Selected].."88")
-                end
-                UI_xmlElementUpdate("selectedMarker_00", "color", plColorsHexTable[Selected].."ff")
-                UI_xmlElementUpdate("selectedMarker_10", "color", plColorsHexTable[Selected].."ff")
-            else
-                UI_xmlElementUpdate("selectedMarker", "active", "False")
-            end
-            for i=1,20 do
-                if charSave_table.conditions.table[i] then
-                    UI_xmlElementUpdate("conditionPanel_"..strFromNum(i), "active", "True")
-                else
-                    UI_xmlElementUpdate("conditionPanel_"..strFromNum(i), "active", "False")
-                end
-            end
-            if charSave_table.conditions.table[18] then
-                for i=1,5 do
-                    if i == charSave_table.conditions.exhaustion then
-                        UI_xmlElementUpdate("exhaustion_"..strFromNum(i), "active", "True")
-                    else
-                        UI_xmlElementUpdate("exhaustion_"..strFromNum(i), "active", "False")
-                    end
-                end
-            end
-            UI_xmlElementUpdate("bigPortrait", "image", charSave_table.portraitUrl)
-        end
-        function selectWobble()
-            for i=1,5 do
-                Wait.frames(function()
-                    self.UI.setAttribute("selectedMarker", "scale", (1+(i*0.2))..","..(1+(i*0.2))..","..(1+(i*0.2)))
-                end, i*2+5)
-                Wait.frames(function()
-                    self.UI.setAttribute("selectedMarker", "scale", (2-(i*0.2))..","..(2-(i*0.2))..","..(2-(i*0.2)))
-                end, i*2+15)
-            end
-        end
-        function selectSpin()
-            for i=1,3 do
-                Wait.frames(function()
-                    self.UI.setAttribute("selectedMarkerStar", "rotation", "0,0,"..(i*7))
-                end, i*20)
-            end
-        end
-        function onRandomize(player_color)
-            self.setVelocity({0,0,0})
-            if self.UI.getAttribute("bigPortrait", "active") == "True" then
-                self.UI.setAttribute("bigPortrait", "active", "False")
-            else
-                --if collisionImage != "" then
-                --    charSave_table.portraitUrl = collisionImage
-                --    collisionImage = ""
-                --    UI_update()
-                --end
-                self.UI.setAttribute("bigPortrait", "active", "True")
-            end
-            UI_update()
-        end
-        --function onCollisionEnter(collision_info)
-        --    if collision_info.collision_object.getCustomObject().image != nil and not collision_info.collision_object.locked and collision_info.collision_object.interactable and collision_info.collision_object.getPosition()[2] < self.getPosition()[2] then
-        --        collisionImage = collision_info.collision_object.getCustomObject().image
-        --        Wait.time(function()
-        --            collisionImage = ""
-        --        end, 10)
-        --    end
-        --end
-        function resetChar()
-            charSave_table = {}
-            charSave_table.aColors = {true,false,false,false,false,false,false,false,false,false,false}
-            charSave_table.portraitUrl = "https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/"
-            charSave_table.charName = self.getName()
-            charSave_table.hp = 1
-            charSave_table.hpMax = 1
-            charSave_table.hpTemp = 0
-            charSave_table.deathSaves = {1,1,1,1,1}
-            charSave_table.charLvl = 1
-            charSave_table.charProfBonus = 2 -- math.floor((lvl +7)/4)     -- can be set manually for monsters
-            charSave_table.AC = 10
-            charSave_table.speed = 30
-            charSave_table.initMod = 0
-            charSave_table.pPerceptionMod = 0
-            charSave_table.attributes = {}
-            charSave_table.saves = {false,false,false,false,false,false}
-            charSave_table.savesMod = {Fortitude = 0, Reflex = 0, Will = 0}
-            for ii=1,6 do
-                charSave_table.attributes[ii] = 10   -- modifier: (attr -10) /2
-                charSave_table.saves[ii] = false
-            end
-            charSave_table.skills = {}
-            for ii=1,18 do
-                charSave_table.skills[ii] = {}
-                charSave_table.skills[ii].proficient = false
-                charSave_table.skills[ii].expertize = false
-                charSave_table.skills[ii].mod = 0
-            end
-            charSave_table.attacks = {}
-            for ii=1,10 do
-                charSave_table.attacks[ii] = {}
-                charSave_table.attacks[ii].atkName = "unarmed"
-                charSave_table.attacks[ii].atkRolled = true
-                charSave_table.attacks[ii].atkAttr = 1
-                charSave_table.attacks[ii].proficient = true
-                charSave_table.attacks[ii].minCrit = 20
-                charSave_table.attacks[ii].atkMod = 0
-                charSave_table.attacks[ii].dmgRolled = true
-                charSave_table.attacks[ii].dmgAttr = 1
-                charSave_table.attacks[ii].dmgStr = "1"
-                charSave_table.attacks[ii].dmgStrCrit = "0"
-                charSave_table.attacks[ii].resUsed = 0
-                charSave_table.attacks[ii].icon = 1
-            end
-            charSave_table.splSlots = {0,0,0,0,0,0,0,0,0}
-            charSave_table.splSlotsMax = {0,0,0,0,0,0,0,0,0}
-            charSave_table.resourses = {}
-            for ii=1,10 do
-                charSave_table.resourses[ii] = {}
-                charSave_table.resourses[ii].resName = ""
-                charSave_table.resourses[ii].resValue = 0
-                charSave_table.resourses[ii].resMax = 0
-            end
-            charSave_table.notes_A = ""
-            charSave_table.notes_B = ""
-            charSave_table.figurineUI_scale = 1
-            charSave_table.figurineUI_xyzMods = {0,0,0}
-             
-            charSave_table.conditions = {}
-            charSave_table.conditions.table = {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false}
-            charSave_table.conditions.exhaustion = 0
-            charSave_table.hpVisibleToPlayers = true
-            charSave_table.tokenGUI_settings = {0,0,0,0,5}
-
-            charSave_table.charHidden = false
-        end
-        function UI_xmlElementUpdate(xml_ID, xml_attribute, input_string)
-            if self.UI.getAttribute(xml_ID, xml_attribute) != input_string then
-                self.UI.setAttribute(xml_ID, xml_attribute, input_string)
-            end
-        end
-        function numFromStr(inpStr)
-            if string.sub(inpStr,1,1) == "0" then
-                return tonumber(string.sub(inpStr,2,2))
-            else
-                return tonumber(string.sub(inpStr,1,2))
-            end
-        end
-        function numFromStrEnd(inpStr)
-            if string.sub(inpStr,#inpStr-1,#inpStr-1) == "0" then
-                return tonumber(string.sub(inpStr,#inpStr,#inpStr))
-            else
-                return tonumber(string.sub(inpStr,#inpStr-1,#inpStr))
-            end
-        end
-        function strFromNum(inpNum)
-            if inpNum < 10 then
-                return "0"..tostring(inpNum)
-            else
-                return tostring(inpNum)
-            end
-        end
-        function charXml()
-            xmlStr = ''
-            xmlStr = xmlStr..'<Defaults>'
-            xmlStr = xmlStr..'    <Text  class="HP_text" color="#aa2222" fontSize="60" fontStyle="bold" text="●" /> <!-- ● ◉ -->'
-            xmlStr = xmlStr..'    <Text  class="tokenUIbaseText" color="#ffffffee" shadow="#22222288" />'
-            xmlStr = xmlStr..'    <Image class="conditionImage" height="15" width="15" position="0,-40,0" />'
-            xmlStr = xmlStr..'    <Text  class="hiddenMarkerText" text="%" fontSize="150" color="#00000044" outline="#aaaaff22" outlineSize="2 -2" />'
-            xmlStr = xmlStr..'</Defaults>'
-            xmlStr = xmlStr..'<Panel id="tokenUIbase">'
-            xmlStr = xmlStr..'    <Panel id="selectedMarker" position="0,0,-2" active="false">'
-            xmlStr = xmlStr..'        <Text  id="selectedMarker_10" color="#aaaaaa88" fontSize="100" fontStyle="bold" text="►" position="50,0,0" outline="#00000066" outlineSize="2 -2" scale="0.5,1.2,0.5" />'
-            xmlStr = xmlStr..'        <Text  id="selectedMarker_00" color="#aaaaaa88" fontSize="255" fontStyle="bold" text="●" position="0,17,0" outline="#00000066" outlineSize="2 -2"  />'
-            xmlStr = xmlStr..'        <Panel id="selectedMarkerStar">'
-            xmlStr = xmlStr..'            <Panel id="selectedMarker_01" height="75" width="75" rotation="0,0,0"  color="#00000044" />'
-            xmlStr = xmlStr..'            <Panel id="selectedMarker_02" height="75" width="75" rotation="0,0,22" color="#00000044" />'
-            xmlStr = xmlStr..'            <Panel id="selectedMarker_03" height="75" width="75" rotation="0,0,45" color="#00000044" />'
-            xmlStr = xmlStr..'            <Panel id="selectedMarker_04" height="75" width="75" rotation="0,0,67" color="#00000044" />'
-            xmlStr = xmlStr..'        </Panel>'
-            xmlStr = xmlStr..'    </Panel>'
-
-            xmlStr = xmlStr..'    <Panel id="hiddenMarker" position="0,0,-200" active="false" visibility="Black">'
-            xmlStr = xmlStr..'        <Text class="hiddenMarkerText" rotation="0,0,0"   />'
-            xmlStr = xmlStr..'        <Text class="hiddenMarkerText" rotation="0,0,30"  />'
-            xmlStr = xmlStr..'        <Text class="hiddenMarkerText" rotation="0,0,60"  />'
-            xmlStr = xmlStr..'        <Text class="hiddenMarkerText" rotation="0,0,90"  />'
-            xmlStr = xmlStr..'        <Text class="hiddenMarkerText" rotation="0,0,120" />'
-            xmlStr = xmlStr..'        <Text class="hiddenMarkerText" rotation="0,0,150" />'
-            xmlStr = xmlStr..'        <Text class="hiddenMarkerText" rotation="0,0,180" />'
-            xmlStr = xmlStr..'        <Text class="hiddenMarkerText" rotation="0,0,210" />'
-            xmlStr = xmlStr..'        <Text class="hiddenMarkerText" rotation="0,0,240" />'
-            xmlStr = xmlStr..'        <Text class="hiddenMarkerText" rotation="0,0,270" />'
-            xmlStr = xmlStr..'        <Text class="hiddenMarkerText" rotation="0,0,300" />'
-            xmlStr = xmlStr..'        <Text class="hiddenMarkerText" rotation="0,0,330" />'
-            xmlStr = xmlStr..'    </Panel>'
-
-            xmlStr = xmlStr..'    <!-- CONDITIONS -->'
-            xmlStr = xmlStr..'    <Panel id="conditionsPanel" position="0,0,-200">'
-            xmlStr = xmlStr..'        <!-- Full defence -->'
-            xmlStr = xmlStr..'        <Panel id="conditionPanel_19" position="0,0,50" rotation="0,0,0" active="false">'
-            xmlStr = xmlStr..'            <Image height="100" width="100" position="0,-50,80" rotation="-90,0,0"  color="#ffffaa11" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576008324/82D432C326C7749716C07567767B2A611EF6E0D1/" />'
-            xmlStr = xmlStr..'            <Image height="100" width="100" position="-50,0,80" rotation="0,90,-90" color="#ffffaa11" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576008324/82D432C326C7749716C07567767B2A611EF6E0D1/" />'
-            xmlStr = xmlStr..'            <Image height="100" width="100" position="0,50,80"  rotation="90,0,180" color="#ffffaa11" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576008324/82D432C326C7749716C07567767B2A611EF6E0D1/" />'
-            xmlStr = xmlStr..'            <Image height="100" width="100" position="50,0,80"  rotation="0,-90,90" color="#ffffaa11" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576008324/82D432C326C7749716C07567767B2A611EF6E0D1/" />'
-            xmlStr = xmlStr..'        </Panel>'
-            xmlStr = xmlStr..'        <!-- 1 Blinded -->'
-            xmlStr = xmlStr..'        <Panel id="conditionPanel_01" active="false">'
-            xmlStr = xmlStr..'            <Image class="conditionImage" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576007925/FD162AF9F20B5FC262E93DF6C1693C3126450D47/" color="#aaaaaa" />'
-            xmlStr = xmlStr..'        </Panel>'
-            xmlStr = xmlStr..'        <!-- 2 Deafened -->'
-            xmlStr = xmlStr..'        <Panel id="conditionPanel_02" rotation="0,0,20" active="false">'
-            xmlStr = xmlStr..'            <Image class="conditionImage" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576008053/895C077850ABF6BF61FF5F86604754C55B9AB111/" color="#aaaaff" />'
-            xmlStr = xmlStr..'        </Panel>'
-            xmlStr = xmlStr..'        <!-- 3 Charmed -->'
-            xmlStr = xmlStr..'        <Panel id="conditionPanel_03" rotation="0,0,40" active="false">'
-            xmlStr = xmlStr..'            <Image class="conditionImage" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576008145/7F0A26F423A2E24F6171A93426C8F5362B181233/" color="#ff6688" />'
-            xmlStr = xmlStr..'        </Panel>'
-            xmlStr = xmlStr..'        <!-- 4 Frightened -->'
-            xmlStr = xmlStr..'        <Panel id="conditionPanel_04" rotation="0,0,60" active="false">'
-            xmlStr = xmlStr..'            <Image class="conditionImage" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576008239/38C9B0F582DC7B2B8A506872232342A9702B04FD/" color="#ffaa00" />'
-            xmlStr = xmlStr..'        </Panel>'
-            xmlStr = xmlStr..'        <!-- 5 Grappled -->'
-            xmlStr = xmlStr..'        <Panel id="conditionPanel_05" rotation="0,0,80" active="false">'
-            xmlStr = xmlStr..'            <Image class="conditionImage" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576008385/9ED4DBE5351637586D884F027CD2A169D1508D64/" color="#ffeeaa" />'
-            xmlStr = xmlStr..'        </Panel>'
-            xmlStr = xmlStr..'        <!-- 6 Incapacitated -->'
-            xmlStr = xmlStr..'        <Panel id="conditionPanel_06" rotation="0,0,100" active="false">'
-            xmlStr = xmlStr..'            <Image class="conditionImage" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576008472/C82A22313B9834A38F0C0DC74BEC55A0E99834C9/" color="#aaaaaa" />'
-            xmlStr = xmlStr..'        </Panel>'
-            xmlStr = xmlStr..'        <!-- 7 Invisible -->'
-            xmlStr = xmlStr..'        <Panel id="conditionPanel_07" rotation="0,0,120" active="false">'
-            xmlStr = xmlStr..'            <Image class="conditionImage" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302577186503/9BE934856BF13B84EC27C9ADE1C88E21124D90B4/" color="#aaaaff" />'
-            xmlStr = xmlStr..'        </Panel>'
-            xmlStr = xmlStr..'        <!-- 8 Paralyzed -->'
-            xmlStr = xmlStr..'        <Panel id="conditionPanel_08" rotation="0,0,140" active="false">'
-            xmlStr = xmlStr..'            <Image class="conditionImage" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302577381345/E9DA460888E39C0E08A6A74EDC0B1883D28CC62C/" color="#ffff22" />'
-            xmlStr = xmlStr..'        </Panel>'
-            xmlStr = xmlStr..'        <!-- 9 Petrified -->'
-            xmlStr = xmlStr..'        <Panel id="conditionPanel_09" rotation="0,0,160" active="false">'
-            xmlStr = xmlStr..'            <Image class="conditionImage" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576008757/BD92573701A4B9B10C2832C410475801A76BE07E/" color="#888844" />'
-            xmlStr = xmlStr..'        </Panel>'
-            xmlStr = xmlStr..'        <!-- 10 Poisined -->'
-            xmlStr = xmlStr..'        <Panel id="conditionPanel_10" rotation="0,0,180" active="false">'
-            xmlStr = xmlStr..'            <Image class="conditionImage" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576008825/85756ADCD052206C9148CCB9F4CC2FCC407A78E6/" color="#00aa00" />'
-            xmlStr = xmlStr..'        </Panel>'
-            xmlStr = xmlStr..'        <!-- 11 Prone -->'
-            xmlStr = xmlStr..'        <Panel id="conditionPanel_11" rotation="0,0,200" active="false">'
-            xmlStr = xmlStr..'            <Image class="conditionImage" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576008908/758FDA5A09A4E6DD7684AFB8D72EAA870BDC6886/" color="#aaaa88" />'
-            xmlStr = xmlStr..'        </Panel>'
-            xmlStr = xmlStr..'        <!-- 12 Restrained -->'
-            xmlStr = xmlStr..'        <Panel id="conditionPanel_12" rotation="0,0,220" active="false">'
-            xmlStr = xmlStr..'            <Image class="conditionImage" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576008992/08B81309BD1B76E6B8171AB81C6AA56FF018A79B/" color="#ffffff" />'
-            xmlStr = xmlStr..'        </Panel>'
-            xmlStr = xmlStr..'        <!-- 13 Stunned -->'
-            xmlStr = xmlStr..'        <Panel id="conditionPanel_13" rotation="0,0,240" active="false">'
-            xmlStr = xmlStr..'            <Image class="conditionImage" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576009081/A99C7542A7C400CB1623230998200C7D007FE12B/" color="#aaaaaa" />'
-            xmlStr = xmlStr..'        </Panel>'
-            xmlStr = xmlStr..'        <!-- 14 Unconscious -->'
-            xmlStr = xmlStr..'        <Panel id="conditionPanel_14" rotation="0,0,260" active="false">'
-            xmlStr = xmlStr..'            <Image class="conditionImage" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576009190/382367D19631C1184EF694A02A085822FDF62D57/" color="#8888ff" />'
-            xmlStr = xmlStr..'        </Panel>'
-            xmlStr = xmlStr..'        <!-- 15 Bleeding -->'
-            xmlStr = xmlStr..'        <Panel id="conditionPanel_15" rotation="0,0,280" active="false">'
-            xmlStr = xmlStr..'            <Image class="conditionImage" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576009283/B379F846DD62FFD4150D0BB341E23E58401C49BE/" color="#ff2222" />'
-            xmlStr = xmlStr..'        </Panel>'
-            xmlStr = xmlStr..'        <!-- 16 Burning -->'
-            xmlStr = xmlStr..'        <Panel id="conditionPanel_16" rotation="0,0,300" active="false">'
-            xmlStr = xmlStr..'            <Image class="conditionImage" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576009377/7B4E5357B62E8B35C6FCB48ECA598BF8EAD18A2F/" color="#ffeeaa" />'
-            xmlStr = xmlStr..'        </Panel>'
-            xmlStr = xmlStr..'        <!-- 17 Buffed -->'
-            xmlStr = xmlStr..'        <Panel id="conditionPanel_17" rotation="0,0,320" active="false">'
-            xmlStr = xmlStr..'            <Image class="conditionImage" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576009459/B96ECF9A46A96417B131F735940BDBF63034BE5D/" color="#aaaaff" />'
-            xmlStr = xmlStr..'        </Panel>'
-            xmlStr = xmlStr..'        <!-- 18 Exhaustion -->'
-            xmlStr = xmlStr..'        <Panel id="conditionPanel_18" rotation="0,0,340" active="false">'
-            xmlStr = xmlStr..'            <Image id="exhaustion_01" class="conditionImage" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576009685/17E9E7B0A16B5A6140630EF6FF9F4DEEA7AAB8FE/" color="#ff00dd" />'
-            xmlStr = xmlStr..'            <Image id="exhaustion_02" class="conditionImage" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576009769/28843649E25B7EB7D0E09F5A48EF9A2C8674EF6A/" color="#ff00dd" />'
-            xmlStr = xmlStr..'            <Image id="exhaustion_03" class="conditionImage" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576009838/5C0330ECABBE478F9075D7E976E3D80988B713F3/" color="#ff00dd" />'
-            xmlStr = xmlStr..'            <Image id="exhaustion_04" class="conditionImage" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576009909/EF31B152FADB9C3285283548AC6F87AC63704D55/" color="#ff00dd" />'
-            xmlStr = xmlStr..'            <Image id="exhaustion_05" class="conditionImage" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576010001/5309A748F4CE884C432CEA11BD3191B1FCB6BF23/" color="#ff00dd" />'
-            xmlStr = xmlStr..'        </Panel>'
-            xmlStr = xmlStr..'    </Panel>'
-            xmlStr = xmlStr..'    <!-- HP BAR  color="#662222"-->'
-            xmlStr = xmlStr..'    <Panel id="hpBar" position="0,4,-200">'
-            xmlStr = xmlStr..'        <Text id="hpBarText_01" class="HP_text" position="0,0,0"  outline="#552222" outlineSize="1 -1" />'
-            xmlStr = xmlStr..'        <Text id="hpBarText_02" class="HP_text" position="0,0,-5"   outline="#00000000" outlineSize="3 -3" />'
-            xmlStr = xmlStr..'        <Text id="hpBarText_03" class="HP_text" position="0,0,-10"  outline="#00000000" outlineSize="3 -3" />'
-            xmlStr = xmlStr..'        <Text id="hpBarText_04" class="HP_text" position="0,0,-15"  outline="#00000000" outlineSize="3 -3" />'
-            xmlStr = xmlStr..'        <Text id="hpBarText_05" class="HP_text" position="0,0,-20"  outline="#00000000" outlineSize="3 -3" />'
-            xmlStr = xmlStr..'        <Text id="hpBarText_06" class="HP_text" position="0,0,-25"  outline="#00000000" outlineSize="3 -3" />'
-            xmlStr = xmlStr..'        <Text id="hpBarText_07" class="HP_text" position="0,0,-30"  outline="#00000000" outlineSize="3 -3" />'
-            xmlStr = xmlStr..'        <Text id="hpBarText_08" class="HP_text" position="0,0,-35"  outline="#00000000" outlineSize="3 -3" />'
-            xmlStr = xmlStr..'        <Text id="hpBarText_09" class="HP_text" position="0,0,-40"  outline="#00000000" outlineSize="3 -3" />'
-            xmlStr = xmlStr..'        <Text id="hpBarText_10" class="HP_text" position="0,0,-45"  outline="#00000000" outlineSize="3 -3" />'
-            xmlStr = xmlStr..'        <Text id="hpBarText_11" class="HP_text" position="0,0,-50"  outline="#00000000" outlineSize="3 -3" />'
-            xmlStr = xmlStr..'        <Text id="hpBarText_12" class="HP_text" position="0,0,-55"  outline="#00000000" outlineSize="3 -3" />'
-            xmlStr = xmlStr..'        <Text id="hpBarText_13" class="HP_text" position="0,0,-60"  outline="#00000000" outlineSize="3 -3" />'
-            xmlStr = xmlStr..'        <Text id="hpBarText_14" class="HP_text" position="0,0,-65"  outline="#00000000" outlineSize="3 -3" />'
-            xmlStr = xmlStr..'        <Text id="hpBarText_15" class="HP_text" position="0,0,-70"  outline="#00000000" outlineSize="3 -3" />'
-            xmlStr = xmlStr..'        <Text id="hpBarText_16" class="HP_text" position="0,0,-75"  outline="#00000000" outlineSize="3 -3" />'
-            xmlStr = xmlStr..'        <Text id="hpBarText_17" class="HP_text" position="0,0,-80"  outline="#00000000" outlineSize="3 -3" />'
-            xmlStr = xmlStr..'        <Text id="hpBarText_18" class="HP_text" position="0,0,-85"  outline="#00000000" outlineSize="3 -3" />'
-            xmlStr = xmlStr..'        <Text id="hpBarText_19" class="HP_text" position="0,0,-90"  outline="#00000000" outlineSize="3 -3" />'
-            xmlStr = xmlStr..'        <Text id="hpBarText_20" class="HP_text" position="0,0,-95"  outline="#552222" outlineSize="1 -1" />'
-            xmlStr = xmlStr..'    </Panel>'
-            xmlStr = xmlStr..'    <!-- CONDITIONS ON TOP -->'
-            xmlStr = xmlStr..'    <Panel>'
-            xmlStr = xmlStr..'        <!-- Dead -->'
-            xmlStr = xmlStr..'        <Panel id="conditionPanel_20" position="0,0,-303" rotation="0,0,90" active="false">'
-            xmlStr = xmlStr..'            <Image height="40" width="40" image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576009615/C0B0635BFEFF14FA1052ED89AAF2290DEAD8F1C8/" />'
-            xmlStr = xmlStr..'        </Panel>'
-            xmlStr = xmlStr..'    </Panel>'
-            xmlStr = xmlStr..'    <!-- PORTRAIT -->'
-            xmlStr = xmlStr..'    <Image active="False" id="bigPortrait" height="200" width="200" preserveAspect="true" position="0,0,-450" rotation="0,-90,90" color="#ffffffdd" image="https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/" />'
-            xmlStr = xmlStr..'</Panel>'
-            return xmlStr
-        end
-    ]]
-    return charLua
 end
