@@ -34,6 +34,7 @@ function onSave()
             initMod     = init_table[s].initMod,
             tokenGUID   = init_table[s].tokenGUID,
             aColor      = init_table[s].aColor,
+            portraitUrl = init_table[s].portraitUrl
         }
     end
     data_to_save.charBaseSpin = charBaseSpin
@@ -180,7 +181,9 @@ function onLoad(saved_data)
         for ii=1,18 do
             main_Table[i].skills[ii] = {}
             main_Table[i].skills[ii].proficient = false
-            main_Table[i].skills[ii].expertize = false
+            main_Table[i].skills[ii].expert = false
+            main_Table[i].skills[ii].master = false
+            main_Table[i].skills[ii].legendary = false
             main_Table[i].skills[ii].mod = 0
         end
 
@@ -495,7 +498,7 @@ function setCharAttr(pl,vl,thisID)
 end
 
 function setCharSaveMod(pl,vl,thisID)
-    local nameST = string.match(thisID, "^[^_]+_[^_]+_([^_]+)")
+    local nameST = thisID:match("^[^_]+_[^_]+_([^_]+)")
     if vl == "-1" then num_add = 1 elseif vl == "-2" then num_add = 5 end
     if numFromStr(thisID) == 1 then
         main_Table[nFromPl(pl)].savesMod[nameST] = main_Table[nFromPl(pl)].savesMod[nameST] + num_add
@@ -521,7 +524,7 @@ function rollAttribute(pl,vl,thisID)
 end
 
 function charSaveButton(pl,vl,thisID)
-    local nameST = string.match(thisID, "^[^_]+_[^_]+_([^_]+)")
+    local nameST = thisID:match("^[^_]+_[^_]+_([^_]+)")
     if editModeVisibility[nFromPl(pl)] then
         main_Table[nFromPl(pl)].saves[nameST] = not main_Table[nFromPl(pl)].saves[nameST]
     else
@@ -546,14 +549,20 @@ function skillButtonMain(pl,vl,thisID)
     if editModeVisibility[nFromPl(pl)] then
         main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].proficient = not main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].proficient
         if not main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].proficient then
-            main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].expertize = false
+            main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].expert = false
+            main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].master = false
+            main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].legendary = false
         end
     else
         plColHex = "["..Color[pl.color]:toHex(false).."]"
         thisSkillMod = modFromAttr(main_Table[numFromStr(thisID)].attributes[defSkillsAttr_table[numFromStrEnd(thisID)]]) + main_Table[numFromStr(thisID)].skills[numFromStrEnd(thisID)].mod
-        if main_Table[numFromStr(thisID)].skills[numFromStrEnd(thisID)].proficient and main_Table[numFromStr(thisID)].skills[numFromStrEnd(thisID)].expertize then
+        if main_Table[numFromStr(thisID)].skills[numFromStrEnd(thisID)].legendary then
+            thisSkillMod = thisSkillMod + main_Table[numFromStr(thisID)].charProfBonus * 4
+        elseif main_Table[numFromStr(thisID)].skills[numFromStrEnd(thisID)].master then
+            thisSkillMod = thisSkillMod + main_Table[numFromStr(thisID)].charProfBonus * 3
+        elseif main_Table[numFromStr(thisID)].skills[numFromStrEnd(thisID)].expert then
             thisSkillMod = thisSkillMod + main_Table[numFromStr(thisID)].charProfBonus * 2
-        elseif main_Table[numFromStr(thisID)].skills[numFromStrEnd(thisID)].proficient and not main_Table[numFromStr(thisID)].skills[numFromStrEnd(thisID)].expertize then
+        elseif main_Table[numFromStr(thisID)].skills[numFromStrEnd(thisID)].proficient then
             thisSkillMod = thisSkillMod + main_Table[numFromStr(thisID)].charProfBonus
         end
         if vl == "-1" then
@@ -567,10 +576,26 @@ function skillButtonMain(pl,vl,thisID)
     singleColor_UI_update(nFromPl(pl))
 end
 
-function setExpertize(pl,vl,thisID)
-    main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].expertize = not main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].expertize
+function setExpert(pl,vl,thisID)
+    main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].expert = not main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].expert
     if not main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].proficient then
-        main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].expertize = false
+        main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].expert = false
+    end
+    singleColor_UI_update(nFromPl(pl))
+end
+
+function setMaster(pl,vl,thisID)
+    main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].master = not main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].master
+    if not main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].expert then
+        main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].master = false
+    end
+    singleColor_UI_update(nFromPl(pl))
+end
+
+function setLegendary(pl,vl,thisID)
+    main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].legendary = not main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].legendary
+    if not main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].master then
+        main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].legendary = false
     end
     singleColor_UI_update(nFromPl(pl))
 end
@@ -1085,6 +1110,8 @@ function initiative_UI_update()   -------------
         UI_xmlElementUpdate("initImage_01", "color", "#ffffff")
         if getObjectFromGUID(init_table[initTurnPos].tokenGUID) != nil then
             UI_xmlElementUpdate("initImage_01", "image", getObjectFromGUID(init_table[initTurnPos].tokenGUID).getTable("charSave_table").portraitUrl)
+        elseif init_table[initTurnPos].portraitUrl then
+            UI_xmlElementUpdate("initImage_01", "image", init_table[initTurnPos].portraitUrl)
         else
             UI_xmlElementUpdate("initImage_01", "image", "https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/")
         end
@@ -1097,6 +1124,8 @@ function initiative_UI_update()   -------------
             UI_xmlElementUpdate("initImage_"..strFromNum(i), "color", "#ffffff")
             if getObjectFromGUID(init_table[initImgUpdatePos].tokenGUID) != nil then
                 UI_xmlElementUpdate("initImage_"..strFromNum(i), "image", getObjectFromGUID(init_table[initImgUpdatePos].tokenGUID).getTable("charSave_table").portraitUrl)
+            elseif init_table[initImgUpdatePos].portraitUrl then
+                UI_xmlElementUpdate("initImage_"..strFromNum(i), "image", init_table[initImgUpdatePos].portraitUrl)
             else
                 UI_xmlElementUpdate("initImage_"..strFromNum(i), "image", "https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/")
             end
@@ -1194,7 +1223,16 @@ function initRollAll(pl,vl,thisID)
     initiative_UI_update()
 end
 
-function initRollSingle(pl,vl,thisID)
+function setInitCharPortrait(pl,vl)
+    if vl != "" then
+        init_table[initEditPos].portraitUrl = vl
+    else
+        init_table[initEditPos].portraitUrl = "https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/"
+    end
+    initiative_UI_update()
+end
+
+function initRollSingle()
     math.randomseed(os.clock()*10000)
     init_table[initEditPos].rollRez = math.random(1,20) + init_table[initEditPos].initMod
     UI_xmlElementUpdate("initSetupRezInput", "text", init_table[initEditPos].rollRez)
@@ -1520,13 +1558,17 @@ function colorToggleBigPortrait(pl,vl,thisID)
         if thisID == "bigPortraitSelf" then
             UI_xmlElementUpdate(strFromNum(nFromPl(pl)).."_bigPortraitImage","image",main_Table[nFromPl(pl)].portraitUrl)
         elseif string.sub(thisID, 1, 15) == "bigPortraitInit" and #init_table > 0 then
-            bigPortraitInitPos = initTurnPos
+            local bigPortraitInitPos = initTurnPos
             for i=1,numFromStrEnd(thisID)-1 do
                 bigPortraitInitPos = bigPortraitInitPos + 1
                 if bigPortraitInitPos > #init_table then bigPortraitInitPos = 1 end
             end
             if vl == "-1" then
-                UI_xmlElementUpdate(strFromNum(nFromPl(pl)).."_bigPortraitImage","image",getObjectFromGUID(init_table[bigPortraitInitPos].tokenGUID).getTable("charSave_table").portraitUrl)
+                if thisID:find("Init") then
+                    UI_xmlElementUpdate(strFromNum(nFromPl(pl)).."_bigPortraitImage","image",self.UI.getAttribute("initImage_"..thisID:match("^[^_]+_([^_]+)"), "image"))
+                else
+                    UI_xmlElementUpdate(strFromNum(nFromPl(pl)).."_bigPortraitImage","image",getObjectFromGUID(init_table[bigPortraitInitPos].tokenGUID).getTable("charSave_table").portraitUrl)
+                end
             elseif vl == "-2" then
                 panelVisibility_bigPortrait[nFromPl(pl)] = false
                 if getObjectFromGUID(init_table[bigPortraitInitPos].tokenGUID) != nil then
@@ -1695,7 +1737,9 @@ function UI_upd(i)
         
     pPerseptionBase = 10 + modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[12].mod
     if main_Table[i].skills[12].proficient then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
-    if main_Table[i].skills[12].expertize  then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
+    if main_Table[i].skills[12].expert then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
+    if main_Table[i].skills[12].master then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
+    if main_Table[i].skills[12].legendary then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
     if main_Table[i].pPerceptionMod != 0 then ppModStr = " ("..PoM(main_Table[i].pPerceptionMod)..main_Table[i].pPerceptionMod..")" else ppModStr = "" end
     UI_xmlElementUpdate(strFromNum(i).."_charPassivePerception", "text", lang_table[enumLangSet[lang_set]][7]..(main_Table[i].pPerceptionMod + pPerseptionBase)..ppModStr)
 
@@ -1739,16 +1783,22 @@ function UI_upd(i)
 
     for ii=1,18 do
         if main_Table[i].skills[ii].proficient then fontStr = "bold" else fontStr = "italic" end
-        if main_Table[i].skills[ii].expertize then exStr = " ("..lang_table[enumLangSet[lang_set]][33]..")" else exStr = "" end
+        if main_Table[i].skills[ii].expert then eStr = " ("..lang_table[enumLangSet[lang_set]][33]..")" else eStr = "" end
+        if main_Table[i].skills[ii].master then mStr = " ("..lang_table[enumLangSet[lang_set]][79]..")" else mStr = "" end
+        if main_Table[i].skills[ii].legendary then lStr = " ("..lang_table[enumLangSet[lang_set]][81]..")" else lStr = "" end
         if main_Table[i].skills[ii].mod != 0 then sklModStr = " "..PoM(main_Table[i].skills[ii].mod)..main_Table[i].skills[ii].mod else sklModStr = "" end
         --UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "text", lang_table[enumLangSet[lang_set]][14 + ii].." ("..lang_table[enumLangSet[lang_set]][7 + defSkillsAttr_table[ii]]..")"..exStr)
-        UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "text", lang_table[enumLangSet[lang_set]][14 + ii]..exStr..sklModStr)
+        UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "text", lang_table[enumLangSet[lang_set]][14 + ii]..eStr..mStr..lStr..sklModStr)
         UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "fontStyle", fontStr)
 
         thisSkillMod = modFromAttr(main_Table[i].attributes[defSkillsAttr_table[ii]]) + main_Table[i].skills[ii].mod
-        if main_Table[i].skills[ii].proficient and main_Table[i].skills[ii].expertize then
+        if main_Table[i].skills[ii].legendary then
+            thisSkillMod = thisSkillMod + main_Table[i].charProfBonus * 4
+        elseif main_Table[i].skills[ii].master then
+            thisSkillMod = thisSkillMod + main_Table[i].charProfBonus * 3
+        elseif main_Table[i].skills[ii].expert then
             thisSkillMod = thisSkillMod + main_Table[i].charProfBonus * 2
-        elseif main_Table[i].skills[ii].proficient and not main_Table[i].skills[ii].expertize then
+        elseif main_Table[i].skills[ii].proficient then
             thisSkillMod = thisSkillMod + main_Table[i].charProfBonus
         end
         UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "tooltip", "d20"..PoM(thisSkillMod)..thisSkillMod)
@@ -1850,7 +1900,9 @@ function teamBar_UI_update()
             end
             pPerseptionBase = 10 + modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[12].mod
             if main_Table[i].skills[12].proficient then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
-            if main_Table[i].skills[12].expertize  then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
+            if main_Table[i].skills[12].expert then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
+            if main_Table[i].skills[12].master then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
+            if main_Table[i].skills[12].legendary then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
             if main_Table[i].pPerceptionMod != 0 then ppModStr = " ("..PoM(main_Table[i].pPerceptionMod)..main_Table[i].pPerceptionMod..")" else ppModStr = "" end
             
             UI_xmlElementUpdate(strFromNum(i).."_bigPortraitTeam", "tooltip", main_Table[i].charName.."\n"..
@@ -1960,6 +2012,10 @@ function language_UI_update()   --  tooltipBackgroundColor="#000000" tooltipPosi
     for i=1,18 do
         UI_xmlElementUpdate("charSkillButtonE_"..strFromNum(i), "tooltip", lang_table[enumLangSet[lang_set]][65])
         UI_xmlElementUpdate("charSkillButtonE_"..strFromNum(i), "text", lang_table[enumLangSet[lang_set]][33])
+        UI_xmlElementUpdate("charSkillButtonM_"..strFromNum(i), "tooltip", lang_table[enumLangSet[lang_set]][78])
+        UI_xmlElementUpdate("charSkillButtonM_"..strFromNum(i), "text", lang_table[enumLangSet[lang_set]][79])
+        UI_xmlElementUpdate("charSkillButtonL_"..strFromNum(i), "tooltip", lang_table[enumLangSet[lang_set]][80])
+        UI_xmlElementUpdate("charSkillButtonL_"..strFromNum(i), "text", lang_table[enumLangSet[lang_set]][81])
     end
     for i=1,8 do
         UI_xmlElementUpdate("charSheetUtilButton_"..strFromNum(i), "text", lang_table[enumLangSet[lang_set]][65+i])
