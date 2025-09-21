@@ -105,7 +105,7 @@
         <InputField id="charNameInput" color="#dddddd" width="300" height="30" offsetXY="-150,165" placeholder="charName" onEndEdit="setCharName" tooltipBackgroundColor="#000000" tooltipPosition="Above" textColor="#888888" />
     </Panel>
     <VerticalLayout>
-        <HorizontalLayout preferredHeight="100" >
+        <HorizontalLayout preferredHeight="120" >
             <Panel color="#aaaaaa" preferredWidth="100">
                 <Image id="01_charPortrait" preserveAspect="true" height="100" width="100" image="https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/" visibility="Black"  />
                 <Image id="02_charPortrait" preserveAspect="true" height="100" width="100" image="https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/" visibility="White"  />
@@ -122,45 +122,45 @@
             </Panel>
             <VerticalLayout preferredWidth="300">
                 <HorizontalLayout>
-                    <Text id="01_charName"  resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Black"  />
-                    <Text id="02_charName"  resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="White"  />
-                    <Text id="03_charName"  resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Brown"  />
-                    <Text id="04_charName"  resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Red"    />
-                    <Text id="05_charName"  resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Orange" />
-                    <Text id="06_charName"  resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Yellow" />
-                    <Text id="07_charName"  resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Green"  />
-                    <Text id="08_charName"  resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Teal"   />
-                    <Text id="09_charName"  resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Blue"   />
-                    <Text id="10_charName"  resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Purple" />
-                    <Text id="11_charName"  resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Pink"   />
+                    <Text id="01_charName" resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Black"  />
+                    <Text id="02_charName" resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="White"  />
+                    <Text id="03_charName" resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Brown"  />
+                    <Text id="04_charName" resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Red"    />
+                    <Text id="05_charName" resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Orange" />
+                    <Text id="06_charName" resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Yellow" />
+                    <Text id="07_charName" resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Green"  />
+                    <Text id="08_charName" resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Teal"   />
+                    <Text id="09_charName" resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Blue"   />
+                    <Text id="10_charName" resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Purple" />
+                    <Text id="11_charName" resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Pink"   />
                 </HorizontalLayout>
                 <HorizontalLayout>
-                    <Text id="01_charLvl"  resizeTextMaxSize="13" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Black"  />
-                    <Text id="02_charLvl"  resizeTextMaxSize="13" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="White"  />
-                    <Text id="03_charLvl"  resizeTextMaxSize="13" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Brown"  />
-                    <Text id="04_charLvl"  resizeTextMaxSize="13" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Red"    />
-                    <Text id="05_charLvl"  resizeTextMaxSize="13" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Orange" />
-                    <Text id="06_charLvl"  resizeTextMaxSize="13" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Yellow" />
-                    <Text id="07_charLvl"  resizeTextMaxSize="13" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Green"  />
-                    <Text id="08_charLvl"  resizeTextMaxSize="13" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Teal"   />
-                    <Text id="09_charLvl"  resizeTextMaxSize="13" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Blue"   />
-                    <Text id="10_charLvl"  resizeTextMaxSize="13" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Purple" />
-                    <Text id="11_charLvl"  resizeTextMaxSize="13" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Pink"   />
+                    <Text id="01_charLvl" resizeTextMaxSize="13" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Black"  />
+                    <Text id="02_charLvl" resizeTextMaxSize="13" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="White"  />
+                    <Text id="03_charLvl" resizeTextMaxSize="13" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Brown"  />
+                    <Text id="04_charLvl" resizeTextMaxSize="13" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Red"    />
+                    <Text id="05_charLvl" resizeTextMaxSize="13" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Orange" />
+                    <Text id="06_charLvl" resizeTextMaxSize="13" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Yellow" />
+                    <Text id="07_charLvl" resizeTextMaxSize="13" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Green"  />
+                    <Text id="08_charLvl" resizeTextMaxSize="13" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Teal"   />
+                    <Text id="09_charLvl" resizeTextMaxSize="13" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Blue"   />
+                    <Text id="10_charLvl" resizeTextMaxSize="13" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Purple" />
+                    <Text id="11_charLvl" resizeTextMaxSize="13" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Pink"   />
                     <VerticalLayout id="charLvlEdit" preferredWidth="20" visibility="noone" > <!-- EDIT TOGGLE -->
                         <Button id="charLvlButton_01" onClick="setCharLvl" text="+" fontSize="10" />
                         <Button id="charLvlButton_02" onClick="setCharLvl" text="-" fontSize="10" />
                     </VerticalLayout>
-                    <Text id="01_charAC" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Black"  />
-                    <Text id="02_charAC" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="White"  />
-                    <Text id="03_charAC" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Brown"  />
-                    <Text id="04_charAC" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Red"    />
-                    <Text id="05_charAC" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Orange" />
-                    <Text id="06_charAC" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Yellow" />
-                    <Text id="07_charAC" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Green"  />
-                    <Text id="08_charAC" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Teal"   />
-                    <Text id="09_charAC" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Blue"   />
-                    <Text id="10_charAC" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Purple" />
-                    <Text id="11_charAC" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Pink"   />
+                    <Text id="01_charAC" resizeTextMaxSize="13" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Black"  />
+                    <Text id="02_charAC" resizeTextMaxSize="13" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="White"  />
+                    <Text id="03_charAC" resizeTextMaxSize="13" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Brown"  />
+                    <Text id="04_charAC" resizeTextMaxSize="13" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Red"    />
+                    <Text id="05_charAC" resizeTextMaxSize="13" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Orange" />
+                    <Text id="06_charAC" resizeTextMaxSize="13" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Yellow" />
+                    <Text id="07_charAC" resizeTextMaxSize="13" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Green"  />
+                    <Text id="08_charAC" resizeTextMaxSize="13" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Teal"   />
+                    <Text id="09_charAC" resizeTextMaxSize="13" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Blue"   />
+                    <Text id="10_charAC" resizeTextMaxSize="13" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Purple" />
+                    <Text id="11_charAC" resizeTextMaxSize="13" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Pink"   />
                     <VerticalLayout id="charACedit" preferredWidth="20" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charACbutton_01" onClick="setCharAC" text="+" fontSize="10" />
                         <Button id="charACbutton_02" onClick="setCharAC" text="-" fontSize="10" />
@@ -210,17 +210,17 @@
                     </VerticalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
-                    <Text id="01_charPassivePerception" text="Passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Black"  />
-                    <Text id="02_charPassivePerception" text="Passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="White"  />
-                    <Text id="03_charPassivePerception" text="Passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Brown"  />
-                    <Text id="04_charPassivePerception" text="Passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Red"    />
-                    <Text id="05_charPassivePerception" text="Passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Orange" />
-                    <Text id="06_charPassivePerception" text="Passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Yellow" />
-                    <Text id="07_charPassivePerception" text="Passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Green"  />
-                    <Text id="08_charPassivePerception" text="Passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Teal"   />
-                    <Text id="09_charPassivePerception" text="Passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Blue"   />
-                    <Text id="10_charPassivePerception" text="Passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Purple" />
-                    <Text id="11_charPassivePerception" text="Passive perception: 12" fontStyle="bold" preferredWidth="300" visibility="Pink"   />
+                    <Text id="01_charPassivePerception" text="Passive perception: 12" resizeTextMaxSize='20' fontStyle="bold" visibility="Black"  />
+                    <Text id="02_charPassivePerception" text="Passive perception: 12" resizeTextMaxSize='20' fontStyle="bold" visibility="White"  />
+                    <Text id="03_charPassivePerception" text="Passive perception: 12" resizeTextMaxSize='20' fontStyle="bold" visibility="Brown"  />
+                    <Text id="04_charPassivePerception" text="Passive perception: 12" resizeTextMaxSize='20' fontStyle="bold" visibility="Red"    />
+                    <Text id="05_charPassivePerception" text="Passive perception: 12" resizeTextMaxSize='20' fontStyle="bold" visibility="Orange" />
+                    <Text id="06_charPassivePerception" text="Passive perception: 12" resizeTextMaxSize='20' fontStyle="bold" visibility="Yellow" />
+                    <Text id="07_charPassivePerception" text="Passive perception: 12" resizeTextMaxSize='20' fontStyle="bold" visibility="Green"  />
+                    <Text id="08_charPassivePerception" text="Passive perception: 12" resizeTextMaxSize='20' fontStyle="bold" visibility="Teal"   />
+                    <Text id="09_charPassivePerception" text="Passive perception: 12" resizeTextMaxSize='20' fontStyle="bold" visibility="Blue"   />
+                    <Text id="10_charPassivePerception" text="Passive perception: 12" resizeTextMaxSize='20' fontStyle="bold" visibility="Purple" />
+                    <Text id="11_charPassivePerception" text="Passive perception: 12" resizeTextMaxSize='20' fontStyle="bold" visibility="Pink"   />
                     <VerticalLayout id="charPassPercEdit" preferredWidth="20" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charPassPerceptionButton_01" onClick="setCharPassPerceptionMod" text="+" fontSize="10" />
                         <Button id="charPassPerceptionButton_02" onClick="setCharPassPerceptionMod" text="-" fontSize="10" />
@@ -355,7 +355,7 @@
                 </Panel>
             </Panel>
         </HorizontalLayout>
-        <HorizontalLayout preferredHeight="200" >
+        <HorizontalLayout preferredHeight="180" >
             <VerticalLayout preferredWidth="80" >
                 <HorizontalLayout>
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_1" visibility="noone"> <!-- EDIT TOGGLE -->

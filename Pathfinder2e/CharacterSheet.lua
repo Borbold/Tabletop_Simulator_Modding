@@ -1908,12 +1908,14 @@ function toggleGMsettingsPanel()
 end
 
 function set_UI_Language(pl,vl,thisID)
+    local countLang = 0
+    for _,_ in pairs(lang_table) do countLang = countLang + 1 end
     if vl == "-1" then
         lang_set = lang_set + 1
-        if lang_set > #lang_table then lang_set = 1 end
+        if lang_set > countLang then lang_set = 1 end
     elseif vl == "-2" then
         lang_set = lang_set - 1
-        if lang_set < 1 then lang_set = #lang_table end
+        if lang_set < 1 then lang_set = countLang end
     end
     mainSheet_UI_update()
     initiative_UI_update()
