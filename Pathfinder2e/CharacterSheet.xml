@@ -3327,7 +3327,7 @@
 
 <!-- MINIMAP (DONE) -->
 <Panel id="miniMapPanel" allowDragging="true" returnToOriginalPositionWhenReleased="false" color="#ffffff88" rectAlignment="UpperLeft" height="300" width="300" offsetXY="100,-100" visibility="noone" outline="#440044ff" outlineSize="1 -1" active="True" >
-    <Text id="miniMap_head" fontSize="13" fontStyle="bold" offsetXY="0 140" text="Minimap" />
+    <Text id="miniMap_head" resizeTextMaxSize="20" fontStyle="bold" offsetXY="0 140" text="Minimap" />
     <Text fontSize="150" fontStyle="bold" color="#0000000a" text="○" scale="1 1 1" offsetXY="0 10" /> <!-- ○ ◌ -->
     <Text fontSize="150" fontStyle="bold" color="#0000000a" text="○" scale="2.2 2.2 1" offsetXY="0 22" />
     <Text fontSize="150" fontStyle="bold" color="#0000000a" text="○" scale="3.7 3.7 1" offsetXY="0 37" />

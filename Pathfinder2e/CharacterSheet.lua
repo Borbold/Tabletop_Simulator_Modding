@@ -1742,7 +1742,7 @@ function UI_upd(i)
         if main_Table[i].skills[ii].expertize then exStr = " ("..lang_table[enumLangSet[lang_set]][33]..")" else exStr = "" end
         if main_Table[i].skills[ii].mod != 0 then sklModStr = " "..PoM(main_Table[i].skills[ii].mod)..main_Table[i].skills[ii].mod else sklModStr = "" end
         --UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "text", lang_table[enumLangSet[lang_set]][14 + ii].." ("..lang_table[enumLangSet[lang_set]][7 + defSkillsAttr_table[ii]]..")"..exStr)
-        UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "text", lang_table[enumLangSet[lang_set]][14 + ii].." ("..string.sub(lang_table[enumLangSet[lang_set]][7 + defSkillsAttr_table[ii]],1,1)..")"..exStr..sklModStr)
+        UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "text", lang_table[enumLangSet[lang_set]][14 + ii]..exStr..sklModStr)
         UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "fontStyle", fontStr)
 
         thisSkillMod = modFromAttr(main_Table[i].attributes[defSkillsAttr_table[ii]]) + main_Table[i].skills[ii].mod
@@ -1992,11 +1992,11 @@ function language_UI_update()   --  tooltipBackgroundColor="#000000" tooltipPosi
         end
         UI_xmlElementUpdate("spellSlotButtonMax_"..strFromNum(i), "tooltip", lang_table[enumLangSet[lang_set]][95])
     end
-    UI_xmlElementUpdate("notesPanelTitle", "text", lang_table[enumLangSet[lang_set]][96])
+    UI_xmlElementUpdate("notesPanelTitle", "text", lang_table[enumLangSet[lang_set]][95])
     
     for i=1,11 do
         for ii=1,20 do
-            UI_xmlElementUpdate(strFromNum(i).."_conditionButton_"..strFromNum(ii), "tooltip", lang_table[enumLangSet[lang_set]][97+ii])
+            UI_xmlElementUpdate(strFromNum(i).."_conditionButton_"..strFromNum(ii), "tooltip", lang_table[enumLangSet[lang_set]][96+ii])
         end
     end
 
