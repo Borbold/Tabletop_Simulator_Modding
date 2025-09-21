@@ -1743,8 +1743,8 @@ function UI_upd(i)
     if main_Table[i].pPerceptionMod != 0 then ppModStr = " ("..PoM(main_Table[i].pPerceptionMod)..main_Table[i].pPerceptionMod..")" else ppModStr = "" end
     UI_xmlElementUpdate(strFromNum(i).."_charPassivePerception", "text", lang_table[enumLangSet[lang_set]][7]..(main_Table[i].pPerceptionMod + pPerseptionBase)..ppModStr)
 
-    UI_xmlElementUpdate(strFromNum(i).."_charHPbar", "width", math.floor(main_Table[i].hp / main_Table[i].hpMax * 386))
-    UI_xmlElementUpdate(strFromNum(i).."_charHPbar", "offsetXY", "-"..(193 - math.floor(main_Table[i].hp / main_Table[i].hpMax * 193))..",-15")
+    UI_xmlElementUpdate(strFromNum(i).."_charHPbar", "width", math.floor(main_Table[i].hp / main_Table[i].hpMax * 400))
+    UI_xmlElementUpdate(strFromNum(i).."_charHPbar", "offsetXY", "-"..(193 - math.floor(main_Table[i].hp / main_Table[i].hpMax * 200))..",-20")
 
     UI_xmlElementUpdate(strFromNum(i).."_charHPtext", "text", main_Table[i].hp.." / "..main_Table[i].hpMax)
     if main_Table[i].hpTemp > 0 then
@@ -1784,8 +1784,8 @@ function UI_upd(i)
     for ii=1,18 do
         if main_Table[i].skills[ii].proficient then fontStr = "bold" else fontStr = "italic" end
         if main_Table[i].skills[ii].expert then eStr = " ("..lang_table[enumLangSet[lang_set]][33]..")" else eStr = "" end
-        if main_Table[i].skills[ii].master then mStr = " ("..lang_table[enumLangSet[lang_set]][79]..")" else mStr = "" end
-        if main_Table[i].skills[ii].legendary then lStr = " ("..lang_table[enumLangSet[lang_set]][81]..")" else lStr = "" end
+        if main_Table[i].skills[ii].master then mStr = " ("..lang_table[enumLangSet[lang_set]][78]..")" else mStr = "" end
+        if main_Table[i].skills[ii].legendary then lStr = " ("..lang_table[enumLangSet[lang_set]][80]..")" else lStr = "" end
         if main_Table[i].skills[ii].mod != 0 then sklModStr = " "..PoM(main_Table[i].skills[ii].mod)..main_Table[i].skills[ii].mod else sklModStr = "" end
         --UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "text", lang_table[enumLangSet[lang_set]][14 + ii].." ("..lang_table[enumLangSet[lang_set]][7 + defSkillsAttr_table[ii]]..")"..exStr)
         UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "text", lang_table[enumLangSet[lang_set]][14 + ii]..eStr..mStr..lStr..sklModStr)
@@ -2012,10 +2012,10 @@ function language_UI_update()   --  tooltipBackgroundColor="#000000" tooltipPosi
     for i=1,18 do
         UI_xmlElementUpdate("charSkillButtonE_"..strFromNum(i), "tooltip", lang_table[enumLangSet[lang_set]][65])
         UI_xmlElementUpdate("charSkillButtonE_"..strFromNum(i), "text", lang_table[enumLangSet[lang_set]][33])
-        UI_xmlElementUpdate("charSkillButtonM_"..strFromNum(i), "tooltip", lang_table[enumLangSet[lang_set]][78])
-        UI_xmlElementUpdate("charSkillButtonM_"..strFromNum(i), "text", lang_table[enumLangSet[lang_set]][79])
-        UI_xmlElementUpdate("charSkillButtonL_"..strFromNum(i), "tooltip", lang_table[enumLangSet[lang_set]][80])
-        UI_xmlElementUpdate("charSkillButtonL_"..strFromNum(i), "text", lang_table[enumLangSet[lang_set]][81])
+        UI_xmlElementUpdate("charSkillButtonM_"..strFromNum(i), "tooltip", lang_table[enumLangSet[lang_set]][79])
+        UI_xmlElementUpdate("charSkillButtonM_"..strFromNum(i), "text", lang_table[enumLangSet[lang_set]][78])
+        UI_xmlElementUpdate("charSkillButtonL_"..strFromNum(i), "tooltip", lang_table[enumLangSet[lang_set]][81])
+        UI_xmlElementUpdate("charSkillButtonL_"..strFromNum(i), "text", lang_table[enumLangSet[lang_set]][80])
     end
     for i=1,8 do
         UI_xmlElementUpdate("charSheetUtilButton_"..strFromNum(i), "text", lang_table[enumLangSet[lang_set]][65+i])
