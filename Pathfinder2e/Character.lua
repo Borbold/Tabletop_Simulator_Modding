@@ -1,61 +1,83 @@
+-- Функция для сохранения данных персонажа
 function onSave()
-    rndSave = math.random(1,3)
-    if rndSave == 1 or self.getDescription() == "save" then
-        data_to_save={}
-        data_to_save.charSave_table = self.getTable("charSave_table")
+    -- Генерация случайного числа для определения, нужно ли сохранять данные
+    local rndSave = math.random(1, 3)
+
+    -- Проверка условия для сохранения данных
+    if rndSave == 1 or self:getDescription() == "save" then
+        -- Создание таблицы для сохранения данных
+        local data_to_save = {}
+        data_to_save.charSave_table = self:getTable("charSave_table")
         data_to_save.Selected = Selected
-        saved_data = JSON.encode(data_to_save)
+
+        -- Кодирование данных в JSON формат
+        local saved_data = JSON.encode(data_to_save)
         return saved_data
     end
 end
+
+-- Функция для загрузки данных персонажа
 function onLoad(saved_data)
     THIS_IS_A_SCRIPTED_DND_4E_CHARACTER_TOKEN = true
-    ------------------------------------------
-    --saved_data = "" -- MUST BE COMMENTED !!!
-    ------------------------------------------
-    if saved_data != nil and saved_data != "" then
-        loaded_data = JSON.decode(saved_data)
-        self.setTable("charSave_table", loaded_data.charSave_table)
+
+    -- Проверка наличия данных для загрузки
+    if saved_data and saved_data ~= "" then
+        -- Декодирование данных из JSON формата
+        local loaded_data = JSON.decode(saved_data)
+        self:setTable("charSave_table", loaded_data.charSave_table)
         Selected = loaded_data.Selected
     else
-        Selected = 0 -- clr index, 0 - idle
+        -- Установка начальных значений, если данные отсутствуют
+        Selected = 0 -- Индекс выбора, 0 - idle
         resetChar()
     end
-    plColorsHexTable= {"#3f3f3f","#ffffff","#703a16","#da1917","#f3631c","#e6e42b","#30b22a","#20b09a","#1e87ff","#9f1fef","#f46fcd"}
-    plColors_Table = {"Black","White","Brown","Red","Orange","Yellow","Green","Teal","Blue","Purple","Pink"}
-    self.UI.setXml(charXml())
+
+    -- Настройка цветов и интерфейса
+    local plColorsHexTable = {"#3f3f3f","#ffffff","#703a16","#da1917","#f3631c","#e6e42b","#30b22a","#20b09a","#1e87ff","#9f1fef","#f46fcd"}
+    local plColors_Table = {"Black","White","Brown","Red","Orange","Yellow","Green","Teal","Blue","Purple","Pink"}
+    self.UI:setXml(charXml())
     hideThisChar()
 end
+
+-- Функция для скрытия персонажа
 function hideThisChar()
     if charSave_table.charHidden then
-        hideFromTbl = {"Grey"}
-        for i=2,11 do
+        local hideFromTbl = {"Grey"}
+        for i = 2, 11 do
             if not charSave_table.aColors[i] then
                 table.insert(hideFromTbl, plColors_Table[i])
             end
         end
-        self.setInvisibleTo(hideFromTbl)
+        self:setInvisibleTo(hideFromTbl)
     else
-        self.setInvisibleTo({})
+        self:setInvisibleTo({})
     end
+
+    -- Обновление интерфейса через 3 кадра
     Wait.frames(function()
         UI_update()
     end, 3)
 end
+
+-- Функция для обновления интерфейса
 function UI_update()
+    -- Обновление позиции, ротации и масштаба интерфейса
     UI_xmlElementUpdate("tokenUIbase", "position", (charSave_table.tokenGUI_settings[3] * 10)..","..(charSave_table.tokenGUI_settings[1] * 10)..","..(charSave_table.tokenGUI_settings[2] * (-10)))
     UI_xmlElementUpdate("tokenUIbase", "rotation", "0,0,"..charSave_table.tokenGUI_settings[4] * 15 + 90)
     UI_xmlElementUpdate("tokenUIbase", "scale", (1.1 ^ (charSave_table.tokenGUI_settings[5] - 6))..","..(1.1 ^ (charSave_table.tokenGUI_settings[5] - 6))..","..(1.1 ^ (charSave_table.tokenGUI_settings[5] - 6)))
-    HP_i = math.floor(charSave_table.hp / charSave_table.hpMax * 20)
 
-    showToStr = "Black"
-    for i=2,11 do
+    -- Обновление состояния здоровья
+    local HP_i = math.floor(charSave_table.hp / charSave_table.hpMax * 20)
+
+    -- Формирование строки видимости
+    local showToStr = "Black"
+    for i = 2, 11 do
         if charSave_table.aColors[i] then
-            addColStr = plColors_Table[i]
-            showToStr = showToStr.."|"..addColStr
+            showToStr = showToStr.."|"..plColors_Table[i]
         end
     end
-    
+
+    -- Обновление видимости элементов интерфейса
     if charSave_table.charHidden then
         UI_xmlElementUpdate("conditionsPanel", "visibility", showToStr)
         UI_xmlElementUpdate("selectedMarker", "visibility", showToStr)
@@ -64,17 +86,17 @@ function UI_update()
         UI_xmlElementUpdate("hiddenMarker", "visibility", showToStr)
     else
         UI_xmlElementUpdate("conditionsPanel", "visibility", "Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink|Grey")
-        UI_xmlElementUpdate("selectedMarker", "visibility",  "Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink|Grey")
-        --UI_xmlElementUpdate("hpBar", "visibility", "Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink|Grey")
-        UI_xmlElementUpdate("hiddenMarker", "active", "False")
+        UI_xmlElementUpdate("selectedMarker", "visibility", "Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink|Grey")
         if charSave_table.hpVisibleToPlayers then
             UI_xmlElementUpdate("hpBar", "visibility", "Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink|Grey")
         else
             UI_xmlElementUpdate("hpBar", "visibility", showToStr)
         end
+        UI_xmlElementUpdate("hiddenMarker", "active", "False")
     end
 
-    for i=1,20 do
+    -- Обновление цвета элементов здоровья
+    for i = 1, 20 do
         if i <= HP_i or (i == 1 and charSave_table.hp > 0) then
             UI_xmlElementUpdate("hpBarText_"..strFromNum(i), "color", "#aa2222")
         else
@@ -86,26 +108,30 @@ function UI_update()
             UI_xmlElementUpdate("hpBarText_"..strFromNum(i), "outline", "#66004400")
         end
     end
-    if Selected != 0 then 
+
+    -- Обновление выделения
+    if Selected ~= 0 then
         UI_xmlElementUpdate("selectedMarker", "active", "True")
-        for i=1,4 do
+        for i = 1, 4 do
             UI_xmlElementUpdate("selectedMarker_"..strFromNum(i), "outline", plColorsHexTable[Selected].."ff")
-            --UI_xmlElementUpdate("selectedMarker_"..strFromNum(i), "outline", baseOutlnHexTable[Selected].."88")
         end
         UI_xmlElementUpdate("selectedMarker_00", "color", plColorsHexTable[Selected].."ff")
         UI_xmlElementUpdate("selectedMarker_10", "color", plColorsHexTable[Selected].."ff")
     else
         UI_xmlElementUpdate("selectedMarker", "active", "False")
     end
-    for i=1,20 do
+
+    -- Обновление состояний
+    for i = 1, 20 do
         if charSave_table.conditions.table[i] then
             UI_xmlElementUpdate("conditionPanel_"..strFromNum(i), "active", "True")
         else
             UI_xmlElementUpdate("conditionPanel_"..strFromNum(i), "active", "False")
         end
     end
+
     if charSave_table.conditions.table[18] then
-        for i=1,5 do
+        for i = 1, 5 do
             if i == charSave_table.conditions.exhaustion then
                 UI_xmlElementUpdate("exhaustion_"..strFromNum(i), "active", "True")
             else
@@ -113,10 +139,14 @@ function UI_update()
             end
         end
     end
+
+    -- Обновление портрета
     UI_xmlElementUpdate("bigPortrait", "image", charSave_table.portraitUrl)
 end
+
+-- Функция для создания эффекта дрожания при выделении
 function selectWobble()
-    for i=1,5 do
+    for i = 1, 5 do
         Wait.frames(function()
             self.UI.setAttribute("selectedMarker", "scale", (1+(i*0.2))..","..(1+(i*0.2))..","..(1+(i*0.2)))
         end, i*2+5)
@@ -125,46 +155,39 @@ function selectWobble()
         end, i*2+15)
     end
 end
+
+-- Функция для создания эффекта вращения при выделении
 function selectSpin()
-    for i=1,3 do
+    for i = 1, 3 do
         Wait.frames(function()
             self.UI.setAttribute("selectedMarkerStar", "rotation", "0,0,"..(i*7))
         end, i*20)
     end
 end
+
+-- Функция для случайного изменения состояния персонажа
 function onRandomize(player_color)
-    self.setVelocity({0,0,0})
+    self:setVelocity({0,0,0})
     if self.UI.getAttribute("bigPortrait", "active") == "True" then
         self.UI.setAttribute("bigPortrait", "active", "False")
     else
-        --if collisionImage != "" then
-        --    charSave_table.portraitUrl = collisionImage
-        --    collisionImage = ""
-        --    UI_update()
-        --end
         self.UI.setAttribute("bigPortrait", "active", "True")
     end
     UI_update()
 end
---function onCollisionEnter(collision_info)
---    if collision_info.collision_object.getCustomObject().image != nil and not collision_info.collision_object.locked and collision_info.collision_object.interactable and collision_info.collision_object.getPosition()[2] < self.getPosition()[2] then
---        collisionImage = collision_info.collision_object.getCustomObject().image
---        Wait.time(function()
---            collisionImage = ""
---        end, 10)
---    end
---end
+
+-- Функция для сброса состояния персонажа
 function resetChar()
     charSave_table = {}
     charSave_table.aColors = {true,false,false,false,false,false,false,false,false,false,false}
     charSave_table.portraitUrl = "https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/"
-    charSave_table.charName = self.getName()
+    charSave_table.charName = self:getName()
     charSave_table.hp = 1
     charSave_table.hpMax = 1
     charSave_table.hpTemp = 0
     charSave_table.deathSaves = {1,1,1,1,1}
     charSave_table.charLvl = 1
-    charSave_table.charProfBonus = 2 -- math.floor((lvl +7)/4)     -- can be set manually for monsters
+    charSave_table.charProfBonus = 2
     charSave_table.AC = 10
     charSave_table.speed = 30
     charSave_table.initMod = 0
@@ -172,19 +195,19 @@ function resetChar()
     charSave_table.attributes = {}
     charSave_table.saves = {false,false,false,false,false,false}
     charSave_table.savesMod = {Fortitude = 0, Reflex = 0, Will = 0}
-    for ii=1,6 do
-        charSave_table.attributes[ii] = 10   -- modifier: (attr -10) /2
+    for ii = 1, 6 do
+        charSave_table.attributes[ii] = 10
         charSave_table.saves[ii] = false
     end
     charSave_table.skills = {}
-    for ii=1,18 do
+    for ii = 1, 18 do
         charSave_table.skills[ii] = {}
         charSave_table.skills[ii].proficient = false
         charSave_table.skills[ii].expertize = false
         charSave_table.skills[ii].mod = 0
     end
     charSave_table.attacks = {}
-    for ii=1,10 do
+    for ii = 1, 10 do
         charSave_table.attacks[ii] = {}
         charSave_table.attacks[ii].atkName = "unarmed"
         charSave_table.attacks[ii].atkRolled = true
@@ -202,7 +225,7 @@ function resetChar()
     charSave_table.splSlots = {0,0,0,0,0,0,0,0,0}
     charSave_table.splSlotsMax = {0,0,0,0,0,0,0,0,0}
     charSave_table.resourses = {}
-    for ii=1,10 do
+    for ii = 1, 10 do
         charSave_table.resourses[ii] = {}
         charSave_table.resourses[ii].resName = ""
         charSave_table.resourses[ii].resValue = 0
@@ -212,7 +235,7 @@ function resetChar()
     charSave_table.notes_B = ""
     charSave_table.figurineUI_scale = 1
     charSave_table.figurineUI_xyzMods = {0,0,0}
-        
+
     charSave_table.conditions = {}
     charSave_table.conditions.table = {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false}
     charSave_table.conditions.exhaustion = 0
@@ -221,25 +244,33 @@ function resetChar()
 
     charSave_table.charHidden = false
 end
+
+-- Функция для обновления XML элемента интерфейса
 function UI_xmlElementUpdate(xml_ID, xml_attribute, input_string)
-    if self.UI.getAttribute(xml_ID, xml_attribute) != input_string then
+    if self.UI.getAttribute(xml_ID, xml_attribute) ~= input_string then
         self.UI.setAttribute(xml_ID, xml_attribute, input_string)
     end
 end
+
+-- Функция для преобразования строки в число
 function numFromStr(inpStr)
-    if string.sub(inpStr,1,1) == "0" then
-        return tonumber(string.sub(inpStr,2,2))
+    if string.sub(inpStr, 1, 1) == "0" then
+        return tonumber(string.sub(inpStr, 2, 2))
     else
-        return tonumber(string.sub(inpStr,1,2))
+        return tonumber(string.sub(inpStr, 1, 2))
     end
 end
+
+-- Функция для преобразования строки в число (конец строки)
 function numFromStrEnd(inpStr)
-    if string.sub(inpStr,#inpStr-1,#inpStr-1) == "0" then
-        return tonumber(string.sub(inpStr,#inpStr,#inpStr))
+    if string.sub(inpStr, #inpStr-1, #inpStr-1) == "0" then
+        return tonumber(string.sub(inpStr, #inpStr, #inpStr))
     else
-        return tonumber(string.sub(inpStr,#inpStr-1,#inpStr))
+        return tonumber(string.sub(inpStr, #inpStr-1, #inpStr))
     end
 end
+
+-- Функция для преобразования числа в строку
 function strFromNum(inpNum)
     if inpNum < 10 then
         return "0"..tostring(inpNum)
@@ -247,6 +278,7 @@ function strFromNum(inpNum)
         return tostring(inpNum)
     end
 end
+
 function charXml()
     xmlStr = ''
     xmlStr = xmlStr..'<Defaults>'
