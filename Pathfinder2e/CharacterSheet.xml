@@ -2,6 +2,7 @@
     <InputField resizeTextForBestFit="True" font='Fonts/Allods' tooltipFont='Fonts/Allods' />
     <Text resizeTextForBestFit="True" font='Fonts/Allods' tooltipFont='Fonts/Allods' />
     <Button resizeTextForBestFit="True" font='Fonts/Allods' tooltipFont='Fonts/Allods' colors='#FFFFFFa0|#FFFFFFa0|#C8C8C8a0|rgba(0.78,0.78,0.78,0.5)' />
+    <Cell dontUseTableCellBackground='true' />
     <!--   -->
     <Button class="skillButton" resizeTextMaxSize="13" onClick="skillButtonMain" textAlignment="MiddleLeft" preferredWidth="170"  fontStyle="bold" fontSize="13" tooltipPosition="Above" tooltipBackgroundColor="#aaaaff" />
     <Button class="atkButton" color="#ffffff08" onClick="atkButton" tooltipBackgroundColor="#000044" tooltipPosition="Above" tooltip="atkTooltip" />
@@ -63,7 +64,7 @@
 
 <!-- CHAR SHEET (DONE) -->
 <Panel id="panel_main" allowDragging="true" returnToOriginalPositionWhenReleased="false" rectAlignment="LowerCenter" height="300" width="840" color="#ffffff" visibility="Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink" outline="#440044ff" outlineSize="1 -1" image='CharacterSheetBackground'>
-    <VerticalLayout height="200" width="110" offsetXY="-365 -50" >
+    <VerticalLayout height="195" width="110" offsetXY="-365 -52" >
         <Panel color="#ffffff" />
         <Panel color="#dddddd" />
         <Panel color="#ffffff" />
@@ -71,7 +72,7 @@
         <Panel color="#ffffff" />
         <Panel color="#dddddd" />
     </VerticalLayout>
-    <Panel id="assignedPlayersPanel" color="#ffffff" rectAlignment="LowerCenter" height="60" width="190" offsetXY="-480,305" visibility="noone" outline="#440044ff" outlineSize="1 -1">
+    <Panel id="assignedPlayersPanel" color="#ffffff" rectAlignment="LowerCenter" height="60" width="190" offsetXY="-495,300" visibility="noone" outline="#440044ff" outlineSize="1 -1">
         <VerticalLayout>
             <HorizontalLayout>
                 <Button text="●" id="assighedPlayerButton_02" fontSize="25" textOutline="#cccccc" color="#ffffff" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
@@ -91,22 +92,22 @@
         <Button text="hide" fontStyle="bold" id="setInvisButton" height="30" width="150" offsetXY="0 45" fontSize="20" textOutline="#cccccc" color="#cccccc" onClick="toggleInvisible" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
     </Panel>
     <Panel id="charPortraitNameInputsPanel" visibility="noone"> <!-- EDIT TOGGLE -->
-        <InputField id="01_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,165" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="02_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,165" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="03_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,165" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="04_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,165" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="05_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,165" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="06_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,165" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="07_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,165" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="08_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,165" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="09_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,165" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="10_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,165" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="11_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,165" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="charNameInput" color="#dddddd" width="300" height="30" offsetXY="-150,165" placeholder="charName" onEndEdit="setCharName" tooltipBackgroundColor="#000000" tooltipPosition="Above" textColor="#888888" />
+        <InputField id="01_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="02_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="03_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="04_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="05_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="06_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="07_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="08_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="09_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="10_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="11_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="charNameInput" color="#dddddd" width="300" height="30" offsetXY="-150,166" placeholder="charName" onEndEdit="setCharName" tooltipBackgroundColor="#000000" tooltipPosition="Above" textColor="#888888" />
     </Panel>
     <VerticalLayout>
-        <HorizontalLayout preferredHeight="120" >
-            <Panel color="#aaaaaa" preferredWidth="140">
+        <HorizontalLayout preferredHeight="100" >
+            <Panel color="#aaaaaa" preferredWidth="100">
                 <Image id="01_charPortrait" preserveAspect="true" height="100" width="100" image="https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/" visibility="Black"  />
                 <Image id="02_charPortrait" preserveAspect="true" height="100" width="100" image="https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/" visibility="White"  />
                 <Image id="03_charPortrait" preserveAspect="true" height="100" width="100" image="https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/" visibility="Brown"  />
@@ -328,7 +329,7 @@
                         <Button id="11_charDeathSaveButton_05" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
                     </HorizontalLayout>
                 </Panel>
-                <Panel width="420" height="40" offsetXY="0,35">
+                <Panel width="420" height="40" offsetXY="0,33">
                     <HorizontalLayout>
                         <Button id="charHP_dmgButton" text="Damage" preferredWidth="150" fontStyle="bold" onClick="takeDmg" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
                         <InputField id="01_charHealDmgValueInput" color="#dddddd" placeholder="value" characterValidation="Integer" preferredWidth="100" onEndEdit="setCharHealDmgVal" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
@@ -346,7 +347,7 @@
                         <Button id="charHP_tempButton" text="Temp" preferredWidth="50"  fontStyle="bold"   onClick="setTempHP" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
                     </HorizontalLayout>
                 </Panel>
-                <Panel id="charHPinputs" width="420" height="30" offsetXY="0,75" visibility="noone"> <!-- EDIT TOGGLE -->
+                <Panel id="charHPinputs" width="420" height="30" offsetXY="10,70" visibility="noone"> <!-- EDIT TOGGLE -->
                     <HorizontalLayout>
                         <InputField id="charHPsetInput_01" preferredWidth="200" onEndEdit="setCharHP" characterValidation="Integer" color="#dddddd" textColor="#888888" tooltipBackgroundColor="#000000" tooltipPosition="Above" placeholder="HP" />
                         <InputField id="charHPsetInput_02" preferredWidth="200" onEndEdit="setCharHP" characterValidation="Integer" color="#dddddd" textColor="#888888" tooltipBackgroundColor="#000000" tooltipPosition="Above" placeholder=" max HP" />
@@ -376,17 +377,17 @@
                         <Text id="10_charAttrValue_01" text="15" fontStyle="bold" visibility="Purple" />
                         <Text id="11_charAttrValue_01" text="15" fontStyle="bold" visibility="Pink"   />
                     </VerticalLayout>
-                    <Button preferredWidth="30" id="01_charAttrMod_01" text="+2" fontStyle="bold" visibility="Black"  onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button preferredWidth="30" id="02_charAttrMod_01" text="+2" fontStyle="bold" visibility="White"  onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button preferredWidth="30" id="03_charAttrMod_01" text="+2" fontStyle="bold" visibility="Brown"  onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button preferredWidth="30" id="04_charAttrMod_01" text="+2" fontStyle="bold" visibility="Red"    onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button preferredWidth="30" id="05_charAttrMod_01" text="+2" fontStyle="bold" visibility="Orange" onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button preferredWidth="30" id="06_charAttrMod_01" text="+2" fontStyle="bold" visibility="Yellow" onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button preferredWidth="30" id="07_charAttrMod_01" text="+2" fontStyle="bold" visibility="Green"  onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button preferredWidth="30" id="08_charAttrMod_01" text="+2" fontStyle="bold" visibility="Teal"   onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button preferredWidth="30" id="09_charAttrMod_01" text="+2" fontStyle="bold" visibility="Blue"   onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button preferredWidth="30" id="10_charAttrMod_01" text="+2" fontStyle="bold" visibility="Purple" onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button preferredWidth="30" id="11_charAttrMod_01" text="+2" fontStyle="bold" visibility="Pink"   onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                    <Button preferredWidth="28" id="01_charAttrMod_01" text="+2" fontStyle="bold" visibility="Black"  onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                    <Button preferredWidth="28" id="02_charAttrMod_01" text="+2" fontStyle="bold" visibility="White"  onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                    <Button preferredWidth="28" id="03_charAttrMod_01" text="+2" fontStyle="bold" visibility="Brown"  onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                    <Button preferredWidth="28" id="04_charAttrMod_01" text="+2" fontStyle="bold" visibility="Red"    onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                    <Button preferredWidth="28" id="05_charAttrMod_01" text="+2" fontStyle="bold" visibility="Orange" onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                    <Button preferredWidth="28" id="06_charAttrMod_01" text="+2" fontStyle="bold" visibility="Yellow" onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                    <Button preferredWidth="28" id="07_charAttrMod_01" text="+2" fontStyle="bold" visibility="Green"  onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                    <Button preferredWidth="28" id="08_charAttrMod_01" text="+2" fontStyle="bold" visibility="Teal"   onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                    <Button preferredWidth="28" id="09_charAttrMod_01" text="+2" fontStyle="bold" visibility="Blue"   onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                    <Button preferredWidth="28" id="10_charAttrMod_01" text="+2" fontStyle="bold" visibility="Purple" onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                    <Button preferredWidth="28" id="11_charAttrMod_01" text="+2" fontStyle="bold" visibility="Pink"   onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
                 </HorizontalLayout>
                 <HorizontalLayout>
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_2" visibility="noone"> <!-- EDIT TOGGLE -->
@@ -579,14 +580,40 @@
                 <Button id="10_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
                 <Button id="11_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
             </VerticalLayout >
-            <VerticalLayout id="savesModsButtons" spacing='25' preferredWidth="13" visibility="noone">
-                <Button id="01_charSaveModEdButton_Fortitude" onClick="setCharSaveMod" text="+" />
-                <Button id="02_charSaveModEdButton_Fortitude" onClick="setCharSaveMod" text="-" />
-                <Button id="01_charSaveModEdButton_Reflex" onClick="setCharSaveMod" text="+" />
-                <Button id="02_charSaveModEdButton_Reflex" onClick="setCharSaveMod" text="-" />
-                <Button id="01_charSaveModEdButton_Will" onClick="setCharSaveMod" text="+" />
-                <Button id="02_charSaveModEdButton_Will" onClick="setCharSaveMod" text="-" />
-            </VerticalLayout>
+            <TableLayout id="savesModsButtons" preferredWidth="13" visibility="noone">
+                <Row>
+                    <Cell>
+                        <Button id="01_charSaveModEdButton_Fortitude" onClick="setCharSaveMod" text="+" />
+                    </Cell>
+                </Row>
+                <Row>
+                    <Cell>
+                        <Button id="02_charSaveModEdButton_Fortitude" onClick="setCharSaveMod" text="-" />
+                    </Cell>
+                </Row>
+                <Row />
+                <Row>
+                    <Cell>
+                        <Button id="01_charSaveModEdButton_Reflex" onClick="setCharSaveMod" text="+" />
+                    </Cell>
+                </Row>
+                <Row>
+                    <Cell>
+                        <Button id="02_charSaveModEdButton_Reflex" onClick="setCharSaveMod" text="-" />
+                    </Cell>
+                </Row>
+                <Row />
+                <Row>
+                    <Cell>
+                        <Button id="01_charSaveModEdButton_Will" onClick="setCharSaveMod" text="+" />
+                    </Cell>
+                </Row>
+                <Row>
+                    <Cell>
+                        <Button id="02_charSaveModEdButton_Will" onClick="setCharSaveMod" text="-" />
+                    </Cell>
+                </Row>
+            </TableLayout>
             <Text  preferredWidth="5" />
             <VerticalLayout preferredWidth="230" >
                 <HorizontalLayout>

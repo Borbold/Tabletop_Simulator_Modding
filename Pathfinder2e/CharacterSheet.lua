@@ -2073,7 +2073,7 @@ function language_UI_update()   --  tooltipBackgroundColor="#000000" tooltipPosi
 
     UI_xmlElementUpdate("projectorToggleButton", "tooltip", lang_table[enumLangSet[lang_set]][128])
 
-    UI_xmlElementUpdate("screenRollerMinimizer", "tooltip", lang_table[enumLangSet[lang_set]][129])
+    UI_xmlElementUpdate("screenRollerMinimizer", "tooltip", lang_table[enumLangSet[lang_set]][128])
     
     UI_xmlElementUpdate("setInvisButton", "text", lang_table[enumLangSet[lang_set]][129])
     UI_xmlElementUpdate("setInvisButton", "tooltip", lang_table[enumLangSet[lang_set]][130])
