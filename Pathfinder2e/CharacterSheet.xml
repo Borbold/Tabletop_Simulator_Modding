@@ -4,24 +4,24 @@
     <Button resizeTextForBestFit="True" font='Fonts/Allods' tooltipFont='Fonts/Allods' colors='#FFFFFFa0|#FFFFFFa0|#C8C8C8a0|rgba(0.78,0.78,0.78,0.5)' />
     <Cell dontUseTableCellBackground='true' />
     <!--   -->
-    <Button class="skillButton" resizeTextMaxSize="13" onClick="skillButtonMain" textAlignment="MiddleLeft" preferredWidth="170"  fontStyle="bold" fontSize="13" tooltipPosition="Above" tooltipBackgroundColor="#aaaaff" />
+    <Button class="skillButton" resizeTextMaxSize="13" onClick="skillButtonMain" textAlignment="MiddleLeft" preferredWidth="170"  fontStyle="bold" tooltipPosition="Above" tooltipBackgroundColor="#aaaaff" />
     <Button class="atkButton" color="#ffffff08" onClick="atkButton" tooltipBackgroundColor="#000044" tooltipPosition="Above" tooltip="atkTooltip" />
     <Button class="spellSlotButton" resizeTextMaxSize="20" fontStyle="bold" textAlignment="MiddleLeft" text=" 1. ●●●○○○" onClick="spellSlotButtonMain" />
     <Text class="resTextName" resizeTextMaxSize="13" Alignment="MiddleLeft" fontStyle="bold" text= " 1. resourseName" />
     <Text class="resTextNum" Alignment="MiddleCenter" fontStyle="bold" text= "235 / 991" />
     <Button class="conditionButton" color="#ffffff02" onClick="contitionButt" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-    <Text class="miniMap_text" text="♠" fontStyle="bold" height="100" width="100" fontSize="30" rectAlignment="MiddleCenter" tooltipBackgroundColor="#000000" tooltipPosition="Above" outline="#00000000" outlineSize="1 -1" /><!-- ♠ ▲ ⇑ -->
-    <Text class="miniMap_text_x" text="╳" fontStyle="bold" height="100" width="100" fontSize="25" rectAlignment="MiddleCenter" color="#aa0000" outline="#220000ff" outlineSize="2 -2" />
+    <Text class="miniMap_text" text="♠" fontStyle="bold" height="100" width="100" resizeTextMaxSize="30" rectAlignment="MiddleCenter" tooltipBackgroundColor="#000000" tooltipPosition="Above" outline="#00000000" outlineSize="1 -1" /><!-- ♠ ▲ ⇑ -->
+    <Text class="miniMap_text_x" text="╳" fontStyle="bold" height="100" width="100" resizeTextMaxSize="25" rectAlignment="MiddleCenter" color="#aa0000" outline="#220000ff" outlineSize="2 -2" />
     <Panel class="miniMap_unit" height="10" width="10" tooltipBackgroundColor="#000000" tooltipPosition="Above"/>
     <Button class="atkEditIconsGridButton" color="#ffffff44" onClick="atkIconsMenuButton" />
 </Defaults>
 
 <Panel id="addCharModePanel" color="#0000aa22" visibility="Black" active="False">
-    <Text id="addCharModeText" fontSize="70" fontStyle="bold" text="SELECT NEW CHARACTER" color="#44448844" shadow="#22224444" />
+    <Text id="addCharModeText" resizeTextMaxSize="70" fontStyle="bold" text="SELECT NEW CHARACTER" color="#44448844" shadow="#22224444" />
 </Panel>
 
 <Panel id="copyCharModePanel" color="#aaaa0022" visibility="Black" active="False">
-    <Text id="copyCharModeText" fontSize="70" fontStyle="bold" text="SELECT CHARACTER TO INJECT CURRENT STATS" color="#88884444" shadow="#22224444" />
+    <Text id="copyCharModeText" resizeTextMaxSize="70" fontStyle="bold" text="SELECT CHARACTER TO INJECT CURRENT STATS" color="#88884444" shadow="#22224444" />
 </Panel>
 
 <Button rectAlignment="UpperLeft" height="10" width="10" text="" color="#00000011" onClick="makeMeGM" visibility="Grey" />
@@ -31,34 +31,34 @@
 
 <Button id="projectorToggleButton" rectAlignment="UpperCenter" height="53" width="53" offsetXY="518 -1" text="╔═╗╱ ╚═╝╲" fontStyle="bold" onClick="colorToggleProjector" visibility="Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink" shadow="#00000088" shadowDistance="2 -2" tooltipBackgroundColor="#000000" tooltipPosition="Below" />
 
-<Button rectAlignment="MiddleLeft"  height="53" width="53" text="mini map" onClick="colorToggleShowMiniMap" fontStyle="bold" fontSize="14" offsetXY="12 -47" visibility="Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink" />
+<Button rectAlignment="MiddleLeft"  height="53" width="53" text="mini map" onClick="colorToggleShowMiniMap" fontStyle="bold" resizeTextMaxSize="14" offsetXY="12 -47" visibility="Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink" />
 
 <!-- GM TOOLS (DONE) -->
-<Button rectAlignment="MiddleLeft"  height="53" width="53" text="╔╩╗ GM ╚╦╝" onClick="toggleGMsettingsPanel" fontStyle="bold" fontSize="14" offsetXY="12 -105" visibility="Black" shadow="#00000088" shadowDistance="2 -2" />
+<Button rectAlignment="MiddleLeft"  height="53" width="53" text="╔╩╗ GM ╚╦╝" onClick="toggleGMsettingsPanel" fontStyle="bold" resizeTextMaxSize="14" offsetXY="12 -105" visibility="Black" shadow="#00000088" shadowDistance="2 -2" />
 <Panel id="GM_tools_panel" rectAlignment="MiddleLeft"  offsetXY="69 -105" height="111" width="300" visibility="Black" active="False">
     <GridLayout spacing="5 5" cellSize="53 53" constraint="FixedRowCount" constraintCount="2">
-        <Button id="GM_toolsButton_01" preferredWidth="53" fontStyle="bold" fontSize="14" text="╔EN╗ ╚RU╝" onClick="set_UI_Language" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
+        <Button id="GM_toolsButton_01" preferredWidth="53" fontStyle="bold" resizeTextMaxSize="14" text="╔EN╗ ╚RU╝" onClick="set_UI_Language" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
         <!--Text preferredWidth="5" /-->
-        <Button id="GM_toolsButton_02" preferredWidth="53" fontStyle="bold" fontSize="40" text="↺" onClick="toggleCharBaseSpin" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
+        <Button id="GM_toolsButton_02" preferredWidth="53" fontStyle="bold" resizeTextMaxSize="40" text="↺" onClick="toggleCharBaseSpin" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
         <!--Text preferredWidth="5" /-->
-        <Button id="GM_toolsButton_04" preferredWidth="53" fontStyle="bold" fontSize="13" text="auto save 30s" onClick="setCharAutosaveDelay" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
+        <Button id="GM_toolsButton_04" preferredWidth="53" fontStyle="bold" resizeTextMaxSize="13" text="auto save 30s" onClick="setCharAutosaveDelay" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
 
-        <Button id="GM_toolsButton_09" preferredWidth="53" fontStyle="bold" fontSize="13" text="save last pick" onClick="toggleSaveLastPick" textColor="#000000" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
-
-        <!--Text preferredWidth="5" /-->
-        <Button id="GM_toolsButton_05" preferredWidth="53" fontStyle="bold" fontSize="15" text="●   ●     ●        ●   ●" onClick="toggleShowEveryDie" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
+        <Button id="GM_toolsButton_09" preferredWidth="53" fontStyle="bold" resizeTextMaxSize="13" text="save last pick" onClick="toggleSaveLastPick" textColor="#000000" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
 
         <!--Text preferredWidth="5" /-->
-        <Button id="GM_toolsButton_06" preferredWidth="53" fontStyle="bold" fontSize="35" text=" ͡° " onClick="toggleSneakyGM" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
+        <Button id="GM_toolsButton_05" preferredWidth="53" fontStyle="bold" resizeTextMaxSize="15" text="●   ●     ●        ●   ●" onClick="toggleShowEveryDie" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
 
         <!--Text preferredWidth="5" /-->
-        <Button id="GM_toolsButton_07" preferredWidth="53" fontStyle="bold" fontSize="35" text="★" onClick="toggleAutoPromote" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
+        <Button id="GM_toolsButton_06" preferredWidth="53" fontStyle="bold" resizeTextMaxSize="35" text=" ͡° " onClick="toggleSneakyGM" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
 
         <!--Text preferredWidth="5" /-->
-        <Button id="GM_toolsButton_03" preferredWidth="53" fontStyle="bold" fontSize="15" text="new  ͡° ͜ʖ ͡° char" onClick="toggleAddCharMode" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
+        <Button id="GM_toolsButton_07" preferredWidth="53" fontStyle="bold" resizeTextMaxSize="35" text="★" onClick="toggleAutoPromote" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
 
         <!--Text preferredWidth="5" /-->
-        <Button id="GM_toolsButton_08" preferredWidth="53" fontStyle="bold" fontSize="15" text="copy © = © char" onClick="toggleCopyCharMode" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
+        <Button id="GM_toolsButton_03" preferredWidth="53" fontStyle="bold" resizeTextMaxSize="15" text="new  ͡° ͜ʖ ͡° char" onClick="toggleAddCharMode" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
+
+        <!--Text preferredWidth="5" /-->
+        <Button id="GM_toolsButton_08" preferredWidth="53" fontStyle="bold" resizeTextMaxSize="15" text="copy © = © char" onClick="toggleCopyCharMode" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
     </GridLayout>
 </Panel>
 
@@ -75,34 +75,34 @@
     <Panel id="assignedPlayersPanel" color="#ffffff" rectAlignment="LowerCenter" height="60" width="190" offsetXY="-495,300" visibility="noone" outline="#440044ff" outlineSize="1 -1">
         <VerticalLayout>
             <HorizontalLayout>
-                <Button text="●" id="assighedPlayerButton_02" fontSize="25" textOutline="#cccccc" color="#ffffff" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button text="●" id="assighedPlayerButton_03" fontSize="25" textOutline="#cccccc" color="#703a16" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button text="●" id="assighedPlayerButton_04" fontSize="25" textOutline="#cccccc" color="#da1917" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button text="●" id="assighedPlayerButton_05" fontSize="25" textOutline="#cccccc" color="#f3631c" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button text="●" id="assighedPlayerButton_06" fontSize="25" textOutline="#cccccc" color="#e6e42b" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button text="●" id="assighedPlayerButton_02" resizeTextMaxSize="25" textOutline="#cccccc" color="#ffffff" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button text="●" id="assighedPlayerButton_03" resizeTextMaxSize="25" textOutline="#cccccc" color="#703a16" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button text="●" id="assighedPlayerButton_04" resizeTextMaxSize="25" textOutline="#cccccc" color="#da1917" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button text="●" id="assighedPlayerButton_05" resizeTextMaxSize="25" textOutline="#cccccc" color="#f3631c" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button text="●" id="assighedPlayerButton_06" resizeTextMaxSize="25" textOutline="#cccccc" color="#e6e42b" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
             </HorizontalLayout>
             <HorizontalLayout>
-                <Button text="●" id="assighedPlayerButton_07" fontSize="25" textOutline="#cccccc" color="#30b22a" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button text="●" id="assighedPlayerButton_08" fontSize="25" textOutline="#cccccc" color="#20b09a" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button text="●" id="assighedPlayerButton_09" fontSize="25" textOutline="#cccccc" color="#1e87ff" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button text="●" id="assighedPlayerButton_10" fontSize="25" textOutline="#cccccc" color="#9f1fef" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button text="●" id="assighedPlayerButton_11" fontSize="25" textOutline="#cccccc" color="#f46fcd" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button text="●" id="assighedPlayerButton_07" resizeTextMaxSize="25" textOutline="#cccccc" color="#30b22a" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button text="●" id="assighedPlayerButton_08" resizeTextMaxSize="25" textOutline="#cccccc" color="#20b09a" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button text="●" id="assighedPlayerButton_09" resizeTextMaxSize="25" textOutline="#cccccc" color="#1e87ff" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button text="●" id="assighedPlayerButton_10" resizeTextMaxSize="25" textOutline="#cccccc" color="#9f1fef" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button text="●" id="assighedPlayerButton_11" resizeTextMaxSize="25" textOutline="#cccccc" color="#f46fcd" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
             </HorizontalLayout>
         </VerticalLayout>
-        <Button text="hide" fontStyle="bold" id="setInvisButton" height="30" width="150" offsetXY="0 45" fontSize="20" textOutline="#cccccc" color="#cccccc" onClick="toggleInvisible" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <Button text="hide" fontStyle="bold" id="setInvisButton" height="30" width="150" offsetXY="0 45" resizeTextMaxSize="20" textOutline="#cccccc" color="#cccccc" onClick="toggleInvisible" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
     </Panel>
     <Panel id="charPortraitNameInputsPanel" visibility="noone"> <!-- EDIT TOGGLE -->
-        <InputField id="01_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="02_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="03_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="04_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="05_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="06_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="07_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="08_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="09_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="10_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="11_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="01_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="02_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="03_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="04_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="05_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="06_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="07_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="08_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="09_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="10_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="11_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
         <InputField id="charNameInput" color="#dddddd" width="300" height="30" offsetXY="-150,166" placeholder="charName" onEndEdit="setCharName" tooltipBackgroundColor="#000000" tooltipPosition="Above" textColor="#888888" />
     </Panel>
     <VerticalLayout>
@@ -148,8 +148,8 @@
                     <Text id="10_charLvl" resizeTextMaxSize="16" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Purple" />
                     <Text id="11_charLvl" resizeTextMaxSize="16" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Pink"   />
                     <VerticalLayout id="charLvlEdit" preferredWidth="20" visibility="noone" > <!-- EDIT TOGGLE -->
-                        <Button id="charLvlButton_01" onClick="setCharLvl" text="+" fontSize="10" />
-                        <Button id="charLvlButton_02" onClick="setCharLvl" text="-" fontSize="10" />
+                        <Button id="charLvlButton_01" onClick="setCharLvl" text="+" resizeTextMaxSize="10" />
+                        <Button id="charLvlButton_02" onClick="setCharLvl" text="-" resizeTextMaxSize="10" />
                     </VerticalLayout>
                     <Text id="01_charAC" resizeTextMaxSize="16" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Black"  />
                     <Text id="02_charAC" resizeTextMaxSize="16" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="White"  />
@@ -163,8 +163,8 @@
                     <Text id="10_charAC" resizeTextMaxSize="16" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Purple" />
                     <Text id="11_charAC" resizeTextMaxSize="16" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Pink"   />
                     <VerticalLayout id="charACedit" preferredWidth="20" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charACbutton_01" onClick="setCharAC" text="+" fontSize="10" />
-                        <Button id="charACbutton_02" onClick="setCharAC" text="-" fontSize="10" />
+                        <Button id="charACbutton_01" onClick="setCharAC" text="+" resizeTextMaxSize="10" />
+                        <Button id="charACbutton_02" onClick="setCharAC" text="-" resizeTextMaxSize="10" />
                     </VerticalLayout>
                     <Text id="01_charSpeed" resizeTextMaxSize="16" text="spd: 180" fontStyle="bold" preferredWidth="100" visibility="Black"  />
                     <Text id="02_charSpeed" resizeTextMaxSize="16" text="spd: 180" fontStyle="bold" preferredWidth="100" visibility="White"  />
@@ -178,22 +178,22 @@
                     <Text id="10_charSpeed" resizeTextMaxSize="16" text="spd: 180" fontStyle="bold" preferredWidth="100" visibility="Purple" />
                     <Text id="11_charSpeed" resizeTextMaxSize="16" text="spd: 180" fontStyle="bold" preferredWidth="100" visibility="Pink"   />
                     <VerticalLayout id="charSpeedEdit" preferredWidth="20" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charSpeedButton_01" onClick="setCharSpeed" text="+" fontSize="10" />
-                        <Button id="charSpeedButton_02" onClick="setCharSpeed" text="-" fontSize="10" />
+                        <Button id="charSpeedButton_01" onClick="setCharSpeed" text="+" resizeTextMaxSize="10" />
+                        <Button id="charSpeedButton_02" onClick="setCharSpeed" text="-" resizeTextMaxSize="10" />
                     </VerticalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
-                    <Text id="01_charProfBonus" text="proficiency" fontSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Black"  />
-                    <Text id="02_charProfBonus" text="proficiency" fontSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="White"  />
-                    <Text id="03_charProfBonus" text="proficiency" fontSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Brown"  />
-                    <Text id="04_charProfBonus" text="proficiency" fontSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Red"    />
-                    <Text id="05_charProfBonus" text="proficiency" fontSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Orange" />
-                    <Text id="06_charProfBonus" text="proficiency" fontSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Yellow" />
-                    <Text id="07_charProfBonus" text="proficiency" fontSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Green"  />
-                    <Text id="08_charProfBonus" text="proficiency" fontSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Teal"   />
-                    <Text id="09_charProfBonus" text="proficiency" fontSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Blue"   />
-                    <Text id="10_charProfBonus" text="proficiency" fontSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Purple" />
-                    <Text id="11_charProfBonus" text="proficiency" fontSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Pink"   />
+                    <Text id="01_charProfBonus" text="proficiency" resizeTextMaxSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Black"  />
+                    <Text id="02_charProfBonus" text="proficiency" resizeTextMaxSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="White"  />
+                    <Text id="03_charProfBonus" text="proficiency" resizeTextMaxSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Brown"  />
+                    <Text id="04_charProfBonus" text="proficiency" resizeTextMaxSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Red"    />
+                    <Text id="05_charProfBonus" text="proficiency" resizeTextMaxSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Orange" />
+                    <Text id="06_charProfBonus" text="proficiency" resizeTextMaxSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Yellow" />
+                    <Text id="07_charProfBonus" text="proficiency" resizeTextMaxSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Green"  />
+                    <Text id="08_charProfBonus" text="proficiency" resizeTextMaxSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Teal"   />
+                    <Text id="09_charProfBonus" text="proficiency" resizeTextMaxSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Blue"   />
+                    <Text id="10_charProfBonus" text="proficiency" resizeTextMaxSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Purple" />
+                    <Text id="11_charProfBonus" text="proficiency" resizeTextMaxSize="18" preferredWidth="100" horizontalOverflow="Wrap" visibility="Pink"   />
                     <Button id="01_charInitAddButton" text="initiative" preferredWidth="200" visibility="Black"  onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
                     <Button id="02_charInitAddButton" text="initiative" preferredWidth="200" visibility="White"  onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
                     <Button id="03_charInitAddButton" text="initiative" preferredWidth="200" visibility="Brown"  onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
@@ -206,8 +206,8 @@
                     <Button id="10_charInitAddButton" text="initiative" preferredWidth="200" visibility="Purple" onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
                     <Button id="11_charInitAddButton" text="initiative" preferredWidth="200" visibility="Pink"   onClick="addCharToInitiative" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
                     <VerticalLayout id="charInitEdit" preferredWidth="20" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charInitModButton_01" onClick="setCharInitMod" text="+" fontSize="10" />
-                        <Button id="charInitModButton_02" onClick="setCharInitMod" text="-" fontSize="10" />
+                        <Button id="charInitModButton_01" onClick="setCharInitMod" text="+" resizeTextMaxSize="10" />
+                        <Button id="charInitModButton_02" onClick="setCharInitMod" text="-" resizeTextMaxSize="10" />
                     </VerticalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
@@ -223,8 +223,8 @@
                     <Text id="10_charPassivePerception" text="Passive perception: 12" resizeTextMaxSize='20' fontStyle="bold" visibility="Purple" />
                     <Text id="11_charPassivePerception" text="Passive perception: 12" resizeTextMaxSize='20' fontStyle="bold" visibility="Pink"   />
                     <VerticalLayout id="charPassPercEdit" preferredWidth="20" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charPassPerceptionButton_01" onClick="setCharPassPerceptionMod" text="+" fontSize="10" />
-                        <Button id="charPassPerceptionButton_02" onClick="setCharPassPerceptionMod" text="-" fontSize="10" />
+                        <Button id="charPassPerceptionButton_01" onClick="setCharPassPerceptionMod" text="+" resizeTextMaxSize="10" />
+                        <Button id="charPassPerceptionButton_02" onClick="setCharPassPerceptionMod" text="-" resizeTextMaxSize="10" />
                     </VerticalLayout>
                 </HorizontalLayout>
             </VerticalLayout>
@@ -242,91 +242,91 @@
                 <Panel id="10_charHPbar" width="130" height="60" offsetXY="-170,0" color="#ff8888" outline="#aa444488" outlineSize="2 -2" visibility="Purple" />
                 <Panel id="11_charHPbar" width="130" height="60" offsetXY="-170,0" color="#ff8888" outline="#aa444488" outlineSize="2 -2" visibility="Pink"   />
 
-                <Text id="01_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" fontSize="30" fontStyle="bold" visibility="Black"  />
-                <Text id="02_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" fontSize="30" fontStyle="bold" visibility="White"  />
-                <Text id="03_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" fontSize="30" fontStyle="bold" visibility="Brown"  />
-                <Text id="04_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" fontSize="30" fontStyle="bold" visibility="Red"    />
-                <Text id="05_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" fontSize="30" fontStyle="bold" visibility="Orange" />
-                <Text id="06_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" fontSize="30" fontStyle="bold" visibility="Yellow" />
-                <Text id="07_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" fontSize="30" fontStyle="bold" visibility="Green"  />
-                <Text id="08_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" fontSize="30" fontStyle="bold" visibility="Teal"   />
-                <Text id="09_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" fontSize="30" fontStyle="bold" visibility="Blue"   />
-                <Text id="10_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" fontSize="30" fontStyle="bold" visibility="Purple" />
-                <Text id="11_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" fontSize="30" fontStyle="bold" visibility="Pink"   />
+                <Text id="01_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" resizeTextMaxSize="30" fontStyle="bold" visibility="Black"  />
+                <Text id="02_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" resizeTextMaxSize="30" fontStyle="bold" visibility="White"  />
+                <Text id="03_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" resizeTextMaxSize="30" fontStyle="bold" visibility="Brown"  />
+                <Text id="04_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" resizeTextMaxSize="30" fontStyle="bold" visibility="Red"    />
+                <Text id="05_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" resizeTextMaxSize="30" fontStyle="bold" visibility="Orange" />
+                <Text id="06_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" resizeTextMaxSize="30" fontStyle="bold" visibility="Yellow" />
+                <Text id="07_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" resizeTextMaxSize="30" fontStyle="bold" visibility="Green"  />
+                <Text id="08_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" resizeTextMaxSize="30" fontStyle="bold" visibility="Teal"   />
+                <Text id="09_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" resizeTextMaxSize="30" fontStyle="bold" visibility="Blue"   />
+                <Text id="10_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" resizeTextMaxSize="30" fontStyle="bold" visibility="Purple" />
+                <Text id="11_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" resizeTextMaxSize="30" fontStyle="bold" visibility="Pink"   />
 
-                <Text id="01_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" fontSize="25" fontStyle="bold" offsetXY="120,-15" visibility="Black"  />
-                <Text id="02_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" fontSize="25" fontStyle="bold" offsetXY="120,-15" visibility="White"  />
-                <Text id="03_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" fontSize="25" fontStyle="bold" offsetXY="120,-15" visibility="Brown"  />
-                <Text id="04_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" fontSize="25" fontStyle="bold" offsetXY="120,-15" visibility="Red"    />
-                <Text id="05_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" fontSize="25" fontStyle="bold" offsetXY="120,-15" visibility="Orange" />
-                <Text id="06_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" fontSize="25" fontStyle="bold" offsetXY="120,-15" visibility="Yellow" />
-                <Text id="07_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" fontSize="25" fontStyle="bold" offsetXY="120,-15" visibility="Green"  />
-                <Text id="08_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" fontSize="25" fontStyle="bold" offsetXY="120,-15" visibility="Teal"   />
-                <Text id="09_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" fontSize="25" fontStyle="bold" offsetXY="120,-15" visibility="Blue"   />
-                <Text id="10_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" fontSize="25" fontStyle="bold" offsetXY="120,-15" visibility="Purple" />
-                <Text id="11_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" fontSize="25" fontStyle="bold" offsetXY="120,-15" visibility="Pink"   />
+                <Text id="01_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" resizeTextMaxSize="25" fontStyle="bold" offsetXY="120,-15" visibility="Black"  />
+                <Text id="02_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" resizeTextMaxSize="25" fontStyle="bold" offsetXY="120,-15" visibility="White"  />
+                <Text id="03_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" resizeTextMaxSize="25" fontStyle="bold" offsetXY="120,-15" visibility="Brown"  />
+                <Text id="04_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" resizeTextMaxSize="25" fontStyle="bold" offsetXY="120,-15" visibility="Red"    />
+                <Text id="05_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" resizeTextMaxSize="25" fontStyle="bold" offsetXY="120,-15" visibility="Orange" />
+                <Text id="06_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" resizeTextMaxSize="25" fontStyle="bold" offsetXY="120,-15" visibility="Yellow" />
+                <Text id="07_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" resizeTextMaxSize="25" fontStyle="bold" offsetXY="120,-15" visibility="Green"  />
+                <Text id="08_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" resizeTextMaxSize="25" fontStyle="bold" offsetXY="120,-15" visibility="Teal"   />
+                <Text id="09_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" resizeTextMaxSize="25" fontStyle="bold" offsetXY="120,-15" visibility="Blue"   />
+                <Text id="10_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" resizeTextMaxSize="25" fontStyle="bold" offsetXY="120,-15" visibility="Purple" />
+                <Text id="11_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" resizeTextMaxSize="25" fontStyle="bold" offsetXY="120,-15" visibility="Pink"   />
                 <!-- Death Saves -->
                 <Panel id="charDeathSavesButtons" width="190" height="30" offsetXY="-125,-15"> <!-- ☺ ☻ ●-->
                     <HorizontalLayout>
-                        <Button id="01_charDeathSaveButton_01" text="☻" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="02_charDeathSaveButton_01" text="☻" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="03_charDeathSaveButton_01" text="☻" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="04_charDeathSaveButton_01" text="☻" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="05_charDeathSaveButton_01" text="☻" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="06_charDeathSaveButton_01" text="☻" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="07_charDeathSaveButton_01" text="☻" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="08_charDeathSaveButton_01" text="☻" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="09_charDeathSaveButton_01" text="☻" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="10_charDeathSaveButton_01" text="☻" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="11_charDeathSaveButton_01" text="☻" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="01_charDeathSaveButton_01" text="☻" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="02_charDeathSaveButton_01" text="☻" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="03_charDeathSaveButton_01" text="☻" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="04_charDeathSaveButton_01" text="☻" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="05_charDeathSaveButton_01" text="☻" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="06_charDeathSaveButton_01" text="☻" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="07_charDeathSaveButton_01" text="☻" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="08_charDeathSaveButton_01" text="☻" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="09_charDeathSaveButton_01" text="☻" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="10_charDeathSaveButton_01" text="☻" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="11_charDeathSaveButton_01" text="☻" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
 
-                        <Button id="01_charDeathSaveButton_02" text=" " onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="02_charDeathSaveButton_02" text=" " onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="03_charDeathSaveButton_02" text=" " onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="04_charDeathSaveButton_02" text=" " onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="05_charDeathSaveButton_02" text=" " onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="06_charDeathSaveButton_02" text=" " onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="07_charDeathSaveButton_02" text=" " onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="08_charDeathSaveButton_02" text=" " onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="09_charDeathSaveButton_02" text=" " onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="10_charDeathSaveButton_02" text=" " onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="11_charDeathSaveButton_02" text=" " onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="01_charDeathSaveButton_02" text=" " onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="02_charDeathSaveButton_02" text=" " onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="03_charDeathSaveButton_02" text=" " onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="04_charDeathSaveButton_02" text=" " onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="05_charDeathSaveButton_02" text=" " onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="06_charDeathSaveButton_02" text=" " onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="07_charDeathSaveButton_02" text=" " onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="08_charDeathSaveButton_02" text=" " onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="09_charDeathSaveButton_02" text=" " onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="10_charDeathSaveButton_02" text=" " onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="11_charDeathSaveButton_02" text=" " onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
 
-                        <Button id="01_charDeathSaveButton_03" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Black"   tooltipBackgroundColor="#000000" tooltipPosition="Above"/>
-                        <Button id="02_charDeathSaveButton_03" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="White"   tooltipBackgroundColor="#000000" tooltipPosition="Above"/>
-                        <Button id="03_charDeathSaveButton_03" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Brown"   tooltipBackgroundColor="#000000" tooltipPosition="Above"/>
-                        <Button id="04_charDeathSaveButton_03" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Red"     tooltipBackgroundColor="#000000" tooltipPosition="Above"/>
-                        <Button id="05_charDeathSaveButton_03" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Orange"  tooltipBackgroundColor="#000000" tooltipPosition="Above"/>
-                        <Button id="06_charDeathSaveButton_03" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Yellow"  tooltipBackgroundColor="#000000" tooltipPosition="Above"/>
-                        <Button id="07_charDeathSaveButton_03" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Green"   tooltipBackgroundColor="#000000" tooltipPosition="Above"/>
-                        <Button id="08_charDeathSaveButton_03" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Teal"    tooltipBackgroundColor="#000000" tooltipPosition="Above"/>
-                        <Button id="09_charDeathSaveButton_03" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Blue"    tooltipBackgroundColor="#000000" tooltipPosition="Above"/>
-                        <Button id="10_charDeathSaveButton_03" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Purple"  tooltipBackgroundColor="#000000" tooltipPosition="Above"/>
-                        <Button id="11_charDeathSaveButton_03" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Pink"    tooltipBackgroundColor="#000000" tooltipPosition="Above"/>
+                        <Button id="01_charDeathSaveButton_03" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Black"   tooltipBackgroundColor="#000000" tooltipPosition="Above"/>
+                        <Button id="02_charDeathSaveButton_03" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="White"   tooltipBackgroundColor="#000000" tooltipPosition="Above"/>
+                        <Button id="03_charDeathSaveButton_03" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Brown"   tooltipBackgroundColor="#000000" tooltipPosition="Above"/>
+                        <Button id="04_charDeathSaveButton_03" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Red"     tooltipBackgroundColor="#000000" tooltipPosition="Above"/>
+                        <Button id="05_charDeathSaveButton_03" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Orange"  tooltipBackgroundColor="#000000" tooltipPosition="Above"/>
+                        <Button id="06_charDeathSaveButton_03" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Yellow"  tooltipBackgroundColor="#000000" tooltipPosition="Above"/>
+                        <Button id="07_charDeathSaveButton_03" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Green"   tooltipBackgroundColor="#000000" tooltipPosition="Above"/>
+                        <Button id="08_charDeathSaveButton_03" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Teal"    tooltipBackgroundColor="#000000" tooltipPosition="Above"/>
+                        <Button id="09_charDeathSaveButton_03" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Blue"    tooltipBackgroundColor="#000000" tooltipPosition="Above"/>
+                        <Button id="10_charDeathSaveButton_03" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Purple"  tooltipBackgroundColor="#000000" tooltipPosition="Above"/>
+                        <Button id="11_charDeathSaveButton_03" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Pink"    tooltipBackgroundColor="#000000" tooltipPosition="Above"/>
 
-                        <Button id="01_charDeathSaveButton_04" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="02_charDeathSaveButton_04" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="03_charDeathSaveButton_04" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="04_charDeathSaveButton_04" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="05_charDeathSaveButton_04" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="06_charDeathSaveButton_04" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="07_charDeathSaveButton_04" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="08_charDeathSaveButton_04" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="09_charDeathSaveButton_04" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="10_charDeathSaveButton_04" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="11_charDeathSaveButton_04" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="01_charDeathSaveButton_04" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="02_charDeathSaveButton_04" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="03_charDeathSaveButton_04" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="04_charDeathSaveButton_04" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="05_charDeathSaveButton_04" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="06_charDeathSaveButton_04" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="07_charDeathSaveButton_04" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="08_charDeathSaveButton_04" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="09_charDeathSaveButton_04" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="10_charDeathSaveButton_04" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="11_charDeathSaveButton_04" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
 
-                        <Button id="01_charDeathSaveButton_05" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="02_charDeathSaveButton_05" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="03_charDeathSaveButton_05" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="04_charDeathSaveButton_05" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="05_charDeathSaveButton_05" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="06_charDeathSaveButton_05" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="07_charDeathSaveButton_05" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="08_charDeathSaveButton_05" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="09_charDeathSaveButton_05" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="10_charDeathSaveButton_05" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                        <Button id="11_charDeathSaveButton_05" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" fontSize="18" active="false" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="01_charDeathSaveButton_05" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="02_charDeathSaveButton_05" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="03_charDeathSaveButton_05" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="04_charDeathSaveButton_05" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="05_charDeathSaveButton_05" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="06_charDeathSaveButton_05" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="07_charDeathSaveButton_05" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="08_charDeathSaveButton_05" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="09_charDeathSaveButton_05" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="10_charDeathSaveButton_05" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                        <Button id="11_charDeathSaveButton_05" text="x" onClick="deathSaveButton" color="#00000044" textColor="#880000" fontStyle="bold" resizeTextMaxSize="18" active="false" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
                     </HorizontalLayout>
                 </Panel>
                 <Panel width="420" height="40" offsetXY="0,33">
@@ -546,39 +546,39 @@
                 </HorizontalLayout>
             </VerticalLayout>
             <VerticalLayout spacing='25' preferredWidth="25" >
-                <Button id="01_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="02_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="03_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="04_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="05_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="06_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="07_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="08_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="09_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="10_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="11_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="01_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above"    />
-                <Button id="02_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="03_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="04_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="05_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="06_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="07_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="08_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="09_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="10_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="11_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="01_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above"    />
-                <Button id="02_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="03_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="04_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="05_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="06_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="07_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="08_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="09_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="10_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                <Button id="11_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" fontSize="12" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="01_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="02_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="03_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="04_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="05_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="06_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="07_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="08_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="09_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="10_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="11_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="01_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above"    />
+                <Button id="02_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="03_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="04_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="05_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="06_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="07_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="08_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="09_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="10_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="11_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="01_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above"    />
+                <Button id="02_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="03_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="04_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="05_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="06_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="07_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="08_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="09_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="10_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                <Button id="11_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="12" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
             </VerticalLayout >
             <TableLayout id="savesModsButtons" preferredWidth="13" visibility="noone">
                 <Row>
@@ -996,7 +996,7 @@
     </VerticalLayout>
 
     <Panel id="noCharSelectedBlockPanel" color="#ffaaaacc" height="300" width="840" visibility="Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink" raycastTarget="true" >
-        <Text id="noCharSelectedBlockText" text="NO CHARACTER SELECTED !!!" fontSize="70" fontStyle="bold" />
+        <Text id="noCharSelectedBlockText" text="NO CHARACTER SELECTED !!!" resizeTextMaxSize="70" fontStyle="bold" />
         <Button onClick="colorToggleShowMain" color="#00000000" />
     </Panel>
 </Panel>
@@ -1014,68 +1014,68 @@
     <Button id="screenRollerMinimizer" height="20" width="20" text=">" fontStyle="bold" rotation="0,0,270" offsetXY="130,0" onClick="colorToggleScreenRoller" tooltipBackgroundColor="#000000" tooltipPosition="Below" />
     <Panel id="screenRollerBigPanel" height="200" width="240" offsetXY="0,-110" visibility="noone">
         <GridLayout cellSize="40 20" constraint="FixedColumnCount" constraintCount="6" childAlignment="UpperCenter">
-            <Button id="roll_2d4"  onClick="screenRoller" fontSize="12" text="2d4" />
-            <Button id="roll_2d6"  onClick="screenRoller" fontSize="12" text="2d6" />
-            <Button id="roll_2d8"  onClick="screenRoller" fontSize="12" text="2d8" />
-            <Button id="roll_2d10" onClick="screenRoller" fontSize="12" text="2d10"/>
-            <Button id="roll_2d12" onClick="screenRoller" fontSize="12" text="2d12"/>
-            <Button id="roll_2d20" onClick="screenRoller" fontSize="12" text="2d20"/>
+            <Button id="roll_2d4"  onClick="screenRoller" resizeTextMaxSize="12" text="2d4" />
+            <Button id="roll_2d6"  onClick="screenRoller" resizeTextMaxSize="12" text="2d6" />
+            <Button id="roll_2d8"  onClick="screenRoller" resizeTextMaxSize="12" text="2d8" />
+            <Button id="roll_2d10" onClick="screenRoller" resizeTextMaxSize="12" text="2d10"/>
+            <Button id="roll_2d12" onClick="screenRoller" resizeTextMaxSize="12" text="2d12"/>
+            <Button id="roll_2d20" onClick="screenRoller" resizeTextMaxSize="12" text="2d20"/>
 
-            <Button id="roll_3d4"  onClick="screenRoller" fontSize="12" text="3d4" />
-            <Button id="roll_3d6"  onClick="screenRoller" fontSize="12" text="3d6" />
-            <Button id="roll_3d8"  onClick="screenRoller" fontSize="12" text="3d8" />
-            <Button id="roll_3d10" onClick="screenRoller" fontSize="12" text="3d10"/>
-            <Button id="roll_3d12" onClick="screenRoller" fontSize="12" text="3d12"/>
-            <Button id="roll_3d20" onClick="screenRoller" fontSize="12" text="3d20"/>
+            <Button id="roll_3d4"  onClick="screenRoller" resizeTextMaxSize="12" text="3d4" />
+            <Button id="roll_3d6"  onClick="screenRoller" resizeTextMaxSize="12" text="3d6" />
+            <Button id="roll_3d8"  onClick="screenRoller" resizeTextMaxSize="12" text="3d8" />
+            <Button id="roll_3d10" onClick="screenRoller" resizeTextMaxSize="12" text="3d10"/>
+            <Button id="roll_3d12" onClick="screenRoller" resizeTextMaxSize="12" text="3d12"/>
+            <Button id="roll_3d20" onClick="screenRoller" resizeTextMaxSize="12" text="3d20"/>
 
-            <Button id="roll_4d4"  onClick="screenRoller" fontSize="12" text="4d4" />
-            <Button id="roll_4d6"  onClick="screenRoller" fontSize="12" text="4d6" />
-            <Button id="roll_4d8"  onClick="screenRoller" fontSize="12" text="4d8" />
-            <Button id="roll_4d10" onClick="screenRoller" fontSize="12" text="4d10"/>
-            <Button id="roll_4d12" onClick="screenRoller" fontSize="12" text="4d12"/>
-            <Button id="roll_4d20" onClick="screenRoller" fontSize="12" text="4d20"/>
+            <Button id="roll_4d4"  onClick="screenRoller" resizeTextMaxSize="12" text="4d4" />
+            <Button id="roll_4d6"  onClick="screenRoller" resizeTextMaxSize="12" text="4d6" />
+            <Button id="roll_4d8"  onClick="screenRoller" resizeTextMaxSize="12" text="4d8" />
+            <Button id="roll_4d10" onClick="screenRoller" resizeTextMaxSize="12" text="4d10"/>
+            <Button id="roll_4d12" onClick="screenRoller" resizeTextMaxSize="12" text="4d12"/>
+            <Button id="roll_4d20" onClick="screenRoller" resizeTextMaxSize="12" text="4d20"/>
 
-            <Button id="roll_5d4"  onClick="screenRoller" fontSize="12" text="5d4" />
-            <Button id="roll_5d6"  onClick="screenRoller" fontSize="12" text="5d6" />
-            <Button id="roll_5d8"  onClick="screenRoller" fontSize="12" text="5d8" />
-            <Button id="roll_5d10" onClick="screenRoller" fontSize="12" text="5d10"/>
-            <Button id="roll_5d12" onClick="screenRoller" fontSize="12" text="5d12"/>
-            <Button id="roll_5d20" onClick="screenRoller" fontSize="12" text="5d20"/>
+            <Button id="roll_5d4"  onClick="screenRoller" resizeTextMaxSize="12" text="5d4" />
+            <Button id="roll_5d6"  onClick="screenRoller" resizeTextMaxSize="12" text="5d6" />
+            <Button id="roll_5d8"  onClick="screenRoller" resizeTextMaxSize="12" text="5d8" />
+            <Button id="roll_5d10" onClick="screenRoller" resizeTextMaxSize="12" text="5d10"/>
+            <Button id="roll_5d12" onClick="screenRoller" resizeTextMaxSize="12" text="5d12"/>
+            <Button id="roll_5d20" onClick="screenRoller" resizeTextMaxSize="12" text="5d20"/>
 
-            <Button id="roll_6d4"  onClick="screenRoller" fontSize="12" text="6d4" />
-            <Button id="roll_6d6"  onClick="screenRoller" fontSize="12" text="6d6" />
-            <Button id="roll_6d8"  onClick="screenRoller" fontSize="12" text="6d8" />
-            <Button id="roll_6d10" onClick="screenRoller" fontSize="12" text="6d10"/>
-            <Button id="roll_6d12" onClick="screenRoller" fontSize="12" text="6d12"/>
-            <Button id="roll_6d20" onClick="screenRoller" fontSize="12" text="6d20"/>
+            <Button id="roll_6d4"  onClick="screenRoller" resizeTextMaxSize="12" text="6d4" />
+            <Button id="roll_6d6"  onClick="screenRoller" resizeTextMaxSize="12" text="6d6" />
+            <Button id="roll_6d8"  onClick="screenRoller" resizeTextMaxSize="12" text="6d8" />
+            <Button id="roll_6d10" onClick="screenRoller" resizeTextMaxSize="12" text="6d10"/>
+            <Button id="roll_6d12" onClick="screenRoller" resizeTextMaxSize="12" text="6d12"/>
+            <Button id="roll_6d20" onClick="screenRoller" resizeTextMaxSize="12" text="6d20"/>
 
-            <Button id="roll_7d4"  onClick="screenRoller" fontSize="12" text="7d4" />
-            <Button id="roll_7d6"  onClick="screenRoller" fontSize="12" text="7d6" />
-            <Button id="roll_7d8"  onClick="screenRoller" fontSize="12" text="7d8" />
-            <Button id="roll_7d10" onClick="screenRoller" fontSize="12" text="7d10"/>
-            <Button id="roll_7d12" onClick="screenRoller" fontSize="12" text="7d12"/>
-            <Button id="roll_7d20" onClick="screenRoller" fontSize="12" text="7d20"/>
+            <Button id="roll_7d4"  onClick="screenRoller" resizeTextMaxSize="12" text="7d4" />
+            <Button id="roll_7d6"  onClick="screenRoller" resizeTextMaxSize="12" text="7d6" />
+            <Button id="roll_7d8"  onClick="screenRoller" resizeTextMaxSize="12" text="7d8" />
+            <Button id="roll_7d10" onClick="screenRoller" resizeTextMaxSize="12" text="7d10"/>
+            <Button id="roll_7d12" onClick="screenRoller" resizeTextMaxSize="12" text="7d12"/>
+            <Button id="roll_7d20" onClick="screenRoller" resizeTextMaxSize="12" text="7d20"/>
 
-            <Button id="roll_8d4"  onClick="screenRoller" fontSize="12" text="8d4" />
-            <Button id="roll_8d6"  onClick="screenRoller" fontSize="12" text="8d6" />
-            <Button id="roll_8d8"  onClick="screenRoller" fontSize="12" text="8d8" />
-            <Button id="roll_8d10" onClick="screenRoller" fontSize="12" text="8d10"/>
-            <Button id="roll_8d12" onClick="screenRoller" fontSize="12" text="8d12"/>
-            <Button id="roll_8d20" onClick="screenRoller" fontSize="12" text="8d20"/>
+            <Button id="roll_8d4"  onClick="screenRoller" resizeTextMaxSize="12" text="8d4" />
+            <Button id="roll_8d6"  onClick="screenRoller" resizeTextMaxSize="12" text="8d6" />
+            <Button id="roll_8d8"  onClick="screenRoller" resizeTextMaxSize="12" text="8d8" />
+            <Button id="roll_8d10" onClick="screenRoller" resizeTextMaxSize="12" text="8d10"/>
+            <Button id="roll_8d12" onClick="screenRoller" resizeTextMaxSize="12" text="8d12"/>
+            <Button id="roll_8d20" onClick="screenRoller" resizeTextMaxSize="12" text="8d20"/>
 
-            <Button id="roll_9d4"  onClick="screenRoller" fontSize="12" text="9d4" />
-            <Button id="roll_9d6"  onClick="screenRoller" fontSize="12" text="9d6" />
-            <Button id="roll_9d8"  onClick="screenRoller" fontSize="12" text="9d8" />
-            <Button id="roll_9d10" onClick="screenRoller" fontSize="12" text="9d10"/>
-            <Button id="roll_9d12" onClick="screenRoller" fontSize="12" text="9d12"/>
-            <Button id="roll_9d20" onClick="screenRoller" fontSize="12" text="9d20"/>
+            <Button id="roll_9d4"  onClick="screenRoller" resizeTextMaxSize="12" text="9d4" />
+            <Button id="roll_9d6"  onClick="screenRoller" resizeTextMaxSize="12" text="9d6" />
+            <Button id="roll_9d8"  onClick="screenRoller" resizeTextMaxSize="12" text="9d8" />
+            <Button id="roll_9d10" onClick="screenRoller" resizeTextMaxSize="12" text="9d10"/>
+            <Button id="roll_9d12" onClick="screenRoller" resizeTextMaxSize="12" text="9d12"/>
+            <Button id="roll_9d20" onClick="screenRoller" resizeTextMaxSize="12" text="9d20"/>
 
-            <Button id="roll_10d4"  onClick="screenRoller" fontSize="12" text="10d4" />
-            <Button id="roll_10d6"  onClick="screenRoller" fontSize="12" text="10d6" />
-            <Button id="roll_10d8"  onClick="screenRoller" fontSize="12" text="10d8" />
-            <Button id="roll_10d10" onClick="screenRoller" fontSize="10" text="10d10"/>
-            <Button id="roll_10d12" onClick="screenRoller" fontSize="10" text="10d12"/>
-            <Button id="roll_10d20" onClick="screenRoller" fontSize="10" text="10d20"/>
+            <Button id="roll_10d4"  onClick="screenRoller" resizeTextMaxSize="12" text="10d4" />
+            <Button id="roll_10d6"  onClick="screenRoller" resizeTextMaxSize="12" text="10d6" />
+            <Button id="roll_10d8"  onClick="screenRoller" resizeTextMaxSize="12" text="10d8" />
+            <Button id="roll_10d10" onClick="screenRoller" resizeTextMaxSize="10" text="10d10"/>
+            <Button id="roll_10d12" onClick="screenRoller" resizeTextMaxSize="10" text="10d12"/>
+            <Button id="roll_10d20" onClick="screenRoller" resizeTextMaxSize="10" text="10d20"/>
         </GridLayout>
         <Panel width="240" height="30" offsetXY="0,-95">
             <HorizontalLayout>
@@ -1131,17 +1131,17 @@
             <Text id="initRoundCounter" text="Round: 29" fontStyle="bold" />
         </VerticalLayout>
         <Button id="initPassButton" color="#ffffff" text="PASS" fontStyle="bold" height="20" width="100" offsetXY="0,-30" onClick="initPass" />
-        <Button color="#ffffff" text="◄" fontSize="10" fontStyle="bold" height="20" width="20" offsetXY="-60,10" visibility="Black" onClick="toggleInitEdit" />
+        <Button color="#ffffff" text="◄" resizeTextMaxSize="10" fontStyle="bold" height="20" width="20" offsetXY="-60,10" visibility="Black" onClick="toggleInitEdit" />
     </Panel>
 
     <!-- GM INITIATIVE SETTINGS -->
     <Panel id="initEditPanel" color="#aaaaaa" height="405" width="300" offsetXY="-220,130" outline="#440044ff" outlineSize="1 -1" visibility="Black" active="false">
         <Panel color="#aaaaaa" height="25" width="300" offsetXY="0,216" outline="#440044ff" outlineSize="1 -1">
             <HorizontalLayout>
-                <Button onClick="initMoveActive" preferredWidth="25"  fontStyle="bold" fontSize="14" text="↑↓" textOutlineSize="2 -2" /> <!-- ↑↓↕ -->
+                <Button onClick="initMoveActive" preferredWidth="25"  fontStyle="bold" resizeTextMaxSize="14" text="↑↓" textOutlineSize="2 -2" /> <!-- ↑↓↕ -->
                 <Button onClick="initRollAll" preferredWidth="100" fontStyle="bold" text="Roll All" />
                 <Button onClick="initSortAll" preferredWidth="100" fontStyle="bold" text="Sort" />
-                <Button onClick="initRoundsReset" preferredWidth="75" fontStyle="bold" fontSize="11" text="Reset Rounds" />
+                <Button onClick="initRoundsReset" preferredWidth="75" fontStyle="bold" resizeTextMaxSize="11" text="Reset Rounds" />
             </HorizontalLayout>
         </Panel>
         <VerticalLayout offsetXY="0,-5">
@@ -1197,21 +1197,21 @@
                 <Text id="initText_B_15" text=" 18  charName" fontStyle="bold"  resizeTextMaxSize="14" resizeTextMinSize="7" Alignment="MiddleLeft" />
             </VerticalLayout>
             <VerticalLayout preferredWidth="25">
-                <Text id="initColor_01" text="●" fontSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
-                <Text id="initColor_02" text="●" fontSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
-                <Text id="initColor_03" text="●" fontSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
-                <Text id="initColor_04" text="●" fontSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
-                <Text id="initColor_05" text="●" fontSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
-                <Text id="initColor_06" text="●" fontSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
-                <Text id="initColor_07" text="●" fontSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
-                <Text id="initColor_08" text="●" fontSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
-                <Text id="initColor_09" text="●" fontSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
-                <Text id="initColor_10" text="●" fontSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
-                <Text id="initColor_11" text="●" fontSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
-                <Text id="initColor_12" text="●" fontSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
-                <Text id="initColor_13" text="●" fontSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
-                <Text id="initColor_14" text="●" fontSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
-                <Text id="initColor_15" text="●" fontSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
+                <Text id="initColor_01" text="●" resizeTextMaxSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
+                <Text id="initColor_02" text="●" resizeTextMaxSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
+                <Text id="initColor_03" text="●" resizeTextMaxSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
+                <Text id="initColor_04" text="●" resizeTextMaxSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
+                <Text id="initColor_05" text="●" resizeTextMaxSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
+                <Text id="initColor_06" text="●" resizeTextMaxSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
+                <Text id="initColor_07" text="●" resizeTextMaxSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
+                <Text id="initColor_08" text="●" resizeTextMaxSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
+                <Text id="initColor_09" text="●" resizeTextMaxSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
+                <Text id="initColor_10" text="●" resizeTextMaxSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
+                <Text id="initColor_11" text="●" resizeTextMaxSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
+                <Text id="initColor_12" text="●" resizeTextMaxSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
+                <Text id="initColor_13" text="●" resizeTextMaxSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
+                <Text id="initColor_14" text="●" resizeTextMaxSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
+                <Text id="initColor_15" text="●" resizeTextMaxSize="23" fontStyle="bold" color="#ff0000" outline="#ff0000" />
             </VerticalLayout>
             <VerticalLayout preferredWidth="50">
                 <Text id="initText_C_01" text="(+5)" fontStyle="bold" />
@@ -1231,34 +1231,34 @@
                 <Text id="initText_C_15" text="(+5)" fontStyle="bold" />
             </VerticalLayout>
             <VerticalLayout preferredWidth="25">
-                <Button id="initSetupButton_01" text="*" fontStyle="bold" fontSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
-                <Button id="initSetupButton_02" text="*" fontStyle="bold" fontSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
-                <Button id="initSetupButton_03" text="*" fontStyle="bold" fontSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
-                <Button id="initSetupButton_04" text="*" fontStyle="bold" fontSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
-                <Button id="initSetupButton_05" text="*" fontStyle="bold" fontSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
-                <Button id="initSetupButton_06" text="*" fontStyle="bold" fontSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
-                <Button id="initSetupButton_07" text="*" fontStyle="bold" fontSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
-                <Button id="initSetupButton_08" text="*" fontStyle="bold" fontSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
-                <Button id="initSetupButton_09" text="*" fontStyle="bold" fontSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
-                <Button id="initSetupButton_10" text="*" fontStyle="bold" fontSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
-                <Button id="initSetupButton_11" text="*" fontStyle="bold" fontSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
-                <Button id="initSetupButton_12" text="*" fontStyle="bold" fontSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
-                <Button id="initSetupButton_13" text="*" fontStyle="bold" fontSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
-                <Button id="initSetupButton_14" text="*" fontStyle="bold" fontSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
-                <Button id="initSetupButton_15" text="*" fontStyle="bold" fontSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
+                <Button id="initSetupButton_01" text="*" fontStyle="bold" resizeTextMaxSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
+                <Button id="initSetupButton_02" text="*" fontStyle="bold" resizeTextMaxSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
+                <Button id="initSetupButton_03" text="*" fontStyle="bold" resizeTextMaxSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
+                <Button id="initSetupButton_04" text="*" fontStyle="bold" resizeTextMaxSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
+                <Button id="initSetupButton_05" text="*" fontStyle="bold" resizeTextMaxSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
+                <Button id="initSetupButton_06" text="*" fontStyle="bold" resizeTextMaxSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
+                <Button id="initSetupButton_07" text="*" fontStyle="bold" resizeTextMaxSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
+                <Button id="initSetupButton_08" text="*" fontStyle="bold" resizeTextMaxSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
+                <Button id="initSetupButton_09" text="*" fontStyle="bold" resizeTextMaxSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
+                <Button id="initSetupButton_10" text="*" fontStyle="bold" resizeTextMaxSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
+                <Button id="initSetupButton_11" text="*" fontStyle="bold" resizeTextMaxSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
+                <Button id="initSetupButton_12" text="*" fontStyle="bold" resizeTextMaxSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
+                <Button id="initSetupButton_13" text="*" fontStyle="bold" resizeTextMaxSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
+                <Button id="initSetupButton_14" text="*" fontStyle="bold" resizeTextMaxSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
+                <Button id="initSetupButton_15" text="*" fontStyle="bold" resizeTextMaxSize="20" tooltipBackgroundColor="#440000" tooltipPosition="Left" tooltip="RMB: remove from initiative!" onClick="initSetupButt" />
             </VerticalLayout>
         </HorizontalLayout>
 
         <!-- EDIT SINGLE CHAR OF INITIATIVE -->
         <Panel id="initSetupPanel" height="27" width="300" offsetXY="0,189" active="False">
             <HorizontalLayout >
-                <InputField onEndEdit="initSetupRezInp"  id="initSetupRezInput" textAlignment="MiddleCenter" fontSize="12" fontStyle="bold" placeholder="rez" preferredWidth="50" characterValidation="integer" />
-                <InputField onEndEdit="initSetupNameInp" id="initSetupNameInput" fontSize="12" fontStyle="bold" placeholder="charName" preferredWidth="150" />
+                <InputField onEndEdit="initSetupRezInp"  id="initSetupRezInput" textAlignment="MiddleCenter" resizeTextMaxSize="12" fontStyle="bold" placeholder="rez" preferredWidth="50" characterValidation="integer" />
+                <InputField onEndEdit="initSetupNameInp" id="initSetupNameInput" resizeTextMaxSize="12" fontStyle="bold" placeholder="charName" preferredWidth="150" />
                 <Button     onClick="initToggleColor"    id="initSetupColButton" color="#00000022" preferredWidth="25" tooltipBackgroundColor="#000000" tooltipPosition="Left"  />
-                <InputField onEndEdit="initSetupModInp"  id="initSetupModInput" textAlignment="MiddleCenter" fontSize="12" fontStyle="bold" placeholder="iMod" preferredWidth="50" characterValidation="integer" />
+                <InputField onEndEdit="initSetupModInp"  id="initSetupModInput" textAlignment="MiddleCenter" resizeTextMaxSize="12" fontStyle="bold" placeholder="iMod" preferredWidth="50" characterValidation="integer" />
                 <Text preferredWidth="25" />
             </HorizontalLayout>
-            <InputField color="#dddddd" width="150" height="27" offsetXY="-255,0" text="URL" fontSize="5" lineType="MultiLineNewLine" onEndEdit="setInitCharPortrait" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+            <InputField color="#dddddd" width="150" height="27" offsetXY="-255,0" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setInitCharPortrait" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
             <Button onClick="initRollSingle" text="R" fontStyle="bold" height="27" width="27" offsetXY="-164,0" />
         </Panel>
     </Panel>
@@ -1599,28 +1599,28 @@
                 <Button id="11_atkEditProfButton" preferredWidth="80" fontStyle="bold" text="proficient" visibility="Pink"   onClick="atkToggleProf" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
             </HorizontalLayout>
             <HorizontalLayout> 
-                <Text id="01_atkEditMinCritText" preferredWidth="100" fontSize="12" fontStyle="bold" text="minCrit:20" visibility="Black"  />
-                <Text id="02_atkEditMinCritText" preferredWidth="100" fontSize="12" fontStyle="bold" text="minCrit:20" visibility="White"  />
-                <Text id="03_atkEditMinCritText" preferredWidth="100" fontSize="12" fontStyle="bold" text="minCrit:20" visibility="Brown"  />
-                <Text id="04_atkEditMinCritText" preferredWidth="100" fontSize="12" fontStyle="bold" text="minCrit:20" visibility="Red"    />
-                <Text id="05_atkEditMinCritText" preferredWidth="100" fontSize="12" fontStyle="bold" text="minCrit:20" visibility="Orange" />
-                <Text id="06_atkEditMinCritText" preferredWidth="100" fontSize="12" fontStyle="bold" text="minCrit:20" visibility="Yellow" />
-                <Text id="07_atkEditMinCritText" preferredWidth="100" fontSize="12" fontStyle="bold" text="minCrit:20" visibility="Green"  />
-                <Text id="08_atkEditMinCritText" preferredWidth="100" fontSize="12" fontStyle="bold" text="minCrit:20" visibility="Teal"   />
-                <Text id="09_atkEditMinCritText" preferredWidth="100" fontSize="12" fontStyle="bold" text="minCrit:20" visibility="Blue"   />
-                <Text id="10_atkEditMinCritText" preferredWidth="100" fontSize="12" fontStyle="bold" text="minCrit:20" visibility="Purple" />
-                <Text id="11_atkEditMinCritText" preferredWidth="100" fontSize="12" fontStyle="bold" text="minCrit:20" visibility="Pink"   />
-                <Text id="01_atkEditAtkModText" preferredWidth="100" fontSize="12" fontStyle="bold" text="atkMod:+0" visibility="Black"  />
-                <Text id="02_atkEditAtkModText" preferredWidth="100" fontSize="12" fontStyle="bold" text="atkMod:+0" visibility="White"  />
-                <Text id="03_atkEditAtkModText" preferredWidth="100" fontSize="12" fontStyle="bold" text="atkMod:+0" visibility="Brown"  />
-                <Text id="04_atkEditAtkModText" preferredWidth="100" fontSize="12" fontStyle="bold" text="atkMod:+0" visibility="Red"    />
-                <Text id="05_atkEditAtkModText" preferredWidth="100" fontSize="12" fontStyle="bold" text="atkMod:+0" visibility="Orange" />
-                <Text id="06_atkEditAtkModText" preferredWidth="100" fontSize="12" fontStyle="bold" text="atkMod:+0" visibility="Yellow" />
-                <Text id="07_atkEditAtkModText" preferredWidth="100" fontSize="12" fontStyle="bold" text="atkMod:+0" visibility="Green"  />
-                <Text id="08_atkEditAtkModText" preferredWidth="100" fontSize="12" fontStyle="bold" text="atkMod:+0" visibility="Teal"   />
-                <Text id="09_atkEditAtkModText" preferredWidth="100" fontSize="12" fontStyle="bold" text="atkMod:+0" visibility="Blue"   />
-                <Text id="10_atkEditAtkModText" preferredWidth="100" fontSize="12" fontStyle="bold" text="atkMod:+0" visibility="Purple" />
-                <Text id="11_atkEditAtkModText" preferredWidth="100" fontSize="12" fontStyle="bold" text="atkMod:+0" visibility="Pink"   />
+                <Text id="01_atkEditMinCritText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="minCrit:20" visibility="Black"  />
+                <Text id="02_atkEditMinCritText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="minCrit:20" visibility="White"  />
+                <Text id="03_atkEditMinCritText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="minCrit:20" visibility="Brown"  />
+                <Text id="04_atkEditMinCritText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="minCrit:20" visibility="Red"    />
+                <Text id="05_atkEditMinCritText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="minCrit:20" visibility="Orange" />
+                <Text id="06_atkEditMinCritText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="minCrit:20" visibility="Yellow" />
+                <Text id="07_atkEditMinCritText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="minCrit:20" visibility="Green"  />
+                <Text id="08_atkEditMinCritText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="minCrit:20" visibility="Teal"   />
+                <Text id="09_atkEditMinCritText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="minCrit:20" visibility="Blue"   />
+                <Text id="10_atkEditMinCritText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="minCrit:20" visibility="Purple" />
+                <Text id="11_atkEditMinCritText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="minCrit:20" visibility="Pink"   />
+                <Text id="01_atkEditAtkModText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="atkMod:+0" visibility="Black"  />
+                <Text id="02_atkEditAtkModText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="atkMod:+0" visibility="White"  />
+                <Text id="03_atkEditAtkModText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="atkMod:+0" visibility="Brown"  />
+                <Text id="04_atkEditAtkModText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="atkMod:+0" visibility="Red"    />
+                <Text id="05_atkEditAtkModText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="atkMod:+0" visibility="Orange" />
+                <Text id="06_atkEditAtkModText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="atkMod:+0" visibility="Yellow" />
+                <Text id="07_atkEditAtkModText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="atkMod:+0" visibility="Green"  />
+                <Text id="08_atkEditAtkModText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="atkMod:+0" visibility="Teal"   />
+                <Text id="09_atkEditAtkModText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="atkMod:+0" visibility="Blue"   />
+                <Text id="10_atkEditAtkModText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="atkMod:+0" visibility="Purple" />
+                <Text id="11_atkEditAtkModText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="atkMod:+0" visibility="Pink"   />
             </HorizontalLayout>
             <HorizontalLayout> 
                 <InputField id="atkEditMinCritInput" characterValidation="integer" preferredWidth="100" placeholder="minCrit" onEndEdit="atkSetMinCrit" textColor="#888888" />
@@ -1662,31 +1662,31 @@
                 <Button id="11_atkEditResUsedButton" preferredWidth="80" fontStyle="bold" text="resUsed" visibility="Pink"   onClick="atkSetResUsed"  resizeTextMaxSize="13" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
             </HorizontalLayout>
             <HorizontalLayout> 
-                <Text id="01_atkEditDmgStrText" preferredWidth="100" fontSize="12" fontStyle="bold" text="1d6+2" visibility="Black"  />
-                <Text id="02_atkEditDmgStrText" preferredWidth="100" fontSize="12" fontStyle="bold" text="1d6+2" visibility="White"  />
-                <Text id="03_atkEditDmgStrText" preferredWidth="100" fontSize="12" fontStyle="bold" text="1d6+2" visibility="Brown"  />
-                <Text id="04_atkEditDmgStrText" preferredWidth="100" fontSize="12" fontStyle="bold" text="1d6+2" visibility="Red"    />
-                <Text id="05_atkEditDmgStrText" preferredWidth="100" fontSize="12" fontStyle="bold" text="1d6+2" visibility="Orange" />
-                <Text id="06_atkEditDmgStrText" preferredWidth="100" fontSize="12" fontStyle="bold" text="1d6+2" visibility="Yellow" />
-                <Text id="07_atkEditDmgStrText" preferredWidth="100" fontSize="12" fontStyle="bold" text="1d6+2" visibility="Green"  />
-                <Text id="08_atkEditDmgStrText" preferredWidth="100" fontSize="12" fontStyle="bold" text="1d6+2" visibility="Teal"   />
-                <Text id="09_atkEditDmgStrText" preferredWidth="100" fontSize="12" fontStyle="bold" text="1d6+2" visibility="Blue"   />
-                <Text id="10_atkEditDmgStrText" preferredWidth="100" fontSize="12" fontStyle="bold" text="1d6+2" visibility="Purple" />
-                <Text id="11_atkEditDmgStrText" preferredWidth="100" fontSize="12" fontStyle="bold" text="1d6+2" visibility="Pink"   />
+                <Text id="01_atkEditDmgStrText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="1d6+2" visibility="Black"  />
+                <Text id="02_atkEditDmgStrText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="1d6+2" visibility="White"  />
+                <Text id="03_atkEditDmgStrText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="1d6+2" visibility="Brown"  />
+                <Text id="04_atkEditDmgStrText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="1d6+2" visibility="Red"    />
+                <Text id="05_atkEditDmgStrText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="1d6+2" visibility="Orange" />
+                <Text id="06_atkEditDmgStrText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="1d6+2" visibility="Yellow" />
+                <Text id="07_atkEditDmgStrText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="1d6+2" visibility="Green"  />
+                <Text id="08_atkEditDmgStrText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="1d6+2" visibility="Teal"   />
+                <Text id="09_atkEditDmgStrText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="1d6+2" visibility="Blue"   />
+                <Text id="10_atkEditDmgStrText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="1d6+2" visibility="Purple" />
+                <Text id="11_atkEditDmgStrText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="1d6+2" visibility="Pink"   />
                 <InputField preferredWidth="100" placeholder="dmg" onEndEdit="atkSetDmgStr" textColor="#888888" />
             </HorizontalLayout>
             <HorizontalLayout> 
-                <Text id="01_atkEditCritDmgStrText" preferredWidth="100" fontSize="12" fontStyle="bold" text="2d6+2" visibility="Black"  />
-                <Text id="02_atkEditCritDmgStrText" preferredWidth="100" fontSize="12" fontStyle="bold" text="2d6+2" visibility="White"  />
-                <Text id="03_atkEditCritDmgStrText" preferredWidth="100" fontSize="12" fontStyle="bold" text="2d6+2" visibility="Brown"  />
-                <Text id="04_atkEditCritDmgStrText" preferredWidth="100" fontSize="12" fontStyle="bold" text="2d6+2" visibility="Red"    />
-                <Text id="05_atkEditCritDmgStrText" preferredWidth="100" fontSize="12" fontStyle="bold" text="2d6+2" visibility="Orange" />
-                <Text id="06_atkEditCritDmgStrText" preferredWidth="100" fontSize="12" fontStyle="bold" text="2d6+2" visibility="Yellow" />
-                <Text id="07_atkEditCritDmgStrText" preferredWidth="100" fontSize="12" fontStyle="bold" text="2d6+2" visibility="Green"  />
-                <Text id="08_atkEditCritDmgStrText" preferredWidth="100" fontSize="12" fontStyle="bold" text="2d6+2" visibility="Teal"   />
-                <Text id="09_atkEditCritDmgStrText" preferredWidth="100" fontSize="12" fontStyle="bold" text="2d6+2" visibility="Blue"   />
-                <Text id="10_atkEditCritDmgStrText" preferredWidth="100" fontSize="12" fontStyle="bold" text="2d6+2" visibility="Purple" />
-                <Text id="11_atkEditCritDmgStrText" preferredWidth="100" fontSize="12" fontStyle="bold" text="2d6+2" visibility="Pink"   />
+                <Text id="01_atkEditCritDmgStrText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="2d6+2" visibility="Black"  />
+                <Text id="02_atkEditCritDmgStrText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="2d6+2" visibility="White"  />
+                <Text id="03_atkEditCritDmgStrText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="2d6+2" visibility="Brown"  />
+                <Text id="04_atkEditCritDmgStrText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="2d6+2" visibility="Red"    />
+                <Text id="05_atkEditCritDmgStrText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="2d6+2" visibility="Orange" />
+                <Text id="06_atkEditCritDmgStrText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="2d6+2" visibility="Yellow" />
+                <Text id="07_atkEditCritDmgStrText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="2d6+2" visibility="Green"  />
+                <Text id="08_atkEditCritDmgStrText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="2d6+2" visibility="Teal"   />
+                <Text id="09_atkEditCritDmgStrText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="2d6+2" visibility="Blue"   />
+                <Text id="10_atkEditCritDmgStrText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="2d6+2" visibility="Purple" />
+                <Text id="11_atkEditCritDmgStrText" preferredWidth="100" resizeTextMaxSize="12" fontStyle="bold" text="2d6+2" visibility="Pink"   />
                 <InputField preferredWidth="100" placeholder="critDmg" onEndEdit="atkSetDmgStrCrit" textColor="#888888" />
             </HorizontalLayout>
         </VerticalLayout>
@@ -2326,7 +2326,7 @@
     <VerticalLayout>
         <HorizontalLayout preferredHeight="30">
             <Text preferredWidth="120" fontStyle="bold" text="spell slots" />
-            <Button id="spellSlotMaxAllButton" preferredWidth="30" fontSize="10" text="max all" fontStyle="bold" onClick="spellSlotButtonMaxAll" visibility="noone" />
+            <Button id="spellSlotMaxAllButton" preferredWidth="30" resizeTextMaxSize="10" text="max all" fontStyle="bold" onClick="spellSlotButtonMaxAll" visibility="noone" />
         </HorizontalLayout>
         <HorizontalLayout preferredHeight="270">
             <VerticalLayout preferredWidth="120" visibility="Black">
@@ -2869,29 +2869,29 @@
             </HorizontalLayout>
             <HorizontalLayout id="notesInputs" visibility="noone">
                 <Text preferredWidth="5" />
-                <InputField id="01_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" fontSize="13" placeholder="text 1" visibility="Black"  onEndEdit="setNotes" />
-                <InputField id="02_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" fontSize="13" placeholder="text 1" visibility="White"  onEndEdit="setNotes" />
-                <InputField id="03_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" fontSize="13" placeholder="text 1" visibility="Brown"  onEndEdit="setNotes" />
-                <InputField id="04_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" fontSize="13" placeholder="text 1" visibility="Red"    onEndEdit="setNotes" />
-                <InputField id="05_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" fontSize="13" placeholder="text 1" visibility="Orange" onEndEdit="setNotes" />
-                <InputField id="06_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" fontSize="13" placeholder="text 1" visibility="Yellow" onEndEdit="setNotes" />
-                <InputField id="07_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" fontSize="13" placeholder="text 1" visibility="Green"  onEndEdit="setNotes" />
-                <InputField id="08_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" fontSize="13" placeholder="text 1" visibility="Teal"   onEndEdit="setNotes" />
-                <InputField id="09_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" fontSize="13" placeholder="text 1" visibility="Blue"   onEndEdit="setNotes" />
-                <InputField id="10_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" fontSize="13" placeholder="text 1" visibility="Purple" onEndEdit="setNotes" />
-                <InputField id="11_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" fontSize="13" placeholder="text 1" visibility="Pink"   onEndEdit="setNotes" />
+                <InputField id="01_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" resizeTextMaxSize="13" placeholder="text 1" visibility="Black"  onEndEdit="setNotes" />
+                <InputField id="02_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" resizeTextMaxSize="13" placeholder="text 1" visibility="White"  onEndEdit="setNotes" />
+                <InputField id="03_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" resizeTextMaxSize="13" placeholder="text 1" visibility="Brown"  onEndEdit="setNotes" />
+                <InputField id="04_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" resizeTextMaxSize="13" placeholder="text 1" visibility="Red"    onEndEdit="setNotes" />
+                <InputField id="05_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" resizeTextMaxSize="13" placeholder="text 1" visibility="Orange" onEndEdit="setNotes" />
+                <InputField id="06_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" resizeTextMaxSize="13" placeholder="text 1" visibility="Yellow" onEndEdit="setNotes" />
+                <InputField id="07_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" resizeTextMaxSize="13" placeholder="text 1" visibility="Green"  onEndEdit="setNotes" />
+                <InputField id="08_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" resizeTextMaxSize="13" placeholder="text 1" visibility="Teal"   onEndEdit="setNotes" />
+                <InputField id="09_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" resizeTextMaxSize="13" placeholder="text 1" visibility="Blue"   onEndEdit="setNotes" />
+                <InputField id="10_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" resizeTextMaxSize="13" placeholder="text 1" visibility="Purple" onEndEdit="setNotes" />
+                <InputField id="11_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" resizeTextMaxSize="13" placeholder="text 1" visibility="Pink"   onEndEdit="setNotes" />
                 <Text preferredWidth="5" />
-                <InputField id="01_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" fontSize="13" placeholder="text 2" visibility="Black"  onEndEdit="setNotes" />
-                <InputField id="02_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" fontSize="13" placeholder="text 2" visibility="White"  onEndEdit="setNotes" />
-                <InputField id="03_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" fontSize="13" placeholder="text 2" visibility="Brown"  onEndEdit="setNotes" />
-                <InputField id="04_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" fontSize="13" placeholder="text 2" visibility="Red"    onEndEdit="setNotes" />
-                <InputField id="05_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" fontSize="13" placeholder="text 2" visibility="Orange" onEndEdit="setNotes" />
-                <InputField id="06_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" fontSize="13" placeholder="text 2" visibility="Yellow" onEndEdit="setNotes" />
-                <InputField id="07_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" fontSize="13" placeholder="text 2" visibility="Green"  onEndEdit="setNotes" />
-                <InputField id="08_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" fontSize="13" placeholder="text 2" visibility="Teal"   onEndEdit="setNotes" />
-                <InputField id="09_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" fontSize="13" placeholder="text 2" visibility="Blue"   onEndEdit="setNotes" />
-                <InputField id="10_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" fontSize="13" placeholder="text 2" visibility="Purple" onEndEdit="setNotes" />
-                <InputField id="11_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" fontSize="13" placeholder="text 2" visibility="Pink"   onEndEdit="setNotes" />
+                <InputField id="01_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" resizeTextMaxSize="13" placeholder="text 2" visibility="Black"  onEndEdit="setNotes" />
+                <InputField id="02_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" resizeTextMaxSize="13" placeholder="text 2" visibility="White"  onEndEdit="setNotes" />
+                <InputField id="03_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" resizeTextMaxSize="13" placeholder="text 2" visibility="Brown"  onEndEdit="setNotes" />
+                <InputField id="04_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" resizeTextMaxSize="13" placeholder="text 2" visibility="Red"    onEndEdit="setNotes" />
+                <InputField id="05_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" resizeTextMaxSize="13" placeholder="text 2" visibility="Orange" onEndEdit="setNotes" />
+                <InputField id="06_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" resizeTextMaxSize="13" placeholder="text 2" visibility="Yellow" onEndEdit="setNotes" />
+                <InputField id="07_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" resizeTextMaxSize="13" placeholder="text 2" visibility="Green"  onEndEdit="setNotes" />
+                <InputField id="08_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" resizeTextMaxSize="13" placeholder="text 2" visibility="Teal"   onEndEdit="setNotes" />
+                <InputField id="09_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" resizeTextMaxSize="13" placeholder="text 2" visibility="Blue"   onEndEdit="setNotes" />
+                <InputField id="10_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" resizeTextMaxSize="13" placeholder="text 2" visibility="Purple" onEndEdit="setNotes" />
+                <InputField id="11_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" fontStyle="bold" resizeTextMaxSize="13" placeholder="text 2" visibility="Pink"   onEndEdit="setNotes" />
                 <Text preferredWidth="5" />
             </HorizontalLayout>
         </Panel>
@@ -3284,7 +3284,7 @@
             </Panel>
             <Panel preferredHeight="20" width="60" height="20" >
                 <ProgressBar id="02_teamBarHP" color="#886666" fillImageColor="#ff4444" width="56" height="16" outline="#440000" outlineSize="1 -1" showPercentageText="false" />
-                <Text  id="02_teamBarHPsaves" text="" color="#440000" fontSize="15" fontStyle="bold" />
+                <Text  id="02_teamBarHPsaves" text="" color="#440000" resizeTextMaxSize="15" fontStyle="bold" />
             </Panel>
         </VerticalLayout>
         <VerticalLayout id="03_teamBarSegment" preferredWidth="60">
@@ -3295,7 +3295,7 @@
             </Panel>
             <Panel preferredHeight="20" width="60" height="20" >
                 <ProgressBar id="03_teamBarHP" color="#886666" fillImageColor="#ff4444" width="56" height="16" outline="#440000" outlineSize="1 -1" showPercentageText="false" />
-                <Text  id="03_teamBarHPsaves" text="" color="#440000" fontSize="15" fontStyle="bold" />
+                <Text  id="03_teamBarHPsaves" text="" color="#440000" resizeTextMaxSize="15" fontStyle="bold" />
             </Panel>
         </VerticalLayout>
         <VerticalLayout id="04_teamBarSegment" preferredWidth="60">
@@ -3306,7 +3306,7 @@
             </Panel>
             <Panel preferredHeight="20" width="60" height="20" >
                 <ProgressBar id="04_teamBarHP" color="#886666" fillImageColor="#ff4444" width="56" height="16" outline="#440000" outlineSize="1 -1" showPercentageText="false" />
-                <Text  id="04_teamBarHPsaves" text="" color="#440000" fontSize="15" fontStyle="bold" />
+                <Text  id="04_teamBarHPsaves" text="" color="#440000" resizeTextMaxSize="15" fontStyle="bold" />
             </Panel>
         </VerticalLayout>
         <VerticalLayout id="05_teamBarSegment" preferredWidth="60">
@@ -3317,7 +3317,7 @@
             </Panel>
             <Panel preferredHeight="20" width="60" height="20" >
                 <ProgressBar id="05_teamBarHP" color="#886666" fillImageColor="#ff4444" width="56" height="16" outline="#440000" outlineSize="1 -1" showPercentageText="false" />
-                <Text  id="05_teamBarHPsaves" text="" color="#440000" fontSize="15" fontStyle="bold" />
+                <Text  id="05_teamBarHPsaves" text="" color="#440000" resizeTextMaxSize="15" fontStyle="bold" />
             </Panel>
         </VerticalLayout>
         <VerticalLayout id="06_teamBarSegment" preferredWidth="60">
@@ -3328,7 +3328,7 @@
             </Panel>
             <Panel preferredHeight="20" width="60" height="20" >
                 <ProgressBar id="06_teamBarHP" color="#886666" fillImageColor="#ff4444" width="56" height="16" outline="#440000" outlineSize="1 -1" showPercentageText="false" />
-                <Text  id="06_teamBarHPsaves" text="" color="#440000" fontSize="15" fontStyle="bold" />
+                <Text  id="06_teamBarHPsaves" text="" color="#440000" resizeTextMaxSize="15" fontStyle="bold" />
             </Panel>
         </VerticalLayout>
         <VerticalLayout id="07_teamBarSegment" preferredWidth="60">
@@ -3339,7 +3339,7 @@
             </Panel>
             <Panel preferredHeight="20" width="60" height="20" >
                 <ProgressBar id="07_teamBarHP" color="#886666" fillImageColor="#ff4444" width="56" height="16" outline="#440000" outlineSize="1 -1" showPercentageText="false" />
-                <Text  id="07_teamBarHPsaves" text="" color="#440000" fontSize="15" fontStyle="bold" />
+                <Text  id="07_teamBarHPsaves" text="" color="#440000" resizeTextMaxSize="15" fontStyle="bold" />
             </Panel>
         </VerticalLayout>
         <VerticalLayout id="08_teamBarSegment" preferredWidth="60">
@@ -3350,7 +3350,7 @@
             </Panel>
             <Panel preferredHeight="20" width="60" height="20" >
                 <ProgressBar id="08_teamBarHP" color="#886666" fillImageColor="#ff4444" width="56" height="16" outline="#440000" outlineSize="1 -1" showPercentageText="false" />
-                <Text  id="08_teamBarHPsaves" text="" color="#440000" fontSize="15" fontStyle="bold" />
+                <Text  id="08_teamBarHPsaves" text="" color="#440000" resizeTextMaxSize="15" fontStyle="bold" />
             </Panel>
         </VerticalLayout>
         <VerticalLayout id="09_teamBarSegment" preferredWidth="60">
@@ -3361,7 +3361,7 @@
             </Panel>
             <Panel preferredHeight="20" width="60" height="20" >
                 <ProgressBar id="09_teamBarHP" color="#886666" fillImageColor="#ff4444" width="56" height="16" outline="#440000" outlineSize="1 -1" showPercentageText="false" />
-                <Text  id="09_teamBarHPsaves" text="" color="#440000" fontSize="15" fontStyle="bold" />
+                <Text  id="09_teamBarHPsaves" text="" color="#440000" resizeTextMaxSize="15" fontStyle="bold" />
             </Panel>
         </VerticalLayout>
         <VerticalLayout id="10_teamBarSegment" preferredWidth="60">
@@ -3372,7 +3372,7 @@
             </Panel>
             <Panel preferredHeight="20" width="60" height="20" >
                 <ProgressBar id="10_teamBarHP" color="#886666" fillImageColor="#ff4444" width="56" height="16" outline="#440000" outlineSize="1 -1" showPercentageText="false" />
-                <Text  id="10_teamBarHPsaves" text="" color="#440000" fontSize="15" fontStyle="bold" />
+                <Text  id="10_teamBarHPsaves" text="" color="#440000" resizeTextMaxSize="15" fontStyle="bold" />
             </Panel>
         </VerticalLayout>
         <VerticalLayout id="11_teamBarSegment" preferredWidth="60">
@@ -3383,7 +3383,7 @@
             </Panel>
             <Panel preferredHeight="20" width="60" height="20" >
                 <ProgressBar id="11_teamBarHP" color="#886666" fillImageColor="#ff4444" width="56" height="16" outline="#440000" outlineSize="1 -1" showPercentageText="false" />
-                <Text  id="11_teamBarHPsaves" text="" color="#440000" fontSize="15" fontStyle="bold" />
+                <Text  id="11_teamBarHPsaves" text="" color="#440000" resizeTextMaxSize="15" fontStyle="bold" />
             </Panel>
         </VerticalLayout>
     </HorizontalLayout>
@@ -3392,9 +3392,9 @@
 <!-- MINIMAP (DONE) -->
 <Panel id="miniMapPanel" allowDragging="true" returnToOriginalPositionWhenReleased="false" color="#ffffff88" rectAlignment="UpperLeft" height="300" width="300" offsetXY="100,-100" visibility="noone" outline="#440044ff" outlineSize="1 -1" active="True" >
     <Text id="miniMap_head" resizeTextMaxSize="20" fontStyle="bold" offsetXY="0 140" text="Minimap" />
-    <Text fontSize="150" fontStyle="bold" color="#0000000a" text="○" scale="1 1 1" offsetXY="0 10" /> <!-- ○ ◌ -->
-    <Text fontSize="150" fontStyle="bold" color="#0000000a" text="○" scale="2.2 2.2 1" offsetXY="0 22" />
-    <Text fontSize="150" fontStyle="bold" color="#0000000a" text="○" scale="3.7 3.7 1" offsetXY="0 37" />
+    <Text resizeTextMaxSize="150" fontStyle="bold" color="#0000000a" text="○" scale="1 1 1" offsetXY="0 10" /> <!-- ○ ◌ -->
+    <Text resizeTextMaxSize="150" fontStyle="bold" color="#0000000a" text="○" scale="2.2 2.2 1" offsetXY="0 22" />
+    <Text resizeTextMaxSize="150" fontStyle="bold" color="#0000000a" text="○" scale="3.7 3.7 1" offsetXY="0 37" />
 
     <Panel id="miniMap_unit_01" class="miniMap_unit" ><Text id="miniMap_text_01" class="miniMap_text" /><Text id="miniMap_text_x_01" class="miniMap_text_x" /></Panel>
     <Panel id="miniMap_unit_02" class="miniMap_unit" ><Text id="miniMap_text_02" class="miniMap_text" /><Text id="miniMap_text_x_02" class="miniMap_text_x" /></Panel>
@@ -3498,15 +3498,15 @@
 
     <Panel visibility="Black" >
         <GridLayout offsetXY="120 130" childAlignment="MiddleCenter" cellSize="20 20" constraint="FixedColumnCount" constraintCount="3">
-            <Button id="minimapControls_01" fontStyle="bold" fontSize="14" height="20" width="20" color="#ffffff44" text="+" onClick="minimapControl" />
-            <Button id="minimapControls_02" fontStyle="bold" fontSize="10" height="20" width="20" color="#ffffff44" text="▲" onClick="minimapControl" />
-            <Button id="minimapControls_03" fontStyle="bold" fontSize="14" height="20" width="20" color="#ffffff44" text="-" onClick="minimapControl" />
-            <Button id="minimapControls_04" fontStyle="bold" fontSize="10" height="20" width="20" color="#ffffff44" text="◄" onClick="minimapControl" />
-            <Button id="minimapControls_05" fontStyle="bold" fontSize="10" height="20" width="20" color="#ffffff44" text="▼" onClick="minimapControl" />
-            <Button id="minimapControls_06" fontStyle="bold" fontSize="10" height="20" width="20" color="#ffffff44" text="►" onClick="minimapControl" />
+            <Button id="minimapControls_01" fontStyle="bold" resizeTextMaxSize="14" height="20" width="20" color="#ffffff44" text="+" onClick="minimapControl" />
+            <Button id="minimapControls_02" fontStyle="bold" resizeTextMaxSize="10" height="20" width="20" color="#ffffff44" text="▲" onClick="minimapControl" />
+            <Button id="minimapControls_03" fontStyle="bold" resizeTextMaxSize="14" height="20" width="20" color="#ffffff44" text="-" onClick="minimapControl" />
+            <Button id="minimapControls_04" fontStyle="bold" resizeTextMaxSize="10" height="20" width="20" color="#ffffff44" text="◄" onClick="minimapControl" />
+            <Button id="minimapControls_05" fontStyle="bold" resizeTextMaxSize="10" height="20" width="20" color="#ffffff44" text="▼" onClick="minimapControl" />
+            <Button id="minimapControls_06" fontStyle="bold" resizeTextMaxSize="10" height="20" width="20" color="#ffffff44" text="►" onClick="minimapControl" />
         </GridLayout>
-        <Button id="minimapPingBrd_button" fontStyle="bold" fontSize="13" height="20" width="20" color="#ffffff44" text="□" onClick="miniMap_pingBorder" offsetXY="-140 140" />
-        <InputField height="20" width="20" fontSize="8" onEndEdit="set_miniMap_unit" offsetXY="-120 140" active="false" />
+        <Button id="minimapPingBrd_button" fontStyle="bold" resizeTextMaxSize="13" height="20" width="20" color="#ffffff44" text="□" onClick="miniMap_pingBorder" offsetXY="-140 140" />
+        <InputField height="20" width="20" resizeTextMaxSize="8" onEndEdit="set_miniMap_unit" offsetXY="-120 140" active="false" />
     </Panel>
 </Panel>
 
