@@ -51,10 +51,10 @@ function onLoad(saved_data)
     ------------------------------------------
     --saved_data = "" -- MUST BE COMMENTED !!!
     ------------------------------------------
-    if saved_data != nil and saved_data != "" then
+    if saved_data ~= nil and saved_data ~= "" then
         loaded_data = JSON.decode(saved_data)
         lang_set = loaded_data.lang_set
-        if loaded_data.saveLastPick != nil then
+        if loaded_data.saveLastPick ~= nil then
             saveLastPick = loaded_data.saveLastPick
         else
             saveLastPick = false
@@ -258,7 +258,7 @@ function onLoad(saved_data)
         noCharSelectedPanelCheck()
     end, 2)
 
-    Wait.time(|| repetitionUpdate(), 1, -1)
+    Wait.time(function() repetitionUpdate() end, 1, -1)
 
     --miniMap_zoom = 10
     --miniMap_offset = {0,0}
@@ -272,7 +272,7 @@ end
 function repetitionUpdate()
     if charBaseSpin then
         for u=1,11 do
-            if getObjectFromGUID(lastPickedCharGUID_table[u]) != nil then
+            if getObjectFromGUID(lastPickedCharGUID_table[u]) ~= nil then
                 getObjectFromGUID(lastPickedCharGUID_table[u]).call("selectSpin")
             end
         end
@@ -285,7 +285,7 @@ end
 -----------------------------   sheet <-> figurine interactions
 
 function onObjectPickUp(plCl, pObj)
-    if pObj.getVar("THIS_IS_A_SCRIPTED_DND_4E_CHARACTER_TOKEN") != nil and not copyCharMode then -- ffs should be 5E, but now it would be too much fuss to fix
+    if pObj.getVar("THIS_IS_A_SCRIPTED_DND_4E_CHARACTER_TOKEN") ~= nil and not copyCharMode then -- ffs should be 5E, but now it would be too much fuss to fix
         if pObj.getTable("charSave_table").aColors[nFromPlClr(plCl)] then
             previousTokenGUID = lastPickedCharGUID_table[nFromPlClr(plCl)]
             lastPickedCharGUID_table[nFromPlClr(plCl)] = pObj.getGUID()
@@ -294,7 +294,7 @@ function onObjectPickUp(plCl, pObj)
             Wait.frames(function()
                 pObj.call("UI_update")
             end, 1)
-            if previousTokenGUID != "" and getObjectFromGUID(previousTokenGUID) != nil and previousTokenGUID != lastPickedCharGUID_table[nFromPlClr(plCl)] then
+            if previousTokenGUID ~= "" and getObjectFromGUID(previousTokenGUID) ~= nil and previousTokenGUID ~= lastPickedCharGUID_table[nFromPlClr(plCl)] then
                 getObjectFromGUID(previousTokenGUID).setVar("Selected", tokenSelectionCheck(previousTokenGUID))
                 Wait.frames(function()
                     getObjectFromGUID(previousTokenGUID).call("UI_update")
@@ -302,7 +302,7 @@ function onObjectPickUp(plCl, pObj)
             end
             noCharSelectedPanelCheck()
         end
-    elseif pObj.getVar("THIS_IS_A_SCRIPTED_DND_4E_CHARACTER_TOKEN") != nil and copyCharMode then
+    elseif pObj.getVar("THIS_IS_A_SCRIPTED_DND_4E_CHARACTER_TOKEN") ~= nil and copyCharMode then
         pObj.setTable("charSave_table", main_Table[nFromPl(plCl)])
         pObj.call("UI_update")
         copyCharMode = false
@@ -326,7 +326,7 @@ end
 function tokenSelectionCheck(previousTokenGUID)
     selectedUpdate = 0
     for i=11,1,-1 do
-        if lastPickedCharGUID_table[i] != "" and getObjectFromGUID(lastPickedCharGUID_table[i]) != nil then
+        if lastPickedCharGUID_table[i] ~= "" and getObjectFromGUID(lastPickedCharGUID_table[i]) ~= nil then
             if lastPickedCharGUID_table[i] == previousTokenGUID then
                 selectedUpdate = i
             end
@@ -375,7 +375,7 @@ end
 -----------------------------   sheet edits
 
 function setCharPortrait(pl,vl,thisID)
-    if vl != "" then
+    if vl ~= "" then
         main_Table[nFromPl(pl)].portraitUrl = vl
     else
         main_Table[nFromPl(pl)].portraitUrl = "https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/"
@@ -384,9 +384,9 @@ function setCharPortrait(pl,vl,thisID)
 end
 
 function setCharName(pl,vl,thisID)
-    if vl != nil then
+    if vl ~= nil then
         main_Table[nFromPl(pl)].charName = vl
-        if getObjectFromGUID(lastPickedCharGUID_table[nFromPl(pl)]) != nil then
+        if getObjectFromGUID(lastPickedCharGUID_table[nFromPl(pl)]) ~= nil then
             getObjectFromGUID(lastPickedCharGUID_table[nFromPl(pl)]).setName(vl)
         end
         singleColor_UI_update(nFromPl(pl))
@@ -1255,7 +1255,7 @@ end
 -------------------------   conditions
 
 function contitionButt(pl,vl,thisID)
-    if numFromStrEnd(thisID) != 18 then
+    if numFromStrEnd(thisID) ~= 18 then
         main_Table[nFromPl(pl)].conditions.table[numFromStrEnd(thisID)] = not main_Table[nFromPl(pl)].conditions.table[numFromStrEnd(thisID)]
     else
         if vl == "-1" then
@@ -1265,7 +1265,7 @@ function contitionButt(pl,vl,thisID)
             main_Table[nFromPl(pl)].conditions.exhaustion = main_Table[nFromPl(pl)].conditions.exhaustion - 1
             if main_Table[nFromPl(pl)].conditions.exhaustion < 0 then main_Table[nFromPl(pl)].conditions.exhaustion = 5 end
         end
-        if main_Table[nFromPl(pl)].conditions.exhaustion != 0 then
+        if main_Table[nFromPl(pl)].conditions.exhaustion ~= 0 then
             main_Table[nFromPl(pl)].conditions.table[numFromStrEnd(thisID)] = true
         else
             main_Table[nFromPl(pl)].conditions.table[numFromStrEnd(thisID)] = false
@@ -1344,7 +1344,7 @@ function colorToggleEditMode(pl,vl,thisID)
         UI_xmlElementUpdate("resoursesEditInputsPanel","visibility",editModeVisibilityStr)
 
         UI_xmlElementUpdate("notesInputs","visibility",editModeVisibilityStr)
-    elseif vl == "-2" and editModeVisibility[nFromPl(pl)] and getObjectFromGUID(lastPickedCharGUID_table[nFromPl(pl)]) != nil then
+    elseif vl == "-2" and editModeVisibility[nFromPl(pl)] and getObjectFromGUID(lastPickedCharGUID_table[nFromPl(pl)]) ~= nil then
         --resetCounter
         if resetCounter < 4 then
             resetCounter = resetCounter + 1
@@ -1595,7 +1595,7 @@ end
 
 function onObjectRandomize(object, player_color)
     if panelVisibility_projector[1] then
-        if player_color == "Black" and object.getCustomObject().image != nil then
+        if player_color == "Black" and object.getCustomObject().image ~= nil then
             object.setVelocity({0,0,0})
             UI_xmlElementUpdate("projectorImage", "image", object.getCustomObject().image)
             UI_xmlElementUpdate("projectorImage", "tooltip", object.getName())
@@ -1649,7 +1649,7 @@ function atkEdit_UI_update(pl_N,atk_N)
         end
     end
 
-    if lastPickedCharGUID_table[pl_N] != "" and getObjectFromGUID(lastPickedCharGUID_table[pl_N]) != nil and not firstLoad then
+    if lastPickedCharGUID_table[pl_N] ~= "" and getObjectFromGUID(lastPickedCharGUID_table[pl_N]) ~= nil and not firstLoad then
         SetStatsIntoToken(pl_N)
     end
 end
@@ -1672,9 +1672,9 @@ end
 
 function atkIconsMenuButton(pl,vl,thisID)
     if numFromStrEnd(thisID) <= #atkIconsUrl_Table then
-        main_Table[nFromPl(pl)].attacks[editModeSelectedAttack[pl_N]].icon = numFromStrEnd(thisID)
+        main_Table[nFromPl(pl)].attacks[editModeSelectedAttack[nFromPl(pl)]].icon = numFromStrEnd(thisID)
         colorToggleAtkIconsMenu(pl,_,thisID)
-        atkEdit_UI_update(nFromPl(pl),editModeSelectedAttack[pl_N])
+        atkEdit_UI_update(nFromPl(pl),editModeSelectedAttack[nFromPl(pl)])
     end
 end
 
@@ -2035,14 +2035,14 @@ function language_UI_update()   --  tooltipBackgroundColor="#000000" tooltipPosi
 
     UI_xmlElementUpdate("initPassButton", "text", lang_table[enumLangSet[lang_set]][84])
 
-    UI_xmlElementUpdate("atkEditIconSetButton", "tooltip", lang_table[enumLangSet[lang_set]][88])
+    UI_xmlElementUpdate("atkEditIconSetButton", "tooltip", lang_table[enumLangSet[lang_set]][87])
     for i=1,11 do
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditRollAtkButton", "tooltip", lang_table[enumLangSet[lang_set]][89])
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditAtkAttrButton", "tooltip", lang_table[enumLangSet[lang_set]][90])
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditProfButton", "tooltip", lang_table[enumLangSet[lang_set]][91])
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditRollDmgButton", "tooltip", lang_table[enumLangSet[lang_set]][92])
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditDmgAttrButton", "tooltip", lang_table[enumLangSet[lang_set]][93])
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditResUsedButton", "tooltip", lang_table[enumLangSet[lang_set]][94])
+        UI_xmlElementUpdate(strFromNum(i).."_atkEditRollAtkButton", "tooltip", lang_table[enumLangSet[lang_set]][88])
+        UI_xmlElementUpdate(strFromNum(i).."_atkEditAtkAttrButton", "tooltip", lang_table[enumLangSet[lang_set]][89])
+        UI_xmlElementUpdate(strFromNum(i).."_atkEditProfButton", "tooltip", lang_table[enumLangSet[lang_set]][90])
+        UI_xmlElementUpdate(strFromNum(i).."_atkEditRollDmgButton", "tooltip", lang_table[enumLangSet[lang_set]][91])
+        UI_xmlElementUpdate(strFromNum(i).."_atkEditDmgAttrButton", "tooltip", lang_table[enumLangSet[lang_set]][92])
+        UI_xmlElementUpdate(strFromNum(i).."_atkEditResUsedButton", "tooltip", lang_table[enumLangSet[lang_set]][93])
     end
     for i=1,11 do
         for ii=1,9 do
@@ -2526,7 +2526,7 @@ function stringRoller(inpStr,plr,commStr,rollType,rollCritDmg)   -- Main roller 
                 totalRollStr = totalRollStr..symbol_table[i-1]
             end
             d_pos,d_pos_ = string.find(segments_table[i], "d")
-            if d_pos != nil then
+            if d_pos ~= nil then
                 timesToRoll = tonumber(string.sub(segments_table[i],1,d_pos-1))
                 if timesToRoll > 5000 then timesToRoll = 0 end
                 sidesToRoll = tonumber(string.sub(segments_table[i],d_pos+1,#segments_table[i]))

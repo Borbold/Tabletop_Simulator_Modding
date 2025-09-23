@@ -61,6 +61,7 @@ end
 
 -- Функция для обновления интерфейса
 function UI_update()
+    if not charSave_table or not charSave_table.tokenGUI_settings then return end
     -- Обновление позиции, ротации и масштаба интерфейса
     UI_xmlElementUpdate("tokenUIbase", "position", (charSave_table.tokenGUI_settings[3] * 10)..","..(charSave_table.tokenGUI_settings[1] * 10)..","..(charSave_table.tokenGUI_settings[2] * (-10)))
     UI_xmlElementUpdate("tokenUIbase", "rotation", "0,0,"..charSave_table.tokenGUI_settings[4] * 15 + 90)
@@ -70,12 +71,16 @@ function UI_update()
     local HP_i = math.floor(charSave_table.hp / charSave_table.hpMax * 20)
 
     -- Формирование строки видимости
-    local showToStr = "Black"
-    for i = 2, 11 do
-        if charSave_table.aColors[i] then
-            showToStr = showToStr.."|"..plColors_Table[i]
+    local function buildShowToStr()
+        local showToStrLocal = "Black"
+        for i = 2, 11 do
+            if charSave_table.aColors[i] then
+                showToStrLocal = showToStrLocal.."|"..plColors_Table[i]
+            end
         end
+        return showToStrLocal
     end
+    local showToStr = buildShowToStr()
 
     -- Обновление видимости элементов интерфейса
     if charSave_table.charHidden then
@@ -85,10 +90,13 @@ function UI_update()
         UI_xmlElementUpdate("hiddenMarker", "active", "True")
         UI_xmlElementUpdate("hiddenMarker", "visibility", showToStr)
     else
-        UI_xmlElementUpdate("conditionsPanel", "visibility", "Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink|Grey")
-        UI_xmlElementUpdate("selectedMarker", "visibility", "Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink|Grey")
+        local function getAllColorsStr()
+            return "Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink|Grey"
+        end
+        UI_xmlElementUpdate("conditionsPanel", "visibility", getAllColorsStr())
+        UI_xmlElementUpdate("selectedMarker", "visibility", getAllColorsStr())
         if charSave_table.hpVisibleToPlayers then
-            UI_xmlElementUpdate("hpBar", "visibility", "Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink|Grey")
+            UI_xmlElementUpdate("hpBar", "visibility", getAllColorsStr())
         else
             UI_xmlElementUpdate("hpBar", "visibility", showToStr)
         end
@@ -285,8 +293,8 @@ function charXml()
         <Text  class="tokenUIbaseText" color="#ffffffee" shadow="#22222288" />
         <Image class="conditionImage" height="15" width="15" position="0,-40,0" />
         <Text  class="hiddenMarkerText" text="%" fontSize="150" color="#00000044" outline="#aaaaff22" outlineSize="2 -2" />
-        xmlStr = xmlStr..'</Defaults>
-        xmlStr = xmlStr..'<Panel id="tokenUIbase">
+    </Defaults>
+    <Panel id="tokenUIbase">
         <Panel id="selectedMarker" position="0,0,-2" active="false">
             <Text  id="selectedMarker_10" color="#aaaaaa88" fontSize="100" fontStyle="bold" text="►" position="50,0,0" outline="#00000066" outlineSize="2 -2" scale="0.5,1.2,0.5" />
             <Text  id="selectedMarker_00" color="#aaaaaa88" fontSize="255" fontStyle="bold" text="●" position="0,17,0" outline="#00000066" outlineSize="2 -2"  />
