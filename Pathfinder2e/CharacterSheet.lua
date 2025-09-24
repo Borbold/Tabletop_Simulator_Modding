@@ -2046,9 +2046,9 @@ function language_UI_update()   --  tooltipBackgroundColor="#000000" tooltipPosi
     end
     for i=1,11 do
         for ii=1,9 do
-            UI_xmlElementUpdate(strFromNum(i).."_spellSlotButton_"..strFromNum(ii), "tooltip", lang_table[enumLangSet[lang_set]][95])
+            UI_xmlElementUpdate(strFromNum(i).."_spellSlotButton_"..strFromNum(ii), "tooltip", lang_table[enumLangSet[lang_set]][94])
         end
-        UI_xmlElementUpdate("spellSlotButtonMax_"..strFromNum(i), "tooltip", lang_table[enumLangSet[lang_set]][95])
+        UI_xmlElementUpdate("spellSlotButtonMax_"..strFromNum(i), "tooltip", lang_table[enumLangSet[lang_set]][94])
     end
     UI_xmlElementUpdate("notesPanelTitle", "text", lang_table[enumLangSet[lang_set]][95])
     
