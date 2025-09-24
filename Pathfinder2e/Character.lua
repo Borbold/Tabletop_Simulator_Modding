@@ -211,9 +211,9 @@ function resetChar()
     for ii = 1, 18 do
         charSave_table.skills[ii] = {}
         charSave_table.skills[ii].proficient = false
-        main_Table[i].skills[ii].expert = false
-        main_Table[i].skills[ii].master = false
-        main_Table[i].skills[ii].legendary = false
+        charSave_table[i].skills[ii].expert = false
+        charSave_table[i].skills[ii].master = false
+        charSave_table[i].skills[ii].legendary = false
         charSave_table.skills[ii].mod = 0
     end
     charSave_table.attacks = {}

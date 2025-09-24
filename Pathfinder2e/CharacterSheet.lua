@@ -2065,8 +2065,8 @@ function language_UI_update()   --  tooltipBackgroundColor="#000000" tooltipPosi
     
     UI_xmlElementUpdate("GM_toolsButton_01", "tooltip", lang_table[enumLangSet[lang_set]][120])
     UI_xmlElementUpdate("GM_toolsButton_02", "tooltip", lang_table[enumLangSet[lang_set]][121])
-    UI_xmlElementUpdate("GM_toolsButton_03", "tooltip", lang_table[enumLangSet[lang_set]][123])
-    UI_xmlElementUpdate("GM_toolsButton_04", "tooltip", lang_table[enumLangSet[lang_set]][133])
+    UI_xmlElementUpdate("GM_toolsButton_03", "tooltip", lang_table[enumLangSet[lang_set]][122])
+    UI_xmlElementUpdate("GM_toolsButton_04", "tooltip", lang_table[enumLangSet[lang_set]][123])
     UI_xmlElementUpdate("GM_toolsButton_05", "tooltip", lang_table[enumLangSet[lang_set]][124])
     UI_xmlElementUpdate("GM_toolsButton_06", "tooltip", lang_table[enumLangSet[lang_set]][125])
     UI_xmlElementUpdate("GM_toolsButton_07", "tooltip", lang_table[enumLangSet[lang_set]][126])
@@ -2079,8 +2079,8 @@ function language_UI_update()   --  tooltipBackgroundColor="#000000" tooltipPosi
     UI_xmlElementUpdate("setInvisButton", "tooltip", lang_table[enumLangSet[lang_set]][130])
 
     UI_xmlElementUpdate("copyCharModeText", "text", lang_table[enumLangSet[lang_set]][131])
-    UI_xmlElementUpdate("GM_toolsButton_08", "tooltip", lang_table[enumLangSet[lang_set]][122])
-    UI_xmlElementUpdate("GM_toolsButton_09", "tooltip", lang_table[enumLangSet[lang_set]][132])
+    UI_xmlElementUpdate("GM_toolsButton_08", "tooltip", lang_table[enumLangSet[lang_set]][132])
+    UI_xmlElementUpdate("GM_toolsButton_09", "tooltip", lang_table[enumLangSet[lang_set]][133])
 end
 
 function toggleCharBaseSpin()
