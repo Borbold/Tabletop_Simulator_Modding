@@ -171,48 +171,54 @@ function onLoad(saved_data)
         main_Table[i].initMod = 0
         main_Table[i].pPerceptionMod = 0
 
-        main_Table[i].attributes = {}
+        -- Initialize attributes with default values (modifier: (attr -10) /2)
+        main_Table[i].attributes = {10, 10, 10, 10, 10, 10}
         main_Table[i].saves = {Fortitude = false, Reflex = false, Will = false}
         main_Table[i].savesMod = {Fortitude = 0, Reflex = 0, Will = 0}
-        for ii=1,6 do
-            main_Table[i].attributes[ii] = 10   -- modifier: (attr -10) /2
-        end
+        
+        -- Initialize skills with default values
         main_Table[i].skills = {}
         for ii=1,18 do
-            main_Table[i].skills[ii] = {}
-            main_Table[i].skills[ii].proficient = false
-            main_Table[i].skills[ii].expert = false
-            main_Table[i].skills[ii].master = false
-            main_Table[i].skills[ii].legendary = false
-            main_Table[i].skills[ii].mod = 0
+            main_Table[i].skills[ii] = {
+                proficient = false,
+                expert = false,
+                master = false,
+                legendary = false,
+                mod = 0
+            }
         end
 
+        -- Initialize attacks with default values
         main_Table[i].attacks = {}
         for ii=1,10 do
-            main_Table[i].attacks[ii] = {}
-            main_Table[i].attacks[ii].atkName = "unarmed"
-            main_Table[i].attacks[ii].atkRolled = true
-            main_Table[i].attacks[ii].atkAttr = 1
-            main_Table[i].attacks[ii].proficient = true
-            main_Table[i].attacks[ii].minCrit = 20
-            main_Table[i].attacks[ii].atkMod = 0
-            main_Table[i].attacks[ii].dmgRolled = true
-            main_Table[i].attacks[ii].dmgAttr = 1
-            main_Table[i].attacks[ii].dmgStr = "1"
-            main_Table[i].attacks[ii].dmgStrCrit = "0"
-            main_Table[i].attacks[ii].resUsed = 0
-            main_Table[i].attacks[ii].icon = 1
+            main_Table[i].attacks[ii] = {
+                atkName = "unarmed",
+                atkRolled = true,
+                atkAttr = 1,
+                proficient = true,
+                minCrit = 20,
+                atkMod = 0,
+                dmgRolled = true,
+                dmgAttr = 1,
+                dmgStr = "1",
+                dmgStrCrit = "0",
+                resUsed = 0,
+                icon = 1
+            }
         end
 
+        -- Initialize spell slots
         main_Table[i].splSlots = {0,0,0,0,0,0,0,0,0}
         main_Table[i].splSlotsMax = {0,0,0,0,0,0,0,0,0}
 
+        -- Initialize resources
         main_Table[i].resourses = {}
         for ii=1,10 do
-            main_Table[i].resourses[ii] = {}
-            main_Table[i].resourses[ii].resName = ""
-            main_Table[i].resourses[ii].resValue = 0
-            main_Table[i].resourses[ii].resMax = 0
+            main_Table[i].resourses[ii] = {
+                resName = "",
+                resValue = 0,
+                resMax = 0
+            }
         end
 
         main_Table[i].notes_A = ""
@@ -1364,147 +1370,101 @@ function colorToggleEditMode(pl,vl,thisID)
     end
 end
 
-function colorToggleShowAttacks(pl,_,thisID)
-    panelVisibility_attacks[nFromPl(pl)] = not panelVisibility_attacks[nFromPl(pl)]
-    editModeVisibilityStr = "noone"
-    isNoOne = true
-    for i=1,11 do
-        if panelVisibility_attacks[i] then
+-- Helper function to build visibility string from boolean array
+function buildVisibilityFromArray(visibilityArray)
+    local result = "noone"
+    local isNoOne = true
+    for i = 1, 11 do
+        if visibilityArray[i] then
             isNoOne = false
-            editModeVisibilityStr = editModeVisibilityStr.. "|".. plColors_Table[i]
+            result = result .. "|" .. plColors_Table[i]
         end
     end
     if not isNoOne then
-        editModeVisibilityStr = string.sub(editModeVisibilityStr, 7, #editModeVisibilityStr)
+        result = string.sub(result, 7, #result)
     end
-    UI_xmlElementUpdate("panel_attacks","visibility",editModeVisibilityStr)
+    return result
+end
+
+-- Helper function to update all elements of a specific type for all colors
+function updateAllColorElements(baseId, attribute, value)
+    for i = 1, 11 do
+        local colorNum = string.format("%02d", i)
+        local id = colorNum .. "_" .. baseId
+        UI_xmlElementUpdate(id, attribute, value)
+    end
+end
+
+-- Consolidated panel toggle function - reduces code duplication
+function togglePanelVisibility(pl, panelType, panelId, extraAction)
+    local visibilityArray = nil
+    if panelType == "attacks" then visibilityArray = panelVisibility_attacks
+    elseif panelType == "spellSlots" then visibilityArray = panelVisibility_spellSlots
+    elseif panelType == "resourses" then visibilityArray = panelVisibility_resourses
+    elseif panelType == "notes" then visibilityArray = panelVisibility_notes
+    elseif panelType == "conditions" then visibilityArray = panelVisibility_conditions
+    elseif panelType == "UIset" then visibilityArray = panelVisibility_UIset
+    elseif panelType == "miniMap" then visibilityArray = panelVisibility_miniMap
+    elseif panelType == "main" then visibilityArray = panelVisibility_main
+    end
+    
+    if visibilityArray then
+        visibilityArray[nFromPl(pl)] = not visibilityArray[nFromPl(pl)]
+        local editModeVisibilityStr = buildVisibilityFromArray(visibilityArray)
+        UI_xmlElementUpdate(panelId, "visibility", editModeVisibilityStr)
+        if extraAction then extraAction() end
+    end
+end
+
+-- Simplified toggle functions using the consolidated function
+function colorToggleShowAttacks(pl,_,thisID)
+    togglePanelVisibility(pl, "attacks", "panel_attacks")
 end
 
 function colorToggleShowSpellSlots(pl,_,thisID)
-    panelVisibility_spellSlots[nFromPl(pl)] = not panelVisibility_spellSlots[nFromPl(pl)]
-    editModeVisibilityStr = "noone"
-    isNoOne = true
-    for i=1,11 do
-        if panelVisibility_spellSlots[i] then
-            isNoOne = false
-            editModeVisibilityStr = editModeVisibilityStr.. "|".. plColors_Table[i]
-        end
-    end
-    if not isNoOne then
-        editModeVisibilityStr = string.sub(editModeVisibilityStr, 7, #editModeVisibilityStr)
-    end
-    UI_xmlElementUpdate("panel_spellSlots","visibility",editModeVisibilityStr)
+    togglePanelVisibility(pl, "spellSlots", "panel_spellSlots")
 end
 
 function colorToggleShowResourses(pl,_,thisID)
-    panelVisibility_resourses[nFromPl(pl)] = not panelVisibility_resourses[nFromPl(pl)]
-    editModeVisibilityStr = "noone"
-    isNoOne = true
-    for i=1,11 do
-        if panelVisibility_resourses[i] then
-            isNoOne = false
-            editModeVisibilityStr = editModeVisibilityStr.. "|".. plColors_Table[i]
-        end
-    end
-    if not isNoOne then
-        editModeVisibilityStr = string.sub(editModeVisibilityStr, 7, #editModeVisibilityStr)
-    end
-    UI_xmlElementUpdate("panel_resourses","visibility",editModeVisibilityStr)
+    togglePanelVisibility(pl, "resourses", "panel_resourses")
 end
 
 function colorToggleShowNotes(pl,_,thisID)
-    panelVisibility_notes[nFromPl(pl)] = not panelVisibility_notes[nFromPl(pl)]
-    editModeVisibilityStr = "noone"
-    isNoOne = true
-    for i=1,11 do
-        if panelVisibility_notes[i] then
-            isNoOne = false
-            editModeVisibilityStr = editModeVisibilityStr.. "|".. plColors_Table[i]
-        end
-    end
-    if not isNoOne then
-        editModeVisibilityStr = string.sub(editModeVisibilityStr, 7, #editModeVisibilityStr)
-    end
-    UI_xmlElementUpdate("panel_notes","visibility",editModeVisibilityStr)
+    togglePanelVisibility(pl, "notes", "panel_notes")
 end
 
 function colorToggleConditions(pl,_,thisID)
-    panelVisibility_conditions[nFromPl(pl)] = not panelVisibility_conditions[nFromPl(pl)]
-    editModeVisibilityStr = "noone"
-    isNoOne = true
-    for i=1,11 do
-        if panelVisibility_conditions[i] then
-            isNoOne = false
-            editModeVisibilityStr = editModeVisibilityStr.. "|".. plColors_Table[i]
-        end
-    end
-    if not isNoOne then
-        editModeVisibilityStr = string.sub(editModeVisibilityStr, 7, #editModeVisibilityStr)
-    end
-    UI_xmlElementUpdate("panel_conditions","visibility",editModeVisibilityStr)
+    togglePanelVisibility(pl, "conditions", "panel_conditions")
 end
 
 function colorToggleUIsetup(pl,_,thisID)
-    panelVisibility_UIset[nFromPl(pl)] = not panelVisibility_UIset[nFromPl(pl)]
-    editModeVisibilityStr = "noone"
-    isNoOne = true
-    for i=1,11 do
-        if panelVisibility_UIset[i] then
-            isNoOne = false
-            editModeVisibilityStr = editModeVisibilityStr.. "|".. plColors_Table[i]
-        end
-    end
-    if not isNoOne then
-        editModeVisibilityStr = string.sub(editModeVisibilityStr, 7, #editModeVisibilityStr)
-    end
-    UI_xmlElementUpdate("panel_UIset","visibility",editModeVisibilityStr)
+    togglePanelVisibility(pl, "UIset", "panel_UIset")
 end
 
 function colorToggleShowMain(pl,vl,thisID)
-    panelVisibility_main[nFromPl(pl)] = not panelVisibility_main[nFromPl(pl)]
-    editModeVisibilityStr = "noone"
-    isNoOne = true
-    for i=1,11 do
-        if panelVisibility_main[i] then
-            isNoOne = false
-            editModeVisibilityStr = editModeVisibilityStr.. "|".. plColors_Table[i]
+    togglePanelVisibility(pl, "main", "panel_main", function()
+        if not panelVisibility_main[nFromPl(pl)] and vl == "-2" then
+            -- Show all panels when main is hidden
+            panelVisibility_attacks[nFromPl(pl)] = true
+            colorToggleShowAttacks(pl,_,_)
+            panelVisibility_spellSlots[nFromPl(pl)] = true
+            colorToggleShowSpellSlots(pl,_,_)
+            panelVisibility_resourses[nFromPl(pl)] = true
+            colorToggleShowResourses(pl,_,_)
+            panelVisibility_notes[nFromPl(pl)] = true
+            colorToggleShowNotes(pl,_,_)
+            panelVisibility_conditions[nFromPl(pl)] = true
+            colorToggleConditions(pl,_,_)
+            panelVisibility_UIset[nFromPl(pl)] = true
+            colorToggleUIsetup(pl,_,_)
         end
-    end
-    if not isNoOne then
-        editModeVisibilityStr = string.sub(editModeVisibilityStr, 7, #editModeVisibilityStr)
-    end
-    UI_xmlElementUpdate("panel_main","visibility",editModeVisibilityStr)
-    if not panelVisibility_main[nFromPl(pl)] and vl == "-2" then
-        panelVisibility_attacks[nFromPl(pl)] = true
-        colorToggleShowAttacks(pl,_,_)
-        panelVisibility_spellSlots[nFromPl(pl)] = true
-        colorToggleShowSpellSlots(pl,_,_)
-        panelVisibility_resourses[nFromPl(pl)] = true
-        colorToggleShowResourses(pl,_,_)
-        panelVisibility_notes[nFromPl(pl)] = true
-        colorToggleShowNotes(pl,_,_)
-        panelVisibility_conditions[nFromPl(pl)] = true
-        colorToggleConditions(pl,_,_)
-        panelVisibility_UIset[nFromPl(pl)] = true
-        colorToggleUIsetup(pl,_,_)
-    end
+    end)
 end
 
 function colorToggleShowMiniMap(pl,vl,thisID)
-    panelVisibility_miniMap[nFromPl(pl)] = not panelVisibility_miniMap[nFromPl(pl)]
-    editModeVisibilityStr = "noone"
-    isNoOne = true
-    for i=1,11 do
-        if panelVisibility_miniMap[i] then
-            isNoOne = false
-            editModeVisibilityStr = editModeVisibilityStr.. "|".. plColors_Table[i]
-        end
-    end
-    if not isNoOne then
-        editModeVisibilityStr = string.sub(editModeVisibilityStr, 7, #editModeVisibilityStr)
-    end
-    UI_xmlElementUpdate("miniMapPanel","visibility",editModeVisibilityStr)
-    miniMap_UI_update()
+    togglePanelVisibility(pl, "miniMap", "miniMapPanel", function()
+        miniMap_UI_update()
+    end)
 end
 
 function colorToggleShowInitiative(pl,vl,thisID)

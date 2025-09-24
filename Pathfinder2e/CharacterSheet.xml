@@ -17,6 +17,11 @@
     <Image class="atkButtonImg" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" />
     <Image class="atkEditIconImg" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" />
     <Image class="charPortrait" preserveAspect="true" height="100" width="100" image="https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/" />
+    <Text class="charNameText" resizeTextMaxSize="16" text="Name" fontStyle="bold" />
+    <Text class="charStatText" resizeTextMaxSize="16" fontStyle="bold" preferredWidth="100" />
+    <Text class="charAttrValueText" text="15" fontStyle="bold" />
+    <Button class="charAttrModButton" text="+2" fontStyle="bold" preferredWidth="28" onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+    <Button class="charAttrEditButton" onClick="setCharAttr" text="+" />
 </Defaults>
 
 <Panel id="addCharModePanel" color="#0000aa22" visibility="Black" active="False">
@@ -127,46 +132,49 @@
                 <Button id="bigPortraitSelf" color="#00000000" height="100" width="100" onClick="colorToggleBigPortrait" />
             </Panel>
             <VerticalLayout preferredWidth="300">
+                <!-- Character Names - Generated for all 11 colors -->
                 <HorizontalLayout>
-                    <Text id="01_charName" resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Black"  />
-                    <Text id="02_charName" resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="White"  />
-                    <Text id="03_charName" resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Brown"  />
-                    <Text id="04_charName" resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Red"    />
-                    <Text id="05_charName" resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Orange" />
-                    <Text id="06_charName" resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Yellow" />
-                    <Text id="07_charName" resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Green"  />
-                    <Text id="08_charName" resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Teal"   />
-                    <Text id="09_charName" resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Blue"   />
-                    <Text id="10_charName" resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Purple" />
-                    <Text id="11_charName" resizeTextMaxSize="16" text="Name" fontStyle="bold" visibility="Pink"   />
+                    <Text class="charNameText" id="01_charName" visibility="Black" />
+                    <Text class="charNameText" id="02_charName" visibility="White" />
+                    <Text class="charNameText" id="03_charName" visibility="Brown" />
+                    <Text class="charNameText" id="04_charName" visibility="Red" />
+                    <Text class="charNameText" id="05_charName" visibility="Orange" />
+                    <Text class="charNameText" id="06_charName" visibility="Yellow" />
+                    <Text class="charNameText" id="07_charName" visibility="Green" />
+                    <Text class="charNameText" id="08_charName" visibility="Teal" />
+                    <Text class="charNameText" id="09_charName" visibility="Blue" />
+                    <Text class="charNameText" id="10_charName" visibility="Purple" />
+                    <Text class="charNameText" id="11_charName" visibility="Pink" />
                 </HorizontalLayout>
+                <!-- Character Level - Generated for all 11 colors -->
                 <HorizontalLayout>
-                    <Text id="01_charLvl" resizeTextMaxSize="16" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Black"  />
-                    <Text id="02_charLvl" resizeTextMaxSize="16" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="White"  />
-                    <Text id="03_charLvl" resizeTextMaxSize="16" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Brown"  />
-                    <Text id="04_charLvl" resizeTextMaxSize="16" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Red"    />
-                    <Text id="05_charLvl" resizeTextMaxSize="16" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Orange" />
-                    <Text id="06_charLvl" resizeTextMaxSize="16" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Yellow" />
-                    <Text id="07_charLvl" resizeTextMaxSize="16" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Green"  />
-                    <Text id="08_charLvl" resizeTextMaxSize="16" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Teal"   />
-                    <Text id="09_charLvl" resizeTextMaxSize="16" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Blue"   />
-                    <Text id="10_charLvl" resizeTextMaxSize="16" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Purple" />
-                    <Text id="11_charLvl" resizeTextMaxSize="16" text="Lvl: 20" fontStyle="bold" preferredWidth="100" visibility="Pink"   />
+                    <Text class="charStatText" id="01_charLvl" text="Lvl: 20" visibility="Black" />
+                    <Text class="charStatText" id="02_charLvl" text="Lvl: 20" visibility="White" />
+                    <Text class="charStatText" id="03_charLvl" text="Lvl: 20" visibility="Brown" />
+                    <Text class="charStatText" id="04_charLvl" text="Lvl: 20" visibility="Red" />
+                    <Text class="charStatText" id="05_charLvl" text="Lvl: 20" visibility="Orange" />
+                    <Text class="charStatText" id="06_charLvl" text="Lvl: 20" visibility="Yellow" />
+                    <Text class="charStatText" id="07_charLvl" text="Lvl: 20" visibility="Green" />
+                    <Text class="charStatText" id="08_charLvl" text="Lvl: 20" visibility="Teal" />
+                    <Text class="charStatText" id="09_charLvl" text="Lvl: 20" visibility="Blue" />
+                    <Text class="charStatText" id="10_charLvl" text="Lvl: 20" visibility="Purple" />
+                    <Text class="charStatText" id="11_charLvl" text="Lvl: 20" visibility="Pink" />
                     <VerticalLayout id="charLvlEdit" preferredWidth="20" visibility="noone" > <!-- EDIT TOGGLE -->
                         <Button id="charLvlButton_01" onClick="setCharLvl" text="+" resizeTextMaxSize="10" />
                         <Button id="charLvlButton_02" onClick="setCharLvl" text="-" resizeTextMaxSize="10" />
                     </VerticalLayout>
-                    <Text id="01_charAC" resizeTextMaxSize="16" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Black"  />
-                    <Text id="02_charAC" resizeTextMaxSize="16" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="White"  />
-                    <Text id="03_charAC" resizeTextMaxSize="16" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Brown"  />
-                    <Text id="04_charAC" resizeTextMaxSize="16" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Red"    />
-                    <Text id="05_charAC" resizeTextMaxSize="16" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Orange" />
-                    <Text id="06_charAC" resizeTextMaxSize="16" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Yellow" />
-                    <Text id="07_charAC" resizeTextMaxSize="16" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Green"  />
-                    <Text id="08_charAC" resizeTextMaxSize="16" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Teal"   />
-                    <Text id="09_charAC" resizeTextMaxSize="16" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Blue"   />
-                    <Text id="10_charAC" resizeTextMaxSize="16" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Purple" />
-                    <Text id="11_charAC" resizeTextMaxSize="16" text="AC: 12" fontStyle="bold" preferredWidth="100" visibility="Pink"   />
+                    <!-- Character AC - Generated for all 11 colors -->
+                    <Text class="charStatText" id="01_charAC" text="AC: 12" visibility="Black" />
+                    <Text class="charStatText" id="02_charAC" text="AC: 12" visibility="White" />
+                    <Text class="charStatText" id="03_charAC" text="AC: 12" visibility="Brown" />
+                    <Text class="charStatText" id="04_charAC" text="AC: 12" visibility="Red" />
+                    <Text class="charStatText" id="05_charAC" text="AC: 12" visibility="Orange" />
+                    <Text class="charStatText" id="06_charAC" text="AC: 12" visibility="Yellow" />
+                    <Text class="charStatText" id="07_charAC" text="AC: 12" visibility="Green" />
+                    <Text class="charStatText" id="08_charAC" text="AC: 12" visibility="Teal" />
+                    <Text class="charStatText" id="09_charAC" text="AC: 12" visibility="Blue" />
+                    <Text class="charStatText" id="10_charAC" text="AC: 12" visibility="Purple" />
+                    <Text class="charStatText" id="11_charAC" text="AC: 12" visibility="Pink" />
                     <VerticalLayout id="charACedit" preferredWidth="20" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charACbutton_01" onClick="setCharAC" text="+" resizeTextMaxSize="10" />
                         <Button id="charACbutton_02" onClick="setCharAC" text="-" resizeTextMaxSize="10" />
@@ -364,35 +372,38 @@
         <HorizontalLayout preferredHeight="180" >
             <VerticalLayout preferredWidth="80" >
                 <HorizontalLayout>
-                    <VerticalLayout preferredWidth="25" id="charAttrEdit_1" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charAttrEdButton_01" onClick="setCharAttr" text="+" />
-                        <Button id="02_charAttrEdButton_01" onClick="setCharAttr" text="-" />
+                    <!-- STR Attribute - Edit buttons -->
+                    <VerticalLayout preferredWidth="25" id="charAttrEdit_1" visibility="noone">
+                        <Button class="charAttrEditButton" id="01_charAttrEdButton_01" />
+                        <Button class="charAttrEditButton" id="02_charAttrEdButton_01" text="-" />
                     </VerticalLayout>
+                    <!-- STR Attribute - Values for all colors -->
                     <VerticalLayout preferredWidth="50">
                         <Text id="attrName_01" text="STR" fontStyle="bold" />
-                        <Text id="01_charAttrValue_01" text="15" fontStyle="bold" visibility="Black"  />
-                        <Text id="02_charAttrValue_01" text="15" fontStyle="bold" visibility="White"  />
-                        <Text id="03_charAttrValue_01" text="15" fontStyle="bold" visibility="Brown"  />
-                        <Text id="04_charAttrValue_01" text="15" fontStyle="bold" visibility="Red"    />
-                        <Text id="05_charAttrValue_01" text="15" fontStyle="bold" visibility="Orange" />
-                        <Text id="06_charAttrValue_01" text="15" fontStyle="bold" visibility="Yellow" />
-                        <Text id="07_charAttrValue_01" text="15" fontStyle="bold" visibility="Green"  />
-                        <Text id="08_charAttrValue_01" text="15" fontStyle="bold" visibility="Teal"   />
-                        <Text id="09_charAttrValue_01" text="15" fontStyle="bold" visibility="Blue"   />
-                        <Text id="10_charAttrValue_01" text="15" fontStyle="bold" visibility="Purple" />
-                        <Text id="11_charAttrValue_01" text="15" fontStyle="bold" visibility="Pink"   />
+                        <Text class="charAttrValueText" id="01_charAttrValue_01" visibility="Black" />
+                        <Text class="charAttrValueText" id="02_charAttrValue_01" visibility="White" />
+                        <Text class="charAttrValueText" id="03_charAttrValue_01" visibility="Brown" />
+                        <Text class="charAttrValueText" id="04_charAttrValue_01" visibility="Red" />
+                        <Text class="charAttrValueText" id="05_charAttrValue_01" visibility="Orange" />
+                        <Text class="charAttrValueText" id="06_charAttrValue_01" visibility="Yellow" />
+                        <Text class="charAttrValueText" id="07_charAttrValue_01" visibility="Green" />
+                        <Text class="charAttrValueText" id="08_charAttrValue_01" visibility="Teal" />
+                        <Text class="charAttrValueText" id="09_charAttrValue_01" visibility="Blue" />
+                        <Text class="charAttrValueText" id="10_charAttrValue_01" visibility="Purple" />
+                        <Text class="charAttrValueText" id="11_charAttrValue_01" visibility="Pink" />
                     </VerticalLayout>
-                    <Button preferredWidth="28" id="01_charAttrMod_01" text="+2" fontStyle="bold" visibility="Black"  onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button preferredWidth="28" id="02_charAttrMod_01" text="+2" fontStyle="bold" visibility="White"  onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button preferredWidth="28" id="03_charAttrMod_01" text="+2" fontStyle="bold" visibility="Brown"  onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button preferredWidth="28" id="04_charAttrMod_01" text="+2" fontStyle="bold" visibility="Red"    onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button preferredWidth="28" id="05_charAttrMod_01" text="+2" fontStyle="bold" visibility="Orange" onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button preferredWidth="28" id="06_charAttrMod_01" text="+2" fontStyle="bold" visibility="Yellow" onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button preferredWidth="28" id="07_charAttrMod_01" text="+2" fontStyle="bold" visibility="Green"  onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button preferredWidth="28" id="08_charAttrMod_01" text="+2" fontStyle="bold" visibility="Teal"   onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button preferredWidth="28" id="09_charAttrMod_01" text="+2" fontStyle="bold" visibility="Blue"   onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button preferredWidth="28" id="10_charAttrMod_01" text="+2" fontStyle="bold" visibility="Purple" onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-                    <Button preferredWidth="28" id="11_charAttrMod_01" text="+2" fontStyle="bold" visibility="Pink"   onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+                    <!-- STR Attribute - Modifier buttons for all colors -->
+                    <Button class="charAttrModButton" id="01_charAttrMod_01" visibility="Black" />
+                    <Button class="charAttrModButton" id="02_charAttrMod_01" visibility="White" />
+                    <Button class="charAttrModButton" id="03_charAttrMod_01" visibility="Brown" />
+                    <Button class="charAttrModButton" id="04_charAttrMod_01" visibility="Red" />
+                    <Button class="charAttrModButton" id="05_charAttrMod_01" visibility="Orange" />
+                    <Button class="charAttrModButton" id="06_charAttrMod_01" visibility="Yellow" />
+                    <Button class="charAttrModButton" id="07_charAttrMod_01" visibility="Green" />
+                    <Button class="charAttrModButton" id="08_charAttrMod_01" visibility="Teal" />
+                    <Button class="charAttrModButton" id="09_charAttrMod_01" visibility="Blue" />
+                    <Button class="charAttrModButton" id="10_charAttrMod_01" visibility="Purple" />
+                    <Button class="charAttrModButton" id="11_charAttrMod_01" visibility="Pink" />
                 </HorizontalLayout>
                 <HorizontalLayout>
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_2" visibility="noone"> <!-- EDIT TOGGLE -->
