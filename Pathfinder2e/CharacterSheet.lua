@@ -48,6 +48,7 @@ function onSave()
 end
 
 function onLoad(saved_data)
+    addHotkey("Hide/Show char sheet", function(playerColor) colorToggleShowMain(Player[playerColor]) end)
     ------------------------------------------
     --saved_data = "" -- MUST BE COMMENTED !!!
     ------------------------------------------
@@ -145,7 +146,6 @@ function onLoad(saved_data)
     panelVisibility_init = {true,true,true,true,true,true,true,true,true,true,true}
     panelVisibility_projector = {false,false,false,false,false,false,false,false,false,false,false}
     panelVisibility_bigPortrait = {false,false,false,false,false,false,false,false,false,false,false}
-
 
     rollOutputHex = "[cccccc]"
 
@@ -2247,7 +2247,6 @@ function miniMap_UI_update()
         end
         for i=1,99 do
             if i <= #all_chars then
-
                 UI_xmlElementUpdate("miniMap_unit_"..strFromNum(i), "offsetXY", ((all_chars[i].getPosition()[1] - miniMap_offset[1]) * miniMap_zoom).." "..((all_chars[i].getPosition()[3] - miniMap_offset[2]) * miniMap_zoom))
                 if math.abs((all_chars[i].getPosition()[1] - miniMap_offset[1]) * miniMap_zoom) > 145 or math.abs((all_chars[i].getPosition()[3] - miniMap_offset[2]) * miniMap_zoom) > 145 then
                     UI_xmlElementUpdate("miniMap_unit_"..strFromNum(i), "active", "False")

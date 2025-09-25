@@ -272,7 +272,7 @@ function FindBags(allObj)
         if(g.getName() == "_OW_wBase") then wBase = g end
     end
     if not mBag or not aBag then
-        broadcastToAll("Missing bags. Zone Object Bag and(or) Base Token Bag", {0.943, 0.745, 0.14})
+        s = s.."Missing bags. Zone Object Bag and(or) Base Token Bag."
         CreateStartBags()
     end
     if not wBase then
@@ -431,7 +431,7 @@ function isPVw() if wpx then broadcastToAll("Action Canceled While in Parent Vie
 function ParceData(bGuid)
     local h, k, e, s = string.char(45), string.char(44), string.char(10), aBag.getLuaScript()
     local fBase = string.find(s, k, string.find(s, h..bGuid..k))
-    if not fBase then broadcastToAll("No base map.", {0.943, 0.745, 0.14}) return end
+    if not fBase then if vBaseOn then broadcastToAll("No base map.", {0.943, 0.745, 0.14}) end return end
     local d, dFlag = {}, false
     for w in aBag.getLuaScript():gmatch("[^,{}\n]+") do
         if(dFlag == true) then

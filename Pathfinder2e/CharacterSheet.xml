@@ -4,10 +4,10 @@
     <Button resizeTextForBestFit="True" font='Fonts/Allods' tooltipFont='Fonts/Allods' colors='#FFFFFFa0|#FFFFFFa0|#C8C8C8a0|rgba(0.78,0.78,0.78,0.5)' />
     <Cell dontUseTableCellBackground='true' />
     <!--   -->
-    <Button class="skillButton" resizeTextMaxSize="13" onClick="skillButtonMain" textAlignment="MiddleLeft" preferredWidth="170"  fontStyle="bold" tooltipPosition="Above" tooltipBackgroundColor="#000000" />
+    <Button class="skillButton" onClick="skillButtonMain" textAlignment="MiddleLeft" preferredWidth="170"  fontStyle="bold" tooltipPosition="Above" tooltipBackgroundColor="#000000" />
     <Button class="atkButton" color="#ffffff08" onClick="atkButton" tooltipBackgroundColor="#000044" tooltipPosition="Above" tooltip="atkTooltip" />
     <Button class="spellSlotButton" resizeTextMaxSize="20" fontStyle="bold" textAlignment="MiddleLeft" text=" 1. ●●●○○○" onClick="spellSlotButtonMain" />
-    <Text class="resTextName" resizeTextMaxSize="13" Alignment="MiddleLeft" fontStyle="bold" text= " 1. resourseName" />
+    <Text class="resTextName" resizeTextMaxSize="16" Alignment="MiddleLeft" fontStyle="bold" text= " 1. resourseName" />
     <Text class="resTextNum" Alignment="MiddleCenter" fontStyle="bold" text= "235 / 991" />
     <Button class="conditionButton" color="#ffffff11" onClick="contitionButt" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
     <Text class="miniMap_text" text="♠" fontStyle="bold" height="100" width="100" resizeTextMaxSize="30" rectAlignment="MiddleCenter" tooltipBackgroundColor="#000000" tooltipPosition="Above" outline="#00000000" outlineSize="1 -1" /><!-- ♠ ▲ ⇑ -->
@@ -17,8 +17,8 @@
     <Image class="atkButtonImg" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" />
     <Image class="atkEditIconImg" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" />
     <Image class="charPortrait" preserveAspect="true" height="100" width="100" image="https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/" />
-    <Text class="charNameText" resizeTextMaxSize="16" text="Name" fontStyle="bold" />
-    <Text class="charStatText" resizeTextMaxSize="16" fontStyle="bold" preferredWidth="100" />
+    <Text class="charNameText" resizeTextMaxSize="20" text="Name" fontStyle="bold" />
+    <Text class="charStatText" resizeTextMaxSize="20" fontStyle="bold" preferredWidth="100" />
     <Text class="charAttrValueText" text="15" fontStyle="bold" />
     <Button class="charAttrModButton" text="+2" fontStyle="bold" preferredWidth="28" onClick="rollAttribute" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
     <Button class="charAttrEditButton" onClick="setCharAttr" text="+" />
@@ -48,33 +48,20 @@
 <Panel id="GM_tools_panel" rectAlignment="MiddleLeft"  offsetXY="69 -105" height="111" width="300" visibility="Black" active="False">
     <GridLayout spacing="5 5" cellSize="53 53" constraint="FixedRowCount" constraintCount="2">
         <Button id="GM_toolsButton_01" preferredWidth="53" fontStyle="bold" resizeTextMaxSize="14" text="╔EN╗ ╚RU╝" onClick="set_UI_Language" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
-        <!--Text preferredWidth="5" /-->
         <Button id="GM_toolsButton_02" preferredWidth="53" fontStyle="bold" resizeTextMaxSize="40" text="↺" onClick="toggleCharBaseSpin" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
-        <!--Text preferredWidth="5" /-->
         <Button id="GM_toolsButton_04" preferredWidth="53" fontStyle="bold" resizeTextMaxSize="13" text="auto save 30s" onClick="setCharAutosaveDelay" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
-
         <Button id="GM_toolsButton_09" preferredWidth="53" fontStyle="bold" resizeTextMaxSize="13" text="save last pick" onClick="toggleSaveLastPick" textColor="#000000" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
-
-        <!--Text preferredWidth="5" /-->
         <Button id="GM_toolsButton_05" preferredWidth="53" fontStyle="bold" resizeTextMaxSize="15" text="●   ●     ●        ●   ●" onClick="toggleShowEveryDie" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
-
-        <!--Text preferredWidth="5" /-->
         <Button id="GM_toolsButton_06" preferredWidth="53" fontStyle="bold" resizeTextMaxSize="35" text=" ͡° " onClick="toggleSneakyGM" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
-
-        <!--Text preferredWidth="5" /-->
         <Button id="GM_toolsButton_07" preferredWidth="53" fontStyle="bold" resizeTextMaxSize="35" text="★" onClick="toggleAutoPromote" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
-
-        <!--Text preferredWidth="5" /-->
         <Button id="GM_toolsButton_03" preferredWidth="53" fontStyle="bold" resizeTextMaxSize="15" text="new  ͡° ͜ʖ ͡° char" onClick="toggleAddCharMode" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
-
-        <!--Text preferredWidth="5" /-->
         <Button id="GM_toolsButton_08" preferredWidth="53" fontStyle="bold" resizeTextMaxSize="15" text="copy © = © char" onClick="toggleCopyCharMode" tooltipBackgroundColor="#000000" tooltipPosition="Above" shadow="#00000088" shadowDistance="2 -2" />
     </GridLayout>
 </Panel>
 
 <!-- CHAR SHEET (DONE) -->
-<Panel id="panel_main" allowDragging="true" returnToOriginalPositionWhenReleased="false" rectAlignment="LowerCenter" height="300" width="840" color="#ffffff" visibility="Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink" outline="#440044ff" outlineSize="1 -1" image='CharacterSheetBackground'>
-    <VerticalLayout height="195" width="110" offsetXY="-365 -52" >
+<Panel id="panel_main" allowDragging="true" returnToOriginalPositionWhenReleased="false" rectAlignment="LowerCenter" height="400" width="840" color="#ffffff" visibility="Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink" outline="#440044ff" outlineSize="1 -1" image='CharacterSheetBackground'>
+    <VerticalLayout height="270" width="110" offsetXY="-365 -64" >
         <Panel color="#ffffff" />
         <Panel color="#dddddd" />
         <Panel color="#ffffff" />
@@ -82,7 +69,7 @@
         <Panel color="#ffffff" />
         <Panel color="#dddddd" />
     </VerticalLayout>
-    <Panel id="assignedPlayersPanel" color="#ffffff" rectAlignment="LowerCenter" height="60" width="190" offsetXY="-495,300" visibility="noone" outline="#440044ff" outlineSize="1 -1">
+    <Panel id="assignedPlayersPanel" color="#ffffff" rectAlignment="LowerCenter" height="60" width="190" offsetXY="-495,400" visibility="noone" outline="#440044ff" outlineSize="1 -1">
         <VerticalLayout>
             <HorizontalLayout>
                 <Button text="●" id="assighedPlayerButton_02" resizeTextMaxSize="25" textOutline="#cccccc" color="#ffffff" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
@@ -102,18 +89,18 @@
         <Button text="hide" fontStyle="bold" id="setInvisButton" height="30" width="150" offsetXY="0 45" resizeTextMaxSize="20" textOutline="#cccccc" color="#cccccc" onClick="toggleInvisible" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
     </Panel>
     <Panel id="charPortraitNameInputsPanel" visibility="noone"> <!-- EDIT TOGGLE -->
-        <InputField id="01_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="02_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="03_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="04_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="05_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="06_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="07_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="08_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="09_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="10_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="11_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,175" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
-        <InputField id="charNameInput" color="#dddddd" width="300" height="30" offsetXY="-150,166" placeholder="charName" onEndEdit="setCharName" tooltipBackgroundColor="#000000" tooltipPosition="Above" textColor="#888888" />
+        <InputField id="01_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,225" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Black"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="02_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,225" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="White"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="03_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,225" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Brown"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="04_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,225" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Red"    tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="05_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,225" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Orange" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="06_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,225" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Yellow" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="07_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,225" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Green"  tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="08_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,225" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Teal"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="09_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,225" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Blue"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="10_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,225" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Purple" tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="11_charPortraitUrlInput" color="#dddddd" width="100" height="50" offsetXY="-350,225" text="URL" resizeTextMaxSize="5" lineType="MultiLineNewLine" onEndEdit="setCharPortrait" visibility="Pink"   tooltipBackgroundColor="#000000" tooltipPosition="Above" />
+        <InputField id="charNameInput" color="#dddddd" width="300" height="30" offsetXY="-150,213" placeholder="charName" onEndEdit="setCharName" tooltipBackgroundColor="#000000" tooltipPosition="Above" textColor="#888888" />
     </Panel>
     <VerticalLayout>
         <HorizontalLayout preferredHeight="100" >
@@ -255,17 +242,17 @@
                 <Panel id="10_charHPbar" width="130" height="60" offsetXY="-170,0" color="#ff8888" outline="#aa444488" outlineSize="2 -2" visibility="Purple" />
                 <Panel id="11_charHPbar" width="130" height="60" offsetXY="-170,0" color="#ff8888" outline="#aa444488" outlineSize="2 -2" visibility="Pink"   />
 
-                <Text id="01_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" resizeTextMaxSize="30" fontStyle="bold" visibility="Black"  />
-                <Text id="02_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" resizeTextMaxSize="30" fontStyle="bold" visibility="White"  />
-                <Text id="03_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" resizeTextMaxSize="30" fontStyle="bold" visibility="Brown"  />
-                <Text id="04_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" resizeTextMaxSize="30" fontStyle="bold" visibility="Red"    />
-                <Text id="05_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" resizeTextMaxSize="30" fontStyle="bold" visibility="Orange" />
-                <Text id="06_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" resizeTextMaxSize="30" fontStyle="bold" visibility="Yellow" />
-                <Text id="07_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" resizeTextMaxSize="30" fontStyle="bold" visibility="Green"  />
-                <Text id="08_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" resizeTextMaxSize="30" fontStyle="bold" visibility="Teal"   />
-                <Text id="09_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" resizeTextMaxSize="30" fontStyle="bold" visibility="Blue"   />
-                <Text id="10_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" resizeTextMaxSize="30" fontStyle="bold" visibility="Purple" />
-                <Text id="11_charHPtext" text="46 / 100" offsetXY="0,-15" color="#880000" outline="#ffaaaa" resizeTextMaxSize="30" fontStyle="bold" visibility="Pink"   />
+                <Text id="01_charHPtext" text="46 / 100" offsetXY="0,-20" color="#880000" outline="#ffaaaa" fontStyle="bold" visibility="Black"  />
+                <Text id="02_charHPtext" text="46 / 100" offsetXY="0,-20" color="#880000" outline="#ffaaaa" fontStyle="bold" visibility="White"  />
+                <Text id="03_charHPtext" text="46 / 100" offsetXY="0,-20" color="#880000" outline="#ffaaaa" fontStyle="bold" visibility="Brown"  />
+                <Text id="04_charHPtext" text="46 / 100" offsetXY="0,-20" color="#880000" outline="#ffaaaa" fontStyle="bold" visibility="Red"    />
+                <Text id="05_charHPtext" text="46 / 100" offsetXY="0,-20" color="#880000" outline="#ffaaaa" fontStyle="bold" visibility="Orange" />
+                <Text id="06_charHPtext" text="46 / 100" offsetXY="0,-20" color="#880000" outline="#ffaaaa" fontStyle="bold" visibility="Yellow" />
+                <Text id="07_charHPtext" text="46 / 100" offsetXY="0,-20" color="#880000" outline="#ffaaaa" fontStyle="bold" visibility="Green"  />
+                <Text id="08_charHPtext" text="46 / 100" offsetXY="0,-20" color="#880000" outline="#ffaaaa" fontStyle="bold" visibility="Teal"   />
+                <Text id="09_charHPtext" text="46 / 100" offsetXY="0,-20" color="#880000" outline="#ffaaaa" fontStyle="bold" visibility="Blue"   />
+                <Text id="10_charHPtext" text="46 / 100" offsetXY="0,-20" color="#880000" outline="#ffaaaa" fontStyle="bold" visibility="Purple" />
+                <Text id="11_charHPtext" text="46 / 100" offsetXY="0,-20" color="#880000" outline="#ffaaaa" fontStyle="bold" visibility="Pink"   />
 
                 <Text id="01_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" resizeTextMaxSize="25" fontStyle="bold" offsetXY="120,-15" visibility="Black"  />
                 <Text id="02_charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" resizeTextMaxSize="25" fontStyle="bold" offsetXY="120,-15" visibility="White"  />
@@ -1011,7 +998,7 @@
         </HorizontalLayout>
     </VerticalLayout>
 
-    <Panel id="noCharSelectedBlockPanel" color="#ffaaaacc" height="300" width="840" visibility="Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink" raycastTarget="true" >
+    <Panel id="noCharSelectedBlockPanel" color="#ffaaaacc" visibility="Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink" raycastTarget="true" >
         <Text id="noCharSelectedBlockText" text="NO CHARACTER SELECTED !!!" resizeTextMaxSize="70" fontStyle="bold" />
         <Button onClick="colorToggleShowMain" color="#00000000" />
     </Panel>
@@ -1282,269 +1269,175 @@
 
 <!-- ATTACKS PANEL (DONE) -->
 <Panel id="panel_attacks" allowDragging="true" returnToOriginalPositionWhenReleased="false" color="#ffffff" rectAlignment="LowerCenter" height="300" width="30" offsetXY="-420,0" visibility="noone" outline="#440044ff" outlineSize="1 -1">
-    <VerticalLayout visibility="Black" >
-        <Panel> <Image id="01_atkButtonImg_01" class="atkButtonImg" /> </Panel>
-        <Panel> <Image id="01_atkButtonImg_02" class="atkButtonImg" /> </Panel>
-        <Panel> <Image id="01_atkButtonImg_03" class="atkButtonImg" /> </Panel>
-        <Panel> <Image id="01_atkButtonImg_04" class="atkButtonImg" /> </Panel>
-        <Panel> <Image id="01_atkButtonImg_05" class="atkButtonImg" /> </Panel>
-        <Panel> <Image id="01_atkButtonImg_06" class="atkButtonImg" /> </Panel>
-        <Panel> <Image id="01_atkButtonImg_07" class="atkButtonImg" /> </Panel>
-        <Panel> <Image id="01_atkButtonImg_08" class="atkButtonImg" /> </Panel>
-        <Panel> <Image id="01_atkButtonImg_09" class="atkButtonImg" /> </Panel>
-        <Panel> <Image id="01_atkButtonImg_10" class="atkButtonImg" /> </Panel>
+    <VerticalLayout visibility="Black">
+        <Image id="01_atkButtonImg_01" class="atkButtonImg" /><Image id="01_atkButtonImg_02" class="atkButtonImg" /><Image id="01_atkButtonImg_03" class="atkButtonImg" /><Image id="01_atkButtonImg_04" class="atkButtonImg" /><Image id="01_atkButtonImg_05" class="atkButtonImg" />
+        <Image id="01_atkButtonImg_06" class="atkButtonImg" /><Image id="01_atkButtonImg_07" class="atkButtonImg" /><Image id="01_atkButtonImg_08" class="atkButtonImg" /><Image id="01_atkButtonImg_09" class="atkButtonImg" /><Image id="01_atkButtonImg_10" class="atkButtonImg" />
     </VerticalLayout>
     <VerticalLayout visibility="White" >
         <Panel> <Image id="02_atkButtonImg_01" class="atkButtonImg" /> </Panel>
         <Panel> <Image id="02_atkButtonImg_02" class="atkButtonImg" /> </Panel>
-        <Panel> <Image id="02_atkButtonImg_03" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="02_atkButtonImg_04" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="02_atkButtonImg_05" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="02_atkButtonImg_06" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="02_atkButtonImg_07" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="02_atkButtonImg_08" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="02_atkButtonImg_09" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="02_atkButtonImg_10" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
+        <Panel> <Image id="02_atkButtonImg_03" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="02_atkButtonImg_04" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="02_atkButtonImg_05" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="02_atkButtonImg_06" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="02_atkButtonImg_07" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="02_atkButtonImg_08" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="02_atkButtonImg_09" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="02_atkButtonImg_10" class="atkButtonImg" /> </Panel>
     </VerticalLayout>
     <VerticalLayout visibility="Brown" >
-        <Panel> <Image id="03_atkButtonImg_01" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="03_atkButtonImg_02" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="03_atkButtonImg_03" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="03_atkButtonImg_04" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="03_atkButtonImg_05" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="03_atkButtonImg_06" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="03_atkButtonImg_07" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="03_atkButtonImg_08" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="03_atkButtonImg_09" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="03_atkButtonImg_10" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
+        <Panel> <Image id="03_atkButtonImg_01" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="03_atkButtonImg_02" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="03_atkButtonImg_03" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="03_atkButtonImg_04" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="03_atkButtonImg_05" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="03_atkButtonImg_06" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="03_atkButtonImg_07" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="03_atkButtonImg_08" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="03_atkButtonImg_09" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="03_atkButtonImg_10" class="atkButtonImg" /> </Panel>
     </VerticalLayout>
     <VerticalLayout visibility="Red" >
-        <Panel> <Image id="04_atkButtonImg_01" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="04_atkButtonImg_02" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="04_atkButtonImg_03" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="04_atkButtonImg_04" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="04_atkButtonImg_05" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="04_atkButtonImg_06" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="04_atkButtonImg_07" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="04_atkButtonImg_08" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="04_atkButtonImg_09" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="04_atkButtonImg_10" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
+        <Panel> <Image id="04_atkButtonImg_01" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="04_atkButtonImg_02" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="04_atkButtonImg_03" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="04_atkButtonImg_04" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="04_atkButtonImg_05" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="04_atkButtonImg_06" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="04_atkButtonImg_07" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="04_atkButtonImg_08" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="04_atkButtonImg_09" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="04_atkButtonImg_10" class="atkButtonImg" /> </Panel>
     </VerticalLayout>
     <VerticalLayout visibility="Orange" >
-        <Panel> <Image id="05_atkButtonImg_01" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="05_atkButtonImg_02" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="05_atkButtonImg_03" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="05_atkButtonImg_04" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="05_atkButtonImg_05" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="05_atkButtonImg_06" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="05_atkButtonImg_07" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="05_atkButtonImg_08" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="05_atkButtonImg_09" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="05_atkButtonImg_10" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
+        <Panel> <Image id="05_atkButtonImg_01" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="05_atkButtonImg_02" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="05_atkButtonImg_03" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="05_atkButtonImg_04" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="05_atkButtonImg_05" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="05_atkButtonImg_06" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="05_atkButtonImg_07" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="05_atkButtonImg_08" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="05_atkButtonImg_09" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="05_atkButtonImg_10" class="atkButtonImg" /> </Panel>
     </VerticalLayout>
     <VerticalLayout visibility="Yellow" >
-        <Panel> <Image id="06_atkButtonImg_01" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="06_atkButtonImg_02" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="06_atkButtonImg_03" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="06_atkButtonImg_04" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="06_atkButtonImg_05" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="06_atkButtonImg_06" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="06_atkButtonImg_07" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="06_atkButtonImg_08" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="06_atkButtonImg_09" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="06_atkButtonImg_10" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
+        <Panel> <Image id="06_atkButtonImg_01" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="06_atkButtonImg_02" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="06_atkButtonImg_03" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="06_atkButtonImg_04" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="06_atkButtonImg_05" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="06_atkButtonImg_06" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="06_atkButtonImg_07" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="06_atkButtonImg_08" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="06_atkButtonImg_09" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="06_atkButtonImg_10" class="atkButtonImg" /> </Panel>
     </VerticalLayout>
     <VerticalLayout visibility="Green" >
-        <Panel> <Image id="07_atkButtonImg_01" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="07_atkButtonImg_02" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="07_atkButtonImg_03" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="07_atkButtonImg_04" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="07_atkButtonImg_05" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="07_atkButtonImg_06" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="07_atkButtonImg_07" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="07_atkButtonImg_08" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="07_atkButtonImg_09" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="07_atkButtonImg_10" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
+        <Panel> <Image id="07_atkButtonImg_01" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="07_atkButtonImg_02" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="07_atkButtonImg_03" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="07_atkButtonImg_04" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="07_atkButtonImg_05" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="07_atkButtonImg_06" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="07_atkButtonImg_07" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="07_atkButtonImg_08" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="07_atkButtonImg_09" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="07_atkButtonImg_10" class="atkButtonImg" /> </Panel>
     </VerticalLayout>
     <VerticalLayout visibility="Teal" >
-        <Panel> <Image id="08_atkButtonImg_01" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="08_atkButtonImg_02" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="08_atkButtonImg_03" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="08_atkButtonImg_04" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="08_atkButtonImg_05" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="08_atkButtonImg_06" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="08_atkButtonImg_07" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="08_atkButtonImg_08" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="08_atkButtonImg_09" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="08_atkButtonImg_10" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
+        <Panel> <Image id="08_atkButtonImg_01" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="08_atkButtonImg_02" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="08_atkButtonImg_03" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="08_atkButtonImg_04" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="08_atkButtonImg_05" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="08_atkButtonImg_06" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="08_atkButtonImg_07" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="08_atkButtonImg_08" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="08_atkButtonImg_09" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="08_atkButtonImg_10" class="atkButtonImg" /> </Panel>
     </VerticalLayout>
     <VerticalLayout visibility="Blue" >
-        <Panel> <Image id="09_atkButtonImg_01" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="09_atkButtonImg_02" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="09_atkButtonImg_03" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="09_atkButtonImg_04" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="09_atkButtonImg_05" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="09_atkButtonImg_06" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="09_atkButtonImg_07" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="09_atkButtonImg_08" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="09_atkButtonImg_09" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="09_atkButtonImg_10" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
+        <Panel> <Image id="09_atkButtonImg_01" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="09_atkButtonImg_02" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="09_atkButtonImg_03" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="09_atkButtonImg_04" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="09_atkButtonImg_05" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="09_atkButtonImg_06" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="09_atkButtonImg_07" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="09_atkButtonImg_08" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="09_atkButtonImg_09" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="09_atkButtonImg_10" class="atkButtonImg" /> </Panel>
     </VerticalLayout>
     <VerticalLayout visibility="Purple" >
-        <Panel> <Image id="10_atkButtonImg_01" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="10_atkButtonImg_02" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="10_atkButtonImg_03" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="10_atkButtonImg_04" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="10_atkButtonImg_05" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="10_atkButtonImg_06" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="10_atkButtonImg_07" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="10_atkButtonImg_08" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="10_atkButtonImg_09" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="10_atkButtonImg_10" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
+        <Panel> <Image id="10_atkButtonImg_01" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="10_atkButtonImg_02" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="10_atkButtonImg_03" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="10_atkButtonImg_04" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="10_atkButtonImg_05" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="10_atkButtonImg_06" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="10_atkButtonImg_07" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="10_atkButtonImg_08" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="10_atkButtonImg_09" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="10_atkButtonImg_10" class="atkButtonImg" /> </Panel>
     </VerticalLayout>
     <VerticalLayout visibility="Pink" >
-        <Panel> <Image id="11_atkButtonImg_01" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="11_atkButtonImg_02" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="11_atkButtonImg_03" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="11_atkButtonImg_04" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="11_atkButtonImg_05" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="11_atkButtonImg_06" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="11_atkButtonImg_07" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="11_atkButtonImg_08" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="11_atkButtonImg_09" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
-        <Panel> <Image id="11_atkButtonImg_10" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" /> </Panel>
+        <Panel> <Image id="11_atkButtonImg_01" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="11_atkButtonImg_02" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="11_atkButtonImg_03" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="11_atkButtonImg_04" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="11_atkButtonImg_05" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="11_atkButtonImg_06" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="11_atkButtonImg_07" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="11_atkButtonImg_08" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="11_atkButtonImg_09" class="atkButtonImg" /> </Panel>
+        <Panel> <Image id="11_atkButtonImg_10" class="atkButtonImg" /> </Panel>
     </VerticalLayout>
+
+    <!-- Attack Buttons - Ultra-Compressed Format -->
     <VerticalLayout visibility="Black">
-        <Button id="01_atkButton_01" class="atkButton"  />
-        <Button id="01_atkButton_02" class="atkButton" />
-        <Button id="01_atkButton_03" class="atkButton" />
-        <Button id="01_atkButton_04" class="atkButton" />
-        <Button id="01_atkButton_05" class="atkButton" />
-        <Button id="01_atkButton_06" class="atkButton" />
-        <Button id="01_atkButton_07" class="atkButton" />
-        <Button id="01_atkButton_08" class="atkButton" />
-        <Button id="01_atkButton_09" class="atkButton" />
-        <Button id="01_atkButton_10" class="atkButton" />
+        <Button class="atkButton" id="01_atkButton_01" /><Button class="atkButton" id="01_atkButton_02" /><Button class="atkButton" id="01_atkButton_03" /><Button class="atkButton" id="01_atkButton_04" /><Button class="atkButton" id="01_atkButton_05" />
+        <Button class="atkButton" id="01_atkButton_06" /><Button class="atkButton" id="01_atkButton_07" /><Button class="atkButton" id="01_atkButton_08" /><Button class="atkButton" id="01_atkButton_09" /><Button class="atkButton" id="01_atkButton_10" />
     </VerticalLayout>
     <VerticalLayout visibility="White">
-        <Button id="02_atkButton_01" class="atkButton" />
-        <Button id="02_atkButton_02" class="atkButton" />
-        <Button id="02_atkButton_03" class="atkButton" />
-        <Button id="02_atkButton_04" class="atkButton" />
-        <Button id="02_atkButton_05" class="atkButton" />
-        <Button id="02_atkButton_06" class="atkButton" />
-        <Button id="02_atkButton_07" class="atkButton" />
-        <Button id="02_atkButton_08" class="atkButton" />
-        <Button id="02_atkButton_09" class="atkButton" />
-        <Button id="02_atkButton_10" class="atkButton" />
+        <Button class="atkButton" id="02_atkButton_01" /><Button class="atkButton" id="02_atkButton_02" /><Button class="atkButton" id="02_atkButton_03" /><Button class="atkButton" id="02_atkButton_04" /><Button class="atkButton" id="02_atkButton_05" />
+        <Button class="atkButton" id="02_atkButton_06" /><Button class="atkButton" id="02_atkButton_07" /><Button class="atkButton" id="02_atkButton_08" /><Button class="atkButton" id="02_atkButton_09" /><Button class="atkButton" id="02_atkButton_10" />
     </VerticalLayout>
     <VerticalLayout visibility="Brown">
-        <Button id="03_atkButton_01" class="atkButton" />
-        <Button id="03_atkButton_02" class="atkButton" />
-        <Button id="03_atkButton_03" class="atkButton" />
-        <Button id="03_atkButton_04" class="atkButton" />
-        <Button id="03_atkButton_05" class="atkButton" />
-        <Button id="03_atkButton_06" class="atkButton" />
-        <Button id="03_atkButton_07" class="atkButton" />
-        <Button id="03_atkButton_08" class="atkButton" />
-        <Button id="03_atkButton_09" class="atkButton" />
-        <Button id="03_atkButton_10" class="atkButton" />
+        <Button class="atkButton" id="03_atkButton_01" /><Button class="atkButton" id="03_atkButton_02" /><Button class="atkButton" id="03_atkButton_03" /><Button class="atkButton" id="03_atkButton_04" /><Button class="atkButton" id="03_atkButton_05" />
+        <Button class="atkButton" id="03_atkButton_06" /><Button class="atkButton" id="03_atkButton_07" /><Button class="atkButton" id="03_atkButton_08" /><Button class="atkButton" id="03_atkButton_09" /><Button class="atkButton" id="03_atkButton_10" />
     </VerticalLayout>
     <VerticalLayout visibility="Red">
-        <Button id="04_atkButton_01" class="atkButton" />
-        <Button id="04_atkButton_02" class="atkButton" />
-        <Button id="04_atkButton_03" class="atkButton" />
-        <Button id="04_atkButton_04" class="atkButton" />
-        <Button id="04_atkButton_05" class="atkButton" />
-        <Button id="04_atkButton_06" class="atkButton" />
-        <Button id="04_atkButton_07" class="atkButton" />
-        <Button id="04_atkButton_08" class="atkButton" />
-        <Button id="04_atkButton_09" class="atkButton" />
-        <Button id="04_atkButton_10" class="atkButton" />
+        <Button class="atkButton" id="04_atkButton_01" /><Button class="atkButton" id="04_atkButton_02" /><Button class="atkButton" id="04_atkButton_03" /><Button class="atkButton" id="04_atkButton_04" /><Button class="atkButton" id="04_atkButton_05" />
+        <Button class="atkButton" id="04_atkButton_06" /><Button class="atkButton" id="04_atkButton_07" /><Button class="atkButton" id="04_atkButton_08" /><Button class="atkButton" id="04_atkButton_09" /><Button class="atkButton" id="04_atkButton_10" />
     </VerticalLayout>
     <VerticalLayout visibility="Orange">
-        <Button id="05_atkButton_01" class="atkButton" />
-        <Button id="05_atkButton_02" class="atkButton" />
-        <Button id="05_atkButton_03" class="atkButton" />
-        <Button id="05_atkButton_04" class="atkButton" />
-        <Button id="05_atkButton_05" class="atkButton" />
-        <Button id="05_atkButton_06" class="atkButton" />
-        <Button id="05_atkButton_07" class="atkButton" />
-        <Button id="05_atkButton_08" class="atkButton" />
-        <Button id="05_atkButton_09" class="atkButton" />
-        <Button id="05_atkButton_10" class="atkButton" />
+        <Button class="atkButton" id="05_atkButton_01" /><Button class="atkButton" id="05_atkButton_02" /><Button class="atkButton" id="05_atkButton_03" /><Button class="atkButton" id="05_atkButton_04" /><Button class="atkButton" id="05_atkButton_05" />
+        <Button class="atkButton" id="05_atkButton_06" /><Button class="atkButton" id="05_atkButton_07" /><Button class="atkButton" id="05_atkButton_08" /><Button class="atkButton" id="05_atkButton_09" /><Button class="atkButton" id="05_atkButton_10" />
     </VerticalLayout>
     <VerticalLayout visibility="Yellow">
-        <Button id="06_atkButton_01" class="atkButton" />
-        <Button id="06_atkButton_02" class="atkButton" />
-        <Button id="06_atkButton_03" class="atkButton" />
-        <Button id="06_atkButton_04" class="atkButton" />
-        <Button id="06_atkButton_05" class="atkButton" />
-        <Button id="06_atkButton_06" class="atkButton" />
-        <Button id="06_atkButton_07" class="atkButton" />
-        <Button id="06_atkButton_08" class="atkButton" />
-        <Button id="06_atkButton_09" class="atkButton" />
-        <Button id="06_atkButton_10" class="atkButton" />
+        <Button class="atkButton" id="06_atkButton_01" /><Button class="atkButton" id="06_atkButton_02" /><Button class="atkButton" id="06_atkButton_03" /><Button class="atkButton" id="06_atkButton_04" /><Button class="atkButton" id="06_atkButton_05" />
+        <Button class="atkButton" id="06_atkButton_06" /><Button class="atkButton" id="06_atkButton_07" /><Button class="atkButton" id="06_atkButton_08" /><Button class="atkButton" id="06_atkButton_09" /><Button class="atkButton" id="06_atkButton_10" />
     </VerticalLayout>
     <VerticalLayout visibility="Green">
-        <Button id="07_atkButton_01" class="atkButton" />
-        <Button id="07_atkButton_02" class="atkButton" />
-        <Button id="07_atkButton_03" class="atkButton" />
-        <Button id="07_atkButton_04" class="atkButton" />
-        <Button id="07_atkButton_05" class="atkButton" />
-        <Button id="07_atkButton_06" class="atkButton" />
-        <Button id="07_atkButton_07" class="atkButton" />
-        <Button id="07_atkButton_08" class="atkButton" />
-        <Button id="07_atkButton_09" class="atkButton" />
-        <Button id="07_atkButton_10" class="atkButton" />
+        <Button class="atkButton" id="07_atkButton_01" /><Button class="atkButton" id="07_atkButton_02" /><Button class="atkButton" id="07_atkButton_03" /><Button class="atkButton" id="07_atkButton_04" /><Button class="atkButton" id="07_atkButton_05" />
+        <Button class="atkButton" id="07_atkButton_06" /><Button class="atkButton" id="07_atkButton_07" /><Button class="atkButton" id="07_atkButton_08" /><Button class="atkButton" id="07_atkButton_09" /><Button class="atkButton" id="07_atkButton_10" />
     </VerticalLayout>
     <VerticalLayout visibility="Teal">
-        <Button id="08_atkButton_01" class="atkButton" />
-        <Button id="08_atkButton_02" class="atkButton" />
-        <Button id="08_atkButton_03" class="atkButton" />
-        <Button id="08_atkButton_04" class="atkButton" />
-        <Button id="08_atkButton_05" class="atkButton" />
-        <Button id="08_atkButton_06" class="atkButton" />
-        <Button id="08_atkButton_07" class="atkButton" />
-        <Button id="08_atkButton_08" class="atkButton" />
-        <Button id="08_atkButton_09" class="atkButton" />
-        <Button id="08_atkButton_10" class="atkButton" />
+        <Button class="atkButton" id="08_atkButton_01" /><Button class="atkButton" id="08_atkButton_02" /><Button class="atkButton" id="08_atkButton_03" /><Button class="atkButton" id="08_atkButton_04" /><Button class="atkButton" id="08_atkButton_05" />
+        <Button class="atkButton" id="08_atkButton_06" /><Button class="atkButton" id="08_atkButton_07" /><Button class="atkButton" id="08_atkButton_08" /><Button class="atkButton" id="08_atkButton_09" /><Button class="atkButton" id="08_atkButton_10" />
     </VerticalLayout>
     <VerticalLayout visibility="Blue">
-        <Button id="09_atkButton_01" class="atkButton" />
-        <Button id="09_atkButton_02" class="atkButton" />
-        <Button id="09_atkButton_03" class="atkButton" />
-        <Button id="09_atkButton_04" class="atkButton" />
-        <Button id="09_atkButton_05" class="atkButton" />
-        <Button id="09_atkButton_06" class="atkButton" />
-        <Button id="09_atkButton_07" class="atkButton" />
-        <Button id="09_atkButton_08" class="atkButton" />
-        <Button id="09_atkButton_09" class="atkButton" />
-        <Button id="09_atkButton_10" class="atkButton" />
+        <Button class="atkButton" id="09_atkButton_01" /><Button class="atkButton" id="09_atkButton_02" /><Button class="atkButton" id="09_atkButton_03" /><Button class="atkButton" id="09_atkButton_04" /><Button class="atkButton" id="09_atkButton_05" />
+        <Button class="atkButton" id="09_atkButton_06" /><Button class="atkButton" id="09_atkButton_07" /><Button class="atkButton" id="09_atkButton_08" /><Button class="atkButton" id="09_atkButton_09" /><Button class="atkButton" id="09_atkButton_10" />
     </VerticalLayout>
     <VerticalLayout visibility="Purple">
-        <Button id="10_atkButton_01" class="atkButton" />
-        <Button id="10_atkButton_02" class="atkButton" />
-        <Button id="10_atkButton_03" class="atkButton" />
-        <Button id="10_atkButton_04" class="atkButton" />
-        <Button id="10_atkButton_05" class="atkButton" />
-        <Button id="10_atkButton_06" class="atkButton" />
-        <Button id="10_atkButton_07" class="atkButton" />
-        <Button id="10_atkButton_08" class="atkButton" />
-        <Button id="10_atkButton_09" class="atkButton" />
-        <Button id="10_atkButton_10" class="atkButton" />
+        <Button class="atkButton" id="10_atkButton_01" /><Button class="atkButton" id="10_atkButton_02" /><Button class="atkButton" id="10_atkButton_03" /><Button class="atkButton" id="10_atkButton_04" /><Button class="atkButton" id="10_atkButton_05" />
+        <Button class="atkButton" id="10_atkButton_06" /><Button class="atkButton" id="10_atkButton_07" /><Button class="atkButton" id="10_atkButton_08" /><Button class="atkButton" id="10_atkButton_09" /><Button class="atkButton" id="10_atkButton_10" />
     </VerticalLayout>
     <VerticalLayout visibility="Pink">
-        <Button id="11_atkButton_01" class="atkButton" />
-        <Button id="11_atkButton_02" class="atkButton" />
-        <Button id="11_atkButton_03" class="atkButton" />
-        <Button id="11_atkButton_04" class="atkButton" />
-        <Button id="11_atkButton_05" class="atkButton" />
-        <Button id="11_atkButton_06" class="atkButton" />
-        <Button id="11_atkButton_07" class="atkButton" />
-        <Button id="11_atkButton_08" class="atkButton" />
-        <Button id="11_atkButton_09" class="atkButton" />
-        <Button id="11_atkButton_10" class="atkButton" />
+        <Button class="atkButton" id="11_atkButton_01" /><Button class="atkButton" id="11_atkButton_02" /><Button class="atkButton" id="11_atkButton_03" /><Button class="atkButton" id="11_atkButton_04" /><Button class="atkButton" id="11_atkButton_05" />
+        <Button class="atkButton" id="11_atkButton_06" /><Button class="atkButton" id="11_atkButton_07" /><Button class="atkButton" id="11_atkButton_08" /><Button class="atkButton" id="11_atkButton_09" /><Button class="atkButton" id="11_atkButton_10" />
     </VerticalLayout>
     
     <!-- ATTACK EDIT PANEL -->
@@ -2948,258 +2841,74 @@
         <Image image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576009615/C0B0635BFEFF14FA1052ED89AAF2290DEAD8F1C8/" />
     </GridLayout>
 
+    <!-- Condition Buttons - Ultra-Compressed Format -->
     <GridLayout rectAlignment="LowerCenter" childAlignment="MiddleCenter" cellSize="40 40" constraint="FixedColumnCount" constraintCount="5" visibility="Black">
-        <Button id="01_conditionButton_01" class="conditionButton" />
-        <Button id="01_conditionButton_02" class="conditionButton" />
-        <Button id="01_conditionButton_03" class="conditionButton" />
-        <Button id="01_conditionButton_04" class="conditionButton" />
-        <Button id="01_conditionButton_05" class="conditionButton" />
-        <Button id="01_conditionButton_06" class="conditionButton" />
-        <Button id="01_conditionButton_07" class="conditionButton" />
-        <Button id="01_conditionButton_08" class="conditionButton" />
-        <Button id="01_conditionButton_09" class="conditionButton" />
-        <Button id="01_conditionButton_10" class="conditionButton" />
-        <Button id="01_conditionButton_11" class="conditionButton" />
-        <Button id="01_conditionButton_12" class="conditionButton" />
-        <Button id="01_conditionButton_13" class="conditionButton" />
-        <Button id="01_conditionButton_14" class="conditionButton" />
-        <Button id="01_conditionButton_15" class="conditionButton" />
-        <Button id="01_conditionButton_16" class="conditionButton" />
-        <Button id="01_conditionButton_17" class="conditionButton" />
-        <Button id="01_conditionButton_18" class="conditionButton" />
-        <Button id="01_conditionButton_19" class="conditionButton" />
-        <Button id="01_conditionButton_20" class="conditionButton" />
+        <Button class="conditionButton" id="01_conditionButton_01" /><Button class="conditionButton" id="01_conditionButton_02" /><Button class="conditionButton" id="01_conditionButton_03" /><Button class="conditionButton" id="01_conditionButton_04" /><Button class="conditionButton" id="01_conditionButton_05" />
+        <Button class="conditionButton" id="01_conditionButton_06" /><Button class="conditionButton" id="01_conditionButton_07" /><Button class="conditionButton" id="01_conditionButton_08" /><Button class="conditionButton" id="01_conditionButton_09" /><Button class="conditionButton" id="01_conditionButton_10" />
+        <Button class="conditionButton" id="01_conditionButton_11" /><Button class="conditionButton" id="01_conditionButton_12" /><Button class="conditionButton" id="01_conditionButton_13" /><Button class="conditionButton" id="01_conditionButton_14" /><Button class="conditionButton" id="01_conditionButton_15" />
+        <Button class="conditionButton" id="01_conditionButton_16" /><Button class="conditionButton" id="01_conditionButton_17" /><Button class="conditionButton" id="01_conditionButton_18" /><Button class="conditionButton" id="01_conditionButton_19" /><Button class="conditionButton" id="01_conditionButton_20" />
     </GridLayout>
-
     <GridLayout rectAlignment="LowerCenter" childAlignment="MiddleCenter" cellSize="40 40" constraint="FixedColumnCount" constraintCount="5" visibility="White">
-        <Button id="02_conditionButton_01" class="conditionButton" />
-        <Button id="02_conditionButton_02" class="conditionButton" />
-        <Button id="02_conditionButton_03" class="conditionButton" />
-        <Button id="02_conditionButton_04" class="conditionButton" />
-        <Button id="02_conditionButton_05" class="conditionButton" />
-        <Button id="02_conditionButton_06" class="conditionButton" />
-        <Button id="02_conditionButton_07" class="conditionButton" />
-        <Button id="02_conditionButton_08" class="conditionButton" />
-        <Button id="02_conditionButton_09" class="conditionButton" />
-        <Button id="02_conditionButton_10" class="conditionButton" />
-        <Button id="02_conditionButton_11" class="conditionButton" />
-        <Button id="02_conditionButton_12" class="conditionButton" />
-        <Button id="02_conditionButton_13" class="conditionButton" />
-        <Button id="02_conditionButton_14" class="conditionButton" />
-        <Button id="02_conditionButton_15" class="conditionButton" />
-        <Button id="02_conditionButton_16" class="conditionButton" />
-        <Button id="02_conditionButton_17" class="conditionButton" />
-        <Button id="02_conditionButton_18" class="conditionButton" />
-        <Button id="02_conditionButton_19" class="conditionButton" />
-        <Button id="02_conditionButton_20" class="conditionButton" />
+        <Button class="conditionButton" id="02_conditionButton_01" /><Button class="conditionButton" id="02_conditionButton_02" /><Button class="conditionButton" id="02_conditionButton_03" /><Button class="conditionButton" id="02_conditionButton_04" /><Button class="conditionButton" id="02_conditionButton_05" />
+        <Button class="conditionButton" id="02_conditionButton_06" /><Button class="conditionButton" id="02_conditionButton_07" /><Button class="conditionButton" id="02_conditionButton_08" /><Button class="conditionButton" id="02_conditionButton_09" /><Button class="conditionButton" id="02_conditionButton_10" />
+        <Button class="conditionButton" id="02_conditionButton_11" /><Button class="conditionButton" id="02_conditionButton_12" /><Button class="conditionButton" id="02_conditionButton_13" /><Button class="conditionButton" id="02_conditionButton_14" /><Button class="conditionButton" id="02_conditionButton_15" />
+        <Button class="conditionButton" id="02_conditionButton_16" /><Button class="conditionButton" id="02_conditionButton_17" /><Button class="conditionButton" id="02_conditionButton_18" /><Button class="conditionButton" id="02_conditionButton_19" /><Button class="conditionButton" id="02_conditionButton_20" />
     </GridLayout>
-
     <GridLayout rectAlignment="LowerCenter" childAlignment="MiddleCenter" cellSize="40 40" constraint="FixedColumnCount" constraintCount="5" visibility="Brown">
-        <Button id="03_conditionButton_01" class="conditionButton" />
-        <Button id="03_conditionButton_02" class="conditionButton" />
-        <Button id="03_conditionButton_03" class="conditionButton" />
-        <Button id="03_conditionButton_04" class="conditionButton" />
-        <Button id="03_conditionButton_05" class="conditionButton" />
-        <Button id="03_conditionButton_06" class="conditionButton" />
-        <Button id="03_conditionButton_07" class="conditionButton" />
-        <Button id="03_conditionButton_08" class="conditionButton" />
-        <Button id="03_conditionButton_09" class="conditionButton" />
-        <Button id="03_conditionButton_10" class="conditionButton" />
-        <Button id="03_conditionButton_11" class="conditionButton" />
-        <Button id="03_conditionButton_12" class="conditionButton" />
-        <Button id="03_conditionButton_13" class="conditionButton" />
-        <Button id="03_conditionButton_14" class="conditionButton" />
-        <Button id="03_conditionButton_15" class="conditionButton" />
-        <Button id="03_conditionButton_16" class="conditionButton" />
-        <Button id="03_conditionButton_17" class="conditionButton" />
-        <Button id="03_conditionButton_18" class="conditionButton" />
-        <Button id="03_conditionButton_19" class="conditionButton" />
-        <Button id="03_conditionButton_20" class="conditionButton" />
+        <Button class="conditionButton" id="03_conditionButton_01" /><Button class="conditionButton" id="03_conditionButton_02" /><Button class="conditionButton" id="03_conditionButton_03" /><Button class="conditionButton" id="03_conditionButton_04" /><Button class="conditionButton" id="03_conditionButton_05" />
+        <Button class="conditionButton" id="03_conditionButton_06" /><Button class="conditionButton" id="03_conditionButton_07" /><Button class="conditionButton" id="03_conditionButton_08" /><Button class="conditionButton" id="03_conditionButton_09" /><Button class="conditionButton" id="03_conditionButton_10" />
+        <Button class="conditionButton" id="03_conditionButton_11" /><Button class="conditionButton" id="03_conditionButton_12" /><Button class="conditionButton" id="03_conditionButton_13" /><Button class="conditionButton" id="03_conditionButton_14" /><Button class="conditionButton" id="03_conditionButton_15" />
+        <Button class="conditionButton" id="03_conditionButton_16" /><Button class="conditionButton" id="03_conditionButton_17" /><Button class="conditionButton" id="03_conditionButton_18" /><Button class="conditionButton" id="03_conditionButton_19" /><Button class="conditionButton" id="03_conditionButton_20" />
     </GridLayout>
-
     <GridLayout rectAlignment="LowerCenter" childAlignment="MiddleCenter" cellSize="40 40" constraint="FixedColumnCount" constraintCount="5" visibility="Red">
-        <Button id="04_conditionButton_01" class="conditionButton" />
-        <Button id="04_conditionButton_02" class="conditionButton" />
-        <Button id="04_conditionButton_03" class="conditionButton" />
-        <Button id="04_conditionButton_04" class="conditionButton" />
-        <Button id="04_conditionButton_05" class="conditionButton" />
-        <Button id="04_conditionButton_06" class="conditionButton" />
-        <Button id="04_conditionButton_07" class="conditionButton" />
-        <Button id="04_conditionButton_08" class="conditionButton" />
-        <Button id="04_conditionButton_09" class="conditionButton" />
-        <Button id="04_conditionButton_10" class="conditionButton" />
-        <Button id="04_conditionButton_11" class="conditionButton" />
-        <Button id="04_conditionButton_12" class="conditionButton" />
-        <Button id="04_conditionButton_13" class="conditionButton" />
-        <Button id="04_conditionButton_14" class="conditionButton" />
-        <Button id="04_conditionButton_15" class="conditionButton" />
-        <Button id="04_conditionButton_16" class="conditionButton" />
-        <Button id="04_conditionButton_17" class="conditionButton" />
-        <Button id="04_conditionButton_18" class="conditionButton" />
-        <Button id="04_conditionButton_19" class="conditionButton" />
-        <Button id="04_conditionButton_20" class="conditionButton" />
+        <Button class="conditionButton" id="04_conditionButton_01" /><Button class="conditionButton" id="04_conditionButton_02" /><Button class="conditionButton" id="04_conditionButton_03" /><Button class="conditionButton" id="04_conditionButton_04" /><Button class="conditionButton" id="04_conditionButton_05" />
+        <Button class="conditionButton" id="04_conditionButton_06" /><Button class="conditionButton" id="04_conditionButton_07" /><Button class="conditionButton" id="04_conditionButton_08" /><Button class="conditionButton" id="04_conditionButton_09" /><Button class="conditionButton" id="04_conditionButton_10" />
+        <Button class="conditionButton" id="04_conditionButton_11" /><Button class="conditionButton" id="04_conditionButton_12" /><Button class="conditionButton" id="04_conditionButton_13" /><Button class="conditionButton" id="04_conditionButton_14" /><Button class="conditionButton" id="04_conditionButton_15" />
+        <Button class="conditionButton" id="04_conditionButton_16" /><Button class="conditionButton" id="04_conditionButton_17" /><Button class="conditionButton" id="04_conditionButton_18" /><Button class="conditionButton" id="04_conditionButton_19" /><Button class="conditionButton" id="04_conditionButton_20" />
     </GridLayout>
-
     <GridLayout rectAlignment="LowerCenter" childAlignment="MiddleCenter" cellSize="40 40" constraint="FixedColumnCount" constraintCount="5" visibility="Orange">
-        <Button id="05_conditionButton_01" class="conditionButton" />
-        <Button id="05_conditionButton_02" class="conditionButton" />
-        <Button id="05_conditionButton_03" class="conditionButton" />
-        <Button id="05_conditionButton_04" class="conditionButton" />
-        <Button id="05_conditionButton_05" class="conditionButton" />
-        <Button id="05_conditionButton_06" class="conditionButton" />
-        <Button id="05_conditionButton_07" class="conditionButton" />
-        <Button id="05_conditionButton_08" class="conditionButton" />
-        <Button id="05_conditionButton_09" class="conditionButton" />
-        <Button id="05_conditionButton_10" class="conditionButton" />
-        <Button id="05_conditionButton_11" class="conditionButton" />
-        <Button id="05_conditionButton_12" class="conditionButton" />
-        <Button id="05_conditionButton_13" class="conditionButton" />
-        <Button id="05_conditionButton_14" class="conditionButton" />
-        <Button id="05_conditionButton_15" class="conditionButton" />
-        <Button id="05_conditionButton_16" class="conditionButton" />
-        <Button id="05_conditionButton_17" class="conditionButton" />
-        <Button id="05_conditionButton_18" class="conditionButton" />
-        <Button id="05_conditionButton_19" class="conditionButton" />
-        <Button id="05_conditionButton_20" class="conditionButton" />
+        <Button class="conditionButton" id="05_conditionButton_01" /><Button class="conditionButton" id="05_conditionButton_02" /><Button class="conditionButton" id="05_conditionButton_03" /><Button class="conditionButton" id="05_conditionButton_04" /><Button class="conditionButton" id="05_conditionButton_05" />
+        <Button class="conditionButton" id="05_conditionButton_06" /><Button class="conditionButton" id="05_conditionButton_07" /><Button class="conditionButton" id="05_conditionButton_08" /><Button class="conditionButton" id="05_conditionButton_09" /><Button class="conditionButton" id="05_conditionButton_10" />
+        <Button class="conditionButton" id="05_conditionButton_11" /><Button class="conditionButton" id="05_conditionButton_12" /><Button class="conditionButton" id="05_conditionButton_13" /><Button class="conditionButton" id="05_conditionButton_14" /><Button class="conditionButton" id="05_conditionButton_15" />
+        <Button class="conditionButton" id="05_conditionButton_16" /><Button class="conditionButton" id="05_conditionButton_17" /><Button class="conditionButton" id="05_conditionButton_18" /><Button class="conditionButton" id="05_conditionButton_19" /><Button class="conditionButton" id="05_conditionButton_20" />
     </GridLayout>
-
     <GridLayout rectAlignment="LowerCenter" childAlignment="MiddleCenter" cellSize="40 40" constraint="FixedColumnCount" constraintCount="5" visibility="Yellow">
-        <Button id="06_conditionButton_01" class="conditionButton" />
-        <Button id="06_conditionButton_02" class="conditionButton" />
-        <Button id="06_conditionButton_03" class="conditionButton" />
-        <Button id="06_conditionButton_04" class="conditionButton" />
-        <Button id="06_conditionButton_05" class="conditionButton" />
-        <Button id="06_conditionButton_06" class="conditionButton" />
-        <Button id="06_conditionButton_07" class="conditionButton" />
-        <Button id="06_conditionButton_08" class="conditionButton" />
-        <Button id="06_conditionButton_09" class="conditionButton" />
-        <Button id="06_conditionButton_10" class="conditionButton" />
-        <Button id="06_conditionButton_11" class="conditionButton" />
-        <Button id="06_conditionButton_12" class="conditionButton" />
-        <Button id="06_conditionButton_13" class="conditionButton" />
-        <Button id="06_conditionButton_14" class="conditionButton" />
-        <Button id="06_conditionButton_15" class="conditionButton" />
-        <Button id="06_conditionButton_16" class="conditionButton" />
-        <Button id="06_conditionButton_17" class="conditionButton" />
-        <Button id="06_conditionButton_18" class="conditionButton" />
-        <Button id="06_conditionButton_19" class="conditionButton" />
-        <Button id="06_conditionButton_20" class="conditionButton" />
+        <Button class="conditionButton" id="06_conditionButton_01" /><Button class="conditionButton" id="06_conditionButton_02" /><Button class="conditionButton" id="06_conditionButton_03" /><Button class="conditionButton" id="06_conditionButton_04" /><Button class="conditionButton" id="06_conditionButton_05" />
+        <Button class="conditionButton" id="06_conditionButton_06" /><Button class="conditionButton" id="06_conditionButton_07" /><Button class="conditionButton" id="06_conditionButton_08" /><Button class="conditionButton" id="06_conditionButton_09" /><Button class="conditionButton" id="06_conditionButton_10" />
+        <Button class="conditionButton" id="06_conditionButton_11" /><Button class="conditionButton" id="06_conditionButton_12" /><Button class="conditionButton" id="06_conditionButton_13" /><Button class="conditionButton" id="06_conditionButton_14" /><Button class="conditionButton" id="06_conditionButton_15" />
+        <Button class="conditionButton" id="06_conditionButton_16" /><Button class="conditionButton" id="06_conditionButton_17" /><Button class="conditionButton" id="06_conditionButton_18" /><Button class="conditionButton" id="06_conditionButton_19" /><Button class="conditionButton" id="06_conditionButton_20" />
     </GridLayout>
-
     <GridLayout rectAlignment="LowerCenter" childAlignment="MiddleCenter" cellSize="40 40" constraint="FixedColumnCount" constraintCount="5" visibility="Green">
-        <Button id="07_conditionButton_01" class="conditionButton" />
-        <Button id="07_conditionButton_02" class="conditionButton" />
-        <Button id="07_conditionButton_03" class="conditionButton" />
-        <Button id="07_conditionButton_04" class="conditionButton" />
-        <Button id="07_conditionButton_05" class="conditionButton" />
-        <Button id="07_conditionButton_06" class="conditionButton" />
-        <Button id="07_conditionButton_07" class="conditionButton" />
-        <Button id="07_conditionButton_08" class="conditionButton" />
-        <Button id="07_conditionButton_09" class="conditionButton" />
-        <Button id="07_conditionButton_10" class="conditionButton" />
-        <Button id="07_conditionButton_11" class="conditionButton" />
-        <Button id="07_conditionButton_12" class="conditionButton" />
-        <Button id="07_conditionButton_13" class="conditionButton" />
-        <Button id="07_conditionButton_14" class="conditionButton" />
-        <Button id="07_conditionButton_15" class="conditionButton" />
-        <Button id="07_conditionButton_16" class="conditionButton" />
-        <Button id="07_conditionButton_17" class="conditionButton" />
-        <Button id="07_conditionButton_18" class="conditionButton" />
-        <Button id="07_conditionButton_19" class="conditionButton" />
-        <Button id="07_conditionButton_20" class="conditionButton" />
+        <Button class="conditionButton" id="07_conditionButton_01" /><Button class="conditionButton" id="07_conditionButton_02" /><Button class="conditionButton" id="07_conditionButton_03" /><Button class="conditionButton" id="07_conditionButton_04" /><Button class="conditionButton" id="07_conditionButton_05" />
+        <Button class="conditionButton" id="07_conditionButton_06" /><Button class="conditionButton" id="07_conditionButton_07" /><Button class="conditionButton" id="07_conditionButton_08" /><Button class="conditionButton" id="07_conditionButton_09" /><Button class="conditionButton" id="07_conditionButton_10" />
+        <Button class="conditionButton" id="07_conditionButton_11" /><Button class="conditionButton" id="07_conditionButton_12" /><Button class="conditionButton" id="07_conditionButton_13" /><Button class="conditionButton" id="07_conditionButton_14" /><Button class="conditionButton" id="07_conditionButton_15" />
+        <Button class="conditionButton" id="07_conditionButton_16" /><Button class="conditionButton" id="07_conditionButton_17" /><Button class="conditionButton" id="07_conditionButton_18" /><Button class="conditionButton" id="07_conditionButton_19" /><Button class="conditionButton" id="07_conditionButton_20" />
     </GridLayout>
-
     <GridLayout rectAlignment="LowerCenter" childAlignment="MiddleCenter" cellSize="40 40" constraint="FixedColumnCount" constraintCount="5" visibility="Teal">
-        <Button id="08_conditionButton_01" class="conditionButton" />
-        <Button id="08_conditionButton_02" class="conditionButton" />
-        <Button id="08_conditionButton_03" class="conditionButton" />
-        <Button id="08_conditionButton_04" class="conditionButton" />
-        <Button id="08_conditionButton_05" class="conditionButton" />
-        <Button id="08_conditionButton_06" class="conditionButton" />
-        <Button id="08_conditionButton_07" class="conditionButton" />
-        <Button id="08_conditionButton_08" class="conditionButton" />
-        <Button id="08_conditionButton_09" class="conditionButton" />
-        <Button id="08_conditionButton_10" class="conditionButton" />
-        <Button id="08_conditionButton_11" class="conditionButton" />
-        <Button id="08_conditionButton_12" class="conditionButton" />
-        <Button id="08_conditionButton_13" class="conditionButton" />
-        <Button id="08_conditionButton_14" class="conditionButton" />
-        <Button id="08_conditionButton_15" class="conditionButton" />
-        <Button id="08_conditionButton_16" class="conditionButton" />
-        <Button id="08_conditionButton_17" class="conditionButton" />
-        <Button id="08_conditionButton_18" class="conditionButton" />
-        <Button id="08_conditionButton_19" class="conditionButton" />
-        <Button id="08_conditionButton_20" class="conditionButton" />
+        <Button class="conditionButton" id="08_conditionButton_01" /><Button class="conditionButton" id="08_conditionButton_02" /><Button class="conditionButton" id="08_conditionButton_03" /><Button class="conditionButton" id="08_conditionButton_04" /><Button class="conditionButton" id="08_conditionButton_05" />
+        <Button class="conditionButton" id="08_conditionButton_06" /><Button class="conditionButton" id="08_conditionButton_07" /><Button class="conditionButton" id="08_conditionButton_08" /><Button class="conditionButton" id="08_conditionButton_09" /><Button class="conditionButton" id="08_conditionButton_10" />
+        <Button class="conditionButton" id="08_conditionButton_11" /><Button class="conditionButton" id="08_conditionButton_12" /><Button class="conditionButton" id="08_conditionButton_13" /><Button class="conditionButton" id="08_conditionButton_14" /><Button class="conditionButton" id="08_conditionButton_15" />
+        <Button class="conditionButton" id="08_conditionButton_16" /><Button class="conditionButton" id="08_conditionButton_17" /><Button class="conditionButton" id="08_conditionButton_18" /><Button class="conditionButton" id="08_conditionButton_19" /><Button class="conditionButton" id="08_conditionButton_20" />
     </GridLayout>
-
     <GridLayout rectAlignment="LowerCenter" childAlignment="MiddleCenter" cellSize="40 40" constraint="FixedColumnCount" constraintCount="5" visibility="Blue">
-        <Button id="09_conditionButton_01" class="conditionButton" />
-        <Button id="09_conditionButton_02" class="conditionButton" />
-        <Button id="09_conditionButton_03" class="conditionButton" />
-        <Button id="09_conditionButton_04" class="conditionButton" />
-        <Button id="09_conditionButton_05" class="conditionButton" />
-        <Button id="09_conditionButton_06" class="conditionButton" />
-        <Button id="09_conditionButton_07" class="conditionButton" />
-        <Button id="09_conditionButton_08" class="conditionButton" />
-        <Button id="09_conditionButton_09" class="conditionButton" />
-        <Button id="09_conditionButton_10" class="conditionButton" />
-        <Button id="09_conditionButton_11" class="conditionButton" />
-        <Button id="09_conditionButton_12" class="conditionButton" />
-        <Button id="09_conditionButton_13" class="conditionButton" />
-        <Button id="09_conditionButton_14" class="conditionButton" />
-        <Button id="09_conditionButton_15" class="conditionButton" />
-        <Button id="09_conditionButton_16" class="conditionButton" />
-        <Button id="09_conditionButton_17" class="conditionButton" />
-        <Button id="09_conditionButton_18" class="conditionButton" />
-        <Button id="09_conditionButton_19" class="conditionButton" />
-        <Button id="09_conditionButton_20" class="conditionButton" />
+        <Button class="conditionButton" id="09_conditionButton_01" /><Button class="conditionButton" id="09_conditionButton_02" /><Button class="conditionButton" id="09_conditionButton_03" /><Button class="conditionButton" id="09_conditionButton_04" /><Button class="conditionButton" id="09_conditionButton_05" />
+        <Button class="conditionButton" id="09_conditionButton_06" /><Button class="conditionButton" id="09_conditionButton_07" /><Button class="conditionButton" id="09_conditionButton_08" /><Button class="conditionButton" id="09_conditionButton_09" /><Button class="conditionButton" id="09_conditionButton_10" />
+        <Button class="conditionButton" id="09_conditionButton_11" /><Button class="conditionButton" id="09_conditionButton_12" /><Button class="conditionButton" id="09_conditionButton_13" /><Button class="conditionButton" id="09_conditionButton_14" /><Button class="conditionButton" id="09_conditionButton_15" />
+        <Button class="conditionButton" id="09_conditionButton_16" /><Button class="conditionButton" id="09_conditionButton_17" /><Button class="conditionButton" id="09_conditionButton_18" /><Button class="conditionButton" id="09_conditionButton_19" /><Button class="conditionButton" id="09_conditionButton_20" />
     </GridLayout>
-
     <GridLayout rectAlignment="LowerCenter" childAlignment="MiddleCenter" cellSize="40 40" constraint="FixedColumnCount" constraintCount="5" visibility="Purple">
-        <Button id="10_conditionButton_01" class="conditionButton" />
-        <Button id="10_conditionButton_02" class="conditionButton" />
-        <Button id="10_conditionButton_03" class="conditionButton" />
-        <Button id="10_conditionButton_04" class="conditionButton" />
-        <Button id="10_conditionButton_05" class="conditionButton" />
-        <Button id="10_conditionButton_06" class="conditionButton" />
-        <Button id="10_conditionButton_07" class="conditionButton" />
-        <Button id="10_conditionButton_08" class="conditionButton" />
-        <Button id="10_conditionButton_09" class="conditionButton" />
-        <Button id="10_conditionButton_10" class="conditionButton" />
-        <Button id="10_conditionButton_11" class="conditionButton" />
-        <Button id="10_conditionButton_12" class="conditionButton" />
-        <Button id="10_conditionButton_13" class="conditionButton" />
-        <Button id="10_conditionButton_14" class="conditionButton" />
-        <Button id="10_conditionButton_15" class="conditionButton" />
-        <Button id="10_conditionButton_16" class="conditionButton" />
-        <Button id="10_conditionButton_17" class="conditionButton" />
-        <Button id="10_conditionButton_18" class="conditionButton" />
-        <Button id="10_conditionButton_19" class="conditionButton" />
-        <Button id="10_conditionButton_20" class="conditionButton" />
+        <Button class="conditionButton" id="10_conditionButton_01" /><Button class="conditionButton" id="10_conditionButton_02" /><Button class="conditionButton" id="10_conditionButton_03" /><Button class="conditionButton" id="10_conditionButton_04" /><Button class="conditionButton" id="10_conditionButton_05" />
+        <Button class="conditionButton" id="10_conditionButton_06" /><Button class="conditionButton" id="10_conditionButton_07" /><Button class="conditionButton" id="10_conditionButton_08" /><Button class="conditionButton" id="10_conditionButton_09" /><Button class="conditionButton" id="10_conditionButton_10" />
+        <Button class="conditionButton" id="10_conditionButton_11" /><Button class="conditionButton" id="10_conditionButton_12" /><Button class="conditionButton" id="10_conditionButton_13" /><Button class="conditionButton" id="10_conditionButton_14" /><Button class="conditionButton" id="10_conditionButton_15" />
+        <Button class="conditionButton" id="10_conditionButton_16" /><Button class="conditionButton" id="10_conditionButton_17" /><Button class="conditionButton" id="10_conditionButton_18" /><Button class="conditionButton" id="10_conditionButton_19" /><Button class="conditionButton" id="10_conditionButton_20" />
     </GridLayout>
-
     <GridLayout rectAlignment="LowerCenter" childAlignment="MiddleCenter" cellSize="40 40" constraint="FixedColumnCount" constraintCount="5" visibility="Pink">
-        <Button id="11_conditionButton_01" class="conditionButton" />
-        <Button id="11_conditionButton_02" class="conditionButton" />
-        <Button id="11_conditionButton_03" class="conditionButton" />
-        <Button id="11_conditionButton_04" class="conditionButton" />
-        <Button id="11_conditionButton_05" class="conditionButton" />
-        <Button id="11_conditionButton_06" class="conditionButton" />
-        <Button id="11_conditionButton_07" class="conditionButton" />
-        <Button id="11_conditionButton_08" class="conditionButton" />
-        <Button id="11_conditionButton_09" class="conditionButton" />
-        <Button id="11_conditionButton_10" class="conditionButton" />
-        <Button id="11_conditionButton_11" class="conditionButton" />
-        <Button id="11_conditionButton_12" class="conditionButton" />
-        <Button id="11_conditionButton_13" class="conditionButton" />
-        <Button id="11_conditionButton_14" class="conditionButton" />
-        <Button id="11_conditionButton_15" class="conditionButton" />
-        <Button id="11_conditionButton_16" class="conditionButton" />
-        <Button id="11_conditionButton_17" class="conditionButton" />
-        <Button id="11_conditionButton_18" class="conditionButton" />
-        <Button id="11_conditionButton_19" class="conditionButton" />
-        <Button id="11_conditionButton_20" class="conditionButton" />
+        <Button class="conditionButton" id="11_conditionButton_01" /><Button class="conditionButton" id="11_conditionButton_02" /><Button class="conditionButton" id="11_conditionButton_03" /><Button class="conditionButton" id="11_conditionButton_04" /><Button class="conditionButton" id="11_conditionButton_05" />
+        <Button class="conditionButton" id="11_conditionButton_06" /><Button class="conditionButton" id="11_conditionButton_07" /><Button class="conditionButton" id="11_conditionButton_08" /><Button class="conditionButton" id="11_conditionButton_09" /><Button class="conditionButton" id="11_conditionButton_10" />
+        <Button class="conditionButton" id="11_conditionButton_11" /><Button class="conditionButton" id="11_conditionButton_12" /><Button class="conditionButton" id="11_conditionButton_13" /><Button class="conditionButton" id="11_conditionButton_14" /><Button class="conditionButton" id="11_conditionButton_15" />
+        <Button class="conditionButton" id="11_conditionButton_16" /><Button class="conditionButton" id="11_conditionButton_17" /><Button class="conditionButton" id="11_conditionButton_18" /><Button class="conditionButton" id="11_conditionButton_19" /><Button class="conditionButton" id="11_conditionButton_20" />
     </GridLayout>
+    
 </Panel>
 
 <!-- FIGURINE GUI ALIGN (DONE) -->
