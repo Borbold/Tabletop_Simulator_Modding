@@ -3,18 +3,7 @@ local enumLangSet = {[1] = "EN", [2] = "RU"}
 
 function onSave()
     if resetGlobalLuaSave then
-        --lang_set = 1
         lastPickedCharGUID_table = {"","","","","","","","","","",""}
-        --initTurnPos = 1
-        --initRound = 1
-        --init_table = {}
-        --charBaseSpin = false
-        --charAutosaveDelay = 3
-        --diceRollsShowEveryDie = true
-        --diceRollsSneakyGM = false
-        --autoPromote = false
-        --miniMap_zoom = 10
-        --miniMap_offset = {0,0}
         resetGlobalLuaSave = false
         print("Global Lua lastPickedCharGUID_table reset")
         print("Use XML emergency reset")
@@ -164,7 +153,7 @@ function onLoad(saved_data)
         main_Table[i].deathSaves = {1,1,1,1,1}
 
         main_Table[i].charLvl = 1
-        main_Table[i].charProfBonus = 2 -- math.floor((lvl +7)/4)     -- can be set manually for monsters
+        main_Table[i].charProfBonus = 2
 
         main_Table[i].AC = 10
         main_Table[i].speed = 30
@@ -408,7 +397,6 @@ function setCharLvl(pl,vl,thisID)
     end
     if main_Table[nFromPl(pl)].charLvl < 1  then main_Table[nFromPl(pl)].charLvl = 20 end
     if main_Table[nFromPl(pl)].charLvl > 20 then main_Table[nFromPl(pl)].charLvl = 1  end
-    main_Table[nFromPl(pl)].charProfBonus = math.floor((main_Table[nFromPl(pl)].charLvl + 7)/4)
     singleColor_UI_update(nFromPl(pl))
 end
 
@@ -433,18 +421,6 @@ function setCharSpeed(pl,vl,thisID)
     end
     if main_Table[nFromPl(pl)].speed < 0    then main_Table[nFromPl(pl)].speed = 1000 end
     if main_Table[nFromPl(pl)].speed > 1000 then main_Table[nFromPl(pl)].speed = 0    end
-    singleColor_UI_update(nFromPl(pl))
-end
-
-function setCharProfBonus(pl,vl,thisID)
-    if vl == "-1" then num_add = 1 elseif vl == "-2" then num_add = 5 end
-    if numFromStrEnd(thisID) == 1 then
-        main_Table[nFromPl(pl)].charProfBonus = main_Table[nFromPl(pl)].charProfBonus + num_add
-    else
-        main_Table[nFromPl(pl)].charProfBonus = main_Table[nFromPl(pl)].charProfBonus - num_add
-    end
-    if main_Table[nFromPl(pl)].charProfBonus < 1  then main_Table[nFromPl(pl)].charProfBonus = 30 end
-    if main_Table[nFromPl(pl)].charProfBonus > 30 then main_Table[nFromPl(pl)].charProfBonus = 1  end
     singleColor_UI_update(nFromPl(pl))
 end
 
@@ -1690,7 +1666,6 @@ function UI_upd(i)
     UI_xmlElementUpdate(strFromNum(i).."_charLvl", "text", lang_table[enumLangSet[lang_set]][2]..main_Table[i].charLvl)
     UI_xmlElementUpdate(strFromNum(i).."_charAC", "text", lang_table[enumLangSet[lang_set]][3]..main_Table[i].AC)
     UI_xmlElementUpdate(strFromNum(i).."_charSpeed", "text", lang_table[enumLangSet[lang_set]][4]..main_Table[i].speed)
-    UI_xmlElementUpdate(strFromNum(i).."_charProfBonus", "text", lang_table[enumLangSet[lang_set]][5].."+"..main_Table[i].charProfBonus)
 
     if main_Table[i].initMod != 0 then initModStr = "  ("..PoM(main_Table[i].initMod)..main_Table[i].initMod..")" else initModStr = "" end
     UI_xmlElementUpdate(strFromNum(i).."_charInitAddButton", "text", lang_table[enumLangSet[lang_set]][6]..PoM(modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[12].mod + main_Table[i].initMod)..(modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[12].mod + main_Table[i].initMod)..initModStr)

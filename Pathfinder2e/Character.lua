@@ -1,21 +1,11 @@
--- Функция для сохранения данных персонажа
-function onSave()
-    -- Генерация случайного числа для определения, нужно ли сохранять данные
-    local rndSave = math.random(1, 3)
+local function updateSave()
+    local data_to_save = {}
+    data_to_save.charSave_table = self:getTable("charSave_table")
+    data_to_save.Selected = Selected
 
-    -- Проверка условия для сохранения данных
-    if rndSave == 1 or self:getDescription() == "save" then
-        -- Создание таблицы для сохранения данных
-        local data_to_save = {}
-        data_to_save.charSave_table = self:getTable("charSave_table")
-        data_to_save.Selected = Selected
-
-        -- Кодирование данных в JSON формат
-        local saved_data = JSON.encode(data_to_save)
-        return saved_data
-    end
+    local saved_data = JSON.encode(data_to_save)
+    return saved_data
 end
-
 -- Функция для загрузки данных персонажа
 function onLoad(saved_data)
     THIS_IS_A_SCRIPTED_DND_4E_CHARACTER_TOKEN = true
@@ -41,7 +31,6 @@ function onLoad(saved_data)
     self.UI:setXml(charXml())
     hideThisChar()
 end
-
 -- Функция для скрытия персонажа
 function hideThisChar()
     if charSave_table.charHidden then
@@ -56,12 +45,10 @@ function hideThisChar()
         self:setInvisibleTo({})
     end
 
-    -- Обновление интерфейса через 3 кадра
-    Wait.frames(function()
+    Wait.time(function()
         UI_update()
-    end, 3)
+    end, 0.2)
 end
-
 -- Функция для обновления интерфейса
 function UI_update()
     if not charSave_table or not charSave_table.tokenGUI_settings then return end
@@ -153,6 +140,7 @@ function UI_update()
 
     -- Обновление портрета
     UI_xmlElementUpdate("bigPortrait", "image", charSave_table.portraitUrl)
+    updateSave()
 end
 
 -- Функция для создания эффекта дрожания при выделении
@@ -186,7 +174,6 @@ function onRandomize(player_color)
     end
     UI_update()
 end
-
 -- Функция для сброса состояния персонажа
 function resetChar()
     charSave_table = {}
@@ -257,14 +244,12 @@ function resetChar()
 
     charSave_table.charHidden = false
 end
-
 -- Функция для обновления XML элемента интерфейса
 function UI_xmlElementUpdate(xml_ID, xml_attribute, input_string)
     if self.UI.getAttribute(xml_ID, xml_attribute) ~= input_string then
         self.UI.setAttribute(xml_ID, xml_attribute, input_string)
     end
 end
-
 -- Функция для преобразования строки в число
 function numFromStr(inpStr)
     if string.sub(inpStr, 1, 1) == "0" then
@@ -273,7 +258,6 @@ function numFromStr(inpStr)
         return tonumber(string.sub(inpStr, 1, 2))
     end
 end
-
 -- Функция для преобразования строки в число (конец строки)
 function numFromStrEnd(inpStr)
     if string.sub(inpStr, #inpStr-1, #inpStr-1) == "0" then
@@ -282,7 +266,6 @@ function numFromStrEnd(inpStr)
         return tonumber(string.sub(inpStr, #inpStr-1, #inpStr))
     end
 end
-
 -- Функция для преобразования числа в строку
 function strFromNum(inpNum)
     if inpNum < 10 then
