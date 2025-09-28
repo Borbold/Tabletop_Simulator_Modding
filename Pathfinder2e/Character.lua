@@ -17,9 +17,6 @@ function onLoad(saved_data)
         self:setTable("charSave_table", loaded_data.charSave_table)
         Selected = loaded_data.Selected
     else
-        charSave_table = {}
-        Selected = false
-    else
         -- Установка начальных значений, если данные отсутствуют
         Selected = 0 -- Индекс выбора, 0 - idle
         resetChar()
