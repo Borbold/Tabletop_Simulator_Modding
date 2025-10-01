@@ -14,7 +14,6 @@ function onSave()
     data_to_save.lastPickedCharGUID_table = Global.getTable("lastPickedCharGUID_table")
     data_to_save.initTurnPos = initTurnPos
     data_to_save.initRound = initRound
-    --data_to_save.init_table = Global.getTable("init_table")
     data_to_save.init_table = {}
     for s=1,#init_table do
         data_to_save.init_table[s] = {
@@ -38,9 +37,6 @@ end
 
 function onLoad(saved_data)
     addHotkey("Hide/Show char sheet", function(playerColor) colorToggleShowMain(Player[playerColor]) end)
-    ------------------------------------------
-    --saved_data = "" -- MUST BE COMMENTED !!!
-    ------------------------------------------
     if saved_data ~= nil and saved_data ~= "" then
         loaded_data = JSON.decode(saved_data)
         lang_set = loaded_data.lang_set
@@ -106,7 +102,6 @@ function onLoad(saved_data)
 
     plColors_Table = {"Black","White","Brown","Red","Orange","Yellow","Green","Teal","Blue","Purple","Pink"}
     plColorsHexTable={"#3f3f3f","#ffffff","#703a16","#da1917","#f3631c","#e6e42b","#30b22a","#20b09a","#1e87ff","#9f1fef","#f46fcd"}
-    --plShow2AllStr = "Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink|Grey"
     editModeVisibility = {false,false,false,false,false,false,false,false,false,false,false}
     screenRollerVisibility = {false,false,false,false,false,false,false,false,false,false,false}
     screenRollerStringsToRoll = {"","","","","","","","","","",""}
@@ -141,30 +136,23 @@ function onLoad(saved_data)
     main_Table = {}
     for i=1,11 do
         main_Table[i] = {}
-
         main_Table[i].aColors = {true,false,false,false,false,false,false,false,false,false,false}
-
         main_Table[i].portraitUrl = "https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/"
         main_Table[i].charName = ""
-
         main_Table[i].hp = 92
         main_Table[i].hpMax = 113
         main_Table[i].hpTemp = 5
         main_Table[i].deathSaves = {1,1,1,1,1}
-
         main_Table[i].charLvl = 1
         main_Table[i].charProfBonus = 2
-
         main_Table[i].AC = 10
         main_Table[i].speed = 30
         main_Table[i].initMod = 0
         main_Table[i].pPerceptionMod = 0
-
         -- Initialize attributes with default values (modifier: (attr -10) /2)
         main_Table[i].attributes = {10, 10, 10, 10, 10, 10}
         main_Table[i].saves = {Fortitude = false, Reflex = false, Will = false}
         main_Table[i].savesMod = {Fortitude = 0, Reflex = 0, Will = 0}
-        
         -- Initialize skills with default values
         main_Table[i].skills = {}
         for ii=1,18 do
@@ -176,7 +164,6 @@ function onLoad(saved_data)
                 mod = 0
             }
         end
-
         -- Initialize attacks with default values
         main_Table[i].attacks = {}
         for ii=1,10 do
@@ -195,12 +182,8 @@ function onLoad(saved_data)
                 icon = 1
             }
         end
-
-        -- Initialize spell slots
         main_Table[i].splSlots = {0,0,0,0,0,0,0,0,0}
         main_Table[i].splSlotsMax = {0,0,0,0,0,0,0,0,0}
-
-        -- Initialize resources
         main_Table[i].resourses = {}
         for ii=1,10 do
             main_Table[i].resourses[ii] = {
@@ -209,7 +192,6 @@ function onLoad(saved_data)
                 resMax = 0
             }
         end
-
         main_Table[i].notes_A = ""
         main_Table[i].notes_B = ""
 
@@ -231,12 +213,11 @@ function onLoad(saved_data)
     addCharMode = false
     copyCharMode = false
 
-    Wait.frames(function()
+    Wait.time(function()
         loadSelections()
         defineMiniMapUnit("◒")
         miniMap_UI_update()
-        applyCharAutosaveDelay()
-    end, 3)
+    end, 0.2)
 
     charLua = ""
     WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/Pathfinder2e/Character.lua",
@@ -248,15 +229,12 @@ function onLoad(saved_data)
         language_UI_update()
         mainSheet_UI_update()
         initiative_UI_update()
-    end, 1)
+    end, 2)
     Wait.time(function()
         noCharSelectedPanelCheck()
-    end, 2)
+    end, 3)
 
     Wait.time(function() repetitionUpdate() end, 1, -1)
-
-    --miniMap_zoom = 10
-    --miniMap_offset = {0,0}
 
     resetCounter = 0
 end
@@ -280,24 +258,24 @@ end
 -----------------------------   sheet <-> figurine interactions
 
 function onObjectPickUp(plCl, pObj)
-    if pObj.getVar("THIS_IS_A_SCRIPTED_DND_4E_CHARACTER_TOKEN") ~= nil and not copyCharMode then -- ffs should be 5E, but now it would be too much fuss to fix
+    if pObj.getVar("SCRIPTED_PF2E_CHARACTER") ~= nil and not copyCharMode then
         if pObj.getTable("charSave_table").aColors[nFromPlClr(plCl)] then
             previousTokenGUID = lastPickedCharGUID_table[nFromPlClr(plCl)]
             lastPickedCharGUID_table[nFromPlClr(plCl)] = pObj.getGUID()
             GetStatsFromToken(nFromPlClr(plCl),pObj)
             pObj.setVar("Selected", nFromPlClr(plCl))
-            Wait.frames(function()
+            Wait.time(function()
                 pObj.call("UI_update")
-            end, 1)
+            end, 0.1)
             if previousTokenGUID ~= "" and getObjectFromGUID(previousTokenGUID) ~= nil and previousTokenGUID ~= lastPickedCharGUID_table[nFromPlClr(plCl)] then
                 getObjectFromGUID(previousTokenGUID).setVar("Selected", tokenSelectionCheck(previousTokenGUID))
-                Wait.frames(function()
+                Wait.time(function()
                     getObjectFromGUID(previousTokenGUID).call("UI_update")
-                end, 1)
+                end, 0.1)
             end
             noCharSelectedPanelCheck()
         end
-    elseif pObj.getVar("THIS_IS_A_SCRIPTED_DND_4E_CHARACTER_TOKEN") ~= nil and copyCharMode then
+    elseif pObj.getVar("SCRIPTED_PF2E_CHARACTER") ~= nil and copyCharMode then
         pObj.setTable("charSave_table", main_Table[nFromPl(plCl)])
         pObj.call("UI_update")
         copyCharMode = false
@@ -331,9 +309,7 @@ function tokenSelectionCheck(previousTokenGUID)
 end
 
 function GetStatsFromToken(pl_N, obj)
-    --main_Table[pl_N] = {}
     main_Table[pl_N] = obj.getTable("charSave_table")
-    --print(main_Table[pl_N].charHidden)
     if main_Table[pl_N].charHidden == nil then
         main_Table[pl_N].charHidden = false
     end
@@ -342,7 +318,7 @@ function GetStatsFromToken(pl_N, obj)
 end
 
 function SetStatsIntoToken(pl_N)
-    if getObjectFromGUID(lastPickedCharGUID_table[pl_N]) != nil then
+    if getObjectFromGUID(lastPickedCharGUID_table[pl_N]) ~= nil then
         getObjectFromGUID(lastPickedCharGUID_table[pl_N]).setTable("charSave_table", main_Table[pl_N])
         getObjectFromGUID(lastPickedCharGUID_table[pl_N]).call("UI_update")
     else
@@ -449,7 +425,7 @@ function setCharPassPerceptionMod(pl,vl,thisID)
 end
 
 function setCharHP(pl,vl,thisID)
-    if tonumber(vl) != nil then
+    if tonumber(vl) ~= nil then
         if numFromStrEnd(thisID) == 1 then
             main_Table[nFromPl(pl)].hp = tonumber(vl)
         else
@@ -597,7 +573,7 @@ end
 -------------------------   HP
 
 function setCharHealDmgVal(pl,vl,thisID)
-    if tonumber(vl) != nil and vl != "" then
+    if tonumber(vl) ~= nil and vl ~= "" then
         healTempDmg_table[nFromPl(pl)] = math.abs(tonumber(vl))
     end
 end
@@ -630,7 +606,7 @@ function healHP(pl,vl,thisID)
 end
 
 function setTempHP(pl,vl,thisID)
-    if healTempDmg_table[nFromPl(pl)] != 0 and vl == "-1" then
+    if healTempDmg_table[nFromPl(pl)] ~= 0 and vl == "-1" then
         main_Table[nFromPl(pl)].hpTemp = healTempDmg_table[nFromPl(pl)]
     elseif vl == "-2" then
         main_Table[nFromPl(pl)].hpTemp = 0
@@ -659,9 +635,9 @@ function atkButton(pl,vl,thisID)
         atkEdit_UI_update(nFromPl(pl),editModeSelectedAttack[nFromPl(pl)])
         
     else
-        if main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].resUsed == 0 or (main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].resUsed != 0 and main_Table[nFromPl(pl)].resourses[main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].resUsed].resValue > 0) then
-            if main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].resUsed != 0 then
-                if main_Table[nFromPl(pl)].resourses[main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].resUsed].resMax != 0 then
+        if main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].resUsed == 0 or (main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].resUsed ~= 0 and main_Table[nFromPl(pl)].resourses[main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].resUsed].resValue > 0) then
+            if main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].resUsed ~= 0 then
+                if main_Table[nFromPl(pl)].resourses[main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].resUsed].resMax ~= 0 then
                     resLeftStr = " / "..main_Table[nFromPl(pl)].resourses[main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].resUsed].resMax
                 else
                     resLeftStr = ""
@@ -674,7 +650,7 @@ function atkButton(pl,vl,thisID)
             end
 
             atkRollMod = main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].atkMod
-            if main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].atkAttr != 0 then atkRollMod = atkRollMod + modFromAttr(main_Table[nFromPl(pl)].attributes[main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].atkAttr]) end
+            if main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].atkAttr ~= 0 then atkRollMod = atkRollMod + modFromAttr(main_Table[nFromPl(pl)].attributes[main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].atkAttr]) end
             if main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].proficient then   atkRollMod = atkRollMod + math.floor((main_Table[nFromPl(pl)].charLvl + 7)/4) end
             atkClicked = numFromStrEnd(thisID)
             critRolled = false
@@ -702,7 +678,7 @@ function atkButton(pl,vl,thisID)
             end
 
             if main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].dmgRolled then
-                if main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].dmgAttr != 0 then
+                if main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].dmgAttr ~= 0 then
                     dmgAttrStr = PoM_add(modFromAttr(main_Table[nFromPl(pl)].attributes[main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].dmgAttr]))
                     dmgAttrStrText = " + ".. lang_table[enumLangSet[lang_set]][main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].dmgAttr + 7]
                 else
@@ -727,7 +703,7 @@ function atkButton(pl,vl,thisID)
                     printToAll("● "..main_Table[nFromPl(pl)].charName..": "..rollOutputHex..main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].atkName..resLeftStr.."[-]", pl.color)
                 end
             end
-        elseif main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].resUsed != 0 and main_Table[nFromPl(pl)].resourses[main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].resUsed].resValue == 0 then
+        elseif main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].resUsed ~= 0 and main_Table[nFromPl(pl)].resourses[main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].resUsed].resValue == 0 then
             printToAll("► [cccccc]".. main_Table[nFromPl(pl)].resourses[main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].resUsed].resName..": [ff8888]"..main_Table[nFromPl(pl)].resourses[main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].resUsed].resValue.." / "..main_Table[nFromPl(pl)].resourses[main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].resUsed].resMax .."[-]", pl.color)
         end
     end
@@ -772,7 +748,7 @@ function atkToggleProf(pl,vl,thisID)
 end
 
 function atkSetMinCrit(pl,vl,thisID)
-    if tonumber(vl) != nil then
+    if tonumber(vl) ~= nil then
         main_Table[nFromPl(pl)].attacks[editModeSelectedAttack[nFromPl(pl)]].minCrit = tonumber(vl)
         if main_Table[nFromPl(pl)].attacks[editModeSelectedAttack[nFromPl(pl)]].minCrit > 20 then main_Table[nFromPl(pl)].attacks[editModeSelectedAttack[nFromPl(pl)]].minCrit = 20 end
         if main_Table[nFromPl(pl)].attacks[editModeSelectedAttack[nFromPl(pl)]].minCrit < 1 then main_Table[nFromPl(pl)].attacks[editModeSelectedAttack[nFromPl(pl)]].minCrit = 1 end
@@ -781,7 +757,7 @@ function atkSetMinCrit(pl,vl,thisID)
 end
 
 function atkSetAtkMod(pl,vl,thisID)
-    if tonumber(vl) != nil then
+    if tonumber(vl) ~= nil then
         main_Table[nFromPl(pl)].attacks[editModeSelectedAttack[nFromPl(pl)]].atkMod = tonumber(vl)
         if main_Table[nFromPl(pl)].attacks[editModeSelectedAttack[nFromPl(pl)]].atkMod >  20 then main_Table[nFromPl(pl)].attacks[editModeSelectedAttack[nFromPl(pl)]].atkMod =  20 end
         if main_Table[nFromPl(pl)].attacks[editModeSelectedAttack[nFromPl(pl)]].atkMod < -20 then main_Table[nFromPl(pl)].attacks[editModeSelectedAttack[nFromPl(pl)]].atkMod = -20 end
@@ -908,7 +884,7 @@ function resSetName(pl,vl,thisID)
 end
 
 function resSetValue(pl,vl,thisID)
-    if tonumber(vl) != nil then
+    if tonumber(vl) ~= nil then
         main_Table[nFromPl(pl)].resourses[numFromStrEnd(thisID)].resValue = tonumber(vl)
         if main_Table[nFromPl(pl)].resourses[numFromStrEnd(thisID)].resMax >0 then
             if main_Table[nFromPl(pl)].resourses[numFromStrEnd(thisID)].resValue > main_Table[nFromPl(pl)].resourses[numFromStrEnd(thisID)].resMax then
@@ -920,7 +896,7 @@ function resSetValue(pl,vl,thisID)
 end
 
 function resSetMax(pl,vl,thisID)
-    if tonumber(vl) != nil then
+    if tonumber(vl) ~= nil then
         main_Table[nFromPl(pl)].resourses[numFromStrEnd(thisID)].resMax = tonumber(vl)
         if main_Table[nFromPl(pl)].resourses[numFromStrEnd(thisID)].resMax >0 then
             if main_Table[nFromPl(pl)].resourses[numFromStrEnd(thisID)].resValue > main_Table[nFromPl(pl)].resourses[numFromStrEnd(thisID)].resMax then
@@ -993,14 +969,13 @@ function initSetupButt(pl,vl,thisID)
         elseif vl == "-2" then
             table.remove(init_table, numFromStrEnd(thisID))
             if initTurnPos > numFromStrEnd(thisID) then initTurnPos = initTurnPos - 1 end
-            --if initTurnPos == numFromStrEnd(thisID) and initTurnPos < #init_table then initTurnPos = initTurnPos end
             if numFromStrEnd(thisID) > #init_table then initTurnPos = 1 end
             initEditPos = 0
             UI_xmlElementUpdate("initSetupPanel", "active", "False")
             initiative_UI_update()
         end
         
-    elseif initEditPos != numFromStrEnd(thisID) and numFromStrEnd(thisID) <= #init_table then
+    elseif initEditPos ~= numFromStrEnd(thisID) and numFromStrEnd(thisID) <= #init_table then
         UI_xmlElementUpdate("initSetupButton_"..strFromNum(initEditPos), "tooltip", "setup")
         initEditPos = numFromStrEnd(thisID)
         UI_xmlElementUpdate("initSetupPanel", "active", "True")
@@ -1080,17 +1055,17 @@ function initiative_UI_update()   -------------
     end
     
     if #init_table < 15 then
-        Wait.frames(function()
+        Wait.time(function()
             UI_xmlElementUpdate("initSetupButton_"..strFromNum(#init_table + 1), "color", "#aaaaaa")
             UI_xmlElementUpdate("initSetupButton_"..strFromNum(#init_table + 1), "text", "+")
             UI_xmlElementUpdate("initSetupButton_"..strFromNum(#init_table + 1), "tooltip", "add char")
-        end, 1)
+        end, 0.1)
     end
     if #init_table > 0 then
         UI_xmlElementUpdate("initCol_01", "tooltip", init_table[initTurnPos].charName.."\n"..init_table[initTurnPos].rollRez.." ("..PoM_add(init_table[initTurnPos].initMod)..")")
         UI_xmlElementUpdate("initCol_01", "color", plColorsHexTable[init_table[initTurnPos].aColor])
         UI_xmlElementUpdate("initImage_01", "color", "#ffffff")
-        if getObjectFromGUID(init_table[initTurnPos].tokenGUID) != nil then
+        if getObjectFromGUID(init_table[initTurnPos].tokenGUID) ~= nil then
             UI_xmlElementUpdate("initImage_01", "image", getObjectFromGUID(init_table[initTurnPos].tokenGUID).getTable("charSave_table").portraitUrl)
         elseif init_table[initTurnPos].portraitUrl then
             UI_xmlElementUpdate("initImage_01", "image", init_table[initTurnPos].portraitUrl)
@@ -1104,7 +1079,7 @@ function initiative_UI_update()   -------------
             UI_xmlElementUpdate("initCol_"..strFromNum(i), "tooltip", init_table[initImgUpdatePos].charName.."\n"..init_table[initImgUpdatePos].rollRez.." ("..PoM_add(init_table[initImgUpdatePos].initMod)..")")
             UI_xmlElementUpdate("initCol_"..strFromNum(i), "color", plColorsHexTable[init_table[initImgUpdatePos].aColor])
             UI_xmlElementUpdate("initImage_"..strFromNum(i), "color", "#ffffff")
-            if getObjectFromGUID(init_table[initImgUpdatePos].tokenGUID) != nil then
+            if getObjectFromGUID(init_table[initImgUpdatePos].tokenGUID) ~= nil then
                 UI_xmlElementUpdate("initImage_"..strFromNum(i), "image", getObjectFromGUID(init_table[initImgUpdatePos].tokenGUID).getTable("charSave_table").portraitUrl)
             elseif init_table[initImgUpdatePos].portraitUrl then
                 UI_xmlElementUpdate("initImage_"..strFromNum(i), "image", init_table[initImgUpdatePos].portraitUrl)
@@ -1167,7 +1142,7 @@ function initPass(pl,vl,thisID)
 end
 
 function initSetupRezInp(pl,vl,thisID)
-    if tonumber(vl) != nil then
+    if tonumber(vl) ~= nil then
         init_table[initEditPos].rollRez = tonumber(vl)
         initiative_UI_update()
     end
@@ -1191,7 +1166,7 @@ function initToggleColor(pl,vl,thisID)
 end
 
 function initSetupModInp(pl,vl,thisID)
-    if tonumber(vl) != nil then
+    if tonumber(vl) ~= nil then
         init_table[initEditPos].initMod = tonumber(vl)
         initiative_UI_update()
     end
@@ -1206,7 +1181,7 @@ function initRollAll(pl,vl,thisID)
 end
 
 function setInitCharPortrait(pl,vl)
-    if vl != "" then
+    if vl ~= "" then
         init_table[initEditPos].portraitUrl = vl
     else
         init_table[initEditPos].portraitUrl = "https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/"
@@ -1507,7 +1482,7 @@ function colorToggleBigPortrait(pl,vl,thisID)
                 end
             elseif vl == "-2" then
                 panelVisibility_bigPortrait[nFromPl(pl)] = false
-                if getObjectFromGUID(init_table[bigPortraitInitPos].tokenGUID) != nil then
+                if getObjectFromGUID(init_table[bigPortraitInitPos].tokenGUID) ~= nil then
                     Player[plColors_Table[nFromPl(pl)]].pingTable( getObjectFromGUID(init_table[bigPortraitInitPos].tokenGUID).getPosition() )
                 end
             end
@@ -1540,11 +1515,10 @@ function onObjectRandomize(object, player_color)
 end
 
 function atkEdit_UI_update(pl_N,atk_N)
-    
     UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditNameText","text"," "..atk_N..". "..main_Table[pl_N].attacks[atk_N].atkName)
     if main_Table[pl_N].attacks[atk_N].atkRolled then tempColorStr = "#8888ffff" else tempColorStr = "#ffffff00" end
     UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditRollAtkButton","textOutline",tempColorStr)
-    if main_Table[pl_N].attacks[atk_N].atkAttr != 0 then
+    if main_Table[pl_N].attacks[atk_N].atkAttr ~= 0 then
         UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditAtkAttrButton","text",lang_table[enumLangSet[lang_set]][main_Table[pl_N].attacks[atk_N].atkAttr + 7])
     else
         UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditAtkAttrButton","text","")
@@ -1555,13 +1529,13 @@ function atkEdit_UI_update(pl_N,atk_N)
     UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditAtkModText","text",lang_table[enumLangSet[lang_set]][42]..PoM_add(main_Table[pl_N].attacks[atk_N].atkMod))
     if main_Table[pl_N].attacks[atk_N].dmgRolled then tempColorStr = "#8888ffff" else tempColorStr = "#ffffff00" end
     UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditRollDmgButton","textOutline",tempColorStr)
-    if main_Table[pl_N].attacks[atk_N].dmgAttr != 0 then
+    if main_Table[pl_N].attacks[atk_N].dmgAttr ~= 0 then
         UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditDmgAttrButton","text",lang_table[enumLangSet[lang_set]][main_Table[pl_N].attacks[atk_N].dmgAttr + 7])
     else
         UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditDmgAttrButton","text","")
     end
 
-    if main_Table[pl_N].attacks[atk_N].resUsed != 0 then
+    if main_Table[pl_N].attacks[atk_N].resUsed ~= 0 then
         UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditResUsedButton","text", main_Table[pl_N].attacks[atk_N].resUsed..". "..main_Table[pl_N].resourses[main_Table[pl_N].attacks[atk_N].resUsed].resName)
     else
         UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditResUsedButton","text","")
@@ -1646,13 +1620,13 @@ end
 
 function singleColor_UI_update(n)
     UI_upd(n)
-    if lastPickedCharGUID_table[n] != "" and getObjectFromGUID(lastPickedCharGUID_table[n]) != nil and not firstLoad then
+    if lastPickedCharGUID_table[n] ~= "" and getObjectFromGUID(lastPickedCharGUID_table[n]) ~= nil and not firstLoad then
         SetStatsIntoToken(n)
     end
     for i=1,11 do
-        if lastPickedCharGUID_table[i] != "" and i != n and lastPickedCharGUID_table[i] == lastPickedCharGUID_table[n] then
-            if getObjectFromGUID(lastPickedCharGUID_table[i]) != nil then
-                GetStatsFromToken(i,getObjectFromGUID(lastPickedCharGUID_table[i]))
+        if lastPickedCharGUID_table[i] ~= "" and i ~= n and lastPickedCharGUID_table[i] == lastPickedCharGUID_table[n] then
+            if getObjectFromGUID(lastPickedCharGUID_table[i]) ~= nil then
+                GetStatsFromToken(i, getObjectFromGUID(lastPickedCharGUID_table[i]))
             end
         end
     end
@@ -1661,21 +1635,21 @@ end
 function UI_upd(i)
     UI_xmlElementUpdate(strFromNum(i).."_charPortrait", "image", main_Table[i].portraitUrl)
     UI_xmlElementUpdate(strFromNum(i).."_charPortraitUrlInput", "text", main_Table[i].portraitUrl)
-        
+
     UI_xmlElementUpdate(strFromNum(i).."_charName", "text", main_Table[i].charName)
     UI_xmlElementUpdate(strFromNum(i).."_charLvl", "text", lang_table[enumLangSet[lang_set]][2]..main_Table[i].charLvl)
     UI_xmlElementUpdate(strFromNum(i).."_charAC", "text", lang_table[enumLangSet[lang_set]][3]..main_Table[i].AC)
     UI_xmlElementUpdate(strFromNum(i).."_charSpeed", "text", lang_table[enumLangSet[lang_set]][4]..main_Table[i].speed)
 
-    if main_Table[i].initMod != 0 then initModStr = "  ("..PoM(main_Table[i].initMod)..main_Table[i].initMod..")" else initModStr = "" end
+    if main_Table[i].initMod ~= 0 then initModStr = "  ("..PoM(main_Table[i].initMod)..main_Table[i].initMod..")" else initModStr = "" end
     UI_xmlElementUpdate(strFromNum(i).."_charInitAddButton", "text", lang_table[enumLangSet[lang_set]][6]..PoM(modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[12].mod + main_Table[i].initMod)..(modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[12].mod + main_Table[i].initMod)..initModStr)
-        
+
     pPerseptionBase = 10 + modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[12].mod
     if main_Table[i].skills[12].proficient then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
     if main_Table[i].skills[12].expert then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
     if main_Table[i].skills[12].master then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
     if main_Table[i].skills[12].legendary then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
-    if main_Table[i].pPerceptionMod != 0 then ppModStr = " ("..PoM(main_Table[i].pPerceptionMod)..main_Table[i].pPerceptionMod..")" else ppModStr = "" end
+    if main_Table[i].pPerceptionMod ~= 0 then ppModStr = " ("..PoM(main_Table[i].pPerceptionMod)..main_Table[i].pPerceptionMod..")" else ppModStr = "" end
     UI_xmlElementUpdate(strFromNum(i).."_charPassivePerception", "text", lang_table[enumLangSet[lang_set]][7]..(main_Table[i].pPerceptionMod + pPerseptionBase)..ppModStr)
 
     UI_xmlElementUpdate(strFromNum(i).."_charHPbar", "width", math.floor(main_Table[i].hp / main_Table[i].hpMax * 400))
@@ -1711,7 +1685,7 @@ function UI_upd(i)
 
     for smN,smV in pairs(main_Table[i].savesMod) do
         if main_Table[i].saves[smN] then fontStr = "bold" else fontStr = "italic" end
-        if smV != 0 then saveModStr = "\n"..PoM(smV)..smV else saveModStr = "" end
+        if smV ~= 0 then saveModStr = "\n"..PoM(smV)..smV else saveModStr = "" end
         UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..smN, "text", lang_table[enumLangSet[lang_set]][14]..saveModStr)
         UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..smN, "fontStyle", fontStr)
     end
@@ -1721,8 +1695,7 @@ function UI_upd(i)
         if main_Table[i].skills[ii].expert then eStr = " ("..lang_table[enumLangSet[lang_set]][33]..")" else eStr = "" end
         if main_Table[i].skills[ii].master then mStr = " ("..lang_table[enumLangSet[lang_set]][78]..")" else mStr = "" end
         if main_Table[i].skills[ii].legendary then lStr = " ("..lang_table[enumLangSet[lang_set]][80]..")" else lStr = "" end
-        if main_Table[i].skills[ii].mod != 0 then sklModStr = " "..PoM(main_Table[i].skills[ii].mod)..main_Table[i].skills[ii].mod else sklModStr = "" end
-        --UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "text", lang_table[enumLangSet[lang_set]][14 + ii].." ("..lang_table[enumLangSet[lang_set]][7 + defSkillsAttr_table[ii]]..")"..exStr)
+        if main_Table[i].skills[ii].mod ~= 0 then sklModStr = " "..PoM(main_Table[i].skills[ii].mod)..main_Table[i].skills[ii].mod else sklModStr = "" end
         UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "text", lang_table[enumLangSet[lang_set]][14 + ii]..eStr..mStr..lStr..sklModStr)
         UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "fontStyle", fontStr)
 
@@ -1816,19 +1789,19 @@ function UI_upd(i)
 end
 
 function onPlayerChangeColor(player_color)
-    Wait.frames(function()
+    Wait.time(function()
         teamBar_UI_update()
-    end, 3)
+    end, 0.2)
 end
 
 function teamBar_UI_update()
     nPlayers = 0
     for i=2,11 do
-        if Player[plColors_Table[i]].seated and lastPickedCharGUID_table[i] != "" and getObjectFromGUID(lastPickedCharGUID_table[i]) != nil and not getObjectFromGUID(lastPickedCharGUID_table[i]).getTable("charSave_table").charHidden then
+        if Player[plColors_Table[i]].seated and lastPickedCharGUID_table[i] ~= "" and getObjectFromGUID(lastPickedCharGUID_table[i]) ~= nil and not getObjectFromGUID(lastPickedCharGUID_table[i]).getTable("charSave_table").charHidden then
             nPlayers = nPlayers + 1
             UI_xmlElementUpdate(strFromNum(i).."_teamBarSegment", "active", "True")
             UI_xmlElementUpdate(strFromNum(i).."_teamBarColor", "color", plColorsHexTable[i])
-            if lastPickedCharGUID_table[i] != "" and getObjectFromGUID(lastPickedCharGUID_table[i]) != nil then
+            if lastPickedCharGUID_table[i] ~= "" and getObjectFromGUID(lastPickedCharGUID_table[i]) ~= nil then
                 UI_xmlElementUpdate(strFromNum(i).."_teamBarImage", "image", main_Table[i].portraitUrl)
             else
                 UI_xmlElementUpdate(strFromNum(i).."_teamBarImage", "image", "https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/")
@@ -1838,7 +1811,7 @@ function teamBar_UI_update()
             if main_Table[i].skills[12].expert then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
             if main_Table[i].skills[12].master then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
             if main_Table[i].skills[12].legendary then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
-            if main_Table[i].pPerceptionMod != 0 then ppModStr = " ("..PoM(main_Table[i].pPerceptionMod)..main_Table[i].pPerceptionMod..")" else ppModStr = "" end
+            if main_Table[i].pPerceptionMod ~= 0 then ppModStr = " ("..PoM(main_Table[i].pPerceptionMod)..main_Table[i].pPerceptionMod..")" else ppModStr = "" end
             
             UI_xmlElementUpdate(strFromNum(i).."_bigPortraitTeam", "tooltip", main_Table[i].charName.."\n"..
             lang_table[enumLangSet[lang_set]][2]..main_Table[i].charLvl.."  "..lang_table[enumLangSet[lang_set]][3]..main_Table[i].AC.."  "..lang_table[enumLangSet[lang_set]][4]..main_Table[i].speed.."\n"..
@@ -1851,8 +1824,6 @@ function teamBar_UI_update()
             lang_table[enumLangSet[lang_set]][13].." "..main_Table[i].attributes[6].."("..PoM_add(modFromAttr(main_Table[i].attributes[6]))..")   "
             )
             UI_xmlElementUpdate(strFromNum(i).."_teamBarHP", "percentage", math.floor(main_Table[i].hp / main_Table[i].hpMax * 100))
-            --UI_xmlElementUpdate(strFromNum(i).."_teamBarHP", "width", math.floor(main_Table[i].hp / main_Table[i].hpMax * 55))
-            --UI_xmlElementUpdate(strFromNum(i).."_teamBarHP", "offsetXY", "-"..(23 - math.floor(main_Table[i].hp / main_Table[i].hpMax * 23))..",0")
             if main_Table[i].hp > 0 then
                 UI_xmlElementUpdate(strFromNum(i).."_teamBarHPsaves", "text", main_Table[i].hp.." / "..main_Table[i].hpMax)
             else
@@ -1878,7 +1849,7 @@ function teamBar_UI_update()
 end
 
 function lookAtChar(pl,_,thisID)
-    if lastPickedCharGUID_table[nFromPl(pl)] != "" and getObjectFromGUID(lastPickedCharGUID_table[nFromPl(pl)]) != nil then
+    if lastPickedCharGUID_table[nFromPl(pl)] ~= "" and getObjectFromGUID(lastPickedCharGUID_table[nFromPl(pl)]) ~= nil then
         pl.lookAt({position = getObjectFromGUID(lastPickedCharGUID_table[nFromPl(pl)]).getPosition(), pitch = 65, yaw = 0, distance = 25})
     end
 end
@@ -2001,7 +1972,6 @@ function language_UI_update()   --  tooltipBackgroundColor="#000000" tooltipPosi
     UI_xmlElementUpdate("GM_toolsButton_01", "tooltip", lang_table[enumLangSet[lang_set]][120])
     UI_xmlElementUpdate("GM_toolsButton_02", "tooltip", lang_table[enumLangSet[lang_set]][121])
     UI_xmlElementUpdate("GM_toolsButton_03", "tooltip", lang_table[enumLangSet[lang_set]][122])
-    UI_xmlElementUpdate("GM_toolsButton_04", "tooltip", lang_table[enumLangSet[lang_set]][123])
     UI_xmlElementUpdate("GM_toolsButton_05", "tooltip", lang_table[enumLangSet[lang_set]][124])
     UI_xmlElementUpdate("GM_toolsButton_06", "tooltip", lang_table[enumLangSet[lang_set]][125])
     UI_xmlElementUpdate("GM_toolsButton_07", "tooltip", lang_table[enumLangSet[lang_set]][126])
@@ -2041,7 +2011,7 @@ function toggleAddCharMode(pl,vl,thisID)
 end
 
 function toggleCopyCharMode(pl,vl,thisID)
-    if getObjectFromGUID(lastPickedCharGUID_table[1]) != nil then
+    if getObjectFromGUID(lastPickedCharGUID_table[1]) ~= nil then
         if addCharMode then
             toggleAddCharMode(pl,"-1",thisID)
         end
@@ -2055,41 +2025,20 @@ function toggleCopyCharMode(pl,vl,thisID)
     end
 end
 
-
 function updateLuaForAllChars()
     objectsToUpdate = {}
     for i=1,#getAllObjects() do
-        if getAllObjects()[i].getVar("THIS_IS_A_SCRIPTED_DND_4E_CHARACTER_TOKEN") != nil then
+        if getAllObjects()[i].getVar("SCRIPTED_PF2E_CHARACTER") ~= nil then
             table.insert(objectsToUpdate, #objectsToUpdate + 1, getAllObjects()[i])
         end
     end
     for i=1,#objectsToUpdate do
         objectsToUpdate[i].setLuaScript(charLua)
         objectsToUpdate[i].reload()
-        Wait.frames(function()
+        Wait.time(function()
             objectsToUpdate[i].call("UI_update")
-        end, 10)
+        end, 0.1)
     end
-end
-
-function setCharAutosaveDelay(pl,vl,thisID)
-    if vl == "-1" then
-        charAutosaveDelay = charAutosaveDelay + 1
-        if charAutosaveDelay > 18 then charAutosaveDelay = 1 end
-    elseif vl == "-2" then
-        charAutosaveDelay = charAutosaveDelay - 1
-        if charAutosaveDelay < 1 then charAutosaveDelay = 18 end
-    end
-    applyCharAutosaveDelay()
-end
-
-function applyCharAutosaveDelay()
-    for i=1,#getAllObjects() do
-        if getAllObjects()[i].getVar("THIS_IS_A_SCRIPTED_DND_4E_CHARACTER_TOKEN") != nil then
-            getAllObjects()[i].setVar("autosaveDelay", charAutosaveDelay)
-        end
-    end
-    GM_settingsPanel_UI_update()
 end
 
 function toggleShowEveryDie()
@@ -2120,12 +2069,12 @@ function toggleSaveLastPick()
 end
 
 function onPlayerChangeColor(player_color)
-    if autoPromote and player_color != "Grey" then
-        Wait.frames(function()
+    if autoPromote and player_color ~= "Grey" then
+        Wait.time(function()
             if not Player[player_color].promoted and not Player[player_color].host then
                 Player[player_color].promote()
             end
-        end, 3)
+        end, 0.15)
     end
 end
 
@@ -2143,7 +2092,6 @@ function GM_settingsPanel_UI_update()
         UI_xmlElementUpdate("GM_toolsButton_02", "textOutline", "#ff000000")
         UI_xmlElementUpdate("GM_toolsButton_02", "color", "#cccccccc")
     end
-    UI_xmlElementUpdate("GM_toolsButton_04", "text", "auto save "..(charAutosaveDelay * 10).."s")
     if addCharMode then
         UI_xmlElementUpdate("GM_toolsButton_03", "textOutline", "#0000aa88")
         UI_xmlElementUpdate("GM_toolsButton_03", "color", "#ffffffff")
@@ -2214,7 +2162,7 @@ function miniMap_UI_update()
         all_chars = getAllObjects()
         w = 1
         while #all_chars > w do
-            if all_chars[w].getVar("THIS_IS_A_SCRIPTED_DND_4E_CHARACTER_TOKEN") == nil then
+            if all_chars[w].getVar("SCRIPTED_PF2E_CHARACTER") == nil then
                 table.remove(all_chars, w)
             else
                 w = w + 1
@@ -2271,18 +2219,10 @@ function miniMap_UI_update()
 end
 
 function onObjectDrop(player_color, dropped_object)
-    if dropped_object.getVar("THIS_IS_A_SCRIPTED_DND_4E_CHARACTER_TOKEN") != nil then
+    if dropped_object.getVar("SCRIPTED_PF2E_CHARACTER") ~= nil then
         miniMap_UI_update()
     end
 end
-
---function onObjectHover(player_color, hover_object)
-    --    Wait.frames(function()
-    --        if not hover_object then
-    --            miniMap_UI_update()
-    --        end
-    --    end, 1)
---end
 
 function set_miniMap_unit(pl,vl,thisID)
     defineMiniMapUnit(vl)
@@ -2365,7 +2305,7 @@ function strFromNum(inpNum)
 end
 
 function UI_xmlElementUpdate(xml_ID, xml_attribute, input_string)
-    if self.UI.getAttribute(xml_ID, xml_attribute) != input_string then
+    if self.UI.getAttribute(xml_ID, xml_attribute) ~= input_string then
         self.UI.setAttribute(xml_ID, xml_attribute, input_string)
     end
 end
@@ -2474,7 +2414,7 @@ function stringRoller(inpStr,plr,commStr,rollType,rollCritDmg)   -- Main roller 
                     elseif sidesToRoll == 20 and timesToRoll == 1 then
                         d20_hex = "[ccccee]"
                     end
-                    if atkClicked != 0 then
+                    if atkClicked ~= 0 then
                         if sidesToRoll == 20 and timesToRoll == 1 and thisDieRez >= main_Table[nFromPl(plr)].attacks[atkClicked].minCrit then
                             critRolled = true
                             d20_hex = "[ffff00]"
@@ -2586,13 +2526,13 @@ end
 function loadSelections()
     Wait.time(function()
         for i=1,11 do
-            if lastPickedCharGUID_table[i] != "" and getObjectFromGUID(lastPickedCharGUID_table[i]) !=nil then
-                GetStatsFromToken(i,getObjectFromGUID(lastPickedCharGUID_table[i]))
+            if lastPickedCharGUID_table[i] ~= "" and getObjectFromGUID(lastPickedCharGUID_table[i]) ~= nil then
+                GetStatsFromToken(i, getObjectFromGUID(lastPickedCharGUID_table[i]))
                 getObjectFromGUID(lastPickedCharGUID_table[i]).setVar("Selected", i)
                 getObjectFromGUID(lastPickedCharGUID_table[i]).call("UI_update")
             end
         end
-    end, 2)
+    end, 1)
 end
 
 function checkGUIDtable()

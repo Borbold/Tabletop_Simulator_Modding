@@ -1,27 +1,22 @@
 local function updateSave()
     local data_to_save = {}
-    data_to_save.charSave_table = self:getTable("charSave_table")
+    data_to_save.charSave_table = self.getTable("charSave_table")
     data_to_save.Selected = Selected
 
     local saved_data = JSON.encode(data_to_save)
-    return saved_data
+    self.script_state = saved_data
 end
 -- Функция для загрузки данных персонажа
 function onLoad(saved_data)
-    THIS_IS_A_SCRIPTED_DND_4E_CHARACTER_TOKEN = true
-
-    -- Проверка наличия данных для загрузки
-    if saved_data and saved_data ~= "" then
-        -- Декодирование данных из JSON формата
+    SCRIPTED_PF2E_CHARACTER = true
+    if saved_data ~= "" then
         local loaded_data = JSON.decode(saved_data)
-        self:setTable("charSave_table", loaded_data.charSave_table)
+        self.setTable("charSave_table", loaded_data.charSave_table)
         Selected = loaded_data.Selected
     else
-        -- Установка начальных значений, если данные отсутствуют
         Selected = 0 -- Индекс выбора, 0 - idle
         resetChar()
     end
-
     -- Настройка цветов и интерфейса
     plColorsHexTable = {"#3f3f3f","#ffffff","#703a16","#da1917","#f3631c","#e6e42b","#30b22a","#20b09a","#1e87ff","#9f1fef","#f46fcd"}
     plColors_Table = {"Black","White","Brown","Red","Orange","Yellow","Green","Teal","Blue","Purple","Pink"}
@@ -134,12 +129,10 @@ function UI_update()
             end
         end
     end
-
     -- Обновление портрета
     UI_xmlElementUpdate("bigPortrait", "image", charSave_table.portraitUrl)
     updateSave()
 end
-
 -- Функция для создания эффекта дрожания при выделении
 function selectWobble()
     for i = 1, 5 do
@@ -151,7 +144,6 @@ function selectWobble()
         end, i*2+15)
     end
 end
-
 -- Функция для создания эффекта вращения при выделении
 function selectSpin()
     for i = 1, 3 do
@@ -159,17 +151,6 @@ function selectSpin()
             self.UI.setAttribute("selectedMarkerStar", "rotation", "0,0,"..(i*7))
         end, i*20)
     end
-end
-
--- Функция для случайного изменения состояния персонажа
-function onRandomize(player_color)
-    self:setVelocity({0,0,0})
-    if self.UI.getAttribute("bigPortrait", "active") == "True" then
-        self.UI.setAttribute("bigPortrait", "active", "False")
-    else
-        self.UI.setAttribute("bigPortrait", "active", "True")
-    end
-    UI_update()
 end
 -- Функция для сброса состояния персонажа
 function resetChar()
