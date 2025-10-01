@@ -229,10 +229,10 @@ function onLoad(saved_data)
         language_UI_update()
         mainSheet_UI_update()
         initiative_UI_update()
-    end, 2)
+    end, 3)
     Wait.time(function()
         noCharSelectedPanelCheck()
-    end, 3)
+    end, 4)
 
     Wait.time(function() repetitionUpdate() end, 1, -1)
 
@@ -1880,7 +1880,8 @@ function set_UI_Language(pl,vl,thisID)
     language_UI_update()
 end
 
-function language_UI_update()   --  tooltipBackgroundColor="#000000" tooltipPosition="Above"
+function language_UI_update()
+    print(enumLangSet[lang_set])
     UI_xmlElementUpdate("noCharSelectedBlockText", "text", lang_table[enumLangSet[lang_set]][1])
     for i=1,11 do
         UI_xmlElementUpdate(strFromNum(i).."_charPortraitUrlInput", "tooltip", lang_table[enumLangSet[lang_set]][49])
@@ -1964,8 +1965,8 @@ function language_UI_update()   --  tooltipBackgroundColor="#000000" tooltipPosi
         end
     end
 
-    UI_xmlElementUpdate("UIset_text_01", "text", lang_table[enumLangSet[lang_set]][118])
-    UI_xmlElementUpdate("UIset_text_02", "text", lang_table[enumLangSet[lang_set]][120])
+    UI_xmlElementUpdate("UIset_text_01", "text", lang_table[enumLangSet[lang_set]][117])
+    UI_xmlElementUpdate("UIset_text_02", "text", lang_table[enumLangSet[lang_set]][118])
 
     UI_xmlElementUpdate("addCharModeText", "text", lang_table[enumLangSet[lang_set]][120])
     
@@ -2532,7 +2533,7 @@ function loadSelections()
                 getObjectFromGUID(lastPickedCharGUID_table[i]).call("UI_update")
             end
         end
-    end, 1)
+    end, 2)
 end
 
 function checkGUIDtable()
