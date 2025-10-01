@@ -2149,7 +2149,7 @@ function GM_settingsPanel_UI_update()
 end
 
 --------------------------------------------------------    minimap
-
+local map_zone = nil
 function miniMap_UI_update()
     miniMap_is_open = false
     for i=1,11 do
@@ -2159,11 +2159,23 @@ function miniMap_UI_update()
     end
 
     if miniMap_is_open then
-        all_chars = {}
-        all_chars = getAllObjects()
-        w = 1
-        while #all_chars > w do
-            if all_chars[w].getVar("SCRIPTED_PF2E_CHARACTER") == nil then
+        local all_chars = {}
+        if not map_zone then
+            local allObj = getAllObjects()
+            for i,v in ipairs(allObj) do
+                if v.getName() == "_OW_tZone" then
+                    map_zone = v
+                    all_chars = v.getObjects()
+                    break
+                end
+            end
+        else
+            all_chars = map_zone.getObjects()
+        end
+        if not map_zone then printToAll("Init OW map", {r = 0.7, g = 0.2, b = 0}) return end
+        local w = 1
+        while #all_chars >= w do
+            if not all_chars[w].getVar("SCRIPTED_PF2E_CHARACTER") then
                 table.remove(all_chars, w)
             else
                 w = w + 1
