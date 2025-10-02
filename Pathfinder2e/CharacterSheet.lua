@@ -214,7 +214,6 @@ function onLoad(saved_data)
     copyCharMode = false
 
     Wait.time(function()
-        loadSelections()
         defineMiniMapUnit("◒")
         miniMap_UI_update()
     end, 0.2)
@@ -234,26 +233,8 @@ function onLoad(saved_data)
         noCharSelectedPanelCheck()
     end, 4)
 
-    Wait.time(function() repetitionUpdate() end, 1, -1)
-
     resetCounter = 0
 end
-
--------------------------------------------------------------------------------
--------------------------------------------------------------------------------
-
-function repetitionUpdate()
-    if charBaseSpin then
-        for u=1,11 do
-            if getObjectFromGUID(lastPickedCharGUID_table[u]) ~= nil then
-                getObjectFromGUID(lastPickedCharGUID_table[u]).call("selectSpin")
-            end
-        end
-    end
-end
-
--------------------------------------------------------------------------------
--------------------------------------------------------------------------------
 
 -----------------------------   sheet <-> figurine interactions
 
@@ -1971,7 +1952,6 @@ function language_UI_update()
     UI_xmlElementUpdate("addCharModeText", "text", lang_table[enumLangSet[lang_set]][120])
     
     UI_xmlElementUpdate("GM_toolsButton_01", "tooltip", lang_table[enumLangSet[lang_set]][120])
-    UI_xmlElementUpdate("GM_toolsButton_02", "tooltip", lang_table[enumLangSet[lang_set]][121])
     UI_xmlElementUpdate("GM_toolsButton_03", "tooltip", lang_table[enumLangSet[lang_set]][122])
     UI_xmlElementUpdate("GM_toolsButton_05", "tooltip", lang_table[enumLangSet[lang_set]][124])
     UI_xmlElementUpdate("GM_toolsButton_06", "tooltip", lang_table[enumLangSet[lang_set]][125])
@@ -2534,18 +2514,6 @@ function nFromPlClr(clr)
         end
     end
     return pl_N
-end
-
-function loadSelections()
-    Wait.time(function()
-        for i=1,11 do
-            if lastPickedCharGUID_table[i] ~= "" and getObjectFromGUID(lastPickedCharGUID_table[i]) ~= nil then
-                GetStatsFromToken(i, getObjectFromGUID(lastPickedCharGUID_table[i]))
-                getObjectFromGUID(lastPickedCharGUID_table[i]).setVar("Selected", i)
-                getObjectFromGUID(lastPickedCharGUID_table[i]).call("UI_update")
-            end
-        end
-    end, 2)
 end
 
 function checkGUIDtable()

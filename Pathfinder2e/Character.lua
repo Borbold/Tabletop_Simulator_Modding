@@ -133,25 +133,6 @@ function UI_update()
     UI_xmlElementUpdate("bigPortrait", "image", charSave_table.portraitUrl)
     updateSave()
 end
--- Функция для создания эффекта дрожания при выделении
-function selectWobble()
-    for i = 1, 5 do
-        Wait.frames(function()
-            self.UI.setAttribute("selectedMarker", "scale", (1+(i*0.2))..","..(1+(i*0.2))..","..(1+(i*0.2)))
-        end, i*2+5)
-        Wait.frames(function()
-            self.UI.setAttribute("selectedMarker", "scale", (2-(i*0.2))..","..(2-(i*0.2))..","..(2-(i*0.2)))
-        end, i*2+15)
-    end
-end
--- Функция для создания эффекта вращения при выделении
-function selectSpin()
-    for i = 1, 3 do
-        Wait.frames(function()
-            self.UI.setAttribute("selectedMarkerStar", "rotation", "0,0,"..(i*7))
-        end, i*20)
-    end
-end
 -- Функция для сброса состояния персонажа
 function resetChar()
     charSave_table = {}
