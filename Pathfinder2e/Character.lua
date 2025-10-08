@@ -150,7 +150,7 @@ function resetChar()
     charSave_table.initMod = 0
     charSave_table.pPerceptionMod = 0
     charSave_table.attributes = {10, 10, 10, 10, 10, 10}
-    charSave_table.saves = {Fortitude = false, Reflex = false, Will = false}
+    charSave_table.saves = {Fortitude = 1, Reflex = 1, Will = 1}
     charSave_table.savesMod = {Fortitude = 0, Reflex = 0, Will = 0}
     charSave_table.skills = {}
     for ii = 1, 18 do
