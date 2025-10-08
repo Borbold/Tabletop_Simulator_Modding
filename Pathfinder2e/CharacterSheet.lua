@@ -98,7 +98,7 @@ function onLoad(saved_data)
     initEditPos = 0
     initEditPanelVisible = false
 
-    defSkillsAttr_table = {2, 5, 4, 1, 6, 4, 5, 6, 4, 5, 4, 5, 6, 6, 4, 2, 2, 5}
+    defSkillsAttr_table = {2, 4, 1, 4, 6, 6, 6, 4, 4, 5, 4, 4, 6, 4, 4, 2, 5, 2}
 
     plColors_Table = {"Black","White","Brown","Red","Orange","Yellow","Green","Teal","Blue","Purple","Pink"}
     plColorsHexTable={"#3f3f3f","#ffffff","#703a16","#da1917","#f3631c","#e6e42b","#30b22a","#20b09a","#1e87ff","#9f1fef","#f46fcd"}
@@ -492,6 +492,7 @@ function skillButtonMain(pl,vl,thisID)
             main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].master = false
             main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].legendary = false
         end
+        singleColor_UI_update(nFromPl(pl))
     else
         plColHex = "["..Color[pl.color]:toHex(false).."]"
         thisSkillMod = modFromAttr(main_Table[numFromStr(thisID)].attributes[defSkillsAttr_table[numFromStrEnd(thisID)]]) + main_Table[numFromStr(thisID)].skills[numFromStrEnd(thisID)].mod
@@ -512,7 +513,6 @@ function skillButtonMain(pl,vl,thisID)
             stringRoller("1d20"..PoM(thisSkillMod)..thisSkillMod,pl, rollOutputHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[enumLangSet[lang_set]][numFromStrEnd(thisID) + 14]..":",4,false)
         end
     end
-    singleColor_UI_update(nFromPl(pl))
 end
 
 function setExpert(pl,vl,thisID)
@@ -2243,7 +2243,6 @@ function minimapControl(pl,vl,thisID)
     end
 
     miniMap_UI_update()
-    --miniMap_pingBorder(pl,_,_)
 end
 
 function miniMap_pingBorder(pl,vl,thisID)
