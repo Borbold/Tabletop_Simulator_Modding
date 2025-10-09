@@ -1620,7 +1620,7 @@ function UI_upd(i)
 
     UI_xmlElementUpdate(strFromNum(i).."_charName", "text", main_Table[i].charName)
     UI_xmlElementUpdate(strFromNum(i).."_charLvl", "text", lang_table[enumLangSet[lang_set]][2]..main_Table[i].charLvl)
-    UI_xmlElementUpdate(strFromNum(i).."_charAC", "text", lang_table[enumLangSet[lang_set]][3]..main_Table[i].AC)
+    UI_xmlElementUpdate(strFromNum(i).."_charAC", "text", main_Table[i].AC)
     UI_xmlElementUpdate(strFromNum(i).."_charSpeed", "text", lang_table[enumLangSet[lang_set]][4]..main_Table[i].speed)
 
     if main_Table[i].initMod ~= 0 then initModStr = "  ("..PoM(main_Table[i].initMod)..main_Table[i].initMod..")" else initModStr = "" end
@@ -1679,7 +1679,7 @@ function UI_upd(i)
         UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..smN, "color", colorStr)
     end
 
-    for ii=1, 18 do
+    for ii = 1, 18 do
         colorStr = "#ffffff"
         if main_Table[i].skills[ii].proficient then colorStr = "#575757ff" end
         if main_Table[i].skills[ii].expert then eStr = " ("..lang_table[enumLangSet[lang_set]][33]..")" else eStr = "" end
@@ -1702,12 +1702,12 @@ function UI_upd(i)
         UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "tooltip", "d20"..PoM(thisSkillMod)..thisSkillMod)
     end
 
-    for ii=1,10 do
+    for ii = 1, 10 do
         UI_xmlElementUpdate(strFromNum(i).."_atkButtonImg_"..strFromNum(ii),"image",atkIconsUrl_Table[main_Table[i].attacks[ii].icon])
         UI_xmlElementUpdate(strFromNum(i).."_atkButton_"..strFromNum(ii),"tooltip",main_Table[i].attacks[ii].atkName)
     end
 
-    for ii=1,9 do
+    for ii = 1, 9 do
         spellButtonStr = ""
         for iii=1,main_Table[i].splSlotsMax[ii] do
             if iii <= main_Table[i].splSlots[ii] then

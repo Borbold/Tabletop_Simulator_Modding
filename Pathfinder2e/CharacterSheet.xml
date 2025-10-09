@@ -4,7 +4,7 @@
     <Button resizeTextForBestFit="True" resizeTextMaxSize='20' font='Fonts/Allods' tooltipFont='Fonts/Allods' colors='#FFFFFFa0|#FFFFFFa0|#C8C8C8a0|rgba(0.78,0.78,0.78,0.5)' tooltipPosition="Above" />
     <Cell dontUseTableCellBackground='true' />
     <!--   -->
-    <Button class="skillButton" onClick="skillButtonMain" textAlignment="MiddleLeft" preferredWidth="170" tooltipBackgroundColor="#000000" />
+    <Button class="skillButton" onClick="skillButtonMain" text="SKILL (atr) +2" textAlignment="MiddleLeft" preferredWidth="170" tooltipBackgroundColor="#000000" />
     <Button class="atkButton" color="#ffffff08" onClick="atkButton" tooltipBackgroundColor="#000044" tooltip="atkTooltip" />
     <Button class="spellSlotButton" fontStyle="bold" textAlignment="MiddleLeft" text=" 1. ●●●○○○" onClick="spellSlotButtonMain" />
     <Text class="resTextName" resizeTextMaxSize="16" Alignment="MiddleLeft" fontStyle="bold" text= " 1. resourseName" />
@@ -17,17 +17,20 @@
     <Image class="atkButtonImg" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" />
     <Image class="atkEditIconImg" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" />
     <Image class="charPortrait" preserveAspect="true" height="100" width="100" image="https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/" />
-    <Text class="charNameText" text="Name" fontStyle="bold" />
-    <Text class="charStatText" fontStyle="bold" preferredWidth="100" />
-    <Text class="charAttrValueText" text="15" fontStyle="bold" />
-    <Button class="charAttrModButton" text="+2" fontStyle="bold" preferredWidth="28" onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-    <Button class="charInitAddButton" text="initiative" preferredWidth='100' onClick="addCharToInitiative" tooltipBackgroundColor="#000000" />
-    <Button class="charAttrEditButton" onClick="setCharAttr" text="+" />
+    <Text class="charName" text="Name" fontStyle="bold" />
+    <Text class="charLevel" fontStyle="bold" preferredWidth="120" text='Level: 1' />
+    <Button class="charAC" fontStyle="bold" preferredWidth="30" text='12' image='Icon_Shield' interactable='false' />
+    <Text class="charSpeed" fontStyle="bold" preferredWidth="120" text='Speed: 30' />
+    <Text class="charAttrValue" text="15" fontStyle="bold" />
+    <Button class="charAttrMod" text="+2" onClick='rollAttribute' resizeTextMaxSize='50' fontStyle="bold" preferredWidth="20" />
+    <Button class="charInitAdd" text="initiative" preferredWidth='100' onClick="addCharToInitiative" tooltipBackgroundColor="#000000" />
+    <Button class="charAttrEdit" onClick="setCharAttr" text="+" />
     <Panel class="charHPbar" width="110" height="60" offsetXY="-170 -20" color="#ff8888" outline="#aa444488" outlineSize="2 -2" />
-    <Text class="charHPtext" text="46 / 100" offsetXY="0 -20" resizeTextMaxSize='50' color="#880000" outline="#ffaaaa" fontStyle="bold" />
+    <Text class="charHP" text="46 / 100" offsetXY="0 -20" resizeTextMaxSize='50' color="#880000" outline="#ffaaaa" fontStyle="bold" />
     <Text class="charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" resizeTextMaxSize="25" fontStyle="bold" offsetXY="120,-15" />
     <InputField class="charHealDmgValueInput" color="#dddddd" placeholder="value" characterValidation="Integer" preferredWidth="100" onEndEdit="setCharHealDmgVal" tooltipBackgroundColor="#000000" />
     <Button class="charSaveButton" resizeTextMinSize="5" onClick="charSaveButton" text="S" tooltipBackgroundColor="#000000" />
+    <Button class="assignedPlayerButton" text="●" resizeTextMaxSize="25" textOutline="#cccccc" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" />
 </Defaults>
 
 <Panel id="addCharModePanel" color="#0000aa22" visibility="Black" active="False">
@@ -74,22 +77,42 @@
         <Panel color="#dddddd" />
     </VerticalLayout>
     <Panel id="assignedPlayersPanel" color="#ffffff" rectAlignment="LowerCenter" height="60" width="190" offsetXY="-495,400" visibility="noone" outline="#440044ff" outlineSize="1 -1">
-        <VerticalLayout>
-            <HorizontalLayout>
-                <Button text="●" id="assighedPlayerButton_02" resizeTextMaxSize="25" textOutline="#cccccc" color="#ffffff" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" />
-                <Button text="●" id="assighedPlayerButton_03" resizeTextMaxSize="25" textOutline="#cccccc" color="#703a16" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" />
-                <Button text="●" id="assighedPlayerButton_04" resizeTextMaxSize="25" textOutline="#cccccc" color="#da1917" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" />
-                <Button text="●" id="assighedPlayerButton_05" resizeTextMaxSize="25" textOutline="#cccccc" color="#f3631c" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" />
-                <Button text="●" id="assighedPlayerButton_06" resizeTextMaxSize="25" textOutline="#cccccc" color="#e6e42b" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" />
-            </HorizontalLayout>
-            <HorizontalLayout>
-                <Button text="●" id="assighedPlayerButton_07" resizeTextMaxSize="25" textOutline="#cccccc" color="#30b22a" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" />
-                <Button text="●" id="assighedPlayerButton_08" resizeTextMaxSize="25" textOutline="#cccccc" color="#20b09a" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" />
-                <Button text="●" id="assighedPlayerButton_09" resizeTextMaxSize="25" textOutline="#cccccc" color="#1e87ff" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" />
-                <Button text="●" id="assighedPlayerButton_10" resizeTextMaxSize="25" textOutline="#cccccc" color="#9f1fef" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" />
-                <Button text="●" id="assighedPlayerButton_11" resizeTextMaxSize="25" textOutline="#cccccc" color="#f46fcd" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" />
-            </HorizontalLayout>
-        </VerticalLayout>
+        <TableLayout>
+            <Row>
+                <Cell>
+                    <Button id="assighedPlayerButton_02" class="assignedPlayerButton" color="#ffffff" />
+                </Cell>
+                <Cell>
+                    <Button id="assighedPlayerButton_03" class="assignedPlayerButton" color="#703a16" />
+                </Cell>
+                <Cell>
+                    <Button id="assighedPlayerButton_04" class="assignedPlayerButton" color="#da1917" />
+                </Cell>
+                <Cell>
+                    <Button id="assighedPlayerButton_05" class="assignedPlayerButton" color="#f3631c" />
+                </Cell>
+                <Cell>
+                    <Button id="assighedPlayerButton_06" class="assignedPlayerButton" color="#e6e42b" />
+                </Cell>
+            </Row>
+            <Row>
+                <Cell>
+                    <Button id="assighedPlayerButton_07" class="assignedPlayerButton" color="#30b22a" />
+                </Cell>
+                <Cell>
+                    <Button id="assighedPlayerButton_08" class="assignedPlayerButton" color="#20b09a" />
+                </Cell>
+                <Cell>
+                    <Button id="assighedPlayerButton_09" class="assignedPlayerButton" color="#1e87ff" />
+                </Cell>
+                <Cell>
+                    <Button id="assighedPlayerButton_10" class="assignedPlayerButton" color="#9f1fef" />
+                </Cell>
+                <Cell>
+                    <Button id="assighedPlayerButton_11" class="assignedPlayerButton" color="#f46fcd" />
+                </Cell>
+            </Row>
+        </TableLayout>
         <Button text="hide" fontStyle="bold" id="setInvisButton" height="30" width="150" offsetXY="0 45" textOutline="#cccccc" color="#cccccc" onClick="toggleInvisible" tooltipBackgroundColor="#000000" />
     </Panel>
     <Panel id="charPortraitNameInputsPanel" visibility="noone"> <!-- EDIT TOGGLE -->
@@ -125,62 +148,62 @@
             <VerticalLayout preferredWidth="300">
                 <!-- Character Names - Generated for all 11 colors -->
                 <HorizontalLayout>
-                    <Text class="charNameText" id="01_charName" visibility="Black" />
-                    <Text class="charNameText" id="02_charName" visibility="White" />
-                    <Text class="charNameText" id="03_charName" visibility="Brown" />
-                    <Text class="charNameText" id="04_charName" visibility="Red" />
-                    <Text class="charNameText" id="05_charName" visibility="Orange" />
-                    <Text class="charNameText" id="06_charName" visibility="Yellow" />
-                    <Text class="charNameText" id="07_charName" visibility="Green" />
-                    <Text class="charNameText" id="08_charName" visibility="Teal" />
-                    <Text class="charNameText" id="09_charName" visibility="Blue" />
-                    <Text class="charNameText" id="10_charName" visibility="Purple" />
-                    <Text class="charNameText" id="11_charName" visibility="Pink" />
+                    <Text class="charName" id="01_charName" visibility="Black" />
+                    <Text class="charName" id="02_charName" visibility="White" />
+                    <Text class="charName" id="03_charName" visibility="Brown" />
+                    <Text class="charName" id="04_charName" visibility="Red" />
+                    <Text class="charName" id="05_charName" visibility="Orange" />
+                    <Text class="charName" id="06_charName" visibility="Yellow" />
+                    <Text class="charName" id="07_charName" visibility="Green" />
+                    <Text class="charName" id="08_charName" visibility="Teal" />
+                    <Text class="charName" id="09_charName" visibility="Blue" />
+                    <Text class="charName" id="10_charName" visibility="Purple" />
+                    <Text class="charName" id="11_charName" visibility="Pink" />
                 </HorizontalLayout>
                 <!-- Character Level - Generated for all 11 colors -->
                 <HorizontalLayout>
-                    <Text class="charStatText" id="01_charLvl" text="Lvl: 20" visibility="Black" />
-                    <Text class="charStatText" id="02_charLvl" text="Lvl: 20" visibility="White" />
-                    <Text class="charStatText" id="03_charLvl" text="Lvl: 20" visibility="Brown" />
-                    <Text class="charStatText" id="04_charLvl" text="Lvl: 20" visibility="Red" />
-                    <Text class="charStatText" id="05_charLvl" text="Lvl: 20" visibility="Orange" />
-                    <Text class="charStatText" id="06_charLvl" text="Lvl: 20" visibility="Yellow" />
-                    <Text class="charStatText" id="07_charLvl" text="Lvl: 20" visibility="Green" />
-                    <Text class="charStatText" id="08_charLvl" text="Lvl: 20" visibility="Teal" />
-                    <Text class="charStatText" id="09_charLvl" text="Lvl: 20" visibility="Blue" />
-                    <Text class="charStatText" id="10_charLvl" text="Lvl: 20" visibility="Purple" />
-                    <Text class="charStatText" id="11_charLvl" text="Lvl: 20" visibility="Pink" />
+                    <Text class="charLevel" id="01_charLvl" text="Lvl: 20" visibility="Black" />
+                    <Text class="charLevel" id="02_charLvl" text="Lvl: 20" visibility="White" />
+                    <Text class="charLevel" id="03_charLvl" text="Lvl: 20" visibility="Brown" />
+                    <Text class="charLevel" id="04_charLvl" text="Lvl: 20" visibility="Red" />
+                    <Text class="charLevel" id="05_charLvl" text="Lvl: 20" visibility="Orange" />
+                    <Text class="charLevel" id="06_charLvl" text="Lvl: 20" visibility="Yellow" />
+                    <Text class="charLevel" id="07_charLvl" text="Lvl: 20" visibility="Green" />
+                    <Text class="charLevel" id="08_charLvl" text="Lvl: 20" visibility="Teal" />
+                    <Text class="charLevel" id="09_charLvl" text="Lvl: 20" visibility="Blue" />
+                    <Text class="charLevel" id="10_charLvl" text="Lvl: 20" visibility="Purple" />
+                    <Text class="charLevel" id="11_charLvl" text="Lvl: 20" visibility="Pink" />
                     <VerticalLayout id="charLvlEdit" preferredWidth="20" visibility="noone" > <!-- EDIT TOGGLE -->
                         <Button id="charLvlButton_01" onClick="setCharLvl" text="+" />
                         <Button id="charLvlButton_02" onClick="setCharLvl" text="-" />
                     </VerticalLayout>
                     <!-- Character AC - Generated for all 11 colors -->
-                    <Text class="charStatText" id="01_charAC" text="AC: 12" visibility="Black" />
-                    <Text class="charStatText" id="02_charAC" text="AC: 12" visibility="White" />
-                    <Text class="charStatText" id="03_charAC" text="AC: 12" visibility="Brown" />
-                    <Text class="charStatText" id="04_charAC" text="AC: 12" visibility="Red" />
-                    <Text class="charStatText" id="05_charAC" text="AC: 12" visibility="Orange" />
-                    <Text class="charStatText" id="06_charAC" text="AC: 12" visibility="Yellow" />
-                    <Text class="charStatText" id="07_charAC" text="AC: 12" visibility="Green" />
-                    <Text class="charStatText" id="08_charAC" text="AC: 12" visibility="Teal" />
-                    <Text class="charStatText" id="09_charAC" text="AC: 12" visibility="Blue" />
-                    <Text class="charStatText" id="10_charAC" text="AC: 12" visibility="Purple" />
-                    <Text class="charStatText" id="11_charAC" text="AC: 12" visibility="Pink" />
+                    <Button class="charAC" id="01_charAC" text="AC: 12" visibility="Black" />
+                    <Button class="charAC" id="02_charAC" text="AC: 12" visibility="White" />
+                    <Button class="charAC" id="03_charAC" text="AC: 12" visibility="Brown" />
+                    <Button class="charAC" id="04_charAC" text="AC: 12" visibility="Red" />
+                    <Button class="charAC" id="05_charAC" text="AC: 12" visibility="Orange" />
+                    <Button class="charAC" id="06_charAC" text="AC: 12" visibility="Yellow" />
+                    <Button class="charAC" id="07_charAC" text="AC: 12" visibility="Green" />
+                    <Button class="charAC" id="08_charAC" text="AC: 12" visibility="Teal" />
+                    <Button class="charAC" id="09_charAC" text="AC: 12" visibility="Blue" />
+                    <Button class="charAC" id="10_charAC" text="AC: 12" visibility="Purple" />
+                    <Button class="charAC" id="11_charAC" text="AC: 12" visibility="Pink" />
                     <VerticalLayout id="charACedit" preferredWidth="20" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charACbutton_01" onClick="setCharAC" text="+" />
                         <Button id="charACbutton_02" onClick="setCharAC" text="-" />
                     </VerticalLayout>
-                    <Text id="01_charSpeed" resizeTextMaxSize="16" text="spd: 180" fontStyle="bold" preferredWidth="100" visibility="Black"  />
-                    <Text id="02_charSpeed" resizeTextMaxSize="16" text="spd: 180" fontStyle="bold" preferredWidth="100" visibility="White"  />
-                    <Text id="03_charSpeed" resizeTextMaxSize="16" text="spd: 180" fontStyle="bold" preferredWidth="100" visibility="Brown"  />
-                    <Text id="04_charSpeed" resizeTextMaxSize="16" text="spd: 180" fontStyle="bold" preferredWidth="100" visibility="Red"    />
-                    <Text id="05_charSpeed" resizeTextMaxSize="16" text="spd: 180" fontStyle="bold" preferredWidth="100" visibility="Orange" />
-                    <Text id="06_charSpeed" resizeTextMaxSize="16" text="spd: 180" fontStyle="bold" preferredWidth="100" visibility="Yellow" />
-                    <Text id="07_charSpeed" resizeTextMaxSize="16" text="spd: 180" fontStyle="bold" preferredWidth="100" visibility="Green"  />
-                    <Text id="08_charSpeed" resizeTextMaxSize="16" text="spd: 180" fontStyle="bold" preferredWidth="100" visibility="Teal"   />
-                    <Text id="09_charSpeed" resizeTextMaxSize="16" text="spd: 180" fontStyle="bold" preferredWidth="100" visibility="Blue"   />
-                    <Text id="10_charSpeed" resizeTextMaxSize="16" text="spd: 180" fontStyle="bold" preferredWidth="100" visibility="Purple" />
-                    <Text id="11_charSpeed" resizeTextMaxSize="16" text="spd: 180" fontStyle="bold" preferredWidth="100" visibility="Pink"   />
+                    <Text class="charSpeed" id="01_charSpeed" visibility="Black"  />
+                    <Text class="charSpeed" id="02_charSpeed" visibility="White"  />
+                    <Text class="charSpeed" id="03_charSpeed" visibility="Brown"  />
+                    <Text class="charSpeed" id="04_charSpeed" visibility="Red"    />
+                    <Text class="charSpeed" id="05_charSpeed" visibility="Orange" />
+                    <Text class="charSpeed" id="06_charSpeed" visibility="Yellow" />
+                    <Text class="charSpeed" id="07_charSpeed" visibility="Green"  />
+                    <Text class="charSpeed" id="08_charSpeed" visibility="Teal"   />
+                    <Text class="charSpeed" id="09_charSpeed" visibility="Blue"   />
+                    <Text class="charSpeed" id="10_charSpeed" visibility="Purple" />
+                    <Text class="charSpeed" id="11_charSpeed" visibility="Pink"   />
                     <VerticalLayout id="charSpeedEdit" preferredWidth="20" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charSpeedButton_01" onClick="setCharSpeed" text="+" />
                         <Button id="charSpeedButton_02" onClick="setCharSpeed" text="-" />
@@ -188,17 +211,17 @@
                 </HorizontalLayout>
                 <HorizontalLayout preferredHeight='25'>
                     <Text preferredWidth="10" />
-                    <Button id="charInitAddButton_01" class="charInitAddButton" visibility="Black"  />
-                    <Button id="charInitAddButton_02" class="charInitAddButton" visibility="White"  />
-                    <Button id="charInitAddButton_03" class="charInitAddButton" visibility="Brown"  />
-                    <Button id="charInitAddButton_04" class="charInitAddButton" visibility="Red"    />
-                    <Button id="charInitAddButton_05" class="charInitAddButton" visibility="Orange" />
-                    <Button id="charInitAddButton_06" class="charInitAddButton" visibility="Yellow" />
-                    <Button id="charInitAddButton_07" class="charInitAddButton" visibility="Green"  />
-                    <Button id="charInitAddButton_08" class="charInitAddButton" visibility="Teal"   />
-                    <Button id="charInitAddButton_09" class="charInitAddButton" visibility="Blue"   />
-                    <Button id="charInitAddButton_10" class="charInitAddButton" visibility="Purple" />
-                    <Button id="charInitAddButton_11" class="charInitAddButton" visibility="Pink"   />
+                    <Button id="charInitAddButton_01" class="charInitAdd" visibility="Black"  />
+                    <Button id="charInitAddButton_02" class="charInitAdd" visibility="White"  />
+                    <Button id="charInitAddButton_03" class="charInitAdd" visibility="Brown"  />
+                    <Button id="charInitAddButton_04" class="charInitAdd" visibility="Red"    />
+                    <Button id="charInitAddButton_05" class="charInitAdd" visibility="Orange" />
+                    <Button id="charInitAddButton_06" class="charInitAdd" visibility="Yellow" />
+                    <Button id="charInitAddButton_07" class="charInitAdd" visibility="Green"  />
+                    <Button id="charInitAddButton_08" class="charInitAdd" visibility="Teal"   />
+                    <Button id="charInitAddButton_09" class="charInitAdd" visibility="Blue"   />
+                    <Button id="charInitAddButton_10" class="charInitAdd" visibility="Purple" />
+                    <Button id="charInitAddButton_11" class="charInitAdd" visibility="Pink"   />
                     <VerticalLayout id="charInitEdit" preferredWidth="20" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charInitModButton_01" onClick="setCharInitMod" text="+" />
                         <Button id="charInitModButton_02" onClick="setCharInitMod" text="-" />
@@ -237,17 +260,17 @@
                 <Panel id="10_charHPbar" class="charHPbar" visibility="Purple" />
                 <Panel id="11_charHPbar" class="charHPbar" visibility="Pink" />
 
-                <Text id="01_charHPtext" class="charHPtext" visibility="Black" />
-                <Text id="02_charHPtext" class="charHPtext" visibility="White" />
-                <Text id="03_charHPtext" class="charHPtext" visibility="Brown" />
-                <Text id="04_charHPtext" class="charHPtext" visibility="Red" />
-                <Text id="05_charHPtext" class="charHPtext" visibility="Orange" />
-                <Text id="06_charHPtext" class="charHPtext" visibility="Yellow" />
-                <Text id="07_charHPtext" class="charHPtext" visibility="Green" />
-                <Text id="08_charHPtext" class="charHPtext" visibility="Teal" />
-                <Text id="09_charHPtext" class="charHPtext" visibility="Blue" />
-                <Text id="10_charHPtext" class="charHPtext" visibility="Purple" />
-                <Text id="11_charHPtext" class="charHPtext" visibility="Pink" />
+                <Text id="01_charHPtext" class="charHP" visibility="Black" />
+                <Text id="02_charHPtext" class="charHP" visibility="White" />
+                <Text id="03_charHPtext" class="charHP" visibility="Brown" />
+                <Text id="04_charHPtext" class="charHP" visibility="Red" />
+                <Text id="05_charHPtext" class="charHP" visibility="Orange" />
+                <Text id="06_charHPtext" class="charHP" visibility="Yellow" />
+                <Text id="07_charHPtext" class="charHP" visibility="Green" />
+                <Text id="08_charHPtext" class="charHP" visibility="Teal" />
+                <Text id="09_charHPtext" class="charHP" visibility="Blue" />
+                <Text id="10_charHPtext" class="charHP" visibility="Purple" />
+                <Text id="11_charHPtext" class="charHP" visibility="Pink" />
 
                 <Text id="01_charTempHPtext" class="charTempHPtext" visibility="Black" />
                 <Text id="02_charTempHPtext" class="charTempHPtext" visibility="White" />
@@ -356,36 +379,36 @@
                 <HorizontalLayout>
                     <!-- STR Attribute - Edit buttons -->
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_1" visibility="noone">
-                        <Button class="charAttrEditButton" id="01_charAttrEdButton_01" />
-                        <Button class="charAttrEditButton" id="02_charAttrEdButton_01" text="-" />
+                        <Button class="charAttrEdit" id="01_charAttrEdButton_01" />
+                        <Button class="charAttrEdit" id="02_charAttrEdButton_01" text="-" />
                     </VerticalLayout>
                     <!-- STR Attribute - Values for all colors -->
                     <VerticalLayout preferredWidth="50">
                         <Text id="attrName_01" text="STR" fontStyle="bold" />
-                        <Text class="charAttrValueText" id="01_charAttrValue_01" visibility="Black" />
-                        <Text class="charAttrValueText" id="02_charAttrValue_01" visibility="White" />
-                        <Text class="charAttrValueText" id="03_charAttrValue_01" visibility="Brown" />
-                        <Text class="charAttrValueText" id="04_charAttrValue_01" visibility="Red" />
-                        <Text class="charAttrValueText" id="05_charAttrValue_01" visibility="Orange" />
-                        <Text class="charAttrValueText" id="06_charAttrValue_01" visibility="Yellow" />
-                        <Text class="charAttrValueText" id="07_charAttrValue_01" visibility="Green" />
-                        <Text class="charAttrValueText" id="08_charAttrValue_01" visibility="Teal" />
-                        <Text class="charAttrValueText" id="09_charAttrValue_01" visibility="Blue" />
-                        <Text class="charAttrValueText" id="10_charAttrValue_01" visibility="Purple" />
-                        <Text class="charAttrValueText" id="11_charAttrValue_01" visibility="Pink" />
+                        <Text class="charAttrValue" id="01_charAttrValue_01" visibility="Black" />
+                        <Text class="charAttrValue" id="02_charAttrValue_01" visibility="White" />
+                        <Text class="charAttrValue" id="03_charAttrValue_01" visibility="Brown" />
+                        <Text class="charAttrValue" id="04_charAttrValue_01" visibility="Red" />
+                        <Text class="charAttrValue" id="05_charAttrValue_01" visibility="Orange" />
+                        <Text class="charAttrValue" id="06_charAttrValue_01" visibility="Yellow" />
+                        <Text class="charAttrValue" id="07_charAttrValue_01" visibility="Green" />
+                        <Text class="charAttrValue" id="08_charAttrValue_01" visibility="Teal" />
+                        <Text class="charAttrValue" id="09_charAttrValue_01" visibility="Blue" />
+                        <Text class="charAttrValue" id="10_charAttrValue_01" visibility="Purple" />
+                        <Text class="charAttrValue" id="11_charAttrValue_01" visibility="Pink" />
                     </VerticalLayout>
                     <!-- STR Attribute - Modifier buttons for all colors -->
-                    <Button class="charAttrModButton" id="01_charAttrMod_01" visibility="Black" />
-                    <Button class="charAttrModButton" id="02_charAttrMod_01" visibility="White" />
-                    <Button class="charAttrModButton" id="03_charAttrMod_01" visibility="Brown" />
-                    <Button class="charAttrModButton" id="04_charAttrMod_01" visibility="Red" />
-                    <Button class="charAttrModButton" id="05_charAttrMod_01" visibility="Orange" />
-                    <Button class="charAttrModButton" id="06_charAttrMod_01" visibility="Yellow" />
-                    <Button class="charAttrModButton" id="07_charAttrMod_01" visibility="Green" />
-                    <Button class="charAttrModButton" id="08_charAttrMod_01" visibility="Teal" />
-                    <Button class="charAttrModButton" id="09_charAttrMod_01" visibility="Blue" />
-                    <Button class="charAttrModButton" id="10_charAttrMod_01" visibility="Purple" />
-                    <Button class="charAttrModButton" id="11_charAttrMod_01" visibility="Pink" />
+                    <Button class="charAttrMod" id="01_charAttrMod_01" visibility="Black" />
+                    <Button class="charAttrMod" id="02_charAttrMod_01" visibility="White" />
+                    <Button class="charAttrMod" id="03_charAttrMod_01" visibility="Brown" />
+                    <Button class="charAttrMod" id="04_charAttrMod_01" visibility="Red" />
+                    <Button class="charAttrMod" id="05_charAttrMod_01" visibility="Orange" />
+                    <Button class="charAttrMod" id="06_charAttrMod_01" visibility="Yellow" />
+                    <Button class="charAttrMod" id="07_charAttrMod_01" visibility="Green" />
+                    <Button class="charAttrMod" id="08_charAttrMod_01" visibility="Teal" />
+                    <Button class="charAttrMod" id="09_charAttrMod_01" visibility="Blue" />
+                    <Button class="charAttrMod" id="10_charAttrMod_01" visibility="Purple" />
+                    <Button class="charAttrMod" id="11_charAttrMod_01" visibility="Pink" />
                 </HorizontalLayout>
                 <HorizontalLayout>
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_2" visibility="noone"> <!-- EDIT TOGGLE -->
@@ -406,17 +429,17 @@
                         <Text id="10_charAttrValue_02" text="15" fontStyle="bold" visibility="Purple" />
                         <Text id="11_charAttrValue_02" text="15" fontStyle="bold" visibility="Pink"   />
                     </VerticalLayout>
-                    <Button preferredWidth="30" id="01_charAttrMod_02" text="+2" fontStyle="bold" visibility="Black"  onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="02_charAttrMod_02" text="+2" fontStyle="bold" visibility="White"  onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="03_charAttrMod_02" text="+2" fontStyle="bold" visibility="Brown"  onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="04_charAttrMod_02" text="+2" fontStyle="bold" visibility="Red"    onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="05_charAttrMod_02" text="+2" fontStyle="bold" visibility="Orange" onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="06_charAttrMod_02" text="+2" fontStyle="bold" visibility="Yellow" onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="07_charAttrMod_02" text="+2" fontStyle="bold" visibility="Green"  onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="08_charAttrMod_02" text="+2" fontStyle="bold" visibility="Teal"   onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="09_charAttrMod_02" text="+2" fontStyle="bold" visibility="Blue"   onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="10_charAttrMod_02" text="+2" fontStyle="bold" visibility="Purple" onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="11_charAttrMod_02" text="+2" fontStyle="bold" visibility="Pink"   onClick="rollAttribute" tooltipBackgroundColor="#000000" />
+                    <Button class="charAttrMod" id="01_charAttrMod_02" visibility="Black" />
+                    <Button class="charAttrMod" id="02_charAttrMod_02" visibility="White" />
+                    <Button class="charAttrMod" id="03_charAttrMod_02" visibility="Brown" />
+                    <Button class="charAttrMod" id="04_charAttrMod_02" visibility="Red"   />
+                    <Button class="charAttrMod" id="05_charAttrMod_02" visibility="Orange" />
+                    <Button class="charAttrMod" id="06_charAttrMod_02" visibility="Yellow" />
+                    <Button class="charAttrMod" id="07_charAttrMod_02" visibility="Green" />
+                    <Button class="charAttrMod" id="08_charAttrMod_02" visibility="Teal"  />
+                    <Button class="charAttrMod" id="09_charAttrMod_02" visibility="Blue"  />
+                    <Button class="charAttrMod" id="10_charAttrMod_02" visibility="Purple" />
+                    <Button class="charAttrMod" id="11_charAttrMod_02" visibility="Pink"  />
                 </HorizontalLayout>
                 <HorizontalLayout>
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_3" visibility="noone"> <!-- EDIT TOGGLE -->
@@ -437,17 +460,17 @@
                         <Text id="10_charAttrValue_03" text="15" fontStyle="bold" visibility="Purple" />
                         <Text id="11_charAttrValue_03" text="15" fontStyle="bold" visibility="Pink"   />
                     </VerticalLayout>
-                    <Button preferredWidth="30" id="01_charAttrMod_03" text="+2" fontStyle="bold" visibility="Black"  onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="02_charAttrMod_03" text="+2" fontStyle="bold" visibility="White"  onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="03_charAttrMod_03" text="+2" fontStyle="bold" visibility="Brown"  onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="04_charAttrMod_03" text="+2" fontStyle="bold" visibility="Red"    onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="05_charAttrMod_03" text="+2" fontStyle="bold" visibility="Orange" onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="06_charAttrMod_03" text="+2" fontStyle="bold" visibility="Yellow" onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="07_charAttrMod_03" text="+2" fontStyle="bold" visibility="Green"  onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="08_charAttrMod_03" text="+2" fontStyle="bold" visibility="Teal"   onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="09_charAttrMod_03" text="+2" fontStyle="bold" visibility="Blue"   onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="10_charAttrMod_03" text="+2" fontStyle="bold" visibility="Purple" onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="11_charAttrMod_03" text="+2" fontStyle="bold" visibility="Pink"   onClick="rollAttribute" tooltipBackgroundColor="#000000" />
+                    <Button class="charAttrMod" id="01_charAttrMod_03" visibility="Black" />
+                    <Button class="charAttrMod" id="02_charAttrMod_03" visibility="White" />
+                    <Button class="charAttrMod" id="03_charAttrMod_03" visibility="Brown" />
+                    <Button class="charAttrMod" id="04_charAttrMod_03" visibility="Red"   />
+                    <Button class="charAttrMod" id="05_charAttrMod_03" visibility="Orange" />
+                    <Button class="charAttrMod" id="06_charAttrMod_03" visibility="Yellow" />
+                    <Button class="charAttrMod" id="07_charAttrMod_03" visibility="Green" />
+                    <Button class="charAttrMod" id="08_charAttrMod_03" visibility="Teal"  />
+                    <Button class="charAttrMod" id="09_charAttrMod_03" visibility="Blue"  />
+                    <Button class="charAttrMod" id="10_charAttrMod_03" visibility="Purple" />
+                    <Button class="charAttrMod" id="11_charAttrMod_03" visibility="Pink"  />
                 </HorizontalLayout>
                 <HorizontalLayout>
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_4" visibility="noone"> <!-- EDIT TOGGLE -->
@@ -468,17 +491,17 @@
                         <Text id="10_charAttrValue_04" text="15" fontStyle="bold" visibility="Purple" />
                         <Text id="11_charAttrValue_04" text="15" fontStyle="bold" visibility="Pink"   />
                     </VerticalLayout>
-                    <Button preferredWidth="30" id="01_charAttrMod_04" text="+2" fontStyle="bold" visibility="Black"  onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="02_charAttrMod_04" text="+2" fontStyle="bold" visibility="White"  onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="03_charAttrMod_04" text="+2" fontStyle="bold" visibility="Brown"  onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="04_charAttrMod_04" text="+2" fontStyle="bold" visibility="Red"    onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="05_charAttrMod_04" text="+2" fontStyle="bold" visibility="Orange" onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="06_charAttrMod_04" text="+2" fontStyle="bold" visibility="Yellow" onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="07_charAttrMod_04" text="+2" fontStyle="bold" visibility="Green"  onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="08_charAttrMod_04" text="+2" fontStyle="bold" visibility="Teal"   onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="09_charAttrMod_04" text="+2" fontStyle="bold" visibility="Blue"   onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="10_charAttrMod_04" text="+2" fontStyle="bold" visibility="Purple" onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="11_charAttrMod_04" text="+2" fontStyle="bold" visibility="Pink"   onClick="rollAttribute" tooltipBackgroundColor="#000000" />
+                    <Button class="charAttrMod" id="01_charAttrMod_04" visibility="Black" />
+                    <Button class="charAttrMod" id="02_charAttrMod_04" visibility="White" />
+                    <Button class="charAttrMod" id="03_charAttrMod_04" visibility="Brown" />
+                    <Button class="charAttrMod" id="04_charAttrMod_04" visibility="Red"   />
+                    <Button class="charAttrMod" id="05_charAttrMod_04" visibility="Orange" />
+                    <Button class="charAttrMod" id="06_charAttrMod_04" visibility="Yellow" />
+                    <Button class="charAttrMod" id="07_charAttrMod_04" visibility="Green" />
+                    <Button class="charAttrMod" id="08_charAttrMod_04" visibility="Teal"  />
+                    <Button class="charAttrMod" id="09_charAttrMod_04" visibility="Blue"  />
+                    <Button class="charAttrMod" id="10_charAttrMod_04" visibility="Purple" />
+                    <Button class="charAttrMod" id="11_charAttrMod_04" visibility="Pink"  />
                 </HorizontalLayout>
                 <HorizontalLayout>
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_5" visibility="noone"> <!-- EDIT TOGGLE -->
@@ -499,17 +522,17 @@
                         <Text id="10_charAttrValue_05" text="15" fontStyle="bold" visibility="Purple" />
                         <Text id="11_charAttrValue_05" text="15" fontStyle="bold" visibility="Pink"   />
                     </VerticalLayout>
-                    <Button preferredWidth="30" id="01_charAttrMod_05" text="+2" fontStyle="bold" visibility="Black"  onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="02_charAttrMod_05" text="+2" fontStyle="bold" visibility="White"  onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="03_charAttrMod_05" text="+2" fontStyle="bold" visibility="Brown"  onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="04_charAttrMod_05" text="+2" fontStyle="bold" visibility="Red"    onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="05_charAttrMod_05" text="+2" fontStyle="bold" visibility="Orange" onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="06_charAttrMod_05" text="+2" fontStyle="bold" visibility="Yellow" onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="07_charAttrMod_05" text="+2" fontStyle="bold" visibility="Green"  onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="08_charAttrMod_05" text="+2" fontStyle="bold" visibility="Teal"   onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="09_charAttrMod_05" text="+2" fontStyle="bold" visibility="Blue"   onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="10_charAttrMod_05" text="+2" fontStyle="bold" visibility="Purple" onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="11_charAttrMod_05" text="+2" fontStyle="bold" visibility="Pink"   onClick="rollAttribute" tooltipBackgroundColor="#000000" />
+                    <Button class="charAttrMod" id="01_charAttrMod_05" visibility="Black" />
+                    <Button class="charAttrMod" id="02_charAttrMod_05" visibility="White" />
+                    <Button class="charAttrMod" id="03_charAttrMod_05" visibility="Brown" />
+                    <Button class="charAttrMod" id="04_charAttrMod_05" visibility="Red"   />
+                    <Button class="charAttrMod" id="05_charAttrMod_05" visibility="Orange" />
+                    <Button class="charAttrMod" id="06_charAttrMod_05" visibility="Yellow" />
+                    <Button class="charAttrMod" id="07_charAttrMod_05" visibility="Green" />
+                    <Button class="charAttrMod" id="08_charAttrMod_05" visibility="Teal"  />
+                    <Button class="charAttrMod" id="09_charAttrMod_05" visibility="Blue"  />
+                    <Button class="charAttrMod" id="10_charAttrMod_05" visibility="Purple" />
+                    <Button class="charAttrMod" id="11_charAttrMod_05" visibility="Pink"  />
                 </HorizontalLayout>
                 <HorizontalLayout>
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_6" visibility="noone"> <!-- EDIT TOGGLE -->
@@ -530,17 +553,17 @@
                         <Text id="10_charAttrValue_06" text="15" fontStyle="bold" visibility="Purple" />
                         <Text id="11_charAttrValue_06" text="15" fontStyle="bold" visibility="Pink"   />
                     </VerticalLayout>
-                    <Button preferredWidth="30" id="01_charAttrMod_06" text="+2" fontStyle="bold" visibility="Black"  onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="02_charAttrMod_06" text="+2" fontStyle="bold" visibility="White"  onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="03_charAttrMod_06" text="+2" fontStyle="bold" visibility="Brown"  onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="04_charAttrMod_06" text="+2" fontStyle="bold" visibility="Red"    onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="05_charAttrMod_06" text="+2" fontStyle="bold" visibility="Orange" onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="06_charAttrMod_06" text="+2" fontStyle="bold" visibility="Yellow" onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="07_charAttrMod_06" text="+2" fontStyle="bold" visibility="Green"  onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="08_charAttrMod_06" text="+2" fontStyle="bold" visibility="Teal"   onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="09_charAttrMod_06" text="+2" fontStyle="bold" visibility="Blue"   onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="10_charAttrMod_06" text="+2" fontStyle="bold" visibility="Purple" onClick="rollAttribute" tooltipBackgroundColor="#000000" />
-                    <Button preferredWidth="30" id="11_charAttrMod_06" text="+2" fontStyle="bold" visibility="Pink"   onClick="rollAttribute" tooltipBackgroundColor="#000000" />
+                    <Button class="charAttrMod" id="01_charAttrMod_06" visibility="Black" />
+                    <Button class="charAttrMod" id="02_charAttrMod_06" visibility="White" />
+                    <Button class="charAttrMod" id="03_charAttrMod_06" visibility="Brown" />
+                    <Button class="charAttrMod" id="04_charAttrMod_06" visibility="Red"   />
+                    <Button class="charAttrMod" id="05_charAttrMod_06" visibility="Orange" />
+                    <Button class="charAttrMod" id="06_charAttrMod_06" visibility="Yellow" />
+                    <Button class="charAttrMod" id="07_charAttrMod_06" visibility="Green" />
+                    <Button class="charAttrMod" id="08_charAttrMod_06" visibility="Teal"  />
+                    <Button class="charAttrMod" id="09_charAttrMod_06" visibility="Blue"  />
+                    <Button class="charAttrMod" id="10_charAttrMod_06" visibility="Purple" />
+                    <Button class="charAttrMod" id="11_charAttrMod_06" visibility="Pink"  />
                 </HorizontalLayout>
             </VerticalLayout>
             <VerticalLayout spacing='25' preferredWidth="25">
@@ -617,17 +640,17 @@
             <Text  preferredWidth="5" />
             <VerticalLayout preferredWidth="230" >
                 <HorizontalLayout>
-                    <Button id="01_charSkillButton_01" text="SKILL (atr) +2" class="skillButton" visibility="Black"  />
-                    <Button id="02_charSkillButton_01" text="SKILL (atr) +2" class="skillButton" visibility="White"  />
-                    <Button id="03_charSkillButton_01" text="SKILL (atr) +2" class="skillButton" visibility="Brown"  />
-                    <Button id="04_charSkillButton_01" text="SKILL (atr) +2" class="skillButton" visibility="Red"    />
-                    <Button id="05_charSkillButton_01" text="SKILL (atr) +2" class="skillButton" visibility="Orange" />
-                    <Button id="06_charSkillButton_01" text="SKILL (atr) +2" class="skillButton" visibility="Yellow" />
-                    <Button id="07_charSkillButton_01" text="SKILL (atr) +2" class="skillButton" visibility="Green"  />
-                    <Button id="08_charSkillButton_01" text="SKILL (atr) +2" class="skillButton" visibility="Teal"   />
-                    <Button id="09_charSkillButton_01" text="SKILL (atr) +2" class="skillButton" visibility="Blue"   />
-                    <Button id="10_charSkillButton_01" text="SKILL (atr) +2" class="skillButton" visibility="Purple" />
-                    <Button id="11_charSkillButton_01" text="SKILL (atr) +2" class="skillButton" visibility="Pink"   />
+                    <Button id="01_charSkillButton_01" class="skillButton" visibility="Black"  />
+                    <Button id="02_charSkillButton_01" class="skillButton" visibility="White"  />
+                    <Button id="03_charSkillButton_01" class="skillButton" visibility="Brown"  />
+                    <Button id="04_charSkillButton_01" class="skillButton" visibility="Red"    />
+                    <Button id="05_charSkillButton_01" class="skillButton" visibility="Orange" />
+                    <Button id="06_charSkillButton_01" class="skillButton" visibility="Yellow" />
+                    <Button id="07_charSkillButton_01" class="skillButton" visibility="Green"  />
+                    <Button id="08_charSkillButton_01" class="skillButton" visibility="Teal"   />
+                    <Button id="09_charSkillButton_01" class="skillButton" visibility="Blue"   />
+                    <Button id="10_charSkillButton_01" class="skillButton" visibility="Purple" />
+                    <Button id="11_charSkillButton_01" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_01" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charSkillButtonE_01" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="charSkillButtonM_01" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
@@ -637,17 +660,17 @@
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
-                    <Button id="01_charSkillButton_02" text="SKILL (atr) +2" class="skillButton" visibility="Black"  />
-                    <Button id="02_charSkillButton_02" text="SKILL (atr) +2" class="skillButton" visibility="White"  />
-                    <Button id="03_charSkillButton_02" text="SKILL (atr) +2" class="skillButton" visibility="Brown"  />
-                    <Button id="04_charSkillButton_02" text="SKILL (atr) +2" class="skillButton" visibility="Red"    />
-                    <Button id="05_charSkillButton_02" text="SKILL (atr) +2" class="skillButton" visibility="Orange" />
-                    <Button id="06_charSkillButton_02" text="SKILL (atr) +2" class="skillButton" visibility="Yellow" />
-                    <Button id="07_charSkillButton_02" text="SKILL (atr) +2" class="skillButton" visibility="Green"  />
-                    <Button id="08_charSkillButton_02" text="SKILL (atr) +2" class="skillButton" visibility="Teal"   />
-                    <Button id="09_charSkillButton_02" text="SKILL (atr) +2" class="skillButton" visibility="Blue"   />
-                    <Button id="10_charSkillButton_02" text="SKILL (atr) +2" class="skillButton" visibility="Purple" />
-                    <Button id="11_charSkillButton_02" text="SKILL (atr) +2" class="skillButton" visibility="Pink"   />
+                    <Button id="01_charSkillButton_02" class="skillButton" visibility="Black"  />
+                    <Button id="02_charSkillButton_02" class="skillButton" visibility="White"  />
+                    <Button id="03_charSkillButton_02" class="skillButton" visibility="Brown"  />
+                    <Button id="04_charSkillButton_02" class="skillButton" visibility="Red"    />
+                    <Button id="05_charSkillButton_02" class="skillButton" visibility="Orange" />
+                    <Button id="06_charSkillButton_02" class="skillButton" visibility="Yellow" />
+                    <Button id="07_charSkillButton_02" class="skillButton" visibility="Green"  />
+                    <Button id="08_charSkillButton_02" class="skillButton" visibility="Teal"   />
+                    <Button id="09_charSkillButton_02" class="skillButton" visibility="Blue"   />
+                    <Button id="10_charSkillButton_02" class="skillButton" visibility="Purple" />
+                    <Button id="11_charSkillButton_02" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_02" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charSkillButtonE_02" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="charSkillButtonM_02" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
@@ -657,17 +680,17 @@
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
-                    <Button id="01_charSkillButton_03" text="SKILL (atr) +2" class="skillButton" visibility="Black"  />
-                    <Button id="02_charSkillButton_03" text="SKILL (atr) +2" class="skillButton" visibility="White"  />
-                    <Button id="03_charSkillButton_03" text="SKILL (atr) +2" class="skillButton" visibility="Brown"  />
-                    <Button id="04_charSkillButton_03" text="SKILL (atr) +2" class="skillButton" visibility="Red"    />
-                    <Button id="05_charSkillButton_03" text="SKILL (atr) +2" class="skillButton" visibility="Orange" />
-                    <Button id="06_charSkillButton_03" text="SKILL (atr) +2" class="skillButton" visibility="Yellow" />
-                    <Button id="07_charSkillButton_03" text="SKILL (atr) +2" class="skillButton" visibility="Green"  />
-                    <Button id="08_charSkillButton_03" text="SKILL (atr) +2" class="skillButton" visibility="Teal"   />
-                    <Button id="09_charSkillButton_03" text="SKILL (atr) +2" class="skillButton" visibility="Blue"   />
-                    <Button id="10_charSkillButton_03" text="SKILL (atr) +2" class="skillButton" visibility="Purple" />
-                    <Button id="11_charSkillButton_03" text="SKILL (atr) +2" class="skillButton" visibility="Pink"   />
+                    <Button id="01_charSkillButton_03" class="skillButton" visibility="Black"  />
+                    <Button id="02_charSkillButton_03" class="skillButton" visibility="White"  />
+                    <Button id="03_charSkillButton_03" class="skillButton" visibility="Brown"  />
+                    <Button id="04_charSkillButton_03" class="skillButton" visibility="Red"    />
+                    <Button id="05_charSkillButton_03" class="skillButton" visibility="Orange" />
+                    <Button id="06_charSkillButton_03" class="skillButton" visibility="Yellow" />
+                    <Button id="07_charSkillButton_03" class="skillButton" visibility="Green"  />
+                    <Button id="08_charSkillButton_03" class="skillButton" visibility="Teal"   />
+                    <Button id="09_charSkillButton_03" class="skillButton" visibility="Blue"   />
+                    <Button id="10_charSkillButton_03" class="skillButton" visibility="Purple" />
+                    <Button id="11_charSkillButton_03" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_03" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charSkillButtonE_03" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="charSkillButtonM_03" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
@@ -677,17 +700,17 @@
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
-                    <Button id="01_charSkillButton_04" text="SKILL (atr) +2" class="skillButton" visibility="Black"  />
-                    <Button id="02_charSkillButton_04" text="SKILL (atr) +2" class="skillButton" visibility="White"  />
-                    <Button id="03_charSkillButton_04" text="SKILL (atr) +2" class="skillButton" visibility="Brown"  />
-                    <Button id="04_charSkillButton_04" text="SKILL (atr) +2" class="skillButton" visibility="Red"    />
-                    <Button id="05_charSkillButton_04" text="SKILL (atr) +2" class="skillButton" visibility="Orange" />
-                    <Button id="06_charSkillButton_04" text="SKILL (atr) +2" class="skillButton" visibility="Yellow" />
-                    <Button id="07_charSkillButton_04" text="SKILL (atr) +2" class="skillButton" visibility="Green"  />
-                    <Button id="08_charSkillButton_04" text="SKILL (atr) +2" class="skillButton" visibility="Teal"   />
-                    <Button id="09_charSkillButton_04" text="SKILL (atr) +2" class="skillButton" visibility="Blue"   />
-                    <Button id="10_charSkillButton_04" text="SKILL (atr) +2" class="skillButton" visibility="Purple" />
-                    <Button id="11_charSkillButton_04" text="SKILL (atr) +2" class="skillButton" visibility="Pink"   />
+                    <Button id="01_charSkillButton_04" class="skillButton" visibility="Black"  />
+                    <Button id="02_charSkillButton_04" class="skillButton" visibility="White"  />
+                    <Button id="03_charSkillButton_04" class="skillButton" visibility="Brown"  />
+                    <Button id="04_charSkillButton_04" class="skillButton" visibility="Red"    />
+                    <Button id="05_charSkillButton_04" class="skillButton" visibility="Orange" />
+                    <Button id="06_charSkillButton_04" class="skillButton" visibility="Yellow" />
+                    <Button id="07_charSkillButton_04" class="skillButton" visibility="Green"  />
+                    <Button id="08_charSkillButton_04" class="skillButton" visibility="Teal"   />
+                    <Button id="09_charSkillButton_04" class="skillButton" visibility="Blue"   />
+                    <Button id="10_charSkillButton_04" class="skillButton" visibility="Purple" />
+                    <Button id="11_charSkillButton_04" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_04" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charSkillButtonE_04" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="charSkillButtonM_04" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
@@ -697,17 +720,17 @@
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
-                    <Button id="01_charSkillButton_05" text="SKILL (atr) +2" class="skillButton" visibility="Black"  />
-                    <Button id="02_charSkillButton_05" text="SKILL (atr) +2" class="skillButton" visibility="White"  />
-                    <Button id="03_charSkillButton_05" text="SKILL (atr) +2" class="skillButton" visibility="Brown"  />
-                    <Button id="04_charSkillButton_05" text="SKILL (atr) +2" class="skillButton" visibility="Red"    />
-                    <Button id="05_charSkillButton_05" text="SKILL (atr) +2" class="skillButton" visibility="Orange" />
-                    <Button id="06_charSkillButton_05" text="SKILL (atr) +2" class="skillButton" visibility="Yellow" />
-                    <Button id="07_charSkillButton_05" text="SKILL (atr) +2" class="skillButton" visibility="Green"  />
-                    <Button id="08_charSkillButton_05" text="SKILL (atr) +2" class="skillButton" visibility="Teal"   />
-                    <Button id="09_charSkillButton_05" text="SKILL (atr) +2" class="skillButton" visibility="Blue"   />
-                    <Button id="10_charSkillButton_05" text="SKILL (atr) +2" class="skillButton" visibility="Purple" />
-                    <Button id="11_charSkillButton_05" text="SKILL (atr) +2" class="skillButton" visibility="Pink"   />
+                    <Button id="01_charSkillButton_05" class="skillButton" visibility="Black"  />
+                    <Button id="02_charSkillButton_05" class="skillButton" visibility="White"  />
+                    <Button id="03_charSkillButton_05" class="skillButton" visibility="Brown"  />
+                    <Button id="04_charSkillButton_05" class="skillButton" visibility="Red"    />
+                    <Button id="05_charSkillButton_05" class="skillButton" visibility="Orange" />
+                    <Button id="06_charSkillButton_05" class="skillButton" visibility="Yellow" />
+                    <Button id="07_charSkillButton_05" class="skillButton" visibility="Green"  />
+                    <Button id="08_charSkillButton_05" class="skillButton" visibility="Teal"   />
+                    <Button id="09_charSkillButton_05" class="skillButton" visibility="Blue"   />
+                    <Button id="10_charSkillButton_05" class="skillButton" visibility="Purple" />
+                    <Button id="11_charSkillButton_05" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_05" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charSkillButtonE_05" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="charSkillButtonM_05" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
@@ -717,17 +740,17 @@
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
-                    <Button id="01_charSkillButton_06" text="SKILL (atr) +2" class="skillButton" visibility="Black"  />
-                    <Button id="02_charSkillButton_06" text="SKILL (atr) +2" class="skillButton" visibility="White"  />
-                    <Button id="03_charSkillButton_06" text="SKILL (atr) +2" class="skillButton" visibility="Brown"  />
-                    <Button id="04_charSkillButton_06" text="SKILL (atr) +2" class="skillButton" visibility="Red"    />
-                    <Button id="05_charSkillButton_06" text="SKILL (atr) +2" class="skillButton" visibility="Orange" />
-                    <Button id="06_charSkillButton_06" text="SKILL (atr) +2" class="skillButton" visibility="Yellow" />
-                    <Button id="07_charSkillButton_06" text="SKILL (atr) +2" class="skillButton" visibility="Green"  />
-                    <Button id="08_charSkillButton_06" text="SKILL (atr) +2" class="skillButton" visibility="Teal"   />
-                    <Button id="09_charSkillButton_06" text="SKILL (atr) +2" class="skillButton" visibility="Blue"   />
-                    <Button id="10_charSkillButton_06" text="SKILL (atr) +2" class="skillButton" visibility="Purple" />
-                    <Button id="11_charSkillButton_06" text="SKILL (atr) +2" class="skillButton" visibility="Pink"   />
+                    <Button id="01_charSkillButton_06" class="skillButton" visibility="Black"  />
+                    <Button id="02_charSkillButton_06" class="skillButton" visibility="White"  />
+                    <Button id="03_charSkillButton_06" class="skillButton" visibility="Brown"  />
+                    <Button id="04_charSkillButton_06" class="skillButton" visibility="Red"    />
+                    <Button id="05_charSkillButton_06" class="skillButton" visibility="Orange" />
+                    <Button id="06_charSkillButton_06" class="skillButton" visibility="Yellow" />
+                    <Button id="07_charSkillButton_06" class="skillButton" visibility="Green"  />
+                    <Button id="08_charSkillButton_06" class="skillButton" visibility="Teal"   />
+                    <Button id="09_charSkillButton_06" class="skillButton" visibility="Blue"   />
+                    <Button id="10_charSkillButton_06" class="skillButton" visibility="Purple" />
+                    <Button id="11_charSkillButton_06" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_06" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charSkillButtonE_06" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="charSkillButtonM_06" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
@@ -737,17 +760,17 @@
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
-                    <Button id="01_charSkillButton_07" text="SKILL (atr) +2" class="skillButton" visibility="Black"  />
-                    <Button id="02_charSkillButton_07" text="SKILL (atr) +2" class="skillButton" visibility="White"  />
-                    <Button id="03_charSkillButton_07" text="SKILL (atr) +2" class="skillButton" visibility="Brown"  />
-                    <Button id="04_charSkillButton_07" text="SKILL (atr) +2" class="skillButton" visibility="Red"    />
-                    <Button id="05_charSkillButton_07" text="SKILL (atr) +2" class="skillButton" visibility="Orange" />
-                    <Button id="06_charSkillButton_07" text="SKILL (atr) +2" class="skillButton" visibility="Yellow" />
-                    <Button id="07_charSkillButton_07" text="SKILL (atr) +2" class="skillButton" visibility="Green"  />
-                    <Button id="08_charSkillButton_07" text="SKILL (atr) +2" class="skillButton" visibility="Teal"   />
-                    <Button id="09_charSkillButton_07" text="SKILL (atr) +2" class="skillButton" visibility="Blue"   />
-                    <Button id="10_charSkillButton_07" text="SKILL (atr) +2" class="skillButton" visibility="Purple" />
-                    <Button id="11_charSkillButton_07" text="SKILL (atr) +2" class="skillButton" visibility="Pink"   />
+                    <Button id="01_charSkillButton_07" class="skillButton" visibility="Black"  />
+                    <Button id="02_charSkillButton_07" class="skillButton" visibility="White"  />
+                    <Button id="03_charSkillButton_07" class="skillButton" visibility="Brown"  />
+                    <Button id="04_charSkillButton_07" class="skillButton" visibility="Red"    />
+                    <Button id="05_charSkillButton_07" class="skillButton" visibility="Orange" />
+                    <Button id="06_charSkillButton_07" class="skillButton" visibility="Yellow" />
+                    <Button id="07_charSkillButton_07" class="skillButton" visibility="Green"  />
+                    <Button id="08_charSkillButton_07" class="skillButton" visibility="Teal"   />
+                    <Button id="09_charSkillButton_07" class="skillButton" visibility="Blue"   />
+                    <Button id="10_charSkillButton_07" class="skillButton" visibility="Purple" />
+                    <Button id="11_charSkillButton_07" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_07" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charSkillButtonE_07" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="charSkillButtonM_07" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
@@ -757,17 +780,17 @@
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
-                    <Button id="01_charSkillButton_08" text="SKILL (atr) +2" class="skillButton" visibility="Black"  />
-                    <Button id="02_charSkillButton_08" text="SKILL (atr) +2" class="skillButton" visibility="White"  />
-                    <Button id="03_charSkillButton_08" text="SKILL (atr) +2" class="skillButton" visibility="Brown"  />
-                    <Button id="04_charSkillButton_08" text="SKILL (atr) +2" class="skillButton" visibility="Red"    />
-                    <Button id="05_charSkillButton_08" text="SKILL (atr) +2" class="skillButton" visibility="Orange" />
-                    <Button id="06_charSkillButton_08" text="SKILL (atr) +2" class="skillButton" visibility="Yellow" />
-                    <Button id="07_charSkillButton_08" text="SKILL (atr) +2" class="skillButton" visibility="Green"  />
-                    <Button id="08_charSkillButton_08" text="SKILL (atr) +2" class="skillButton" visibility="Teal"   />
-                    <Button id="09_charSkillButton_08" text="SKILL (atr) +2" class="skillButton" visibility="Blue"   />
-                    <Button id="10_charSkillButton_08" text="SKILL (atr) +2" class="skillButton" visibility="Purple" />
-                    <Button id="11_charSkillButton_08" text="SKILL (atr) +2" class="skillButton" visibility="Pink"   />
+                    <Button id="01_charSkillButton_08" class="skillButton" visibility="Black"  />
+                    <Button id="02_charSkillButton_08" class="skillButton" visibility="White"  />
+                    <Button id="03_charSkillButton_08" class="skillButton" visibility="Brown"  />
+                    <Button id="04_charSkillButton_08" class="skillButton" visibility="Red"    />
+                    <Button id="05_charSkillButton_08" class="skillButton" visibility="Orange" />
+                    <Button id="06_charSkillButton_08" class="skillButton" visibility="Yellow" />
+                    <Button id="07_charSkillButton_08" class="skillButton" visibility="Green"  />
+                    <Button id="08_charSkillButton_08" class="skillButton" visibility="Teal"   />
+                    <Button id="09_charSkillButton_08" class="skillButton" visibility="Blue"   />
+                    <Button id="10_charSkillButton_08" class="skillButton" visibility="Purple" />
+                    <Button id="11_charSkillButton_08" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_08" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charSkillButtonE_08" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="charSkillButtonM_08" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
@@ -777,17 +800,17 @@
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
-                    <Button id="01_charSkillButton_09" text="SKILL (atr) +2" class="skillButton" visibility="Black"  />
-                    <Button id="02_charSkillButton_09" text="SKILL (atr) +2" class="skillButton" visibility="White"  />
-                    <Button id="03_charSkillButton_09" text="SKILL (atr) +2" class="skillButton" visibility="Brown"  />
-                    <Button id="04_charSkillButton_09" text="SKILL (atr) +2" class="skillButton" visibility="Red"    />
-                    <Button id="05_charSkillButton_09" text="SKILL (atr) +2" class="skillButton" visibility="Orange" />
-                    <Button id="06_charSkillButton_09" text="SKILL (atr) +2" class="skillButton" visibility="Yellow" />
-                    <Button id="07_charSkillButton_09" text="SKILL (atr) +2" class="skillButton" visibility="Green"  />
-                    <Button id="08_charSkillButton_09" text="SKILL (atr) +2" class="skillButton" visibility="Teal"   />
-                    <Button id="09_charSkillButton_09" text="SKILL (atr) +2" class="skillButton" visibility="Blue"   />
-                    <Button id="10_charSkillButton_09" text="SKILL (atr) +2" class="skillButton" visibility="Purple" />
-                    <Button id="11_charSkillButton_09" text="SKILL (atr) +2" class="skillButton" visibility="Pink"   />
+                    <Button id="01_charSkillButton_09" class="skillButton" visibility="Black"  />
+                    <Button id="02_charSkillButton_09" class="skillButton" visibility="White"  />
+                    <Button id="03_charSkillButton_09" class="skillButton" visibility="Brown"  />
+                    <Button id="04_charSkillButton_09" class="skillButton" visibility="Red"    />
+                    <Button id="05_charSkillButton_09" class="skillButton" visibility="Orange" />
+                    <Button id="06_charSkillButton_09" class="skillButton" visibility="Yellow" />
+                    <Button id="07_charSkillButton_09" class="skillButton" visibility="Green"  />
+                    <Button id="08_charSkillButton_09" class="skillButton" visibility="Teal"   />
+                    <Button id="09_charSkillButton_09" class="skillButton" visibility="Blue"   />
+                    <Button id="10_charSkillButton_09" class="skillButton" visibility="Purple" />
+                    <Button id="11_charSkillButton_09" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_09" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charSkillButtonE_09" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="charSkillButtonM_09" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
@@ -800,17 +823,17 @@
             <Text preferredWidth="5" />
             <VerticalLayout preferredWidth="230" >
                 <HorizontalLayout>
-                    <Button id="01_charSkillButton_10" text="SKILL (atr) +2" class="skillButton" visibility="Black"  />
-                    <Button id="02_charSkillButton_10" text="SKILL (atr) +2" class="skillButton" visibility="White"  />
-                    <Button id="03_charSkillButton_10" text="SKILL (atr) +2" class="skillButton" visibility="Brown"  />
-                    <Button id="04_charSkillButton_10" text="SKILL (atr) +2" class="skillButton" visibility="Red"    />
-                    <Button id="05_charSkillButton_10" text="SKILL (atr) +2" class="skillButton" visibility="Orange" />
-                    <Button id="06_charSkillButton_10" text="SKILL (atr) +2" class="skillButton" visibility="Yellow" />
-                    <Button id="07_charSkillButton_10" text="SKILL (atr) +2" class="skillButton" visibility="Green"  />
-                    <Button id="08_charSkillButton_10" text="SKILL (atr) +2" class="skillButton" visibility="Teal"   />
-                    <Button id="09_charSkillButton_10" text="SKILL (atr) +2" class="skillButton" visibility="Blue"   />
-                    <Button id="10_charSkillButton_10" text="SKILL (atr) +2" class="skillButton" visibility="Purple" />
-                    <Button id="11_charSkillButton_10" text="SKILL (atr) +2" class="skillButton" visibility="Pink"   />
+                    <Button id="01_charSkillButton_10" class="skillButton" visibility="Black"  />
+                    <Button id="02_charSkillButton_10" class="skillButton" visibility="White"  />
+                    <Button id="03_charSkillButton_10" class="skillButton" visibility="Brown"  />
+                    <Button id="04_charSkillButton_10" class="skillButton" visibility="Red"    />
+                    <Button id="05_charSkillButton_10" class="skillButton" visibility="Orange" />
+                    <Button id="06_charSkillButton_10" class="skillButton" visibility="Yellow" />
+                    <Button id="07_charSkillButton_10" class="skillButton" visibility="Green"  />
+                    <Button id="08_charSkillButton_10" class="skillButton" visibility="Teal"   />
+                    <Button id="09_charSkillButton_10" class="skillButton" visibility="Blue"   />
+                    <Button id="10_charSkillButton_10" class="skillButton" visibility="Purple" />
+                    <Button id="11_charSkillButton_10" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_10" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charSkillButtonE_10" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="charSkillButtonM_10" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
@@ -820,17 +843,17 @@
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
-                    <Button id="01_charSkillButton_11" text="SKILL (atr) +2" class="skillButton" visibility="Black"  />
-                    <Button id="02_charSkillButton_11" text="SKILL (atr) +2" class="skillButton" visibility="White"  />
-                    <Button id="03_charSkillButton_11" text="SKILL (atr) +2" class="skillButton" visibility="Brown"  />
-                    <Button id="04_charSkillButton_11" text="SKILL (atr) +2" class="skillButton" visibility="Red"    />
-                    <Button id="05_charSkillButton_11" text="SKILL (atr) +2" class="skillButton" visibility="Orange" />
-                    <Button id="06_charSkillButton_11" text="SKILL (atr) +2" class="skillButton" visibility="Yellow" />
-                    <Button id="07_charSkillButton_11" text="SKILL (atr) +2" class="skillButton" visibility="Green"  />
-                    <Button id="08_charSkillButton_11" text="SKILL (atr) +2" class="skillButton" visibility="Teal"   />
-                    <Button id="09_charSkillButton_11" text="SKILL (atr) +2" class="skillButton" visibility="Blue"   />
-                    <Button id="10_charSkillButton_11" text="SKILL (atr) +2" class="skillButton" visibility="Purple" />
-                    <Button id="11_charSkillButton_11" text="SKILL (atr) +2" class="skillButton" visibility="Pink"   />
+                    <Button id="01_charSkillButton_11" class="skillButton" visibility="Black"  />
+                    <Button id="02_charSkillButton_11" class="skillButton" visibility="White"  />
+                    <Button id="03_charSkillButton_11" class="skillButton" visibility="Brown"  />
+                    <Button id="04_charSkillButton_11" class="skillButton" visibility="Red"    />
+                    <Button id="05_charSkillButton_11" class="skillButton" visibility="Orange" />
+                    <Button id="06_charSkillButton_11" class="skillButton" visibility="Yellow" />
+                    <Button id="07_charSkillButton_11" class="skillButton" visibility="Green"  />
+                    <Button id="08_charSkillButton_11" class="skillButton" visibility="Teal"   />
+                    <Button id="09_charSkillButton_11" class="skillButton" visibility="Blue"   />
+                    <Button id="10_charSkillButton_11" class="skillButton" visibility="Purple" />
+                    <Button id="11_charSkillButton_11" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_11" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charSkillButtonE_11" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="charSkillButtonM_11" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
@@ -840,17 +863,17 @@
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
-                    <Button id="01_charSkillButton_12" text="SKILL (atr) +2" class="skillButton" visibility="Black"  />
-                    <Button id="02_charSkillButton_12" text="SKILL (atr) +2" class="skillButton" visibility="White"  />
-                    <Button id="03_charSkillButton_12" text="SKILL (atr) +2" class="skillButton" visibility="Brown"  />
-                    <Button id="04_charSkillButton_12" text="SKILL (atr) +2" class="skillButton" visibility="Red"    />
-                    <Button id="05_charSkillButton_12" text="SKILL (atr) +2" class="skillButton" visibility="Orange" />
-                    <Button id="06_charSkillButton_12" text="SKILL (atr) +2" class="skillButton" visibility="Yellow" />
-                    <Button id="07_charSkillButton_12" text="SKILL (atr) +2" class="skillButton" visibility="Green"  />
-                    <Button id="08_charSkillButton_12" text="SKILL (atr) +2" class="skillButton" visibility="Teal"   />
-                    <Button id="09_charSkillButton_12" text="SKILL (atr) +2" class="skillButton" visibility="Blue"   />
-                    <Button id="10_charSkillButton_12" text="SKILL (atr) +2" class="skillButton" visibility="Purple" />
-                    <Button id="11_charSkillButton_12" text="SKILL (atr) +2" class="skillButton" visibility="Pink"   />
+                    <Button id="01_charSkillButton_12" class="skillButton" visibility="Black"  />
+                    <Button id="02_charSkillButton_12" class="skillButton" visibility="White"  />
+                    <Button id="03_charSkillButton_12" class="skillButton" visibility="Brown"  />
+                    <Button id="04_charSkillButton_12" class="skillButton" visibility="Red"    />
+                    <Button id="05_charSkillButton_12" class="skillButton" visibility="Orange" />
+                    <Button id="06_charSkillButton_12" class="skillButton" visibility="Yellow" />
+                    <Button id="07_charSkillButton_12" class="skillButton" visibility="Green"  />
+                    <Button id="08_charSkillButton_12" class="skillButton" visibility="Teal"   />
+                    <Button id="09_charSkillButton_12" class="skillButton" visibility="Blue"   />
+                    <Button id="10_charSkillButton_12" class="skillButton" visibility="Purple" />
+                    <Button id="11_charSkillButton_12" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_12" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charSkillButtonE_12" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="charSkillButtonM_12" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
@@ -860,17 +883,17 @@
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
-                    <Button id="01_charSkillButton_13" text="SKILL (atr) +2" class="skillButton" visibility="Black"  />
-                    <Button id="02_charSkillButton_13" text="SKILL (atr) +2" class="skillButton" visibility="White"  />
-                    <Button id="03_charSkillButton_13" text="SKILL (atr) +2" class="skillButton" visibility="Brown"  />
-                    <Button id="04_charSkillButton_13" text="SKILL (atr) +2" class="skillButton" visibility="Red"    />
-                    <Button id="05_charSkillButton_13" text="SKILL (atr) +2" class="skillButton" visibility="Orange" />
-                    <Button id="06_charSkillButton_13" text="SKILL (atr) +2" class="skillButton" visibility="Yellow" />
-                    <Button id="07_charSkillButton_13" text="SKILL (atr) +2" class="skillButton" visibility="Green"  />
-                    <Button id="08_charSkillButton_13" text="SKILL (atr) +2" class="skillButton" visibility="Teal"   />
-                    <Button id="09_charSkillButton_13" text="SKILL (atr) +2" class="skillButton" visibility="Blue"   />
-                    <Button id="10_charSkillButton_13" text="SKILL (atr) +2" class="skillButton" visibility="Purple" />
-                    <Button id="11_charSkillButton_13" text="SKILL (atr) +2" class="skillButton" visibility="Pink"   />
+                    <Button id="01_charSkillButton_13" class="skillButton" visibility="Black"  />
+                    <Button id="02_charSkillButton_13" class="skillButton" visibility="White"  />
+                    <Button id="03_charSkillButton_13" class="skillButton" visibility="Brown"  />
+                    <Button id="04_charSkillButton_13" class="skillButton" visibility="Red"    />
+                    <Button id="05_charSkillButton_13" class="skillButton" visibility="Orange" />
+                    <Button id="06_charSkillButton_13" class="skillButton" visibility="Yellow" />
+                    <Button id="07_charSkillButton_13" class="skillButton" visibility="Green"  />
+                    <Button id="08_charSkillButton_13" class="skillButton" visibility="Teal"   />
+                    <Button id="09_charSkillButton_13" class="skillButton" visibility="Blue"   />
+                    <Button id="10_charSkillButton_13" class="skillButton" visibility="Purple" />
+                    <Button id="11_charSkillButton_13" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_13" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charSkillButtonE_13" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="charSkillButtonM_13" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
@@ -880,17 +903,17 @@
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
-                    <Button id="01_charSkillButton_14" text="SKILL (atr) +2" class="skillButton" visibility="Black"  />
-                    <Button id="02_charSkillButton_14" text="SKILL (atr) +2" class="skillButton" visibility="White"  />
-                    <Button id="03_charSkillButton_14" text="SKILL (atr) +2" class="skillButton" visibility="Brown"  />
-                    <Button id="04_charSkillButton_14" text="SKILL (atr) +2" class="skillButton" visibility="Red"    />
-                    <Button id="05_charSkillButton_14" text="SKILL (atr) +2" class="skillButton" visibility="Orange" />
-                    <Button id="06_charSkillButton_14" text="SKILL (atr) +2" class="skillButton" visibility="Yellow" />
-                    <Button id="07_charSkillButton_14" text="SKILL (atr) +2" class="skillButton" visibility="Green"  />
-                    <Button id="08_charSkillButton_14" text="SKILL (atr) +2" class="skillButton" visibility="Teal"   />
-                    <Button id="09_charSkillButton_14" text="SKILL (atr) +2" class="skillButton" visibility="Blue"   />
-                    <Button id="10_charSkillButton_14" text="SKILL (atr) +2" class="skillButton" visibility="Purple" />
-                    <Button id="11_charSkillButton_14" text="SKILL (atr) +2" class="skillButton" visibility="Pink"   />
+                    <Button id="01_charSkillButton_14" class="skillButton" visibility="Black"  />
+                    <Button id="02_charSkillButton_14" class="skillButton" visibility="White"  />
+                    <Button id="03_charSkillButton_14" class="skillButton" visibility="Brown"  />
+                    <Button id="04_charSkillButton_14" class="skillButton" visibility="Red"    />
+                    <Button id="05_charSkillButton_14" class="skillButton" visibility="Orange" />
+                    <Button id="06_charSkillButton_14" class="skillButton" visibility="Yellow" />
+                    <Button id="07_charSkillButton_14" class="skillButton" visibility="Green"  />
+                    <Button id="08_charSkillButton_14" class="skillButton" visibility="Teal"   />
+                    <Button id="09_charSkillButton_14" class="skillButton" visibility="Blue"   />
+                    <Button id="10_charSkillButton_14" class="skillButton" visibility="Purple" />
+                    <Button id="11_charSkillButton_14" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_14" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charSkillButtonE_14" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="charSkillButtonM_14" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
@@ -900,17 +923,17 @@
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
-                    <Button id="01_charSkillButton_15" text="SKILL (atr) +2" class="skillButton" visibility="Black"  />
-                    <Button id="02_charSkillButton_15" text="SKILL (atr) +2" class="skillButton" visibility="White"  />
-                    <Button id="03_charSkillButton_15" text="SKILL (atr) +2" class="skillButton" visibility="Brown"  />
-                    <Button id="04_charSkillButton_15" text="SKILL (atr) +2" class="skillButton" visibility="Red"    />
-                    <Button id="05_charSkillButton_15" text="SKILL (atr) +2" class="skillButton" visibility="Orange" />
-                    <Button id="06_charSkillButton_15" text="SKILL (atr) +2" class="skillButton" visibility="Yellow" />
-                    <Button id="07_charSkillButton_15" text="SKILL (atr) +2" class="skillButton" visibility="Green"  />
-                    <Button id="08_charSkillButton_15" text="SKILL (atr) +2" class="skillButton" visibility="Teal"   />
-                    <Button id="09_charSkillButton_15" text="SKILL (atr) +2" class="skillButton" visibility="Blue"   />
-                    <Button id="10_charSkillButton_15" text="SKILL (atr) +2" class="skillButton" visibility="Purple" />
-                    <Button id="11_charSkillButton_15" text="SKILL (atr) +2" class="skillButton" visibility="Pink"   />
+                    <Button id="01_charSkillButton_15" class="skillButton" visibility="Black"  />
+                    <Button id="02_charSkillButton_15" class="skillButton" visibility="White"  />
+                    <Button id="03_charSkillButton_15" class="skillButton" visibility="Brown"  />
+                    <Button id="04_charSkillButton_15" class="skillButton" visibility="Red"    />
+                    <Button id="05_charSkillButton_15" class="skillButton" visibility="Orange" />
+                    <Button id="06_charSkillButton_15" class="skillButton" visibility="Yellow" />
+                    <Button id="07_charSkillButton_15" class="skillButton" visibility="Green"  />
+                    <Button id="08_charSkillButton_15" class="skillButton" visibility="Teal"   />
+                    <Button id="09_charSkillButton_15" class="skillButton" visibility="Blue"   />
+                    <Button id="10_charSkillButton_15" class="skillButton" visibility="Purple" />
+                    <Button id="11_charSkillButton_15" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_15" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charSkillButtonE_15" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="charSkillButtonM_15" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
@@ -920,17 +943,17 @@
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
-                    <Button id="01_charSkillButton_16" text="SKILL (atr) +2" class="skillButton" visibility="Black"  />
-                    <Button id="02_charSkillButton_16" text="SKILL (atr) +2" class="skillButton" visibility="White"  />
-                    <Button id="03_charSkillButton_16" text="SKILL (atr) +2" class="skillButton" visibility="Brown"  />
-                    <Button id="04_charSkillButton_16" text="SKILL (atr) +2" class="skillButton" visibility="Red"    />
-                    <Button id="05_charSkillButton_16" text="SKILL (atr) +2" class="skillButton" visibility="Orange" />
-                    <Button id="06_charSkillButton_16" text="SKILL (atr) +2" class="skillButton" visibility="Yellow" />
-                    <Button id="07_charSkillButton_16" text="SKILL (atr) +2" class="skillButton" visibility="Green"  />
-                    <Button id="08_charSkillButton_16" text="SKILL (atr) +2" class="skillButton" visibility="Teal"   />
-                    <Button id="09_charSkillButton_16" text="SKILL (atr) +2" class="skillButton" visibility="Blue"   />
-                    <Button id="10_charSkillButton_16" text="SKILL (atr) +2" class="skillButton" visibility="Purple" />
-                    <Button id="11_charSkillButton_16" text="SKILL (atr) +2" class="skillButton" visibility="Pink"   />
+                    <Button id="01_charSkillButton_16" class="skillButton" visibility="Black"  />
+                    <Button id="02_charSkillButton_16" class="skillButton" visibility="White"  />
+                    <Button id="03_charSkillButton_16" class="skillButton" visibility="Brown"  />
+                    <Button id="04_charSkillButton_16" class="skillButton" visibility="Red"    />
+                    <Button id="05_charSkillButton_16" class="skillButton" visibility="Orange" />
+                    <Button id="06_charSkillButton_16" class="skillButton" visibility="Yellow" />
+                    <Button id="07_charSkillButton_16" class="skillButton" visibility="Green"  />
+                    <Button id="08_charSkillButton_16" class="skillButton" visibility="Teal"   />
+                    <Button id="09_charSkillButton_16" class="skillButton" visibility="Blue"   />
+                    <Button id="10_charSkillButton_16" class="skillButton" visibility="Purple" />
+                    <Button id="11_charSkillButton_16" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_16" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charSkillButtonE_16" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="charSkillButtonM_16" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
@@ -940,17 +963,17 @@
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
-                    <Button id="01_charSkillButton_17" text="SKILL (atr) +2" class="skillButton" visibility="Black"  />
-                    <Button id="02_charSkillButton_17" text="SKILL (atr) +2" class="skillButton" visibility="White"  />
-                    <Button id="03_charSkillButton_17" text="SKILL (atr) +2" class="skillButton" visibility="Brown"  />
-                    <Button id="04_charSkillButton_17" text="SKILL (atr) +2" class="skillButton" visibility="Red"    />
-                    <Button id="05_charSkillButton_17" text="SKILL (atr) +2" class="skillButton" visibility="Orange" />
-                    <Button id="06_charSkillButton_17" text="SKILL (atr) +2" class="skillButton" visibility="Yellow" />
-                    <Button id="07_charSkillButton_17" text="SKILL (atr) +2" class="skillButton" visibility="Green"  />
-                    <Button id="08_charSkillButton_17" text="SKILL (atr) +2" class="skillButton" visibility="Teal"   />
-                    <Button id="09_charSkillButton_17" text="SKILL (atr) +2" class="skillButton" visibility="Blue"   />
-                    <Button id="10_charSkillButton_17" text="SKILL (atr) +2" class="skillButton" visibility="Purple" />
-                    <Button id="11_charSkillButton_17" text="SKILL (atr) +2" class="skillButton" visibility="Pink"   />
+                    <Button id="01_charSkillButton_17" class="skillButton" visibility="Black"  />
+                    <Button id="02_charSkillButton_17" class="skillButton" visibility="White"  />
+                    <Button id="03_charSkillButton_17" class="skillButton" visibility="Brown"  />
+                    <Button id="04_charSkillButton_17" class="skillButton" visibility="Red"    />
+                    <Button id="05_charSkillButton_17" class="skillButton" visibility="Orange" />
+                    <Button id="06_charSkillButton_17" class="skillButton" visibility="Yellow" />
+                    <Button id="07_charSkillButton_17" class="skillButton" visibility="Green"  />
+                    <Button id="08_charSkillButton_17" class="skillButton" visibility="Teal"   />
+                    <Button id="09_charSkillButton_17" class="skillButton" visibility="Blue"   />
+                    <Button id="10_charSkillButton_17" class="skillButton" visibility="Purple" />
+                    <Button id="11_charSkillButton_17" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_17" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charSkillButtonE_17" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="charSkillButtonM_17" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
@@ -960,17 +983,17 @@
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
-                    <Button id="01_charSkillButton_18" text="SKILL (atr) +2" class="skillButton" visibility="Black"  />
-                    <Button id="02_charSkillButton_18" text="SKILL (atr) +2" class="skillButton" visibility="White"  />
-                    <Button id="03_charSkillButton_18" text="SKILL (atr) +2" class="skillButton" visibility="Brown"  />
-                    <Button id="04_charSkillButton_18" text="SKILL (atr) +2" class="skillButton" visibility="Red"    />
-                    <Button id="05_charSkillButton_18" text="SKILL (atr) +2" class="skillButton" visibility="Orange" />
-                    <Button id="06_charSkillButton_18" text="SKILL (atr) +2" class="skillButton" visibility="Yellow" />
-                    <Button id="07_charSkillButton_18" text="SKILL (atr) +2" class="skillButton" visibility="Green"  />
-                    <Button id="08_charSkillButton_18" text="SKILL (atr) +2" class="skillButton" visibility="Teal"   />
-                    <Button id="09_charSkillButton_18" text="SKILL (atr) +2" class="skillButton" visibility="Blue"   />
-                    <Button id="10_charSkillButton_18" text="SKILL (atr) +2" class="skillButton" visibility="Purple" />
-                    <Button id="11_charSkillButton_18" text="SKILL (atr) +2" class="skillButton" visibility="Pink"   />
+                    <Button id="01_charSkillButton_18" class="skillButton" visibility="Black"  />
+                    <Button id="02_charSkillButton_18" class="skillButton" visibility="White"  />
+                    <Button id="03_charSkillButton_18" class="skillButton" visibility="Brown"  />
+                    <Button id="04_charSkillButton_18" class="skillButton" visibility="Red"    />
+                    <Button id="05_charSkillButton_18" class="skillButton" visibility="Orange" />
+                    <Button id="06_charSkillButton_18" class="skillButton" visibility="Yellow" />
+                    <Button id="07_charSkillButton_18" class="skillButton" visibility="Green"  />
+                    <Button id="08_charSkillButton_18" class="skillButton" visibility="Teal"   />
+                    <Button id="09_charSkillButton_18" class="skillButton" visibility="Blue"   />
+                    <Button id="10_charSkillButton_18" class="skillButton" visibility="Purple" />
+                    <Button id="11_charSkillButton_18" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_18" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charSkillButtonE_18" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="charSkillButtonM_18" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
@@ -1263,9 +1286,8 @@
         </Panel>
     </Panel>
 </Panel>
-
 <!-- ATTACKS PANEL (DONE) -->
-<Panel id="panel_attacks" allowDragging="true" returnToOriginalPositionWhenReleased="false" color="#ffffff" rectAlignment="LowerCenter" height="300" width="30" offsetXY="-420,0" visibility="noone" outline="#440044ff" outlineSize="1 -1">
+<Panel id="panel_attacks" allowDragging="true" returnToOriginalPositionWhenReleased="false" color="#ffffff" rectAlignment="LowerCenter" height="300" width="30" offsetXY="-440,0" visibility="noone" outline="#440044ff" outlineSize="1 -1">
     <VerticalLayout visibility="Black">
         <Image id="01_atkButtonImg_01" class="atkButtonImg" /><Image id="01_atkButtonImg_02" class="atkButtonImg" /><Image id="01_atkButtonImg_03" class="atkButtonImg" /><Image id="01_atkButtonImg_04" class="atkButtonImg" /><Image id="01_atkButtonImg_05" class="atkButtonImg" />
         <Image id="01_atkButtonImg_06" class="atkButtonImg" /><Image id="01_atkButtonImg_07" class="atkButtonImg" /><Image id="01_atkButtonImg_08" class="atkButtonImg" /><Image id="01_atkButtonImg_09" class="atkButtonImg" /><Image id="01_atkButtonImg_10" class="atkButtonImg" />
@@ -2226,9 +2248,8 @@
 
     </Panel >
 </Panel>
-
 <!-- SPELL SLOTS (DONE) -->
-<Panel id="panel_spellSlots" allowDragging="true" returnToOriginalPositionWhenReleased="false" color="#ffffff" rectAlignment="LowerCenter" height="300" width="150" offsetXY="735,0" visibility="noone" outline="#440044ff" outlineSize="1 -1">
+<Panel id="panel_spellSlots" allowDragging="true" returnToOriginalPositionWhenReleased="false" color="#ffffff" rectAlignment="LowerCenter" height="300" width="150" offsetXY="755,0" visibility="noone" outline="#440044ff" outlineSize="1 -1">
     <VerticalLayout>
         <HorizontalLayout preferredHeight="30">
             <Text preferredWidth="120" fontStyle="bold" text="spell slots" />
@@ -2370,9 +2391,8 @@
         </HorizontalLayout>
     </VerticalLayout>
 </Panel>
-
 <!-- RESOURSES (DONE) -->
-<Panel id="panel_resourses" allowDragging="true" returnToOriginalPositionWhenReleased="false" color="#ffffff" rectAlignment="LowerCenter" height="300" width="250" offsetXY="530,0" visibility="noone" outline="#440044ff" outlineSize="1 -1">
+<Panel id="panel_resourses" allowDragging="true" returnToOriginalPositionWhenReleased="false" color="#ffffff" rectAlignment="LowerCenter" height="300" width="250" offsetXY="550,0" visibility="noone" outline="#440044ff" outlineSize="1 -1">
     <VerticalLayout height="300" width="250" >
         <Panel color="#ffffff" />
         <Panel color="#dddddd" />
@@ -2740,9 +2760,8 @@
         </HorizontalLayout>
     </Panel>
 </Panel>
-
 <!-- NOTES (DONE) -->
-<Panel id="panel_notes" allowDragging="true" returnToOriginalPositionWhenReleased="false" color="#ffffff" rectAlignment="LowerCenter" height="300" width="800" offsetXY="0,345" visibility="noone" outline="#440044ff" outlineSize="1 -1">
+<Panel id="panel_notes" allowDragging="true" returnToOriginalPositionWhenReleased="false" color="#ffffff" rectAlignment="LowerCenter" height="300" width="800" offsetXY="0,405" visibility="noone" outline="#440044ff" outlineSize="1 -1">
     <VerticalLayout>
         <Text id="notesPanelTitle" preferredHeight="30" fontStyle="bold" text="Notes" />
         <Panel preferredHeight="270" >
@@ -2803,9 +2822,8 @@
         </Panel>
     </VerticalLayout>
 </Panel>
-
 <!-- CONDITIONS (DONE) -->
-<Panel id="panel_conditions" allowDragging="true" returnToOriginalPositionWhenReleased="false" color="#ffffff" rectAlignment="LowerCenter" height="160" width="200" offsetXY="505,305" visibility="noone" outline="#440044ff" outlineSize="1 -1">
+<Panel id="panel_conditions" allowDragging="true" returnToOriginalPositionWhenReleased="false" color="#ffffff" rectAlignment="LowerCenter" height="160" width="200" offsetXY="525,325" visibility="noone" outline="#440044ff" outlineSize="1 -1">
     <GridLayout rectAlignment="LowerCenter" childAlignment="MiddleCenter" cellSize="40 40" constraint="FixedColumnCount" constraintCount="5">
         <Image image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576007925/FD162AF9F20B5FC262E93DF6C1693C3126450D47/" color="#aaaaaa" />
         <Image image="https://steamusercontent-a.akamaihd.net/ugc/2497884302576008053/895C077850ABF6BF61FF5F86604754C55B9AB111/" color="#aaaaff" />
@@ -2907,7 +2925,6 @@
     </GridLayout>
     
 </Panel>
-
 <!-- FIGURINE GUI ALIGN (DONE) -->
 <Panel id="panel_UIset" allowDragging="true" returnToOriginalPositionWhenReleased="false" color="#aaaaaa" rectAlignment="LowerCenter" height="160" width="160" offsetXY="690,305" visibility="noone" outline="#440044ff" outlineSize="1 -1">
     <Text fontStyle="bold" text="x" offsetXY="40,15" />
@@ -2994,7 +3011,6 @@
         <Slider id="11_UIsetSlider_05" onValueChanged="tokenGUI_slider" wholeNumbers="true" minValue="1"   maxValue="20" height="20" width="140" offsetXY="-70,5" rotation="0,0,90" />
     </Panel>
 </Panel>
-
 <!-- TEAM GUI (DONE) -->
 <Panel id="teamBarPanel" allowDragging="true" returnToOriginalPositionWhenReleased="false" color="#aaaaaa" rectAlignment="UpperLeft" height="85" width="600" offsetXY="100,0" visibility="Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink" outline="#440044ff" outlineSize="1 -1" active="False" >
     <HorizontalLayout>
@@ -3110,7 +3126,6 @@
         </VerticalLayout>
     </HorizontalLayout>
 </Panel>
-
 <!-- MINIMAP (DONE) -->
 <Panel id="miniMapPanel" allowDragging="true" returnToOriginalPositionWhenReleased="false" color="#ffffff88" rectAlignment="UpperLeft" height="300" width="300" offsetXY="100,-100" visibility="noone" outline="#440044ff" outlineSize="1 -1" active="True" >
     <Text id="miniMap_head" fontStyle="bold" offsetXY="0 140" text="Minimap" />
@@ -3231,10 +3246,8 @@
         <InputField height="20" width="20" resizeTextMaxSize="8" onEndEdit="set_miniMap_unit" offsetXY="-120 140" active="false" />
     </Panel>
 </Panel>
-
 <!-- IMAGE PROJECTOR -->
 <Image id="projectorImage" rectAlignment="UpperRight" height="400" width="400" offsetXY="-200,-60" preserveAspect="True" color="#ffffffaa" outline="#440044ff" outlineSize="1 -1" image="https://steamusercontent-a.akamaihd.net/ugc/919163127431804784/8DC7A046F70FF0C25F9C05660CEE56D07059D293/" allowDragging="true" returnToOriginalPositionWhenReleased="false" visibility="noone" active="True" tooltipBackgroundColor="#000000" />
-
 <!-- BIG PORTRAIT -->
 <Panel id="bigPortraitPanel" allowDragging="true" returnToOriginalPositionWhenReleased="false" rectAlignment="MiddleCenter" height="500" width="500" visibility="noone" active="True" >
     <Image id="01_bigPortraitImage" height="500" width="500" preserveAspect="True" color="#ffffffaa" outline="#440044ff" outlineSize="1 -1" image="https://steamusercontent-a.akamaihd.net/ugc/919163127431804784/8DC7A046F70FF0C25F9C05660CEE56D07059D293/"  visibility="Black"  active="True" />
