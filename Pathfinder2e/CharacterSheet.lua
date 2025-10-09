@@ -1665,13 +1665,15 @@ function UI_upd(i)
         UI_xmlElementUpdate(strFromNum(i).."_charAttrMod_"..strFromNum(ii), "text", PoM(modFromAttr(main_Table[i].attributes[ii]))..modFromAttr(main_Table[i].attributes[ii]))
     end
 
-    local colorStr = ""
+    local colorStr, typeST = "", 1
     for smN, smV in pairs(main_Table[i].savesMod) do
         colorStr = "#ffffff"
         if enumSTT[main_Table[i].saves[smN]] == "Traning" then colorStr = "#575757ff"
         elseif enumSTT[main_Table[i].saves[smN]] == "Expert" then colorStr = "#6a36bdff"
         elseif enumSTT[main_Table[i].saves[smN]] == "Master" then colorStr = "#af2d2dff"
         elseif enumSTT[main_Table[i].saves[smN]] == "Legend" then colorStr = "#d0ff00ff" end
+        local tooltipText = lang_table[enumLangSet[lang_set]][61 + typeST] .. " " .. enumSTT[main_Table[i].saves[smN]]; typeST = typeST + 1
+        UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..smN, "tooltip", tooltipText)
         if smV ~= 0 then saveModStr = "\n"..PoM(smV)..smV else saveModStr = "" end
         UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..smN, "text", lang_table[enumLangSet[lang_set]][14]..saveModStr)
         UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..smN, "color", colorStr)
@@ -1889,22 +1891,17 @@ function language_UI_update()
     UI_xmlElementUpdate("charHP_tempButton", "text", lang_table[enumLangSet[lang_set]][59])
     UI_xmlElementUpdate("charHP_tempButton", "tooltip", lang_table[enumLangSet[lang_set]][60])
 
-    for i=1,11 do
-        for ii=1,5 do
+    for i=1, 11 do
+        for ii=1, 5 do
             UI_xmlElementUpdate(strFromNum(i).."_charDeathSaveButton_"..strFromNum(ii), "tooltip", lang_table[enumLangSet[lang_set]][61])
         end
     end
-    for i=1,11 do
-        for ii=1,6 do
-            UI_xmlElementUpdate(strFromNum(i).."_charAttrMod_"..strFromNum(ii), "tooltip", lang_table[enumLangSet[lang_set]][33+ii])
-        end
-        local j = 1
-        for smN,_ in pairs(main_Table[i].savesMod) do
-            UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..smN, "tooltip", lang_table[enumLangSet[lang_set]][61+j])
-            j = j + 1
+    for i=1, 11 do
+        for ii=1, 6 do
+            UI_xmlElementUpdate(strFromNum(i).."_charAttrMod_"..strFromNum(ii), "tooltip", lang_table[enumLangSet[lang_set]][33 + ii])
         end
     end
-    for i=1,18 do
+    for i=1, 18 do
         UI_xmlElementUpdate("charSkillButtonE_"..strFromNum(i), "tooltip", lang_table[enumLangSet[lang_set]][65])
         UI_xmlElementUpdate("charSkillButtonE_"..strFromNum(i), "text", lang_table[enumLangSet[lang_set]][33])
         UI_xmlElementUpdate("charSkillButtonM_"..strFromNum(i), "tooltip", lang_table[enumLangSet[lang_set]][79])
@@ -1912,7 +1909,7 @@ function language_UI_update()
         UI_xmlElementUpdate("charSkillButtonL_"..strFromNum(i), "tooltip", lang_table[enumLangSet[lang_set]][81])
         UI_xmlElementUpdate("charSkillButtonL_"..strFromNum(i), "text", lang_table[enumLangSet[lang_set]][80])
     end
-    for i=1,8 do
+    for i=1, 8 do
         UI_xmlElementUpdate("charSheetUtilButton_"..strFromNum(i), "text", lang_table[enumLangSet[lang_set]][65+i])
     end
     UI_xmlElementUpdate("charSheetUtilButton_06", "tooltip", lang_table[enumLangSet[lang_set]][74])

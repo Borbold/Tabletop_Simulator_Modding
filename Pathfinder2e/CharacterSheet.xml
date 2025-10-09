@@ -27,6 +27,7 @@
     <Text class="charHPtext" text="46 / 100" offsetXY="0 -20" resizeTextMaxSize='50' color="#880000" outline="#ffaaaa" fontStyle="bold" />
     <Text class="charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" resizeTextMaxSize="25" fontStyle="bold" offsetXY="120,-15" />
     <InputField class="charHealDmgValueInput" color="#dddddd" placeholder="value" characterValidation="Integer" preferredWidth="100" onEndEdit="setCharHealDmgVal" tooltipBackgroundColor="#000000" />
+    <Button class="charSaveButton" resizeTextMinSize="5" onClick="charSaveButton" text="S" tooltipBackgroundColor="#000000" />
 </Defaults>
 
 <Panel id="addCharModePanel" color="#0000aa22" visibility="Black" active="False">
@@ -542,41 +543,43 @@
                     <Button preferredWidth="30" id="11_charAttrMod_06" text="+2" fontStyle="bold" visibility="Pink"   onClick="rollAttribute" tooltipBackgroundColor="#000000" />
                 </HorizontalLayout>
             </VerticalLayout>
-            <VerticalLayout spacing='25' preferredWidth="25" >
-                <Button id="01_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Black"  tooltipBackgroundColor="#000000" />
-                <Button id="02_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="White"  tooltipBackgroundColor="#000000" />
-                <Button id="03_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Brown"  tooltipBackgroundColor="#000000" />
-                <Button id="04_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Red"    tooltipBackgroundColor="#000000" />
-                <Button id="05_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Orange" tooltipBackgroundColor="#000000" />
-                <Button id="06_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Yellow" tooltipBackgroundColor="#000000" />
-                <Button id="07_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Green"  tooltipBackgroundColor="#000000" />
-                <Button id="08_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Teal"   tooltipBackgroundColor="#000000" />
-                <Button id="09_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Blue"   tooltipBackgroundColor="#000000" />
-                <Button id="10_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Purple" tooltipBackgroundColor="#000000" />
-                <Button id="11_charSaveButton_Fortitude" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Pink"   tooltipBackgroundColor="#000000" />
-                <Button id="01_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Black"  tooltipBackgroundColor="#000000"    />
-                <Button id="02_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="White"  tooltipBackgroundColor="#000000" />
-                <Button id="03_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Brown"  tooltipBackgroundColor="#000000" />
-                <Button id="04_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Red"    tooltipBackgroundColor="#000000" />
-                <Button id="05_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Orange" tooltipBackgroundColor="#000000" />
-                <Button id="06_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Yellow" tooltipBackgroundColor="#000000" />
-                <Button id="07_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Green"  tooltipBackgroundColor="#000000" />
-                <Button id="08_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Teal"   tooltipBackgroundColor="#000000" />
-                <Button id="09_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Blue"   tooltipBackgroundColor="#000000" />
-                <Button id="10_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Purple" tooltipBackgroundColor="#000000" />
-                <Button id="11_charSaveButton_Reflex" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Pink"   tooltipBackgroundColor="#000000" />
-                <Button id="01_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Black"  tooltipBackgroundColor="#000000"    />
-                <Button id="02_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="White"  tooltipBackgroundColor="#000000" />
-                <Button id="03_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Brown"  tooltipBackgroundColor="#000000" />
-                <Button id="04_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Red"    tooltipBackgroundColor="#000000" />
-                <Button id="05_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Orange" tooltipBackgroundColor="#000000" />
-                <Button id="06_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Yellow" tooltipBackgroundColor="#000000" />
-                <Button id="07_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Green"  tooltipBackgroundColor="#000000" />
-                <Button id="08_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Teal"   tooltipBackgroundColor="#000000" />
-                <Button id="09_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Blue"   tooltipBackgroundColor="#000000" />
-                <Button id="10_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Purple" tooltipBackgroundColor="#000000" />
-                <Button id="11_charSaveButton_Will" resizeTextMinSize="5" onClick="charSaveButton" text="S" resizeTextMaxSize="14" visibility="Pink"   tooltipBackgroundColor="#000000" />
-            </VerticalLayout >
+            <VerticalLayout spacing='25' preferredWidth="25">
+                <Button id="01_charSaveButton_Fortitude" class="charSaveButton" visibility="Black" />
+                <Button id="02_charSaveButton_Fortitude" class="charSaveButton" visibility="White" />
+                <Button id="03_charSaveButton_Fortitude" class="charSaveButton" visibility="Brown" />
+                <Button id="04_charSaveButton_Fortitude" class="charSaveButton" visibility="Red" />
+                <Button id="05_charSaveButton_Fortitude" class="charSaveButton" visibility="Orange" />
+                <Button id="06_charSaveButton_Fortitude" class="charSaveButton" visibility="Yellow" />
+                <Button id="07_charSaveButton_Fortitude" class="charSaveButton" visibility="Green" />
+                <Button id="08_charSaveButton_Fortitude" class="charSaveButton" visibility="Teal" />
+                <Button id="09_charSaveButton_Fortitude" class="charSaveButton" visibility="Blue" />
+                <Button id="10_charSaveButton_Fortitude" class="charSaveButton" visibility="Purple" />
+                <Button id="11_charSaveButton_Fortitude" class="charSaveButton" visibility="Pink" />
+
+                <Button id="01_charSaveButton_Reflex" class="charSaveButton" visibility="Black" />
+                <Button id="02_charSaveButton_Reflex" class="charSaveButton" visibility="White" />
+                <Button id="03_charSaveButton_Reflex" class="charSaveButton" visibility="Brown" />
+                <Button id="04_charSaveButton_Reflex" class="charSaveButton" visibility="Red" />
+                <Button id="05_charSaveButton_Reflex" class="charSaveButton" visibility="Orange" />
+                <Button id="06_charSaveButton_Reflex" class="charSaveButton" visibility="Yellow" />
+                <Button id="07_charSaveButton_Reflex" class="charSaveButton" visibility="Green" />
+                <Button id="08_charSaveButton_Reflex" class="charSaveButton" visibility="Teal" />
+                <Button id="09_charSaveButton_Reflex" class="charSaveButton" visibility="Blue" />
+                <Button id="10_charSaveButton_Reflex" class="charSaveButton" visibility="Purple" />
+                <Button id="11_charSaveButton_Reflex" class="charSaveButton" visibility="Pink" />
+
+                <Button id="01_charSaveButton_Will" class="charSaveButton" visibility="Black" />
+                <Button id="02_charSaveButton_Will" class="charSaveButton" visibility="White" />
+                <Button id="03_charSaveButton_Will" class="charSaveButton" visibility="Brown" />
+                <Button id="04_charSaveButton_Will" class="charSaveButton" visibility="Red" />
+                <Button id="05_charSaveButton_Will" class="charSaveButton" visibility="Orange" />
+                <Button id="06_charSaveButton_Will" class="charSaveButton" visibility="Yellow" />
+                <Button id="07_charSaveButton_Will" class="charSaveButton" visibility="Green" />
+                <Button id="08_charSaveButton_Will" class="charSaveButton" visibility="Teal" />
+                <Button id="09_charSaveButton_Will" class="charSaveButton" visibility="Blue" />
+                <Button id="10_charSaveButton_Will" class="charSaveButton" visibility="Purple" />
+                <Button id="11_charSaveButton_Will" class="charSaveButton" visibility="Pink" />
+            </VerticalLayout>
             <TableLayout id="savesModsButtons" preferredWidth="13" visibility="noone">
                 <Row>
                     <Cell>
