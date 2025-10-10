@@ -949,10 +949,11 @@ function addCharToInitiative(pl,vl,thisID)
             end
         end
         if not alreadyInInitiative then
+            local locInitMod = modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[19].mod + main_Table[i].initMod + main_Table[i].charProfBonus*(main_Table[i].skills[19].proficient - 1)
             table.insert(init_table, #init_table + 1, {
                 charName = main_Table[nFromPl(pl)].charName,
                 rollRez = 0,
-                initMod = modFromAttr(main_Table[nFromPl(pl)].attributes[2]) + main_Table[nFromPl(pl)].initMod,
+                initMod = locInitMod,
                 tokenGUID = lastPickedCharGUID_table[nFromPl(pl)],
                 aColor = nFromPl(pl)
             })
@@ -1219,7 +1220,7 @@ function colorToggleEditMode(pl,vl,thisID)
             UI_xmlElementUpdate("charAttrEdit_"..i,"visibility",editModeVisibilityStr)
         end
         UI_xmlElementUpdate("savesModsButtons","visibility",editModeVisibilityStr)
-        for i=1,18 do
+        for i = 1, 19 do
             UI_xmlElementUpdate("charSkillEditButtons_"..strFromNum(i),"visibility",editModeVisibilityStr)
         end
 
@@ -1582,8 +1583,10 @@ function UI_upd(i)
     UI_xmlElementUpdate(strFromNum(i).."_charAC", "text", main_Table[i].AC)
     UI_xmlElementUpdate(strFromNum(i).."_charSpeed", "text", main_Table[i].speed)
 
-    if main_Table[i].initMod ~= 0 then initModStr = "  ("..PoM(main_Table[i].initMod)..main_Table[i].initMod..")" else initModStr = "" end
-    UI_xmlElementUpdate("charInitAddButton_"..strFromNum(i), "text", lang_table[enumLangSet[lang_set]][6]..PoM(modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[19].mod + main_Table[i].initMod)..(modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[19].mod + main_Table[i].initMod)..initModStr)
+    local initModStr = ""
+    if main_Table[i].initMod ~= 0 then initModStr = " ("..PoM(main_Table[i].initMod)..main_Table[i].initMod..")" end
+    local locInitMod = modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[19].mod + main_Table[i].initMod + main_Table[i].charProfBonus*(main_Table[i].skills[19].proficient - 1)
+    UI_xmlElementUpdate("charInitAddButton_"..strFromNum(i), "text", lang_table[enumLangSet[lang_set]][6]..PoM(locInitMod) .. locInitMod .. initModStr)
 
     local pPerseptionBase = 10 + modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[19].mod + main_Table[i].charProfBonus*(main_Table[i].skills[19].proficient - 1)
     if main_Table[i].pPerceptionMod ~= 0 then ppModStr = " ("..PoM(main_Table[i].pPerceptionMod)..main_Table[i].pPerceptionMod..")" else ppModStr = "" end

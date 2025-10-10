@@ -229,32 +229,32 @@
                     <Text preferredWidth="10" />
                 </HorizontalLayout>
                 <HorizontalLayout>
-                    <Button id="01_charSkillButton_19" class="skillButton" visibility="Black"  />
-                    <Button id="02_charSkillButton_19" class="skillButton" visibility="White"  />
-                    <Button id="03_charSkillButton_19" class="skillButton" visibility="Brown"  />
-                    <Button id="04_charSkillButton_19" class="skillButton" visibility="Red"    />
-                    <Button id="05_charSkillButton_19" class="skillButton" visibility="Orange" />
-                    <Button id="06_charSkillButton_19" class="skillButton" visibility="Yellow" />
-                    <Button id="07_charSkillButton_19" class="skillButton" visibility="Green"  />
-                    <Button id="08_charSkillButton_19" class="skillButton" visibility="Teal"   />
-                    <Button id="09_charSkillButton_19" class="skillButton" visibility="Blue"   />
-                    <Button id="10_charSkillButton_19" class="skillButton" visibility="Purple" />
-                    <Button id="11_charSkillButton_19" class="skillButton" visibility="Pink"   />
-                    <HorizontalLayout id="charSkillEditButtons_19" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charSkillEdit_19" onClick="setSkillMod"  text="-" preferredWidth="28" />
-                        <Button id="02_charSkillEdit_19" onClick="setSkillMod"  text="+" preferredWidth="28" />
-                    </HorizontalLayout>
-                    <Text id="01_charPassivePerception" text="Passive perception: 12" fontStyle="bold" visibility="Black"  />
-                    <Text id="02_charPassivePerception" text="Passive perception: 12" fontStyle="bold" visibility="White"  />
-                    <Text id="03_charPassivePerception" text="Passive perception: 12" fontStyle="bold" visibility="Brown"  />
-                    <Text id="04_charPassivePerception" text="Passive perception: 12" fontStyle="bold" visibility="Red"    />
-                    <Text id="05_charPassivePerception" text="Passive perception: 12" fontStyle="bold" visibility="Orange" />
-                    <Text id="06_charPassivePerception" text="Passive perception: 12" fontStyle="bold" visibility="Yellow" />
-                    <Text id="07_charPassivePerception" text="Passive perception: 12" fontStyle="bold" visibility="Green"  />
-                    <Text id="08_charPassivePerception" text="Passive perception: 12" fontStyle="bold" visibility="Teal"   />
-                    <Text id="09_charPassivePerception" text="Passive perception: 12" fontStyle="bold" visibility="Blue"   />
-                    <Text id="10_charPassivePerception" text="Passive perception: 12" fontStyle="bold" visibility="Purple" />
-                    <Text id="11_charPassivePerception" text="Passive perception: 12" fontStyle="bold" visibility="Pink"   />
+                    <Button id="01_charSkillButton_19" class="skillButton" preferredWidth="100" visibility="Black"  />
+                    <Button id="02_charSkillButton_19" class="skillButton" preferredWidth="100" visibility="White"  />
+                    <Button id="03_charSkillButton_19" class="skillButton" preferredWidth="100" visibility="Brown"  />
+                    <Button id="04_charSkillButton_19" class="skillButton" preferredWidth="100" visibility="Red"    />
+                    <Button id="05_charSkillButton_19" class="skillButton" preferredWidth="100" visibility="Orange" />
+                    <Button id="06_charSkillButton_19" class="skillButton" preferredWidth="100" visibility="Yellow" />
+                    <Button id="07_charSkillButton_19" class="skillButton" preferredWidth="100" visibility="Green"  />
+                    <Button id="08_charSkillButton_19" class="skillButton" preferredWidth="100" visibility="Teal"   />
+                    <Button id="09_charSkillButton_19" class="skillButton" preferredWidth="100" visibility="Blue"   />
+                    <Button id="10_charSkillButton_19" class="skillButton" preferredWidth="100" visibility="Purple" />
+                    <Button id="11_charSkillButton_19" class="skillButton" preferredWidth="100" visibility="Pink"   />
+                    <VerticalLayout id="charSkillEditButtons_19" preferredWidth="20" visibility="noone"> <!-- EDIT TOGGLE -->
+                        <Button id="02_charSkillEdit_19" onClick="setSkillMod" text="+" />
+                        <Button id="01_charSkillEdit_19" onClick="setSkillMod" text="-" />
+                    </VerticalLayout>
+                    <Text id="01_charPassivePerception" text="Passive perception: 12" resizeTextForBestFit='18' fontStyle="bold" visibility="Black"  />
+                    <Text id="02_charPassivePerception" text="Passive perception: 12" resizeTextForBestFit='18' fontStyle="bold" visibility="White"  />
+                    <Text id="03_charPassivePerception" text="Passive perception: 12" resizeTextForBestFit='18' fontStyle="bold" visibility="Brown"  />
+                    <Text id="04_charPassivePerception" text="Passive perception: 12" resizeTextForBestFit='18' fontStyle="bold" visibility="Red"    />
+                    <Text id="05_charPassivePerception" text="Passive perception: 12" resizeTextForBestFit='18' fontStyle="bold" visibility="Orange" />
+                    <Text id="06_charPassivePerception" text="Passive perception: 12" resizeTextForBestFit='18' fontStyle="bold" visibility="Yellow" />
+                    <Text id="07_charPassivePerception" text="Passive perception: 12" resizeTextForBestFit='18' fontStyle="bold" visibility="Green"  />
+                    <Text id="08_charPassivePerception" text="Passive perception: 12" resizeTextForBestFit='18' fontStyle="bold" visibility="Teal"   />
+                    <Text id="09_charPassivePerception" text="Passive perception: 12" resizeTextForBestFit='18' fontStyle="bold" visibility="Blue"   />
+                    <Text id="10_charPassivePerception" text="Passive perception: 12" resizeTextForBestFit='18' fontStyle="bold" visibility="Purple" />
+                    <Text id="11_charPassivePerception" text="Passive perception: 12" resizeTextForBestFit='18' fontStyle="bold" visibility="Pink"   />
                     <VerticalLayout id="charPassPercEdit" preferredWidth="20" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charPassPerceptionButton_01" onClick="setCharPassPerceptionMod" text="+" />
                         <Button id="charPassPerceptionButton_02" onClick="setCharPassPerceptionMod" text="-" />
