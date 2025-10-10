@@ -1,6 +1,7 @@
 local enumSTnC = {Fortitude = 3, Reflex = 2, Will = 5}
 local enumLangSet = {[1] = "EN", [2] = "RU"}
 local enumSTT = {"Untraning", "Traning", "Expert", "Master", "Legend"}
+local enumSTTC = {"#ffffff", "#575757ff", "#6a36bdff", "#af2d2dff", "#d0ff00ff"}
 
 function onSave()
     if resetGlobalLuaSave then
@@ -99,8 +100,6 @@ function onLoad(saved_data)
     initEditPos = 0
     initEditPanelVisible = false
 
-    defSkillsAttr_table = {2, 4, 1, 4, 6, 6, 6, 4, 4, 5, 4, 4, 6, 4, 4, 2, 5, 2}
-
     plColors_Table = {"Black","White","Brown","Red","Orange","Yellow","Green","Teal","Blue","Purple","Pink"}
     plColorsHexTable={"#3f3f3f","#ffffff","#703a16","#da1917","#f3631c","#e6e42b","#30b22a","#20b09a","#1e87ff","#9f1fef","#f46fcd"}
     editModeVisibility = {false,false,false,false,false,false,false,false,false,false,false}
@@ -134,6 +133,7 @@ function onLoad(saved_data)
 
     rollOutputHex = "[cccccc]"
 
+    defSkillsAttr_table = {2, 4, 1, 4, 6, 6, 6, 4, 4, 5, 4, 4, 6, 4, 4, 2, 5, 2, 5}
     main_Table = {}
     for i=1,11 do
         main_Table[i] = {}
@@ -156,18 +156,15 @@ function onLoad(saved_data)
         main_Table[i].savesMod = {Fortitude = 0, Reflex = 0, Will = 0}
         -- Initialize skills with default values
         main_Table[i].skills = {}
-        for ii=1,18 do
+        for ii = 1, 19 do
             main_Table[i].skills[ii] = {
-                proficient = false,
-                expert = false,
-                master = false,
-                legendary = false,
+                proficient = 1,
                 mod = 0
             }
         end
         -- Initialize attacks with default values
         main_Table[i].attacks = {}
-        for ii=1,10 do
+        for ii = 1, 10 do
             main_Table[i].attacks[ii] = {
                 atkName = "unarmed",
                 atkRolled = true,
@@ -453,7 +450,7 @@ end
 -------------------------   sheet buttons and more edits
 
 function rollAttribute(pl,vl,thisID)
-    plColHex = "["..Color[pl.color]:toHex(false).."]"
+    local plColHex = "["..Color[pl.color]:toHex(false).."]"
     if vl == "-1" then
         stringRoller("1d20"..PoM(modFromAttr(main_Table[numFromStr(thisID)].attributes[numFromStrEnd(thisID)]))..modFromAttr(main_Table[numFromStr(thisID)].attributes[numFromStrEnd(thisID)]),pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[enumLangSet[lang_set]][numFromStrEnd(thisID) + 7]..":",1,false)
     elseif vl == "-2" then
@@ -468,13 +465,12 @@ function charSaveButton(pl,vl,thisID)
     if editModeVisibility[nFromPl(pl)] then
         main_Table[nFromPl(pl)].saves[nameST] = main_Table[nFromPl(pl)].saves[nameST] + 1
         if main_Table[nFromPl(pl)].saves[nameST] > #enumSTT then main_Table[nFromPl(pl)].saves[nameST] = 1 end
+        singleColor_UI_update(nFromPl(pl))
     else
-        plColHex = "["..Color[pl.color]:toHex(false).."]"
-        if main_Table[numFromStr(thisID)].saves[nameST] > 1 then
-            modStr = "1d20"..PoM(modFromAttr(main_Table[numFromStr(thisID)].attributes[enumSTnC[nameST]]) + main_Table[numFromStr(thisID)].savesMod[nameST] + (main_Table[numFromStr(thisID)].charProfBonus*(main_Table[numFromStr(thisID)].saves[nameST] - 1))) .. modFromAttr(main_Table[numFromStr(thisID)].attributes[enumSTnC[nameST]]) + main_Table[numFromStr(thisID)].savesMod[nameST] + (main_Table[numFromStr(thisID)].charProfBonus*(main_Table[numFromStr(thisID)].saves[nameST] - 1))
-        else
-            modStr = "1d20"..PoM(modFromAttr(main_Table[numFromStr(thisID)].attributes[enumSTnC[nameST]]) + main_Table[numFromStr(thisID)].savesMod[nameST]) .. modFromAttr(main_Table[numFromStr(thisID)].attributes[enumSTnC[nameST]]) + main_Table[numFromStr(thisID)].savesMod[nameST]
-        end
+        local plColHex = "["..Color[pl.color]:toHex(false).."]"
+        local modifier = modFromAttr(main_Table[numFromStr(thisID)].attributes[enumSTnC[nameST]]) + main_Table[numFromStr(thisID)].savesMod[nameST]
+        local proficientSave = main_Table[numFromStr(thisID)].charProfBonus*(main_Table[numFromStr(thisID)].saves[nameST] - 1)
+        modStr = "1d20" .. PoM(modifier + proficientSave) .. modifier + proficientSave
         if vl == "-1" then
             stringRoller(modStr,pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[enumLangSet[lang_set]][enumSTnC[nameST] + 7].." "..lang_table[enumLangSet[lang_set]][40]..":",1,false)
         elseif vl == "-2" then
@@ -483,30 +479,17 @@ function charSaveButton(pl,vl,thisID)
             stringRoller(modStr,pl, rollOutputHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[enumLangSet[lang_set]][enumSTnC[nameST] + 7].." "..lang_table[enumLangSet[lang_set]][40]..":",4,false)
         end
     end
-    singleColor_UI_update(nFromPl(pl))
 end
 
 function skillButtonMain(pl,vl,thisID)
     if editModeVisibility[nFromPl(pl)] then
-        main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].proficient = not main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].proficient
-        if not main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].proficient then
-            main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].expert = false
-            main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].master = false
-            main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].legendary = false
-        end
+        main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].proficient = main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].proficient + 1
+        if main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].proficient > #enumSTT then main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].proficient = 1 end
         singleColor_UI_update(nFromPl(pl))
     else
-        plColHex = "["..Color[pl.color]:toHex(false).."]"
-        thisSkillMod = modFromAttr(main_Table[numFromStr(thisID)].attributes[defSkillsAttr_table[numFromStrEnd(thisID)]]) + main_Table[numFromStr(thisID)].skills[numFromStrEnd(thisID)].mod
-        if main_Table[numFromStr(thisID)].skills[numFromStrEnd(thisID)].legendary then
-            thisSkillMod = thisSkillMod + main_Table[numFromStr(thisID)].charProfBonus * 4
-        elseif main_Table[numFromStr(thisID)].skills[numFromStrEnd(thisID)].master then
-            thisSkillMod = thisSkillMod + main_Table[numFromStr(thisID)].charProfBonus * 3
-        elseif main_Table[numFromStr(thisID)].skills[numFromStrEnd(thisID)].expert then
-            thisSkillMod = thisSkillMod + main_Table[numFromStr(thisID)].charProfBonus * 2
-        elseif main_Table[numFromStr(thisID)].skills[numFromStrEnd(thisID)].proficient then
-            thisSkillMod = thisSkillMod + main_Table[numFromStr(thisID)].charProfBonus
-        end
+        local plColHex = "["..Color[pl.color]:toHex(false).."]"
+        local proficientSkill = main_Table[numFromStr(thisID)].charProfBonus*(main_Table[numFromStr(thisID)].skills[numFromStrEnd(thisID)].proficient - 1)
+        local thisSkillMod = modFromAttr(main_Table[numFromStr(thisID)].attributes[defSkillsAttr_table[numFromStrEnd(thisID)]]) + main_Table[numFromStr(thisID)].skills[numFromStrEnd(thisID)].mod + proficientSkill
         if vl == "-1" then
             stringRoller("1d20"..PoM(thisSkillMod)..thisSkillMod,pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[enumLangSet[lang_set]][numFromStrEnd(thisID) + 14]..":",1,false)
         elseif vl == "-2" then
@@ -515,30 +498,6 @@ function skillButtonMain(pl,vl,thisID)
             stringRoller("1d20"..PoM(thisSkillMod)..thisSkillMod,pl, rollOutputHex..main_Table[numFromStr(thisID)].charName.."[-]: "..lang_table[enumLangSet[lang_set]][numFromStrEnd(thisID) + 14]..":",4,false)
         end
     end
-end
-
-function setExpert(pl,vl,thisID)
-    main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].expert = not main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].expert
-    if not main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].proficient then
-        main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].expert = false
-    end
-    singleColor_UI_update(nFromPl(pl))
-end
-
-function setMaster(pl,vl,thisID)
-    main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].master = not main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].master
-    if not main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].expert then
-        main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].master = false
-    end
-    singleColor_UI_update(nFromPl(pl))
-end
-
-function setLegendary(pl,vl,thisID)
-    main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].legendary = not main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].legendary
-    if not main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].master then
-        main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].legendary = false
-    end
-    singleColor_UI_update(nFromPl(pl))
 end
 
 function setSkillMod(pl,vl,thisID)
@@ -608,7 +567,7 @@ end
 -------------------------   attacks
 
 function atkButton(pl,vl,thisID)
-    plColHex = "["..Color[pl.color]:toHex(false).."]"
+    local plColHex = "["..Color[pl.color]:toHex(false).."]"
     if editModeVisibility[nFromPl(pl)] then
         editModeSelectedAttack[nFromPl(pl)] = numFromStrEnd(thisID)
         for i=1,10 do
@@ -634,7 +593,7 @@ function atkButton(pl,vl,thisID)
 
             atkRollMod = main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].atkMod
             if main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].atkAttr ~= 0 then atkRollMod = atkRollMod + modFromAttr(main_Table[nFromPl(pl)].attributes[main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].atkAttr]) end
-            if main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].proficient then   atkRollMod = atkRollMod + math.floor((main_Table[nFromPl(pl)].charLvl + 7)/4) end
+            if main_Table[nFromPl(pl)].attacks[numFromStrEnd(thisID)].proficient then atkRollMod = atkRollMod + math.floor((main_Table[nFromPl(pl)].charLvl + 7)/4) end
             atkClicked = numFromStrEnd(thisID)
             critRolled = false
 
@@ -1624,13 +1583,10 @@ function UI_upd(i)
     UI_xmlElementUpdate(strFromNum(i).."_charSpeed", "text", main_Table[i].speed)
 
     if main_Table[i].initMod ~= 0 then initModStr = "  ("..PoM(main_Table[i].initMod)..main_Table[i].initMod..")" else initModStr = "" end
-    UI_xmlElementUpdate("charInitAddButton_"..strFromNum(i), "text", lang_table[enumLangSet[lang_set]][6]..PoM(modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[12].mod + main_Table[i].initMod)..(modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[12].mod + main_Table[i].initMod)..initModStr)
+    UI_xmlElementUpdate("charInitAddButton_"..strFromNum(i), "text", lang_table[enumLangSet[lang_set]][6]..PoM(modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[19].mod + main_Table[i].initMod)..(modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[19].mod + main_Table[i].initMod)..initModStr)
 
-    pPerseptionBase = 10 + modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[12].mod
-    if main_Table[i].skills[12].proficient then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
-    if main_Table[i].skills[12].expert then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
-    if main_Table[i].skills[12].master then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
-    if main_Table[i].skills[12].legendary then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
+    local pPerseptionBase = 10 + modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[19].mod + main_Table[i].charProfBonus*(main_Table[i].skills[19].proficient - 1)
+    if main_Table[i].pPerceptionMod ~= 0 then ppModStr = " ("..PoM(main_Table[i].pPerceptionMod)..main_Table[i].pPerceptionMod..")" else ppModStr = "" end
     if main_Table[i].pPerceptionMod ~= 0 then ppModStr = " ("..PoM(main_Table[i].pPerceptionMod)..main_Table[i].pPerceptionMod..")" else ppModStr = "" end
     UI_xmlElementUpdate(strFromNum(i).."_charPassivePerception", "text", lang_table[enumLangSet[lang_set]][7]..(main_Table[i].pPerceptionMod + pPerseptionBase)..ppModStr)
 
@@ -1665,41 +1621,26 @@ function UI_upd(i)
         UI_xmlElementUpdate(strFromNum(i).."_charAttrMod_"..strFromNum(ii), "text", PoM(modFromAttr(main_Table[i].attributes[ii]))..modFromAttr(main_Table[i].attributes[ii]))
     end
 
-    local colorStr, typeST = "", 1
     for smN, smV in pairs(main_Table[i].savesMod) do
-        colorStr = "#ffffff"
-        if enumSTT[main_Table[i].saves[smN]] == "Traning" then colorStr = "#575757ff"
-        elseif enumSTT[main_Table[i].saves[smN]] == "Expert" then colorStr = "#6a36bdff"
-        elseif enumSTT[main_Table[i].saves[smN]] == "Master" then colorStr = "#af2d2dff"
-        elseif enumSTT[main_Table[i].saves[smN]] == "Legend" then colorStr = "#d0ff00ff" end
-        local tooltipText = lang_table[enumLangSet[lang_set]][61 + typeST] .. " " .. enumSTT[main_Table[i].saves[smN]]; typeST = typeST + 1
+        local index = main_Table[i].saves[smN]
+        local colorStr, typeST = enumSTTC[index], 1
+        local tooltipText = lang_table[enumLangSet[lang_set]][61 + typeST] .. " " .. enumSTT[index]; typeST = typeST + 1
         UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..smN, "tooltip", tooltipText)
         if smV ~= 0 then saveModStr = "\n"..PoM(smV)..smV else saveModStr = "" end
         UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..smN, "text", lang_table[enumLangSet[lang_set]][14]..saveModStr)
         UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..smN, "color", colorStr)
     end
 
-    for ii = 1, 18 do
-        colorStr = "#ffffff"
-        if main_Table[i].skills[ii].proficient then colorStr = "#575757ff" end
-        if main_Table[i].skills[ii].expert then eStr = " ("..lang_table[enumLangSet[lang_set]][33]..")" else eStr = "" end
-        if main_Table[i].skills[ii].master then mStr = " ("..lang_table[enumLangSet[lang_set]][78]..")" else mStr = "" end
-        if main_Table[i].skills[ii].legendary then lStr = " ("..lang_table[enumLangSet[lang_set]][80]..")" else lStr = "" end
-        if main_Table[i].skills[ii].mod ~= 0 then sklModStr = " "..PoM(main_Table[i].skills[ii].mod)..main_Table[i].skills[ii].mod else sklModStr = "" end
-        UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "text", lang_table[enumLangSet[lang_set]][14 + ii]..eStr..mStr..lStr..sklModStr)
+    for ii = 1, 19 do
+        local sklModStr, index = "", main_Table[i].skills[ii].proficient
+        local colorStr = enumSTTC[index]
+        if main_Table[i].skills[ii].mod ~= 0 then sklModStr = " "..PoM(main_Table[i].skills[ii].mod)..main_Table[i].skills[ii].mod end
+        UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "text", lang_table[enumLangSet[lang_set]][14 + ii]..sklModStr)
         UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "color", colorStr)
 
-        thisSkillMod = modFromAttr(main_Table[i].attributes[defSkillsAttr_table[ii]]) + main_Table[i].skills[ii].mod
-        if main_Table[i].skills[ii].legendary then
-            thisSkillMod = thisSkillMod + main_Table[i].charProfBonus * 4
-        elseif main_Table[i].skills[ii].master then
-            thisSkillMod = thisSkillMod + main_Table[i].charProfBonus * 3
-        elseif main_Table[i].skills[ii].expert then
-            thisSkillMod = thisSkillMod + main_Table[i].charProfBonus * 2
-        elseif main_Table[i].skills[ii].proficient then
-            thisSkillMod = thisSkillMod + main_Table[i].charProfBonus
-        end
-        UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "tooltip", "d20"..PoM(thisSkillMod)..thisSkillMod)
+        local proficientSkill = main_Table[i].charProfBonus*(index - 1)
+        local thisSkillMod = modFromAttr(main_Table[i].attributes[defSkillsAttr_table[ii]]) + main_Table[i].skills[ii].mod + proficientSkill
+        UI_xmlElementUpdate(strFromNum(i).."_charSkillButton_"..strFromNum(ii), "tooltip", "d20"..PoM(thisSkillMod) .. thisSkillMod .. " " .. enumSTT[index])
     end
 
     for ii = 1, 10 do
@@ -1796,11 +1737,7 @@ function teamBar_UI_update()
             else
                 UI_xmlElementUpdate(strFromNum(i).."_teamBarImage", "image", "https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/")
             end
-            pPerseptionBase = 10 + modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[12].mod
-            if main_Table[i].skills[12].proficient then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
-            if main_Table[i].skills[12].expert then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
-            if main_Table[i].skills[12].master then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
-            if main_Table[i].skills[12].legendary then pPerseptionBase = pPerseptionBase + main_Table[i].charProfBonus end
+            local pPerseptionBase = 10 + modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[19].mod + main_Table[i].charProfBonus*(main_Table[i].skills[19].proficient - 1)
             if main_Table[i].pPerceptionMod ~= 0 then ppModStr = " ("..PoM(main_Table[i].pPerceptionMod)..main_Table[i].pPerceptionMod..")" else ppModStr = "" end
             
             UI_xmlElementUpdate(strFromNum(i).."_bigPortraitTeam", "tooltip", main_Table[i].charName.."\n"..
@@ -1922,7 +1859,7 @@ function language_UI_update()
     end
 
     for i=1,11 do
-        UI_xmlElementUpdate("charInitAddButton"..strFromNum(i), "tooltip", lang_table[enumLangSet[lang_set]][86])
+        UI_xmlElementUpdate("charInitAddButton_"..strFromNum(i), "tooltip", lang_table[enumLangSet[lang_set]][86])
     end
 
     UI_xmlElementUpdate("initPassButton", "text", lang_table[enumLangSet[lang_set]][84])

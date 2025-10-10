@@ -153,29 +153,28 @@ function resetChar()
     charSave_table.saves = {Fortitude = 1, Reflex = 1, Will = 1}
     charSave_table.savesMod = {Fortitude = 0, Reflex = 0, Will = 0}
     charSave_table.skills = {}
-    for ii = 1, 18 do
-        charSave_table.skills[ii] = {}
-        charSave_table.skills[ii].proficient = false
-        charSave_table.skills[ii].expert = false
-        charSave_table.skills[ii].master = false
-        charSave_table.skills[ii].legendary = false
-        charSave_table.skills[ii].mod = 0
+    for ii = 1, 19 do
+        charSave_table.skills[ii] = {
+            proficient = 1,
+            mod = 0
+        }
     end
     charSave_table.attacks = {}
     for ii = 1, 10 do
-        charSave_table.attacks[ii] = {}
-        charSave_table.attacks[ii].atkName = "unarmed"
-        charSave_table.attacks[ii].atkRolled = true
-        charSave_table.attacks[ii].atkAttr = 1
-        charSave_table.attacks[ii].proficient = true
-        charSave_table.attacks[ii].minCrit = 20
-        charSave_table.attacks[ii].atkMod = 0
-        charSave_table.attacks[ii].dmgRolled = true
-        charSave_table.attacks[ii].dmgAttr = 1
-        charSave_table.attacks[ii].dmgStr = "1"
-        charSave_table.attacks[ii].dmgStrCrit = "0"
-        charSave_table.attacks[ii].resUsed = 0
-        charSave_table.attacks[ii].icon = 1
+        charSave_table.attacks[ii] = {
+            atkName = "unarmed",
+            atkRolled = true,
+            atkAttr = 1,
+            proficient = true,
+            minCrit = 20,
+            atkMod = 0,
+            dmgRolled = true,
+            dmgAttr = 1,
+            dmgStr = "1",
+            dmgStrCrit = "0",
+            resUsed = 0,
+            icon = 1
+        }
     end
     charSave_table.splSlots = {0,0,0,0,0,0,0,0,0}
     charSave_table.splSlotsMax = {0,0,0,0,0,0,0,0,0}

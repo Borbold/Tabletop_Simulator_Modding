@@ -229,6 +229,21 @@
                     <Text preferredWidth="10" />
                 </HorizontalLayout>
                 <HorizontalLayout>
+                    <Button id="01_charSkillButton_19" class="skillButton" visibility="Black"  />
+                    <Button id="02_charSkillButton_19" class="skillButton" visibility="White"  />
+                    <Button id="03_charSkillButton_19" class="skillButton" visibility="Brown"  />
+                    <Button id="04_charSkillButton_19" class="skillButton" visibility="Red"    />
+                    <Button id="05_charSkillButton_19" class="skillButton" visibility="Orange" />
+                    <Button id="06_charSkillButton_19" class="skillButton" visibility="Yellow" />
+                    <Button id="07_charSkillButton_19" class="skillButton" visibility="Green"  />
+                    <Button id="08_charSkillButton_19" class="skillButton" visibility="Teal"   />
+                    <Button id="09_charSkillButton_19" class="skillButton" visibility="Blue"   />
+                    <Button id="10_charSkillButton_19" class="skillButton" visibility="Purple" />
+                    <Button id="11_charSkillButton_19" class="skillButton" visibility="Pink"   />
+                    <HorizontalLayout id="charSkillEditButtons_19" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
+                        <Button id="01_charSkillEdit_19" onClick="setSkillMod"  text="-" preferredWidth="28" />
+                        <Button id="02_charSkillEdit_19" onClick="setSkillMod"  text="+" preferredWidth="28" />
+                    </HorizontalLayout>
                     <Text id="01_charPassivePerception" text="Passive perception: 12" fontStyle="bold" visibility="Black"  />
                     <Text id="02_charPassivePerception" text="Passive perception: 12" fontStyle="bold" visibility="White"  />
                     <Text id="03_charPassivePerception" text="Passive perception: 12" fontStyle="bold" visibility="Brown"  />
@@ -652,9 +667,6 @@
                     <Button id="10_charSkillButton_01" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_01" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_01" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charSkillButtonE_01" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonM_01" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonL_01" onClick="setLegendary" text="L" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="01_charSkillEdit_01" onClick="setSkillMod"  text="-" preferredWidth="28" />
                         <Button id="02_charSkillEdit_01" onClick="setSkillMod"  text="+" preferredWidth="28" />
                     </HorizontalLayout>
@@ -672,9 +684,6 @@
                     <Button id="10_charSkillButton_02" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_02" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_02" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charSkillButtonE_02" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonM_02" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonL_02" onClick="setLegendary" text="L" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="01_charSkillEdit_02" onClick="setSkillMod"  text="-" preferredWidth="28" />
                         <Button id="02_charSkillEdit_02" onClick="setSkillMod"  text="+" preferredWidth="28" />
                     </HorizontalLayout>
@@ -692,9 +701,6 @@
                     <Button id="10_charSkillButton_03" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_03" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_03" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charSkillButtonE_03" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonM_03" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonL_03" onClick="setLegendary" text="L" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="01_charSkillEdit_03" onClick="setSkillMod"  text="-" preferredWidth="28" />
                         <Button id="02_charSkillEdit_03" onClick="setSkillMod"  text="+" preferredWidth="28" />
                     </HorizontalLayout>
@@ -712,9 +718,6 @@
                     <Button id="10_charSkillButton_04" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_04" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_04" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charSkillButtonE_04" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonM_04" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonL_04" onClick="setLegendary" text="L" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="01_charSkillEdit_04" onClick="setSkillMod"  text="-" preferredWidth="28" />
                         <Button id="02_charSkillEdit_04" onClick="setSkillMod"  text="+" preferredWidth="28" />
                     </HorizontalLayout>
@@ -732,9 +735,6 @@
                     <Button id="10_charSkillButton_05" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_05" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_05" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charSkillButtonE_05" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonM_05" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonL_05" onClick="setLegendary" text="L" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="01_charSkillEdit_05" onClick="setSkillMod"  text="-" preferredWidth="28" />
                         <Button id="02_charSkillEdit_05" onClick="setSkillMod"  text="+" preferredWidth="28" />
                     </HorizontalLayout>
@@ -752,9 +752,6 @@
                     <Button id="10_charSkillButton_06" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_06" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_06" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charSkillButtonE_06" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonM_06" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonL_06" onClick="setLegendary" text="L" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="01_charSkillEdit_06" onClick="setSkillMod"  text="-" preferredWidth="28" />
                         <Button id="02_charSkillEdit_06" onClick="setSkillMod"  text="+" preferredWidth="28" />
                     </HorizontalLayout>
@@ -772,9 +769,6 @@
                     <Button id="10_charSkillButton_07" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_07" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_07" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charSkillButtonE_07" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonM_07" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonL_07" onClick="setLegendary" text="L" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="01_charSkillEdit_07" onClick="setSkillMod"  text="-" preferredWidth="28" />
                         <Button id="02_charSkillEdit_07" onClick="setSkillMod"  text="+" preferredWidth="28" />
                     </HorizontalLayout>
@@ -792,9 +786,6 @@
                     <Button id="10_charSkillButton_08" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_08" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_08" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charSkillButtonE_08" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonM_08" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonL_08" onClick="setLegendary" text="L" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="01_charSkillEdit_08" onClick="setSkillMod"  text="-" preferredWidth="28" />
                         <Button id="02_charSkillEdit_08" onClick="setSkillMod"  text="+" preferredWidth="28" />
                     </HorizontalLayout>
@@ -812,9 +803,6 @@
                     <Button id="10_charSkillButton_09" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_09" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_09" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charSkillButtonE_09" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonM_09" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonL_09" onClick="setLegendary" text="L" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="01_charSkillEdit_09" onClick="setSkillMod"  text="-" preferredWidth="28" />
                         <Button id="02_charSkillEdit_09" onClick="setSkillMod"  text="+" preferredWidth="28" />
                     </HorizontalLayout>
@@ -835,9 +823,6 @@
                     <Button id="10_charSkillButton_10" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_10" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_10" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charSkillButtonE_10" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonM_10" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonL_10" onClick="setLegendary" text="L" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="01_charSkillEdit_10" onClick="setSkillMod"  text="-" preferredWidth="28" />
                         <Button id="02_charSkillEdit_10" onClick="setSkillMod"  text="+" preferredWidth="28" />
                     </HorizontalLayout>
@@ -855,9 +840,6 @@
                     <Button id="10_charSkillButton_11" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_11" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_11" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charSkillButtonE_11" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonM_11" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonL_11" onClick="setLegendary" text="L" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="01_charSkillEdit_11" onClick="setSkillMod"  text="-" preferredWidth="28" />
                         <Button id="02_charSkillEdit_11" onClick="setSkillMod"  text="+" preferredWidth="28" />
                     </HorizontalLayout>
@@ -875,9 +857,6 @@
                     <Button id="10_charSkillButton_12" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_12" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_12" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charSkillButtonE_12" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonM_12" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonL_12" onClick="setLegendary" text="L" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="01_charSkillEdit_12" onClick="setSkillMod"  text="-" preferredWidth="28" />
                         <Button id="02_charSkillEdit_12" onClick="setSkillMod"  text="+" preferredWidth="28" />
                     </HorizontalLayout>
@@ -895,9 +874,6 @@
                     <Button id="10_charSkillButton_13" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_13" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_13" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charSkillButtonE_13" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonM_13" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonL_13" onClick="setLegendary" text="L" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="01_charSkillEdit_13" onClick="setSkillMod"  text="-" preferredWidth="28" />
                         <Button id="02_charSkillEdit_13" onClick="setSkillMod"  text="+" preferredWidth="28" />
                     </HorizontalLayout>
@@ -915,9 +891,6 @@
                     <Button id="10_charSkillButton_14" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_14" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_14" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charSkillButtonE_14" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonM_14" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonL_14" onClick="setLegendary" text="L" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="01_charSkillEdit_14" onClick="setSkillMod"  text="-" preferredWidth="28" />
                         <Button id="02_charSkillEdit_14" onClick="setSkillMod"  text="+" preferredWidth="28" />
                     </HorizontalLayout>
@@ -935,9 +908,6 @@
                     <Button id="10_charSkillButton_15" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_15" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_15" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charSkillButtonE_15" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonM_15" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonL_15" onClick="setLegendary" text="L" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="01_charSkillEdit_15" onClick="setSkillMod"  text="-" preferredWidth="28" />
                         <Button id="02_charSkillEdit_15" onClick="setSkillMod"  text="+" preferredWidth="28" />
                     </HorizontalLayout>
@@ -955,9 +925,6 @@
                     <Button id="10_charSkillButton_16" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_16" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_16" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charSkillButtonE_16" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonM_16" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonL_16" onClick="setLegendary" text="L" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="01_charSkillEdit_16" onClick="setSkillMod"  text="-" preferredWidth="28" />
                         <Button id="02_charSkillEdit_16" onClick="setSkillMod"  text="+" preferredWidth="28" />
                     </HorizontalLayout>
@@ -975,9 +942,6 @@
                     <Button id="10_charSkillButton_17" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_17" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_17" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charSkillButtonE_17" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonM_17" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonL_17" onClick="setLegendary" text="L" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="01_charSkillEdit_17" onClick="setSkillMod"  text="-" preferredWidth="28" />
                         <Button id="02_charSkillEdit_17" onClick="setSkillMod"  text="+" preferredWidth="28" />
                     </HorizontalLayout>
@@ -995,9 +959,6 @@
                     <Button id="10_charSkillButton_18" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_18" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_18" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charSkillButtonE_18" onClick="setExpert" text="e" preferredWidth="28" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonM_18" onClick="setMaster" text="M" preferredWidth="30" tooltipBackgroundColor="#000000" />
-                        <Button id="charSkillButtonL_18" onClick="setLegendary" text="L" preferredWidth="28" tooltipBackgroundColor="#000000" />
                         <Button id="01_charSkillEdit_18" onClick="setSkillMod"  text="-" preferredWidth="28" />
                         <Button id="02_charSkillEdit_18" onClick="setSkillMod"  text="+" preferredWidth="28" />
                     </HorizontalLayout>
