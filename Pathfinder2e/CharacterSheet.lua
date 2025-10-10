@@ -1621,7 +1621,7 @@ function UI_upd(i)
     UI_xmlElementUpdate(strFromNum(i).."_charName", "text", main_Table[i].charName)
     UI_xmlElementUpdate(strFromNum(i).."_charLvl", "text", lang_table[enumLangSet[lang_set]][2]..main_Table[i].charLvl)
     UI_xmlElementUpdate(strFromNum(i).."_charAC", "text", main_Table[i].AC)
-    UI_xmlElementUpdate(strFromNum(i).."_charSpeed", "text", lang_table[enumLangSet[lang_set]][4]..main_Table[i].speed)
+    UI_xmlElementUpdate(strFromNum(i).."_charSpeed", "text", main_Table[i].speed)
 
     if main_Table[i].initMod ~= 0 then initModStr = "  ("..PoM(main_Table[i].initMod)..main_Table[i].initMod..")" else initModStr = "" end
     UI_xmlElementUpdate("charInitAddButton_"..strFromNum(i), "text", lang_table[enumLangSet[lang_set]][6]..PoM(modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[12].mod + main_Table[i].initMod)..(modFromAttr(main_Table[i].attributes[5]) + main_Table[i].skills[12].mod + main_Table[i].initMod)..initModStr)

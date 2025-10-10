@@ -18,9 +18,9 @@
     <Image class="atkEditIconImg" color="#ffffffff" height="25" width="25" image="https://media.discordapp.xyz/attachments/1071446696497782804/1203639618839511050/9_Unarmed.png" />
     <Image class="charPortrait" preserveAspect="true" height="100" width="100" image="https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/" />
     <Text class="charName" text="Name" fontStyle="bold" />
-    <Text class="charLevel" fontStyle="bold" preferredWidth="120" text='Level: 1' />
+    <Text class="charLevel" fontStyle="bold" preferredWidth="210" text='Level: 1' />
     <Button class="charAC" fontStyle="bold" preferredWidth="30" text='12' image='Icon_Shield' interactable='false' />
-    <Text class="charSpeed" fontStyle="bold" preferredWidth="120" text='Speed: 30' />
+    <Button class="charSpeed" fontStyle="bold" preferredWidth="30" text='30' image='Icon_Boot' interactable='false' />
     <Text class="charAttrValue" text="15" fontStyle="bold" />
     <Button class="charAttrMod" text="+2" onClick='rollAttribute' resizeTextMaxSize='50' fontStyle="bold" preferredWidth="20" />
     <Button class="charInitAdd" text="initiative" preferredWidth='100' onClick="addCharToInitiative" tooltipBackgroundColor="#000000" />
@@ -193,17 +193,17 @@
                         <Button id="charACbutton_01" onClick="setCharAC" text="+" />
                         <Button id="charACbutton_02" onClick="setCharAC" text="-" />
                     </VerticalLayout>
-                    <Text class="charSpeed" id="01_charSpeed" visibility="Black"  />
-                    <Text class="charSpeed" id="02_charSpeed" visibility="White"  />
-                    <Text class="charSpeed" id="03_charSpeed" visibility="Brown"  />
-                    <Text class="charSpeed" id="04_charSpeed" visibility="Red"    />
-                    <Text class="charSpeed" id="05_charSpeed" visibility="Orange" />
-                    <Text class="charSpeed" id="06_charSpeed" visibility="Yellow" />
-                    <Text class="charSpeed" id="07_charSpeed" visibility="Green"  />
-                    <Text class="charSpeed" id="08_charSpeed" visibility="Teal"   />
-                    <Text class="charSpeed" id="09_charSpeed" visibility="Blue"   />
-                    <Text class="charSpeed" id="10_charSpeed" visibility="Purple" />
-                    <Text class="charSpeed" id="11_charSpeed" visibility="Pink"   />
+                    <Button class="charSpeed" id="01_charSpeed" visibility="Black"  />
+                    <Button class="charSpeed" id="02_charSpeed" visibility="White"  />
+                    <Button class="charSpeed" id="03_charSpeed" visibility="Brown"  />
+                    <Button class="charSpeed" id="04_charSpeed" visibility="Red"    />
+                    <Button class="charSpeed" id="05_charSpeed" visibility="Orange" />
+                    <Button class="charSpeed" id="06_charSpeed" visibility="Yellow" />
+                    <Button class="charSpeed" id="07_charSpeed" visibility="Green"  />
+                    <Button class="charSpeed" id="08_charSpeed" visibility="Teal"   />
+                    <Button class="charSpeed" id="09_charSpeed" visibility="Blue"   />
+                    <Button class="charSpeed" id="10_charSpeed" visibility="Purple" />
+                    <Button class="charSpeed" id="11_charSpeed" visibility="Pink"   />
                     <VerticalLayout id="charSpeedEdit" preferredWidth="20" visibility="noone"> <!-- EDIT TOGGLE -->
                         <Button id="charSpeedButton_01" onClick="setCharSpeed" text="+" />
                         <Button id="charSpeedButton_02" onClick="setCharSpeed" text="-" />
