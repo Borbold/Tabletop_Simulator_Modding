@@ -350,7 +350,7 @@ function setCharName(pl,vl,thisID)
 end
 
 function setCharLvl(pl,vl,thisID)
-    if vl == "-1" then num_add = 1 elseif vl == "-2" then num_add = 5 end
+    local num_add = (vl == "-1" and 1) or 5
     if numFromStrEnd(thisID) == 1 then
         main_Table[nFromPl(pl)].charLvl = main_Table[nFromPl(pl)].charLvl + num_add
     else
@@ -362,7 +362,7 @@ function setCharLvl(pl,vl,thisID)
 end
 
 function setCharAC(pl,vl,thisID)
-    if vl == "-1" then num_add = 1 elseif vl == "-2" then num_add = 5 end
+    local num_add = (vl == "-1" and 1) or 5
     if numFromStrEnd(thisID) == 1 then
         main_Table[nFromPl(pl)].AC = main_Table[nFromPl(pl)].AC + num_add
     else
@@ -374,7 +374,7 @@ function setCharAC(pl,vl,thisID)
 end
 
 function setCharSpeed(pl,vl,thisID)
-    if vl == "-1" then num_add = 5 elseif vl == "-2" then num_add = 50 end
+    local num_add = (vl == "-1" and 5) or 50
     if numFromStrEnd(thisID) == 1 then
         main_Table[nFromPl(pl)].speed = main_Table[nFromPl(pl)].speed + num_add
     else
@@ -386,7 +386,7 @@ function setCharSpeed(pl,vl,thisID)
 end
 
 function setCharInitMod(pl,vl,thisID)
-    if vl == "-1" then num_add = 1 elseif vl == "-2" then num_add = 5 end
+    local num_add = (vl == "-1" and 1) or 5
     if numFromStrEnd(thisID) == 1 then
         main_Table[nFromPl(pl)].initMod = main_Table[nFromPl(pl)].initMod + num_add
     else
@@ -398,7 +398,7 @@ function setCharInitMod(pl,vl,thisID)
 end
 
 function setCharPassPerceptionMod(pl,vl,thisID)
-    if vl == "-1" then num_add = 1 elseif vl == "-2" then num_add = 5 end
+    local num_add = (vl == "-1" and 1) or 5
     if numFromStrEnd(thisID) == 1 then
         main_Table[nFromPl(pl)].pPerceptionMod = main_Table[nFromPl(pl)].pPerceptionMod + num_add
     else
@@ -429,8 +429,7 @@ function setCharHPvisibility(pl,vl,thisID)
 end
 
 function setCharAttr(pl,vl,thisID)
-    local name = catchNameParameter(thisID)
-    if vl == "-1" then num_add = 1 elseif vl == "-2" then num_add = 5 end
+    local name, num_add = catchNameParameter(thisID), (vl == "-1" and 1) or 5
     if numFromStr(thisID) == 1 then
         main_Table[nFromPl(pl)].attributes[name] = main_Table[nFromPl(pl)].attributes[name] + num_add
     else
@@ -442,8 +441,7 @@ function setCharAttr(pl,vl,thisID)
 end
 
 function setCharSaveMod(pl,vl,thisID)
-    local name = catchNameParameter(thisID)
-    if vl == "-1" then num_add = 1 elseif vl == "-2" then num_add = 5 end
+    local name, num_add = catchNameParameter(thisID), (vl == "-1" and 1) or 5
     if numFromStr(thisID) == 1 then
         main_Table[nFromPl(pl)].savesMod[name] = main_Table[nFromPl(pl)].savesMod[name] + num_add
     else
@@ -513,7 +511,7 @@ function skillButtonMain(pl,vl,thisID)
 end
 
 function setSkillMod(pl,vl,thisID)
-    if vl == "-1" then num_add = 1 elseif vl == "-2" then num_add = 5 end
+    local num_add = (vl == "-1" and 1) or 5
     if numFromStr(thisID) == 1 then
         main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].mod = main_Table[nFromPl(pl)].skills[numFromStrEnd(thisID)].mod - num_add
     else
@@ -1563,9 +1561,8 @@ function colorToggleScreenRoller(pl,_,thisID)
 end
 
 function mainSheet_UI_update()
-    for ii = 1, 6 do
-        local name = attrobute_list[ii]
-        UI_xmlElementUpdate("attrName_" .. name, "text", lang_table[enumLangSet[lang_set]][ii + 7])
+    for i, name in ipairs(attrobute_list) do
+        UI_xmlElementUpdate("attrName_" .. name, "text", lang_table[enumLangSet[lang_set]][7 + i])
     end
     for i = 1, 11 do
         singleColor_UI_update(i)
@@ -1632,8 +1629,7 @@ function UI_upd(i)
         UI_xmlElementUpdate(strFromNum(i).."_charDeathSaveButton_"..strFromNum(ii), "text", dSavesStr_table[main_Table[i].deathSaves[ii]])
     end
 
-    for ii = 1, 6 do
-        local name = attrobute_list[ii]
+    for _, name in ipairs(attrobute_list) do
         UI_xmlElementUpdate(strFromNum(i).."_charAttrValue_" .. name, "text", main_Table[i].attributes[name])
         UI_xmlElementUpdate(strFromNum(i).."_charAttrMod_" .. name, "text", PoM(modFromAttr(main_Table[i].attributes[name]))..modFromAttr(main_Table[i].attributes[name]))
     end

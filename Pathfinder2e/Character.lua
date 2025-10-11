@@ -9,7 +9,6 @@ end
 -- Функция для загрузки данных персонажа
 function onLoad(saved_data)
     SCRIPTED_PF2E_CHARACTER = true
-    saved_data = ""
     if saved_data ~= "" then
         local loaded_data = JSON.decode(saved_data)
         self.setTable("charSave_table", loaded_data.charSave_table)

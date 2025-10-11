@@ -25,7 +25,7 @@
     <Button class="charSpeed" fontStyle="bold" preferredWidth="30" text='30' image='Icon_Boot' interactable='false' />
     <Text class="charAttrValue" text="15" fontStyle="bold" />
     <Button class="charInitAdd" text="initiative" preferredWidth='100' onClick="addCharToInitiative" tooltipBackgroundColor="#000000" />
-    <Button class="charAttrEdit" onClick="setCharAttr" text="+" />
+    <Button class="charAttrEdit" onClick="setCharAttr" />
     <Panel class="charHPbar" width="110" height="60" offsetXY="-170 -20" color="#ff8888" outline="#aa444488" outlineSize="2 -2" />
     <Text class="charHP" text="46 / 100" offsetXY="0 -20" resizeTextMaxSize='50' color="#880000" outline="#ffaaaa" fontStyle="bold" />
     <Text class="charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" resizeTextMaxSize="25" fontStyle="bold" offsetXY="120,-15" />
@@ -394,8 +394,8 @@
                 <HorizontalLayout>
                     <!-- STR Attribute - Edit buttons -->
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_1" visibility="noone">
-                        <Button class="charAttrEdit" id="01_charAttrEdButton_01" />
-                        <Button class="charAttrEdit" id="02_charAttrEdButton_01" text="-" />
+                        <Button class="charAttrEdit" id="01_charAttrEdButton_STR" text="+" />
+                        <Button class="charAttrEdit" id="02_charAttrEdButton_STR" text="-" />
                     </VerticalLayout>
                     <!-- STR Attribute - Values for all colors -->
                     <VerticalLayout preferredWidth="50">
@@ -427,8 +427,8 @@
                 </HorizontalLayout>
                 <HorizontalLayout>
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_2" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charAttrEdButton_02" onClick="setCharAttr" text="+" />
-                        <Button id="02_charAttrEdButton_02" onClick="setCharAttr" text="-" />
+                        <Button class="charAttrEdit" id="01_charAttrEdButton_DEX" text="+" />
+                        <Button class="charAttrEdit" id="02_charAttrEdButton_DEX" text="-" />
                     </VerticalLayout>
                     <VerticalLayout preferredWidth="50" outline="#440044ff" outlineSize="1 -1">
                         <Text id="attrName_DEX" text="DEX" fontStyle="bold" />
@@ -458,8 +458,8 @@
                 </HorizontalLayout>
                 <HorizontalLayout>
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_3" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charAttrEdButton_03" onClick="setCharAttr" text="+" />
-                        <Button id="02_charAttrEdButton_03" onClick="setCharAttr" text="-" />
+                        <Button class="charAttrEdit" id="01_charAttrEdButton_CON" text="+" />
+                        <Button class="charAttrEdit" id="02_charAttrEdButton_CON" text="-" />
                     </VerticalLayout>
                     <VerticalLayout preferredWidth="50" outline="#440044ff" outlineSize="1 -1">
                         <Text id="attrName_CON" text="CON" fontStyle="bold" />
@@ -489,8 +489,8 @@
                 </HorizontalLayout>
                 <HorizontalLayout>
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_4" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charAttrEdButton_04" onClick="setCharAttr" text="+" />
-                        <Button id="02_charAttrEdButton_04" onClick="setCharAttr" text="-" />
+                        <Button class="charAttrEdit" id="01_charAttrEdButton_INT" text="+" />
+                        <Button class="charAttrEdit" id="02_charAttrEdButton_INT" text="-" />
                     </VerticalLayout>
                     <VerticalLayout preferredWidth="50" outline="#440044ff" outlineSize="1 -1">
                         <Text id="attrName_INT" text="INT" fontStyle="bold" />
@@ -520,8 +520,8 @@
                 </HorizontalLayout>
                 <HorizontalLayout>
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_5" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charAttrEdButton_05" onClick="setCharAttr" text="+" />
-                        <Button id="02_charAttrEdButton_05" onClick="setCharAttr" text="-" />
+                        <Button class="charAttrEdit" id="01_charAttrEdButton_WIS" text="+" />
+                        <Button class="charAttrEdit" id="02_charAttrEdButton_WIS" text="-" />
                     </VerticalLayout>
                     <VerticalLayout preferredWidth="50" outline="#440044ff" outlineSize="1 -1">
                         <Text id="attrName_WIS" text="WIS" fontStyle="bold" />
@@ -551,8 +551,8 @@
                 </HorizontalLayout>
                 <HorizontalLayout>
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_6" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charAttrEdButton_06" onClick="setCharAttr" text="+" />
-                        <Button id="02_charAttrEdButton_06" onClick="setCharAttr" text="-" />
+                        <Button class="charAttrEdit" id="01_charAttrEdButton_CHA" text="+" />
+                        <Button class="charAttrEdit" id="02_charAttrEdButton_CHA" text="-" />
                     </VerticalLayout>
                     <VerticalLayout preferredWidth="50" outline="#440044ff" outlineSize="1 -1">
                         <Text id="attrName_CHA" text="CHA" fontStyle="bold" />
