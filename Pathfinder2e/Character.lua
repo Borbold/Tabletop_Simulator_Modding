@@ -9,6 +9,7 @@ end
 -- Функция для загрузки данных персонажа
 function onLoad(saved_data)
     SCRIPTED_PF2E_CHARACTER = true
+    saved_data = ""
     if saved_data ~= "" then
         local loaded_data = JSON.decode(saved_data)
         self.setTable("charSave_table", loaded_data.charSave_table)
@@ -149,7 +150,7 @@ function resetChar()
     charSave_table.speed = 30
     charSave_table.initMod = 0
     charSave_table.pPerceptionMod = 0
-    charSave_table.attributes = {10, 10, 10, 10, 10, 10}
+    charSave_table.attributes = {STR = 10, DEX = 10, CON = 10, INT = 10, WIS = 10, CHA = 10}
     charSave_table.saves = {Fortitude = 1, Reflex = 1, Will = 1}
     charSave_table.savesMod = {Fortitude = 0, Reflex = 0, Will = 0}
     charSave_table.skills = {}

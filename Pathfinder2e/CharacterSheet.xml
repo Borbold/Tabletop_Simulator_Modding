@@ -5,6 +5,8 @@
     <Cell dontUseTableCellBackground='true' />
     <!--   -->
     <Button class="skillButton" onClick="skillButtonMain" text="SKILL (atr) +2" textAlignment="MiddleLeft" preferredWidth="170" tooltipBackgroundColor="#000000" />
+    <Button class="charSaveButton" resizeTextMinSize="5" onClick="charSaveButton" text="S" tooltipBackgroundColor="#000000" />
+    <Button class="charAttrButton" text="+2" onClick='rollAttribute' resizeTextMaxSize='50' fontStyle="bold" preferredWidth="20" />
     <Button class="atkButton" color="#ffffff08" onClick="atkButton" tooltipBackgroundColor="#000044" tooltip="atkTooltip" />
     <Button class="spellSlotButton" fontStyle="bold" textAlignment="MiddleLeft" text=" 1. ●●●○○○" onClick="spellSlotButtonMain" />
     <Text class="resTextName" resizeTextMaxSize="16" Alignment="MiddleLeft" fontStyle="bold" text= " 1. resourseName" />
@@ -22,14 +24,12 @@
     <Button class="charAC" fontStyle="bold" preferredWidth="30" text='12' image='Icon_Shield' interactable='false' />
     <Button class="charSpeed" fontStyle="bold" preferredWidth="30" text='30' image='Icon_Boot' interactable='false' />
     <Text class="charAttrValue" text="15" fontStyle="bold" />
-    <Button class="charAttrMod" text="+2" onClick='rollAttribute' resizeTextMaxSize='50' fontStyle="bold" preferredWidth="20" />
     <Button class="charInitAdd" text="initiative" preferredWidth='100' onClick="addCharToInitiative" tooltipBackgroundColor="#000000" />
     <Button class="charAttrEdit" onClick="setCharAttr" text="+" />
     <Panel class="charHPbar" width="110" height="60" offsetXY="-170 -20" color="#ff8888" outline="#aa444488" outlineSize="2 -2" />
     <Text class="charHP" text="46 / 100" offsetXY="0 -20" resizeTextMaxSize='50' color="#880000" outline="#ffaaaa" fontStyle="bold" />
     <Text class="charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" resizeTextMaxSize="25" fontStyle="bold" offsetXY="120,-15" />
     <InputField class="charHealDmgValueInput" color="#dddddd" placeholder="value" characterValidation="Integer" preferredWidth="100" onEndEdit="setCharHealDmgVal" tooltipBackgroundColor="#000000" />
-    <Button class="charSaveButton" resizeTextMinSize="5" onClick="charSaveButton" text="S" tooltipBackgroundColor="#000000" />
     <Button class="assignedPlayerButton" text="●" resizeTextMaxSize="25" textOutline="#cccccc" onClick="setAssignedPlayer" tooltipBackgroundColor="#000000" />
 </Defaults>
 
@@ -399,31 +399,31 @@
                     </VerticalLayout>
                     <!-- STR Attribute - Values for all colors -->
                     <VerticalLayout preferredWidth="50">
-                        <Text id="attrName_01" text="STR" fontStyle="bold" />
-                        <Text class="charAttrValue" id="01_charAttrValue_01" visibility="Black" />
-                        <Text class="charAttrValue" id="02_charAttrValue_01" visibility="White" />
-                        <Text class="charAttrValue" id="03_charAttrValue_01" visibility="Brown" />
-                        <Text class="charAttrValue" id="04_charAttrValue_01" visibility="Red" />
-                        <Text class="charAttrValue" id="05_charAttrValue_01" visibility="Orange" />
-                        <Text class="charAttrValue" id="06_charAttrValue_01" visibility="Yellow" />
-                        <Text class="charAttrValue" id="07_charAttrValue_01" visibility="Green" />
-                        <Text class="charAttrValue" id="08_charAttrValue_01" visibility="Teal" />
-                        <Text class="charAttrValue" id="09_charAttrValue_01" visibility="Blue" />
-                        <Text class="charAttrValue" id="10_charAttrValue_01" visibility="Purple" />
-                        <Text class="charAttrValue" id="11_charAttrValue_01" visibility="Pink" />
+                        <Text id="attrName_STR" text="STR" fontStyle="bold" />
+                        <Text class="charAttrValue" id="01_charAttrValue_STR" visibility="Black" />
+                        <Text class="charAttrValue" id="02_charAttrValue_STR" visibility="White" />
+                        <Text class="charAttrValue" id="03_charAttrValue_STR" visibility="Brown" />
+                        <Text class="charAttrValue" id="04_charAttrValue_STR" visibility="Red" />
+                        <Text class="charAttrValue" id="05_charAttrValue_STR" visibility="Orange" />
+                        <Text class="charAttrValue" id="06_charAttrValue_STR" visibility="Yellow" />
+                        <Text class="charAttrValue" id="07_charAttrValue_STR" visibility="Green" />
+                        <Text class="charAttrValue" id="08_charAttrValue_STR" visibility="Teal" />
+                        <Text class="charAttrValue" id="09_charAttrValue_STR" visibility="Blue" />
+                        <Text class="charAttrValue" id="10_charAttrValue_STR" visibility="Purple" />
+                        <Text class="charAttrValue" id="11_charAttrValue_STR" visibility="Pink" />
                     </VerticalLayout>
                     <!-- STR Attribute - Modifier buttons for all colors -->
-                    <Button class="charAttrMod" id="01_charAttrMod_01" visibility="Black" />
-                    <Button class="charAttrMod" id="02_charAttrMod_01" visibility="White" />
-                    <Button class="charAttrMod" id="03_charAttrMod_01" visibility="Brown" />
-                    <Button class="charAttrMod" id="04_charAttrMod_01" visibility="Red" />
-                    <Button class="charAttrMod" id="05_charAttrMod_01" visibility="Orange" />
-                    <Button class="charAttrMod" id="06_charAttrMod_01" visibility="Yellow" />
-                    <Button class="charAttrMod" id="07_charAttrMod_01" visibility="Green" />
-                    <Button class="charAttrMod" id="08_charAttrMod_01" visibility="Teal" />
-                    <Button class="charAttrMod" id="09_charAttrMod_01" visibility="Blue" />
-                    <Button class="charAttrMod" id="10_charAttrMod_01" visibility="Purple" />
-                    <Button class="charAttrMod" id="11_charAttrMod_01" visibility="Pink" />
+                    <Button class="charAttrButton" id="01_charAttrMod_STR" visibility="Black" />
+                    <Button class="charAttrButton" id="02_charAttrMod_STR" visibility="White" />
+                    <Button class="charAttrButton" id="03_charAttrMod_STR" visibility="Brown" />
+                    <Button class="charAttrButton" id="04_charAttrMod_STR" visibility="Red" />
+                    <Button class="charAttrButton" id="05_charAttrMod_STR" visibility="Orange" />
+                    <Button class="charAttrButton" id="06_charAttrMod_STR" visibility="Yellow" />
+                    <Button class="charAttrButton" id="07_charAttrMod_STR" visibility="Green" />
+                    <Button class="charAttrButton" id="08_charAttrMod_STR" visibility="Teal" />
+                    <Button class="charAttrButton" id="09_charAttrMod_STR" visibility="Blue" />
+                    <Button class="charAttrButton" id="10_charAttrMod_STR" visibility="Purple" />
+                    <Button class="charAttrButton" id="11_charAttrMod_STR" visibility="Pink" />
                 </HorizontalLayout>
                 <HorizontalLayout>
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_2" visibility="noone"> <!-- EDIT TOGGLE -->
@@ -431,30 +431,30 @@
                         <Button id="02_charAttrEdButton_02" onClick="setCharAttr" text="-" />
                     </VerticalLayout>
                     <VerticalLayout preferredWidth="50" outline="#440044ff" outlineSize="1 -1">
-                        <Text id="attrName_02" text="DEX" fontStyle="bold" />
-                        <Text id="01_charAttrValue_02" text="15" fontStyle="bold" visibility="Black"  />
-                        <Text id="02_charAttrValue_02" text="15" fontStyle="bold" visibility="White"  />
-                        <Text id="03_charAttrValue_02" text="15" fontStyle="bold" visibility="Brown"  />
-                        <Text id="04_charAttrValue_02" text="15" fontStyle="bold" visibility="Red"    />
-                        <Text id="05_charAttrValue_02" text="15" fontStyle="bold" visibility="Orange" />
-                        <Text id="06_charAttrValue_02" text="15" fontStyle="bold" visibility="Yellow" />
-                        <Text id="07_charAttrValue_02" text="15" fontStyle="bold" visibility="Green"  />
-                        <Text id="08_charAttrValue_02" text="15" fontStyle="bold" visibility="Teal"   />
-                        <Text id="09_charAttrValue_02" text="15" fontStyle="bold" visibility="Blue"   />
-                        <Text id="10_charAttrValue_02" text="15" fontStyle="bold" visibility="Purple" />
-                        <Text id="11_charAttrValue_02" text="15" fontStyle="bold" visibility="Pink"   />
+                        <Text id="attrName_DEX" text="DEX" fontStyle="bold" />
+                        <Text class="charAttrValue" id="01_charAttrValue_DEX" visibility="Black" />
+                        <Text class="charAttrValue" id="02_charAttrValue_DEX" visibility="White" />
+                        <Text class="charAttrValue" id="03_charAttrValue_DEX" visibility="Brown" />
+                        <Text class="charAttrValue" id="04_charAttrValue_DEX" visibility="Red" />
+                        <Text class="charAttrValue" id="05_charAttrValue_DEX" visibility="Orange" />
+                        <Text class="charAttrValue" id="06_charAttrValue_DEX" visibility="Yellow" />
+                        <Text class="charAttrValue" id="07_charAttrValue_DEX" visibility="Green" />
+                        <Text class="charAttrValue" id="08_charAttrValue_DEX" visibility="Teal" />
+                        <Text class="charAttrValue" id="09_charAttrValue_DEX" visibility="Blue" />
+                        <Text class="charAttrValue" id="10_charAttrValue_DEX" visibility="Purple" />
+                        <Text class="charAttrValue" id="11_charAttrValue_DEX" visibility="Pink" />
                     </VerticalLayout>
-                    <Button class="charAttrMod" id="01_charAttrMod_02" visibility="Black" />
-                    <Button class="charAttrMod" id="02_charAttrMod_02" visibility="White" />
-                    <Button class="charAttrMod" id="03_charAttrMod_02" visibility="Brown" />
-                    <Button class="charAttrMod" id="04_charAttrMod_02" visibility="Red"   />
-                    <Button class="charAttrMod" id="05_charAttrMod_02" visibility="Orange" />
-                    <Button class="charAttrMod" id="06_charAttrMod_02" visibility="Yellow" />
-                    <Button class="charAttrMod" id="07_charAttrMod_02" visibility="Green" />
-                    <Button class="charAttrMod" id="08_charAttrMod_02" visibility="Teal"  />
-                    <Button class="charAttrMod" id="09_charAttrMod_02" visibility="Blue"  />
-                    <Button class="charAttrMod" id="10_charAttrMod_02" visibility="Purple" />
-                    <Button class="charAttrMod" id="11_charAttrMod_02" visibility="Pink"  />
+                    <Button class="charAttrButton" id="01_charAttrMod_DEX" visibility="Black" />
+                    <Button class="charAttrButton" id="02_charAttrMod_DEX" visibility="White" />
+                    <Button class="charAttrButton" id="03_charAttrMod_DEX" visibility="Brown" />
+                    <Button class="charAttrButton" id="04_charAttrMod_DEX" visibility="Red"   />
+                    <Button class="charAttrButton" id="05_charAttrMod_DEX" visibility="Orange" />
+                    <Button class="charAttrButton" id="06_charAttrMod_DEX" visibility="Yellow" />
+                    <Button class="charAttrButton" id="07_charAttrMod_DEX" visibility="Green" />
+                    <Button class="charAttrButton" id="08_charAttrMod_DEX" visibility="Teal"  />
+                    <Button class="charAttrButton" id="09_charAttrMod_DEX" visibility="Blue"  />
+                    <Button class="charAttrButton" id="10_charAttrMod_DEX" visibility="Purple" />
+                    <Button class="charAttrButton" id="11_charAttrMod_DEX" visibility="Pink"  />
                 </HorizontalLayout>
                 <HorizontalLayout>
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_3" visibility="noone"> <!-- EDIT TOGGLE -->
@@ -462,30 +462,30 @@
                         <Button id="02_charAttrEdButton_03" onClick="setCharAttr" text="-" />
                     </VerticalLayout>
                     <VerticalLayout preferredWidth="50" outline="#440044ff" outlineSize="1 -1">
-                        <Text id="attrName_03" text="CON" fontStyle="bold" />
-                        <Text id="01_charAttrValue_03" text="15" fontStyle="bold" visibility="Black"  />
-                        <Text id="02_charAttrValue_03" text="15" fontStyle="bold" visibility="White"  />
-                        <Text id="03_charAttrValue_03" text="15" fontStyle="bold" visibility="Brown"  />
-                        <Text id="04_charAttrValue_03" text="15" fontStyle="bold" visibility="Red"    />
-                        <Text id="05_charAttrValue_03" text="15" fontStyle="bold" visibility="Orange" />
-                        <Text id="06_charAttrValue_03" text="15" fontStyle="bold" visibility="Yellow" />
-                        <Text id="07_charAttrValue_03" text="15" fontStyle="bold" visibility="Green"  />
-                        <Text id="08_charAttrValue_03" text="15" fontStyle="bold" visibility="Teal"   />
-                        <Text id="09_charAttrValue_03" text="15" fontStyle="bold" visibility="Blue"   />
-                        <Text id="10_charAttrValue_03" text="15" fontStyle="bold" visibility="Purple" />
-                        <Text id="11_charAttrValue_03" text="15" fontStyle="bold" visibility="Pink"   />
+                        <Text id="attrName_CON" text="CON" fontStyle="bold" />
+                        <Text class="charAttrValue" id="01_charAttrValue_CON" visibility="Black" />
+                        <Text class="charAttrValue" id="02_charAttrValue_CON" visibility="White" />
+                        <Text class="charAttrValue" id="03_charAttrValue_CON" visibility="Brown" />
+                        <Text class="charAttrValue" id="04_charAttrValue_CON" visibility="Red" />
+                        <Text class="charAttrValue" id="05_charAttrValue_CON" visibility="Orange" />
+                        <Text class="charAttrValue" id="06_charAttrValue_CON" visibility="Yellow" />
+                        <Text class="charAttrValue" id="07_charAttrValue_CON" visibility="Green" />
+                        <Text class="charAttrValue" id="08_charAttrValue_CON" visibility="Teal" />
+                        <Text class="charAttrValue" id="09_charAttrValue_CON" visibility="Blue" />
+                        <Text class="charAttrValue" id="10_charAttrValue_CON" visibility="Purple" />
+                        <Text class="charAttrValue" id="11_charAttrValue_CON" visibility="Pink" />
                     </VerticalLayout>
-                    <Button class="charAttrMod" id="01_charAttrMod_03" visibility="Black" />
-                    <Button class="charAttrMod" id="02_charAttrMod_03" visibility="White" />
-                    <Button class="charAttrMod" id="03_charAttrMod_03" visibility="Brown" />
-                    <Button class="charAttrMod" id="04_charAttrMod_03" visibility="Red"   />
-                    <Button class="charAttrMod" id="05_charAttrMod_03" visibility="Orange" />
-                    <Button class="charAttrMod" id="06_charAttrMod_03" visibility="Yellow" />
-                    <Button class="charAttrMod" id="07_charAttrMod_03" visibility="Green" />
-                    <Button class="charAttrMod" id="08_charAttrMod_03" visibility="Teal"  />
-                    <Button class="charAttrMod" id="09_charAttrMod_03" visibility="Blue"  />
-                    <Button class="charAttrMod" id="10_charAttrMod_03" visibility="Purple" />
-                    <Button class="charAttrMod" id="11_charAttrMod_03" visibility="Pink"  />
+                    <Button class="charAttrButton" id="01_charAttrMod_CON" visibility="Black" />
+                    <Button class="charAttrButton" id="02_charAttrMod_CON" visibility="White" />
+                    <Button class="charAttrButton" id="03_charAttrMod_CON" visibility="Brown" />
+                    <Button class="charAttrButton" id="04_charAttrMod_CON" visibility="Red"   />
+                    <Button class="charAttrButton" id="05_charAttrMod_CON" visibility="Orange" />
+                    <Button class="charAttrButton" id="06_charAttrMod_CON" visibility="Yellow" />
+                    <Button class="charAttrButton" id="07_charAttrMod_CON" visibility="Green" />
+                    <Button class="charAttrButton" id="08_charAttrMod_CON" visibility="Teal"  />
+                    <Button class="charAttrButton" id="09_charAttrMod_CON" visibility="Blue"  />
+                    <Button class="charAttrButton" id="10_charAttrMod_CON" visibility="Purple" />
+                    <Button class="charAttrButton" id="11_charAttrMod_CON" visibility="Pink"  />
                 </HorizontalLayout>
                 <HorizontalLayout>
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_4" visibility="noone"> <!-- EDIT TOGGLE -->
@@ -493,30 +493,30 @@
                         <Button id="02_charAttrEdButton_04" onClick="setCharAttr" text="-" />
                     </VerticalLayout>
                     <VerticalLayout preferredWidth="50" outline="#440044ff" outlineSize="1 -1">
-                        <Text id="attrName_04" text="INT" fontStyle="bold" />
-                        <Text id="01_charAttrValue_04" text="15" fontStyle="bold" visibility="Black"  />
-                        <Text id="02_charAttrValue_04" text="15" fontStyle="bold" visibility="White"  />
-                        <Text id="03_charAttrValue_04" text="15" fontStyle="bold" visibility="Brown"  />
-                        <Text id="04_charAttrValue_04" text="15" fontStyle="bold" visibility="Red"    />
-                        <Text id="05_charAttrValue_04" text="15" fontStyle="bold" visibility="Orange" />
-                        <Text id="06_charAttrValue_04" text="15" fontStyle="bold" visibility="Yellow" />
-                        <Text id="07_charAttrValue_04" text="15" fontStyle="bold" visibility="Green"  />
-                        <Text id="08_charAttrValue_04" text="15" fontStyle="bold" visibility="Teal"   />
-                        <Text id="09_charAttrValue_04" text="15" fontStyle="bold" visibility="Blue"   />
-                        <Text id="10_charAttrValue_04" text="15" fontStyle="bold" visibility="Purple" />
-                        <Text id="11_charAttrValue_04" text="15" fontStyle="bold" visibility="Pink"   />
+                        <Text id="attrName_INT" text="INT" fontStyle="bold" />
+                        <Text class="charAttrValue" id="01_charAttrValue_INT" visibility="Black" />
+                        <Text class="charAttrValue" id="02_charAttrValue_INT" visibility="White" />
+                        <Text class="charAttrValue" id="03_charAttrValue_INT" visibility="Brown" />
+                        <Text class="charAttrValue" id="04_charAttrValue_INT" visibility="Red" />
+                        <Text class="charAttrValue" id="05_charAttrValue_INT" visibility="Orange" />
+                        <Text class="charAttrValue" id="06_charAttrValue_INT" visibility="Yellow" />
+                        <Text class="charAttrValue" id="07_charAttrValue_INT" visibility="Green" />
+                        <Text class="charAttrValue" id="08_charAttrValue_INT" visibility="Teal" />
+                        <Text class="charAttrValue" id="09_charAttrValue_INT" visibility="Blue" />
+                        <Text class="charAttrValue" id="10_charAttrValue_INT" visibility="Purple" />
+                        <Text class="charAttrValue" id="11_charAttrValue_INT" visibility="Pink" />
                     </VerticalLayout>
-                    <Button class="charAttrMod" id="01_charAttrMod_04" visibility="Black" />
-                    <Button class="charAttrMod" id="02_charAttrMod_04" visibility="White" />
-                    <Button class="charAttrMod" id="03_charAttrMod_04" visibility="Brown" />
-                    <Button class="charAttrMod" id="04_charAttrMod_04" visibility="Red"   />
-                    <Button class="charAttrMod" id="05_charAttrMod_04" visibility="Orange" />
-                    <Button class="charAttrMod" id="06_charAttrMod_04" visibility="Yellow" />
-                    <Button class="charAttrMod" id="07_charAttrMod_04" visibility="Green" />
-                    <Button class="charAttrMod" id="08_charAttrMod_04" visibility="Teal"  />
-                    <Button class="charAttrMod" id="09_charAttrMod_04" visibility="Blue"  />
-                    <Button class="charAttrMod" id="10_charAttrMod_04" visibility="Purple" />
-                    <Button class="charAttrMod" id="11_charAttrMod_04" visibility="Pink"  />
+                    <Button class="charAttrButton" id="01_charAttrMod_INT" visibility="Black" />
+                    <Button class="charAttrButton" id="02_charAttrMod_INT" visibility="White" />
+                    <Button class="charAttrButton" id="03_charAttrMod_INT" visibility="Brown" />
+                    <Button class="charAttrButton" id="04_charAttrMod_INT" visibility="Red"   />
+                    <Button class="charAttrButton" id="05_charAttrMod_INT" visibility="Orange" />
+                    <Button class="charAttrButton" id="06_charAttrMod_INT" visibility="Yellow" />
+                    <Button class="charAttrButton" id="07_charAttrMod_INT" visibility="Green" />
+                    <Button class="charAttrButton" id="08_charAttrMod_INT" visibility="Teal"  />
+                    <Button class="charAttrButton" id="09_charAttrMod_INT" visibility="Blue"  />
+                    <Button class="charAttrButton" id="10_charAttrMod_INT" visibility="Purple" />
+                    <Button class="charAttrButton" id="11_charAttrMod_INT" visibility="Pink"  />
                 </HorizontalLayout>
                 <HorizontalLayout>
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_5" visibility="noone"> <!-- EDIT TOGGLE -->
@@ -524,30 +524,30 @@
                         <Button id="02_charAttrEdButton_05" onClick="setCharAttr" text="-" />
                     </VerticalLayout>
                     <VerticalLayout preferredWidth="50" outline="#440044ff" outlineSize="1 -1">
-                        <Text id="attrName_05" text="WIS" fontStyle="bold" />
-                        <Text id="01_charAttrValue_05" text="15" fontStyle="bold" visibility="Black"  />
-                        <Text id="02_charAttrValue_05" text="15" fontStyle="bold" visibility="White"  />
-                        <Text id="03_charAttrValue_05" text="15" fontStyle="bold" visibility="Brown"  />
-                        <Text id="04_charAttrValue_05" text="15" fontStyle="bold" visibility="Red"    />
-                        <Text id="05_charAttrValue_05" text="15" fontStyle="bold" visibility="Orange" />
-                        <Text id="06_charAttrValue_05" text="15" fontStyle="bold" visibility="Yellow" />
-                        <Text id="07_charAttrValue_05" text="15" fontStyle="bold" visibility="Green"  />
-                        <Text id="08_charAttrValue_05" text="15" fontStyle="bold" visibility="Teal"   />
-                        <Text id="09_charAttrValue_05" text="15" fontStyle="bold" visibility="Blue"   />
-                        <Text id="10_charAttrValue_05" text="15" fontStyle="bold" visibility="Purple" />
-                        <Text id="11_charAttrValue_05" text="15" fontStyle="bold" visibility="Pink"   />
+                        <Text id="attrName_WIS" text="WIS" fontStyle="bold" />
+                        <Text class="charAttrValue" id="01_charAttrValue_WIS" visibility="Black" />
+                        <Text class="charAttrValue" id="02_charAttrValue_WIS" visibility="White" />
+                        <Text class="charAttrValue" id="03_charAttrValue_WIS" visibility="Brown" />
+                        <Text class="charAttrValue" id="04_charAttrValue_WIS" visibility="Red" />
+                        <Text class="charAttrValue" id="05_charAttrValue_WIS" visibility="Orange" />
+                        <Text class="charAttrValue" id="06_charAttrValue_WIS" visibility="Yellow" />
+                        <Text class="charAttrValue" id="07_charAttrValue_WIS" visibility="Green" />
+                        <Text class="charAttrValue" id="08_charAttrValue_WIS" visibility="Teal" />
+                        <Text class="charAttrValue" id="09_charAttrValue_WIS" visibility="Blue" />
+                        <Text class="charAttrValue" id="10_charAttrValue_WIS" visibility="Purple" />
+                        <Text class="charAttrValue" id="11_charAttrValue_WIS" visibility="Pink" />
                     </VerticalLayout>
-                    <Button class="charAttrMod" id="01_charAttrMod_05" visibility="Black" />
-                    <Button class="charAttrMod" id="02_charAttrMod_05" visibility="White" />
-                    <Button class="charAttrMod" id="03_charAttrMod_05" visibility="Brown" />
-                    <Button class="charAttrMod" id="04_charAttrMod_05" visibility="Red"   />
-                    <Button class="charAttrMod" id="05_charAttrMod_05" visibility="Orange" />
-                    <Button class="charAttrMod" id="06_charAttrMod_05" visibility="Yellow" />
-                    <Button class="charAttrMod" id="07_charAttrMod_05" visibility="Green" />
-                    <Button class="charAttrMod" id="08_charAttrMod_05" visibility="Teal"  />
-                    <Button class="charAttrMod" id="09_charAttrMod_05" visibility="Blue"  />
-                    <Button class="charAttrMod" id="10_charAttrMod_05" visibility="Purple" />
-                    <Button class="charAttrMod" id="11_charAttrMod_05" visibility="Pink"  />
+                    <Button class="charAttrButton" id="01_charAttrMod_WIS" visibility="Black" />
+                    <Button class="charAttrButton" id="02_charAttrMod_WIS" visibility="White" />
+                    <Button class="charAttrButton" id="03_charAttrMod_WIS" visibility="Brown" />
+                    <Button class="charAttrButton" id="04_charAttrMod_WIS" visibility="Red"   />
+                    <Button class="charAttrButton" id="05_charAttrMod_WIS" visibility="Orange" />
+                    <Button class="charAttrButton" id="06_charAttrMod_WIS" visibility="Yellow" />
+                    <Button class="charAttrButton" id="07_charAttrMod_WIS" visibility="Green" />
+                    <Button class="charAttrButton" id="08_charAttrMod_WIS" visibility="Teal"  />
+                    <Button class="charAttrButton" id="09_charAttrMod_WIS" visibility="Blue"  />
+                    <Button class="charAttrButton" id="10_charAttrMod_WIS" visibility="Purple" />
+                    <Button class="charAttrButton" id="11_charAttrMod_WIS" visibility="Pink"  />
                 </HorizontalLayout>
                 <HorizontalLayout>
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_6" visibility="noone"> <!-- EDIT TOGGLE -->
@@ -555,30 +555,30 @@
                         <Button id="02_charAttrEdButton_06" onClick="setCharAttr" text="-" />
                     </VerticalLayout>
                     <VerticalLayout preferredWidth="50" outline="#440044ff" outlineSize="1 -1">
-                        <Text id="attrName_06" text="CHA" fontStyle="bold" />
-                        <Text id="01_charAttrValue_06" text="15" fontStyle="bold" visibility="Black"  />
-                        <Text id="02_charAttrValue_06" text="15" fontStyle="bold" visibility="White"  />
-                        <Text id="03_charAttrValue_06" text="15" fontStyle="bold" visibility="Brown"  />
-                        <Text id="04_charAttrValue_06" text="15" fontStyle="bold" visibility="Red"    />
-                        <Text id="05_charAttrValue_06" text="15" fontStyle="bold" visibility="Orange" />
-                        <Text id="06_charAttrValue_06" text="15" fontStyle="bold" visibility="Yellow" />
-                        <Text id="07_charAttrValue_06" text="15" fontStyle="bold" visibility="Green"  />
-                        <Text id="08_charAttrValue_06" text="15" fontStyle="bold" visibility="Teal"   />
-                        <Text id="09_charAttrValue_06" text="15" fontStyle="bold" visibility="Blue"   />
-                        <Text id="10_charAttrValue_06" text="15" fontStyle="bold" visibility="Purple" />
-                        <Text id="11_charAttrValue_06" text="15" fontStyle="bold" visibility="Pink"   />
+                        <Text id="attrName_CHA" text="CHA" fontStyle="bold" />
+                        <Text class="charAttrValue" id="01_charAttrValue_CHA" visibility="Black" />
+                        <Text class="charAttrValue" id="02_charAttrValue_CHA" visibility="White" />
+                        <Text class="charAttrValue" id="03_charAttrValue_CHA" visibility="Brown" />
+                        <Text class="charAttrValue" id="04_charAttrValue_CHA" visibility="Red" />
+                        <Text class="charAttrValue" id="05_charAttrValue_CHA" visibility="Orange" />
+                        <Text class="charAttrValue" id="06_charAttrValue_CHA" visibility="Yellow" />
+                        <Text class="charAttrValue" id="07_charAttrValue_CHA" visibility="Green" />
+                        <Text class="charAttrValue" id="08_charAttrValue_CHA" visibility="Teal" />
+                        <Text class="charAttrValue" id="09_charAttrValue_CHA" visibility="Blue" />
+                        <Text class="charAttrValue" id="10_charAttrValue_CHA" visibility="Purple" />
+                        <Text class="charAttrValue" id="11_charAttrValue_CHA" visibility="Pink" />
                     </VerticalLayout>
-                    <Button class="charAttrMod" id="01_charAttrMod_06" visibility="Black" />
-                    <Button class="charAttrMod" id="02_charAttrMod_06" visibility="White" />
-                    <Button class="charAttrMod" id="03_charAttrMod_06" visibility="Brown" />
-                    <Button class="charAttrMod" id="04_charAttrMod_06" visibility="Red"   />
-                    <Button class="charAttrMod" id="05_charAttrMod_06" visibility="Orange" />
-                    <Button class="charAttrMod" id="06_charAttrMod_06" visibility="Yellow" />
-                    <Button class="charAttrMod" id="07_charAttrMod_06" visibility="Green" />
-                    <Button class="charAttrMod" id="08_charAttrMod_06" visibility="Teal"  />
-                    <Button class="charAttrMod" id="09_charAttrMod_06" visibility="Blue"  />
-                    <Button class="charAttrMod" id="10_charAttrMod_06" visibility="Purple" />
-                    <Button class="charAttrMod" id="11_charAttrMod_06" visibility="Pink"  />
+                    <Button class="charAttrButton" id="01_charAttrMod_CHA" visibility="Black" />
+                    <Button class="charAttrButton" id="02_charAttrMod_CHA" visibility="White" />
+                    <Button class="charAttrButton" id="03_charAttrMod_CHA" visibility="Brown" />
+                    <Button class="charAttrButton" id="04_charAttrMod_CHA" visibility="Red"   />
+                    <Button class="charAttrButton" id="05_charAttrMod_CHA" visibility="Orange" />
+                    <Button class="charAttrButton" id="06_charAttrMod_CHA" visibility="Yellow" />
+                    <Button class="charAttrButton" id="07_charAttrMod_CHA" visibility="Green" />
+                    <Button class="charAttrButton" id="08_charAttrMod_CHA" visibility="Teal"  />
+                    <Button class="charAttrButton" id="09_charAttrMod_CHA" visibility="Blue"  />
+                    <Button class="charAttrButton" id="10_charAttrMod_CHA" visibility="Purple" />
+                    <Button class="charAttrButton" id="11_charAttrMod_CHA" visibility="Pink"  />
                 </HorizontalLayout>
             </VerticalLayout>
             <VerticalLayout spacing='25' preferredWidth="25">
