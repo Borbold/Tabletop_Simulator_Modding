@@ -959,7 +959,9 @@ function addCharToInitiative(pl,vl,thisID)
             end
         end
         if not alreadyInInitiative then
-            local locInitMod = modFromAttr(main_Table[i].attributes["WIS"]) + main_Table[i].skills[19].mod + main_Table[i].initMod + main_Table[i].charProfBonus*(main_Table[i].skills[19].proficient - 1)
+            local locInitMod = modFromAttr(main_Table[nFromPl(pl)].attributes["WIS"]) +
+                main_Table[nFromPl(pl)].skills[19].mod + main_Table[nFromPl(pl)].initMod +
+                main_Table[nFromPl(pl)].charProfBonus*(main_Table[nFromPl(pl)].skills[19].proficient - 1)
             table.insert(init_table, #init_table + 1, {
                 charName = main_Table[nFromPl(pl)].charName,
                 rollRez = 0,
