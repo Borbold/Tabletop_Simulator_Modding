@@ -3,7 +3,7 @@ local enumSTnC = {Fortitude = "CON", Reflex = "DEX", Will = "WIS"}
 local enumLangSet = {[1] = "EN", [2] = "RU"}
 local enumSTT = {"Untraning", "Traning", "Expert", "Master", "Legend"}
 local enumSTTC = {"#ffffff", "#575757ff", "#6a36bdff", "#af2d2dff", "#d0ff00ff"}
-local defSkillsAttr_table = {"DEX", "INT", "STR", "INT", "CHA", "CHA", "CHA", "INT", "INT", "WIS", "INT", "INT", "CHA", "INT", "INT", "DEX", "WIS", "DEX", "WIS"}
+local defSkillsAttr_table = {"DEX", "INT", "STR", "INT", "CHA", "CHA", "CHA", "INT", "INT", "WIS", "WIS", "INT", "CHA", "WIS", "INT", "DEX", "WIS", "DEX", "WIS"}
 
 local function catchNameParameter(str)
     return str:match("^[^_]+_[^_]+_([^_]+)")
