@@ -1636,9 +1636,10 @@ function UI_upd(i)
         UI_xmlElementUpdate(strFromNum(i).."_charAttrMod_" .. name, "text", PoM(modFromAttr(main_Table[i].attributes[name]))..modFromAttr(main_Table[i].attributes[name]))
     end
 
+    local typeST = 1
     for smN, smV in pairs(main_Table[i].savesMod) do
         local index = main_Table[i].saves[smN]
-        local colorStr, typeST = enumSTTC[index], 1
+        local colorStr = enumSTTC[index]
         local tooltipText = lang_table[enumLangSet[lang_set]][61 + typeST] .. " " .. lang_table[enumLangSet[lang_set]][77 + index]; typeST = typeST + 1
         UI_xmlElementUpdate(strFromNum(i).."_charSaveButton_"..smN, "tooltip", tooltipText)
         if smV ~= 0 then saveModStr = "\n"..PoM(smV)..smV else saveModStr = "" end
