@@ -4,13 +4,13 @@
     <Button resizeTextForBestFit="True" resizeTextMaxSize='20' font='Fonts/Allods' tooltipFontSize='20' tooltipFont='Fonts/Allods' colors='#FFFFFFa0|#FFFFFFa0|#C8C8C8a0|rgba(0.78,0.78,0.78,0.5)' tooltipPosition="Above" />
     <Cell dontUseTableCellBackground='true' />
     <!--   -->
-    <Button class="skillButton" onClick="rollAndEditValue" textAlignment="MiddleLeft" preferredWidth="170" tooltipBackgroundColor="#000000" />
+    <Button class="skillButton" onClick="rollAndEditValue" preferredWidth="170" tooltipBackgroundColor="#000000" />
     <Button class="charSaveButton" onClick="rollAndEditValue" resizeTextMinSize="5" tooltipBackgroundColor="#000000" />
     <Button class="charAttrButton" onClick='rollAndEditValue' resizeTextMaxSize='50' preferredWidth="20" />
     <Text class="charAttrValue" text="15" />
     <!--   -->
     <Button class="atkButton" color="#ffffff08" onClick="atkButton" tooltipBackgroundColor="#000044" tooltip="atkTooltip" />
-    <Button class="spellSlotButton" textAlignment="MiddleLeft" text=" 1. ●●●○○○" onClick="spellSlotButtonMain" />
+    <Button class="spellSlotButton" text=" 1. ●●●○○○" onClick="spellSlotButtonMain" />
     <Text class="resTextName" resizeTextMaxSize="16" Alignment="MiddleLeft" text= " 1. resourseName" />
     <Text class="resTextNum" Alignment="MiddleCenter" text= "235 / 991" />
     <Button class="conditionButton" color="#ffffff11" onClick="contitionButt" tooltipBackgroundColor="#000000" />
@@ -366,7 +366,7 @@
             </Panel>
         </HorizontalLayout>
         <HorizontalLayout preferredHeight="180" >
-            <VerticalLayout preferredWidth="80" >
+            <VerticalLayout preferredWidth="65" >
                 <HorizontalLayout>
                     <!-- STR Attribute - Edit buttons -->
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_1" visibility="noone">
@@ -2704,56 +2704,29 @@
         <Panel preferredHeight="270" >
             <HorizontalLayout>
                 <Text preferredWidth="5" />
-                <Text id="01_notesText_A" preferredWidth="393" Alignment="UpperLeft" text="text 1" visibility="Black"  />
-                <Text id="02_notesText_A" preferredWidth="393" Alignment="UpperLeft" text="text 1" visibility="White"  />
-                <Text id="03_notesText_A" preferredWidth="393" Alignment="UpperLeft" text="text 1" visibility="Brown"  />
-                <Text id="04_notesText_A" preferredWidth="393" Alignment="UpperLeft" text="text 1" visibility="Red"    />
-                <Text id="05_notesText_A" preferredWidth="393" Alignment="UpperLeft" text="text 1" visibility="Orange" />
-                <Text id="06_notesText_A" preferredWidth="393" Alignment="UpperLeft" text="text 1" visibility="Yellow" />
-                <Text id="07_notesText_A" preferredWidth="393" Alignment="UpperLeft" text="text 1" visibility="Green"  />
-                <Text id="08_notesText_A" preferredWidth="393" Alignment="UpperLeft" text="text 1" visibility="Teal"   />
-                <Text id="09_notesText_A" preferredWidth="393" Alignment="UpperLeft" text="text 1" visibility="Blue"   />
-                <Text id="10_notesText_A" preferredWidth="393" Alignment="UpperLeft" text="text 1" visibility="Purple" />
-                <Text id="11_notesText_A" preferredWidth="393" Alignment="UpperLeft" text="text 1" visibility="Pink"   />
+                <InputField id="01_notesInput_A" preferredWidth="393" interactable="false" lineType="MultiLineNewLine" textAlignment="UpperLeft" placeholder="text 1" visibility="Black"  onEndEdit="setNotes" />
+                <InputField id="02_notesInput_A" preferredWidth="393" interactable="false" lineType="MultiLineNewLine" textAlignment="UpperLeft" placeholder="text 1" visibility="White"  onEndEdit="setNotes" />
+                <InputField id="03_notesInput_A" preferredWidth="393" interactable="false" lineType="MultiLineNewLine" textAlignment="UpperLeft" placeholder="text 1" visibility="Brown"  onEndEdit="setNotes" />
+                <InputField id="04_notesInput_A" preferredWidth="393" interactable="false" lineType="MultiLineNewLine" textAlignment="UpperLeft" placeholder="text 1" visibility="Red"    onEndEdit="setNotes" />
+                <InputField id="05_notesInput_A" preferredWidth="393" interactable="false" lineType="MultiLineNewLine" textAlignment="UpperLeft" placeholder="text 1" visibility="Orange" onEndEdit="setNotes" />
+                <InputField id="06_notesInput_A" preferredWidth="393" interactable="false" lineType="MultiLineNewLine" textAlignment="UpperLeft" placeholder="text 1" visibility="Yellow" onEndEdit="setNotes" />
+                <InputField id="07_notesInput_A" preferredWidth="393" interactable="false" lineType="MultiLineNewLine" textAlignment="UpperLeft" placeholder="text 1" visibility="Green"  onEndEdit="setNotes" />
+                <InputField id="08_notesInput_A" preferredWidth="393" interactable="false" lineType="MultiLineNewLine" textAlignment="UpperLeft" placeholder="text 1" visibility="Teal"   onEndEdit="setNotes" />
+                <InputField id="09_notesInput_A" preferredWidth="393" interactable="false" lineType="MultiLineNewLine" textAlignment="UpperLeft" placeholder="text 1" visibility="Blue"   onEndEdit="setNotes" />
+                <InputField id="10_notesInput_A" preferredWidth="393" interactable="false" lineType="MultiLineNewLine" textAlignment="UpperLeft" placeholder="text 1" visibility="Purple" onEndEdit="setNotes" />
+                <InputField id="11_notesInput_A" preferredWidth="393" interactable="false" lineType="MultiLineNewLine" textAlignment="UpperLeft" placeholder="text 1" visibility="Pink"   onEndEdit="setNotes" />
                 <Text preferredWidth="5" />
-                <Text id="01_notesText_B" preferredWidth="393" Alignment="UpperLeft" text="text 1" visibility="Black"  />
-                <Text id="02_notesText_B" preferredWidth="393" Alignment="UpperLeft" text="text 1" visibility="White"  />
-                <Text id="03_notesText_B" preferredWidth="393" Alignment="UpperLeft" text="text 1" visibility="Brown"  />
-                <Text id="04_notesText_B" preferredWidth="393" Alignment="UpperLeft" text="text 1" visibility="Red"    />
-                <Text id="05_notesText_B" preferredWidth="393" Alignment="UpperLeft" text="text 1" visibility="Orange" />
-                <Text id="06_notesText_B" preferredWidth="393" Alignment="UpperLeft" text="text 1" visibility="Yellow" />
-                <Text id="07_notesText_B" preferredWidth="393" Alignment="UpperLeft" text="text 1" visibility="Green"  />
-                <Text id="08_notesText_B" preferredWidth="393" Alignment="UpperLeft" text="text 1" visibility="Teal"   />
-                <Text id="09_notesText_B" preferredWidth="393" Alignment="UpperLeft" text="text 1" visibility="Blue"   />
-                <Text id="10_notesText_B" preferredWidth="393" Alignment="UpperLeft" text="text 1" visibility="Purple" />
-                <Text id="11_notesText_B" preferredWidth="393" Alignment="UpperLeft" text="text 1" visibility="Pink"   />
-                <Text preferredWidth="5" />
-            </HorizontalLayout>
-            <HorizontalLayout id="notesInputs" visibility="noone">
-                <Text preferredWidth="5" />
-                <InputField id="01_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" resizeTextMaxSize="13" placeholder="text 1" visibility="Black"  onEndEdit="setNotes" />
-                <InputField id="02_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" resizeTextMaxSize="13" placeholder="text 1" visibility="White"  onEndEdit="setNotes" />
-                <InputField id="03_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" resizeTextMaxSize="13" placeholder="text 1" visibility="Brown"  onEndEdit="setNotes" />
-                <InputField id="04_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" resizeTextMaxSize="13" placeholder="text 1" visibility="Red"    onEndEdit="setNotes" />
-                <InputField id="05_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" resizeTextMaxSize="13" placeholder="text 1" visibility="Orange" onEndEdit="setNotes" />
-                <InputField id="06_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" resizeTextMaxSize="13" placeholder="text 1" visibility="Yellow" onEndEdit="setNotes" />
-                <InputField id="07_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" resizeTextMaxSize="13" placeholder="text 1" visibility="Green"  onEndEdit="setNotes" />
-                <InputField id="08_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" resizeTextMaxSize="13" placeholder="text 1" visibility="Teal"   onEndEdit="setNotes" />
-                <InputField id="09_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" resizeTextMaxSize="13" placeholder="text 1" visibility="Blue"   onEndEdit="setNotes" />
-                <InputField id="10_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" resizeTextMaxSize="13" placeholder="text 1" visibility="Purple" onEndEdit="setNotes" />
-                <InputField id="11_notesInput_A" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" resizeTextMaxSize="13" placeholder="text 1" visibility="Pink"   onEndEdit="setNotes" />
-                <Text preferredWidth="5" />
-                <InputField id="01_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" resizeTextMaxSize="13" placeholder="text 2" visibility="Black"  onEndEdit="setNotes" />
-                <InputField id="02_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" resizeTextMaxSize="13" placeholder="text 2" visibility="White"  onEndEdit="setNotes" />
-                <InputField id="03_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" resizeTextMaxSize="13" placeholder="text 2" visibility="Brown"  onEndEdit="setNotes" />
-                <InputField id="04_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" resizeTextMaxSize="13" placeholder="text 2" visibility="Red"    onEndEdit="setNotes" />
-                <InputField id="05_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" resizeTextMaxSize="13" placeholder="text 2" visibility="Orange" onEndEdit="setNotes" />
-                <InputField id="06_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" resizeTextMaxSize="13" placeholder="text 2" visibility="Yellow" onEndEdit="setNotes" />
-                <InputField id="07_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" resizeTextMaxSize="13" placeholder="text 2" visibility="Green"  onEndEdit="setNotes" />
-                <InputField id="08_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" resizeTextMaxSize="13" placeholder="text 2" visibility="Teal"   onEndEdit="setNotes" />
-                <InputField id="09_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" resizeTextMaxSize="13" placeholder="text 2" visibility="Blue"   onEndEdit="setNotes" />
-                <InputField id="10_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" resizeTextMaxSize="13" placeholder="text 2" visibility="Purple" onEndEdit="setNotes" />
-                <InputField id="11_notesInput_B" preferredWidth="393" lineType="MultiLineNewLine" Alignment="UpperLeft" resizeTextMaxSize="13" placeholder="text 2" visibility="Pink"   onEndEdit="setNotes" />
+                <InputField id="01_notesInput_B" preferredWidth="393" interactable="false" lineType="MultiLineNewLine" textAlignment="UpperLeft" placeholder="text 2" visibility="Black"  onEndEdit="setNotes" />
+                <InputField id="02_notesInput_B" preferredWidth="393" interactable="false" lineType="MultiLineNewLine" textAlignment="UpperLeft" placeholder="text 2" visibility="White"  onEndEdit="setNotes" />
+                <InputField id="03_notesInput_B" preferredWidth="393" interactable="false" lineType="MultiLineNewLine" textAlignment="UpperLeft" placeholder="text 2" visibility="Brown"  onEndEdit="setNotes" />
+                <InputField id="04_notesInput_B" preferredWidth="393" interactable="false" lineType="MultiLineNewLine" textAlignment="UpperLeft" placeholder="text 2" visibility="Red"    onEndEdit="setNotes" />
+                <InputField id="05_notesInput_B" preferredWidth="393" interactable="false" lineType="MultiLineNewLine" textAlignment="UpperLeft" placeholder="text 2" visibility="Orange" onEndEdit="setNotes" />
+                <InputField id="06_notesInput_B" preferredWidth="393" interactable="false" lineType="MultiLineNewLine" textAlignment="UpperLeft" placeholder="text 2" visibility="Yellow" onEndEdit="setNotes" />
+                <InputField id="07_notesInput_B" preferredWidth="393" interactable="false" lineType="MultiLineNewLine" textAlignment="UpperLeft" placeholder="text 2" visibility="Green"  onEndEdit="setNotes" />
+                <InputField id="08_notesInput_B" preferredWidth="393" interactable="false" lineType="MultiLineNewLine" textAlignment="UpperLeft" placeholder="text 2" visibility="Teal"   onEndEdit="setNotes" />
+                <InputField id="09_notesInput_B" preferredWidth="393" interactable="false" lineType="MultiLineNewLine" textAlignment="UpperLeft" placeholder="text 2" visibility="Blue"   onEndEdit="setNotes" />
+                <InputField id="10_notesInput_B" preferredWidth="393" interactable="false" lineType="MultiLineNewLine" textAlignment="UpperLeft" placeholder="text 2" visibility="Purple" onEndEdit="setNotes" />
+                <InputField id="11_notesInput_B" preferredWidth="393" interactable="false" lineType="MultiLineNewLine" textAlignment="UpperLeft" placeholder="text 2" visibility="Pink"   onEndEdit="setNotes" />
                 <Text preferredWidth="5" />
             </HorizontalLayout>
         </Panel>

@@ -5,19 +5,22 @@ local enumSTT = {"Untraning", "Traning", "Expert", "Master", "Legend"}
 local enumSTTC = {"#ffffff", "#575757ff", "#6a36bdff", "#af2d2dff", "#d0ff00ff"}
 local defSkillsAttr_table = {"DEX", "INT", "STR", "INT", "CHA", "CHA", "CHA", "INT", "INT", "WIS", "WIS", "INT", "CHA", "WIS", "INT", "DEX", "WIS", "DEX", "WIS"}
 
+-- Built-in functionality --
+local function UI_xmlElementUpdate(xml_ID, xml_attribute, input_string)
+    if self.UI.getAttribute(xml_ID, xml_attribute) ~= input_string then
+        self.UI.setAttribute(xml_ID, xml_attribute, input_string)
+    end
+end
 local function catchNameParameter(str)
     return str:match("^[^_]+_[^_]+_([^_]+)")
 end
-
 local function nFromPlClr(clr)
     for i = 1, #main_Table do
         if clr == plColors_Table[i] then
-            pl_N = i
+            return i
         end
     end
-    return pl_N
 end
-
 local function checkGUIDtable()
     for i = 1, #main_Table do
         if getObjectFromGUID(lastPickedCharGUID_table[i]) == nil then
@@ -25,6 +28,7 @@ local function checkGUIDtable()
         end
     end
 end
+-- Built-in functionality --
 
 function onSave()
     if resetGlobalLuaSave then
@@ -1056,27 +1060,6 @@ function initiative_UI_update()   -------------
     end
 end
 
-function initExchange(a,b)
-    init_table[0] = {}
-    init_table[0].charName  = init_table[a].charName  
-    init_table[0].rollRez   = init_table[a].rollRez   
-    init_table[0].initMod   = init_table[a].initMod   
-    init_table[0].tokenGUID = init_table[a].tokenGUID 
-    init_table[0].aColor    = init_table[a].aColor    
-
-    init_table[a].charName  = init_table[b].charName  
-    init_table[a].rollRez   = init_table[b].rollRez   
-    init_table[a].initMod   = init_table[b].initMod   
-    init_table[a].tokenGUID = init_table[b].tokenGUID 
-    init_table[a].aColor    = init_table[b].aColor    
-
-    init_table[a].charName  = init_table[0].charName  
-    init_table[a].rollRez   = init_table[0].rollRez   
-    init_table[a].initMod   = init_table[0].initMod   
-    init_table[a].tokenGUID = init_table[0].tokenGUID 
-    init_table[a].aColor    = init_table[0].aColor    
-end
-
 function initMoveActive(pl,vl,thisID)
     if vl == "-2" then
         initTurnPos = initTurnPos + 1
@@ -1251,7 +1234,9 @@ function colorToggleEditMode(pl,vl,thisID)
         UI_xmlElementUpdate("spellSlotMaxAllButton","visibility",editModeVisibilityStr)
         UI_xmlElementUpdate("resoursesEditInputsPanel","visibility",editModeVisibilityStr)
 
-        UI_xmlElementUpdate("notesInputs","visibility",editModeVisibilityStr)
+        local flagVis = editModeVisibilityStr:find(pl.color) and "true" or "false"
+        UI_xmlElementUpdate(strFromNum(nFromPlClr(pl.color)) .. "_notesInput_A", "interactable", flagVis)
+        UI_xmlElementUpdate(strFromNum(nFromPlClr(pl.color)) .. "_notesInput_B", "interactable", flagVis)
     elseif vl == "-2" and editModeVisibility[nFromPlClr(pl.color)] and getObjectFromGUID(lastPickedCharGUID_table[nFromPlClr(pl.color)]) ~= nil then
         --resetCounter
         if resetCounter < 4 then
@@ -1682,9 +1667,7 @@ function UI_upd(i)
         end
     end
 
-    UI_xmlElementUpdate(strFromNum(i).."_notesText_A","text", main_Table[i].notes_A)
     UI_xmlElementUpdate(strFromNum(i).."_notesText_B","text", main_Table[i].notes_B)
-    UI_xmlElementUpdate(strFromNum(i).."_notesInput_A","text", main_Table[i].notes_A)
     UI_xmlElementUpdate(strFromNum(i).."_notesInput_B","text", main_Table[i].notes_B)
 
     if i == 1 then
@@ -2247,12 +2230,6 @@ function strFromNum(inpNum)
         return "0"..tostring(inpNum)
     else
         return tostring(inpNum)
-    end
-end
-
-function UI_xmlElementUpdate(xml_ID, xml_attribute, input_string)
-    if self.UI.getAttribute(xml_ID, xml_attribute) ~= input_string then
-        self.UI.setAttribute(xml_ID, xml_attribute, input_string)
     end
 end
 
