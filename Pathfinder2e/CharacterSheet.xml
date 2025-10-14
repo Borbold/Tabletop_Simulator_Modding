@@ -77,42 +77,18 @@
         <Panel color="#dddddd" />
     </VerticalLayout>
     <Panel id="assignedPlayersPanel" color="#ffffff" rectAlignment="LowerCenter" height="60" width="190" offsetXY="-495,400" visibility="noone" outline="#440044ff" outlineSize="1 -1">
-        <TableLayout>
-            <Row>
-                <Cell>
-                    <Button id="assighedPlayerButton_02" class="assignedPlayerButton" color="#ffffff" />
-                </Cell>
-                <Cell>
-                    <Button id="assighedPlayerButton_03" class="assignedPlayerButton" color="#703a16" />
-                </Cell>
-                <Cell>
-                    <Button id="assighedPlayerButton_04" class="assignedPlayerButton" color="#da1917" />
-                </Cell>
-                <Cell>
-                    <Button id="assighedPlayerButton_05" class="assignedPlayerButton" color="#f3631c" />
-                </Cell>
-                <Cell>
-                    <Button id="assighedPlayerButton_06" class="assignedPlayerButton" color="#e6e42b" />
-                </Cell>
-            </Row>
-            <Row>
-                <Cell>
-                    <Button id="assighedPlayerButton_07" class="assignedPlayerButton" color="#30b22a" />
-                </Cell>
-                <Cell>
-                    <Button id="assighedPlayerButton_08" class="assignedPlayerButton" color="#20b09a" />
-                </Cell>
-                <Cell>
-                    <Button id="assighedPlayerButton_09" class="assignedPlayerButton" color="#1e87ff" />
-                </Cell>
-                <Cell>
-                    <Button id="assighedPlayerButton_10" class="assignedPlayerButton" color="#9f1fef" />
-                </Cell>
-                <Cell>
-                    <Button id="assighedPlayerButton_11" class="assignedPlayerButton" color="#f46fcd" />
-                </Cell>
-            </Row>
-        </TableLayout>
+        <GridLayout cellSize="38 30" constraint="FixedRowCount" constraintCount="2">
+            <Button id="assighedPlayerButton_02" class="assignedPlayerButton" color="#ffffff" />
+            <Button id="assighedPlayerButton_03" class="assignedPlayerButton" color="#703a16" />
+            <Button id="assighedPlayerButton_04" class="assignedPlayerButton" color="#da1917" />
+            <Button id="assighedPlayerButton_05" class="assignedPlayerButton" color="#f3631c" />
+            <Button id="assighedPlayerButton_06" class="assignedPlayerButton" color="#e6e42b" />
+            <Button id="assighedPlayerButton_07" class="assignedPlayerButton" color="#30b22a" />
+            <Button id="assighedPlayerButton_08" class="assignedPlayerButton" color="#20b09a" />
+            <Button id="assighedPlayerButton_09" class="assignedPlayerButton" color="#1e87ff" />
+            <Button id="assighedPlayerButton_10" class="assignedPlayerButton" color="#9f1fef" />
+            <Button id="assighedPlayerButton_11" class="assignedPlayerButton" color="#f46fcd" />
+        </GridLayout>
         <Button text="hide" id="setInvisButton" height="30" width="150" offsetXY="0 45" textOutline="#cccccc" color="#cccccc" onClick="toggleInvisible" tooltipBackgroundColor="#000000" />
     </Panel>
     <Panel id="charPortraitNameInputsPanel" visibility="noone"> <!-- EDIT TOGGLE -->

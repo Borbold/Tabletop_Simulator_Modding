@@ -1229,7 +1229,7 @@ function colorToggleEditMode(pl,vl,thisID)
             UI_xmlElementUpdate("charAttrEdit_"..i,"visibility",editModeVisibilityStr)
         end
         UI_xmlElementUpdate("savesModsButtons","visibility",editModeVisibilityStr)
-        for i = 1, #main_Table[i].skills do
+        for i = 1, #main_Table[nFromPlClr(pl.color)].skills do
             UI_xmlElementUpdate("charSkillEditButtons_"..strFromNum(i),"visibility",editModeVisibilityStr)
         end
 
