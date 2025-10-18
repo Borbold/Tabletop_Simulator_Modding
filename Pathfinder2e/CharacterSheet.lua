@@ -1587,8 +1587,7 @@ function UI_upd(i)
     if main_Table[i].pPerceptionMod ~= 0 then ppModStr = " ("..PoM(main_Table[i].pPerceptionMod)..main_Table[i].pPerceptionMod..")" else ppModStr = "" end
     UI_xmlElementUpdate(strFromNum(i).."_charPassivePerception", "text", lang_table[enumLangSet[lang_set]][7]..(main_Table[i].pPerceptionMod + pPerseptionBase)..ppModStr)
 
-    UI_xmlElementUpdate(strFromNum(i).."_charHPbar", "width", math.floor(main_Table[i].hp / main_Table[i].hpMax * 400))
-    UI_xmlElementUpdate(strFromNum(i).."_charHPbar", "offsetXY", "-"..(193 - math.floor(main_Table[i].hp / main_Table[i].hpMax * 200))..",-20")
+    UI_xmlElementUpdate(strFromNum(i).."_charHPbar", "percentage", (main_Table[i].hp * 100 / main_Table[i].hpMax))
 
     UI_xmlElementUpdate(strFromNum(i).."_charHPtext", "text", main_Table[i].hp.." / "..main_Table[i].hpMax)
     if main_Table[i].hpTemp > 0 then

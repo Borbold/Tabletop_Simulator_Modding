@@ -4,9 +4,9 @@
     <Button resizeTextForBestFit="True" resizeTextMaxSize='20' font='Fonts/Allods' tooltipFontSize='20' tooltipFont='Fonts/Allods' colors='#FFFFFFa0|#FFFFFFa0|#C8C8C8a0|rgba(0.78,0.78,0.78,0.5)' tooltipPosition="Above" />
     <Cell dontUseTableCellBackground='true' />
     <!--   -->
-    <Button class="skillButton" onClick="rollAndEditValue" preferredWidth="170" tooltipBackgroundColor="#000000" />
-    <Button class="charSaveButton" onClick="rollAndEditValue" resizeTextMinSize="5" tooltipBackgroundColor="#000000" />
-    <Button class="charAttrButton" onClick='rollAndEditValue' resizeTextMaxSize='50' preferredWidth="20" />
+    <Button class="skillButton" onClick="rollAndEditValue" preferredWidth="220" tooltipBackgroundColor="#000000" text='Skill (S)' />
+    <Button class="charSaveButton" onClick="rollAndEditValue" resizeTextMinSize="5" tooltipBackgroundColor="#000000" text='S' />
+    <Button class="charAttrButton" onClick='rollAndEditValue' resizeTextMaxSize='50' preferredWidth="50" text='+2' />
     <Text class="charAttrValue" text="15" />
     <!--   -->
     <Button class="atkButton" color="#ffffff08" onClick="atkButton" tooltipBackgroundColor="#000044" tooltip="atkTooltip" />
@@ -26,7 +26,7 @@
     <Button class="charSpeed" preferredWidth="30" image='Icon_Boot' interactable='false' />
     <Button class="charInitAdd" text="initiative" preferredWidth='100' onClick="addCharToInitiative" tooltipBackgroundColor="#000000" />
     <Button class="charAttrEdit" onClick="setCharAttr" />
-    <Panel class="charHPbar" width="110" height="60" offsetXY="-170 -20" color="#ff8888" outline="#aa444488" outlineSize="2 -2" />
+    <ProgressBar class="charHPbar" width="440" height="60" offsetXY="0 -20" color="#ff8888" fillImageColor='#ff00004a' outline="#aa444488" outlineSize="2 -2" showPercentageText='false' />
     <Text class="charHP" text="46 / 100" offsetXY="0 -20" resizeTextMaxSize='50' color="#880000" outline="#ffaaaa" />
     <Text class="charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" resizeTextMaxSize="25" offsetXY="120,-15" />
     <InputField class="charHealDmgValueInput" color="#dddddd" placeholder="value" characterValidation="Integer" preferredWidth="100" onEndEdit="setCharHealDmgVal" tooltipBackgroundColor="#000000" />
@@ -239,17 +239,17 @@
             </VerticalLayout>
             <Panel color="#ffcccc" preferredWidth="440">
                 <!-- HP GUI -->
-                <Panel id="01_charHPbar" class="charHPbar" visibility="Black" />
-                <Panel id="02_charHPbar" class="charHPbar" visibility="White" />
-                <Panel id="03_charHPbar" class="charHPbar" visibility="Brown" />
-                <Panel id="04_charHPbar" class="charHPbar" visibility="Red" />
-                <Panel id="05_charHPbar" class="charHPbar" visibility="Orange" />
-                <Panel id="06_charHPbar" class="charHPbar" visibility="Yellow" />
-                <Panel id="07_charHPbar" class="charHPbar" visibility="Green" />
-                <Panel id="08_charHPbar" class="charHPbar" visibility="Teal" />
-                <Panel id="09_charHPbar" class="charHPbar" visibility="Blue" />
-                <Panel id="10_charHPbar" class="charHPbar" visibility="Purple" />
-                <Panel id="11_charHPbar" class="charHPbar" visibility="Pink" />
+                <ProgressBar id="01_charHPbar" class="charHPbar" visibility="Black" />
+                <ProgressBar id="02_charHPbar" class="charHPbar" visibility="White" />
+                <ProgressBar id="03_charHPbar" class="charHPbar" visibility="Brown" />
+                <ProgressBar id="04_charHPbar" class="charHPbar" visibility="Red" />
+                <ProgressBar id="05_charHPbar" class="charHPbar" visibility="Orange" />
+                <ProgressBar id="06_charHPbar" class="charHPbar" visibility="Yellow" />
+                <ProgressBar id="07_charHPbar" class="charHPbar" visibility="Green" />
+                <ProgressBar id="08_charHPbar" class="charHPbar" visibility="Teal" />
+                <ProgressBar id="09_charHPbar" class="charHPbar" visibility="Blue" />
+                <ProgressBar id="10_charHPbar" class="charHPbar" visibility="Purple" />
+                <ProgressBar id="11_charHPbar" class="charHPbar" visibility="Pink" />
 
                 <Text id="01_charHPtext" class="charHP" visibility="Black" />
                 <Text id="02_charHPtext" class="charHP" visibility="White" />
