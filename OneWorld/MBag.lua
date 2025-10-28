@@ -28,6 +28,8 @@ function CreateBagBuild(bag)
     cloneActiveBag = activeBag.clone()
     cloneActiveBag.setColorTint({0.713, 0.247, 0.313, 0.2})
     cloneActiveBag.setName("Copy build map")
+    local posSpawn = oneWorld.getVar("wBase").getPosition()
+    cloneActiveBag.setPosition({posSpawn.x, posSpawn.y - 5, posSpawn.z})
     Build()
 end
 
@@ -53,7 +55,7 @@ local function PutObjectsBuild(objectsString, index)
         position = {x=tonumber(objectWords[2]), y=tonumber(objectWords[3]), z=tonumber(objectWords[4])},
         rotation = {x=tonumber(objectWords[5]), y=tonumber(objectWords[6]), z=tonumber(objectWords[7])},
         callback = "UnderPack", callback_owner = self, smooth = false
-    } activeBag.takeObject(t).setLock(fLock == 1 and false or true)
+    } activeBag.takeObject(t).setLock(fLock == 1 and true or false)
     return index + 1
 end
 function Build()
@@ -80,6 +82,8 @@ function Build()
                 end, 0.2)
             end,
             function()
+                -- A rather unnecessary workaround. With just one object in the field, it throws an error that doesn't affect the script's operation.
+                if #objectsString == 1 and index == 2 then return true end
                 index = PutObjectsBuild(objectsString, index)
                 return index > #objectsString
             end)
