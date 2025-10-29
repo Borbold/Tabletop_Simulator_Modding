@@ -49,13 +49,13 @@ local function PutObjectsBuild(objectsString, index)
     for w in objectsString[index]:gmatch("[^,]+") do
         table.insert(objectWords, w)
     end
-    local fLock = objectWords[8]
+    local fLock = objectWords[8] == "1"
     local t = {
         guid = objectWords[1]:sub(3),
         position = {x=tonumber(objectWords[2]), y=tonumber(objectWords[3]), z=tonumber(objectWords[4])},
         rotation = {x=tonumber(objectWords[5]), y=tonumber(objectWords[6]), z=tonumber(objectWords[7])},
         callback = "UnderPack", callback_owner = self, smooth = false
-    } activeBag.takeObject(t).setLock(fLock == 1 and true or false)
+    } activeBag.takeObject(t).setLock(fLock)
     return index + 1
 end
 function Build()
@@ -147,7 +147,6 @@ end
 
 -- Pack --
 local function EndPack(mBag)
-    if(cloneActiveBag) then cloneActiveBag.destruct() cloneActiveBag = nil end
     self.putObject(mBag)
     oneWorld.call("JotBase")
     oneWorld.call("StowBase") oneWorld.call("NoBase") oneWorld.call("SetUIText")
@@ -158,6 +157,7 @@ local function EndPack(mBag)
             oneWorld.call("SetUI")
         end, function() return not tBag end
     )
+    if(cloneActiveBag) then cloneActiveBag.destruct() cloneActiveBag = nil end
 end
 function DoPack(mBag)
     ss = oneWorld.getVar("ss")

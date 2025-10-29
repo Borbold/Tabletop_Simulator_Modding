@@ -721,10 +721,11 @@ function ButtonPack(player, _, _, keepBase)
 
     local preLoad = ""
     if player then
+        ss = ""
         local iPos, iGuid, iLock, iRot
+        local boundSizedTZone = tZone.getBoundsNormalized().size
         for _, item in ipairs(tZone.getObjects()) do
-            iPos, iGuid = item.getPosition(), item.getGUID()
-            iLock = item.getLock() and 1 or 0
+            iLock, iGuid, iPos = item.getLock() and 1 or 0, item.getGUID(), item.getPosition()
             if item.getName() ~= "_OW_vBase" and
             not string.find("FogOfWarTrigger@ScriptingTrigger@3DText", item.name) and
             not item.hasTag("noPack") then
@@ -747,8 +748,7 @@ function ButtonPack(player, _, _, keepBase)
             t = {
                 type = "Bag", position = {0, 4, 0},
                 callback_owner = mBag, callback = "DoPack"
-            }
-            spawnObject(t)
+            } spawnObject(t)
         end
         mapIsBuild = false
         UpdateSave()
