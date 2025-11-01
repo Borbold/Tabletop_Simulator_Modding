@@ -304,7 +304,8 @@ function cbTObj()
     wBase = getObjectFromGUID(baseWGUID) wBase.interactable = false
     vBase = getObjectFromGUID(baseVGUID) vBase.interactable = false
     if nl then wBase.call("MakeLink") end
-    Wait.condition(function()
+    rotBase()
+    Wait.Time(function()
         local boundsSize = wBase.getBoundsNormalized().size
         if(r90 == 0 and (Round(boundsSize.x, 2) > 9.01 or Round(boundsSize.z, 2) > 5.35) or
             r90 == 1 and (Round(boundsSize.x, 2) > 5.35 or Round(boundsSize.z, 2) > 9.01)) then
@@ -313,8 +314,7 @@ function cbTObj()
         local sizeZone = {vBase.getBoundsNormalized().size.x, 10, vBase.getBoundsNormalized().size.z}
         local posZone = vBase.getPosition() + {x=0, y=5, z=0}
         tZone.setPosition(posZone) tZone.setScale(sizeZone) tZone.setRotation(vBase.getRotation())
-        rotBase()
-    end, function() return wBase and true or false end)
+    end, 1)
 end
 function FitBase()
     if isPVw() or not aBase or activeEdit then return end
