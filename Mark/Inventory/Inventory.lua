@@ -35,6 +35,12 @@ local pointsPos = {
         {x = 1.46, z = -1.08}, {x = 1.38, z = -1.07}, {x = 1.28, z = -1.08}, {x = 1.19, z = -1.07}, {x = 1.1, z = -1.08},
         {x = 1.01, z = -1.07}, {x = 0.92, z = -1.08}, {x = 0.82, z = -1.08}, {x = 0.73, z = -1.08}, {x = 0.62, z = -1.08},
     },
+    воля = {
+        {x = 1.47, z = -0.98}, {x = 1.39, z = -0.98}, {x = 1.29, z = -0.98}, {x = 1.2, z = -0.98}, {x = 1.11, z = -0.98},
+        {x = 1.01, z = -0.98}, {x = 0.92, z = -0.98}, {x = 0.83, z = -0.98}, {x = 0.73, z = -0.98}, {x = 0.62, z = -0.98},
+        {x = 1.47, z = -0.91}, {x = 1.38, z = -0.91}, {x = 1.29, z = -0.91}, {x = 1.2, z = -0.91}, {x = 1.1, z = -0.91},
+        {x = 1.01, z = -0.91}, {x = 0.92, z = -0.91}, {x = 0.83, z = -0.91}, {x = 0.72, z = -0.91}, {x = 0.62, z = -0.91},
+    },
 }
 local pointSkills = {
     Weightlifting = "сила", Riding = "ловк", Theft = "ловк",
@@ -81,20 +87,6 @@ local pointWearables = {
     {x = 0.38, z = -0.42}, {x = 0.13, z = -0.42}, {x = -0.12, z = -0.42},
     {x = -0.38, z = -0.42}
 }
-local pointConditions = {
-    Hunger = {
-        {x = 1.47, z = -0.69}, {x = 1.38, z = -0.69}, {x = 1.28, z = -0.69}, {x = 1.19, z = -0.69}
-    },
-    Thirst = {
-
-    },
-    Fatigue = {
-
-    },
-    Intoxication = {
-
-    }
-}
 
 function UpdateSave()
     local dataToSave = {
@@ -130,6 +122,7 @@ function Confer(savedData)
     for i,l in pairs(limbValues) do
         self.UI.setAttribute(i, "text", l)
     end
+    self.UI.setAttribute("OD", "text", self.getDescription())
     for i,l in pairs(limbMaxValue) do
         self.UI.setAttribute("lm"..i, "text", "/"..l)
     end
@@ -150,29 +143,11 @@ function onCollisionEnter(info)
         if(ChangeScaleObject(obj, locPos, {0.28, 0.1, 0.28}, pointWearables)) then return end
 
         local lTag = obj.getTags()[1]
-        if lTag ~= nil then --Skills/Conditions
-            if lTag == "Condition" then
-                for _,point in ipairs(snaps) do
-                    if CheckPos(locPos, point.position) then
-                        print("X: ", locPos.x, " Z: ", locPos.z)
-                        print("--------------------------------")
-                        for tCond,values in pairs(pointConditions) do
-                            for index,value in ipairs(values) do
-                                print("X: ", value.x, ":", Round(point.position.x, 2), " Z: ", value.z, ":", Round(point.position.z, 2))
-                                if CheckPos(value, point.position) then
-                                    ChangeState(nil, nil, tCond, index)
-                                    return
-                                end
-                            end
-                        end
-                    end
-                end
-            else
-                ChangeCountOvershoot(obj, locPos)
-                local bonusSkill = CalculateBonus(5 + obj.getStateId())
-                local arg = {tTag = lTag, bonus = bonusSkill, tChar = pointSkills[lTag]}
-                throw.call("ChangeMemory", arg)
-            end
+        if lTag ~= nil then --Skills
+            ChangeCountOvershoot(obj, locPos)
+            local bonusSkill = CalculateBonus(5 + obj.getStateId())
+            local arg = {tTag = lTag, bonus = bonusSkill, tChar = pointSkills[lTag]}
+            throw.call("ChangeMemory", arg)
         else --Characteristics
             for _,point in ipairs(snaps) do
                 if CheckPos(locPos, point.position) then
@@ -223,13 +198,9 @@ function ChangeCountOvershoot(obj, locPos)
     end
 end
 
-function ChangeState(player, alt, id, lState)
-    if lState then
-        state[id] = lState
-    else
-        local current = self.UI.getAttribute(id, "text")
-        state[id] = alt == "-2" and current - 1 or current + 1
-    end
+function ChangeState(player, alt, id)
+    local current = self.UI.getAttribute(id, "text")
+    state[id] = alt == "-2" and current - 1 or current + 1
     self.UI.setAttribute(id, "text", state[id])
     self.UI.setAttribute(id, "textColor", self.UI.getAttribute(id, "textColor"))
     ChangeBonusForState(player, id, state[id])
@@ -240,11 +211,11 @@ function ChangeBonusForState(player, id, state)
         local text = id == "Hunger" and "голодает" or id == "Thirst" and "хочет пить" or id == "Fatigue" and "хочет спать" or "перепил"
         broadcastToAll("Кажется кто-то " .. text)
         local tChar = id == "Hunger" and "сила" or id == "Thirst" and "ловкость" or id == "Fatigue" and "интеллект"
-        local arg = {tChar = tChar, bonus = state < 7 and -10 or -20, state = true, condition = true}
+        local arg = {tChar = tChar, bonus = state < 7 and -10 or -20, state = true}
         throw.call("ChangeMemory", arg)
     else
         local tChar = id == "Hunger" and "сила" or id == "Thirst" and "ловкость" or id == "Fatigue" and "интеллект"
-        local arg = {tChar = tChar, bonus = 0, state = true, condition = true}
+        local arg = {tChar = tChar, bonus = 0, state = true}
         throw.call("ChangeMemory", arg)
     end
 end
