@@ -10,25 +10,25 @@
         color='#e8d8b4' text='0' font='Fonts/Hanzi' />
 </Defaults>
 
-<Button id='White' text='0' image='ButtonStatus' visibility='White'
+<Button id='OD_White' text='0' image='ButtonStatus' visibility='White'
     onClick='ChangeOD' offsetXY='800 -505' height='55' width='55' />
-<Button id='Red' text='0' image='ButtonStatus' visibility='Red'
+<Button id='OD_Red' text='0' image='ButtonStatus' visibility='Red'
     onClick='ChangeOD' offsetXY='800 -505' height='55' width='55' />
-<Button id='Green' text='0' image='ButtonStatus' visibility='Green'
+<Button id='OD_Green' text='0' image='ButtonStatus' visibility='Green'
     onClick='ChangeOD' offsetXY='800 -505' height='55' width='55' />
-<Button id='Blue' text='0' image='ButtonStatus' visibility='Blue'
+<Button id='OD_Blue' text='0' image='ButtonStatus' visibility='Blue'
     onClick='ChangeOD' offsetXY='800 -505' height='55' width='55' />
-<Button id='Brown' text='0' image='ButtonStatus' visibility='Brown'
+<Button id='OD_Brown' text='0' image='ButtonStatus' visibility='Brown'
     onClick='ChangeOD' offsetXY='800 -505' height='55' width='55' />
-<Button id='Teal' text='0' image='ButtonStatus' visibility='Teal'
+<Button id='OD_Teal' text='0' image='ButtonStatus' visibility='Teal'
     onClick='ChangeOD' offsetXY='800 -505' height='55' width='55' />
-<Button id='Yellow' text='0' image='ButtonStatus' visibility='Yellow'
+<Button id='OD_Yellow' text='0' image='ButtonStatus' visibility='Yellow'
     onClick='ChangeOD' offsetXY='800 -505' height='55' width='55' />
-<Button id='Orange' text='0' image='ButtonStatus' visibility='Orange'
+<Button id='OD_Orange' text='0' image='ButtonStatus' visibility='Orange'
     onClick='ChangeOD' offsetXY='800 -505' height='55' width='55' />
-<Button id='Purple' text='0' image='ButtonStatus' visibility='Purple'
+<Button id='OD_Purple' text='0' image='ButtonStatus' visibility='Purple'
     onClick='ChangeOD' offsetXY='800 -505' height='55' width='55' />
-<Button id='Pink' text='0' image='ButtonStatus' visibility='Pink'
+<Button id='OD_Pink' text='0' image='ButtonStatus' visibility='Pink'
     onClick='ChangeOD' offsetXY='800 -505' height='55' width='55' />
 
 <Button image='ButtonStatus' visibility='White|Red|Green|Blue|Brown|Teal|Yellow|Orange|Purple|Pink'

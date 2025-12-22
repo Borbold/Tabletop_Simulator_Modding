@@ -1,7 +1,3 @@
-function onLoad()
-    originalXml = self.UI.getXml()
-end
-
 local instanseOD = {
     ["White"] = 3, ["Red"] = 3, ["Green"] = 3, ["Blue"] = 3, ["Brown"] = 3, ["Teal"] = 3,
     ["Yellow"] = 3, ["Orange"] = 3, ["Purple"] = 3, ["Pink"] = 3
@@ -9,11 +5,13 @@ local instanseOD = {
 function ChangeOD(player, alt)
     local pC = player.color
     instanseOD[pC] = alt == "-1" and instanseOD[pC] - 1 or instanseOD[pC] + 1
-    self.UI.setAttribute(pC, "text", instanseOD[pC])
+    self.UI.setAttribute("OD_" .. pC, "text", instanseOD[pC])
 end
+
 function onLoad()
+    originalXml = self.UI.getXml()
     for i,v in pairs(instanseOD) do
-        self.UI.setAttribute(i, "text", v)
+        self.UI.setAttribute("OD_" .. i, "text", v)
     end
 end
 
