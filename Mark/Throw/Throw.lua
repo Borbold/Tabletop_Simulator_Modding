@@ -17,7 +17,7 @@ end
 function onLoad(savedData)
     saveThrow, bonusThrow = {}, {}
     countThrow, tableDices = 1, {8, 20, 100}
-    buttonSaveThrows, maxBottunSave = 30, 30
+    buttonSaveThrows, maxBottunSave = 42, 42
     buttonBonusThrows = 5
     saveColorText = "000000"
     local loadedData = JSON.decode(savedData)
