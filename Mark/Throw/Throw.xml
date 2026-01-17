@@ -5,7 +5,7 @@
         tooltipFont='Fonts/Allods' tooltipFontSize='35' tooltipWidth='300' image='uiButtonBackground' />
     <Cell dontUseTableCellBackground='true' />
     <VerticalScrollView color='#ffffff00' scrollbarBackgroundColor='#000000dd'
-        verticalScrollbarVisibility='AutoHideAndExpandViewport' horizontalScrollbarVisibility='Permanent' />
+        noScrollbars='true' scrollSensitivity='40' />
 
     <Button class='buttonSave' text='---' onClick='SaveThrow' />
     <InputField class='inputBonus' text='0' onEndEdit='ChangeBonusThrow' onValueChanged='ChangeLongText' textAlignment='MiddleCenter' characterValidation='Integer' characterLimit='3' />
@@ -30,7 +30,7 @@
             <Cell columnSpan='1'/>
             <Cell columnSpan='24'>
                 <VerticalScrollView height='648'>
-                    <GridLayout id='saveButtons' height='648' cellSize='210 130'>
+                    <GridLayout id='saveButtons' height='910' cellSize='210 130'>
                         <!--Save buttons-->
                     </GridLayout>
                 </VerticalScrollView>
