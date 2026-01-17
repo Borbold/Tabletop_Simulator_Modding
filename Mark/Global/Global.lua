@@ -1,5 +1,20 @@
+local instanseOD = {
+    ["White"] = 3, ["Red"] = 3, ["Green"] = 3, ["Blue"] = 3, ["Brown"] = 3, ["Teal"] = 3,
+    ["Yellow"] = 3, ["Orange"] = 3, ["Purple"] = 3, ["Pink"] = 3
+}
+function ChangeOD(player, alt)
+    local pC = player.color
+    instanseOD[pC] = alt == "-1" and instanseOD[pC] - 1 or instanseOD[pC] + 1
+    self.UI.setAttribute("OD_" .. pC, "text", instanseOD[pC])
+end
+
 function onLoad()
+    plColors_Table = {"Black","White","Brown","Red","Orange","Yellow","Green","Teal","Blue","Purple","Pink"}
+    panelVisibility_projector = {false,false,false,false,false,false,false,false,false,false,false}
     originalXml = self.UI.getXml()
+    for i,v in pairs(instanseOD) do
+        self.UI.setAttribute("OD_" .. i, "text", v)
+    end
 end
 
 function UpdateInformation(putObjects)
@@ -63,4 +78,52 @@ function WhatWeather()
     weather = weather.." [ffffff]"..w[math.random(#w)]
     weather = weather.." [00ffff]".."температура воздуха[-] ощущается как "..math.random(-30, 30)
     broadcastToAll(weather)
+end
+
+local function UI_xmlElementUpdate(xml_ID, xml_attribute, input_string)
+    if self.UI.getAttribute(xml_ID, xml_attribute) ~= input_string then
+        self.UI.setAttribute(xml_ID, xml_attribute, input_string)
+    end
+end
+local function nFromPlClr(clr)
+    for i = 1, 11 do
+        if clr == plColors_Table[i] then
+            return i
+        end
+    end
+end
+function colorToggleProjector(pl,vl,thisID)
+    if nFromPlClr(pl.color) == 1 and vl == "-2" then
+        panelVisibility_projector[nFromPlClr(pl.color)] = not panelVisibility_projector[nFromPlClr(pl.color)]
+        if panelVisibility_projector[1] then
+            panelVisibility_projector = {true,true,true,true,true,true,true,true,true,true,true}
+            UI_xmlElementUpdate("projectorImage","visibility","Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink")
+        else
+            panelVisibility_projector = {false,false,false,false,false,false,false,false,false,false,false}
+            UI_xmlElementUpdate("projectorImage","visibility","noone")
+        end
+    else
+        panelVisibility_projector[nFromPlClr(pl.color)] = not panelVisibility_projector[nFromPlClr(pl.color)]
+        editModeVisibilityStr = "noone"
+        isNoOne = true
+        for i = 1, 11 do
+            if panelVisibility_projector[i] then
+                isNoOne = false
+                editModeVisibilityStr = editModeVisibilityStr.. "|".. plColors_Table[i]
+            end
+        end
+        if not isNoOne then
+            editModeVisibilityStr = string.sub(editModeVisibilityStr, 7, #editModeVisibilityStr)
+        end
+        UI_xmlElementUpdate("projectorImage","visibility",editModeVisibilityStr)
+    end
+end
+function onObjectRandomize(object, player_color)
+    if panelVisibility_projector[1] then
+        if player_color == "Black" and object.getCustomObject().image ~= nil then
+            object.setVelocity({0,0,0})
+            UI_xmlElementUpdate("projectorImage", "image", object.getCustomObject().image)
+            UI_xmlElementUpdate("projectorImage", "tooltip", object.getName())
+        end
+    end
 end

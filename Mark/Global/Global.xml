@@ -1,4 +1,5 @@
 <Defaults>
+    <Button resizeTextForBestFit="True" resizeTextMaxSize="25" />
     <TableLayout cellSpacing='2' />
     <Cell dontUseTableCellBackground='true' />
     <VerticalScrollView offsetXY='550 -220' height='520' width='800' color='#ffffffdd' scrollbarBackgroundColor='#afafafdd'
@@ -8,6 +9,27 @@
     <Text resizeTextForBestFit='true' resizeTextMaxSize='50'
         color='#e8d8b4' text='0' font='Fonts/Hanzi' />
 </Defaults>
+
+<Button id='OD_White' text='0' image='ButtonStatus' visibility='White'
+    onClick='ChangeOD' offsetXY='800 -505' height='55' width='55' />
+<Button id='OD_Red' text='0' image='ButtonStatus' visibility='Red'
+    onClick='ChangeOD' offsetXY='800 -505' height='55' width='55' />
+<Button id='OD_Green' text='0' image='ButtonStatus' visibility='Green'
+    onClick='ChangeOD' offsetXY='800 -505' height='55' width='55' />
+<Button id='OD_Blue' text='0' image='ButtonStatus' visibility='Blue'
+    onClick='ChangeOD' offsetXY='800 -505' height='55' width='55' />
+<Button id='OD_Brown' text='0' image='ButtonStatus' visibility='Brown'
+    onClick='ChangeOD' offsetXY='800 -505' height='55' width='55' />
+<Button id='OD_Teal' text='0' image='ButtonStatus' visibility='Teal'
+    onClick='ChangeOD' offsetXY='800 -505' height='55' width='55' />
+<Button id='OD_Yellow' text='0' image='ButtonStatus' visibility='Yellow'
+    onClick='ChangeOD' offsetXY='800 -505' height='55' width='55' />
+<Button id='OD_Orange' text='0' image='ButtonStatus' visibility='Orange'
+    onClick='ChangeOD' offsetXY='800 -505' height='55' width='55' />
+<Button id='OD_Purple' text='0' image='ButtonStatus' visibility='Purple'
+    onClick='ChangeOD' offsetXY='800 -505' height='55' width='55' />
+<Button id='OD_Pink' text='0' image='ButtonStatus' visibility='Pink'
+    onClick='ChangeOD' offsetXY='800 -505' height='55' width='55' />
 
 <Button image='ButtonStatus' visibility='White|Red|Green|Blue|Brown|Teal|Yellow|Orange|Purple|Pink'
     onClick='PanelLoad' offsetXY='855 -505' height='55' width='55' />
@@ -83,3 +105,7 @@
     </TableLayout>
     <EndRowSPink />
 </VerticalScrollView>
+
+<!-- IMAGE PROJECTOR -->
+<Button id="projectorToggleButton" rectAlignment="UpperCenter" height="53" width="53" offsetXY="518 -1" text="╔═╗╱ ╚═╝╲" onClick="colorToggleProjector" visibility="Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink" shadow="#00000088" shadowDistance="2 -2" tooltipBackgroundColor="#000000" tooltipPosition="Below" />
+<Image id="projectorImage" rectAlignment="UpperRight" height="400" width="400" offsetXY="-200,-60" preserveAspect="True" color="#ffffffaa" outline="#440044ff" outlineSize="1 -1" image="https://steamusercontent-a.akamaihd.net/ugc/919163127431804784/8DC7A046F70FF0C25F9C05660CEE56D07059D293/" allowDragging="true" returnToOriginalPositionWhenReleased="false" visibility="noone" active="True" tooltipBackgroundColor="#000000" />
