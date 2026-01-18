@@ -1,10 +1,14 @@
+local maxInsOD = {
+    ["White"] = 3, ["Red"] = 3, ["Green"] = 3, ["Blue"] = 3, ["Brown"] = 3, ["Teal"] = 3,
+    ["Yellow"] = 3, ["Orange"] = 3, ["Purple"] = 3, ["Pink"] = 3
+}
 local instanseOD = {
     ["White"] = 3, ["Red"] = 3, ["Green"] = 3, ["Blue"] = 3, ["Brown"] = 3, ["Teal"] = 3,
     ["Yellow"] = 3, ["Orange"] = 3, ["Purple"] = 3, ["Pink"] = 3
 }
 function ChangeOD(player, alt)
     local pC = player.color
-    instanseOD[pC] = alt == "-1" and instanseOD[pC] - 1 or instanseOD[pC] + 1
+    instanseOD[pC] = alt == "-1" and instanseOD[pC] - 1 or alt == "-2" and instanseOD[pC] + 1 or maxInsOD[pC]
     self.UI.setAttribute("OD_" .. pC, "text", instanseOD[pC])
 end
 
