@@ -10,6 +10,7 @@ function ChangeOD(player, alt)
     local pC = player.color
     instanseOD[pC] = alt == "-1" and instanseOD[pC] - 1 or alt == "-2" and instanseOD[pC] + 1 or maxInsOD[pC]
     self.UI.setAttribute("OD_" .. pC, "text", instanseOD[pC])
+    self.UI.setAttribute("OD_" .. pC, "color", "#ffffff")
 end
 
 function onLoad()
