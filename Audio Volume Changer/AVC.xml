@@ -1,3 +1,5 @@
-<Slider rotation='0 270 90' position='380 0 -75' height='75' width='150' value='0.1' onValueChanged='changeVolume' maxValue='0.5'
+<Image image='Table_Wood' rotation='0 270 90' position='120 0 -30' height='15' width='75' />
+<Image id='im_fill' color='#200c00' rotation='0 270 90' position='120 7.5 -30' height='15' width='60' />
+<Slider rotation='0 270 90' position='120 0 -30' height='30' width='75' value='0.1' onValueChanged='changeVolume' maxValue='0.5'
     tooltip='change music volume' tooltipFontSize='20'
-    fillImage='Table_Wood' handleImage='Vintage_Button' backgroundColor='#665b4e7b' handleHeight='40' handleWidth='40' />
+    fillColor='#ffffff00' handleImage='Vintage_Button' backgroundColor='#ffffff00' handleHeight='25' handleWidth='25' />
