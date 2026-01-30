@@ -10,6 +10,33 @@ function UpdateSave()
     self.script_state = savedData
 end
 
+local function rotBase()
+    if(r90 == 0) then
+        vBase.setRotation({0, r1, r3})
+        if wpx == nil or wpx == wBase.getDescription() then wBase.setRotation({0, r1, r3}) wBase.call("SetLinks") end
+    else
+        vBase.setRotation({r3, 90, r1})
+        if wpx == nil or wpx == wBase.getDescription() then wBase.setRotation({r3, 90, r1}) wBase.call("SetLinks") end
+    end
+end
+local function ContinueUnit()
+    self.interactable = false self.lock()
+    mBag.lock() mBag.interactable = false
+    aBag.lock() aBag.interactable = false
+    vBase.interactable = false vBase.lock()
+    wBase.interactable = false wBase.lock()
+    vBaseOn = true reStart()
+    local p = aBag.getPosition()
+    broadcastToAll("Continue ONE WORLD...", {0.943, 0.745, 0.14})
+    currentBase = aBase.getGUID()
+    local bn = ""
+    bn, _, _, r1, r3, pxy, r90, lnk = ParceData(wBase.getDescription())
+    self.UI.setAttribute("mainPanel", "active", true)
+    local r = self.getRotation() if r[2] > 180 then r2 = -1 else r2 = 1 end
+    broadcastToAll("Running Version: "..self.getDescription(), {0.943, 0.745, 0.14})
+    SetUIText(bn)
+    rotBase() Wait.time(|| SetUI(), 0.1)
+end
 function onLoad(savedData)
     local loadedData = JSON.decode(savedData or "")
     if(loadedData) then
@@ -37,24 +64,27 @@ function onLoad(savedData)
     if(OWEnable) then Wait.time(function() ContinueUnit() end, 1) end
 end
 
-function RecreateObjects(allObj)
+local function OWSpawnObject(_type, _pos, _rot, _scale)
+    return spawnObject({
+        type = _type, position = _pos, rotation = _rot, scale = _scale
+    })
+end
+
+local function RecreateObjects(allObj)
     for _,g in ipairs(allObj) do
         if g.getName() == "_OW_vBase" then vBase = g end
     end
     reStart()
-    local o, i = {}, {}
-    i.image = self.UI.getCustomAssets()[4].url  i.thickness = 0.1
+    local i = {image = self.UI.getCustomAssets()[4].url, thickness = 0.1}
     if not vBase then
         local p, rotY = self.getPosition(), math.rad(self.getRotation().y)
-        o.type = "Custom_Token" o.scale = {0.5, 1, 0.5} o.rotation = self.getRotation()
-        o.position = {p[1] + 3*math.cos(rotY) + 1*math.sin(rotY), p[2] + 2.5, p[3] - 3*math.sin(rotY) - 1*math.cos(rotY)}
-        vBase = spawnObject(o)
+        local nP, r, s = {p[1] + 3*math.cos(rotY) + 1*math.sin(rotY), p[2] + 2.5, p[3] - 3*math.sin(rotY) - 1*math.cos(rotY)}, self.getRotation(), {0.5, 1, 0.5}
+        vBase = OWSpawnObject("Custom_Token", nP, r, s)
         vBase.setCustomObject(i)
     end
     if(not tZone) then
         local posZone = vBase.getPosition() + {x=0, y=vBase.getBoundsNormalized().size.y, z=0}
-        o.type = "ScriptingTrigger" o.rotation = vBase.getRotation() o.position = posZone o.scale = vBase.getBoundsNormalized().size
-        tZone = spawnObject(o)
+        tZone = OWSpawnObject("ScriptingTrigger", posZone, vBase.getRotation(), vBase.getBoundsNormalized().size)
     end
     Wait.time(|| PutVariable(), 0.2)
 end
@@ -74,25 +104,6 @@ local function InitUnit(allObj)
         currentBase = nil
     end
     return true
-end
-function ContinueUnit()
-    self.interactable = false self.lock()
-    mBag.lock() mBag.interactable = false
-    aBag.lock() aBag.interactable = false
-    vBase.interactable = false vBase.lock()
-    wBase.interactable = false wBase.lock()
-    vBaseOn = true reStart()
-    local p = aBag.getPosition()
-    broadcastToAll("Continue ONE WORLD...", {0.943, 0.745, 0.14})
-    currentBase = aBase.getGUID()
-    local bn = ""
-    bn, _, _, r1, r3, pxy, r90, lnk = ParceData(wBase.getDescription())
-    self.UI.setAttribute("mainPanel", "active", true)
-    local r = self.getRotation() if r[2] > 180 then r2 = -1 else r2 = 1 end
-    broadcastToAll("Running Version: "..self.getDescription(), {0.943, 0.745, 0.14})
-    SetUIText(bn)
-    r1, r3, r90 = 0, 0, 0
-    rotBase() Wait.time(|| SetUI(), 0.1)
 end
 
 function TogleEnable()
@@ -180,12 +191,9 @@ function reStart(what)
     if treeMap[1] == "" then treeMap[1] = nil treeMap[0] = 0 end
     treeMap[-1] = treeMap[0]
 
-    local o = {
-        type = "ScriptingTrigger", scale = self.getBoundsNormalized().size + {x=0, y=10, z=0},
-        position = self.getPosition() - {x=0, y=5, z=0}, rotation = self.getRotation()
-    }
+    local p, r, s = self.getPosition() - {x=0, y=5, z=0}, self.getRotation(), self.getBoundsNormalized().size + {x=0, y=10, z=0}
     do
-        local zoneForSBx = spawnObject(o)
+        local zoneForSBx = OWSpawnObject("ScriptingTrigger", p, r, s)
         Wait.condition(function()
         local zoneObj = zoneForSBx.getObjects()
         for i = 1, #zoneObj do
@@ -287,11 +295,8 @@ function FindBags(allObj)
 end
 function NewWBase(request)
     local p, rotY = self.getPosition(), math.rad(self.getRotation().y)
-    local o = {
-        type = "Custom_Token", position = {p[1] + 3*math.cos(rotY) - 1*math.sin(rotY), p[2] + 2.5, p[3] - 3*math.sin(rotY) + 1*math.cos(rotY)},
-        scale = {0.5, 1, 0.5}
-    }
-    wBase = spawnObject(o) wBase.setGMNotes(self.getGUID())
+    local nP = {p[1] + 3*math.cos(rotY) - 1*math.sin(rotY), p[2] + 2.5, p[3] - 3*math.sin(rotY) + 1*math.cos(rotY)}
+    wBase = OWSpawnObject("Custom_Token", nP, {0,0,0}, {0.5, 1, 0.5}) wBase.setGMNotes(self.getGUID())
     local i = {
         image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/table_wood.jpg", thickness = 0.1
     }
@@ -300,41 +305,31 @@ function NewWBase(request)
     wBase.setRotation(self.getRotation())
 end
 
+local function FitBase(limitW, limitH, baseSize)
+    if isPVw() or not aBase or activeEdit then return end
+    baseSize.x = r90 == 0 and (limitW/baseSize.x)*sizeWPlate or (limitH/baseSize.x)*sizeWPlate
+    baseSize.z = r90 == 0 and (limitH/baseSize.z)*sizeWPlate or (limitW/baseSize.z)*sizeWPlate
+    wBase.setScale(baseSize)
+    JotBase(string.format("{%f;%d;%f}", baseSize.x, 1, baseSize.z))
+end
 function cbTObj()
+    local limitW, limitH = 9.01, 5.35
     wBase = getObjectFromGUID(baseWGUID) wBase.interactable = false
     vBase = getObjectFromGUID(baseVGUID) vBase.interactable = false
     if nl then wBase.call("MakeLink") end
     rotBase()
     Wait.Time(function()
-        local boundsSize = wBase.getBoundsNormalized().size
-        if(r90 == 0 and (Round(boundsSize.x, 2) > 9.01 or Round(boundsSize.z, 2) > 5.35) or
-            r90 == 1 and (Round(boundsSize.x, 2) > 5.35 or Round(boundsSize.z, 2) > 9.01)) then
-            FitBase()
+        local baseSize = wBase.getBoundsNormalized().size baseSize.y = 1
+        if baseSize.z > baseSize.x*1.05 then r90 = 1
+        else r90 = 0 end
+        if(r90 == 0 and (Round(baseSize.x, 2) > limitW or Round(baseSize.z, 2) > limitH) or
+            r90 == 1 and (Round(baseSize.x, 2) > limitH or Round(baseSize.z, 2) > limitW)) then
+            FitBase(limitW, limitH, baseSize)
         end
         local sizeZone = {vBase.getBoundsNormalized().size.x, 10, vBase.getBoundsNormalized().size.z}
         local posZone = vBase.getPosition() + {x=0, y=5, z=0}
         tZone.setPosition(posZone) tZone.setScale(sizeZone) tZone.setRotation(vBase.getRotation())
     end, 1)
-end
-function FitBase()
-    if isPVw() or not aBase or activeEdit then return end
-    local baseSize = wBase.getBoundsNormalized().size baseSize.y = 1
-    if baseSize.z > baseSize.x*1.05 then r90 = 1
-    else r90 = 0 end
-    baseSize.x = r90 == 0 and (9.01/baseSize.x)*sizeWPlate or (5.35/baseSize.x)*sizeWPlate
-    baseSize.z = r90 == 0 and (5.35/baseSize.z)*sizeWPlate or (9.01/baseSize.z)*sizeWPlate
-    wBase.setScale(baseSize)
-    JotBase(string.format("{%f;%d;%f}", baseSize.x, 1, baseSize.z))
-end
-
-function rotBase()
-    if(r90 == 0) then
-        vBase.setRotation({0, r1, r3})
-        if wpx == nil or wpx == wBase.getDescription() then wBase.setRotation({0, r1, r3}) wBase.call("SetLinks") end
-    else
-        vBase.setRotation({r3, 90, r1})
-        if wpx == nil or wpx == wBase.getDescription() then wBase.setRotation({r3, 90, r1}) wBase.call("SetLinks") end
-    end
 end
 
 function ClearSet(keepBase, delete)
@@ -405,6 +400,7 @@ function cbGetBase(base)
     local locPos = self.getPosition()
     base.setPosition({locPos.x, locPos.y - 0.5, locPos.z}) base.lock() base.interactable = false aBase = base
     wBase.setDescription(base.getGUID())
+    rotBase()
     local p = self.getPosition() wBase.setPosition({p[1], p[2] + 0.05, p[3] - (0.77*r2)})
     RollBack(base.getGUID())
     local v = {}
@@ -419,7 +415,7 @@ function cbGetBase(base)
         end
     end
     vBase.setCustomObject(v) vBase.setScale(scalevBase) vBase.reload()
-    rotBase() SetUIText(base.getName():sub(5))
+    SetUIText(base.getName():sub(5))
     Wait.time(function()
         SetUI() cbTObj()
     end, 0.3)
@@ -529,17 +525,17 @@ function cbNABag(bag)
     bag.setPositionSmooth({p[1], p[2] + 1.5, p[3]})
 end
 
+local function cbPutBase()
+    nl = currentBase
+    GetBase(currentBase)
+    currentBase = nil
+end
 function PutBase(guid)
     aBase = getObjectFromGUID(guid) JotBase()
     aBase.setLuaScript("") aBase.setDescription("") wBase.setDescription("")
     if not treeMap[1] then treeMap[1] = guid aBag.setDescription("_OW_aBaG_"..treeMap[1]) treeMap[0] = 1 end
     currentBase = guid broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
     Wait.time(|| cbPutBase(), 0.2)
-end
-function cbPutBase()
-    nl = currentBase
-    GetBase(currentBase)
-    currentBase = nil
 end
 
 --- Buttons ---
@@ -862,9 +858,11 @@ function ButtonSeeAll()
 end
 
 function ButtonNew()
-    local p = {}  p.type = "Custom_Token"  p.position = {0, -23, 0}  p.rotation = {0, 90, 0}  p.callback = "cbNABase"
-    p.callback_owner = self  local o = spawnObject(p)  local i = {}
-    i.thickness = 0.1  i.image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/sample_token.png"  o.setCustomObject(i)
+    local p = {
+        type = "Custom_Token", position = {0, -23, 0}, rotation = {0, 90, 0},
+        callback_owner = self, callback = "cbNABase"
+    } local o = spawnObject(p)
+    o.setCustomObject({image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/sample_token.png", thickness = 0.1})
 end
 --- Buttons ---
 --- Input ---

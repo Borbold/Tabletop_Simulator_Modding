@@ -1,20 +1,20 @@
 local sciptLinkPlate = [[
-l1, l3, lh, u, sX, sY = nil, nil, nil, nil, nil, nil
+lh, pCol, sX, sY = nil, nil, nil, nil
 function onDropped()
-    local p, s = self.getPosition(), self.getScale()
+    local s = self.getScale()
     sX, sY = math.ceil(s.x*180), math.ceil(s.z*180)
 end
 
 function onPickedUp()
-    u = self.held_by_color l1 = nil l3 = nil
-    if math.abs(Player[u].lift_height - 0.03) > 0.005 then
-        lh = Player[u].lift_height
+    pCol = self.held_by_color
+    if math.abs(Player[pCol].lift_height - 0.03) > 0.005 then
+        lh = Player[pCol].lift_height
     end
-    Player[u].lift_height = 0.03
+    Player[pCol].lift_height = 0.03
 end
 local function returnLiftHeight()
-    if u and lh then
-        Player[u].lift_height = lh u = nil lh = nil
+    if pCol and lh then
+        Player[pCol].lift_height = lh pCol = nil lh = nil
     end
 end
 function onCollisionEnter()
@@ -25,7 +25,8 @@ function onDestroy()
 end
 ]]
 
-local UIscale = {x = 460, z = 250}
+local UIscaleDivider = {w = 4.5, h = 2.65}
+local UIscale = {w = 450, h = 270}
 local collisionObj, oneWorld = nil, nil
 function onLoad()
     collisionObj = nil
@@ -100,9 +101,11 @@ function AddLink()
     local locP = self.positionToLocal(collisionObj.getPosition())
     local lX, lZ, sX, sY = locP.x, locP.z, collisionObj.getVar("sX"), collisionObj.getVar("sY")
     local mapScale, mapBounds = self.getScale(), self.getBounds()
-    local w, h = (UIscale.z + (mapScale.z - 1.85)*UIscale.z)/(mapBounds.size.z/2), (UIscale.x + (mapScale.x - 1.85)*UIscale.x)/(mapBounds.size.x/2)
+    local w, h = UIscale.h/UIscaleDivider.h, UIscale.w/UIscaleDivider.w
     local x, z = Round(lX*h, 2), Round(lZ*w, 2)
-    if(oneWorld.getVar("r90") == 1 and self.getRotation().z == 180) then x = x*(-1) end
+    if(oneWorld.getVar("r90") == 1 and self.getRotation().z == 180) then
+        x = x*(-1)
+    end
     local lnk = oneWorld.getVar("lnk")
     lnk = lnk ~= nil and lnk ~= "" and lnk.."," or ""
     local newLnk = string.format("%s(%f;%f)(%f;%f)@%s", lnk, x, z, sX, sY, collisionObj.getDescription())
@@ -122,15 +125,14 @@ function SetLinks()
     else
         rotZ = self.getRotation().z == 0 and 1 or -1
     end
-    local h, w = UIscale.z + (self.getScale().z - 1.85)*UIscale.z, UIscale.x + (self.getScale().x - 1.85)*UIscale.x
     local xmlTable = {
         {
             tag = "Panel",
             attributes = {
                 scale = 1.85/self.getScale().x.." 1 "..1.85/self.getScale().z,
                 position = "0 0 "..(-6*rotZ),
-                width = rotZ == 1 and tostring(w) or tostring(h),
-                height = rotZ == 1 and tostring(h) or tostring(w),
+                width = rotZ == 1 and tostring(UIscale.w) or tostring(UIscale.h),
+                height = rotZ == 1 and tostring(UIscale.h) or tostring(UIscale.w),
                 rotation = "0 "..self.getRotation().z.." 0"
             },
             children = {
@@ -165,11 +167,13 @@ function SetLinks()
 end
 
 function MakeLink()
-    local r2, x = oneWorld.getVar("r2"), self.getPosition()
-    x[1] = x[1]-(5.5 * r2)  x[2]=x[2]+2.5  local p = {}  p.type = "Custom_Token"  p.position = {x[1], x[2], x[3]}
-    p.rotation = {0, 90, 0}  p.scale = {0.07, 0.1, 0.07}  p.callback = "cbMLink"  p.callback_owner = self
-    local obj = spawnObject(p)  local i = {}  i.thickness = 0.01
-    i.image = "https://steamusercontent-a.akamaihd.net/ugc/13045573010340250/36C6D007CDC8304626495A82A96511E910CC301B/" obj.setCustomObject(i)
+    local r2 = oneWorld.getVar("r2")
+    local pos = self.getPosition() + {x=-5.5*r2, y=2.5, z=0}
+    local p = {
+        type = "Custom_Token", position = {pos[1], pos[2], pos[3]}, rotation = {0, 90, 0}, scale = {0.07, 0.1, 0.07},
+        callback_owner = self, callback = "cbMLink"
+    }
+    spawnObject(p).setCustomObject({image = "https://steamusercontent-a.akamaihd.net/ugc/13045573010340250/36C6D007CDC8304626495A82A96511E910CC301B/", thickness = 0.01})
 end
 function cbMLink(base)
     local nl = oneWorld.getVar("nl")
