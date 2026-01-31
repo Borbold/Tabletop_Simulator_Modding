@@ -16,7 +16,7 @@
             <Cell columnSpan='39' />
             <Cell columnSpan='1'>
                 <Button id='pen' onClick='ChangeInteract'
-                    image='https://steamusercontent-a.akamaihd.net/ugc/2459620193695094291/2311C4100E304D920086612B2683D0CC0D2BC7D2/'/>
+                    image='Pen'/>
             </Cell>
         </Row>
     </TableLayout>
