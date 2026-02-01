@@ -1,8 +1,33 @@
+local CONFIG = {
+    OBJECT_NAMES = {
+        VBASE = "_OW_vBase",
+        WBASE = "_OW_wBase",
+    },
+    BAG_NAMES = {
+        DEFAULT = "Same_Name_Here",
+    },
+    ZONE_PREFIX = "SBx_",
+    UI_COLORS = {
+        YELLOW = {0.94, 0.75, 0.14},
+        GRAY = {0.7, 0.7, 0.7},
+        GREEN = {0.29, 0.62, 0.12}
+    },
+    POSITIONS = {
+        VBASE_ENABLED_Y = 0.91,
+        WBASE_OFFSET_Y = 0.11,
+        WBASE_OFFSET_Z_FACTOR = 0.77
+    }
+}
+local BROADCAST_COLORS = CONFIG.UI_COLORS
+
+local function safeGetGUID(obj)
+    return obj and obj.getGUID() or nil
+end
 function UpdateSave()
     local dataToSave = {
-        ["aBagGUID"] = aBag and aBag.getGUID() or nil, ["mBagGUID"] = mBag and mBag.getGUID() or nil,
-        ["vBaseGUID"] = vBase and vBase.getGUID() or nil, ["wBaseGUID"] = wBase and wBase.getGUID() or nil,
-        ["tZoneGUID"] = tZone and tZone.getGUID() or nil,
+        ["aBagGUID"] = safeGetGUID(aBag), ["mBagGUID"] = safeGetGUID(mBag),
+        ["vBaseGUID"] = safeGetGUID(vBase), ["wBaseGUID"] = safeGetGUID(wBase),
+        ["tZoneGUID"] = safeGetGUID(tZone),
         ["OWEnable"] = OWEnable, ["mapIsBuild"] = mapIsBuild, ["tBag"] = tBag,
         ["baseVGUID"] = baseVGUID, ["baseWGUID"] = baseWGUID
     }
@@ -10,30 +35,40 @@ function UpdateSave()
     self.script_state = savedData
 end
 
+local function calculateRotationDirection()
+    local selfRot = self.getRotation()
+    r2 = selfRot[2] > 180 and -1 or 1
+end
 local function rotBase()
-    if(r90 == 0) then
-        vBase.setRotation({0, r1, r3})
-        if wpx == nil or wpx == wBase.getDescription() then wBase.setRotation({0, r1, r3}) wBase.call("SetLinks") end
-    else
-        vBase.setRotation({r3, 90, r1})
-        if wpx == nil or wpx == wBase.getDescription() then wBase.setRotation({r3, 90, r1}) wBase.call("SetLinks") end
+    local rotation = r90 == 0 and {0, r1, r3} or {r3, 90, r1}
+    vBase.setRotation(rotation)
+    if wpx == nil or wpx == wBase.getDescription() then
+        wBase.setRotation(rotation)
+        wBase.call("SetLinks")
+    end
+end
+local function setObjectsInteractable(objects, isInteractable, isLocked)
+    for _, obj in ipairs(objects) do
+        if obj then
+            obj.interactable = isInteractable
+            if isLocked then
+                obj.lock()
+            else
+                obj.unlock()
+            end
+        end
     end
 end
 local function ContinueUnit()
-    self.interactable = false self.lock()
-    mBag.lock() mBag.interactable = false
-    aBag.lock() aBag.interactable = false
-    vBase.interactable = false vBase.lock()
-    wBase.interactable = false wBase.lock()
+    setObjectsInteractable({self, mBag, aBag, vBase, wBase}, false, true)
     vBaseOn = true reStart()
-    local p = aBag.getPosition()
-    broadcastToAll("Continue ONE WORLD...", {0.943, 0.745, 0.14})
+    broadcastToAll("Continue ONE WORLD...", BROADCAST_COLORS.YELLOW)
     currentBase = aBase.getGUID()
     local bn = ""
     bn, _, _, r1, r3, pxy, r90, lnk = ParceData(wBase.getDescription())
     self.UI.setAttribute("mainPanel", "active", true)
-    local r = self.getRotation() if r[2] > 180 then r2 = -1 else r2 = 1 end
-    broadcastToAll("Running Version: "..self.getDescription(), {0.943, 0.745, 0.14})
+    calculateRotationDirection()
+    broadcastToAll("Running Version: "..self.getDescription(), BROADCAST_COLORS.YELLOW)
     SetUIText(bn)
     rotBase() Wait.time(|| SetUI(), 0.1)
 end
@@ -53,10 +88,9 @@ function onLoad(savedData)
         if(wBase) then aBase = getObjectFromGUID(wBase.getDescription()) end
     end
 
-    r1, r2, r3 = 0, 0, 0
+    r1, r2, r3, r90 = 0, 0, 0, 0
     lnk, ss, prs = "", "", ""
     sizeVPlate, sizeWPlate = 25, 1.85
-    r90 = 0, 0
     wpx, pxy, nl, linkToMap, activeEdit = nil, nil, nil, nil, nil
     treeMap = {}
     currentBase = "x"
@@ -71,15 +105,16 @@ local function OWSpawnObject(_type, _pos, _rot, _scale)
 end
 
 local function RecreateObjects(allObj)
-    for _,g in ipairs(allObj) do
-        if g.getName() == "_OW_vBase" then vBase = g end
+    for _,obj in ipairs(allObj) do
+        if obj.getName() == CONFIG.OBJECT_NAMES.VBASE then vBase = obj end
     end
     reStart()
     local i = {image = self.UI.getCustomAssets()[4].url, thickness = 0.1}
     if not vBase then
-        local p, rotY = self.getPosition(), math.rad(self.getRotation().y)
-        local nP, r, s = {p[1] + 3*math.cos(rotY) + 1*math.sin(rotY), p[2] + 2.5, p[3] - 3*math.sin(rotY) - 1*math.cos(rotY)}, self.getRotation(), {0.5, 1, 0.5}
-        vBase = OWSpawnObject("Custom_Token", nP, r, s)
+        local rotY = math.rad(self.getRotation().y)
+        local selfPos = self.getPosition() + {x=3*math.cos(rotY) + math.sin(rotY), y=2.5, z=-(3*math.sin(rotY) + math.cos(rotY))}
+        local selfRot, nSize = self.getRotation(), {0.5, 1, 0.5}
+        vBase = OWSpawnObject("Custom_Token", selfPos, selfRot, nSize)
         vBase.setCustomObject(i)
     end
     if(not tZone) then
@@ -91,36 +126,59 @@ end
 local function InitUnit(allObj)
     Wait.time(|| RecreateObjects(allObj), 0.2)
     if(not FindBags(allObj)) then return false end
-    local s = ""
-    if mBag.getName() == "Same_Name_Here" or aBag.getName() == "Same_Name_Here" then s = s.." ReName Your Bags." end
-    if mBag.getName() != aBag.getName() then s = s.." Unmatched Bag Names." end
-    if(#s > 0) then broadcastToAll(s, {0.943, 0.745, 0.14}) return false end
+    local logStr = ""
+    if mBag.getName() == CONFIG.BAG_NAMES.DEFAULT or aBag.getName() == CONFIG.BAG_NAMES.DEFAULT then logStr = logStr.." ReName Your Bags." end
+    if mBag.getName() != aBag.getName() then logStr = logStr.." Unmatched Bag Names." end
+    if(#logStr > 0) then broadcastToAll(logStr, BROADCAST_COLORS.YELLOW) return false end
     if(currentBase) then
-        local p = aBag.getPosition()
-        if p[2] < -10 then vBaseOn = true
+        local selfPos = aBag.getPosition()
+        if selfPos[2] < -10 then vBaseOn = true
         else vBaseOn = false end
-        broadcastToAll("(LOCK or continue from save)", {0.7, 0.7, 0.7})
-        broadcastToAll("Initializing ONE WORLD...", {0.943, 0.745, 0.14})
+        broadcastToAll("(LOCK or continue from save)", BROADCAST_COLORS.GRAY)
+        broadcastToAll("Initializing ONE WORLD...", BROADCAST_COLORS.YELLOW)
         currentBase = nil
     end
     return true
 end
 
+local function positionObject(obj, position, scale, smooth)
+    if not obj then return end
+    
+    obj.setScale(scale)
+    if smooth then
+        obj.setPositionSmooth(position)
+    else
+        obj.setPosition(position)
+    end
+end
+local function positionObjectsForMode(selfPos, isEnabled)
+    local mBagScale = isEnabled and {0, 0, 0} or {1, 1, 1}
+    local aBagScale = isEnabled and {0, 0, 0} or {1, 1, 1}
+    local vBaseScale = isEnabled and {sizeVPlate, 1, sizeVPlate} or {0.5, 1, 0.5}
+    local wBaseScale = isEnabled and {sizeWPlate, 1, sizeWPlate} or {0.5, 1, 0.5}
+    
+    local mBagPos = isEnabled and {-10, -50, 10} or {selfPos[1] - 3, selfPos[2] + 3, selfPos[3]}
+    local aBagPos = isEnabled and {-10, -55, -10} or {selfPos[1], selfPos[2] + 3, selfPos[3]}
+    local vBasePos = isEnabled and {0, CONFIG.POSITIONS.VBASE_ENABLED_Y, 0} or {selfPos[1] + 3, selfPos[2] + 3, selfPos[3] - 1}
+    local wBasePos = isEnabled and {selfPos[1], selfPos[2] + CONFIG.POSITIONS.WBASE_OFFSET_Y, selfPos[3] - CONFIG.POSITIONS.WBASE_OFFSET_Z_FACTOR * r2} or {selfPos[1] + 3, selfPos[2] + 3, selfPos[3] + 1}
+    
+    positionObject(mBag, mBagPos, mBagScale, not isEnabled)
+    positionObject(aBag, aBagPos, aBagScale, not isEnabled)
+    positionObject(vBase, vBasePos, vBaseScale, not isEnabled)
+    positionObject(wBase, wBasePos, wBaseScale, not isEnabled)
+end
 function TogleEnable()
     if activeEdit then EditMode() return end
     if treeMap[1] != string.sub(aBag.getDescription(), 10) then reStart() end
 
-    local p = self.getPosition()
+    local selfPos = self.getPosition()
     if not vBaseOn then
         self.UI.setAttribute("mainPanel", "active", true)
-        local r = self.getRotation() if r[2] > 180 then r2 = -1 else r2 = 1 end
-        self.interactable = false self.lock()
-        mBag.lock() mBag.setScale({0, 0, 0}) mBag.setPosition({-10, -50, 10}) mBag.interactable = false
-        aBag.lock() aBag.setScale({0, 0, 0}) aBag.setPosition({-10, -55, -10}) aBag.interactable = false
+        calculateRotationDirection()
+        setObjectsInteractable({self, mBag, aBag, vBase, wBase}, false, true)
+        positionObjectsForMode(selfPos, true)
         self.setRotation({x=0, y=0, z=0})
-        vBase.interactable = false vBase.lock() vBase.setScale({sizeVPlate, 1, sizeVPlate}) vBase.setPosition({0, 0.91, 0})
-        wBase.interactable = false wBase.lock() wBase.setScale({sizeWPlate, 1, sizeWPlate}) wBase.setPosition({p[1], p[2] + 0.105, p[3] - (0.77*r2)})
-        broadcastToAll("Running Version: "..self.getDescription(), {0.943, 0.745, 0.14})
+        broadcastToAll("Running Version: "..self.getDescription(), BROADCAST_COLORS.YELLOW)
         vBaseOn = true SetUIText()
         r1, r3, r90 = 0, 0, 0
         rotBase() Wait.time(|| SetUI(), 0.1)
@@ -132,13 +190,9 @@ function TogleEnable()
         self.UI.setAttribute("b2", "text", "←")
         self.UI.setAttribute("editMenuPanel", "active", false)
         vBaseOn = false
-        self.interactable = true self.unlock() self.setPositionSmooth({p[1], p[2] + 0.1, p[3]})
-        mBag.unlock() mBag.setScale({1, 1, 1}) mBag.setPosition({p[1] - 3, p[2] + 3, p[3]}) mBag.setPositionSmooth({p[1] - 3, p[2] + 2, p[3]})
-        aBag.unlock() aBag.setScale({1, 1, 1}) aBag.setPosition({p[1], p[2] + 3, p[3]}) aBag.setPositionSmooth({p[1], p[2] + 2, p[3]})
-        mBag.interactable = true aBag.interactable = true vBase.interactable = true vBase.unlock() vBase.setScale({0.5, 1, 0.5})
-        vBase.setPosition({p[1] + 3, p[2] + 3, p[3] - 1}) vBase.setPositionSmooth({p[1] + 3, p[2] + 2, p[3] - 1})
-        wBase.interactable = true  wBase.unlock() wBase.setScale({0.5, 1, 0.5})
-        wBase.setPosition({p[1] + 3, p[2] + 3, p[3] + 1}) wBase.setPositionSmooth({p[1] + 3, p[2] + 2, p[3] + 1})
+        setObjectsInteractable({self, mBag, aBag, vBase, wBase}, true, false)
+        positionObjectsForMode(selfPos, false)
+        self.setPositionSmooth({selfPos[1], selfPos[2] + 0.1, selfPos[3]})
         wpx = nil
         reStart(self.UI.getAttribute("b1", "text")) Wait.time(|| SetUI(), 0.1)
         return
@@ -149,32 +203,21 @@ function TogleEnable()
 end
 
 function PutVariable()
-    local r = self.getRotation()
-    if r[2] > 180 then r2 = -1 else r2 = 1 end
-
-    vBase.setName("_OW_vBase") baseVGUID = vBase.getGUID()
-
-    if vBaseOn then
-        vBase.interactable = false
-    end
+    calculateRotationDirection()
+    vBase.setName(CONFIG.OBJECT_NAMES.VBASE) baseVGUID = vBase.getGUID()
+    if vBaseOn then vBase.interactable = false end
 
     tZone.setName("_OW_tZone")
 
     Wait.condition(function()
         baseWGUID = wBase.getGUID()
-        r = wBase.getRotation()
-        if r[1] > 170 then
-            r1 = 180
-        end
-
-        if r[3] > 170 then
-            r3 = 180
-        end
-
-        local g = wBase.getDescription()
-        if g != "" and getObjectFromGUID(g) then
-            aBase = getObjectFromGUID(g)
-            _, _, _, r1, r3, pxy, r90, lnk = ParceData(g)
+        local wBRot = wBase.getRotation()
+        if wBRot[1] > 170 then r1 = 180 end
+        if wBRot[3] > 170 then r3 = 180 end
+        local desc = wBase.getDescription()
+        if desc != "" and getObjectFromGUID(desc) then
+            aBase = getObjectFromGUID(desc)
+            _, _, _, r1, r3, pxy, r90, lnk = ParceData(desc)
         end
         if vBaseOn then
             wBase.interactable = false
@@ -191,13 +234,13 @@ function reStart(what)
     if treeMap[1] == "" then treeMap[1] = nil treeMap[0] = 0 end
     treeMap[-1] = treeMap[0]
 
-    local p, r, s = self.getPosition() - {x=0, y=5, z=0}, self.getRotation(), self.getBoundsNormalized().size + {x=0, y=10, z=0}
+    local selfPos, selfRot, selfBSize = self.getPosition() - {x=0, y=5, z=0}, self.getRotation(), self.getBoundsNormalized().size + {x=0, y=10, z=0}
     do
-        local zoneForSBx = OWSpawnObject("ScriptingTrigger", p, r, s)
+        local zoneForSBx = OWSpawnObject("ScriptingTrigger", selfPos, selfRot, selfBSize)
         Wait.condition(function()
         local zoneObj = zoneForSBx.getObjects()
         for i = 1, #zoneObj do
-            if zoneObj[i].getName():find("SBx_") then
+            if zoneObj[i].getName():find(CONFIG.ZONE_PREFIX) then
             if(what == "END") then
                 Wait.time(function()
                     if(tZone) then tZone.destruct() tZone = nil end
@@ -220,11 +263,11 @@ function reStart(what)
 end
 
 function SetUI()
-    local forText, g = "", "Init"
+    local forText, logBut = "", "Init"
     if vBaseOn then
-        if wBase.getDescription() != "" then g = "CLR" else g = "END" end
+        if wBase.getDescription() != "" then logBut = "CLR" else logBut = "END" end
     end
-    self.UI.setAttribute("b1", "text", g)
+    self.UI.setAttribute("b1", "text", logBut)
 
     if wpx or pxy then forText = "*" end
     self.UI.setAttribute("b6", "text", forText)
@@ -260,10 +303,10 @@ function SetUI()
 end
 
 function SetUIText(text)
-    local g = text ~= nil and text or "One World"
-    self.UI.setAttribute("mTxt", "text", g)
+    local uiText = text ~= nil and text or "One World"
+    self.UI.setAttribute("mTxt", "text", uiText)
     local b = ParceData(treeMap[treeMap[0]])
-    if(not aBase or g == b) then
+    if(not aBase or uiText == b) then
         self.UI.setAttribute("mTxt", "textColor", "White")
     elseif(pxy) then
         self.UI.setAttribute("mTxt", "textColor", "Green")
@@ -273,35 +316,35 @@ function SetUIText(text)
 end
 
 function FindBags(allObj)
-    local p, s = self.getPosition(), ""
-    for _,g in ipairs(allObj) do
-        if(g.getDescription() == "_OW_mBaG") then mBag = g end
-        if(g.getDescription():find("_OW_aBaG")) then aBag = g end
-        if(g.getName() == "_OW_wBase") then wBase = g end
+    local logS = ""
+    for _,obj in ipairs(allObj) do
+        if(obj.getDescription() == "_OW_mBaG") then mBag = obj end
+        if(obj.getDescription():find("_OW_aBaG")) then aBag = obj end
+        if(obj.getName() == CONFIG.OBJECT_NAMES.WBASE) then wBase = obj end
     end
     if not mBag or not aBag then
-        s = s.."Missing bags. Zone Object Bag and(or) Base Token Bag."
+        logS = logS.."Missing bags. Zone Object Bag and(or) Base Token Bag."
         CreateStartBags()
     end
     if not wBase then
-        s = s.." Missing Hub View Token."
+        logS = logS.." Missing Hub View Token."
         WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/WBase.lua", self, "NewWBase")
     end
-    if s != "" then
-        broadcastToAll(s, {0.943, 0.745, 0.14})
+    if logS != "" then
+        broadcastToAll(logS, BROADCAST_COLORS.YELLOW)
         return false
     end
     return true
 end
 function NewWBase(request)
-    local p, rotY = self.getPosition(), math.rad(self.getRotation().y)
-    local nP = {p[1] + 3*math.cos(rotY) - 1*math.sin(rotY), p[2] + 2.5, p[3] - 3*math.sin(rotY) + 1*math.cos(rotY)}
-    wBase = OWSpawnObject("Custom_Token", nP, {0,0,0}, {0.5, 1, 0.5}) wBase.setGMNotes(self.getGUID())
+    local rotY = math.rad(self.getRotation().y)
+    local selfPos = self.getPosition() + {x=3*math.cos(rotY) - math.sin(rotY), y=2.5, z=math.cos(rotY) - 3*math.sin(rotY)}
+    wBase = OWSpawnObject("Custom_Token", selfPos, {0,0,0}, {0.5, 1, 0.5}) wBase.setGMNotes(self.getGUID())
     local i = {
         image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/table_wood.jpg", thickness = 0.1
     }
     wBase.setCustomObject(i)
-    wBase.setLuaScript(request.text) wBase.setName("_OW_wBase")
+    wBase.setLuaScript(request.text) wBase.setName(CONFIG.OBJECT_NAMES.WBASE)
     wBase.setRotation(self.getRotation())
 end
 
@@ -338,9 +381,9 @@ end
 
 function JotBase(wScaleBase, vScaleBase)
     local e = string.char(10)
-    local s, locS = aBag.getLuaScript(), ""
+    local scr, locS = aBag.getLuaScript(), ""
     local findGUID = "-"..wBase.getDescription()..","
-    for strok in s:gmatch("[^\n]+") do
+    for strok in scr:gmatch("[^\n]+") do
         if(not strok:find(findGUID)) then
             locS = locS..strok.."\n"
         end
@@ -376,7 +419,7 @@ function GetBase(bGuid)
     aBase = nil
     if pxy and not wpx then
         wpx = bGuid
-        broadcastToAll("Entering Parent View...", {0.286, 0.623, 0.118})
+        broadcastToAll("Entering Parent View...", BROADCAST_COLORS.GREEN)
     elseif(wpx) then lnk = preLNK end
     if getObjectFromGUID(bGuid) then cbGetBase(getObjectFromGUID(bGuid)) return end
 
@@ -401,7 +444,8 @@ function cbGetBase(base)
     base.setPosition({locPos.x, locPos.y - 0.5, locPos.z}) base.lock() base.interactable = false aBase = base
     wBase.setDescription(base.getGUID())
     rotBase()
-    local p = self.getPosition() wBase.setPosition({p[1], p[2] + 0.05, p[3] - (0.77*r2)})
+    local selfPos = self.getPosition()
+    wBase.setPosition({selfPos[1], selfPos[2] + 0.05, selfPos[3] - (CONFIG.POSITIONS.WBASE_OFFSET_Z_FACTOR * r2)})
     RollBack(base.getGUID())
     local v = {}
     if wpx and wpx != wBase.getDescription() then
@@ -421,12 +465,12 @@ function cbGetBase(base)
     end, 0.3)
 end
 
-function isPVw() if wpx then broadcastToAll("Action Canceled While in Parent View.", {0.943, 0.745, 0.14}) return true end end
+function isPVw() if wpx then broadcastToAll("Action Canceled While in Parent View.", BROADCAST_COLORS.YELLOW) return true end end
 
 function ParceData(bGuid)
-    local h, k, e, s = string.char(45), string.char(44), string.char(10), aBag.getLuaScript()
-    local fBase = string.find(s, k, string.find(s, h..bGuid..k))
-    if not fBase then if vBaseOn then broadcastToAll("No base map.", {0.943, 0.745, 0.14}) end return end
+    local h, k, e, scr = string.char(45), string.char(44), string.char(10), aBag.getLuaScript()
+    local fBase = string.find(scr, k, string.find(scr, h..bGuid..k))
+    if not fBase then if vBaseOn then broadcastToAll("No base map.", BROADCAST_COLORS.YELLOW) end return end
     local d, dFlag = {}, false
     for w in aBag.getLuaScript():gmatch("[^,{}\n]+") do
         if(dFlag == true) then
@@ -475,29 +519,29 @@ function mvPoint()
 end
 
 function CbImport()
-    local p = self.getPosition()
-    p[1] = p[1] - (5.5*r2)
-    aBase.setPosition({p[1], p[2] + 4, p[3]})
-    local e, k, s = string.char(10), string.char(44), string.sub(iBag.getName(), 5)
-    local g = iBag.getDescription() aBase.setName("SBx_"..s)
-    if(#g == 6) then
-        g = g.."{1.85;1;1.85},{25.0;1.0;25.0},0,0,2,0"
-        iBag.setDescription(g)
-    elseif(not g:find("{")) then
-        g = g:sub(1, 6).."{1.85;1;1.85},{25.0;1.0;25.0},0,0,2,0"
-        iBag.setDescription(g)
+    local selfPos = self.getPosition() + {x=-5.5*r2, y=4, z=0}
+    aBase.setPosition(selfPos)
+    local e, k, bagName = string.char(10), string.char(44), string.sub(iBag.getName(), 5)
+    local desc = iBag.getDescription() aBase.setName(CONFIG.ZONE_PREFIX..bagName)
+    if(#desc == 6) then
+        desc = desc.."{1.85;1;1.85},{25.0;1.0;25.0},0,0,2,0"
+        iBag.setDescription(desc)
+    elseif(not desc:find("{")) then
+        desc = desc:sub(1, 6).."{1.85;1;1.85},{25.0;1.0;25.0},0,0,2,0"
+        iBag.setDescription(desc)
     end
-    s = aBag.getLuaScript()
-    s = s.."\n--"..aBase.getGUID()..k..string.sub(aBase.getName(), 5)..string.sub(g, 7)..","..e aBag.setLuaScript(s)
+    local scr = aBag.getLuaScript()
+    scr = scr.."\n--"..aBase.getGUID()..k..string.sub(aBase.getName(), 5)..string.sub(desc, 7)..","..e aBag.setLuaScript(scr)
     iBag.setDescription("")  iBag.setName("")  aBase.setDescription(iBag.guid)  
     getObjectFromGUID(getObjectFromGUID(currentBase).getDescription()).destruct() getObjectFromGUID(currentBase).destruct()  currentBase = nil
-    broadcastToAll("Import Complete.", {0.943, 0.745, 0.14}) nl = aBase.getGUID() wBase.call("MakeLink")
+    broadcastToAll("Import Complete.", BROADCAST_COLORS.YELLOW) nl = aBase.getGUID() wBase.call("MakeLink")
     aBase.unlock() aBag.putObject(aBase) aBase = nil iBag.unlock() mBag.putObject(iBag) iBag = nil
 end
 
 function cbNABase(base)
-    local p = self.getPosition() base.setScale({0.5, 1, 0.5}) base.setName("SBx_Name of Zone")
-    p[1] = p[1] - (5.8 * r2)  base.setPosition({p[1], p[2] + 3, p[3]})
+    local selfPos = self.getPosition() + {x=-5.8*r2, y=3, z=0}
+    base.setScale({0.5, 1, 0.5}) base.setName("SBx_Name of Zone")
+    base.setPosition(selfPos)
 end
 
 function CreateStartBags()
@@ -505,24 +549,24 @@ function CreateStartBags()
         WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/MBag.lua", self, "cbNMBag")
     end
     if(not aBag) then
-        local p = {
+        local setting = {
         type = "Bag",
         callback_owner = self, callback = "cbNABag"
-        } aBag = spawnObject(p)
+        } aBag = spawnObject(setting)
     end
 end
 function cbNMBag(request)
     mBag = spawnObject({type = "Bag"}) mBag.setGMNotes(self.getGUID()) mBag.setLuaScript(request.text)
-    mBag.setDescription("_OW_mBaG") mBag.setName("Same_Name_Here") mBag.setColorTint({0.713, 0.247, 0.313})
-    local p, rotY = self.getPosition(), math.rad(self.getRotation().y)
-    mBag.setPosition({p[1] - 3*math.cos(rotY), p[2] + 2.5, p[3] + 3*math.sin(rotY)})
-    mBag.setPositionSmooth({p[1] - 3*math.cos(rotY), p[2] + 1.5, p[3] + 3*math.sin(rotY)})
+    mBag.setDescription("_OW_mBaG") mBag.setName(CONFIG.BAG_NAMES.DEFAULT) mBag.setColorTint({0.71, 0.25, 0.31})
+    local selfPos, rotY = self.getPosition(), math.rad(self.getRotation().y)
+    mBag.setPosition({selfPos[1] - 3*math.cos(rotY), selfPos[2] + 2.5, selfPos[3] + 3*math.sin(rotY)})
+    mBag.setPositionSmooth({selfPos[1] - 3*math.cos(rotY), selfPos[2] + 1.5, selfPos[3] + 3*math.sin(rotY)})
 end
 function cbNABag(bag)
-    bag.setDescription("_OW_aBaG") bag.setName("Same_Name_Here") bag.setColorTint({0.713, 0.247, 0.313})
-    local p = self.getPosition()
-    bag.setPosition({p[1], p[2] + 2.5, p[3]})
-    bag.setPositionSmooth({p[1], p[2] + 1.5, p[3]})
+    bag.setDescription("_OW_aBaG") bag.setName(CONFIG.BAG_NAMES.DEFAULT) bag.setColorTint({0.71, 0.25, 0.31})
+    local selfPos = self.getPosition()
+    bag.setPosition({selfPos[1], selfPos[2] + 2.5, selfPos[3]})
+    bag.setPositionSmooth({selfPos[1], selfPos[2] + 1.5, selfPos[3]})
 end
 
 local function cbPutBase()
@@ -534,7 +578,7 @@ function PutBase(guid)
     aBase = getObjectFromGUID(guid) JotBase()
     aBase.setLuaScript("") aBase.setDescription("") wBase.setDescription("")
     if not treeMap[1] then treeMap[1] = guid aBag.setDescription("_OW_aBaG_"..treeMap[1]) treeMap[0] = 1 end
-    currentBase = guid broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
+    currentBase = guid broadcastToAll("Packing Base...", BROADCAST_COLORS.YELLOW)
     Wait.time(|| cbPutBase(), 0.2)
 end
 
@@ -598,7 +642,7 @@ end
 
 function ButtonParent()
     if not vBaseOn or not aBase then return end
-    local v, f, g = {}, nil, "Ending Parent View..."
+    local v, f, logInfo = {}, nil, "Ending Parent View..."
     if pxy then
         if wpx then
             if wpx == wBase.getDescription() then
@@ -612,22 +656,23 @@ function ButtonParent()
         if wpx then
             v.image = aBase.getCustomObject().image
             _, _, _, r1, r3, pxy, r90, lnk = ParceData(aBase.getGUID())
-            pxy = nil wpx = nil
+            pxy, wpx = nil, nil
             SetUIText() wBase.setCustomObject(v) wBase.reload()
             Wait.time(|| cbTObj(), 0.2)
         else
             if tBag then
-                broadcastToAll("Pack or Clear Zone to Enter Parent View.", {0.943, 0.745, 0.14})
+                broadcastToAll("Pack or Clear Zone to Enter Parent View.", BROADCAST_COLORS.YELLOW)
                 return
             end
-            pxy = true v.image = aBase.getCustomObject().image
-            wpx = wBase.getDescription() g = "Entering Parent View..."
+            v.image = aBase.getCustomObject().image
+            pxy, logInfo = true, "Entering Parent View..."
+            wpx = wBase.getDescription()
         end
     end
     if f then
         JotBase() vBase.setCustomObject(v) vBase.reload() Wait.time(|| cbTObj(), 0.2)
     end
-    broadcastToAll(g, {0.286, 0.623, 0.118})
+    broadcastToAll(logInfo, BROADCAST_COLORS.GREEN)
     Wait.time(|| SetUI(), 0.1)
 end
 
@@ -638,9 +683,7 @@ function ButtonHome()
         GetBase(treeMap[1])
         return
     end
-    if not vBaseOn then
-        return 
-    end
+    if not vBaseOn then return end
     linkToMap = nil Wait.time(|| SetUI(), 0.1)
     if treeMap[0] < 2 or not aBase then
         if treeMap[1] then
@@ -654,7 +697,7 @@ end
 
 function ButtonBack()
     if activeEdit then return end
-    if wpx then  wpx = nil GetBase(treeMap[1]) return end
+    if wpx then wpx = nil GetBase(treeMap[1]) return end
     if not vBaseOn then return end  linkToMap = nil  Wait.time(|| SetUI(), 0.1)
     if treeMap[0] < 3 then ButtonHome() return end
     if not aBase then  GetBase(treeMap[treeMap[0]]) return end
@@ -668,18 +711,18 @@ function ButtonBuild()
     if not vBaseOn or not aBase then return end
     if aBase.getDescription() == "" then return end
     if ss != "" or prs != "" then
-        broadcastToAll("The Current Zone is Busy...", {0.943, 0.745, 0.14})
+        broadcastToAll("The Current Zone is Busy...", BROADCAST_COLORS.YELLOW)
         return
     end
     if #tZone.getObjects() > 0 then
         for _, item in ipairs(tZone.getObjects()) do
-            if item.getName() ~= "_OW_vBase" then
+            if item.getName() ~= CONFIG.OBJECT_NAMES.VBASE then
                 local iPos = item.getPosition()
                 item.setPosition({iPos[1], tZone.getBoundsNormalized().size.y, iPos[3]})
             end
         end
     end
-    broadcastToAll("Recalling Zone Objects...", {0.943, 0.745, 0.14})
+    broadcastToAll("Recalling Zone Objects...", BROADCAST_COLORS.YELLOW)
     tBag = true
     local t = {
         smooth = false, guid = aBase.getDescription(), position = {-2, -46, 7},
@@ -711,6 +754,12 @@ function ButtonLink()
     linkToMap = nil
 end
 
+local function shouldPackItem(item)
+    local isNotVBase = item.getName() ~= CONFIG.OBJECT_NAMES.VBASE
+    local isNotSpecialType = not string.find("FogOfWarTrigger@ScriptingTrigger@3DText", item.name)
+    local isNotTaggedNoPack = not item.hasTag("noPack")
+    return isNotVBase and isNotSpecialType and isNotTaggedNoPack
+end
 function ButtonPack(player, _, _, keepBase)
     if isPVw() then return end
     if not vBaseOn or not aBase then return end
@@ -722,9 +771,7 @@ function ButtonPack(player, _, _, keepBase)
         local boundSizedTZone = tZone.getBoundsNormalized().size
         for _, item in ipairs(tZone.getObjects()) do
             iLock, iGuid, iPos = item.getLock() and 1 or 0, item.getGUID(), item.getPosition()
-            if item.getName() ~= "_OW_vBase" and
-            not string.find("FogOfWarTrigger@ScriptingTrigger@3DText", item.name) and
-            not item.hasTag("noPack") then
+            if shouldPackItem(item) then
                 ss = ss..item.guid..","
                 iRot = item.getRotation()
                 preLoad = preLoad.."--"..iGuid..","..iPos[1]..","..iPos[2]..","..iPos[3]..","..iRot[1]..","..iRot[2]..","..iRot[3]..","..iLock.."\n"
@@ -736,7 +783,7 @@ function ButtonPack(player, _, _, keepBase)
         if(player) then
             aBase.setLuaScript(preLoad)
         end
-        broadcastToAll("Packing Zone...", {0.943, 0.745, 0.14})
+        broadcastToAll("Packing Zone...", BROADCAST_COLORS.YELLOW)
         local t = {}
         if(keepBase) then
             mBag.call("DoClear")
@@ -749,34 +796,34 @@ function ButtonPack(player, _, _, keepBase)
         mapIsBuild = false
         UpdateSave()
     else
-        broadcastToAll("(to empty a zone, use Delete)", {0.7, 0.7, 0.7})
-        broadcastToAll("No Objects Found in Zone.", {0.943, 0.745, 0.14})
+        broadcastToAll("(to empty a zone, use Delete)", BROADCAST_COLORS.GRAY)
+        broadcastToAll("No Objects Found in Zone.", BROADCAST_COLORS.YELLOW)
     end
 end
 
 function ButtonDelete()
     if isPVw() then return  end
     if not vBaseOn or not aBase then return end
-    if aBase.getLuaScript() != "" and not tBag then broadcastToAll("Deploy Zone to Delete.", {0.943, 0.745, 0.14})  return end
+    if aBase.getLuaScript() != "" and not tBag then broadcastToAll("Deploy Zone to Delete.", BROADCAST_COLORS.YELLOW)  return end
     if tBag then
         currentBase = aBase.getGUID()
         ClearSet(nil, true) wBase.setDescription("")
         aBase.setLuaScript("")
-        broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
+        broadcastToAll("Packing Base...", BROADCAST_COLORS.YELLOW)
     else
-        local g = aBase.getGUID()
-        if g == treeMap[1] then broadcastToAll("Can't Delete Home, Edit Art Instead.", {0.943, 0.745, 0.14}) return end
-        local e, k, h, s = string.char(10), string.char(44), string.char(45), aBag.getLuaScript()
+        local guid = aBase.getGUID()
+        if guid == treeMap[1] then broadcastToAll("Can't Delete Home, Edit Art Instead.", BROADCAST_COLORS.YELLOW) return end
+        local e, k, h, scr = string.char(10), string.char(44), string.char(45), aBag.getLuaScript()
         treeMap[treeMap[0]] = nil
         treeMap[0] = treeMap[0] - 1
         local newS = ""
-        for str in s:gmatch("[^\n]+") do
-        if(str:find(h..g..k) == nil) then
-            if(str:find(g) == nil) then
+        for str in scr:gmatch("[^\n]+") do
+        if(str:find(h..guid..k) == nil) then
+            if(str:find(guid) == nil) then
             newS = newS..str.."\n"
             else
             for word in str:gmatch("[^,]+") do
-                if(word:find(g) == nil) then
+                if(word:find(guid) == nil) then
                 newS = newS..word..","
                 end
             end
@@ -796,9 +843,10 @@ function ButtonCopy()
     if(isPVw()) then return end
     if(not vBaseOn or not aBase) then return end
     aBase = aBase.clone({position = {6, -28, 6}})
-    broadcastToAll("...Copy Complete.", {0.943, 0.745, 0.14})
-    local pos = self.getPosition() pos[1] = pos[1] - (5.7*r2) aBase.setRotation({0, 90, 0})  
-    aBase.setPosition({pos[1], pos[2] + 2.5, pos[3]}) aBase.setLuaScript("") aBase.setDescription("")
+    broadcastToAll("...Copy Complete.", BROADCAST_COLORS.YELLOW)
+    local selfPos = self.getPosition() + {x=-5.7*r2, y=2.5, z=0}
+    aBase.setRotation({0, 90, 0})  
+    aBase.setPosition(selfPos) aBase.setLuaScript("") aBase.setDescription("")
     aBase.setName("SBx_Copy_"..string.sub(aBase.getName(), 5))
     aBase.unlock() SetUIText()
     Wait.time(|| SetUI(), 0.1)
@@ -808,17 +856,18 @@ function EditMode()
     if isPVw() then return end
     if not vBaseOn or wBase.getDescription() == "" then return end
     aBase = getObjectFromGUID(wBase.getDescription())
-    if tBag then broadcastToAll("Pack or Clear Zone before Edit.", {0.943, 0.745, 0.14})  return end
+    if tBag then broadcastToAll("Pack or Clear Zone before Edit.", BROADCAST_COLORS.YELLOW)  return end
     if not activeEdit then
-        activeEdit = 1  local p = self.getPosition()
-        broadcastToAll("Alter this Token: Name, Custom Art or Tint.", {0.943, 0.745, 0.14})
+        activeEdit = 1
+        local selfPos = self.getPosition() + {x=0, y=3, z=4.7*r2}
+        broadcastToAll("Alter this Token: Name, Custom Art or Tint.", BROADCAST_COLORS.YELLOW)
         self.UI.setAttribute("mTxt", "text", "Exit Edit Mode")
         self.UI.setAttribute("mTxt", "textColor", "#f1b531")
-        aBase.interactable = true  aBase.unlock()  aBase.setRotation({0, 0, 0})  
-        aBase.setPosition({p[1], p[2] + 3, p[3] + (4.7*r2)})
+        aBase.interactable = true aBase.unlock() aBase.setRotation({0, 0, 0})  
+        aBase.setPosition(selfPos)
     else
         JotBase() StowBase() NoBase() SetUIText() activeEdit = nil
-        broadcastToAll("Packing Base...", {0.943, 0.745, 0.14})
+        broadcastToAll("Packing Base...", BROADCAST_COLORS.YELLOW)
         Wait.time(|| SetUI(), 0.1)
     end
 end
@@ -831,8 +880,8 @@ end
 function ButtonExport()
     if isPVw() then return  end
     if not vBaseOn or not aBase then return end
-    if not tBag then broadcastToAll("Deploy Zone to Export.", {0.943, 0.745, 0.14}) return end
-    broadcastToAll("Bagging Export...", {0.943, 0.745, 0.14})
+    if not tBag then broadcastToAll("Deploy Zone to Export.", BROADCAST_COLORS.YELLOW) return end
+    broadcastToAll("Bagging Export...", BROADCAST_COLORS.YELLOW)
     local t = {
         type = "Bag", position = self.getPosition()+{x=10,y=1,z=0},
         callback_owner = mBag, callback = "Export"
@@ -841,16 +890,15 @@ end
 
 function ButtonSeeAll()
     if not vBaseOn then return end
-    broadcastToAll("Use the One World Logo.", {0.943, 0.745, 0.14})
+    broadcastToAll("Use the One World Logo.", BROADCAST_COLORS.YELLOW)
     if aBase then treeMap = {} treeMap[-1] = 1 treeMap[0] = 1 treeMap[1] = aBase.getGUID() return end
-    local s, t = aBag.getLuaScript(), {}
-    for strok in s:gmatch("[^\n]+") do
+    local scr, t = aBag.getLuaScript(), {}
+    for strok in scr:gmatch("[^\n]+") do
         for w in strok:gmatch("[^,]+") do
             if(#w > 3) then table.insert(t, w:sub(3)) end
             break
         end
     end
-    s = ""
     treeMap = {} treeMap[-1] = 2 treeMap[0] = #t + 1 treeMap[1] = t[1]
     for i,v in ipairs(t) do
         treeMap[i + 1] = v
@@ -858,10 +906,10 @@ function ButtonSeeAll()
 end
 
 function ButtonNew()
-    local p = {
+    local setting = {
         type = "Custom_Token", position = {0, -23, 0}, rotation = {0, 90, 0},
         callback_owner = self, callback = "cbNABase"
-    } local o = spawnObject(p)
+    } local o = spawnObject(setting)
     o.setCustomObject({image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/sample_token.png", thickness = 0.1})
 end
 --- Buttons ---
@@ -873,7 +921,7 @@ function ChangeSettingSize(player, input, id)
         local strScale = string.format("{%s;1;%s}", self.UI.getAttribute(id.."X", "text"), self.UI.getAttribute(id.."Z", "text"))
         if(id:find("wBase")) then JotBase(strScale) end
         if(id:find("vBase")) then JotBase(nil, strScale) end
-        broadcastToAll("{en}Update the base to confirm the changes{ru}Обновите базу для подтверждения изменений", {0.943, 0.745, 0.14})
+        broadcastToAll("{en}Update the base to confirm the changes{ru}Обновите базу для подтверждения изменений", BROADCAST_COLORS.YELLOW)
         self.UI.setAttribute("b1", "text", "UPD")
         UpdateSave()
     end, 0.1)
