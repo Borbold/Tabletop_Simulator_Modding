@@ -111,6 +111,7 @@ function NewWBase(request)
     wBase = OWSpawnObject("Custom_Token", selfPos, selfRot, nSize) wBase.setGMNotes(self.getGUID())
     wBase.setCustomObject({image = self.UI.getCustomAssets()[4].url, thickness = 0.1})
     wBase.setLuaScript(request.text) wBase.setName(CONFIG.OBJECT_NAMES.WBASE)
+    baseWGUID = wBase.getGUID()
 end
 function NewVBase(request)
     local rotY = math.rad(self.getRotation().y)
@@ -119,8 +120,33 @@ function NewVBase(request)
     vBase = OWSpawnObject("Custom_Token", selfPos, selfRot, nSize)
     vBase.setCustomObject({image = self.UI.getCustomAssets()[4].url, thickness = 0.1})
     vBase.setLuaScript(request.text) vBase.setName(CONFIG.OBJECT_NAMES.VBASE)
+    baseVGUID = vBase.getGUID()
 end
 
+local function PutVariable()
+    calculateRotationDirection()
+    if vBaseOn then vBase.interactable = false end
+
+    tZone.setName("_OW_tZone")
+
+    Wait.condition(function()
+        local wBRot = wBase.getRotation()
+        if wBRot[1] > 170 then r1 = 180 end
+        if wBRot[3] > 170 then r3 = 180 end
+        local desc = wBase.getDescription()
+        if desc != "" and getObjectFromGUID(desc) then
+            aBase = getObjectFromGUID(desc)
+            _, _, _, r1, r3, pxy, r90, lnk = ParceData(desc)
+        end
+        if vBaseOn then
+            wBase.interactable = false
+        end
+    end,
+    function() return wBase ~= nil end)
+
+    SetUIText()
+    Wait.time(|| SetUI(), 0.1)
+end
 local function RecreateObjects(allObj)
     reStart()
     if(not tZone) then
@@ -243,32 +269,6 @@ function TogleEnable()
     end
     if tBag then ClearSet("true")
     else NoBase() end
-    Wait.time(|| SetUI(), 0.1)
-end
-
-function PutVariable()
-    calculateRotationDirection()
-    if vBaseOn then vBase.interactable = false end
-
-    tZone.setName("_OW_tZone")
-
-    Wait.condition(function()
-        baseWGUID = wBase.getGUID()
-        local wBRot = wBase.getRotation()
-        if wBRot[1] > 170 then r1 = 180 end
-        if wBRot[3] > 170 then r3 = 180 end
-        local desc = wBase.getDescription()
-        if desc != "" and getObjectFromGUID(desc) then
-            aBase = getObjectFromGUID(desc)
-            _, _, _, r1, r3, pxy, r90, lnk = ParceData(desc)
-        end
-        if vBaseOn then
-            wBase.interactable = false
-        end
-    end,
-    function() return wBase ~= nil end)
-
-    SetUIText()
     Wait.time(|| SetUI(), 0.1)
 end
 
