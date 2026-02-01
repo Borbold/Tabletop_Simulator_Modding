@@ -375,8 +375,8 @@ local function cbTObj()
         rotBase()
         local baseSize = wBase.getBoundsNormalized().size
         r90 = baseSize.z > baseSize.x*1.05 and 1 or 0
-        if(r90 == 0 and (Round(baseSize.x, 2) > limitW or Round(baseSize.z, 2) > limitH) or
-            r90 == 1 and (Round(baseSize.x, 2) > limitH or Round(baseSize.z, 2) > limitW)) then
+        if(r90 == 0 and (vBase.call("Round", {num=baseSize.x, idp=2}) > limitW or vBase.call("Round", {num=baseSize.z, idp=2}) > limitH) or
+            r90 == 1 and (vBase.call("Round", {num=baseSize.x, idp=2}) > limitH or vBase.call("Round", {num=baseSize.z, idp=2}) > limitW)) then
             FitBase(limitW, limitH, baseSize, wBase)
         end
         local sizeZone = {vBase.getBoundsNormalized().size.x, 10, vBase.getBoundsNormalized().size.z}
@@ -949,8 +949,6 @@ function ChangeSettingSize(player, input, id)
     end, 0.1)
 end
 --- Input ---
-function Round(num, idp) return math.floor(num*(10^idp))/10^idp end
-
 function toggleBuildMap()
     toggleMapBuild = not toggleMapBuild
     Wait.time(|| SetUI(), 0.1)

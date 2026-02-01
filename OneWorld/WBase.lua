@@ -1,10 +1,9 @@
 local sciptLinkPlate = [[
 lh, pCol, sX, sY = nil, nil, nil, nil
 function onDropped()
-    local s = self.getScale()
-    sX, sY = math.ceil(s.x*180), math.ceil(s.z*180)
+    local selfScale = self.getScale()
+    sX, sY = math.ceil(selfScale.x*180), math.ceil(selfScale.z*180)
 end
-
 function onPickedUp()
     pCol = self.held_by_color
     if math.abs(Player[pCol].lift_height - 0.03) > 0.005 then
@@ -14,39 +13,33 @@ function onPickedUp()
 end
 local function returnLiftHeight()
     if pCol and lh then
-        Player[pCol].lift_height = lh pCol = nil lh = nil
+        Player[pCol].lift_height = lh
+        pCol, lh = nil, nil
     end
 end
-function onCollisionEnter()
-    returnLiftHeight()
-end
-function onDestroy()
-    returnLiftHeight()
-end
+function onCollisionEnter() returnLiftHeight() end
+function onDestroy() returnLiftHeight() end
 ]]
 
 local UIscaleDivider = {w = 4.5, h = 2.65}
 local UIscale = {w = 450, h = 270}
-local collisionObj, oneWorld = nil, nil
 function onLoad()
-    collisionObj = nil
-    oneWorld = getObjectFromGUID(self.getGMNotes())
+    collisionObj, oneWorld = nil, getObjectFromGUID(self.getGMNotes())
 end
 
 function onCollisionEnter(info)
     if(not oneWorld or not oneWorld.getVar("vBaseOn") or collisionObj == info.collision_object) then return end
     collisionObj = info.collision_object collisionObj.setName(collisionObj.getName():gsub(",", ";"))
     local g = string.sub(collisionObj.getName(), 1, 4)
-    local i = "https://steamusercontent-a.akamaihd.net/ugc/13045573010340250/36C6D007CDC8304626495A82A96511E910CC301B/"
     if self.getDescription() == "" and g == "SBx_" and collisionObj.name == "Custom_Token" then NewBase()
     elseif self.getDescription() == "" and g == "OWx_" and collisionObj.name == "Bag" then DoImport()
-    elseif self.getDescription() != "" and collisionObj.getCustomObject().image == i then AddLink()
+    elseif self.getDescription() != "" and collisionObj.getCustomObject().image == oneWorld.UI.getCustomAssets()[6].url then AddLink()
     else broadcastToAll("!! Clear Hub to Import !!", {0.95, 0.95, 0.95}) end
 end
 
 function NewBase()
-    local s = oneWorld.getVar("aBag").getLuaScript()
-    if(s:find(collisionObj.getGUID())) then broadcastToAll("Duplicate GUID.", {0.943, 0.745, 0.14})
+    local scr = oneWorld.getVar("aBag").getLuaScript()
+    if(scr:find(collisionObj.getGUID())) then broadcastToAll("Duplicate GUID.", {0.943, 0.745, 0.14})
     else oneWorld.call("PutBase", collisionObj.getGUID()) end
 end
 
@@ -65,15 +58,8 @@ function DoImport()
         end
         if collisionObj.getDescription() == "" then
             broadcastToAll("Creating Hidden Base...", {0.943, 0.745, 0.14})
-            local t = {
-                position = {-10, -45, 0},
-                callback_owner = self, callback = "cbCTBase"
-            }
-            local i = {
-                image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/table_wood.jpg",
-                thickness = 0.1, type = "Custom_Token"
-            }
-            spawnObject(t).setCustomObject(i)
+            spawnObject({position = {-10, -45, 0}, callback_owner = self, callback = "cbCTBase"})
+            .setCustomObject({image = oneWorld.UI.getCustomAssets()[6].url, thickness = 0.1, type = "Custom_Token"})
             return
         end
     end
@@ -92,7 +78,6 @@ end
 
 function AddLink()
     if oneWorld.call("isPVw") then collisionObj.destruct() return end
-    local s = oneWorld.getVar("aBag").getLuaScript()
     if(collisionObj.getDescription() == self.getDescription()) then
         collisionObj.destruct()
         broadcastToAll("Link to Self or duplicate Link", {0.943, 0.745, 0.14})
@@ -102,7 +87,8 @@ function AddLink()
     local lX, lZ, sX, sY = locP.x, locP.z, collisionObj.getVar("sX"), collisionObj.getVar("sY")
     local mapScale, mapBounds = self.getScale(), self.getBounds()
     local w, h = UIscale.h/UIscaleDivider.h, UIscale.w/UIscaleDivider.w
-    local x, z = Round(lX*h, 2), Round(lZ*w, 2)
+    local vBase = oneWorld.getVar("vBase")
+    local x, z = vBase.call("Round", {num=lX*h, idp=2}), vBase.call("Round", {num=lZ*w, idp=2})
     if(oneWorld.getVar("r90") == 1 and self.getRotation().z == 180) then
         x = x*(-1)
     end
@@ -153,7 +139,7 @@ function SetLinks()
             tag = "Button",
             attributes = {
                 id = "link"..(#xmlTable[1].children + 1),
-                image = "https://steamusercontent-a.akamaihd.net/ugc/13045573010340250/36C6D007CDC8304626495A82A96511E910CC301B/",
+                image = oneWorld.UI.getCustomAssets()[6].url,
                 width = sX,
                 height = sY,
                 offsetXY = x.." "..y,
@@ -173,7 +159,7 @@ function MakeLink()
         type = "Custom_Token", position = {pos[1], pos[2], pos[3]}, rotation = {0, 90, 0}, scale = {0.07, 0.1, 0.07},
         callback_owner = self, callback = "cbMLink"
     }
-    spawnObject(p).setCustomObject({image = "https://steamusercontent-a.akamaihd.net/ugc/13045573010340250/36C6D007CDC8304626495A82A96511E910CC301B/", thickness = 0.01})
+    spawnObject(p).setCustomObject({image = oneWorld.UI.getCustomAssets()[6].url, thickness = 0.01})
 end
 function cbMLink(base)
     local nl = oneWorld.getVar("nl")
@@ -186,20 +172,19 @@ end
 function GetLink(id)
     if(oneWorld.getVar("mapIsBuild")) then broadcastToAll("Pack map objects", {0.94, 0.65, 0.02}) return end
     if(oneWorld.getVar("activeEdit")) then oneWorld.call("EditMode") return end
-    local l = ""
+    local lnk = ""
     for w in oneWorld.getVar("lnk"):gmatch("[^(@,)]+") do
         if(w:find("%a")) then
-        if(id == 1) then
-            l = w:sub(1, 6)
-            break
-        end
-        id = id - 1
+            if(id == 1) then
+                lnk = w:sub(1, 6)
+                break
+            end
+            id = id - 1
         end
     end
-    local bn = string.sub(oneWorld.call("ParceData", l), 1, 21)
-    if bn != oneWorld.UI.getAttribute("mTxt", "text") then oneWorld.call("SetUIText", bn) oneWorld.setVar("linkToMap", l) oneWorld.call("SetUI")
-    else oneWorld.call("GetBase", l) end
+    local bn = string.sub(oneWorld.call("ParceData", lnk), 1, 21)
+    if bn != oneWorld.UI.getAttribute("mTxt", "text") then oneWorld.call("SetUIText", bn) oneWorld.setVar("linkToMap", lnk) oneWorld.call("SetUI")
+    else oneWorld.call("GetBase", lnk) end
 end
 
 function ButtonLink(_, _, id) GetLink(tonumber(id:gsub("%D", ""), 10)) end
-function Round(num, idp) return math.ceil(num*(10^idp))/10^idp end
