@@ -83,7 +83,7 @@
     <TableLayout id='settingSizes' position='-180 -530 0' width='300' height='100' image='uiBackButton' color='Black' active='false'>
         <Row>
             <Cell columnSpan='2'>
-                <Text text='Table map' />
+                <Button text='Table map' onClick='TMBaseSize' image='uiBackButton' textColor='#e5e4e2' color='#ff6e0066' />
             </Cell>
             <Cell columnSpan='1'>
                 <InputField id='vBaseX' text='25' onEndEdit='ChangeSettingSize' />
