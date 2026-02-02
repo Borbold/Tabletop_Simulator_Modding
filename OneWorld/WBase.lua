@@ -88,7 +88,7 @@ function AddLink()
     local mapScale, mapBounds = self.getScale(), self.getBounds()
     local w, h = UIscale.h/UIscaleDivider.h, UIscale.w/UIscaleDivider.w
     local vBase = oneWorld.getVar("vBase")
-    local x, z = vBase.call("Round", {num=lX*h, idp=2}), vBase.call("Round", {num=lZ*w, idp=2})
+    local x, z = vBase.call("Round", lX*h), vBase.call("Round", lZ*w)
     if(oneWorld.getVar("r90") == 1 and self.getRotation().z == 180) then
         x = x*(-1)
     end

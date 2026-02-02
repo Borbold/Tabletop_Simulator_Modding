@@ -33,8 +33,7 @@ function UpdateSave()
         ["OWEnable"] = OWEnable, ["mapIsBuild"] = mapIsBuild, ["tBag"] = tBag,
         ["baseVGUID"] = baseVGUID, ["baseWGUID"] = baseWGUID
     }
-    local savedData = JSON.encode(dataToSave)
-    self.script_state = savedData
+    self.script_state = JSON.encode(dataToSave)
 end
 
 local function calculateRotationDirection()
@@ -375,8 +374,8 @@ local function cbTObj()
         rotBase()
         local baseSize = wBase.getBoundsNormalized().size
         r90 = baseSize.z > baseSize.x*1.05 and 1 or 0
-        if(r90 == 0 and (vBase.call("Round", {num=baseSize.x, idp=2}) > limitW or vBase.call("Round", {num=baseSize.z, idp=2}) > limitH) or
-            r90 == 1 and (vBase.call("Round", {num=baseSize.x, idp=2}) > limitH or vBase.call("Round", {num=baseSize.z, idp=2}) > limitW)) then
+        if(r90 == 0 and (vBase.call("Round", baseSize.x) > limitW or vBase.call("Round", baseSize.z) > limitH) or
+            r90 == 1 and (vBase.call("Round", baseSize.x) > limitH or vBase.call("Round", baseSize.z) > limitW)) then
             FitBase(limitW, limitH, baseSize, wBase)
         end
         local sizeZone = {vBase.getBoundsNormalized().size.x, 10, vBase.getBoundsNormalized().size.z}

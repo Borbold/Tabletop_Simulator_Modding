@@ -1,4 +1,4 @@
-function Round(info)
-    local mult = 10 ^ info.idp
-    return math.ceil(info.num * mult) / mult
+function Round(num)
+    local mult = 10 ^ 2
+    return math.ceil(num * mult) / mult
 end

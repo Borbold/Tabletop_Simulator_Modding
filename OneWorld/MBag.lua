@@ -1,25 +1,30 @@
-local oneWorld, activeBag = nil, nil
 function UpdateSave()
     local dataToSave = {
-        ["cloneActiveBagGUID"] = cloneActiveBag and cloneActiveBag.getGUID() or nil,
+        ["cloneActiveBagGUID"] = cloneActiveBag and cloneActiveBag.getGUID(),
         ["ss"] = ss, ["prs"] = prs
     }
-    local savedData = JSON.encode(dataToSave)
-    self.script_state = savedData
+    self.script_state = JSON.encode(dataToSave)
 end
 
 function onLoad(savedData)
     local loadedData = JSON.decode(savedData or "")
-    if(loadedData) then
+    if loadedData then
         prs = loadedData.prs or ""
         ss = loadedData.ss or ""
-        cloneActiveBag = loadedData.cloneActiveBagGUID and getObjectFromGUID(loadedData.cloneActiveBagGUID) or nil
+        cloneActiveBag = loadedData.cloneActiveBagGUID and getObjectFromGUID(loadedData.cloneActiveBagGUID)
     end
+
+    activeBag = nil
     oneWorld = getObjectFromGUID(self.getGMNotes())
-    Wait.time(function()
-        if(prs) then oneWorld.setVar("prs", prs) end
-        if(ss) then oneWorld.setVar("ss", ss) end
-    end, 1.1)
+    if (prs and prs ~= "") or (ss and ss ~= "") then
+        Wait.condition(
+            function()
+                if prs ~= "" then oneWorld.setVar("prs", prs) end
+                if ss ~= "" then oneWorld.setVar("ss", ss) end
+            end,
+            function() return oneWorld ~= nil end
+        )
+    end
 end
 
 -- Build --
@@ -28,6 +33,7 @@ function CreateBagBuild(bag)
     cloneActiveBag = activeBag.clone()
     cloneActiveBag.setColorTint({0.713, 0.247, 0.313, 0.2})
     cloneActiveBag.setName("Copy build map")
+
     local posSpawn = oneWorld.getVar("wBase").getPosition()
     cloneActiveBag.setPosition({posSpawn.x, posSpawn.y - 5, posSpawn.z})
     Build()
@@ -37,12 +43,14 @@ local function EndBuild()
     oneWorld.setVar("prs", prs)
     oneWorld.setVar("ss", ss)
     broadcastToAll("Finished Building.", {0.943, 0.745, 0.14})
+
     if activeBag then
         activeBag.destruct()
         activeBag = nil
     end
-    Wait.time(|| oneWorld.call("SetUI"), 0.1)
+
     UpdateSave()
+    Wait.time(|| oneWorld.call("SetUI"), 0.1)
 end
 local function PutObjectsBuild(objectsString, index)
     local objectWords = {}
