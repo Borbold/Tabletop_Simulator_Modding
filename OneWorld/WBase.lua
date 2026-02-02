@@ -1,30 +1,8 @@
-local sciptLinkPlate = [[
-lh, pCol, sX, sY = nil, nil, nil, nil
-function onDropped()
-    local selfScale = self.getScale()
-    sX, sY = math.ceil(selfScale.x*180), math.ceil(selfScale.z*180)
-end
-function onPickedUp()
-    pCol = self.held_by_color
-    if math.abs(Player[pCol].lift_height - 0.03) > 0.005 then
-        lh = Player[pCol].lift_height
-    end
-    Player[pCol].lift_height = 0.03
-end
-local function returnLiftHeight()
-    if pCol and lh then
-        Player[pCol].lift_height = lh
-        pCol, lh = nil, nil
-    end
-end
-function onCollisionEnter() returnLiftHeight() end
-function onDestroy() returnLiftHeight() end
-]]
-
 local UIscaleDivider = {w = 4.5, h = 2.65}
 local UIscale = {w = 450, h = 270}
 function onLoad()
     collisionObj, oneWorld = nil, getObjectFromGUID(self.getGMNotes())
+    vBase = oneWorld.getVar("vBase")
 end
 
 function onCollisionEnter(info)
@@ -87,7 +65,6 @@ function AddLink()
     local lX, lZ, sX, sY = locP.x, locP.z, collisionObj.getVar("sX"), collisionObj.getVar("sY")
     local mapScale, mapBounds = self.getScale(), self.getBounds()
     local w, h = UIscale.h/UIscaleDivider.h, UIscale.w/UIscaleDivider.w
-    local vBase = oneWorld.getVar("vBase")
     local x, z = vBase.call("Round", lX*h), vBase.call("Round", lZ*w)
     if(oneWorld.getVar("r90") == 1 and self.getRotation().z == 180) then
         x = x*(-1)
@@ -166,7 +143,7 @@ function cbMLink(base)
     base.setDescription(nl)
     local bn = oneWorld.call("ParceData", nl)
     base.setName(bn) oneWorld.setVar("nl", nil)
-    base.setLuaScript(sciptLinkPlate) base.setGMNotes(self.getGMNotes())
+    base.setLuaScript(vBase.getVar("sciptLinkPlate")) base.setGMNotes(self.getGMNotes())
 end
 
 function GetLink(id)
