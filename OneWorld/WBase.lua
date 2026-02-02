@@ -1,8 +1,21 @@
-local UIscaleDivider = {w = 4.5, h = 2.65}
 local UIscale = {w = 450, h = 270}
 function onLoad()
     collisionObj, oneWorld = nil, getObjectFromGUID(self.getGMNotes())
-    vBase = oneWorld.getVar("vBase")
+    Wait.condition(function() vBase = oneWorld.getVar("vBase") end, function() return oneWorld.getVar("vBase") ~= nil end)
+end
+
+local function AddLink()
+    if oneWorld.call("isPVw") then collisionObj.destruct() return end
+    if(collisionObj.getDescription() == self.getDescription()) then
+        collisionObj.destruct()
+        broadcastToAll("Link to Self or duplicate Link", {0.943, 0.745, 0.14})
+        return
+    end
+    local locP = self.positionToLocal(collisionObj.getPosition())
+    vBase.call("setNewLink", {oneWorld=oneWorld, locP=locP, collisionObj=collisionObj})
+    collisionObj.destruct()
+    oneWorld.call("JotBase")
+    SetLinks()
 end
 
 function onCollisionEnter(info)
@@ -54,30 +67,6 @@ function cbCTBase(base)
     oneWorld.getVar("mBag").call("PreImport", base)
 end
 
-function AddLink()
-    if oneWorld.call("isPVw") then collisionObj.destruct() return end
-    if(collisionObj.getDescription() == self.getDescription()) then
-        collisionObj.destruct()
-        broadcastToAll("Link to Self or duplicate Link", {0.943, 0.745, 0.14})
-        return
-    end
-    local locP = self.positionToLocal(collisionObj.getPosition())
-    local lX, lZ, sX, sY = locP.x, locP.z, collisionObj.getVar("sX"), collisionObj.getVar("sY")
-    local mapScale, mapBounds = self.getScale(), self.getBounds()
-    local w, h = UIscale.h/UIscaleDivider.h, UIscale.w/UIscaleDivider.w
-    local x, z = vBase.call("Round", lX*h), vBase.call("Round", lZ*w)
-    if(oneWorld.getVar("r90") == 1 and self.getRotation().z == 180) then
-        x = x*(-1)
-    end
-    local lnk = oneWorld.getVar("lnk")
-    lnk = lnk ~= nil and lnk ~= "" and lnk.."," or ""
-    local newLnk = string.format("%s(%f;%f)(%f;%f)@%s", lnk, x, z, sX, sY, collisionObj.getDescription())
-    oneWorld.setVar("lnk", newLnk)
-    collisionObj.destruct()
-    oneWorld.call("JotBase")
-    SetLinks()
-end
-
 function SetLinks()
     local t = oneWorld.getVar("lnk")
     if(t == nil) then return end
@@ -105,10 +94,7 @@ function SetLinks()
 
     if self.getDescription() == "" then return end
     for str in t:gmatch("[%(%-?%d.%d;%-?%d.%d%)]*@") do
-        local words = {}
-        for word in str:gmatch("[^(;@,)]+") do
-            table.insert(words, word)
-        end
+        local words = vBase.call("parseStringInWords", {pString=str,rStr="[^(;@,)]+"})
         local x, y = tonumber(words[1]), tonumber(words[2])
         local sX, sY = tonumber(words[3]), tonumber(words[4])
 

@@ -24,10 +24,12 @@ function onLoad(savedData)
             function() return oneWorld ~= nil end
         )
     end
+    Wait.condition(function() vBase = oneWorld.getVar("vBase") end, function() return oneWorld.getVar("vBase") ~= nil end)
 end
 
 -- Build --
 function CreateBagBuild(bag)
+    vBase = oneWorld.getVar("vBase")
     bag.lock() activeBag = bag
     cloneActiveBag = activeBag.clone()
     cloneActiveBag.setColorTint({0.713, 0.247, 0.313, 0.2})
@@ -49,10 +51,7 @@ local function EndBuild()
     Wait.time(|| oneWorld.call("SetUI"), 0.1)
 end
 local function PutObjectsBuild(objectsString, index)
-    local objectWords = {}
-    for word in objectsString[index]:gmatch("[^,]+") do
-        table.insert(objectWords, word)
-    end
+    local objectWords = vBase.call("parseStringInWords", {pString=objectsString[index],rStr="[^,]+"})
     local t = {
         guid = objectWords[1]:sub(3),
         position = {x=tonumber(objectWords[2]), y=tonumber(objectWords[3]), z=tonumber(objectWords[4])},
@@ -65,10 +64,7 @@ function Build()
     prs = oneWorld.getVar("aBase").getLuaScript()
     if prs == "" or #activeBag.getObjects() == 0 then return end
     ss = ""
-    local objectsString, index = {}, 1
-    for line in prs:gmatch("[^\n]+") do
-        table.insert(objectsString, line)
-    end
+    local objectsString, index = vBase.call("parseStringInWords", {pString=prs,rStr="[^\n]+"}), 1
     if(oneWorld.getVar("toggleMapBuild")) then
         while index <= #objectsString do
             index = PutObjectsBuild(objectsString, index)
@@ -76,17 +72,15 @@ function Build()
         end
         Wait.time(|| EndBuild(), 0.2)
     else
-        do
-            Wait.condition(
-                function() Wait.time(|| EndBuild(), 0.2) end,
-                function()
-                    -- A rather unnecessary workaround. With just one object in the field, it throws an error that doesn't affect the script's operation.
-                    if #objectsString == 1 and index == 2 then return true end
-                    index = PutObjectsBuild(objectsString, index)
-                    return index > #objectsString
-                end
-            )
-        end
+        Wait.condition(
+            function() Wait.time(|| EndBuild(), 0.2) end,
+            function()
+                -- A rather unnecessary workaround. With just one object in the field, it throws an error that doesn't affect the script's operation.
+                if #objectsString == 1 and index == 2 then return true end
+                index = PutObjectsBuild(objectsString, index)
+                return index > #objectsString
+            end
+        )
     end
 end
 function UnderPack(obj)
@@ -111,11 +105,9 @@ end
 function DoClear()
     ss = oneWorld.getVar("ss")
     oneWorld.getVar("aBase").setDescription(cloneActiveBag.getGUID())
+    local packGUID = vBase.call("parseStringInWords", {pString=ss,rStr="[^,]+"})
+    local index = 1
     if(oneWorld.getVar("toggleMapBuild")) then
-        local packGUID, index = {}, 1
-        for guid in ss:gmatch("[^,]+") do
-            table.insert(packGUID, guid)
-        end
         while(index <= #packGUID) do
             if(getObjectFromGUID(packGUID[index])) then
                 getObjectFromGUID(packGUID[index]).destruct()
@@ -126,10 +118,6 @@ function DoClear()
         Wait.time(|| EndClear(), 0.2)
     else
         do
-            local packGUID, index = {}, 1
-            for guid in ss:gmatch("[^,]+") do
-                table.insert(packGUID, guid)
-            end
             Wait.condition(function()
                 Wait.time(|| EndClear(), 0.2)
             end, function()
@@ -161,11 +149,9 @@ end
 function DoPack(mBag)
     ss = oneWorld.getVar("ss")
     oneWorld.getVar("aBase").setDescription(mBag.getGUID())
+    local packGUID = vBase.call("parseStringInWords", {pString=ss,rStr="[^,]+"})
+    local index = 1
     if(oneWorld.getVar("toggleMapBuild")) then
-        local packGUID, index = {}, 1
-        for word in ss:gmatch("[^,]+") do
-            table.insert(packGUID, word)
-        end
         while(index <= #packGUID) do
             if(getObjectFromGUID(packGUID[index])) then
                 mBag.putObject(getObjectFromGUID(packGUID[index]))
@@ -177,10 +163,6 @@ function DoPack(mBag)
         Wait.time(|| EndPack(mBag), 0.2)
     else
         do
-            local packGUID, index = {}, 1
-            for word in ss:gmatch("[^,]+") do
-                table.insert(packGUID, word)
-            end
             Wait.condition(function()
                 Wait.time(|| EndPack(mBag), 0.2)
             end, function()
@@ -201,10 +183,7 @@ function Export(bag)
     local eBase = oneWorld.getVar("aBase").clone({position = {-7, -23, -4}})
     bag.setName("OW"..string.sub(eBase.getName(), 3))
     do
-        local objectsString = {}
-        for strok in eBase.getLuaScript():gmatch("[^\n]+") do
-            table.insert(objectsString, strok)
-        end
+        local objectsString = vBase.call("parseStringInWords", {pString=eBase.getLuaScript(),rStr="[^\n]+"})
         local index = 1
         Wait.condition(function()
             local wSize = oneWorld.getVar("wBase").getScale()

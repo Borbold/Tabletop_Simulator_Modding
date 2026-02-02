@@ -23,20 +23,8 @@ local function rotBase()
         wBase.call("SetLinks")
     end
 end
-local function setObjectsInteractable(objects, isInteractable, isLocked)
-    for _, obj in ipairs(objects) do
-        if obj then
-            obj.interactable = isInteractable
-            if isLocked then
-                obj.lock()
-            else
-                obj.unlock()
-            end
-        end
-    end
-end
 local function ContinueUnit()
-    setObjectsInteractable({self, mBag, aBag, vBase, wBase}, false, true)
+    vBase.call("setObjectsInteractable", {objects={self, mBag, aBag, vBase, wBase}, isInteractable=false, isLocked=true})
     vBaseOn = true reStart()
     broadcastToAll("Continue ONE WORLD...", CONFIG.UI_COLORS.YELLOW)
     currentBase = aBase.getGUID()
@@ -220,7 +208,7 @@ function TogleEnable()
     if not vBaseOn then
         self.UI.setAttribute("mainPanel", "active", true)
         calculateRotationDirection()
-        setObjectsInteractable({self, mBag, aBag, vBase, wBase}, false, true)
+        vBase.call("setObjectsInteractable", {objects={self, mBag, aBag, vBase, wBase}, isInteractable=false, isLocked=true})
         positionObjectsForMode(selfPos, true)
         self.setRotation({x=0, y=0, z=0})
         broadcastToAll("Running Version: "..self.getDescription(), CONFIG.UI_COLORS.YELLOW)
@@ -235,7 +223,7 @@ function TogleEnable()
         self.UI.setAttribute("b2", "text", "←")
         self.UI.setAttribute("editMenuPanel", "active", false)
         vBaseOn = false
-        setObjectsInteractable({self, mBag, aBag, vBase, wBase}, true, false)
+        vBase.call("setObjectsInteractable", {objects={self, mBag, aBag, vBase, wBase}, isInteractable=true, isLocked=false})
         positionObjectsForMode(selfPos, false)
         self.setPositionSmooth({selfPos[1], selfPos[2] + 0.1, selfPos[3]})
         wpx = nil
@@ -350,8 +338,8 @@ local function cbTObj()
         rotBase()
         local baseSize = wBase.getBoundsNormalized().size
         r90 = baseSize.z > baseSize.x*1.05 and 1 or 0
-        if(r90 == 0 and (vBase.call("Round", baseSize.x) > limitW or vBase.call("Round", baseSize.z) > limitH) or
-            r90 == 1 and (vBase.call("Round", baseSize.x) > limitH or vBase.call("Round", baseSize.z) > limitW)) then
+        if(r90 == 0 and (vBase.call("round", baseSize.x) > limitW or vBase.call("round", baseSize.z) > limitH) or
+            r90 == 1 and (vBase.call("round", baseSize.x) > limitH or vBase.call("round", baseSize.z) > limitW)) then
             FitBase(limitW, limitH, baseSize, wBase)
         end
         local sizeZone = {vBase.getBoundsNormalized().size.x, 10, vBase.getBoundsNormalized().size.z}
@@ -703,8 +691,7 @@ function ButtonBuild()
     local t = {
         smooth = false, guid = aBase.getDescription(), position = {-2, -46, 7},
         callback = "CreateBagBuild", callback_owner = mBag
-    }
-    mBag.takeObject(t)
+    } mBag.takeObject(t)
     mapIsBuild = true
     UpdateSave()
 end
