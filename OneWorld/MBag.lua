@@ -1,9 +1,8 @@
 function UpdateSave()
-    local dataToSave = {
+    self.script_state = JSON.encode({
         ["cloneActiveBagGUID"] = cloneActiveBag and cloneActiveBag.getGUID(),
         ["ss"] = ss, ["prs"] = prs
-    }
-    self.script_state = JSON.encode(dataToSave)
+    })
 end
 
 function onLoad(savedData)
@@ -33,7 +32,6 @@ function CreateBagBuild(bag)
     cloneActiveBag = activeBag.clone()
     cloneActiveBag.setColorTint({0.713, 0.247, 0.313, 0.2})
     cloneActiveBag.setName("Copy build map")
-
     local posSpawn = oneWorld.getVar("wBase").getPosition()
     cloneActiveBag.setPosition({posSpawn.x, posSpawn.y - 5, posSpawn.z})
     Build()
@@ -43,27 +41,24 @@ local function EndBuild()
     oneWorld.setVar("prs", prs)
     oneWorld.setVar("ss", ss)
     broadcastToAll("Finished Building.", {0.943, 0.745, 0.14})
-
     if activeBag then
         activeBag.destruct()
         activeBag = nil
     end
-
     UpdateSave()
     Wait.time(|| oneWorld.call("SetUI"), 0.1)
 end
 local function PutObjectsBuild(objectsString, index)
     local objectWords = {}
-    for w in objectsString[index]:gmatch("[^,]+") do
-        table.insert(objectWords, w)
+    for word in objectsString[index]:gmatch("[^,]+") do
+        table.insert(objectWords, word)
     end
-    local fLock = objectWords[8] == "1"
     local t = {
         guid = objectWords[1]:sub(3),
         position = {x=tonumber(objectWords[2]), y=tonumber(objectWords[3]), z=tonumber(objectWords[4])},
         rotation = {x=tonumber(objectWords[5]), y=tonumber(objectWords[6]), z=tonumber(objectWords[7])},
         callback = "UnderPack", callback_owner = self, smooth = false
-    } activeBag.takeObject(t).setLock(fLock)
+    } activeBag.takeObject(t).setLock(objectWords[8] == "1")
     return index + 1
 end
 function Build()
@@ -71,30 +66,26 @@ function Build()
     if prs == "" or #activeBag.getObjects() == 0 then return end
     ss = ""
     local objectsString, index = {}, 1
-    for strok in prs:gmatch("[^\n]+") do
-        table.insert(objectsString, strok)
+    for line in prs:gmatch("[^\n]+") do
+        table.insert(objectsString, line)
     end
     if(oneWorld.getVar("toggleMapBuild")) then
         while index <= #objectsString do
             index = PutObjectsBuild(objectsString, index)
             if(index >= 5001) then print("[ff0000]ERROR[-]") break end
         end
-        Wait.time(function()
-            Wait.time(|| EndBuild(), 0.2)
-        end, 0.2)
+        Wait.time(|| EndBuild(), 0.2)
     else
         do
-            Wait.condition(function()
-                Wait.time(function()
-                    Wait.time(|| EndBuild(), 0.2)
-                end, 0.2)
-            end,
-            function()
-                -- A rather unnecessary workaround. With just one object in the field, it throws an error that doesn't affect the script's operation.
-                if #objectsString == 1 and index == 2 then return true end
-                index = PutObjectsBuild(objectsString, index)
-                return index > #objectsString
-            end)
+            Wait.condition(
+                function() Wait.time(|| EndBuild(), 0.2) end,
+                function()
+                    -- A rather unnecessary workaround. With just one object in the field, it throws an error that doesn't affect the script's operation.
+                    if #objectsString == 1 and index == 2 then return true end
+                    index = PutObjectsBuild(objectsString, index)
+                    return index > #objectsString
+                end
+            )
         end
     end
 end
@@ -111,9 +102,9 @@ local function EndClear()
     prs = "" oneWorld.setVar("prs", "")
     ss = "" oneWorld.setVar("ss", ss)
     broadcastToAll("Clearing Complete.", {0.943, 0.745, 0.14})
-    Wait.condition(function()
-            oneWorld.call("SetUI")
-        end, function() return not tBag end
+    Wait.condition(
+        function() oneWorld.call("SetUI") end,
+        function() return not tBag end
     )
     UpdateSave()
 end
@@ -122,8 +113,8 @@ function DoClear()
     oneWorld.getVar("aBase").setDescription(cloneActiveBag.getGUID())
     if(oneWorld.getVar("toggleMapBuild")) then
         local packGUID, index = {}, 1
-        for w in ss:gmatch("[^,]+") do
-            table.insert(packGUID, w)
+        for guid in ss:gmatch("[^,]+") do
+            table.insert(packGUID, guid)
         end
         while(index <= #packGUID) do
             if(getObjectFromGUID(packGUID[index])) then
@@ -136,8 +127,8 @@ function DoClear()
     else
         do
             local packGUID, index = {}, 1
-            for w in ss:gmatch("[^,]+") do
-                table.insert(packGUID, w)
+            for guid in ss:gmatch("[^,]+") do
+                table.insert(packGUID, guid)
             end
             Wait.condition(function()
                 Wait.time(|| EndClear(), 0.2)
@@ -161,9 +152,9 @@ local function EndPack(mBag)
     oneWorld.setVar("prs", "")
     ss = "" oneWorld.setVar("ss", ss)
     broadcastToAll("Packing Complete.", {0.943, 0.745, 0.14})
-    Wait.condition(function()
-            oneWorld.call("SetUI")
-        end, function() return not tBag end
+    Wait.condition(
+        function() oneWorld.call("SetUI") end,
+        function() return not tBag end
     )
     if(cloneActiveBag) then cloneActiveBag.destruct() cloneActiveBag = nil end
 end
@@ -172,8 +163,8 @@ function DoPack(mBag)
     oneWorld.getVar("aBase").setDescription(mBag.getGUID())
     if(oneWorld.getVar("toggleMapBuild")) then
         local packGUID, index = {}, 1
-        for w in ss:gmatch("[^,]+") do
-            table.insert(packGUID, w)
+        for word in ss:gmatch("[^,]+") do
+            table.insert(packGUID, word)
         end
         while(index <= #packGUID) do
             if(getObjectFromGUID(packGUID[index])) then
@@ -187,8 +178,8 @@ function DoPack(mBag)
     else
         do
             local packGUID, index = {}, 1
-            for w in ss:gmatch("[^,]+") do
-                table.insert(packGUID, w)
+            for word in ss:gmatch("[^,]+") do
+                table.insert(packGUID, word)
             end
             Wait.condition(function()
                 Wait.time(|| EndPack(mBag), 0.2)
@@ -210,16 +201,19 @@ function Export(bag)
     local eBase = oneWorld.getVar("aBase").clone({position = {-7, -23, -4}})
     bag.setName("OW"..string.sub(eBase.getName(), 3))
     do
-        local objectsString, s = {}, eBase.getLuaScript()
-        for strok in s:gmatch("[^\n]+") do
+        local objectsString = {}
+        for strok in eBase.getLuaScript():gmatch("[^\n]+") do
             table.insert(objectsString, strok)
         end
         local index = 1
         Wait.condition(function()
             local wSize = oneWorld.getVar("wBase").getScale()
             local vSize = oneWorld.getVar("vBase").getScale()
-            s = string.format("%s,{%f;1.0;%f},{%f;1.0;%f},%d,%d,2,%d", eBase.getGUID(), wSize[1], wSize[3], vSize[1], vSize[3], oneWorld.getVar("r1"), oneWorld.getVar("r3"), oneWorld.getVar("r90"))
-            bag.setDescription(s) eBase.setDescription(bag.getGUID()) bag.putObject(eBase)
+            local baseInfo = string.format(
+                "%s,{%f;1.0;%f},{%f;1.0;%f},%d,%d,2,%d",
+                eBase.getGUID(), wSize[1], wSize[3], vSize[1], vSize[3], oneWorld.getVar("r1"), oneWorld.getVar("r3"), oneWorld.getVar("r90")
+            )
+            bag.setDescription(baseInfo) eBase.setDescription(bag.getGUID()) bag.putObject(eBase)
             oneWorld.setVar("iBag", nil)
             Wait.time(|| oneWorld.call("SetUI"), 0.1)
         end,
@@ -241,11 +235,15 @@ end
 function PreImport(obj)
     local currentBase = oneWorld.getVar("currentBase")
     if currentBase then
-        local g = string.sub(currentBase, 1, 2)
-        if g == "i_" or g == "c_" then
-            g = string.sub(currentBase, 3)  obj.setDescription(g)  g = getObjectFromGUID(g).getLuaScript()
-        if string.sub(g, string.len(g)-1) != string.char(13)..string.char(10) then g = g..string.char(13)..string.char(10) end
-            obj.setLuaScript(g)
+        local prefix = string.sub(currentBase, 1, 2)
+        if prefix == "i_" or prefix == "c_" then
+            local newGuid = string.sub(currentBase, 3)
+            obj.setDescription(newGuid)
+            local src = getObjectFromGUID(newGuid).getLuaScript()
+            if string.sub(src, -2) ~= "\r\n" then
+                src = src .. "\r\n"
+            end
+            obj.setLuaScript(src)
         end
     end
     obj.lock()
