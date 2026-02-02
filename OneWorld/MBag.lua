@@ -105,8 +105,7 @@ end
 function DoClear()
     ss = oneWorld.getVar("ss")
     oneWorld.getVar("aBase").setDescription(cloneActiveBag.getGUID())
-    local packGUID = vBase.call("parseStringInWords", {pString=ss,rStr="[^,]+"})
-    local index = 1
+    local packGUID, index = vBase.call("parseStringInWords", {pString=ss,rStr="[^,]+"}), 1
     if(oneWorld.getVar("toggleMapBuild")) then
         while(index <= #packGUID) do
             if(getObjectFromGUID(packGUID[index])) then
@@ -117,17 +116,15 @@ function DoClear()
         end
         Wait.time(|| EndClear(), 0.2)
     else
-        do
-            Wait.condition(function()
-                Wait.time(|| EndClear(), 0.2)
-            end, function()
-                if(getObjectFromGUID(packGUID[index])) then
-                    getObjectFromGUID(packGUID[index]).destruct()
-                end
-                index = index + 1
-                return index > #packGUID
-            end)
-        end
+        Wait.condition(function()
+            Wait.time(|| EndClear(), 0.2)
+        end, function()
+            if(getObjectFromGUID(packGUID[index])) then
+                getObjectFromGUID(packGUID[index]).destruct()
+            end
+            index = index + 1
+            return index > #packGUID
+        end)
     end
 end
 -- Clear --
@@ -149,8 +146,7 @@ end
 function DoPack(mBag)
     ss = oneWorld.getVar("ss")
     oneWorld.getVar("aBase").setDescription(mBag.getGUID())
-    local packGUID = vBase.call("parseStringInWords", {pString=ss,rStr="[^,]+"})
-    local index = 1
+    local packGUID, index = vBase.call("parseStringInWords", {pString=ss,rStr="[^,]+"}), 1
     if(oneWorld.getVar("toggleMapBuild")) then
         while(index <= #packGUID) do
             if(getObjectFromGUID(packGUID[index])) then
@@ -162,18 +158,16 @@ function DoPack(mBag)
         end
         Wait.time(|| EndPack(mBag), 0.2)
     else
-        do
-            Wait.condition(function()
-                Wait.time(|| EndPack(mBag), 0.2)
-            end, function()
-                if(getObjectFromGUID(packGUID[index])) then
-                    mBag.putObject(getObjectFromGUID(packGUID[index]))
-                    ss = ss.gsub(packGUID[index], "", 1)
-                end
-                index = index + 1
-                return index > #packGUID
-            end)
-        end
+        Wait.condition(function()
+            Wait.time(|| EndPack(mBag), 0.2)
+        end, function()
+            if(getObjectFromGUID(packGUID[index])) then
+                mBag.putObject(getObjectFromGUID(packGUID[index]))
+                ss = ss.gsub(packGUID[index], "", 1)
+            end
+            index = index + 1
+            return index > #packGUID
+        end)
     end
 end
 ----------
@@ -182,31 +176,27 @@ end
 function Export(bag)
     local eBase = oneWorld.getVar("aBase").clone({position = {-7, -23, -4}})
     bag.setName("OW"..string.sub(eBase.getName(), 3))
-    do
-        local objectsString = vBase.call("parseStringInWords", {pString=eBase.getLuaScript(),rStr="[^\n]+"})
-        local index = 1
-        Wait.condition(function()
-            local wSize = oneWorld.getVar("wBase").getScale()
-            local vSize = oneWorld.getVar("vBase").getScale()
-            local baseInfo = string.format(
-                "%s,{%f;1.0;%f},{%f;1.0;%f},%d,%d,2,%d",
-                eBase.getGUID(), wSize[1], wSize[3], vSize[1], vSize[3], oneWorld.getVar("r1"), oneWorld.getVar("r3"), oneWorld.getVar("r90")
-            )
-            bag.setDescription(baseInfo) eBase.setDescription(bag.getGUID()) bag.putObject(eBase)
-            oneWorld.setVar("iBag", nil)
-            Wait.time(|| oneWorld.call("SetUI"), 0.1)
-        end,
-        function()
-            local objectGUID
-            for w in objectsString[index]:gmatch("[^,]+") do
-                objectGUID = w:sub(3)
-                break
-            end
-            if getObjectFromGUID(objectGUID) then bag.putObject(getObjectFromGUID(objectGUID)) end
-            index = index + 1
-            return index > #objectsString
-        end)
-    end
+    Wait.condition(function()
+        local wSize = oneWorld.getVar("wBase").getScale()
+        local vSize = oneWorld.getVar("vBase").getScale()
+        local baseInfo = string.format(
+            "%s,{%f;1.0;%f},{%f;1.0;%f},%d,%d,2,%d",
+            eBase.getGUID(), wSize[1], wSize[3], vSize[1], vSize[3], oneWorld.getVar("r1"), oneWorld.getVar("r3"), oneWorld.getVar("r90")
+        )
+        bag.setDescription(baseInfo) eBase.setDescription(bag.getGUID()) bag.putObject(eBase)
+        oneWorld.setVar("iBag", nil)
+        Wait.time(|| oneWorld.call("SetUI"), 0.1)
+    end,
+    function()
+        local objectsString, index, objectGUID = vBase.call("parseStringInWords", {pString=eBase.getLuaScript(),rStr="[^\n]+"}), 1, ""
+        for w in objectsString[index]:gmatch("[^,]+") do
+            objectGUID = w:sub(3)
+            break
+        end
+        if getObjectFromGUID(objectGUID) then bag.putObject(getObjectFromGUID(objectGUID)) end
+        index = index + 1
+        return index > #objectsString
+    end)
 end
 ----------
 

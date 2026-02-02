@@ -241,30 +241,28 @@ function reStart(what)
     treeMap[-1] = treeMap[0]
 
     local selfPos, selfRot, selfBSize = self.getPosition() - {x=0, y=5, z=0}, self.getRotation(), self.getBoundsNormalized().size + {x=0, y=10, z=0}
-    do
-        local zoneForSBx = OWSpawnObject("ScriptingTrigger", selfPos, selfRot, selfBSize)
-        Wait.condition(function()
-        local zoneObj = zoneForSBx.getObjects()
-        for i = 1, #zoneObj do
-            if zoneObj[i].getName():find(CONFIG.ZONE_PREFIX) then
-            if(what == "END") then
-                Wait.time(function()
-                    if(tZone) then tZone.destruct() tZone = nil end
-                    aBag.putObject(zoneObj[i])
-                end, 1)
-            end
-                if vBaseOn and zoneObj[i].guid == wBase.getDescription() then
-                    if zoneObj[i].guid == treeMap[1] then
-                        treeMap[2] = treeMap[1] treeMap[0] = 2 treeMap[-1] = 2
-                    else
-                        treeMap[2] = treeMap[1] treeMap[3] = zoneObj[i].guid treeMap[0] = 3 treeMap[-1] = 3
-                    end
+    local zoneForSBx = OWSpawnObject("ScriptingTrigger", selfPos, selfRot, selfBSize)
+    Wait.condition(function()
+    local zoneObj = zoneForSBx.getObjects()
+    for i = 1, #zoneObj do
+        if zoneObj[i].getName():find(CONFIG.ZONE_PREFIX) then
+        if(what == "END") then
+            Wait.time(function()
+                if(tZone) then tZone.destruct() tZone = nil end
+                aBag.putObject(zoneObj[i])
+            end, 1)
+        end
+            if vBaseOn and zoneObj[i].guid == wBase.getDescription() then
+                if zoneObj[i].guid == treeMap[1] then
+                    treeMap[2] = treeMap[1] treeMap[0] = 2 treeMap[-1] = 2
+                else
+                    treeMap[2] = treeMap[1] treeMap[3] = zoneObj[i].guid treeMap[0] = 3 treeMap[-1] = 3
                 end
             end
         end
-        zoneForSBx.destruct()
-        end, function() return #zoneForSBx.getObjects() > 0 end)
     end
+    zoneForSBx.destruct()
+    end, function() return #zoneForSBx.getObjects() > 0 end)
     UpdateSave()
 end
 
@@ -558,21 +556,19 @@ function EnableOneWorld(_, _, id)
             type = "ScriptingTrigger", position = posZone,
             rotation = self.getRotation(), scale = self.getBoundsNormalized().size + {x=0, y=3, z=0}
         }
-        do
-            local locZone = spawnObject(o)
-            Wait.condition(function()
-                if(InitUnit(locZone.getObjects())) then
-                    Wait.time(|| TogleEnable(), 0.2)
-                end
-                locZone.destruct()
-            end, function() return #locZone.getObjects() > 0 end,
-            1, function()
-                if(InitUnit(getAllObjects())) then
-                    Wait.time(|| TogleEnable(), 0.2)
-                end
-                locZone.destruct()
-            end)
-        end
+        local locZone = spawnObject(o)
+        Wait.condition(function()
+            if(InitUnit(locZone.getObjects())) then
+                Wait.time(|| TogleEnable(), 0.2)
+            end
+            locZone.destruct()
+        end, function() return #locZone.getObjects() > 0 end,
+        1, function()
+            if(InitUnit(getAllObjects())) then
+                Wait.time(|| TogleEnable(), 0.2)
+            end
+            locZone.destruct()
+        end)
     else
         TogleEnable()
     end
