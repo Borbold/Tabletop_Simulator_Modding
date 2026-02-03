@@ -83,3 +83,11 @@ function setNewLink(data)
     local newLnk = string.format("%s(%f;%f)(%f;%f)@%s", lnk, x, z, sX, sY, data.collisionObj.getDescription())
     data.oneWorld.setVar("lnk", newLnk)
 end
+
+function split(info)
+    local result = {}
+    for part in info.inputString:gmatch("[^"..info.separator.."]+") do
+        table.insert(result, part)
+    end
+    return result
+end

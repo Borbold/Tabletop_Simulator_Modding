@@ -18,6 +18,11 @@ local function AddLink()
     SetLinks()
 end
 
+local function NewBase()
+    local scr = oneWorld.getVar("aBag").getLuaScript()
+    if(scr:find(collisionObj.getGUID())) then broadcastToAll("Duplicate GUID.", {0.943, 0.745, 0.14})
+    else oneWorld.call("PutBase", collisionObj.getGUID()) end
+end
 function onCollisionEnter(info)
     if(not oneWorld or not oneWorld.getVar("vBaseOn") or collisionObj == info.collision_object) then return end
     collisionObj = info.collision_object collisionObj.setName(collisionObj.getName():gsub(",", ";"))
@@ -26,12 +31,6 @@ function onCollisionEnter(info)
     elseif self.getDescription() == "" and g == "OWx_" and collisionObj.name == "Bag" then DoImport()
     elseif self.getDescription() != "" and collisionObj.getCustomObject().image == oneWorld.UI.getCustomAssets()[6].url then AddLink()
     else broadcastToAll("!! Clear Hub to Import !!", {0.95, 0.95, 0.95}) end
-end
-
-function NewBase()
-    local scr = oneWorld.getVar("aBag").getLuaScript()
-    if(scr:find(collisionObj.getGUID())) then broadcastToAll("Duplicate GUID.", {0.943, 0.745, 0.14})
-    else oneWorld.call("PutBase", collisionObj.getGUID()) end
 end
 
 function DoImport()
