@@ -134,7 +134,7 @@ local function EndPack(mBag)
     self.putObject(mBag)
     oneWorld.call("JotBase")
     oneWorld.call("StowBase") oneWorld.call("NoBase")
-    Wait.time(|| oneWorld.call("SetUIText"), 0.1)
+    Wait.time(|| vBase.call("SetUIText"), 0.1)
     oneWorld.setVar("prs", "")
     ss = "" oneWorld.setVar("ss", ss)
     broadcastToAll("Packing Complete.", {0.943, 0.745, 0.14})
@@ -145,7 +145,7 @@ local function EndPack(mBag)
     if(cloneActiveBag) then cloneActiveBag.destruct() cloneActiveBag = nil end
 end
 function DoPack(mBag)
-    vBase = oneWorld.getVar("vBase")
+    if not vBase then vBase = oneWorld.getVar("vBase") end
     ss = oneWorld.getVar("ss")
     oneWorld.getVar("aBase").setDescription(mBag.getGUID())
     local packGUID, index = vBase.call("parseStringInWords", {pString=ss,rStr="[^,]+"}), 1
@@ -178,6 +178,7 @@ end
 function Export(bag)
     local eBase = oneWorld.getVar("aBase").clone({position = {-7, -23, -4}})
     bag.setName("OW"..string.sub(eBase.getName(), 3))
+    local index = 1
     Wait.condition(function()
         local wSize = oneWorld.getVar("wBase").getScale()
         local vSize = oneWorld.getVar("vBase").getScale()
@@ -190,7 +191,7 @@ function Export(bag)
         Wait.time(|| oneWorld.call("SetUI"), 0.1)
     end,
     function()
-        local objectsString, index, objectGUID = vBase.call("parseStringInWords", {pString=eBase.getLuaScript(),rStr="[^\n]+"}), 1, ""
+        local objectsString, objectGUID = vBase.call("parseStringInWords", {pString=eBase.getLuaScript(),rStr="[^\n]+"}), ""
         for w in objectsString[index]:gmatch("[^,]+") do
             objectGUID = w:sub(3)
             break

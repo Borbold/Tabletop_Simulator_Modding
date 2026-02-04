@@ -67,7 +67,7 @@ function cbCTBase(base)
 end
 
 function SetLinks()
-    vBase = oneWorld.getVar("vBase")
+    if not vBase then vBase = oneWorld.getVar("vBase") end
     local t = oneWorld.getVar("lnk")
     if(t == nil) then return end
     
@@ -145,8 +145,8 @@ function GetLink(id)
             id = id - 1
         end
     end
-    local bn = string.sub(oneWorld.call("ParceData", lnk), 1, 21)
-    if bn != oneWorld.UI.getAttribute("mTxt", "text") then oneWorld.call("SetUIText", bn) oneWorld.setVar("linkToMap", lnk) oneWorld.call("SetUI")
+    local name = string.sub(oneWorld.call("ParceData", lnk), 1, 21)
+    if name != oneWorld.UI.getAttribute("mTxt", "text") then vBase.call("SetUIText", name) oneWorld.setVar("linkToMap", lnk) oneWorld.call("SetUI")
     else oneWorld.call("GetBase", lnk) end
 end
 

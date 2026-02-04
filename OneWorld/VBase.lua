@@ -43,6 +43,7 @@ function onDestroy() returnLiftHeight() end
             WBASE_OFFSET_Z_FACTOR = 0.77
         }
     })
+    oneWorld = getObjectFromGUID(self.getGMNotes())
 end
 
 function round(num)
@@ -90,4 +91,18 @@ function split(info)
         table.insert(result, part)
     end
     return result
+end
+
+function SetUIText(text)
+    local oneWorldUI, aBase, pxy, treeMap = oneWorld.UI, oneWorld.getVar("aBase"), oneWorld.getVar("pxy"), oneWorld.getVar("treeMap")
+    local uiText = text ~= nil and text or "One World"
+    oneWorldUI.setAttribute("mTxt", "text", uiText)
+    local name = oneWorld.call("ParceData", treeMap[treeMap[0]])
+    if not aBase or uiText == name then
+        oneWorldUI.setAttribute("mTxt", "textColor", "White")
+    elseif pxy then
+        oneWorldUI.setAttribute("mTxt", "textColor", "Green")
+    else
+        oneWorldUI.setAttribute("mTxt", "textColor", "Grey")
+    end
 end

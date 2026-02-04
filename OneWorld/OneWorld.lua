@@ -28,12 +28,12 @@ local function ContinueUnit()
     vBaseOn = true reStart()
     broadcastToAll("Continue ONE WORLD...", CONFIG.UI_COLORS.YELLOW)
     currentBase = aBase.getGUID()
-    local bn = ""
-    bn, _, _, r1, r3, pxy, r90, lnk = ParceData(wBase.getDescription())
+    local name = ""
+    name, _, _, r1, r3, pxy, r90, lnk = ParceData(wBase.getDescription())
     self.UI.setAttribute("mainPanel", "active", true)
     calculateRotationDirection()
     broadcastToAll("Running Version: "..self.getDescription(), CONFIG.UI_COLORS.YELLOW)
-    SetUIText(bn)
+    vBase.call("SetUIText", name)
     rotBase() Wait.time(|| SetUI(), 0.1)
 end
 function onLoad(savedData)
@@ -88,7 +88,7 @@ local function PutVariable()
     end,
     function() return wBase ~= nil end)
 
-    SetUIText()
+    vBase.call("SetUIText")
     Wait.time(|| SetUI(), 0.1)
 end
 local function RecreateObjects(allObj)
@@ -194,7 +194,7 @@ function TogleEnable()
         positionObjectsForMode(selfPos, true)
         self.setRotation({x=0, y=0, z=0})
         broadcastToAll("Running Version: "..self.getDescription(), CONFIG.UI_COLORS.YELLOW)
-        vBaseOn = true SetUIText()
+        vBaseOn = true vBase.call("SetUIText")
         r1, r3, r90 = 0, 0, 0
         rotBase() Wait.time(|| SetUI(), 0.1)
         return
@@ -288,19 +288,6 @@ function SetUI()
     end
 end
 
-function SetUIText(text)
-    local uiText = text ~= nil and text or "One World"
-    self.UI.setAttribute("mTxt", "text", uiText)
-    local b = ParceData(treeMap[treeMap[0]])
-    if(not aBase or uiText == b) then
-        self.UI.setAttribute("mTxt", "textColor", "White")
-    elseif(pxy) then
-        self.UI.setAttribute("mTxt", "textColor", "Green")
-    else
-        self.UI.setAttribute("mTxt", "textColor", "Grey")
-    end
-end
-
 local function FitBase(limitW, limitH, baseSize, base)
     if isPVw() or not aBase or activeEdit then return end
     baseSize.x = r90 == 0 and (limitW/baseSize.x)*sizeWPlate or (limitH/baseSize.x)*sizeWPlate
@@ -362,7 +349,7 @@ function NoBase()
     local c = {} c.image = self.UI.getCustomAssets()[4].url
     vBase.setCustomObject(c) vBase.reload()
     wBase.setCustomObject(c) wBase.reload()
-    SetUIText() cbTObj()
+    vBase.call("SetUIText") cbTObj()
 end
 
 function GetBase(bGuid)
@@ -413,7 +400,7 @@ function cbGetBase(base)
         end
     end
     vBase.setCustomObject({image=setImage}) vBase.setScale(scalevBase) vBase.reload()
-    SetUIText(base.getName():sub(5)) SetUI() cbTObj()
+    vBase.call("SetUIText", base.getName():sub(5)) SetUI() cbTObj()
 end
 
 function isPVw() if wpx then broadcastToAll("Action Canceled While in Parent View.", CONFIG.UI_COLORS.YELLOW) return true end end
@@ -467,7 +454,8 @@ local function mvPoint()
     if treeMap[-1] > treeMap[0] then
         treeMap[-1] = 2
     end
-    SetUIText(ParceData(treeMap[treeMap[-1]]))
+    local name = ParceData(treeMap[treeMap[-1]])
+    vBase.call("SetUIText", name)
     Wait.time(|| SetUI(), 0.1)
     if aBase and treeMap[-1] == treeMap[0] then
         self.UI.setAttribute("mTxt", "textColor", "#b15959")
@@ -537,11 +525,11 @@ function EnableOneWorld(_, _, id)
 end
 
 function SelectMap()
-    if(mapIsBuild) then broadcastToAll("Pack or Clear map", {0.94, 0.65, 0.02}) return end
+    if mapIsBuild then broadcastToAll("Pack or Clear map", {0.94, 0.65, 0.02}) return end
     if activeEdit then EditMode() return end
     if not vBaseOn or not aBase then return end
     if linkToMap then GetBase(linkToMap) linkToMap = nil Wait.time(|| SetUI(), 0.1) return end
-    if treeMap[-1] != treeMap[0] then GetBase(treeMap[treeMap[-1]]) Wait.time(|| SetUIText(ParceData(treeMap[treeMap[-1]])), 0.1) end
+    if treeMap[-1] != treeMap[0] then GetBase(treeMap[treeMap[-1]]) end
 end
 
 function EditMenu(_, _, id)
@@ -579,7 +567,7 @@ function ButtonParent()
             v.image = aBase.getCustomObject().image
             _, _, _, r1, r3, pxy, r90, lnk = ParceData(aBase.getGUID())
             pxy, wpx = nil, nil
-            SetUIText() wBase.setCustomObject(v) wBase.reload() cbTObj()
+            vBase.call("SetUIText") wBase.setCustomObject(v) wBase.reload() cbTObj()
         else
             if tBag then
                 broadcastToAll("Pack or Clear Zone to Enter Parent View.", CONFIG.UI_COLORS.YELLOW)
@@ -600,8 +588,7 @@ end
 function ButtonHome()
     if(activeEdit) then return end
     if wpx then
-        wpx = nil
-        GetBase(treeMap[1])
+        wpx = nil GetBase(treeMap[1])
         return
     end
     if not vBaseOn then return end
@@ -664,7 +651,7 @@ function ButtonLink()
         for i,v in ipairs(tLnk) do lnk = lnk..v if(i ~= #tLnk) then lnk = lnk.."," end end
         nl = linkToMap
         linkToMap = nil
-        SetUIText(aBase.getName():sub(5))
+        vBase.call("SetUIText", aBase.getName():sub(5))
         JotBase()
         wBase.call("SetLinks")
         Wait.time(|| SetUI(), 0.1)
@@ -755,8 +742,7 @@ function ButtonDelete()
         aBase.destruct()
         NoBase()
     end
-    SetUIText()
-    Wait.time(|| SetUI(), 0.1)
+    Wait.time(function() vBase.call("SetUIText") SetUI() end, 0.1)
 end
 
 function ButtonCopy()
@@ -768,7 +754,7 @@ function ButtonCopy()
     aBase.setRotation({0, 90, 0})  
     aBase.setPosition(selfPos) aBase.setLuaScript("") aBase.setDescription("")
     aBase.setName("SBx_Copy_"..string.sub(aBase.getName(), 5))
-    aBase.unlock() SetUIText()
+    aBase.unlock() vBase.call("SetUIText")
     Wait.time(|| SetUI(), 0.1)
 end
 
@@ -786,7 +772,7 @@ function EditMode()
         aBase.interactable = true aBase.unlock() aBase.setRotation({0, 0, 0})  
         aBase.setPosition(selfPos)
     else
-        JotBase() StowBase() NoBase() SetUIText() activeEdit = nil
+        JotBase() StowBase() NoBase() vBase.call("SetUIText") activeEdit = nil
         broadcastToAll("Packing Base...", CONFIG.UI_COLORS.YELLOW)
         Wait.time(|| SetUI(), 0.1)
     end
@@ -902,7 +888,7 @@ end
 
 function NewVBase(request)
     local rotY, selfPos, selfRot, nSize = getBaseInfoCustomTokenCreate()
-    vBase = OWSpawnObject("Custom_Token", selfPos, selfRot, nSize)
+    vBase = OWSpawnObject("Custom_Token", selfPos, selfRot, nSize) vBase.setGMNotes(self.getGUID())
     vBase.setCustomObject({image = self.UI.getCustomAssets()[4].url, thickness = 0.1})
     vBase.setLuaScript(request.text) vBase.setName(CONFIG.OBJECT_NAMES.VBASE)
     baseVGUID = vBase.getGUID()
