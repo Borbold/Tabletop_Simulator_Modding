@@ -20,7 +20,7 @@ local function rotBase()
     vBase.setRotation(rotation)
     if wpx == nil or wpx == wBase.getDescription() then
         wBase.setRotation(rotation)
-        Wait.condition(function() wBase.call("SetLinks") end, function() return vBase ~= nil end)
+        wBase.call("SetLinks")
     end
 end
 local function ContinueUnit()
@@ -313,17 +313,22 @@ local function cbTObj()
     local limitW, limitH = 9.01, 5.35
     wBase = getObjectFromGUID(baseWGUID) wBase.interactable = false
     vBase = getObjectFromGUID(baseVGUID) vBase.interactable = false
-    if nl then wBase.call("MakeLink") end
-    local baseSize = wBase.getBoundsNormalized().size
-    r90 = baseSize.z > baseSize.x*1.05 and 1 or 0
-    if(r90 == 0 and (vBase.call("round", baseSize.x) > limitW or vBase.call("round", baseSize.z) > limitH) or
-        r90 == 1 and (vBase.call("round", baseSize.x) > limitH or vBase.call("round", baseSize.z) > limitW)) then
-        FitBase(limitW, limitH, baseSize, wBase)
-    end
-    local sizeZone = {vBase.getBoundsNormalized().size.x, 10, vBase.getBoundsNormalized().size.z}
-    local posZone = vBase.getPosition() + {x=0, y=5, z=0}
-    tZone.setPosition(posZone) tZone.setScale(sizeZone) tZone.setRotation(vBase.getRotation())
-    rotBase()
+    local baseSize = {}
+    Wait.condition(
+        function()
+            if nl then wBase.call("MakeLink") end
+            r90 = baseSize.z > baseSize.x*1.05 and 1 or 0
+            if(r90 == 0 and (vBase.call("round", baseSize.x) > limitW or vBase.call("round", baseSize.z) > limitH) or
+                r90 == 1 and (vBase.call("round", baseSize.x) > limitH or vBase.call("round", baseSize.z) > limitW)) then
+                FitBase(limitW, limitH, baseSize, wBase)
+            end
+            local sizeZone = {vBase.getBoundsNormalized().size.x, 10, vBase.getBoundsNormalized().size.z}
+            local posZone = vBase.getPosition() + {x=0, y=5, z=0}
+            tZone.setPosition(posZone) tZone.setScale(sizeZone) tZone.setRotation(vBase.getRotation())
+            rotBase()
+        end,
+        function() baseSize = wBase and wBase.getBoundsNormalized().size return wBase ~= nil and baseSize.x > 0 and vBase ~= nil end
+    )
 end
 
 function ClearSet(keepBase, delete)
@@ -352,14 +357,12 @@ function NoBase()
     r1, r3, r90 = 0, 0, 0
     aBase, lnk = nil, ""
     wpx, pxy = nil, nil
-    rotBase()
     wBase.setDescription("") wBase.setScale({sizeWPlate, 1, sizeWPlate})
     vBase.setScale({sizeVPlate, 1, sizeVPlate})
     local c = {} c.image = self.UI.getCustomAssets()[4].url
     vBase.setCustomObject(c) vBase.reload()
     wBase.setCustomObject(c) wBase.reload()
-    SetUIText()
-    Wait.time(|| cbTObj(), 0.2)
+    SetUIText() cbTObj()
 end
 
 function GetBase(bGuid)
@@ -398,22 +401,19 @@ function cbGetBase(base)
     local selfPos = self.getPosition()
     wBase.setPosition({selfPos[1], selfPos[2] + 0.05, selfPos[3] - (CONFIG.POSITIONS.WBASE_OFFSET_Z_FACTOR * r2)})
     RollBack(base.getGUID())
-    local v = {}
+    local setImage = ""
     if wpx and wpx != wBase.getDescription() then
-        v.image = base.getCustomObject().image
+        setImage = base.getCustomObject().image
     else
         wBase.setCustomObject({image = base.getCustomObject().image}) wBase.setScale(scalewBase) wBase.reload()
         if pxy then
-            v.image = getObjectFromGUID(wpx).getCustomObject().image
+            setImage = getObjectFromGUID(wpx).getCustomObject().image
         else
-            v.image = base.getCustomObject().image
+            setImage = base.getCustomObject().image
         end
     end
-    vBase.setCustomObject(v) vBase.setScale(scalevBase) vBase.reload()
-    SetUIText(base.getName():sub(5))
-    Wait.time(function()
-        SetUI() cbTObj()
-    end, 0.3)
+    vBase.setCustomObject({image=setImage}) vBase.setScale(scalevBase) vBase.reload()
+    SetUIText(base.getName():sub(5)) SetUI() cbTObj()
 end
 
 function isPVw() if wpx then broadcastToAll("Action Canceled While in Parent View.", CONFIG.UI_COLORS.YELLOW) return true end end
@@ -425,7 +425,7 @@ function ParceData(bGuid)
 
     local endIndex = script:find("\n", startIndex) or 0
     local rawData = script:sub(startIndex, endIndex - 1)
-    local parsedData = {}
+    local parsedData = {name="",scalewBase={},scalevBase={},rotationX=0,rotationZ=0,type=0,r90=0,lnk=""}
     local parts = vBase.call("split", {inputString=rawData,separator=","})
     parsedData["name"] = parts[1]
     local scalePart = vBase.call("split", {inputString=parts[2],separator="{};"})
@@ -443,7 +443,7 @@ function ParceData(bGuid)
     parsedData["rotationX"] = tonumber(parts[4])
     parsedData["rotationZ"] = tonumber(parts[5])
     parsedData["type"] = tonumber(parts[6])
-    parsedData["r90"] = parts[7]
+    parsedData["r90"] = tonumber(parts[7])
     parsedData["lnk"] = parts[8]
     for i = 9, #parts do
         parsedData["lnk"] = parsedData["lnk"]..","..parts[i]
@@ -460,7 +460,7 @@ function ParceData(bGuid)
         parsedData["rotationX"], parsedData["rotationZ"], parsedData["type"], parsedData["r90"], parsedData["lnk"]
 end
 
-function mvPoint()
+local function mvPoint()
     if treeMap[-1] < 2 then
         treeMap[-1] = treeMap[0]
     end
@@ -541,7 +541,7 @@ function SelectMap()
     if activeEdit then EditMode() return end
     if not vBaseOn or not aBase then return end
     if linkToMap then GetBase(linkToMap) linkToMap = nil Wait.time(|| SetUI(), 0.1) return end
-    if treeMap[-1] != treeMap[0] then GetBase(treeMap[treeMap[-1]]) SetUIText(ParceData(treeMap[treeMap[-1]])) end
+    if treeMap[-1] != treeMap[0] then GetBase(treeMap[treeMap[-1]]) Wait.time(|| SetUIText(ParceData(treeMap[treeMap[-1]])), 0.1) end
 end
 
 function EditMenu(_, _, id)
@@ -579,8 +579,7 @@ function ButtonParent()
             v.image = aBase.getCustomObject().image
             _, _, _, r1, r3, pxy, r90, lnk = ParceData(aBase.getGUID())
             pxy, wpx = nil, nil
-            SetUIText() wBase.setCustomObject(v) wBase.reload()
-            Wait.time(|| cbTObj(), 0.2)
+            SetUIText() wBase.setCustomObject(v) wBase.reload() cbTObj()
         else
             if tBag then
                 broadcastToAll("Pack or Clear Zone to Enter Parent View.", CONFIG.UI_COLORS.YELLOW)
@@ -592,10 +591,10 @@ function ButtonParent()
         end
     end
     if f then
-        JotBase() vBase.setCustomObject(v) vBase.reload() Wait.time(|| cbTObj(), 0.2)
+        JotBase() vBase.setCustomObject(v) vBase.reload() cbTObj()
     end
     broadcastToAll(logInfo, CONFIG.UI_COLORS.GREEN)
-    Wait.time(|| SetUI(), 0.1)
+    SetUI()
 end
 
 function ButtonHome()

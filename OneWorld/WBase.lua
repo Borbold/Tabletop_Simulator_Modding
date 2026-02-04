@@ -67,6 +67,7 @@ function cbCTBase(base)
 end
 
 function SetLinks()
+    vBase = oneWorld.getVar("vBase")
     local t = oneWorld.getVar("lnk")
     if(t == nil) then return end
     

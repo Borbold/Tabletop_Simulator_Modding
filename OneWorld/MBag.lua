@@ -133,7 +133,8 @@ end
 local function EndPack(mBag)
     self.putObject(mBag)
     oneWorld.call("JotBase")
-    oneWorld.call("StowBase") oneWorld.call("NoBase") oneWorld.call("SetUIText")
+    oneWorld.call("StowBase") oneWorld.call("NoBase")
+    Wait.time(|| oneWorld.call("SetUIText"), 0.1)
     oneWorld.setVar("prs", "")
     ss = "" oneWorld.setVar("ss", ss)
     broadcastToAll("Packing Complete.", {0.943, 0.745, 0.14})
@@ -144,6 +145,7 @@ local function EndPack(mBag)
     if(cloneActiveBag) then cloneActiveBag.destruct() cloneActiveBag = nil end
 end
 function DoPack(mBag)
+    vBase = oneWorld.getVar("vBase")
     ss = oneWorld.getVar("ss")
     oneWorld.getVar("aBase").setDescription(mBag.getGUID())
     local packGUID, index = vBase.call("parseStringInWords", {pString=ss,rStr="[^,]+"}), 1
