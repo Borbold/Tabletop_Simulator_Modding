@@ -1,7 +1,10 @@
 local UIscale = {w = 450, h = 270}
 function onLoad()
     collisionObj, oneWorld = nil, getObjectFromGUID(self.getGMNotes())
-    Wait.condition(function() vBase = oneWorld.getVar("vBase") end, function() return oneWorld.getVar("vBase") ~= nil end)
+    Wait.condition(
+        function() vBase = oneWorld.getVar("vBase") CONFIG = JSON.decode(vBase.getVar("CONFIG")) end,
+        function() return oneWorld.getVar("vBase") ~= nil end
+    )
 end
 
 local function AddLink()
@@ -29,7 +32,7 @@ function onCollisionEnter(info)
     local g = string.sub(collisionObj.getName(), 1, 4)
     if self.getDescription() == "" and g == "SBx_" and collisionObj.name == "Custom_Token" then NewBase()
     elseif self.getDescription() == "" and g == "OWx_" and collisionObj.name == "Bag" then DoImport()
-    elseif self.getDescription() != "" and collisionObj.getCustomObject().image == oneWorld.UI.getCustomAssets()[6].url then AddLink()
+    elseif self.getDescription() != "" and collisionObj.getCustomObject().image == CONFIG.IMAGE_ASSETS.UI_LINK then AddLink()
     else broadcastToAll("!! Clear Hub to Import !!", {0.95, 0.95, 0.95}) end
 end
 
@@ -49,7 +52,7 @@ function DoImport()
         if collisionObj.getDescription() == "" then
             broadcastToAll("Creating Hidden Base...", {0.943, 0.745, 0.14})
             spawnObject({position = {-10, -45, 0}, callback_owner = self, callback = "cbCTBase"})
-            .setCustomObject({image = oneWorld.UI.getCustomAssets()[6].url, thickness = 0.1, type = "Custom_Token"})
+            .setCustomObject({image = CONFIG.IMAGE_ASSETS.UI_LINK, thickness = 0.1, type = "Custom_Token"})
             return
         end
     end
@@ -67,7 +70,7 @@ function cbCTBase(base)
 end
 
 function SetLinks()
-    if not vBase then vBase = oneWorld.getVar("vBase") end
+    if not vBase then vBase = oneWorld.getVar("vBase") CONFIG = JSON.decode(vBase.getVar("CONFIG")) end
     local t = oneWorld.getVar("lnk")
     if(t == nil) then return end
     
@@ -102,7 +105,7 @@ function SetLinks()
             tag = "Button",
             attributes = {
                 id = "link"..(#xmlTable[1].children + 1),
-                image = oneWorld.UI.getCustomAssets()[6].url,
+                image = CONFIG.IMAGE_ASSETS.UI_LINK,
                 width = sX,
                 height = sY,
                 offsetXY = x.." "..y,
@@ -122,7 +125,7 @@ function MakeLink()
         type = "Custom_Token", position = {pos[1], pos[2], pos[3]}, rotation = {0, 90, 0}, scale = {0.07, 0.1, 0.07},
         callback_owner = self, callback = "cbMLink"
     }
-    spawnObject(p).setCustomObject({image = oneWorld.UI.getCustomAssets()[6].url, thickness = 0.01})
+    spawnObject(p).setCustomObject({image = CONFIG.IMAGE_ASSETS.UI_LINK, thickness = 0.01})
 end
 function cbMLink(base)
     local nl = oneWorld.getVar("nl")

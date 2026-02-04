@@ -1,4 +1,5 @@
 function onLoad()
+    oneWorld = getObjectFromGUID(self.getGMNotes())
     sciptLinkPlate = [[
 lh, pCol, sX, sY = nil, nil, nil, nil
 function onDropped()
@@ -41,9 +42,13 @@ function onDestroy() returnLiftHeight() end
             VBASE_ENABLED_Y = 0.91,
             WBASE_OFFSET_Y = 0.11,
             WBASE_OFFSET_Z_FACTOR = 0.77
+        },
+        IMAGE_ASSETS = {
+            DEFAULT_BASE = oneWorld.UI.getCustomAssets()[4].url,
+            NEW_MAP_TOKEN = oneWorld.UI.getCustomAssets()[7].url,
+            UI_LINK = oneWorld.UI.getCustomAssets()[6].url
         }
     })
-    oneWorld = getObjectFromGUID(self.getGMNotes())
 end
 
 function round(num)

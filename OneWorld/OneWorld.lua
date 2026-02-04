@@ -59,7 +59,7 @@ function onLoad(savedData)
     treeMap = {}
     currentBase = "x"
     toggleMapBuild = false
-    if(OWEnable) then Wait.time(|| ContinueUnit(), 1) end
+    if OWEnable then Wait.time(|| ContinueUnit(), 1) end
     Wait.condition(function() CONFIG = JSON.decode(vBase.getVar("CONFIG")) end, function() return vBase ~= nil end)
 end
 
@@ -346,7 +346,7 @@ function NoBase()
     wpx, pxy = nil, nil
     wBase.setDescription("") wBase.setScale({sizeWPlate, 1, sizeWPlate})
     vBase.setScale({sizeVPlate, 1, sizeVPlate})
-    local c = {} c.image = self.UI.getCustomAssets()[4].url
+    local c = {image = CONFIG.IMAGE_ASSETS.DEFAULT_BASE}
     vBase.setCustomObject(c) vBase.reload()
     wBase.setCustomObject(c) wBase.reload()
     vBase.call("SetUIText") cbTObj()
@@ -815,7 +815,7 @@ function ButtonNew()
     spawnObject({
         type = "Custom_Token", position = {0, -23, 0}, rotation = {0, 90, 0},
         callback_owner = self, callback = "cbNABase"
-    }).setCustomObject({image = "https://raw.githubusercontent.com/ColColonCleaner/TTSOneWorld/main/sample_token.png", thickness = 0.1})
+    }).setCustomObject({image = CONFIG.IMAGE_ASSETS.NEW_MAP_TOKEN, thickness = 0.1})
 end
 
 function TMBaseSize()
@@ -881,7 +881,7 @@ end
 function NewWBase(request)
     local rotY, selfPos, selfRot, nSize = getBaseInfoCustomTokenCreate()
     wBase = OWSpawnObject("Custom_Token", selfPos, selfRot, nSize) wBase.setGMNotes(self.getGUID())
-    wBase.setCustomObject({image = self.UI.getCustomAssets()[4].url, thickness = 0.1})
+    wBase.setCustomObject({image = CONFIG.IMAGE_ASSETS.DEFAULT_BASE, thickness = 0.1})
     wBase.setLuaScript(request.text) wBase.setName(CONFIG.OBJECT_NAMES.WBASE)
     baseWGUID = wBase.getGUID()
 end
@@ -889,7 +889,7 @@ end
 function NewVBase(request)
     local rotY, selfPos, selfRot, nSize = getBaseInfoCustomTokenCreate()
     vBase = OWSpawnObject("Custom_Token", selfPos, selfRot, nSize) vBase.setGMNotes(self.getGUID())
-    vBase.setCustomObject({image = self.UI.getCustomAssets()[4].url, thickness = 0.1})
+    vBase.setCustomObject({image = CONFIG.IMAGE_ASSETS.DEFAULT_BASE, thickness = 0.1})
     vBase.setLuaScript(request.text) vBase.setName(CONFIG.OBJECT_NAMES.VBASE)
     baseVGUID = vBase.getGUID()
 end
