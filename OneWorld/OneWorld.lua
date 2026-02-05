@@ -38,7 +38,7 @@ local function ContinueUnit()
 end
 function onLoad(savedData)
     local loadedData = JSON.decode(savedData or "")
-    if(loadedData) then
+    if loadedData then
         baseVGUID = loadedData.baseVGUID or ""
         baseWGUID = loadedData.baseWGUID or ""
         OWEnable = loadedData.OWEnable or false
@@ -49,7 +49,7 @@ function onLoad(savedData)
         vBase = loadedData.vBaseGUID and getObjectFromGUID(loadedData.vBaseGUID) or nil
         wBase = loadedData.wBaseGUID and getObjectFromGUID(loadedData.wBaseGUID) or nil
         tZone = loadedData.tZoneGUID and getObjectFromGUID(loadedData.tZoneGUID) or nil
-        if(wBase) then aBase = getObjectFromGUID(wBase.getDescription()) end
+        if wBase then aBase = getObjectFromGUID(wBase.getDescription()) end
     end
 
     r1, r2, r3, r90 = 0, 0, 0, 0
@@ -60,7 +60,17 @@ function onLoad(savedData)
     currentBase = "x"
     toggleMapBuild = false
     if OWEnable then Wait.time(|| ContinueUnit(), 1) end
-    Wait.condition(function() CONFIG = JSON.decode(vBase.getVar("CONFIG")) end, function() return vBase ~= nil end)
+    Wait.condition(
+        function() CONFIG = JSON.decode(vBase.getVar("CONFIG")) end,
+        function() return vBase ~= nil end, 1,
+        function()
+            CONFIG = { IMAGE_ASSETS = {}, OBJECT_NAMES = {} }
+            CONFIG.IMAGE_ASSETS.DEFAULT_BASE = self.UI.getCustomAssets()[4].url
+            CONFIG.OBJECT_NAMES.VBASE = "_OW_vBase"
+            WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/VBase.lua", self, "NewVBase")
+            Wait.condition(function() CONFIG = JSON.decode(vBase.getVar("CONFIG")) end, function() return vBase ~= nil end)
+        end
+    )
 end
 
 local function OWSpawnObject(_type, _pos, _rot, _scale)
@@ -88,22 +98,22 @@ local function PutVariable()
     end,
     function() return wBase ~= nil end)
 
-    vBase.call("SetUIText")
-    Wait.time(|| SetUI(), 0.1)
+    Wait.time(function() vBase.call("SetUIText") SetUI() end, 0.1)
 end
 local function RecreateObjects(allObj)
     reStart()
-    if(not tZone) then
+    if not tZone then
         local posZone = self.getPosition() + {x=0, y=self.getBoundsNormalized().size.y, z=0}
         tZone = OWSpawnObject("ScriptingTrigger", posZone, self.getRotation(), self.getBoundsNormalized().size)
     end
     Wait.time(|| PutVariable(), 0.2)
 end
 local function CreateStartBags()
-    if(not mBag) then
+    if not mBag then
         WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/MBag.lua", self, "cbNMBag")
     end
-    if(not aBag) then
+    local selfPos = self.getPosition()
+    if not aBag then
         aBag = spawnObject({
             type = "Bag",
             position = {selfPos[1], selfPos[2] + 2.5, selfPos[3]},
@@ -112,6 +122,12 @@ local function CreateStartBags()
     end
 end
 local function FindNeedObjects(allObj)
+    if not CONFIG then
+        broadcastToAll("Miss Config ", CONFIG.UI_COLORS.YELLOW)
+        WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/VBase.lua", self, "NewVBase")
+        return
+    end
+
     local logS = ""
     for _,obj in ipairs(allObj) do
         if(obj.getDescription() == CONFIG.OBJECT_NAMES.MBAG) then mBag = obj
@@ -138,8 +154,8 @@ local function FindNeedObjects(allObj)
     return true
 end
 local function InitUnit(allObj)
-    Wait.time(|| RecreateObjects(allObj), 0.2)
     if(not FindNeedObjects(allObj)) then return false end
+    RecreateObjects(allObj)
     local logStr = ""
     if mBag.getName() == CONFIG.BAG_NAMES.DEFAULT or aBag.getName() == CONFIG.BAG_NAMES.DEFAULT then logStr = logStr.." ReName Your Bags." end
     if mBag.getName() != aBag.getName() then logStr = logStr.." Unmatched Bag Names." end
@@ -856,13 +872,13 @@ function cbNABase(base)
 end
 
 function cbNMBag(request)
+    local selfPos, rotY = self.getPosition(), math.rad(self.getRotation().y)
     mBag = spawnObject({
         type = "Bag",
         position = {selfPos[1] - 3*math.cos(rotY), selfPos[2] + 2.5, selfPos[3] + 3*math.sin(rotY)}
     })
     mBag.setGMNotes(self.getGUID()) mBag.setLuaScript(request.text)
     mBag.setDescription(CONFIG.OBJECT_NAMES.MBAG) mBag.setName(CONFIG.BAG_NAMES.DEFAULT) mBag.setColorTint({0.71, 0.25, 0.31})
-    local selfPos, rotY = self.getPosition(), math.rad(self.getRotation().y)
     mBag.setPositionSmooth({selfPos[1] - 3*math.cos(rotY), selfPos[2] + 1.5, selfPos[3] + 3*math.sin(rotY)})
 end
 
@@ -872,14 +888,14 @@ function cbNABag(bag)
     bag.setPositionSmooth({selfPos[1], selfPos[2] + 1.5, selfPos[3]})
 end
 
-local function getBaseInfoCustomTokenCreate()
+local function getBaseInfoCustomTokenCreate(offset)
     local rotY = math.rad(self.getRotation().y)
-    local selfPos = self.getPosition() + {x=3*math.cos(rotY) - math.sin(rotY), y=2.5, z=math.cos(rotY) - 3*math.sin(rotY)}
+    local selfPos = self.getPosition() + {x=3*math.cos(rotY) - math.sin(rotY), y=2.5, z=math.cos(rotY) - 3*math.sin(rotY) - offset}
     return rotY, selfPos, self.getRotation(), {0.5, 1, 0.5}
 end
 
 function NewWBase(request)
-    local rotY, selfPos, selfRot, nSize = getBaseInfoCustomTokenCreate()
+    local rotY, selfPos, selfRot, nSize = getBaseInfoCustomTokenCreate(0)
     wBase = OWSpawnObject("Custom_Token", selfPos, selfRot, nSize) wBase.setGMNotes(self.getGUID())
     wBase.setCustomObject({image = CONFIG.IMAGE_ASSETS.DEFAULT_BASE, thickness = 0.1})
     wBase.setLuaScript(request.text) wBase.setName(CONFIG.OBJECT_NAMES.WBASE)
@@ -887,7 +903,7 @@ function NewWBase(request)
 end
 
 function NewVBase(request)
-    local rotY, selfPos, selfRot, nSize = getBaseInfoCustomTokenCreate()
+    local rotY, selfPos, selfRot, nSize = getBaseInfoCustomTokenCreate(2)
     vBase = OWSpawnObject("Custom_Token", selfPos, selfRot, nSize) vBase.setGMNotes(self.getGUID())
     vBase.setCustomObject({image = CONFIG.IMAGE_ASSETS.DEFAULT_BASE, thickness = 0.1})
     vBase.setLuaScript(request.text) vBase.setName(CONFIG.OBJECT_NAMES.VBASE)
