@@ -183,7 +183,7 @@ function Export(bag)
         local wSize = oneWorld.getVar("wBase").getScale()
         local vSize = oneWorld.getVar("vBase").getScale()
         local baseInfo = string.format(
-            "%s,{%f;1.0;%f},{%f;1.0;%f},%d,%d,2,%d",
+            "%s,{%.2f;1.0;%.2f},{%.2f;1.0;%.2f},%d,%d,2,%d",
             eBase.getGUID(), wSize[1], wSize[3], vSize[1], vSize[3], oneWorld.getVar("r1"), oneWorld.getVar("r3"), oneWorld.getVar("r90")
         )
         bag.setDescription(baseInfo) eBase.setDescription(bag.getGUID()) bag.putObject(eBase)

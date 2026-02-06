@@ -86,7 +86,7 @@ function setNewLink(data)
     end
     local lnk = data.oneWorld.getVar("lnk")
     lnk = lnk ~= nil and lnk ~= "" and lnk.."," or ""
-    local newLnk = string.format("%s(%f;%f)(%f;%f)@%s", lnk, x, z, sX, sY, data.collisionObj.getDescription())
+    local newLnk = string.format("%s(%.2f;%.2f)(%.2f;%.2f)@%s", lnk, x, z, sX, sY, data.collisionObj.getDescription())
     data.oneWorld.setVar("lnk", newLnk)
 end
 

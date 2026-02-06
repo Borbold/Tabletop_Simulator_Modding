@@ -122,18 +122,11 @@ local function CreateStartBags()
     end
 end
 local function FindNeedObjects(allObj)
-    if not CONFIG then
-        broadcastToAll("Miss Config ", CONFIG.UI_COLORS.YELLOW)
-        WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/VBase.lua", self, "NewVBase")
-        return
-    end
-
     local logS = ""
     for _,obj in ipairs(allObj) do
         if(obj.getDescription() == CONFIG.OBJECT_NAMES.MBAG) then mBag = obj
         elseif(obj.getDescription():find(CONFIG.OBJECT_NAMES.ABAG)) then aBag = obj
-        elseif(obj.getName() == CONFIG.OBJECT_NAMES.WBASE) then wBase = obj
-        elseif(obj.getName() == CONFIG.OBJECT_NAMES.VBASE) then vBase = obj end
+        elseif(obj.getName() == CONFIG.OBJECT_NAMES.WBASE) then wBase = obj end
     end
     if not mBag or not aBag then
         logS = logS.."Missing bags. Zone Object Bag and(or) Base Token Bag."
@@ -142,10 +135,6 @@ local function FindNeedObjects(allObj)
     if not wBase then
         logS = logS.." Missing Hub View Token."
         WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/WBase.lua", self, "NewWBase")
-    end
-    if not vBase then
-        logS = logS.." Missing Hub Map Token."
-        WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/OneWorld/VBase.lua", self, "NewVBase")
     end
     if logS != "" then
         broadcastToAll(logS, CONFIG.UI_COLORS.YELLOW)
@@ -309,11 +298,12 @@ local function FitBase(limitW, limitH, baseSize, base)
     baseSize.x = r90 == 0 and (limitW/baseSize.x)*sizeWPlate or (limitH/baseSize.x)*sizeWPlate
     baseSize.y = 1
     baseSize.z = r90 == 0 and (limitH/baseSize.z)*sizeWPlate or (limitW/baseSize.z)*sizeWPlate
+    baseSize.x, baseSize.z = vBase.call("round", baseSize.x), vBase.call("round", baseSize.z)
     base.setScale(baseSize)
-    JotBase(string.format("{%f;%d;%f}", baseSize.x, 1, baseSize.z))
+    JotBase(string.format("{%.2f;%d;%.2f}", baseSize.x, 1, baseSize.z))
 end
 local function cbTObj()
-    local limitW, limitH = 9.01, 5.35
+    local limitW, limitH = 9.03, 5.36
     wBase = getObjectFromGUID(baseWGUID) wBase.interactable = false
     vBase = getObjectFromGUID(baseVGUID) vBase.interactable = false
     local baseSize = {}
@@ -321,8 +311,9 @@ local function cbTObj()
         function()
             if nl then wBase.call("MakeLink") end
             r90 = baseSize.z > baseSize.x*1.05 and 1 or 0
-            if(r90 == 0 and (vBase.call("round", baseSize.x) > limitW or vBase.call("round", baseSize.z) > limitH) or
-                r90 == 1 and (vBase.call("round", baseSize.x) > limitH or vBase.call("round", baseSize.z) > limitW)) then
+            baseSize.x = vBase.call("round", baseSize.x) baseSize.z = vBase.call("round", baseSize.z)
+            if(r90 == 0 and baseSize.x > limitW or baseSize.z > limitH or
+                r90 == 1 and baseSize.x > limitH or baseSize.z > limitW) then
                 FitBase(limitW, limitH, baseSize, wBase)
             end
             local sizeZone = {vBase.getBoundsNormalized().size.x, 10, vBase.getBoundsNormalized().size.z}
@@ -347,8 +338,8 @@ function JotBase(wScaleBase, vScaleBase)
         end
     end
     local name = aBase.getName():sub(5)
-    local strWScale = wScaleBase and wScaleBase or string.format("{%f;%d;%f}", wBase.getScale().x, 1, wBase.getScale().z)
-    local strVScale = vScaleBase and vScaleBase or string.format("{%f;%d;%f}", vBase.getScale().x, 1, vBase.getScale().z)
+    local strWScale = wScaleBase and wScaleBase or string.format("{%.2f;%d;%.2f}", wBase.getScale().x, 1, wBase.getScale().z)
+    local strVScale = vScaleBase and vScaleBase or string.format("{%.2f;%d;%.2f}", vBase.getScale().x, 1, vBase.getScale().z)
     local parentFlag = pxy and 8 or 2
     aBag.setLuaScript(
         locS..string.format("--%s,%s,%s,%s,%s,%s,%s,%s,%s",
