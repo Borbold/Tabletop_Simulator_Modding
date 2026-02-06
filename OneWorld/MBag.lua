@@ -145,7 +145,7 @@ local function EndPack(mBag)
     if(cloneActiveBag) then cloneActiveBag.destruct() cloneActiveBag = nil end
 end
 function DoPack(mBag)
-    if not vBase then vBase = oneWorld.getVar("vBase") end
+    if not vBase or vBase == null then vBase = oneWorld.getVar("vBase") end
     ss = oneWorld.getVar("ss")
     oneWorld.getVar("aBase").setDescription(mBag.getGUID())
     local packGUID, index = vBase.call("parseStringInWords", {pString=ss,rStr="[^,]+"}), 1

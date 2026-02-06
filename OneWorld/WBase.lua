@@ -70,7 +70,7 @@ function cbCTBase(base)
 end
 
 function SetLinks()
-    if not vBase then vBase = oneWorld.getVar("vBase") CONFIG = JSON.decode(vBase.getVar("CONFIG")) end
+    if not vBase or vBase == null then vBase = oneWorld.getVar("vBase") CONFIG = JSON.decode(vBase.getVar("CONFIG")) end
     local t = oneWorld.getVar("lnk")
     if(t == nil) then return end
     
@@ -119,7 +119,7 @@ function SetLinks()
 end
 
 function MakeLink()
-    if not vBase then vBase = oneWorld.getVar("vBase") CONFIG = JSON.decode(vBase.getVar("CONFIG")) end
+    if not vBase or vBase == null then vBase = oneWorld.getVar("vBase") CONFIG = JSON.decode(vBase.getVar("CONFIG")) end
     local r2 = oneWorld.getVar("r2")
     local pos = self.getPosition() + {x=-5.5*r2, y=2.5, z=0}
     local p = {
