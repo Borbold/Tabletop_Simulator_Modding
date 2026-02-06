@@ -1,5 +1,5 @@
 local function safeGetGUID(obj)
-    return obj and obj.getGUID() or nil
+    return obj and obj.getGUID()
 end
 function UpdateSave()
     self.script_state = JSON.encode({
@@ -13,7 +13,7 @@ end
 
 local function calculateRotationDirection()
     local selfRot = self.getRotation()
-    r2 = selfRot[2] > 180 and -1 or 1
+    r2 = selfRot[2] >= 180 and -1 or 1
 end
 local function rotBase()
     local rotation = r90 == 0 and {0, r1, r3} or {r3, 90, r1}
@@ -44,17 +44,17 @@ function onLoad(savedData)
         OWEnable = loadedData.OWEnable or false
         mapIsBuild = loadedData.mapIsBuild or false
         tBag = loadedData.tBag or false
-        aBag = loadedData.aBagGUID and getObjectFromGUID(loadedData.aBagGUID) or nil
-        mBag = loadedData.mBagGUID and getObjectFromGUID(loadedData.mBagGUID) or nil
-        vBase = loadedData.vBaseGUID and getObjectFromGUID(loadedData.vBaseGUID) or nil
-        wBase = loadedData.wBaseGUID and getObjectFromGUID(loadedData.wBaseGUID) or nil
-        tZone = loadedData.tZoneGUID and getObjectFromGUID(loadedData.tZoneGUID) or nil
+        aBag = loadedData.aBagGUID and getObjectFromGUID(loadedData.aBagGUID)
+        mBag = loadedData.mBagGUID and getObjectFromGUID(loadedData.mBagGUID)
+        vBase = loadedData.vBaseGUID and getObjectFromGUID(loadedData.vBaseGUID)
+        wBase = loadedData.wBaseGUID and getObjectFromGUID(loadedData.wBaseGUID)
+        tZone = loadedData.tZoneGUID and getObjectFromGUID(loadedData.tZoneGUID)
         if wBase then aBase = getObjectFromGUID(wBase.getDescription()) end
     end
 
     r1, r2, r3, r90 = 0, 0, 0, 0
     lnk, ss, prs = "", "", ""
-    sizeVPlate, sizeWPlate = 25, 1.85
+    sizeVPlate, sizeWPlate = 25, 1.9
     wpx, pxy, nl, linkToMap, activeEdit = nil, nil, nil, nil, nil
     treeMap = {}
     currentBase = "x"
@@ -254,64 +254,49 @@ function reStart(what)
 end
 
 function SetUI()
-    local forText, logBut = "", "Init"
-    if vBaseOn then
-        if wBase.getDescription() != "" then logBut = "CLR" else logBut = "END" end
-    end
-    self.UI.setAttribute("b1", "text", logBut)
-
-    if wpx or pxy then forText = "*" end
-    self.UI.setAttribute("b6", "text", forText)
-    forText = "S"
-    if toggleMapBuild then forText = "F" end
-    self.UI.setAttribute("b10", "text", forText)
-
+    self.UI.setAttribute("b1", "text", not vBaseOn and "Init" or wBase.getDescription() == "" and "END" or "CLR")
+    self.UI.setAttribute("b6", "text", (wpx or pxy) and "*" or "")
+    self.UI.setAttribute("b10", "text", toggleMapBuild and "F" or "S")
     for i = 1, 8 do
-        self.UI.setAttribute("EMP"..i, "active", false)
+        self.UI.setAttribute("EMP"..i, "active", aBase and (i <= 6) or (i >= 7))
     end
-    if aBase then
-        for i = 1, 6 do
-            self.UI.setAttribute("EMP"..i, "active", true)
-        end
-    else
-        for i = 7, 8 do
-            self.UI.setAttribute("EMP"..i, "active", true)
-        end
-    end
-
-    self.UI.setAttribute("b9", "active", false)
-    if aBase then
-        if aBase.getLuaScript() != "" and not pxy and string.sub(aBase.getName(), 5) == self.UI.getAttribute("mTxt", "text") then
-            if(not tBag) then self.UI.setAttribute("b9", "active", true) end
-        end
-    end
-
-    if(linkToMap) then
-        self.UI.setAttribute("EMP1", "text", "unLink")
-    else
-        self.UI.setAttribute("EMP1", "text", "Link")
-    end
+    self.UI.setAttribute("b9", "active",
+        aBase and aBase.getLuaScript() != "" and not pxy and string.sub(aBase.getName(), 5) == self.UI.getAttribute("mTxt", "text") and not tBag
+    )
+    self.UI.setAttribute("EMP1", "text", linkToMap and "unLink" or "Link")
 end
 
+local function FitImageToLimits(imgWidth, imgHeight, limitW, limitH, r90)
+    local aspectRatio = r90 == 0 and imgWidth/imgHeight or imgHeight/imgWidth
+    local scaleX = r90 == 0 and limitW/imgWidth or limitH/imgWidth
+    local scaleY = r90 == 0 and limitH/imgHeight or limitW/imgHeight
+    return r90 == 0 and {width = imgWidth*aspectRatio, height = imgHeight*aspectRatio} or {width = imgHeight*aspectRatio, height = imgWidth*aspectRatio}
+end
 local function FitBase(limitW, limitH, baseSize, base)
     if isPVw() or not aBase or activeEdit then return end
-    baseSize.x = r90 == 0 and (limitW/baseSize.x)*sizeWPlate or (limitH/baseSize.x)*sizeWPlate
-    baseSize.y = 1
-    baseSize.z = r90 == 0 and (limitH/baseSize.z)*sizeWPlate or (limitW/baseSize.z)*sizeWPlate
+    local imgWidth, imgHeight = baseSize.x, baseSize.z
+    local newSizes = FitImageToLimits(imgWidth, imgHeight, limitW, limitH, r90)
+    if r90 == 0 then
+        baseSize.x = (limitW/newSizes.width)*sizeWPlate
+        baseSize.z = (limitH/newSizes.height)*sizeWPlate
+    elseif r90 == 1 then
+        baseSize.x = (limitH/newSizes.height)*sizeWPlate
+        baseSize.z = (limitW/newSizes.width)*sizeWPlate
+    end
     baseSize.x, baseSize.z = vBase.call("round", baseSize.x), vBase.call("round", baseSize.z)
-    base.setScale(baseSize)
     JotBase(string.format("{%.2f;%d;%.2f}", baseSize.x, 1, baseSize.z))
+    base.setScale(baseSize)
 end
 local function cbTObj()
-    local limitW, limitH = 9.03, 5.36
+    local limitW, limitH = 18, 10
     wBase = getObjectFromGUID(baseWGUID) wBase.interactable = false
     vBase = getObjectFromGUID(baseVGUID) vBase.interactable = false
-    local baseSize = {}
     Wait.condition(
         function()
+            local baseSize = wBase.getBoundsNormalized().size
             if nl then wBase.call("MakeLink") end
             r90 = baseSize.z > baseSize.x*1.05 and 1 or 0
-            baseSize.x = vBase.call("round", baseSize.x) baseSize.z = vBase.call("round", baseSize.z)
+            baseSize.x, baseSize.z = vBase.call("round", baseSize.x), vBase.call("round", baseSize.z)
             if(r90 == 0 and baseSize.x > limitW or baseSize.z > limitH or
                 r90 == 1 and baseSize.x > limitH or baseSize.z > limitW) then
                 FitBase(limitW, limitH, baseSize, wBase)
@@ -321,7 +306,7 @@ local function cbTObj()
             tZone.setPosition(posZone) tZone.setScale(sizeZone) tZone.setRotation(vBase.getRotation())
             rotBase()
         end,
-        function() baseSize = wBase and wBase.getBoundsNormalized().size return wBase ~= nil and baseSize.x > 0 and vBase ~= nil end
+        function() return wBase.getBoundsNormalized().size.x > 0 end
     )
 end
 
@@ -438,10 +423,7 @@ function ParceData(bGuid)
     parsedData["rotationZ"] = tonumber(parts[5])
     parsedData["type"] = tonumber(parts[6])
     parsedData["r90"] = tonumber(parts[7])
-    parsedData["lnk"] = parts[8]
-    for i = 9, #parts do
-        parsedData["lnk"] = parsedData["lnk"]..","..parts[i]
-    end
+    parsedData["lnk"] = table.concat(parts, ",", 8)
     if parsedData.type == 0 then
         parsedData.type = 8
     elseif parsedData.type == 1 or parsedData.type == 2 then
