@@ -261,7 +261,7 @@ function SetUI()
         self.UI.setAttribute("EMP"..i, "active", aBase and (i <= 6) or (i >= 7))
     end
     self.UI.setAttribute("b9", "active",
-        aBase and aBase.getLuaScript() != "" and not pxy and string.sub(aBase.getName(), 5) == self.UI.getAttribute("mTxt", "text") and not tBag
+        aBase and aBase.getLuaScript() != "" and not pxy and string.sub(aBase.getName(), 5) == self.UI.getAttribute("mTxt", "text") and not tBag or false
     )
     self.UI.setAttribute("EMP1", "text", linkToMap and "unLink" or "Link")
 end
@@ -301,10 +301,10 @@ local function cbTObj()
                 r90 == 1 and baseSize.x > limitH or baseSize.z > limitW) then
                 FitBase(limitW, limitH, baseSize, wBase)
             end
+            rotBase()
             local sizeZone = {vBase.getBoundsNormalized().size.x, 10, vBase.getBoundsNormalized().size.z}
             local posZone = vBase.getPosition() + {x=0, y=5, z=0}
             tZone.setPosition(posZone) tZone.setScale(sizeZone) tZone.setRotation(vBase.getRotation())
-            rotBase()
         end,
         function() return wBase.getBoundsNormalized().size.x > 0 end
     )
