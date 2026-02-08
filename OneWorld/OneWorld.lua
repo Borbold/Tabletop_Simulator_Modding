@@ -258,7 +258,7 @@ function SetUI()
     self.UI.setAttribute("b6", "text", (wpx or pxy) and "*" or "")
     self.UI.setAttribute("b10", "text", toggleMapBuild and "F" or "S")
     for i = 1, 8 do
-        self.UI.setAttribute("EMP"..i, "active", aBase and (i <= 6) or (i >= 7))
+        self.UI.setAttribute("EMP"..i, "active", aBase and (i <= 6) or not aBase and (i >= 7))
     end
     self.UI.setAttribute("b9", "active",
         aBase and aBase.getLuaScript() != "" and not pxy and string.sub(aBase.getName(), 5) == self.UI.getAttribute("mTxt", "text") and not tBag or false
@@ -761,9 +761,9 @@ function EditMode()
         aBase.interactable = true aBase.unlock() aBase.setRotation({0, 0, 0})  
         aBase.setPosition(selfPos)
     else
-        JotBase() StowBase() NoBase() vBase.call("SetUIText") activeEdit = nil
+        JotBase() StowBase() NoBase() activeEdit = nil
         broadcastToAll("Packing Base...", CONFIG.UI_COLORS.YELLOW)
-        Wait.time(|| SetUI(), 0.1)
+        Wait.time(function() vBase.call("SetUIText") SetUI() end, 0.1)
     end
 end
 function StowBase()
