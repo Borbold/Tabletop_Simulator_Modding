@@ -18,10 +18,14 @@ function onLoad(savedData)
     if (prs and prs ~= "") or (ss and ss ~= "") then
         Wait.condition(
             function()
-                if prs ~= "" then oneWorld.setVar("prs", prs) end
-                if ss ~= "" then oneWorld.setVar("ss", ss) end
+                if oneWorld.getVar("tBag") then
+                    if prs ~= "" then oneWorld.setVar("prs", prs) end
+                    if ss ~= "" then oneWorld.setVar("ss", ss) end
+                else
+                    prs, ss = "", ""
+                end
             end,
-            function() return oneWorld ~= nil end
+            function() print(oneWorld.getVar("tBag")) return oneWorld ~= nil end
         )
     end
     Wait.condition(function() vBase = oneWorld.getVar("vBase") end, function() return oneWorld.getVar("vBase") ~= nil end)
