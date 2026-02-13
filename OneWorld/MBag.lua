@@ -25,7 +25,7 @@ function onLoad(savedData)
                     prs, ss = "", ""
                 end
             end,
-            function() print(oneWorld.getVar("tBag")) return oneWorld ~= nil end
+            function() return oneWorld ~= nil end
         )
     end
     Wait.condition(function() vBase = oneWorld.getVar("vBase") end, function() return oneWorld.getVar("vBase") ~= nil end)
