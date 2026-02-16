@@ -254,6 +254,7 @@ function reStart(what)
 end
 
 function SetUI()
+    self.UI.setAttribute("b5", "active", aBase and true or false)
     self.UI.setAttribute("b1", "text", not vBaseOn and "Init" or wBase.getDescription() == "" and "END" or "CLR")
     self.UI.setAttribute("b6", "text", (wpx or pxy) and "*" or "")
     self.UI.setAttribute("b10", "text", toggleMapBuild and "F" or "S")
@@ -303,7 +304,7 @@ local function cbTObj()
             end
             rotBase()
             local sizeZone = {vBase.getBoundsNormalized().size.x, 10, vBase.getBoundsNormalized().size.z}
-            local posZone = vBase.getPosition() + {x=0, y=5, z=0}
+            local posZone = vBase.getPosition() + {x=0, y=5.09, z=0}
             tZone.setPosition(posZone) tZone.setScale(sizeZone) tZone.setRotation(vBase.getRotation())
         end,
         function() return wBase.getBoundsNormalized().size.x > 0 end
