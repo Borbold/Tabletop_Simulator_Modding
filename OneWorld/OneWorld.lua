@@ -193,15 +193,17 @@ function TogleEnable()
 
     local selfPos = self.getPosition()
     if not vBaseOn then
-        self.UI.setAttribute("mainPanel", "active", true)
-        calculateRotationDirection()
-        vBase.call("setObjectsInteractable", {objects={self, mBag, aBag, vBase, wBase}, isInteractable=false, isLocked=true})
-        positionObjectsForMode(selfPos, true)
         self.setRotation({x=0, y=0, z=0})
-        broadcastToAll("Running Version: "..self.getDescription(), CONFIG.UI_COLORS.YELLOW)
-        vBaseOn = true vBase.call("SetUIText")
-        r1, r3, r90 = 0, 0, 0
-        rotBase() Wait.time(|| SetUI(), 0.1)
+        Wait.time(function()
+            self.UI.setAttribute("mainPanel", "active", true)
+            calculateRotationDirection()
+            vBase.call("setObjectsInteractable", {objects={self, mBag, aBag, vBase, wBase}, isInteractable=false, isLocked=true})
+            positionObjectsForMode(selfPos, true)
+            broadcastToAll("Running Version: "..self.getDescription(), CONFIG.UI_COLORS.YELLOW)
+            vBaseOn = true vBase.call("SetUIText")
+            r1, r3, r90 = 0, 0, 0
+            rotBase() Wait.time(|| SetUI(), 0.1)
+        end, 0.25)
         return
     end
     if not aBase then
