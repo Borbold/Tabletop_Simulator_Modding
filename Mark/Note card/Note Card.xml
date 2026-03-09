@@ -5,19 +5,30 @@
     <Cell dontUseTableCellBackground='true'/>
 </Defaults>
 
-<Panel position='0 -2 -10' rotation='0 0 180' height='220' width='340'>
+<Panel position='0 -2 -10' height='220' width='340'>
     <TableLayout>
         <Row>
             <Cell columnSpan='40'>
-                <InputField id='inputText' placeholder='The beginning of the journey...' onEndEdit='ChangeText' interactable='true'/>
+                <VerticalScrollView elasticity='15' decelerationRate='10' scrollSensitivity='5' verticalScrollbarVisibility='AutoHideAndExpandViewport'
+                    color='#ffffff00' scrollbarBackgroundColor='#ffffff00' scrollbarColors='#b69244|#b69244|#4b4841|rgba(0.6,0.21,0.3,0.5)'>
+                    <TableLayout id='textZone' height='190'>
+                        <Row>
+                            <Cell>
+                                <InputField id='inputText' placeholder='The beginning of the journey...' 
+                                            onEndEdit='ChangeText' interactable='true'/>
+                            </Cell>
+                        </Row>
+                    </TableLayout>
+                </VerticalScrollView>
             </Cell>
         </Row>
         <Row preferredHeight='10'>
-            <Cell columnSpan='39' />
+            <Cell columnSpan='38' />
             <Cell columnSpan='1'>
                 <Button id='pen' onClick='ChangeInteract'
                     image='Pen'/>
             </Cell>
+            <Cell columnSpan='1' />
         </Row>
     </TableLayout>
 </Panel>
