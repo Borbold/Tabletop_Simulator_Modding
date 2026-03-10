@@ -10,7 +10,7 @@
         <Row>
             <Cell columnSpan='40'>
                 <VerticalScrollView elasticity='15' decelerationRate='10' scrollSensitivity='5' verticalScrollbarVisibility='AutoHideAndExpandViewport'
-                    color='#ffffff00' scrollbarBackgroundColor='#ffffff00' scrollbarColors='#b69244|#b69244|#4b4841|rgba(0.6,0.21,0.3,0.5)'>
+                    color='#ffffff00' scrollbarBackgroundColor='#ffffff00' scrollbarImage='Rope' scrollbarColors='#b69244|#b69244|#4b4841|rgba(0.6,0.21,0.3,0.5)'>
                     <TableLayout id='textZone' height='190'>
                         <Row>
                             <Cell>
