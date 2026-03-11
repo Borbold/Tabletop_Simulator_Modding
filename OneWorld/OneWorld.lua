@@ -287,11 +287,12 @@ local function FitBase(limitW, limitH, baseSize, base)
         baseSize.z = (limitW/newSizes.width)*sizeWPlate
     end
     baseSize.x, baseSize.z = vBase.call("round", baseSize.x), vBase.call("round", baseSize.z)
+    if baseSize.x < baseSize.z then baseSize.z = baseSize.x else baseSize.x = baseSize.z end
     JotBase(string.format("{%.2f;%d;%.2f}", baseSize.x, 1, baseSize.z))
     base.setScale(baseSize)
 end
 local function cbTObj()
-    local limitW, limitH = 18, 10
+    local limitW, limitH = 9.01, 5.35
     wBase = getObjectFromGUID(baseWGUID) wBase.interactable = false
     vBase = getObjectFromGUID(baseVGUID) vBase.interactable = false
     Wait.condition(
@@ -302,7 +303,7 @@ local function cbTObj()
             baseSize.x, baseSize.z = vBase.call("round", baseSize.x), vBase.call("round", baseSize.z)
             if(r90 == 0 and baseSize.x > limitW or baseSize.z > limitH or
                 r90 == 1 and baseSize.x > limitH or baseSize.z > limitW) then
-                FitBase(limitW, limitH, baseSize, wBase)
+                FitBase(17, 9, baseSize, wBase)
             end
             rotBase()
             local sizeZone = {vBase.getBoundsNormalized().size.x, 10, vBase.getBoundsNormalized().size.z}
