@@ -230,6 +230,18 @@ function onLoad(saved_data)
         main_Table[i].tokenGUI_settings = {0,0,0,0,0}
 
         main_Table[i].charHidden = false
+
+        main_Table[i].ui_update_flags = {
+            basic_stats = false, -- hp, name, lvl, ac, speed
+            attributes = false,
+            saves = false,
+            skills = false,
+            attacks = false,
+            spell_slots = false,
+            resources = false,
+            conditions = false,
+            team_bar = false
+        }
     end
     checkGUIDtable()
 
@@ -436,7 +448,7 @@ function setCharHP(pl,vl,thisID)
         else
             main_Table[nFromPlClr(pl.color)].hpMax = tonumber(vl)
         end
-        if main_Table[nFromPlClr(pl.color)].hp < 0    then main_Table[nFromPlClr(pl.color)].hp = 0    end
+        if main_Table[nFromPlClr(pl.color)].hp < 0 then main_Table[nFromPlClr(pl.color)].hp = 0 end
         if main_Table[nFromPlClr(pl.color)].hpMax < 0 then main_Table[nFromPlClr(pl.color)].hpMax = 0 end
         if main_Table[nFromPlClr(pl.color)].hp > main_Table[nFromPlClr(pl.color)].hpMax then main_Table[nFromPlClr(pl.color)].hp = main_Table[nFromPlClr(pl.color)].hpMax end
         singleColor_UI_update(nFromPlClr(pl.color))
@@ -2321,7 +2333,8 @@ function stringRoller(inpStr,plr,commStr,rollType,rollCritDmg)   -- Main roller 
                         d20_hex = "[ccccee]"
                     end
                     if atkClicked ~= 0 then
-                        if sidesToRoll == 20 and timesToRoll == 1 and thisDieRez >= main_Table[nFromPlClr(plr)].attacks[atkClicked].minCrit then
+                        local checkMinCrit = nFromPlClr(plr) and main_Table[nFromPlClr(plr)].attacks[atkClicked].minCrit or 20
+                        if sidesToRoll == 20 and timesToRoll == 1 and thisDieRez >= checkMinCrit then
                             critRolled = true
                             d20_hex = "[ffff00]"
                         end
@@ -2382,24 +2395,24 @@ function stringRoller(inpStr,plr,commStr,rollType,rollCritDmg)   -- Main roller 
 
         if diceRollsSneakyGM and plr.color == "Black" then
             if rollCritDmg then
-                printToColor(" ͡° "..boxStr_a.." [ffffaa]"..commStr..""..inpStr.."  =  "..totalRollRez.."  ► "..totalRollRez + lastRollTotal.." ◄ [-]", plr.color, plr.color)
+                printToColor(" ͡° "..boxStr_a.." [ffffaa]"..commStr.." "..inpStr.."  =  "..totalRollRez.."  ► "..totalRollRez + lastRollTotal.." ◄ [-]", plr.color, plr.color)
                 if diceRollsShowEveryDie then
                     printToColor(" ͡° "..boxStr_b.." [ffffaa]"..totalRollStr.."[-]", plr.color, plr.color)
                 end
             else
-                printToColor(" ͡° "..boxStr_a.." "..rollOutputHex..commStr..""..inpStr.."  =  "..d20_hex..doubleRollStr_A..totalRollRez..doubleRollStr_B.."[-]", plr.color, plr.color)
+                printToColor(" ͡° "..boxStr_a.." "..rollOutputHex..commStr.." "..inpStr.."  =  "..d20_hex..doubleRollStr_A..totalRollRez..doubleRollStr_B.."[-]", plr.color, plr.color)
                 if diceRollsShowEveryDie then
                     printToColor(" ͡° "..boxStr_b.." "..rollOutputHex..totalRollStr.."[-]", plr.color, plr.color)
                 end
             end
         else
             if rollCritDmg then
-                printToAll(boxStr_a.." [ffffaa]"..commStr..""..inpStr.."  =  "..totalRollRez.."  ► "..totalRollRez + lastRollTotal.." ◄ [-]", plr.color)
+                printToAll(boxStr_a.." [ffffaa]"..commStr.." "..inpStr.."  =  "..totalRollRez.."  ► "..totalRollRez + lastRollTotal.." ◄ [-]", plr.color)
                 if diceRollsShowEveryDie then
                     printToAll(boxStr_b.." [ffffaa]"..totalRollStr.."[-]", plr.color)
                 end
             else
-                printToAll(boxStr_a.." "..rollOutputHex..commStr..""..inpStr.."  =  "..d20_hex..doubleRollStr_A..totalRollRez..doubleRollStr_B.."[-]", plr.color)
+                printToAll(boxStr_a.." "..rollOutputHex..commStr.." "..inpStr.."  =  "..d20_hex..doubleRollStr_A..totalRollRez..doubleRollStr_B.."[-]", plr.color)
                 if diceRollsShowEveryDie then
                     printToAll(boxStr_b.." "..rollOutputHex..totalRollStr.."[-]", plr.color)
                 end
