@@ -156,11 +156,9 @@ local function singleColor_UI_update_optimized(n)
         end
         
         for ii=1,5 do
-            local conditionTable = {}
-            for iii=1,11 do
-                conditionTable[iii] = (main_Table[iii].conditions.exhaustion == ii)
-            end
-            local editModeVisibilityStr = buildVisibilityString(conditionTable)
+            local editModeVisibilityStr = buildVisibilityString(function(iii)
+                return main_Table[iii].conditions.exhaustion == ii
+            end)
             UI_xmlElementUpdate("exhaustionIcon_"..strFromNum(ii),"visibility",editModeVisibilityStr)
         end
         anyChange = true
@@ -1836,11 +1834,9 @@ function UI_upd(i)
     end
 
     for ii=1,5 do
-        local conditionTable = {}
-        for iii=1,11 do
-            conditionTable[iii] = (main_Table[iii].conditions.exhaustion == ii)
-        end
-        local editModeVisibilityStr = buildVisibilityString(conditionTable)
+        local editModeVisibilityStr = buildVisibilityString(function(iii)
+            return main_Table[iii].conditions.exhaustion == ii
+        end)
         UI_xmlElementUpdate("exhaustionIcon_"..strFromNum(ii), "visibility", editModeVisibilityStr)
     end
 
