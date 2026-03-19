@@ -165,7 +165,7 @@ function resetChar()
             atkName = "unarmed",
             atkRolled = true,
             atkAttr = 1,
-            proficient = true,
+            proficient = 1,
             minCrit = 20,
             atkMod = 0,
             dmgRolled = true,
@@ -197,6 +197,19 @@ function resetChar()
     charSave_table.tokenGUI_settings = {0,0,0,0,5}
 
     charSave_table.charHidden = false
+
+    charSave_table.ui_update_flags = {
+        basic_stats = false, -- hp, name, lvl, ac, speed
+        attributes = false,
+        saves = false,
+        skills = false,
+        attacks = false,
+        spell_slots = false,
+        resources = false,
+        conditions = false,
+        team_bar = false,
+        notes = false
+    }
 end
 -- Функция для обновления XML элемента интерфейса
 function UI_xmlElementUpdate(xml_ID, xml_attribute, input_string)

@@ -23,15 +23,15 @@ end
 local function buildVisibilityFromArray(visibilityArray)
     return buildVisibilityString(visibilityArray)
 end
+local function UI_xmlElementUpdate(xml_ID, xml_attribute, input_string)
+    if self.UI.getAttribute(xml_ID, xml_attribute) ~= input_string then
+        self.UI.setAttribute(xml_ID, xml_attribute, input_string)
+    end
+end
 local function updateMultipleElementsVisibility(elementIds, visibilityArray)
     local visibilityStr = buildVisibilityFromArray(visibilityArray)
     for _, elementId in ipairs(elementIds) do
         UI_xmlElementUpdate(elementId, "visibility", visibilityStr)
-    end
-end
-local function UI_xmlElementUpdate(xml_ID, xml_attribute, input_string)
-    if self.UI.getAttribute(xml_ID, xml_attribute) ~= input_string then
-        self.UI.setAttribute(xml_ID, xml_attribute, input_string)
     end
 end
 local function catchNameParameter(str)
@@ -358,7 +358,7 @@ function onLoad(saved_data)
                 atkName = "unarmed",
                 atkRolled = true,
                 atkAttr = 1,
-                proficient = true,
+                proficient = 1,
                 minCrit = 20,
                 atkMod = 0,
                 dmgRolled = true,
@@ -812,7 +812,6 @@ function atkButton(pl,vl,thisID)
             UI_xmlElementUpdate(strFromNum(nFromPlClr(pl.color)).."_atkButtonImg_"..strFromNum(i),"color",atkButtonImg_color)
         end
         atkEdit_UI_update(nFromPlClr(pl.color),editModeSelectedAttack[nFromPlClr(pl.color)])
-        
     else
         if main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].resUsed == 0 or (main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].resUsed ~= 0 and main_Table[nFromPlClr(pl.color)].resourses[main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].resUsed].resValue > 0) then
             if main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].resUsed ~= 0 then
@@ -828,9 +827,9 @@ function atkButton(pl,vl,thisID)
                 resLeftStr = ""
             end
 
-            atkRollMod = main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].atkMod
+            local atkRollMod = main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].atkMod
             if main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].atkAttr ~= 0 then atkRollMod = atkRollMod + modFromAttr(main_Table[nFromPlClr(pl.color)].attributes[attrobute_list[main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].atkAttr]]) end
-            if main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].proficient then atkRollMod = atkRollMod + math.floor((main_Table[nFromPlClr(pl.color)].charLvl + 7)/4) end
+            if main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].proficient > 1 then atkRollMod = atkRollMod + main_Table[nFromPlClr(pl.color)].charProfBonus*(main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].proficient - 1) end
             atkClicked = numFromStrEnd(thisID)
             critRolled = false
 
@@ -925,7 +924,8 @@ function atkSetAtkAttr(pl,vl,thisID)
 end
 
 function atkToggleProf(pl,vl,thisID)
-    main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].proficient = not main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].proficient
+    local locProf = main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].proficient
+    main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].proficient = locProf < 5 and locProf + 1 or 1
     atkEdit_UI_update(nFromPlClr(pl.color),editModeSelectedAttack[nFromPlClr(pl.color)])
 end
 
@@ -1410,32 +1410,28 @@ function colorToggleEditMode(pl,vl,thisID)
             "charPortraitNameInputsPanel", "charLvlEdit", "charACedit", "charSpeedEdit",
             "charProfBonusEdit", "assignedPlayersPanel", "charInitEdit", "charPassPercEdit",
             "charHPinputs", "atkEditPanel", "spellSlotsEditMaxButtons", "spellSlotMaxAllButton",
-            "resoursesEditInputsPanel"
+            "resoursesEditInputsPanel", "savesModsButtons"
         }
-        
         updateMultipleElementsVisibility(elementsToUpdate, editModeVisibility)
-        
         if editModeVisibility[1] then
             UI_xmlElementUpdate("charProfBonusEdit", "visibility", "Black")
             UI_xmlElementUpdate("assignedPlayersPanel", "visibility", "Black")
-        else
-            UI_xmlElementUpdate("charProfBonusEdit","visibility","noone")
-            UI_xmlElementUpdate("assignedPlayersPanel","visibility","noone")
         end
-        UI_xmlElementUpdate("charInitEdit","visibility",editModeVisibilityStr)
-        UI_xmlElementUpdate("charPassPercEdit","visibility",editModeVisibilityStr)
-        UI_xmlElementUpdate("charHPinputs","visibility",editModeVisibilityStr)
+        
+        local conditionTable = {}
+        for i = 1, #main_Table do
+            conditionTable[i] = (getObjectFromGUID(lastPickedCharGUID_table[i]) == nil or lastPickedCharGUID_table[i] == "")
+        end
+        local editModeVisibilityStr = buildVisibilityString(conditionTable)
         for i=1,6 do
             UI_xmlElementUpdate("charAttrEdit_"..i,"visibility",editModeVisibilityStr)
         end
-        UI_xmlElementUpdate("savesModsButtons","visibility",editModeVisibilityStr)
         for i = 1, #main_Table[nFromPlClr(pl.color)].skills do
             UI_xmlElementUpdate("charSkillEditButtons_"..strFromNum(i),"visibility",editModeVisibilityStr)
         end
 
         UI_xmlElementUpdate(strFromNum(nFromPlClr(pl.color)).."_charPortraitUrlInput", "text", main_Table[nFromPlClr(pl.color)].portraitUrl)
 
-        UI_xmlElementUpdate("atkEditPanel","visibility",editModeVisibilityStr)
         for i=1,10 do
             if editModeSelectedAttack[nFromPlClr(pl.color)] == i or not editModeVisibility[nFromPlClr(pl.color)] then
                 atkButtonImg_color = "#ffffffff"
@@ -1447,9 +1443,6 @@ function colorToggleEditMode(pl,vl,thisID)
         if editModeVisibility[nFromPlClr(pl.color)] then
             atkEdit_UI_update(nFromPlClr(pl.color), editModeSelectedAttack[nFromPlClr(pl.color)])
         end
-        UI_xmlElementUpdate("spellSlotsEditMaxButtons","visibility",editModeVisibilityStr)
-        UI_xmlElementUpdate("spellSlotMaxAllButton","visibility",editModeVisibilityStr)
-        UI_xmlElementUpdate("resoursesEditInputsPanel","visibility",editModeVisibilityStr)
 
         local flagVis = editModeVisibilityStr:find(pl.color) and "true" or "false"
         UI_xmlElementUpdate(strFromNum(nFromPlClr(pl.color)) .. "_notesInput_A", "interactable", flagVis)
@@ -1630,8 +1623,7 @@ function atkEdit_UI_update(pl_N,atk_N)
     else
         UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditAtkAttrButton","text","")
     end
-    if main_Table[pl_N].attacks[atk_N].proficient then tempColorStr = "#8888ffff" else tempColorStr = "#ffffff00" end
-    UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditProfButton","textOutline",tempColorStr)
+    UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditProfButton","textOutline",enumSTTC[main_Table[pl_N].attacks[atk_N].proficient])
     UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditMinCritText","text",lang_table[enumLangSet[lang_set]][41]..main_Table[pl_N].attacks[atk_N].minCrit)
     UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditAtkModText","text",lang_table[enumLangSet[lang_set]][42]..PoM_add(main_Table[pl_N].attacks[atk_N].atkMod))
     if main_Table[pl_N].attacks[atk_N].dmgRolled then tempColorStr = "#8888ffff" else tempColorStr = "#ffffff00" end
@@ -1948,7 +1940,6 @@ function set_UI_Language(pl,vl,thisID)
 end
 
 function language_UI_update()
-    print(enumLangSet[lang_set])
     UI_xmlElementUpdate("noCharSelectedBlockText", "text", lang_table[enumLangSet[lang_set]][1])
     for i = 1, #main_Table do
         UI_xmlElementUpdate(strFromNum(i).."_charPortraitUrlInput", "tooltip", lang_table[enumLangSet[lang_set]][49])
