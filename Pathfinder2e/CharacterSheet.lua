@@ -28,6 +28,147 @@ local function checkGUIDtable()
         end
     end
 end
+local function singleColor_UI_update_optimized(n)
+    local playerData = main_Table[n]
+    local flags = playerData.ui_update_flags
+    local prefix = strFromNum(n)
+
+    local anyChange = false
+
+    -- Обновляем только то, что изменилось
+    if flags.basic_stats then
+        UI_xmlElementUpdate(prefix.."_charPortrait", "image", playerData.portraitUrl)
+        UI_xmlElementUpdate(prefix.."_charName", "text", playerData.charName)
+        UI_xmlElementUpdate(prefix.."_charLvl", "text", lang_table[enumLangSet[lang_set]][2]..playerData.charLvl)
+        UI_xmlElementUpdate(prefix.."_charAC", "text", playerData.AC)
+        UI_xmlElementUpdate(prefix.."_charSpeed", "text", playerData.speed)
+        UI_xmlElementUpdate(prefix.."_charHPbar", "percentage", (playerData.hp * 100 / playerData.hpMax))
+        UI_xmlElementUpdate(prefix.."_charHPtext", "text", playerData.hp.." / "..playerData.hpMax)
+        if playerData.hpTemp > 0 then
+            UI_xmlElementUpdate(prefix.."_charTempHPtext", "text", "+"..playerData.hpTemp)
+        else
+            UI_xmlElementUpdate(prefix.."_charTempHPtext", "text", "")
+        end
+        anyChange = true
+        flags.basic_stats = false
+    end
+
+    if flags.attributes then
+        for _, name in ipairs(attrobute_list) do
+            UI_xmlElementUpdate(prefix.."_charAttrValue_" .. name, "text", playerData.attributes[name])
+            UI_xmlElementUpdate(prefix.."_charAttrMod_" .. name, "text", PoM(modFromAttr(playerData.attributes[name]))..modFromAttr(playerData.attributes[name]))
+        end
+        anyChange = true
+        flags.attributes = false
+    end
+
+    if flags.saves then
+        local typeST = 1
+        for smN, smV in pairs(playerData.savesMod) do
+            local index = playerData.saves[smN]
+            local colorStr = enumSTTC[index]
+            local tooltipText = lang_table[enumLangSet[lang_set]][61 + typeST] .. " " .. lang_table[enumLangSet[lang_set]][77 + index]; typeST = typeST + 1
+            UI_xmlElementUpdate(prefix.."_charSaveButton_"..smN, "tooltip", tooltipText)
+            if smV ~= 0 then saveModStr = "\n"..PoM(smV)..smV else saveModStr = "" end
+            UI_xmlElementUpdate(prefix.."_charSaveButton_"..smN, "text", lang_table[enumLangSet[lang_set]][14]..saveModStr)
+            UI_xmlElementUpdate(prefix.."_charSaveButton_"..smN, "color", colorStr)
+        end
+        anyChange = true
+        flags.saves = false
+    end
+
+    if flags.skills then
+        for ii = 1, #playerData.skills do
+            local sklModStr, index = "", playerData.skills[ii].proficient
+            local colorStr = enumSTTC[index]
+            if playerData.skills[ii].mod ~= 0 then sklModStr = " "..PoM(playerData.skills[ii].mod)..playerData.skills[ii].mod end
+            UI_xmlElementUpdate(prefix.."_charSkillButton_"..strFromNum(ii), "text", lang_table[enumLangSet[lang_set]][14 + ii]..sklModStr)
+            UI_xmlElementUpdate(prefix.."_charSkillButton_"..strFromNum(ii), "color", colorStr)
+
+            local proficientSkill = playerData.charProfBonus*(index - 1)
+            local thisSkillMod = modFromAttr(playerData.attributes[defSkillsAttr_table[ii]]) + playerData.skills[ii].mod + proficientSkill
+            UI_xmlElementUpdate(prefix.."_charSkillButton_"..strFromNum(ii), "tooltip", "d20"..PoM(thisSkillMod) .. thisSkillMod .. " " .. lang_table[enumLangSet[lang_set]][77 + index])
+        end
+        anyChange = true
+        flags.skills = false
+    end
+
+    if flags.attacks then
+        for ii = 1, 10 do
+            UI_xmlElementUpdate(prefix.."_atkButtonImg_"..strFromNum(ii),"image",atkIconsUrl_Table[playerData.attacks[ii].icon])
+            UI_xmlElementUpdate(prefix.."_atkButton_"..strFromNum(ii),"tooltip",playerData.attacks[ii].atkName)
+        end
+        anyChange = true
+        flags.attacks = false
+    end
+    
+    if flags.spell_slots then
+        for ii = 1, 9 do
+            local spellButtonStr = ""
+            for iii=1, playerData.splSlotsMax[ii] do
+                spellButtonStr = spellButtonStr..(iii <= playerData.splSlots[ii] and "●" or "○")
+            end
+            UI_xmlElementUpdate(prefix.."_spellSlotButton_"..strFromNum(ii),"text", " "..ii..". "..spellButtonStr)
+        end
+        anyChange = true
+        flags.spell_slots = false
+    end
+    
+    if flags.resources then
+        for ii=1,10 do
+            UI_xmlElementUpdate(prefix.."_resTextName_"..strFromNum(ii),"text", " "..ii..". "..playerData.resourses[ii].resName)
+            if playerData.resourses[ii].resMax > 0 then
+                UI_xmlElementUpdate(prefix.."_resTextNum_"..strFromNum(ii),"text", playerData.resourses[ii].resValue.." / "..playerData.resourses[ii].resMax)
+            else
+                UI_xmlElementUpdate(prefix.."_resTextNum_"..strFromNum(ii),"text", playerData.resourses[ii].resValue)
+            end
+        end
+        anyChange = true
+        flags.resources = false
+    end
+
+    if flags.conditions then
+        for ii=1,20 do
+            if playerData.conditions.table[ii] then condButtColor = "#ffffff02" else condButtColor = "#ffffff88" end
+            UI_xmlElementUpdate(prefix.."_conditionButton_"..strFromNum(ii),"color", condButtColor)
+        end
+        
+        for ii=1,5 do
+            local editModeVisibilityStr = "noone"
+            local isNoOne = true
+            for iii=1,11 do
+                if main_Table[iii].conditions.exhaustion == ii then
+                    isNoOne = false
+                    editModeVisibilityStr = editModeVisibilityStr.. "|".. plColors_Table[iii]
+                end
+            end
+            if not isNoOne then
+                editModeVisibilityStr = string.sub(editModeVisibilityStr, 7, #editModeVisibilityStr)
+            end
+            UI_xmlElementUpdate("exhaustionIcon_"..strFromNum(ii),"visibility",editModeVisibilityStr)
+        end
+        anyChange = true
+        flags.conditions = false
+    end
+
+    if flags.notes then
+        UI_xmlElementUpdate(prefix.."_notesText_B","text", playerData.notes_B)
+        UI_xmlElementUpdate(prefix.."_notesInput_B","text", playerData.notes_B)
+        anyChange = true
+        flags.notes = false
+    end
+
+    if flags.team_bar then
+        teamBar_UI_update()
+        anyChange = true
+        flags.team_bar = false
+    end
+    
+    -- Общая логика синхронизации с токеном
+    if anyChange and lastPickedCharGUID_table[n] ~= "" and getObjectFromGUID(lastPickedCharGUID_table[n]) ~= nil and not firstLoad then
+        SetStatsIntoToken(n)
+    end
+end
 -- Built-in functionality --
 
 function onSave()
@@ -240,7 +381,8 @@ function onLoad(saved_data)
             spell_slots = false,
             resources = false,
             conditions = false,
-            team_bar = false
+            team_bar = false,
+            notes = false
         }
     end
     checkGUIDtable()
@@ -368,7 +510,9 @@ function setCharPortrait(pl,vl,thisID)
     else
         main_Table[nFromPlClr(pl.color)].portraitUrl = "https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/"
     end
-    singleColor_UI_update(nFromPlClr(pl.color))
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].ui_update_flags.basic_stats = true
+    singleColor_UI_update_optimized(playerIndex)
 end
 
 function setCharName(pl,vl,thisID)
@@ -377,7 +521,9 @@ function setCharName(pl,vl,thisID)
         if getObjectFromGUID(lastPickedCharGUID_table[nFromPlClr(pl.color)]) ~= nil then
             getObjectFromGUID(lastPickedCharGUID_table[nFromPlClr(pl.color)]).setName(vl)
         end
-        singleColor_UI_update(nFromPlClr(pl.color))
+        local playerIndex = nFromPlClr(pl.color)
+        main_Table[playerIndex].ui_update_flags.basic_stats = true
+        singleColor_UI_update_optimized(playerIndex)
     end
 end
 
@@ -390,7 +536,9 @@ function setCharLvl(pl,vl,thisID)
     end
     if main_Table[nFromPlClr(pl.color)].charLvl < 1  then main_Table[nFromPlClr(pl.color)].charLvl = 20 end
     if main_Table[nFromPlClr(pl.color)].charLvl > 20 then main_Table[nFromPlClr(pl.color)].charLvl = 1  end
-    singleColor_UI_update(nFromPlClr(pl.color))
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].ui_update_flags.basic_stats = true
+    singleColor_UI_update_optimized(playerIndex)
 end
 
 function setCharAC(pl,vl,thisID)
@@ -402,7 +550,9 @@ function setCharAC(pl,vl,thisID)
     end
     if main_Table[nFromPlClr(pl.color)].AC < 0  then main_Table[nFromPlClr(pl.color)].AC = 50 end
     if main_Table[nFromPlClr(pl.color)].AC > 50 then main_Table[nFromPlClr(pl.color)].AC = 0  end
-    singleColor_UI_update(nFromPlClr(pl.color))
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].ui_update_flags.basic_stats = true
+    singleColor_UI_update_optimized(playerIndex)
 end
 
 function setCharSpeed(pl,vl,thisID)
@@ -414,7 +564,9 @@ function setCharSpeed(pl,vl,thisID)
     end
     if main_Table[nFromPlClr(pl.color)].speed < 0    then main_Table[nFromPlClr(pl.color)].speed = 1000 end
     if main_Table[nFromPlClr(pl.color)].speed > 1000 then main_Table[nFromPlClr(pl.color)].speed = 0    end
-    singleColor_UI_update(nFromPlClr(pl.color))
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].ui_update_flags.basic_stats = true
+    singleColor_UI_update_optimized(playerIndex)
 end
 
 function setCharInitMod(pl,vl,thisID)
@@ -426,7 +578,9 @@ function setCharInitMod(pl,vl,thisID)
     end
     if main_Table[nFromPlClr(pl.color)].initMod < -15 then main_Table[nFromPlClr(pl.color)].initMod = 15  end
     if main_Table[nFromPlClr(pl.color)].initMod > 15  then main_Table[nFromPlClr(pl.color)].initMod = -15 end
-    singleColor_UI_update(nFromPlClr(pl.color))
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].ui_update_flags.basic_stats = true
+    singleColor_UI_update_optimized(playerIndex)
 end
 
 function setCharPassPerceptionMod(pl,vl,thisID)
@@ -438,7 +592,9 @@ function setCharPassPerceptionMod(pl,vl,thisID)
     end
     if main_Table[nFromPlClr(pl.color)].pPerceptionMod < -15 then main_Table[nFromPlClr(pl.color)].pPerceptionMod = 15  end
     if main_Table[nFromPlClr(pl.color)].pPerceptionMod > 15  then main_Table[nFromPlClr(pl.color)].pPerceptionMod = -15 end
-    singleColor_UI_update(nFromPlClr(pl.color))
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].ui_update_flags.basic_stats = true
+    singleColor_UI_update_optimized(playerIndex)
 end
 
 function setCharHP(pl,vl,thisID)
@@ -451,7 +607,11 @@ function setCharHP(pl,vl,thisID)
         if main_Table[nFromPlClr(pl.color)].hp < 0 then main_Table[nFromPlClr(pl.color)].hp = 0 end
         if main_Table[nFromPlClr(pl.color)].hpMax < 0 then main_Table[nFromPlClr(pl.color)].hpMax = 0 end
         if main_Table[nFromPlClr(pl.color)].hp > main_Table[nFromPlClr(pl.color)].hpMax then main_Table[nFromPlClr(pl.color)].hp = main_Table[nFromPlClr(pl.color)].hpMax end
-        singleColor_UI_update(nFromPlClr(pl.color))
+
+        local playerIndex = nFromPlClr(pl.color)
+        main_Table[playerIndex].ui_update_flags.basic_stats = true
+        main_Table[playerIndex].ui_update_flags.team_bar = true
+        singleColor_UI_update_optimized(playerIndex)
     end
 end
 
@@ -469,7 +629,9 @@ function setCharAttr(pl,vl,thisID)
     end
     if main_Table[nFromPlClr(pl.color)].attributes[name] < 0  then main_Table[nFromPlClr(pl.color)].attributes[name] = 50 end
     if main_Table[nFromPlClr(pl.color)].attributes[name] > 50 then main_Table[nFromPlClr(pl.color)].attributes[name] = 0  end
-    singleColor_UI_update(nFromPlClr(pl.color))
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].ui_update_flags.attributes = true
+    singleColor_UI_update_optimized(playerIndex)
 end
 
 function setCharSaveMod(pl,vl,thisID)
@@ -481,7 +643,9 @@ function setCharSaveMod(pl,vl,thisID)
     end
     if main_Table[nFromPlClr(pl.color)].savesMod[name] < -15 then main_Table[nFromPlClr(pl.color)].savesMod[name] = 15  end
     if main_Table[nFromPlClr(pl.color)].savesMod[name] > 15  then main_Table[nFromPlClr(pl.color)].savesMod[name] = -15 end
-    singleColor_UI_update(nFromPlClr(pl.color))
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].ui_update_flags.saves = true
+    singleColor_UI_update_optimized(playerIndex)
 end
 
 -------------------------   sheet buttons and more edits
@@ -502,7 +666,9 @@ local function charSaveButton(pl, vl, idName, MTId, textName, plColHex)
     if editModeVisibility[nFromPlClr(pl.color)] then
         main_Table[nFromPlClr(pl.color)].saves[idName] = main_Table[nFromPlClr(pl.color)].saves[idName] + 1
         if main_Table[nFromPlClr(pl.color)].saves[idName] > #enumSTT then main_Table[nFromPlClr(pl.color)].saves[idName] = 1 end
-        singleColor_UI_update(nFromPlClr(pl.color))
+        local playerIndex = nFromPlClr(pl.color)
+        main_Table[playerIndex].ui_update_flags.saves = true
+        singleColor_UI_update_optimized(playerIndex)
     else
         local modifier = modFromAttr(main_Table[MTId].attributes[enumSTnC[idName]]) + main_Table[MTId].savesMod[idName]
         local profBonus = main_Table[MTId].charProfBonus*(main_Table[MTId].saves[idName] - 1)
@@ -521,7 +687,9 @@ local function skillButtonMain(pl, vl, id, textName, plColHex)
     if editModeVisibility[nFromPlClr(pl.color)] then
         main_Table[nFromPlClr(pl.color)].skills[numFromStrEnd(id)].proficient = main_Table[nFromPlClr(pl.color)].skills[numFromStrEnd(id)].proficient + 1
         if main_Table[nFromPlClr(pl.color)].skills[numFromStrEnd(id)].proficient > #enumSTT then main_Table[nFromPlClr(pl.color)].skills[numFromStrEnd(id)].proficient = 1 end
-        singleColor_UI_update(nFromPlClr(pl.color))
+        local playerIndex = nFromPlClr(pl.color)
+        main_Table[playerIndex].ui_update_flags.skills = true
+        singleColor_UI_update_optimized(playerIndex)
     else
         local modifier = modFromAttr(main_Table[numFromStr(id)].attributes[defSkillsAttr_table[numFromStrEnd(id)]]) + main_Table[numFromStr(id)].skills[numFromStrEnd(id)].mod
         local profBonus = main_Table[numFromStr(id)].charProfBonus*(main_Table[numFromStr(id)].skills[numFromStrEnd(id)].proficient - 1)
@@ -560,7 +728,9 @@ function setSkillMod(pl,vl,thisID)
     end
     if main_Table[nFromPlClr(pl.color)].skills[numFromStrEnd(thisID)].mod < -50 then main_Table[nFromPlClr(pl.color)].skills[numFromStrEnd(thisID)].mod = 50  end
     if main_Table[nFromPlClr(pl.color)].skills[numFromStrEnd(thisID)].mod > 50  then main_Table[nFromPlClr(pl.color)].skills[numFromStrEnd(thisID)].mod = -50 end
-    singleColor_UI_update(nFromPlClr(pl.color))
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].ui_update_flags.skills = true
+    singleColor_UI_update_optimized(playerIndex)
 end
 
 -------------------------   HP
@@ -572,18 +742,21 @@ function setCharHealDmgVal(pl,vl,thisID)
 end
 
 function takeDmg(pl,vl,thisID)
-    if healTempDmg_table[nFromPlClr(pl.color)] >= main_Table[nFromPlClr(pl.color)].hp + main_Table[nFromPlClr(pl.color)].hpTemp + main_Table[nFromPlClr(pl.color)].hpMax then
+    local playerIndex = nFromPlClr(pl.color)
+    if healTempDmg_table[playerIndex] >= main_Table[playerIndex].hp + main_Table[playerIndex].hpTemp + main_Table[playerIndex].hpMax then
         for d=1,3 do
-            main_Table[nFromPlClr(pl.color)].deathSaves[d] = 3
-            main_Table[nFromPlClr(pl.color)].conditions.table[20] = true
+            main_Table[playerIndex].deathSaves[d] = 3
+            main_Table[playerIndex].conditions.table[20] = true
         end
     end
-    dmgLeftAfterTemp = math.max(0, healTempDmg_table[nFromPlClr(pl.color)] - main_Table[nFromPlClr(pl.color)].hpTemp)
-    main_Table[nFromPlClr(pl.color)].hpTemp = math.max(0, main_Table[nFromPlClr(pl.color)].hpTemp - healTempDmg_table[nFromPlClr(pl.color)])
-    main_Table[nFromPlClr(pl.color)].hp     = math.max(0, main_Table[nFromPlClr(pl.color)].hp - dmgLeftAfterTemp)
-    healTempDmg_table[nFromPlClr(pl.color)] = 0
-    self.UI.setAttribute(strFromNum(nFromPlClr(pl.color)).."_charHealDmgValueInput", "text", "")
-    singleColor_UI_update(nFromPlClr(pl.color))
+    dmgLeftAfterTemp = math.max(0, healTempDmg_table[playerIndex] - main_Table[playerIndex].hpTemp)
+    main_Table[playerIndex].hpTemp = math.max(0, main_Table[playerIndex].hpTemp - healTempDmg_table[playerIndex])
+    main_Table[playerIndex].hp     = math.max(0, main_Table[playerIndex].hp - dmgLeftAfterTemp)
+    healTempDmg_table[playerIndex] = 0
+    self.UI.setAttribute(strFromNum(playerIndex).."_charHealDmgValueInput", "text", "")
+    main_Table[playerIndex].ui_update_flags.basic_stats = true
+    main_Table[playerIndex].ui_update_flags.team_bar = true
+    singleColor_UI_update_optimized(playerIndex)
     miniMap_UI_update()
 end
 
@@ -594,7 +767,10 @@ function healHP(pl,vl,thisID)
     for i=1,#main_Table[nFromPlClr(pl.color)].deathSaves do
         main_Table[nFromPlClr(pl.color)].deathSaves[i] = 1
     end
-    singleColor_UI_update(nFromPlClr(pl.color))
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].ui_update_flags.basic_stats = true
+    main_Table[playerIndex].ui_update_flags.team_bar = true
+    singleColor_UI_update_optimized(playerIndex)
     miniMap_UI_update()
 end
 
@@ -606,13 +782,17 @@ function setTempHP(pl,vl,thisID)
     end
     healTempDmg_table[nFromPlClr(pl.color)] = 0
     self.UI.setAttribute(strFromNum(nFromPlClr(pl.color)).."_charHealDmgValueInput", "text", "")
-    singleColor_UI_update(nFromPlClr(pl.color))
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].ui_update_flags.basic_stats = true
+    singleColor_UI_update_optimized(playerIndex)
 end
 
 function deathSaveButton(pl,vl,thisID)
     main_Table[numFromStr(thisID)].deathSaves[numFromStrEnd(thisID)] = main_Table[numFromStr(thisID)].deathSaves[numFromStrEnd(thisID)] + 1
     if main_Table[numFromStr(thisID)].deathSaves[numFromStrEnd(thisID)] > 3 then main_Table[numFromStr(thisID)].deathSaves[numFromStrEnd(thisID)] = 1 end
-    singleColor_UI_update(nFromPlClr(pl.color))
+    local playerIndex = numFromStr(thisID)
+    main_Table[playerIndex].ui_update_flags.basic_stats = true
+    singleColor_UI_update_optimized(playerIndex)
 end
 
 -------------------------   attacks
@@ -702,7 +882,6 @@ function atkButton(pl,vl,thisID)
     end
 end
 
-
 function atkSetIcon(pl,vl,thisID)
     if vl == "-1" then
         main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].icon = main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].icon + 1
@@ -711,12 +890,16 @@ function atkSetIcon(pl,vl,thisID)
         main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].icon = main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].icon -1
         if main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].icon <1 then main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].icon = #atkIconsUrl_Table end
     end
-    atkEdit_UI_update(nFromPlClr(pl.color),editModeSelectedAttack[nFromPlClr(pl.color)])
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].ui_update_flags.attacks = true
+    atkEdit_UI_update(playerIndex, editModeSelectedAttack[playerIndex])
+    singleColor_UI_update_optimized(playerIndex)
 end
 
 function atkSetName(pl,vl,thisID)
     main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].atkName = vl
-    atkEdit_UI_update(nFromPlClr(pl.color),editModeSelectedAttack[nFromPlClr(pl.color)])
+    main_Table[playerIndex].ui_update_flags.attacks = true
+    atkEdit_UI_update(playerIndex, editModeSelectedAttack[playerIndex])
 end
 
 function atkToggleRollAtk(pl,vl,thisID)
@@ -813,7 +996,9 @@ function spellSlotButtonMain(pl,vl,thisID)
             main_Table[nFromPlClr(pl.color)].splSlots[numFromStrEnd(thisID)] = 0
         end
     end
-    singleColor_UI_update(nFromPlClr(pl.color))
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].ui_update_flags.spell_slots = true
+    singleColor_UI_update_optimized(playerIndex)
 end
 
 function spellSlotButtonMax(pl,vl,thisID)
@@ -831,21 +1016,27 @@ function spellSlotButtonMax(pl,vl,thisID)
     if main_Table[nFromPlClr(pl.color)].splSlots[numFromStrEnd(thisID)] > main_Table[nFromPlClr(pl.color)].splSlotsMax[numFromStrEnd(thisID)] then
         main_Table[nFromPlClr(pl.color)].splSlots[numFromStrEnd(thisID)] = main_Table[nFromPlClr(pl.color)].splSlotsMax[numFromStrEnd(thisID)]
     end
-    singleColor_UI_update(nFromPlClr(pl.color))
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].ui_update_flags.spell_slots = true
+    singleColor_UI_update_optimized(playerIndex)
 end
 
 function spellSlotButtonMaxAll(pl,vl,thisID)
     for i=1,9 do
         main_Table[nFromPlClr(pl.color)].splSlots[i] = main_Table[nFromPlClr(pl.color)].splSlotsMax[i]
     end
-    singleColor_UI_update(nFromPlClr(pl.color))
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].ui_update_flags.spell_slots = true
+    singleColor_UI_update_optimized(playerIndex)
 end
 
 -------------------------   ressourses
 
 function resSetName(pl,vl,thisID)
     main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resName = vl
-    singleColor_UI_update(nFromPlClr(pl.color))
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].ui_update_flags.resources = true
+    singleColor_UI_update_optimized(playerIndex)
 end
 
 function resSetValue(pl,vl,thisID)
@@ -856,7 +1047,9 @@ function resSetValue(pl,vl,thisID)
                 main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resValue = main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resMax
             end
         end
-        singleColor_UI_update(nFromPlClr(pl.color))
+        local playerIndex = nFromPlClr(pl.color)
+        main_Table[playerIndex].ui_update_flags.resources = true
+        singleColor_UI_update_optimized(playerIndex)
     end
 end
 
@@ -868,7 +1061,9 @@ function resSetMax(pl,vl,thisID)
                 main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resValue = main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resMax
             end
         end
-        singleColor_UI_update(nFromPlClr(pl.color))
+        local playerIndex = nFromPlClr(pl.color)
+        main_Table[playerIndex].ui_update_flags.resources = true
+        singleColor_UI_update_optimized(playerIndex)
     end
 end
 
@@ -884,7 +1079,9 @@ function resSingleAdd(pl,vl,thisID)
             main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resValue = 0
         end
     end
-    singleColor_UI_update(nFromPlClr(pl.color))
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].ui_update_flags.resources = true
+    singleColor_UI_update_optimized(playerIndex)
 end
 
 -------------------------
@@ -895,20 +1092,26 @@ function setNotes(pl,vl,thisID)
     else
         main_Table[nFromPlClr(pl.color)].notes_B = vl
     end
-    singleColor_UI_update(nFromPlClr(pl.color))
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].ui_update_flags.notes = true
+    singleColor_UI_update_optimized(playerIndex)
 end
 
 -------------------------
 
 function setAssignedPlayer(pl,vl,thisID)
     main_Table[nFromPlClr(pl.color)].aColors[numFromStrEnd(thisID)] = not main_Table[nFromPlClr(pl.color)].aColors[numFromStrEnd(thisID)]
-    singleColor_UI_update(nFromPlClr(pl.color))
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].ui_update_flags.team_bar = true
+    singleColor_UI_update_optimized(playerIndex)
     getObjectFromGUID(lastPickedCharGUID_table[nFromPlClr(pl.color)]).call("hideThisChar")
 end
 
 function toggleInvisible(pl,vl,thisID)
     main_Table[nFromPlClr(pl.color)].charHidden = not main_Table[nFromPlClr(pl.color)].charHidden
-    singleColor_UI_update(nFromPlClr(pl.color))
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].ui_update_flags.team_bar = true
+    singleColor_UI_update_optimized(playerIndex)
     getObjectFromGUID(lastPickedCharGUID_table[nFromPlClr(pl.color)]).call("hideThisChar")
 end
 
@@ -1174,7 +1377,9 @@ function contitionButt(pl,vl,thisID)
             main_Table[nFromPlClr(pl.color)].conditions.table[numFromStrEnd(thisID)] = false
         end
     end
-    singleColor_UI_update(nFromPlClr(pl.color))
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].ui_update_flags.conditions = true
+    singleColor_UI_update_optimized(playerIndex)
 end
 
 -------------------------   char 3d UI settings
