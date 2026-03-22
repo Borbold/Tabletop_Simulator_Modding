@@ -25,7 +25,7 @@
     <Button class="charAC" preferredWidth="30" image='Icon_Shield' interactable='false' />
     <Button class="charSpeed" preferredWidth="30" image='Icon_Boot' interactable='false' />
     <Button class="charInitAdd" text="initiative" preferredWidth='100' onClick="addCharToInitiative" tooltipBackgroundColor="#000000" />
-    <Button class="charAttrEdit" onClick="setCharAttr" />
+    <Button class="charAttrEdit" onClick="setNumericField" />
     <ProgressBar class="charHPbar" width="440" height="60" offsetXY="0 -20" color="#ff8888" fillImageColor='#ff00004a' outline="#aa444488" outlineSize="2 -2" showPercentageText='false' />
     <Text class="charHP" text="46 / 100" offsetXY="0 -20" resizeTextMaxSize='50' color="#880000" outline="#ffaaaa" />
     <Text class="charTempHPtext" text="+12" color="#aa4444" outline="#ffaaaa" resizeTextMaxSize="25" offsetXY="120,-15" />
@@ -150,8 +150,7 @@
                     <Text class="charLevel" id="10_charLvl" visibility="Purple" />
                     <Text class="charLevel" id="11_charLvl" visibility="Pink" />
                     <VerticalLayout id="charLvlEdit" preferredWidth="20" visibility="noone" > <!-- EDIT TOGGLE -->
-                        <Button id="charLvlButton_01" onClick="setCharLvl" text="+" />
-                        <Button id="charLvlButton_02" onClick="setCharLvl" text="-" />
+                        <Button id="charLvlButton_01" onClick="setNumericField" text="+-" />
                     </VerticalLayout>
                     <!-- Character AC - Generated for all 11 colors -->
                     <Button class="charAC" id="01_charAC" visibility="Black" />
@@ -166,8 +165,7 @@
                     <Button class="charAC" id="10_charAC" visibility="Purple" />
                     <Button class="charAC" id="11_charAC" visibility="Pink" />
                     <VerticalLayout id="charACedit" preferredWidth="20" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charACbutton_01" onClick="setCharAC" text="+" />
-                        <Button id="charACbutton_02" onClick="setCharAC" text="-" />
+                        <Button id="charACbutton_01" onClick="setNumericField" text="+-" />
                     </VerticalLayout>
                     <Button class="charSpeed" id="01_charSpeed" visibility="Black"  />
                     <Button class="charSpeed" id="02_charSpeed" visibility="White"  />
@@ -181,8 +179,7 @@
                     <Button class="charSpeed" id="10_charSpeed" visibility="Purple" />
                     <Button class="charSpeed" id="11_charSpeed" visibility="Pink"   />
                     <VerticalLayout id="charSpeedEdit" preferredWidth="20" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charSpeedButton_01" onClick="setCharSpeed" text="+" />
-                        <Button id="charSpeedButton_02" onClick="setCharSpeed" text="-" />
+                        <Button id="charSpeedButton_01" onClick="setNumericField" text="+-" />
                     </VerticalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout preferredHeight='25'>
@@ -199,8 +196,7 @@
                     <Button id="charInitAddButton_10" class="charInitAdd" visibility="Purple" />
                     <Button id="charInitAddButton_11" class="charInitAdd" visibility="Pink"   />
                     <VerticalLayout id="charInitEdit" preferredWidth="20" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charInitModButton_01" onClick="setCharInitMod" text="+" />
-                        <Button id="charInitModButton_02" onClick="setCharInitMod" text="-" />
+                        <Button id="charInitModButton_01" onClick="setNumericField" text="+-" />
                     </VerticalLayout>
                     <Text preferredWidth="10" />
                 </HorizontalLayout>
@@ -217,8 +213,7 @@
                     <Button id="10_charSkillButton_19" class="skillButton" preferredWidth="100" visibility="Purple" />
                     <Button id="11_charSkillButton_19" class="skillButton" preferredWidth="100" visibility="Pink"   />
                     <VerticalLayout id="charSkillEditButtons_19" preferredWidth="20" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="02_charSkillEdit_19" onClick="setSkillMod" text="+" />
-                        <Button id="01_charSkillEdit_19" onClick="setSkillMod" text="-" />
+                        <Button id="02_charSkillEdit_19" onClick="setNumericField" text="+-" />
                     </VerticalLayout>
                     <Text id="01_charPassivePerception" text="Passive perception: 12" resizeTextForBestFit='18' visibility="Black"  />
                     <Text id="02_charPassivePerception" text="Passive perception: 12" resizeTextForBestFit='18' visibility="White"  />
@@ -232,8 +227,7 @@
                     <Text id="10_charPassivePerception" text="Passive perception: 12" resizeTextForBestFit='18' visibility="Purple" />
                     <Text id="11_charPassivePerception" text="Passive perception: 12" resizeTextForBestFit='18' visibility="Pink"   />
                     <VerticalLayout id="charPassPercEdit" preferredWidth="20" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="charPassPerceptionButton_01" onClick="setCharPassPerceptionMod" text="+" />
-                        <Button id="charPassPerceptionButton_02" onClick="setCharPassPerceptionMod" text="-" />
+                        <Button id="charPassPerceptionButton_01" onClick="setNumericField" text="+-" />
                     </VerticalLayout>
                 </HorizontalLayout>
             </VerticalLayout>
@@ -370,8 +364,7 @@
                 <HorizontalLayout>
                     <!-- STR Attribute - Edit buttons -->
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_1" visibility="noone">
-                        <Button class="charAttrEdit" id="01_charAttrEdButton_STR" text="+" />
-                        <Button class="charAttrEdit" id="02_charAttrEdButton_STR" text="-" />
+                        <Button class="charAttrEdit" id="01_charAttrEdButton_STR" text="+-" />
                     </VerticalLayout>
                     <!-- STR Attribute - Values for all colors -->
                     <VerticalLayout preferredWidth="50">
@@ -403,8 +396,7 @@
                 </HorizontalLayout>
                 <HorizontalLayout>
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_2" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button class="charAttrEdit" id="01_charAttrEdButton_DEX" text="+" />
-                        <Button class="charAttrEdit" id="02_charAttrEdButton_DEX" text="-" />
+                        <Button class="charAttrEdit" id="01_charAttrEdButton_DEX" text="+-" />
                     </VerticalLayout>
                     <VerticalLayout preferredWidth="50" outline="#440044ff" outlineSize="1 -1">
                         <Text id="attrName_DEX" text="DEX" />
@@ -434,8 +426,7 @@
                 </HorizontalLayout>
                 <HorizontalLayout>
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_3" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button class="charAttrEdit" id="01_charAttrEdButton_CON" text="+" />
-                        <Button class="charAttrEdit" id="02_charAttrEdButton_CON" text="-" />
+                        <Button class="charAttrEdit" id="01_charAttrEdButton_CON" text="+-" />
                     </VerticalLayout>
                     <VerticalLayout preferredWidth="50" outline="#440044ff" outlineSize="1 -1">
                         <Text id="attrName_CON" text="CON" />
@@ -465,8 +456,7 @@
                 </HorizontalLayout>
                 <HorizontalLayout>
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_4" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button class="charAttrEdit" id="01_charAttrEdButton_INT" text="+" />
-                        <Button class="charAttrEdit" id="02_charAttrEdButton_INT" text="-" />
+                        <Button class="charAttrEdit" id="01_charAttrEdButton_INT" text="+-" />
                     </VerticalLayout>
                     <VerticalLayout preferredWidth="50" outline="#440044ff" outlineSize="1 -1">
                         <Text id="attrName_INT" text="INT" />
@@ -496,8 +486,7 @@
                 </HorizontalLayout>
                 <HorizontalLayout>
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_5" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button class="charAttrEdit" id="01_charAttrEdButton_WIS" text="+" />
-                        <Button class="charAttrEdit" id="02_charAttrEdButton_WIS" text="-" />
+                        <Button class="charAttrEdit" id="01_charAttrEdButton_WIS" text="+-" />
                     </VerticalLayout>
                     <VerticalLayout preferredWidth="50" outline="#440044ff" outlineSize="1 -1">
                         <Text id="attrName_WIS" text="WIS" />
@@ -527,8 +516,7 @@
                 </HorizontalLayout>
                 <HorizontalLayout>
                     <VerticalLayout preferredWidth="25" id="charAttrEdit_6" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button class="charAttrEdit" id="01_charAttrEdButton_CHA" text="+" />
-                        <Button class="charAttrEdit" id="02_charAttrEdButton_CHA" text="-" />
+                        <Button class="charAttrEdit" id="01_charAttrEdButton_CHA" text="+-" />
                     </VerticalLayout>
                     <VerticalLayout preferredWidth="50" outline="#440044ff" outlineSize="1 -1">
                         <Text id="attrName_CHA" text="CHA" />
@@ -597,38 +585,23 @@
             <TableLayout id="savesModsButtons" preferredWidth="13" visibility="noone">
                 <Row>
                     <Cell>
-                        <Button id="01_charSaveModEdButton_Fortitude" onClick="setCharSaveMod" text="+" />
-                    </Cell>
-                </Row>
-                <Row>
-                    <Cell>
-                        <Button id="02_charSaveModEdButton_Fortitude" onClick="setCharSaveMod" text="-" />
+                        <Button id="01_charSaveModEdButton_Fortitude" onClick="setNumericField" text="+-" />
                     </Cell>
                 </Row>
                 <Row />
                 <Row>
                     <Cell>
-                        <Button id="01_charSaveModEdButton_Reflex" onClick="setCharSaveMod" text="+" />
-                    </Cell>
-                </Row>
-                <Row>
-                    <Cell>
-                        <Button id="02_charSaveModEdButton_Reflex" onClick="setCharSaveMod" text="-" />
+                        <Button id="01_charSaveModEdButton_Reflex" onClick="setNumericField" text="+-" />
                     </Cell>
                 </Row>
                 <Row />
                 <Row>
                     <Cell>
-                        <Button id="01_charSaveModEdButton_Will" onClick="setCharSaveMod" text="+" />
-                    </Cell>
-                </Row>
-                <Row>
-                    <Cell>
-                        <Button id="02_charSaveModEdButton_Will" onClick="setCharSaveMod" text="-" />
+                        <Button id="01_charSaveModEdButton_Will" onClick="setNumericField" text="+-" />
                     </Cell>
                 </Row>
             </TableLayout>
-            <Text  preferredWidth="5" />
+            <Text preferredWidth="5" />
             <VerticalLayout preferredWidth="230" >
                 <HorizontalLayout>
                     <Button id="01_charSkillButton_01" class="skillButton" visibility="Black"  />
@@ -643,8 +616,7 @@
                     <Button id="10_charSkillButton_01" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_01" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_01" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charSkillEdit_01" onClick="setSkillMod"  text="-" preferredWidth="28" />
-                        <Button id="02_charSkillEdit_01" onClick="setSkillMod"  text="+" preferredWidth="28" />
+                        <Button id="01_charSkillEdit_01" onClick="setNumericField"  text="+-" preferredWidth="28" />
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
@@ -660,8 +632,7 @@
                     <Button id="10_charSkillButton_02" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_02" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_02" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charSkillEdit_02" onClick="setSkillMod"  text="-" preferredWidth="28" />
-                        <Button id="02_charSkillEdit_02" onClick="setSkillMod"  text="+" preferredWidth="28" />
+                        <Button id="01_charSkillEdit_02" onClick="setNumericField"  text="+-" preferredWidth="28" />
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
@@ -677,8 +648,7 @@
                     <Button id="10_charSkillButton_03" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_03" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_03" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charSkillEdit_03" onClick="setSkillMod"  text="-" preferredWidth="28" />
-                        <Button id="02_charSkillEdit_03" onClick="setSkillMod"  text="+" preferredWidth="28" />
+                        <Button id="01_charSkillEdit_03" onClick="setNumericField"  text="+-" preferredWidth="28" />
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
@@ -694,8 +664,7 @@
                     <Button id="10_charSkillButton_04" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_04" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_04" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charSkillEdit_04" onClick="setSkillMod"  text="-" preferredWidth="28" />
-                        <Button id="02_charSkillEdit_04" onClick="setSkillMod"  text="+" preferredWidth="28" />
+                        <Button id="01_charSkillEdit_04" onClick="setNumericField"  text="+-" preferredWidth="28" />
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
@@ -711,8 +680,7 @@
                     <Button id="10_charSkillButton_05" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_05" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_05" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charSkillEdit_05" onClick="setSkillMod"  text="-" preferredWidth="28" />
-                        <Button id="02_charSkillEdit_05" onClick="setSkillMod"  text="+" preferredWidth="28" />
+                        <Button id="01_charSkillEdit_05" onClick="setNumericField"  text="+-" preferredWidth="28" />
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
@@ -728,8 +696,7 @@
                     <Button id="10_charSkillButton_06" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_06" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_06" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charSkillEdit_06" onClick="setSkillMod"  text="-" preferredWidth="28" />
-                        <Button id="02_charSkillEdit_06" onClick="setSkillMod"  text="+" preferredWidth="28" />
+                        <Button id="01_charSkillEdit_06" onClick="setNumericField"  text="+-" preferredWidth="28" />
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
@@ -745,8 +712,7 @@
                     <Button id="10_charSkillButton_07" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_07" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_07" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charSkillEdit_07" onClick="setSkillMod"  text="-" preferredWidth="28" />
-                        <Button id="02_charSkillEdit_07" onClick="setSkillMod"  text="+" preferredWidth="28" />
+                        <Button id="01_charSkillEdit_07" onClick="setNumericField"  text="+-" preferredWidth="28" />
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
@@ -762,8 +728,7 @@
                     <Button id="10_charSkillButton_08" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_08" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_08" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charSkillEdit_08" onClick="setSkillMod"  text="-" preferredWidth="28" />
-                        <Button id="02_charSkillEdit_08" onClick="setSkillMod"  text="+" preferredWidth="28" />
+                        <Button id="01_charSkillEdit_08" onClick="setNumericField"  text="+-" preferredWidth="28" />
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
@@ -779,8 +744,7 @@
                     <Button id="10_charSkillButton_09" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_09" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_09" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charSkillEdit_09" onClick="setSkillMod"  text="-" preferredWidth="28" />
-                        <Button id="02_charSkillEdit_09" onClick="setSkillMod"  text="+" preferredWidth="28" />
+                        <Button id="01_charSkillEdit_09" onClick="setNumericField"  text="+-" preferredWidth="28" />
                     </HorizontalLayout>
                 </HorizontalLayout>
             </VerticalLayout>
@@ -799,8 +763,7 @@
                     <Button id="10_charSkillButton_10" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_10" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_10" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charSkillEdit_10" onClick="setSkillMod"  text="-" preferredWidth="28" />
-                        <Button id="02_charSkillEdit_10" onClick="setSkillMod"  text="+" preferredWidth="28" />
+                        <Button id="01_charSkillEdit_10" onClick="setNumericField"  text="+-" preferredWidth="28" />
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
@@ -816,8 +779,7 @@
                     <Button id="10_charSkillButton_11" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_11" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_11" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charSkillEdit_11" onClick="setSkillMod"  text="-" preferredWidth="28" />
-                        <Button id="02_charSkillEdit_11" onClick="setSkillMod"  text="+" preferredWidth="28" />
+                        <Button id="01_charSkillEdit_11" onClick="setNumericField"  text="+-" preferredWidth="28" />
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
@@ -833,8 +795,7 @@
                     <Button id="10_charSkillButton_12" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_12" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_12" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charSkillEdit_12" onClick="setSkillMod"  text="-" preferredWidth="28" />
-                        <Button id="02_charSkillEdit_12" onClick="setSkillMod"  text="+" preferredWidth="28" />
+                        <Button id="01_charSkillEdit_12" onClick="setNumericField"  text="+-" preferredWidth="28" />
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
@@ -850,8 +811,7 @@
                     <Button id="10_charSkillButton_13" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_13" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_13" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charSkillEdit_13" onClick="setSkillMod"  text="-" preferredWidth="28" />
-                        <Button id="02_charSkillEdit_13" onClick="setSkillMod"  text="+" preferredWidth="28" />
+                        <Button id="01_charSkillEdit_13" onClick="setNumericField"  text="+-" preferredWidth="28" />
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
@@ -867,8 +827,7 @@
                     <Button id="10_charSkillButton_14" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_14" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_14" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charSkillEdit_14" onClick="setSkillMod"  text="-" preferredWidth="28" />
-                        <Button id="02_charSkillEdit_14" onClick="setSkillMod"  text="+" preferredWidth="28" />
+                        <Button id="01_charSkillEdit_14" onClick="setNumericField"  text="+-" preferredWidth="28" />
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
@@ -884,8 +843,7 @@
                     <Button id="10_charSkillButton_15" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_15" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_15" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charSkillEdit_15" onClick="setSkillMod"  text="-" preferredWidth="28" />
-                        <Button id="02_charSkillEdit_15" onClick="setSkillMod"  text="+" preferredWidth="28" />
+                        <Button id="01_charSkillEdit_15" onClick="setNumericField"  text="+-" preferredWidth="28" />
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
@@ -901,8 +859,7 @@
                     <Button id="10_charSkillButton_16" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_16" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_16" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charSkillEdit_16" onClick="setSkillMod"  text="-" preferredWidth="28" />
-                        <Button id="02_charSkillEdit_16" onClick="setSkillMod"  text="+" preferredWidth="28" />
+                        <Button id="01_charSkillEdit_16" onClick="setNumericField"  text="+-" preferredWidth="28" />
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
@@ -918,8 +875,7 @@
                     <Button id="10_charSkillButton_17" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_17" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_17" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charSkillEdit_17" onClick="setSkillMod"  text="-" preferredWidth="28" />
-                        <Button id="02_charSkillEdit_17" onClick="setSkillMod"  text="+" preferredWidth="28" />
+                        <Button id="01_charSkillEdit_17" onClick="setNumericField"  text="+-" preferredWidth="28" />
                     </HorizontalLayout>
                 </HorizontalLayout>
                 <HorizontalLayout>
@@ -935,8 +891,7 @@
                     <Button id="10_charSkillButton_18" class="skillButton" visibility="Purple" />
                     <Button id="11_charSkillButton_18" class="skillButton" visibility="Pink"   />
                     <HorizontalLayout id="charSkillEditButtons_18" preferredWidth="90" visibility="noone"> <!-- EDIT TOGGLE -->
-                        <Button id="01_charSkillEdit_18" onClick="setSkillMod"  text="-" preferredWidth="28" />
-                        <Button id="02_charSkillEdit_18" onClick="setSkillMod"  text="+" preferredWidth="28" />
+                        <Button id="01_charSkillEdit_18" onClick="setNumericField"  text="+-" preferredWidth="28" />
                     </HorizontalLayout>
                 </HorizontalLayout>
             </VerticalLayout>

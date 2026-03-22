@@ -63,6 +63,14 @@ local function singleColor_UI_update_optimized(n)
         UI_xmlElementUpdate(prefix.."_charName", "text", playerData.charName)
         UI_xmlElementUpdate(prefix.."_charLvl", "text", lang_table[enumLangSet[lang_set]][2]..playerData.charLvl)
         UI_xmlElementUpdate(prefix.."_charAC", "text", playerData.AC)
+        local initModStr = ""
+        if playerData.initMod ~= 0 then initModStr = " ("..PoM(playerData.initMod)..playerData.initMod..")" end
+        local locInitMod = modFromAttr(playerData.attributes["WIS"]) + playerData.skills[19].mod + playerData.initMod + playerData.charProfBonus*(playerData.skills[19].proficient - 1)
+        UI_xmlElementUpdate("charInitAddButton_"..prefix, "text", lang_table[enumLangSet[lang_set]][6]..PoM(locInitMod) .. locInitMod .. initModStr)
+        local pPerseptionBase = 10 + modFromAttr(playerData.attributes["WIS"]) + playerData.skills[19].mod + playerData.charProfBonus*(playerData.skills[19].proficient - 1)
+        if playerData.pPerceptionMod ~= 0 then ppModStr = " ("..PoM(playerData.pPerceptionMod)..playerData.pPerceptionMod..")" else ppModStr = "" end
+        if playerData.pPerceptionMod ~= 0 then ppModStr = " ("..PoM(playerData.pPerceptionMod)..playerData.pPerceptionMod..")" else ppModStr = "" end
+        UI_xmlElementUpdate(prefix.."_charPassivePerception", "text", lang_table[enumLangSet[lang_set]][7]..(playerData.pPerceptionMod + pPerseptionBase)..ppModStr)
         UI_xmlElementUpdate(prefix.."_charSpeed", "text", playerData.speed)
         UI_xmlElementUpdate(prefix.."_charHPbar", "percentage", (playerData.hp * 100 / playerData.hpMax))
         UI_xmlElementUpdate(prefix.."_charHPtext", "text", playerData.hp.." / "..playerData.hpMax)
@@ -184,6 +192,50 @@ local function singleColor_UI_update_optimized(n)
         SetStatsIntoToken(n)
     end
 end
+local function getNestedValue(obj, path)
+    local keys = {}
+    for key in path:gmatch("[^%.]+") do
+        table.insert(keys, key)
+    end
+    
+    local value = obj
+    for _, key in ipairs(keys) do
+        value = value[key:match("^%d+$") and tonumber(key) or key]
+        if not value then return nil end
+    end
+    return value
+end
+local function setNestedValue(obj, path, newValue)
+    local keys = {}
+    for key in path:gmatch("[^%.]+") do
+        table.insert(keys, key)
+    end
+    
+    local current = obj
+    for i = 1, #keys - 1 do
+        local key = keys[i]
+        current = current[key:match("^%d+$") and tonumber(key) or key]
+        if not current then return end
+    end
+    current[keys[#keys]] = newValue
+end
+local function modifyNumericValue(pl, value, changeType, fieldPath, minVal, maxVal, updateFlag)
+    local playerIndex = nFromPlClr(pl.color)
+    local changeAmount = (changeType == "small") and 1 or 5
+    local currentValue = getNestedValue(main_Table[playerIndex], fieldPath)
+    
+    if value == "-1" then
+        currentValue = currentValue + changeAmount
+    else
+        currentValue = currentValue - changeAmount
+    end
+    
+    currentValue = math.max(minVal, math.min(maxVal, currentValue))
+    
+    setNestedValue(main_Table[playerIndex], fieldPath, currentValue)
+    main_Table[playerIndex].ui_update_flags[updateFlag] = true
+    singleColor_UI_update_optimized(playerIndex)
+end
 local function noCharSelectedPanelCheck()
     local conditionTable = {}
     for i = 1, #main_Table do
@@ -191,6 +243,26 @@ local function noCharSelectedPanelCheck()
     end
     local visibilityStr = buildVisibilityString(conditionTable)
     UI_xmlElementUpdate("noCharSelectedBlockPanel", "visibility", visibilityStr)
+end
+local function catchFieldType(elementId)
+    if elementId:find("Attr") then return "attr" end
+    if elementId:find("Save") then return "saveMod" end
+    if elementId:find("Skill") then return "skillMod" end
+    if elementId:find("Lvl") then return "lvl" end
+    if elementId:find("AC") then return "AC" end
+    if elementId:find("Speed") then return "speed" end
+    if elementId:find("Init") then return "initMod" end
+    if elementId:find("PassPerc") then return "pPerceptionMod" end
+    return nil
+end
+local function getRollTypeFromID(elementId)
+    if elementId:lower():find("attr") then return "attribute" end
+    if elementId:lower():find("save") then return "save" end
+    if elementId:lower():find("skill") then return "skill" end
+    return nil
+end
+local function getPanelTypeFromID(elementId)
+    return elementId:match("Show(%a+)$") or elementId:match("Toggle(%a+)$")
 end
 -- Built-in functionality --
 
@@ -533,76 +605,6 @@ function setCharName(pl,vl,thisID)
     end
 end
 
-function setCharLvl(pl,vl,thisID)
-    local num_add = (vl == "-1" and 1) or 5
-    if numFromStrEnd(thisID) == 1 then
-        main_Table[nFromPlClr(pl.color)].charLvl = main_Table[nFromPlClr(pl.color)].charLvl + num_add
-    else
-        main_Table[nFromPlClr(pl.color)].charLvl = main_Table[nFromPlClr(pl.color)].charLvl - num_add
-    end
-    if main_Table[nFromPlClr(pl.color)].charLvl < 1  then main_Table[nFromPlClr(pl.color)].charLvl = 20 end
-    if main_Table[nFromPlClr(pl.color)].charLvl > 20 then main_Table[nFromPlClr(pl.color)].charLvl = 1  end
-    local playerIndex = nFromPlClr(pl.color)
-    main_Table[playerIndex].ui_update_flags.basic_stats = true
-    singleColor_UI_update_optimized(playerIndex)
-end
-
-function setCharAC(pl,vl,thisID)
-    local num_add = (vl == "-1" and 1) or 5
-    if numFromStrEnd(thisID) == 1 then
-        main_Table[nFromPlClr(pl.color)].AC = main_Table[nFromPlClr(pl.color)].AC + num_add
-    else
-        main_Table[nFromPlClr(pl.color)].AC = main_Table[nFromPlClr(pl.color)].AC - num_add
-    end
-    if main_Table[nFromPlClr(pl.color)].AC < 0  then main_Table[nFromPlClr(pl.color)].AC = 50 end
-    if main_Table[nFromPlClr(pl.color)].AC > 50 then main_Table[nFromPlClr(pl.color)].AC = 0  end
-    local playerIndex = nFromPlClr(pl.color)
-    main_Table[playerIndex].ui_update_flags.basic_stats = true
-    singleColor_UI_update_optimized(playerIndex)
-end
-
-function setCharSpeed(pl,vl,thisID)
-    local num_add = (vl == "-1" and 5) or 50
-    if numFromStrEnd(thisID) == 1 then
-        main_Table[nFromPlClr(pl.color)].speed = main_Table[nFromPlClr(pl.color)].speed + num_add
-    else
-        main_Table[nFromPlClr(pl.color)].speed = main_Table[nFromPlClr(pl.color)].speed - num_add
-    end
-    if main_Table[nFromPlClr(pl.color)].speed < 0    then main_Table[nFromPlClr(pl.color)].speed = 1000 end
-    if main_Table[nFromPlClr(pl.color)].speed > 1000 then main_Table[nFromPlClr(pl.color)].speed = 0    end
-    local playerIndex = nFromPlClr(pl.color)
-    main_Table[playerIndex].ui_update_flags.basic_stats = true
-    singleColor_UI_update_optimized(playerIndex)
-end
-
-function setCharInitMod(pl,vl,thisID)
-    local num_add = (vl == "-1" and 1) or 5
-    if numFromStrEnd(thisID) == 1 then
-        main_Table[nFromPlClr(pl.color)].initMod = main_Table[nFromPlClr(pl.color)].initMod + num_add
-    else
-        main_Table[nFromPlClr(pl.color)].initMod = main_Table[nFromPlClr(pl.color)].initMod - num_add
-    end
-    if main_Table[nFromPlClr(pl.color)].initMod < -15 then main_Table[nFromPlClr(pl.color)].initMod = 15  end
-    if main_Table[nFromPlClr(pl.color)].initMod > 15  then main_Table[nFromPlClr(pl.color)].initMod = -15 end
-    local playerIndex = nFromPlClr(pl.color)
-    main_Table[playerIndex].ui_update_flags.basic_stats = true
-    singleColor_UI_update_optimized(playerIndex)
-end
-
-function setCharPassPerceptionMod(pl,vl,thisID)
-    local num_add = (vl == "-1" and 1) or 5
-    if numFromStrEnd(thisID) == 1 then
-        main_Table[nFromPlClr(pl.color)].pPerceptionMod = main_Table[nFromPlClr(pl.color)].pPerceptionMod + num_add
-    else
-        main_Table[nFromPlClr(pl.color)].pPerceptionMod = main_Table[nFromPlClr(pl.color)].pPerceptionMod - num_add
-    end
-    if main_Table[nFromPlClr(pl.color)].pPerceptionMod < -15 then main_Table[nFromPlClr(pl.color)].pPerceptionMod = 15  end
-    if main_Table[nFromPlClr(pl.color)].pPerceptionMod > 15  then main_Table[nFromPlClr(pl.color)].pPerceptionMod = -15 end
-    local playerIndex = nFromPlClr(pl.color)
-    main_Table[playerIndex].ui_update_flags.basic_stats = true
-    singleColor_UI_update_optimized(playerIndex)
-end
-
 function setCharHP(pl,vl,thisID)
     if tonumber(vl) ~= nil then
         if numFromStrEnd(thisID) == 1 then
@@ -626,32 +628,24 @@ function setCharHPvisibility(pl,vl,thisID)
     singleColor_UI_update(nFromPlClr(pl.color))
 end
 
-function setCharAttr(pl,vl,thisID)
-    local name, num_add = catchNameParameter(thisID), (vl == "-1" and 1) or 5
-    if numFromStr(thisID) == 1 then
-        main_Table[nFromPlClr(pl.color)].attributes[name] = main_Table[nFromPlClr(pl.color)].attributes[name] + num_add
-    else
-        main_Table[nFromPlClr(pl.color)].attributes[name] = main_Table[nFromPlClr(pl.color)].attributes[name] - num_add
-    end
-    if main_Table[nFromPlClr(pl.color)].attributes[name] < 0  then main_Table[nFromPlClr(pl.color)].attributes[name] = 50 end
-    if main_Table[nFromPlClr(pl.color)].attributes[name] > 50 then main_Table[nFromPlClr(pl.color)].attributes[name] = 0  end
-    local playerIndex = nFromPlClr(pl.color)
-    main_Table[playerIndex].ui_update_flags.attributes = true
-    singleColor_UI_update_optimized(playerIndex)
-end
-
-function setCharSaveMod(pl,vl,thisID)
-    local name, num_add = catchNameParameter(thisID), (vl == "-1" and 1) or 5
-    if numFromStr(thisID) == 1 then
-        main_Table[nFromPlClr(pl.color)].savesMod[name] = main_Table[nFromPlClr(pl.color)].savesMod[name] + num_add
-    else
-        main_Table[nFromPlClr(pl.color)].savesMod[name] = main_Table[nFromPlClr(pl.color)].savesMod[name] - num_add
-    end
-    if main_Table[nFromPlClr(pl.color)].savesMod[name] < -15 then main_Table[nFromPlClr(pl.color)].savesMod[name] = 15  end
-    if main_Table[nFromPlClr(pl.color)].savesMod[name] > 15  then main_Table[nFromPlClr(pl.color)].savesMod[name] = -15 end
-    local playerIndex = nFromPlClr(pl.color)
-    main_Table[playerIndex].ui_update_flags.saves = true
-    singleColor_UI_update_optimized(playerIndex)
+function setNumericField(pl, value, thisID)
+    local configs = {
+        attr = {field = "attributes.%s", min = 0, max = 50, flag = "attributes", changeType = "small"},
+        saveMod = {field = "savesMod.%s", min = -15, max = 15, flag = "saves", changeType = "small"},
+        skillMod = {field = "skills.%d.mod", min = -50, max = 50, flag = "skills", changeType = "small"},
+        lvl = {field = "charLvl", min = 1, max = 20, flag = "basic_stats", changeType = "small"},
+        AC = {field = "AC", min = 0, max = 50, flag = "basic_stats", changeType = "small"},
+        speed = {field = "speed", min = 0, max = 1000, flag = "basic_stats", changeType = "large"},
+        initMod = {field = "initMod", min = -15, max = 15, flag = "basic_stats", changeType = "small"},
+        pPerceptionMod = {field = "pPerceptionMod", min = -15, max = 15, flag = "basic_stats", changeType = "small"}
+    }
+    
+    local fieldType = catchFieldType(thisID)
+    local config = configs[fieldType]
+    if not config then return end
+    
+    local fieldName = string.format(config.field, catchNameParameter(thisID) or numFromStrEnd(thisID))
+    modifyNumericValue(pl, value, config.changeType, fieldName, config.min, config.max, config.flag)
 end
 
 -------------------------   sheet buttons and more edits
@@ -669,12 +663,11 @@ local function rollAttribute(pl, vl, idName, MTId, textName, plColHex)
 end
 
 local function charSaveButton(pl, vl, idName, MTId, textName, plColHex)
-    if editModeVisibility[nFromPlClr(pl.color)] then
-        main_Table[nFromPlClr(pl.color)].saves[idName] = main_Table[nFromPlClr(pl.color)].saves[idName] + 1
-        if main_Table[nFromPlClr(pl.color)].saves[idName] > #enumSTT then main_Table[nFromPlClr(pl.color)].saves[idName] = 1 end
-        local playerIndex = nFromPlClr(pl.color)
-        main_Table[playerIndex].ui_update_flags.saves = true
-        singleColor_UI_update_optimized(playerIndex)
+    if editModeVisibility[MTId] then
+        main_Table[MTId].saves[idName] = main_Table[MTId].saves[idName] + 1
+        if main_Table[MTId].saves[idName] > #enumSTT then main_Table[MTId].saves[idName] = 1 end
+        main_Table[MTId].ui_update_flags.saves = true
+        singleColor_UI_update_optimized(MTId)
     else
         local modifier = modFromAttr(main_Table[MTId].attributes[enumSTnC[idName]]) + main_Table[MTId].savesMod[idName]
         local profBonus = main_Table[MTId].charProfBonus*(main_Table[MTId].saves[idName] - 1)
@@ -690,22 +683,23 @@ local function charSaveButton(pl, vl, idName, MTId, textName, plColHex)
 end
 
 local function skillButtonMain(pl, vl, id, textName, plColHex)
-    if editModeVisibility[nFromPlClr(pl.color)] then
-        main_Table[nFromPlClr(pl.color)].skills[numFromStrEnd(id)].proficient = main_Table[nFromPlClr(pl.color)].skills[numFromStrEnd(id)].proficient + 1
-        if main_Table[nFromPlClr(pl.color)].skills[numFromStrEnd(id)].proficient > #enumSTT then main_Table[nFromPlClr(pl.color)].skills[numFromStrEnd(id)].proficient = 1 end
-        local playerIndex = nFromPlClr(pl.color)
+    local playerIndex = numFromStr(id)
+    if editModeVisibility[playerIndex] then
+        main_Table[playerIndex].skills[numFromStrEnd(id)].proficient = main_Table[playerIndex].skills[numFromStrEnd(id)].proficient + 1
+        if main_Table[playerIndex].skills[numFromStrEnd(id)].proficient > #enumSTT then main_Table[playerIndex].skills[numFromStrEnd(id)].proficient = 1 end
         main_Table[playerIndex].ui_update_flags.skills = true
+        main_Table[playerIndex].ui_update_flags.basic_stats = true
         singleColor_UI_update_optimized(playerIndex)
     else
-        local modifier = modFromAttr(main_Table[numFromStr(id)].attributes[defSkillsAttr_table[numFromStrEnd(id)]]) + main_Table[numFromStr(id)].skills[numFromStrEnd(id)].mod
-        local profBonus = main_Table[numFromStr(id)].charProfBonus*(main_Table[numFromStr(id)].skills[numFromStrEnd(id)].proficient - 1)
+        local modifier = modFromAttr(main_Table[playerIndex].attributes[defSkillsAttr_table[numFromStrEnd(id)]]) + main_Table[playerIndex].skills[numFromStrEnd(id)].mod
+        local profBonus = main_Table[playerIndex].charProfBonus*(main_Table[playerIndex].skills[numFromStrEnd(id)].proficient - 1)
         local modStr = "1d20" .. PoM(modifier + profBonus) .. modifier + profBonus
         if vl == "-1" then
-            stringRoller(modStr,pl, plColHex..main_Table[numFromStr(id)].charName.."[-]: "..textName..":",1,false)
+            stringRoller(modStr,pl, plColHex..main_Table[playerIndex].charName.."[-]: "..textName..":",1,false)
         elseif vl == "-2" then
             doubleRoll = 2
-            stringRoller(modStr,pl, plColHex..main_Table[numFromStr(id)].charName.."[-]: "..textName..":",2,false)
-            stringRoller(modStr,pl, rollOutputHex..main_Table[numFromStr(id)].charName.."[-]: "..textName..":",4,false)
+            stringRoller(modStr,pl, plColHex..main_Table[playerIndex].charName.."[-]: "..textName..":",2,false)
+            stringRoller(modStr,pl, rollOutputHex..main_Table[playerIndex].charName.."[-]: "..textName..":",4,false)
         end
     end
 end
@@ -723,20 +717,6 @@ function rollAndEditValue(pl, vl, id)
         textName = lang_table[enumLangSet[lang_set]][numFromStrEnd(id) + 14]:match("^([^ ]+)")
         skillButtonMain(pl, vl, id, textName, plColHex)
     end
-end
-
-function setSkillMod(pl,vl,thisID)
-    local num_add = (vl == "-1" and 1) or 5
-    if numFromStr(thisID) == 1 then
-        main_Table[nFromPlClr(pl.color)].skills[numFromStrEnd(thisID)].mod = main_Table[nFromPlClr(pl.color)].skills[numFromStrEnd(thisID)].mod - num_add
-    else
-        main_Table[nFromPlClr(pl.color)].skills[numFromStrEnd(thisID)].mod = main_Table[nFromPlClr(pl.color)].skills[numFromStrEnd(thisID)].mod + num_add
-    end
-    if main_Table[nFromPlClr(pl.color)].skills[numFromStrEnd(thisID)].mod < -50 then main_Table[nFromPlClr(pl.color)].skills[numFromStrEnd(thisID)].mod = 50  end
-    if main_Table[nFromPlClr(pl.color)].skills[numFromStrEnd(thisID)].mod > 50  then main_Table[nFromPlClr(pl.color)].skills[numFromStrEnd(thisID)].mod = -50 end
-    local playerIndex = nFromPlClr(pl.color)
-    main_Table[playerIndex].ui_update_flags.skills = true
-    singleColor_UI_update_optimized(playerIndex)
 end
 
 -------------------------   HP
@@ -1173,23 +1153,24 @@ function initSetupButt(pl,vl,thisID)
 end
 
 function addCharToInitiative(pl,vl,thisID)
+    local playerIndex = nFromPlClr(pl.color)
     if #init_table < 15 then
         alreadyInInitiative = false
         for i=1,#init_table do
-            if lastPickedCharGUID_table[nFromPlClr(pl.color)] == init_table[i].tokenGUID then
+            if lastPickedCharGUID_table[playerIndex] == init_table[i].tokenGUID then
                 alreadyInInitiative = true
             end
         end
         if not alreadyInInitiative then
-            local locInitMod = modFromAttr(main_Table[nFromPlClr(pl.color)].attributes["WIS"]) +
-                main_Table[nFromPlClr(pl.color)].skills[19].mod + main_Table[nFromPlClr(pl.color)].initMod +
-                main_Table[nFromPlClr(pl.color)].charProfBonus*(main_Table[nFromPlClr(pl.color)].skills[19].proficient - 1)
+            local locInitMod = modFromAttr(main_Table[playerIndex].attributes["WIS"]) +
+                main_Table[playerIndex].skills[19].mod + main_Table[playerIndex].initMod +
+                main_Table[playerIndex].charProfBonus*(main_Table[playerIndex].skills[19].proficient - 1)
             table.insert(init_table, #init_table + 1, {
-                charName = main_Table[nFromPlClr(pl.color)].charName,
+                charName = main_Table[playerIndex].charName,
                 rollRez = 0,
                 initMod = locInitMod,
-                tokenGUID = lastPickedCharGUID_table[nFromPlClr(pl.color)],
-                aColor = nFromPlClr(pl.color)
+                tokenGUID = lastPickedCharGUID_table[playerIndex],
+                aColor = playerIndex
             })
             initiative_UI_update()
         end
@@ -1418,12 +1399,8 @@ function colorToggleEditMode(pl,vl,thisID)
             UI_xmlElementUpdate("assignedPlayersPanel", "visibility", "Black")
         end
         
-        local conditionTable = {}
-        for i = 1, #main_Table do
-            conditionTable[i] = (getObjectFromGUID(lastPickedCharGUID_table[i]) == nil or lastPickedCharGUID_table[i] == "")
-        end
-        local editModeVisibilityStr = buildVisibilityString(conditionTable)
-        for i=1,6 do
+        local editModeVisibilityStr = buildVisibilityFromArray(editModeVisibility)
+        for i=1, 6 do
             UI_xmlElementUpdate("charAttrEdit_"..i,"visibility",editModeVisibilityStr)
         end
         for i = 1, #main_Table[nFromPlClr(pl.color)].skills do
