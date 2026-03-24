@@ -220,7 +220,7 @@ local function setNestedValue(obj, path, newValue)
     current[keys[#keys]] = newValue
 end
 local function modifyNumericValue(pl, value, changeType, fieldPath, minVal, maxVal, updateFlag)
-    local playerIndex = nFromPlClr(pl.color)
+    local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
     local changeAmount = (changeType == "small") and 1 or 5
     local currentValue = getNestedValue(main_Table[playerIndex], fieldPath)
     
@@ -588,7 +588,7 @@ function setCharPortrait(pl,vl,thisID)
     else
         main_Table[nFromPlClr(pl.color)].portraitUrl = "https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/"
     end
-    local playerIndex = nFromPlClr(pl.color)
+    local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
     main_Table[playerIndex].ui_update_flags.basic_stats = true
     singleColor_UI_update_optimized(playerIndex)
 end
@@ -599,7 +599,7 @@ function setCharName(pl,vl,thisID)
         if getObjectFromGUID(lastPickedCharGUID_table[nFromPlClr(pl.color)]) ~= nil then
             getObjectFromGUID(lastPickedCharGUID_table[nFromPlClr(pl.color)]).setName(vl)
         end
-        local playerIndex = nFromPlClr(pl.color)
+        local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
         main_Table[playerIndex].ui_update_flags.basic_stats = true
         singleColor_UI_update_optimized(playerIndex)
     end
@@ -616,7 +616,7 @@ function setCharHP(pl,vl,thisID)
         if main_Table[nFromPlClr(pl.color)].hpMax < 0 then main_Table[nFromPlClr(pl.color)].hpMax = 0 end
         if main_Table[nFromPlClr(pl.color)].hp > main_Table[nFromPlClr(pl.color)].hpMax then main_Table[nFromPlClr(pl.color)].hp = main_Table[nFromPlClr(pl.color)].hpMax end
 
-        local playerIndex = nFromPlClr(pl.color)
+        local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
         main_Table[playerIndex].ui_update_flags.basic_stats = true
         main_Table[playerIndex].ui_update_flags.team_bar = true
         singleColor_UI_update_optimized(playerIndex)
@@ -747,13 +747,13 @@ function takeDmg(pl,vl,thisID)
 end
 
 function healHP(pl,vl,thisID)
-    main_Table[nFromPlClr(pl.color)].hp = math.min(main_Table[nFromPlClr(pl.color)].hpMax, main_Table[nFromPlClr(pl.color)].hp + healTempDmg_table[nFromPlClr(pl.color)])
-    healTempDmg_table[nFromPlClr(pl.color)] = 0
-    self.UI.setAttribute(strFromNum(nFromPlClr(pl.color)).."_charHealDmgValueInput", "text", "")
-    for i=1,#main_Table[nFromPlClr(pl.color)].deathSaves do
-        main_Table[nFromPlClr(pl.color)].deathSaves[i] = 1
-    end
     local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].hp = math.min(main_Table[playerIndex].hpMax, main_Table[playerIndex].hp + healTempDmg_table[playerIndex])
+    healTempDmg_table[playerIndex] = 0
+    self.UI.setAttribute(strFromNum(playerIndex).."_charHealDmgValueInput", "text", "")
+    for i=1,#main_Table[playerIndex].deathSaves do
+        main_Table[playerIndex].deathSaves[i] = 1
+    end
     main_Table[playerIndex].ui_update_flags.basic_stats = true
     main_Table[playerIndex].ui_update_flags.team_bar = true
     singleColor_UI_update_optimized(playerIndex)
@@ -761,22 +761,22 @@ function healHP(pl,vl,thisID)
 end
 
 function setTempHP(pl,vl,thisID)
-    if healTempDmg_table[nFromPlClr(pl.color)] ~= 0 and vl == "-1" then
-        main_Table[nFromPlClr(pl.color)].hpTemp = healTempDmg_table[nFromPlClr(pl.color)]
-    elseif vl == "-2" then
-        main_Table[nFromPlClr(pl.color)].hpTemp = 0
-    end
-    healTempDmg_table[nFromPlClr(pl.color)] = 0
-    self.UI.setAttribute(strFromNum(nFromPlClr(pl.color)).."_charHealDmgValueInput", "text", "")
     local playerIndex = nFromPlClr(pl.color)
+    if healTempDmg_table[playerIndex] ~= 0 and vl == "-1" then
+        main_Table[playerIndex].hpTemp = healTempDmg_table[playerIndex]
+    elseif vl == "-2" then
+        main_Table[playerIndex].hpTemp = 0
+    end
+    healTempDmg_table[playerIndex] = 0
+    self.UI.setAttribute(strFromNum(playerIndex).."_charHealDmgValueInput", "text", "")
     main_Table[playerIndex].ui_update_flags.basic_stats = true
     singleColor_UI_update_optimized(playerIndex)
 end
 
 function deathSaveButton(pl,vl,thisID)
-    main_Table[numFromStr(thisID)].deathSaves[numFromStrEnd(thisID)] = main_Table[numFromStr(thisID)].deathSaves[numFromStrEnd(thisID)] + 1
-    if main_Table[numFromStr(thisID)].deathSaves[numFromStrEnd(thisID)] > 3 then main_Table[numFromStr(thisID)].deathSaves[numFromStrEnd(thisID)] = 1 end
     local playerIndex = numFromStr(thisID)
+    main_Table[playerIndex].deathSaves[numFromStrEnd(thisID)] = main_Table[playerIndex].deathSaves[numFromStrEnd(thisID)] + 1
+    if main_Table[playerIndex].deathSaves[numFromStrEnd(thisID)] > 3 then main_Table[playerIndex].deathSaves[numFromStrEnd(thisID)] = 1 end
     main_Table[playerIndex].ui_update_flags.basic_stats = true
     singleColor_UI_update_optimized(playerIndex)
 end
@@ -784,234 +784,252 @@ end
 -------------------------   attacks
 
 function atkButton(pl,vl,thisID)
+    local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
     local plColHex = "["..Color[pl.color]:toHex(false).."]"
-    if editModeVisibility[nFromPlClr(pl.color)] then
-        editModeSelectedAttack[nFromPlClr(pl.color)] = numFromStrEnd(thisID)
+    if editModeVisibility[playerIndex] then
+        editModeSelectedAttack[playerIndex] = numStrEnd
         for i=1,10 do
-            if editModeSelectedAttack[nFromPlClr(pl.color)] == i or not editModeVisibility[nFromPlClr(pl.color)] then atkButtonImg_color = "#ffffffff" else atkButtonImg_color = "#ffffff88" end
-            UI_xmlElementUpdate(strFromNum(nFromPlClr(pl.color)).."_atkButtonImg_"..strFromNum(i),"color",atkButtonImg_color)
+            if editModeSelectedAttack[playerIndex] == i or not editModeVisibility[playerIndex] then atkButtonImg_color = "#ffffffff" else atkButtonImg_color = "#ffffff88" end
+            UI_xmlElementUpdate(strFromNum(playerIndex).."_atkButtonImg_"..strFromNum(i),"color",atkButtonImg_color)
         end
-        atkEdit_UI_update(nFromPlClr(pl.color),editModeSelectedAttack[nFromPlClr(pl.color)])
+        atkEdit_UI_update(playerIndex,editModeSelectedAttack[playerIndex])
     else
-        if main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].resUsed == 0 or (main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].resUsed ~= 0 and main_Table[nFromPlClr(pl.color)].resourses[main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].resUsed].resValue > 0) then
-            if main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].resUsed ~= 0 then
-                if main_Table[nFromPlClr(pl.color)].resourses[main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].resUsed].resMax ~= 0 then
-                    resLeftStr = " / "..main_Table[nFromPlClr(pl.color)].resourses[main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].resUsed].resMax
+        if main_Table[playerIndex].attacks[numStrEnd].resUsed == 0 or (main_Table[playerIndex].attacks[numStrEnd].resUsed ~= 0 and main_Table[playerIndex].resourses[main_Table[playerIndex].attacks[numStrEnd].resUsed].resValue > 0) then
+            if main_Table[playerIndex].attacks[numStrEnd].resUsed ~= 0 then
+                if main_Table[playerIndex].resourses[main_Table[playerIndex].attacks[numStrEnd].resUsed].resMax ~= 0 then
+                    resLeftStr = " / "..main_Table[playerIndex].resourses[main_Table[playerIndex].attacks[numStrEnd].resUsed].resMax
                 else
                     resLeftStr = ""
                 end
-                resLeftStr = " [aaaaff]("..main_Table[nFromPlClr(pl.color)].resourses[main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].resUsed].resValue..resLeftStr..")[-]"
-                main_Table[nFromPlClr(pl.color)].resourses[main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].resUsed].resValue = main_Table[nFromPlClr(pl.color)].resourses[main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].resUsed].resValue -1
-                singleColor_UI_update(nFromPlClr(pl.color))
+                resLeftStr = " [aaaaff]("..main_Table[playerIndex].resourses[main_Table[playerIndex].attacks[numStrEnd].resUsed].resValue..resLeftStr..")[-]"
+                main_Table[playerIndex].resourses[main_Table[playerIndex].attacks[numStrEnd].resUsed].resValue = main_Table[playerIndex].resourses[main_Table[playerIndex].attacks[numStrEnd].resUsed].resValue -1
+                singleColor_UI_update(playerIndex)
             else
                 resLeftStr = ""
             end
 
-            local atkRollMod = main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].atkMod
-            if main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].atkAttr ~= 0 then atkRollMod = atkRollMod + modFromAttr(main_Table[nFromPlClr(pl.color)].attributes[attrobute_list[main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].atkAttr]]) end
-            if main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].proficient > 1 then atkRollMod = atkRollMod + main_Table[nFromPlClr(pl.color)].charProfBonus*(main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].proficient - 1) end
-            atkClicked = numFromStrEnd(thisID)
+            local atkRollMod = main_Table[playerIndex].attacks[numStrEnd].atkMod
+            if main_Table[playerIndex].attacks[numStrEnd].atkAttr ~= 0 then atkRollMod = atkRollMod + modFromAttr(main_Table[playerIndex].attributes[attrobute_list[main_Table[playerIndex].attacks[numStrEnd].atkAttr]]) end
+            if main_Table[playerIndex].attacks[numStrEnd].proficient > 1 then atkRollMod = atkRollMod + main_Table[playerIndex].charProfBonus*(main_Table[playerIndex].attacks[numStrEnd].proficient - 1) end
+            atkClicked = numStrEnd
             critRolled = false
 
-            if main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].atkRolled then
+            if main_Table[playerIndex].attacks[numStrEnd].atkRolled then
                 dmgRollType = 4
                 if vl == "-1" then
-                    if main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].dmgRolled then rTypeA = 2 else rTypeA = 1 end
-                    stringRoller("1d20"..PoM_add(atkRollMod),pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].atkName..resLeftStr..":",rTypeA,false)
+                    if main_Table[playerIndex].attacks[numStrEnd].dmgRolled then rTypeA = 2 else rTypeA = 1 end
+                    stringRoller("1d20"..PoM_add(atkRollMod),pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..main_Table[playerIndex].attacks[numStrEnd].atkName..resLeftStr..":",rTypeA,false)
                 elseif vl == "-2" then
                     rTypeA = 2
-                    if main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].dmgRolled then rTypeB = 3 else rTypeB = 4 end
+                    if main_Table[playerIndex].attacks[numStrEnd].dmgRolled then rTypeB = 3 else rTypeB = 4 end
                     doubleRoll = 2
-                    stringRoller("1d20"..PoM_add(atkRollMod),pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].atkName..resLeftStr..":",rTypeA,false)
-                    stringRoller("1d20"..PoM_add(atkRollMod),pl, rollOutputHex..main_Table[numFromStr(thisID)].charName.."[-]: "..main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].atkName..":",rTypeB,false)
+                    stringRoller("1d20"..PoM_add(atkRollMod),pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..main_Table[playerIndex].attacks[numStrEnd].atkName..resLeftStr..":",rTypeA,false)
+                    stringRoller("1d20"..PoM_add(atkRollMod),pl, rollOutputHex..main_Table[numFromStr(thisID)].charName.."[-]: "..main_Table[playerIndex].attacks[numStrEnd].atkName..":",rTypeB,false)
                 end
             else
                 dmgRollType = 1
                 if diceRollsSneakyGM and pl.color == "Black" then
-                    printToColor("[b] ͡° ● "..main_Table[numFromStr(thisID)].charName.."[/b][-]: [cccccc]"..main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].atkName..":[-]", pl.color, pl.color)
+                    printToColor("[b] ͡° ● "..main_Table[numFromStr(thisID)].charName.."[/b][-]: [cccccc]"..main_Table[playerIndex].attacks[numStrEnd].atkName..":[-]", pl.color, pl.color)
                 else
-                    printToAll("[b]● "..main_Table[numFromStr(thisID)].charName.."[/b][-]: [cccccc]"..main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].atkName..":[-]", pl.color)
+                    printToAll("[b]● "..main_Table[numFromStr(thisID)].charName.."[/b][-]: [cccccc]"..main_Table[playerIndex].attacks[numStrEnd].atkName..":[-]", pl.color)
                 end
                 
             end
 
-            if main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].dmgRolled then
-                if main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].dmgAttr ~= 0 then
-                    dmgAttrStr = PoM_add(modFromAttr(main_Table[nFromPlClr(pl.color)].attributes[attrobute_list[main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].dmgAttr]]))
-                    dmgAttrStrText = " + ".. lang_table[enumLangSet[lang_set]][main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].dmgAttr + 7]
+            if main_Table[playerIndex].attacks[numStrEnd].dmgRolled then
+                if main_Table[playerIndex].attacks[numStrEnd].dmgAttr ~= 0 then
+                    dmgAttrStr = PoM_add(modFromAttr(main_Table[playerIndex].attributes[attrobute_list[main_Table[playerIndex].attacks[numStrEnd].dmgAttr]]))
+                    dmgAttrStrText = " + ".. lang_table[enumLangSet[lang_set]][main_Table[playerIndex].attacks[numStrEnd].dmgAttr + 7]
                 else
                     dmgAttrStr = ""
                     dmgAttrStrText = ""
                 end
 
                 if critRolled then
-                    stringRoller(main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].dmgStr..dmgAttrStr,pl, lang_table[enumLangSet[lang_set]][45]..main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].dmgStr..dmgAttrStrText.." :",3,false)
-                    stringRoller(main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].dmgStrCrit,pl, lang_table[enumLangSet[lang_set]][46]..main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].dmgStrCrit.." :",4,true)
+                    stringRoller(main_Table[playerIndex].attacks[numStrEnd].dmgStr..dmgAttrStr,pl, lang_table[enumLangSet[lang_set]][45]..main_Table[playerIndex].attacks[numStrEnd].dmgStr..dmgAttrStrText.." :",3,false)
+                    stringRoller(main_Table[playerIndex].attacks[numStrEnd].dmgStrCrit,pl, lang_table[enumLangSet[lang_set]][46]..main_Table[playerIndex].attacks[numStrEnd].dmgStrCrit.." :",4,true)
                 else
-                    stringRoller(main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].dmgStr..dmgAttrStr,pl, lang_table[enumLangSet[lang_set]][45]..main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].dmgStr.. dmgAttrStrText.." :",dmgRollType,false)
+                    stringRoller(main_Table[playerIndex].attacks[numStrEnd].dmgStr..dmgAttrStr,pl, lang_table[enumLangSet[lang_set]][45]..main_Table[playerIndex].attacks[numStrEnd].dmgStr.. dmgAttrStrText.." :",dmgRollType,false)
                 end
 
             end
             atkClicked = 0
 
-            if not main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].atkRolled and not main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].dmgRolled then
+            if not main_Table[playerIndex].attacks[numStrEnd].atkRolled and not main_Table[playerIndex].attacks[numStrEnd].dmgRolled then
                 if diceRollsSneakyGM and pl.color == "Black" then
-                    printToColor(" ͡° ● "..main_Table[nFromPlClr(pl.color)].charName..": "..rollOutputHex..main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].atkName..resLeftStr.."[-]", pl.color, pl.color)
+                    printToColor(" ͡° ● "..main_Table[playerIndex].charName..": "..rollOutputHex..main_Table[playerIndex].attacks[numStrEnd].atkName..resLeftStr.."[-]", pl.color, pl.color)
                 else
-                    printToAll("● "..main_Table[nFromPlClr(pl.color)].charName..": "..rollOutputHex..main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].atkName..resLeftStr.."[-]", pl.color)
+                    printToAll("● "..main_Table[playerIndex].charName..": "..rollOutputHex..main_Table[playerIndex].attacks[numStrEnd].atkName..resLeftStr.."[-]", pl.color)
                 end
             end
-        elseif main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].resUsed ~= 0 and main_Table[nFromPlClr(pl.color)].resourses[main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].resUsed].resValue == 0 then
-            printToAll("► [cccccc]".. main_Table[nFromPlClr(pl.color)].resourses[main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].resUsed].resName..": [ff8888]"..main_Table[nFromPlClr(pl.color)].resourses[main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].resUsed].resValue.." / "..main_Table[nFromPlClr(pl.color)].resourses[main_Table[nFromPlClr(pl.color)].attacks[numFromStrEnd(thisID)].resUsed].resMax .."[-]", pl.color)
+        elseif main_Table[playerIndex].attacks[numStrEnd].resUsed ~= 0 and main_Table[playerIndex].resourses[main_Table[playerIndex].attacks[numStrEnd].resUsed].resValue == 0 then
+            printToAll("► [cccccc]".. main_Table[playerIndex].resourses[main_Table[playerIndex].attacks[numStrEnd].resUsed].resName..": [ff8888]"..main_Table[playerIndex].resourses[main_Table[playerIndex].attacks[numStrEnd].resUsed].resValue.." / "..main_Table[playerIndex].resourses[main_Table[playerIndex].attacks[numStrEnd].resUsed].resMax .."[-]", pl.color)
         end
     end
 end
 
 function atkSetIcon(pl,vl,thisID)
-    if vl == "-1" then
-        main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].icon = main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].icon + 1
-        if main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].icon > #atkIconsUrl_Table then main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].icon = 1 end
-    elseif vl == "-2" then
-        main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].icon = main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].icon -1
-        if main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].icon <1 then main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].icon = #atkIconsUrl_Table end
-    end
     local playerIndex = nFromPlClr(pl.color)
+    if vl == "-1" then
+        main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].icon = main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].icon + 1
+        if main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].icon > #atkIconsUrl_Table then main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].icon = 1 end
+    elseif vl == "-2" then
+        main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].icon = main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].icon -1
+        if main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].icon <1 then main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].icon = #atkIconsUrl_Table end
+    end
     main_Table[playerIndex].ui_update_flags.attacks = true
     atkEdit_UI_update(playerIndex, editModeSelectedAttack[playerIndex])
     singleColor_UI_update_optimized(playerIndex)
 end
 
 function atkSetName(pl,vl,thisID)
-    main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].atkName = vl
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkName = vl
     main_Table[playerIndex].ui_update_flags.attacks = true
     atkEdit_UI_update(playerIndex, editModeSelectedAttack[playerIndex])
 end
 
 function atkToggleRollAtk(pl,vl,thisID)
-    main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].atkRolled = not main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].atkRolled
-    atkEdit_UI_update(nFromPlClr(pl.color),editModeSelectedAttack[nFromPlClr(pl.color)])
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkRolled = not main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkRolled
+    atkEdit_UI_update(playerIndex,editModeSelectedAttack[playerIndex])
 end
 
 function atkSetAtkAttr(pl,vl,thisID)
+    local playerIndex = nFromPlClr(pl.color)
     if vl == "-1" then
-        main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].atkAttr = main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].atkAttr + 1
-        if main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].atkAttr > 6 then main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].atkAttr = 0 end
+        main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkAttr = main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkAttr + 1
+        if main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkAttr > 6 then main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkAttr = 0 end
     elseif vl == "-2" then
-        main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].atkAttr = main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].atkAttr - 1
-        if main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].atkAttr < 0 then main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].atkAttr = 6 end
+        main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkAttr = main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkAttr - 1
+        if main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkAttr < 0 then main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkAttr = 6 end
     end
-    atkEdit_UI_update(nFromPlClr(pl.color),editModeSelectedAttack[nFromPlClr(pl.color)])
+    atkEdit_UI_update(playerIndex,editModeSelectedAttack[playerIndex])
 end
 
 function atkToggleProf(pl,vl,thisID)
-    local locProf = main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].proficient
-    main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].proficient = locProf < 5 and locProf + 1 or 1
-    atkEdit_UI_update(nFromPlClr(pl.color),editModeSelectedAttack[nFromPlClr(pl.color)])
+    local playerIndex = nFromPlClr(pl.color)
+    local locProf = main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].proficient
+    main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].proficient = locProf < 5 and locProf + 1 or 1
+    atkEdit_UI_update(playerIndex,editModeSelectedAttack[playerIndex])
 end
 
 function atkSetMinCrit(pl,vl,thisID)
+    local playerIndex = nFromPlClr(pl.color)
     if tonumber(vl) ~= nil then
-        main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].minCrit = tonumber(vl)
-        if main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].minCrit > 20 then main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].minCrit = 20 end
-        if main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].minCrit < 1 then main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].minCrit = 1 end
-        atkEdit_UI_update(nFromPlClr(pl.color),editModeSelectedAttack[nFromPlClr(pl.color)])
+        main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].minCrit = tonumber(vl)
+        if main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].minCrit > 20 then main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].minCrit = 20 end
+        if main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].minCrit < 1 then main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].minCrit = 1 end
+        atkEdit_UI_update(playerIndex,editModeSelectedAttack[playerIndex])
     end
 end
 
 function atkSetAtkMod(pl,vl,thisID)
+    local playerIndex = nFromPlClr(pl.color)
     if tonumber(vl) ~= nil then
-        main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].atkMod = tonumber(vl)
-        if main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].atkMod >  20 then main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].atkMod =  20 end
-        if main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].atkMod < -20 then main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].atkMod = -20 end
-        atkEdit_UI_update(nFromPlClr(pl.color),editModeSelectedAttack[nFromPlClr(pl.color)])
+        main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkMod = tonumber(vl)
+        if main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkMod >  20 then main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkMod =  20 end
+        if main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkMod < -20 then main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkMod = -20 end
+        atkEdit_UI_update(playerIndex,editModeSelectedAttack[playerIndex])
     end
 end
 
 function atkToggleRollDmg(pl,vl,thisID)
-    main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].dmgRolled = not main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].dmgRolled
-    atkEdit_UI_update(nFromPlClr(pl.color),editModeSelectedAttack[nFromPlClr(pl.color)])
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].dmgRolled = not main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].dmgRolled
+    atkEdit_UI_update(playerIndex,editModeSelectedAttack[playerIndex])
 end
 
 function atkSetDmgAttr(pl,vl,thisID)
+    local playerIndex = nFromPlClr(pl.color)
     if vl == "-1" then
-        main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].dmgAttr = main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].dmgAttr + 1
-        if main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].dmgAttr >6 then main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].dmgAttr = 0 end
+        main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].dmgAttr = main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].dmgAttr + 1
+        if main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].dmgAttr >6 then main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].dmgAttr = 0 end
     elseif vl == "-2" then
-        main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].dmgAttr = main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].dmgAttr -1
-        if main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].dmgAttr <0 then main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].dmgAttr = 6 end
+        main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].dmgAttr = main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].dmgAttr -1
+        if main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].dmgAttr <0 then main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].dmgAttr = 6 end
     end
-    atkEdit_UI_update(nFromPlClr(pl.color),editModeSelectedAttack[nFromPlClr(pl.color)])
+    atkEdit_UI_update(playerIndex,editModeSelectedAttack[playerIndex])
 end
 
 function atkSetResUsed(pl,vl,thisID)
+    local playerIndex = nFromPlClr(pl.color)
     if vl == "-1" then
-        main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].resUsed = main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].resUsed + 1
-        if main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].resUsed >10 then main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].resUsed = 0 end
+        main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].resUsed = main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].resUsed + 1
+        if main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].resUsed >10 then main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].resUsed = 0 end
     elseif vl == "-2" then
-        main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].resUsed = main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].resUsed -1
-        if main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].resUsed <0 then main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].resUsed = 10 end
+        main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].resUsed = main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].resUsed -1
+        if main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].resUsed <0 then main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].resUsed = 10 end
     end
-    atkEdit_UI_update(nFromPlClr(pl.color),editModeSelectedAttack[nFromPlClr(pl.color)])
+    atkEdit_UI_update(playerIndex,editModeSelectedAttack[playerIndex])
 end
 
 function atkSetStr(pl, vl, id)
+    local playerIndex = nFromPlClr(pl.color)
     if vl:match("[^" .. allowedSymbols .. "]+") ~= nil then printToAll("► [ff9999]Dice input error![-]", plr.color) return end
     if tonumber(string.sub(vl, 1, 1)) == nil then
         printToAll("► [ff9999]Dice input error![-]", pl.color)
     else
         if id == "dmg" then
-            main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].dmgStr = vl
+            main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].dmgStr = vl
         elseif id == "crit" then
-            main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].dmgStrCrit = vl
+            main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].dmgStrCrit = vl
         end
-        atkEdit_UI_update(nFromPlClr(pl.color),editModeSelectedAttack[nFromPlClr(pl.color)])
+        atkEdit_UI_update(playerIndex,editModeSelectedAttack[playerIndex])
     end
 end
 
 -------------------------   spell slots
 
 function spellSlotButtonMain(pl,vl,thisID)
-    if vl == "-2" then
-        main_Table[nFromPlClr(pl.color)].splSlots[numFromStrEnd(thisID)] = main_Table[nFromPlClr(pl.color)].splSlots[numFromStrEnd(thisID)] + 1
-        if main_Table[nFromPlClr(pl.color)].splSlots[numFromStrEnd(thisID)] > main_Table[nFromPlClr(pl.color)].splSlotsMax[numFromStrEnd(thisID)] then
-            main_Table[nFromPlClr(pl.color)].splSlots[numFromStrEnd(thisID)] = main_Table[nFromPlClr(pl.color)].splSlotsMax[numFromStrEnd(thisID)]
-        end
-    elseif vl == "-1" then
-        main_Table[nFromPlClr(pl.color)].splSlots[numFromStrEnd(thisID)] = main_Table[nFromPlClr(pl.color)].splSlots[numFromStrEnd(thisID)] - 1
-        if main_Table[nFromPlClr(pl.color)].splSlots[numFromStrEnd(thisID)] < 0 then
-            main_Table[nFromPlClr(pl.color)].splSlots[numFromStrEnd(thisID)] = 0
+    local playerIndex = nFromPlClr(pl.color)
+    if editModeVisibility[playerIndex] then
+        local locSSM = main_Table[playerIndex].splSlotsMax[numSpellStr]
+        locSSM = locSSM + (vl == "-2" and 1 or -1)
+        locSSM = (locSSM < 0 and 0) or (locSSM > 15 and 15) or locSSM
+        main_Table[playerIndex].splSlotsMax[numSpellStr] = locSSM
+    else
+        if vl == "-2" then
+            main_Table[playerIndex].splSlots[numSpellStr] = main_Table[playerIndex].splSlots[numSpellStr] + 1
+            if main_Table[playerIndex].splSlots[numSpellStr] > main_Table[playerIndex].splSlotsMax[numSpellStr] then
+                main_Table[playerIndex].splSlots[numSpellStr] = main_Table[playerIndex].splSlotsMax[numSpellStr]
+            end
+        elseif vl == "-1" then
+            main_Table[playerIndex].splSlots[numSpellStr] = main_Table[playerIndex].splSlots[numSpellStr] - 1
+            if main_Table[playerIndex].splSlots[numSpellStr] < 0 then
+                main_Table[playerIndex].splSlots[numSpellStr] = 0
+            end
         end
     end
-    local playerIndex = nFromPlClr(pl.color)
     main_Table[playerIndex].ui_update_flags.spell_slots = true
     singleColor_UI_update_optimized(playerIndex)
 end
 
 function spellSlotButtonMax(pl,vl,thisID)
+    local playerIndex = nFromPlClr(pl.color)
     if vl == "-2" then
-        main_Table[nFromPlClr(pl.color)].splSlotsMax[numFromStrEnd(thisID)] = main_Table[nFromPlClr(pl.color)].splSlotsMax[numFromStrEnd(thisID)] + 1
-        if main_Table[nFromPlClr(pl.color)].splSlotsMax[numFromStrEnd(thisID)] > 10 then
-            main_Table[nFromPlClr(pl.color)].splSlotsMax[numFromStrEnd(thisID)] = 10
+        main_Table[playerIndex].splSlotsMax[numStrEnd] = main_Table[playerIndex].splSlotsMax[numStrEnd] + 1
+        if main_Table[playerIndex].splSlotsMax[numStrEnd] > 10 then
+            main_Table[playerIndex].splSlotsMax[numStrEnd] = 10
         end
     elseif vl == "-1" then
-        main_Table[nFromPlClr(pl.color)].splSlotsMax[numFromStrEnd(thisID)] = main_Table[nFromPlClr(pl.color)].splSlotsMax[numFromStrEnd(thisID)] - 1
-        if main_Table[nFromPlClr(pl.color)].splSlotsMax[numFromStrEnd(thisID)] < 0 then
-            main_Table[nFromPlClr(pl.color)].splSlotsMax[numFromStrEnd(thisID)] = 0
+        main_Table[playerIndex].splSlotsMax[numStrEnd] = main_Table[playerIndex].splSlotsMax[numStrEnd] - 1
+        if main_Table[playerIndex].splSlotsMax[numStrEnd] < 0 then
+            main_Table[playerIndex].splSlotsMax[numStrEnd] = 0
         end
     end
-    if main_Table[nFromPlClr(pl.color)].splSlots[numFromStrEnd(thisID)] > main_Table[nFromPlClr(pl.color)].splSlotsMax[numFromStrEnd(thisID)] then
-        main_Table[nFromPlClr(pl.color)].splSlots[numFromStrEnd(thisID)] = main_Table[nFromPlClr(pl.color)].splSlotsMax[numFromStrEnd(thisID)]
+    if main_Table[playerIndex].splSlots[numStrEnd] > main_Table[playerIndex].splSlotsMax[numStrEnd] then
+        main_Table[playerIndex].splSlots[numStrEnd] = main_Table[playerIndex].splSlotsMax[numStrEnd]
     end
-    local playerIndex = nFromPlClr(pl.color)
     main_Table[playerIndex].ui_update_flags.spell_slots = true
     singleColor_UI_update_optimized(playerIndex)
 end
 
 function spellSlotButtonMaxAll(pl,vl,thisID)
-    for i=1,9 do
-        main_Table[nFromPlClr(pl.color)].splSlots[i] = main_Table[nFromPlClr(pl.color)].splSlotsMax[i]
-    end
     local playerIndex = nFromPlClr(pl.color)
+    for i=1,9 do
+        main_Table[playerIndex].splSlots[i] = main_Table[playerIndex].splSlotsMax[i]
+    end
     main_Table[playerIndex].ui_update_flags.spell_slots = true
     singleColor_UI_update_optimized(playerIndex)
 end
@@ -1019,53 +1037,53 @@ end
 -------------------------   ressourses
 
 function resSetName(pl,vl,thisID)
-    main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resName = vl
     local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].resourses[numStrEnd].resName = vl
     main_Table[playerIndex].ui_update_flags.resources = true
     singleColor_UI_update_optimized(playerIndex)
 end
 
 function resSetValue(pl,vl,thisID)
+    local playerIndex = nFromPlClr(pl.color)
     if tonumber(vl) ~= nil then
-        main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resValue = tonumber(vl)
-        if main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resMax >0 then
-            if main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resValue > main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resMax then
-                main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resValue = main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resMax
+        main_Table[playerIndex].resourses[numStrEnd].resValue = tonumber(vl)
+        if main_Table[playerIndex].resourses[numStrEnd].resMax > 0 then
+            if main_Table[playerIndex].resourses[numStrEnd].resValue > main_Table[playerIndex].resourses[numStrEnd].resMax then
+                main_Table[playerIndex].resourses[numStrEnd].resValue = main_Table[playerIndex].resourses[numStrEnd].resMax
             end
         end
-        local playerIndex = nFromPlClr(pl.color)
-        main_Table[playerIndex].ui_update_flags.resources = true
-        singleColor_UI_update_optimized(playerIndex)
     end
+    main_Table[playerIndex].ui_update_flags.resources = true
+    singleColor_UI_update_optimized(playerIndex)
 end
 
 function resSetMax(pl,vl,thisID)
+    local playerIndex = nFromPlClr(pl.color)
     if tonumber(vl) ~= nil then
-        main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resMax = tonumber(vl)
-        if main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resMax >0 then
-            if main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resValue > main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resMax then
-                main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resValue = main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resMax
+        main_Table[playerIndex].resourses[numStrEnd].resMax = tonumber(vl)
+        if main_Table[playerIndex].resourses[numStrEnd].resMax >0 then
+            if main_Table[playerIndex].resourses[numStrEnd].resValue > main_Table[playerIndex].resourses[numStrEnd].resMax then
+                main_Table[playerIndex].resourses[numStrEnd].resValue = main_Table[playerIndex].resourses[numStrEnd].resMax
             end
         end
-        local playerIndex = nFromPlClr(pl.color)
         main_Table[playerIndex].ui_update_flags.resources = true
         singleColor_UI_update_optimized(playerIndex)
     end
 end
 
 function resSingleAdd(pl,vl,thisID)
+    local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
     if numFromStr(thisID) == 1 then n_to_mult = -1 else n_to_mult = 1 end
     if vl == "-1" then n_to_add = 1 elseif vl == "-2" then n_to_add = 5 end
-    main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resValue = main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resValue + (n_to_add * n_to_mult)
-    if main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resMax >0 then
-        if main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resValue > main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resMax then
-            main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resValue = main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resMax
+    main_Table[playerIndex].resourses[numStrEnd].resValue = main_Table[playerIndex].resourses[numStrEnd].resValue + (n_to_add * n_to_mult)
+    if main_Table[playerIndex].resourses[numStrEnd].resMax >0 then
+        if main_Table[playerIndex].resourses[numStrEnd].resValue > main_Table[playerIndex].resourses[numStrEnd].resMax then
+            main_Table[playerIndex].resourses[numStrEnd].resValue = main_Table[playerIndex].resourses[numStrEnd].resMax
         end
-        if main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resValue < 0 then
-            main_Table[nFromPlClr(pl.color)].resourses[numFromStrEnd(thisID)].resValue = 0
+        if main_Table[playerIndex].resourses[numStrEnd].resValue < 0 then
+            main_Table[playerIndex].resourses[numStrEnd].resValue = 0
         end
     end
-    local playerIndex = nFromPlClr(pl.color)
     main_Table[playerIndex].ui_update_flags.resources = true
     singleColor_UI_update_optimized(playerIndex)
 end
@@ -1073,12 +1091,12 @@ end
 -------------------------
 
 function setNotes(pl,vl,thisID)
-    if string.sub(thisID,#thisID,#thisID) == "A" then
-        main_Table[nFromPlClr(pl.color)].notes_A = vl
-    else
-        main_Table[nFromPlClr(pl.color)].notes_B = vl
-    end
     local playerIndex = nFromPlClr(pl.color)
+    if string.sub(thisID,#thisID,#thisID) == "A" then
+        main_Table[playerIndex].notes_A = vl
+    else
+        main_Table[playerIndex].notes_B = vl
+    end
     main_Table[playerIndex].ui_update_flags.notes = true
     singleColor_UI_update_optimized(playerIndex)
 end
@@ -1086,19 +1104,19 @@ end
 -------------------------
 
 function setAssignedPlayer(pl,vl,thisID)
-    main_Table[nFromPlClr(pl.color)].aColors[numFromStrEnd(thisID)] = not main_Table[nFromPlClr(pl.color)].aColors[numFromStrEnd(thisID)]
-    local playerIndex = nFromPlClr(pl.color)
+    local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
+    main_Table[playerIndex].aColors[numStrEnd] = not main_Table[playerIndex].aColors[numStrEnd]
     main_Table[playerIndex].ui_update_flags.team_bar = true
     singleColor_UI_update_optimized(playerIndex)
     getObjectFromGUID(lastPickedCharGUID_table[nFromPlClr(pl.color)]).call("hideThisChar")
 end
 
 function toggleInvisible(pl,vl,thisID)
-    main_Table[nFromPlClr(pl.color)].charHidden = not main_Table[nFromPlClr(pl.color)].charHidden
     local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].charHidden = not main_Table[playerIndex].charHidden
     main_Table[playerIndex].ui_update_flags.team_bar = true
     singleColor_UI_update_optimized(playerIndex)
-    getObjectFromGUID(lastPickedCharGUID_table[nFromPlClr(pl.color)]).call("hideThisChar")
+    getObjectFromGUID(lastPickedCharGUID_table[playerIndex]).call("hideThisChar")
 end
 
 -------------------------   initiative
@@ -1153,7 +1171,7 @@ function initSetupButt(pl,vl,thisID)
 end
 
 function addCharToInitiative(pl,vl,thisID)
-    local playerIndex = nFromPlClr(pl.color)
+    local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
     if #init_table < 15 then
         alreadyInInitiative = false
         for i=1,#init_table do
@@ -1364,7 +1382,7 @@ function contitionButt(pl,vl,thisID)
             main_Table[nFromPlClr(pl.color)].conditions.table[numFromStrEnd(thisID)] = false
         end
     end
-    local playerIndex = nFromPlClr(pl.color)
+    local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
     main_Table[playerIndex].ui_update_flags.conditions = true
     singleColor_UI_update_optimized(playerIndex)
 end
