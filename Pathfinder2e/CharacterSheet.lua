@@ -982,22 +982,22 @@ end
 -------------------------   spell slots
 
 function spellSlotButtonMain(pl,vl,thisID)
-    local playerIndex = nFromPlClr(pl.color)
+    local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
     if editModeVisibility[playerIndex] then
-        local locSSM = main_Table[playerIndex].splSlotsMax[numSpellStr]
+        local locSSM = main_Table[playerIndex].splSlotsMax[numStrEnd]
         locSSM = locSSM + (vl == "-2" and 1 or -1)
         locSSM = (locSSM < 0 and 0) or (locSSM > 15 and 15) or locSSM
-        main_Table[playerIndex].splSlotsMax[numSpellStr] = locSSM
+        main_Table[playerIndex].splSlotsMax[numStrEnd] = locSSM
     else
         if vl == "-2" then
-            main_Table[playerIndex].splSlots[numSpellStr] = main_Table[playerIndex].splSlots[numSpellStr] + 1
-            if main_Table[playerIndex].splSlots[numSpellStr] > main_Table[playerIndex].splSlotsMax[numSpellStr] then
-                main_Table[playerIndex].splSlots[numSpellStr] = main_Table[playerIndex].splSlotsMax[numSpellStr]
+            main_Table[playerIndex].splSlots[numStrEnd] = main_Table[playerIndex].splSlots[numStrEnd] + 1
+            if main_Table[playerIndex].splSlots[numStrEnd] > main_Table[playerIndex].splSlotsMax[numStrEnd] then
+                main_Table[playerIndex].splSlots[numStrEnd] = main_Table[playerIndex].splSlotsMax[numStrEnd]
             end
         elseif vl == "-1" then
-            main_Table[playerIndex].splSlots[numSpellStr] = main_Table[playerIndex].splSlots[numSpellStr] - 1
-            if main_Table[playerIndex].splSlots[numSpellStr] < 0 then
-                main_Table[playerIndex].splSlots[numSpellStr] = 0
+            main_Table[playerIndex].splSlots[numStrEnd] = main_Table[playerIndex].splSlots[numStrEnd] - 1
+            if main_Table[playerIndex].splSlots[numStrEnd] < 0 then
+                main_Table[playerIndex].splSlots[numStrEnd] = 0
             end
         end
     end
@@ -1006,7 +1006,7 @@ function spellSlotButtonMain(pl,vl,thisID)
 end
 
 function spellSlotButtonMax(pl,vl,thisID)
-    local playerIndex = nFromPlClr(pl.color)
+    local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
     if vl == "-2" then
         main_Table[playerIndex].splSlotsMax[numStrEnd] = main_Table[playerIndex].splSlotsMax[numStrEnd] + 1
         if main_Table[playerIndex].splSlotsMax[numStrEnd] > 10 then
@@ -1037,14 +1037,14 @@ end
 -------------------------   ressourses
 
 function resSetName(pl,vl,thisID)
-    local playerIndex = nFromPlClr(pl.color)
+    local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
     main_Table[playerIndex].resourses[numStrEnd].resName = vl
     main_Table[playerIndex].ui_update_flags.resources = true
     singleColor_UI_update_optimized(playerIndex)
 end
 
 function resSetValue(pl,vl,thisID)
-    local playerIndex = nFromPlClr(pl.color)
+    local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
     if tonumber(vl) ~= nil then
         main_Table[playerIndex].resourses[numStrEnd].resValue = tonumber(vl)
         if main_Table[playerIndex].resourses[numStrEnd].resMax > 0 then
@@ -1058,7 +1058,7 @@ function resSetValue(pl,vl,thisID)
 end
 
 function resSetMax(pl,vl,thisID)
-    local playerIndex = nFromPlClr(pl.color)
+    local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
     if tonumber(vl) ~= nil then
         main_Table[playerIndex].resourses[numStrEnd].resMax = tonumber(vl)
         if main_Table[playerIndex].resourses[numStrEnd].resMax >0 then
