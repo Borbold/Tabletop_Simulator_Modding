@@ -981,15 +981,15 @@
             </VerticalLayout>
             <Text  preferredWidth="5" />
             <VerticalLayout preferredWidth="120" >
-                <Button id="charSheetUtilButton_01" text="attacks"          onClick="colorToggleShowAttacks"     tooltipBackgroundColor="#000000" />
-                <Button id="charSheetUtilButton_02" text="resourses"        onClick="colorToggleShowResourses"   tooltipBackgroundColor="#000000" />
-                <Button id="charSheetUtilButton_03" text="spell slots"      onClick="colorToggleShowSpellSlots"  tooltipBackgroundColor="#000000" />
-                <Button id="charSheetUtilButton_04" text="notes"            onClick="colorToggleShowNotes"       tooltipBackgroundColor="#000000" />
-                <Button id="charSheetUtilButton_05" text="conditions"       onClick="colorToggleConditions"      tooltipBackgroundColor="#000000" />
-                <Button id="charSheetUtilButton_06" text="figurine UI set"  onClick="colorToggleUIsetup"         tooltipBackgroundColor="#000000" />
-                <Button id="charSheetUtilButton_07" text="look at char"     onClick="lookAtChar"                 tooltipBackgroundColor="#000000" />
-                <Button id="charSheetUtilButton_08" text="edit char"        onClick="colorToggleEditMode"        tooltipBackgroundColor="#000000" />
-                <Button id="charSheetUtilButton_09" text="▼▼▼"              onClick="colorToggleShowMain"        tooltipBackgroundColor="#000000" />
+                <Button id="charSheetUtilButton_01" text="attacks"          onClick="colorToggleShow"       tooltipBackgroundColor="#000000" />
+                <Button id="charSheetUtilButton_02" text="resourses"        onClick="colorToggleShow"       tooltipBackgroundColor="#000000" />
+                <Button id="charSheetUtilButton_03" text="spell slots"      onClick="colorToggleShow"       tooltipBackgroundColor="#000000" />
+                <Button id="charSheetUtilButton_04" text="notes"            onClick="colorToggleShow"       tooltipBackgroundColor="#000000" />
+                <Button id="charSheetUtilButton_05" text="conditions"       onClick="colorToggleShow"       tooltipBackgroundColor="#000000" />
+                <Button id="charSheetUtilButton_06" text="figurine UI set"  onClick="colorToggleShow"       tooltipBackgroundColor="#000000" />
+                <Button id="charSheetUtilButton_07" text="look at char"     onClick="colorToggleShow"       tooltipBackgroundColor="#000000" />
+                <Button id="charSheetUtilButton_08" text="edit char"        onClick="colorToggleEditMode"   tooltipBackgroundColor="#000000" />
+                <Button id="charSheetUtilButton_09" text="▼▼▼"              onClick="colorToggleShowMain"   tooltipBackgroundColor="#000000" />
             </VerticalLayout>
         </HorizontalLayout>
     </VerticalLayout>
@@ -3076,7 +3076,7 @@
     </HorizontalLayout>
 </Panel>
 <!-- MINIMAP (DONE) -->
-<Panel id="miniMapPanel" allowDragging="true" returnToOriginalPositionWhenReleased="false" color="#ffffff88" rectAlignment="UpperLeft" height="300" width="300" offsetXY="100,-100" visibility="noone" outline="#440044ff" outlineSize="1 -1" active="True" >
+<Panel id="panel_miniMap" allowDragging="true" returnToOriginalPositionWhenReleased="false" color="#ffffff88" rectAlignment="UpperLeft" height="300" width="300" offsetXY="100,-100" visibility="noone" outline="#440044ff" outlineSize="1 -1" active="True" >
     <Text id="miniMap_head" offsetXY="0 140" text="Minimap" />
     <Text resizeTextMaxSize="150" color="#0000000a" text="○" scale="1 1 1" offsetXY="0 10" /> <!-- ○ ◌ -->
     <Text resizeTextMaxSize="150" color="#0000000a" text="○" scale="2.2 2.2 1" offsetXY="0 22" />

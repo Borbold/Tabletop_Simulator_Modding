@@ -4,6 +4,10 @@ local LANGUAGES = {[1] = "EN", [2] = "RU"}
 local PROFICIENCY_LEVELS = {"Untraning", "Traning", "Expert", "Master", "Legend"}
 local PROFICIENCY_COLORS = {"#ffffff", "#575757ff", "#6a36bdff", "#af2d2dff", "#d0ff00ff"}
 local SKILL_ATTRIBUTES = {"DEX", "INT", "STR", "INT", "CHA", "CHA", "CHA", "INT", "INT", "WIS", "WIS", "INT", "CHA", "WIS", "INT", "DEX", "WIS", "DEX", "WIS"}
+local PLAYER_COLOR = {"Black","White","Brown","Red","Orange","Yellow","Green","Teal","Blue","Purple","Pink"}
+local PLAYER_COLOR_CODES = {"#3f3f3f","#ffffff","#703a16","#da1917","#f3631c","#e6e42b","#30b22a","#20b09a","#1e87ff","#9f1fef","#f46fcd"}
+local DEATH_SAVE_SYMBOLS = {"","☻","x"}
+local DEATH_SAVE_SYMBOLS_TEAM_BAR = {" ","o","x"}
 
 local ATTACK_ICONS_URL = {
     "https://steamusercontent-a.akamaihd.net/ugc/2490003637201659789/F1C41A152ACC69062CF8D82716867367BB3E84FA/", -- fist
@@ -63,7 +67,7 @@ local function buildVisibilityString(conditionArray)
     local result = {}
     for i = 1, #main_Table do
         if conditionArray[i] then
-            table.insert(result, plColors[i])
+            table.insert(result, PLAYER_COLOR[i])
         end
     end
     return #result > 0 and table.concat(result, "|") or "noone"
@@ -93,7 +97,7 @@ local function catchNameParameter(str)
 end
 local function nFromPlClr(clr)
     for i = 1, #main_Table do
-        if clr == plColors[i] then
+        if clr == PLAYER_COLOR[i] then
             return i
         end
     end
@@ -416,14 +420,10 @@ function onLoad(saved_data)
     initEditPos = 0
     initEditPanelVisible = false
 
-    plColors = {"Black","White","Brown","Red","Orange","Yellow","Green","Teal","Blue","Purple","Pink"}
-    plColorsHexTable={"#3f3f3f","#ffffff","#703a16","#da1917","#f3631c","#e6e42b","#30b22a","#20b09a","#1e87ff","#9f1fef","#f46fcd"}
     editModeVisibility = {false,false,false,false,false,false,false,false,false,false,false}
     screenRollerVisibility = {false,false,false,false,false,false,false,false,false,false,false}
     screenRollerStringsToRoll = {"","","","","","","","","","",""}
     healTempDmg_table = {0,0,0,0,0,0,0,0,0,0,0}
-    dSavesStr_table = {"","☻","x"}
-    dSavesStrTeamBar_table = {" ","o","x"}
     editModeSelectedAttack = {1,1,1,1,1,1,1,1,1,1,1}
 
     allowedSymbols = "[ %d+-dк]"
@@ -574,6 +574,68 @@ end
 
 -----------------------------   sheet <-> figurine interactions
 
+local function GM_settingsPanel_UI_update()
+    if charBaseSpin then
+        UI_xmlElementUpdate("GM_toolsButton_02", "textOutline", "#ff000088")
+        UI_xmlElementUpdate("GM_toolsButton_02", "color", "#ffffffff")
+    else
+        UI_xmlElementUpdate("GM_toolsButton_02", "textOutline", "#ff000000")
+        UI_xmlElementUpdate("GM_toolsButton_02", "color", "#cccccccc")
+    end
+    if addCharMode then
+        UI_xmlElementUpdate("GM_toolsButton_03", "textOutline", "#0000aa88")
+        UI_xmlElementUpdate("GM_toolsButton_03", "color", "#ffffffff")
+    else
+        UI_xmlElementUpdate("GM_toolsButton_03", "textOutline", "#0000aa00")
+        UI_xmlElementUpdate("GM_toolsButton_03", "color", "#cccccccc")
+    end
+    if diceRollsShowEveryDie then
+        UI_xmlElementUpdate("GM_toolsButton_05", "textOutline", "#0000aa88")
+        UI_xmlElementUpdate("GM_toolsButton_05", "text", "●   ●\n●\n●   ●")
+        UI_xmlElementUpdate("GM_toolsButton_05", "color", "#ffffffff")
+    else
+        UI_xmlElementUpdate("GM_toolsButton_05", "textOutline", "#0000aa00")
+        UI_xmlElementUpdate("GM_toolsButton_05", "text", "○   ○\n○\n○   ○")
+        UI_xmlElementUpdate("GM_toolsButton_05", "color", "#cccccccc")
+    end
+
+    if diceRollsSneakyGM then
+        UI_xmlElementUpdate("GM_toolsButton_06", "textOutline", "#0000aa88")
+        UI_xmlElementUpdate("GM_toolsButton_06", "color", "#ffffffff")
+    else
+        UI_xmlElementUpdate("GM_toolsButton_06", "textOutline", "#0000aa00")
+        UI_xmlElementUpdate("GM_toolsButton_06", "color", "#cccccccc")
+    end
+
+    if autoPromote then
+        UI_xmlElementUpdate("GM_toolsButton_07", "textOutline", "#0000aa88")
+        UI_xmlElementUpdate("GM_toolsButton_07", "text", "★")
+        UI_xmlElementUpdate("GM_toolsButton_07", "color", "#ffffffff")
+    else
+        UI_xmlElementUpdate("GM_toolsButton_07", "textOutline", "#0000aa00")
+        UI_xmlElementUpdate("GM_toolsButton_07", "text", "☆")
+        UI_xmlElementUpdate("GM_toolsButton_07", "color", "#cccccccc")
+    end
+
+    if copyCharMode then
+        UI_xmlElementUpdate("GM_toolsButton_08", "textOutline", "#ffff0088")
+        UI_xmlElementUpdate("GM_toolsButton_08", "color", "#ffffffff")
+    else
+        UI_xmlElementUpdate("GM_toolsButton_08", "textOutline", "#ffff0000")
+        UI_xmlElementUpdate("GM_toolsButton_08", "color", "#cccccccc")
+    end
+
+    if saveLastPick then
+        UI_xmlElementUpdate("GM_toolsButton_09", "fontStyle", "bold")
+        UI_xmlElementUpdate("GM_toolsButton_09", "textOutline", "#ff000088")
+        UI_xmlElementUpdate("GM_toolsButton_09", "color", "#ffffffff")
+    else
+        UI_xmlElementUpdate("GM_toolsButton_09", "fontStyle", "normal")
+        UI_xmlElementUpdate("GM_toolsButton_09", "textOutline", "#ff000000")
+        UI_xmlElementUpdate("GM_toolsButton_09", "color", "#cccccccc")
+    end
+end
+
 function onObjectPickUp(plCl, pObj)
     if pObj.getVar("SCRIPTED_PF2E_CHARACTER") ~= nil and not copyCharMode then
         if pObj.getTable("charSave_table").aColors[nFromPlClr(plCl)] then
@@ -614,7 +676,7 @@ function onObjectDestroy(dying_object)
 end
 
 function tokenSelectionCheck(previousTokenGUID)
-    selectedUpdate = 0
+    local selectedUpdate = 0
     for i = #main_Table, 1, -1 do
         if lastPickedCharGUID_table[i] ~= "" and getObjectFromGUID(lastPickedCharGUID_table[i]) ~= nil then
             if lastPickedCharGUID_table[i] == previousTokenGUID then
@@ -645,50 +707,51 @@ end
 
 -----------------------------   sheet edits
 
-function setCharPortrait(pl,vl,thisID)
+function setCharPortrait(pl, vl, thisID)
+    local playerIndex = nFromPlClr(pl.color)
     if vl ~= "" then
-        main_Table[nFromPlClr(pl.color)].portraitUrl = vl
+        main_Table[playerIndex].portraitUrl = vl
     else
-        main_Table[nFromPlClr(pl.color)].portraitUrl = "https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/"
+        main_Table[playerIndex].portraitUrl = "https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/"
     end
-    local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
     main_Table[playerIndex].ui_update_flags.basic_stats = true
     singleColor_UI_update_optimized(playerIndex)
 end
 
-function setCharName(pl,vl,thisID)
-    if vl ~= nil then
-        main_Table[nFromPlClr(pl.color)].charName = vl
-        if getObjectFromGUID(lastPickedCharGUID_table[nFromPlClr(pl.color)]) ~= nil then
-            getObjectFromGUID(lastPickedCharGUID_table[nFromPlClr(pl.color)]).setName(vl)
-        end
-        local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
-        main_Table[playerIndex].ui_update_flags.basic_stats = true
-        singleColor_UI_update_optimized(playerIndex)
+function setCharName(pl, vl, thisID)
+    local playerIndex = nFromPlClr(pl.color)
+    if vl == nil then return end
+    
+    main_Table[playerIndex].charName = vl
+    if getObjectFromGUID(lastPickedCharGUID_table[playerIndex]) ~= nil then
+        getObjectFromGUID(lastPickedCharGUID_table[playerIndex]).setName(vl)
     end
+    main_Table[playerIndex].ui_update_flags.basic_stats = true
+    singleColor_UI_update_optimized(playerIndex)
 end
 
-function setCharHP(pl,vl,thisID)
-    if tonumber(vl) ~= nil then
-        if numFromStrEnd(thisID) == 1 then
-            main_Table[nFromPlClr(pl.color)].hp = tonumber(vl)
-        else
-            main_Table[nFromPlClr(pl.color)].hpMax = tonumber(vl)
-        end
-        if main_Table[nFromPlClr(pl.color)].hp < 0 then main_Table[nFromPlClr(pl.color)].hp = 0 end
-        if main_Table[nFromPlClr(pl.color)].hpMax < 0 then main_Table[nFromPlClr(pl.color)].hpMax = 0 end
-        if main_Table[nFromPlClr(pl.color)].hp > main_Table[nFromPlClr(pl.color)].hpMax then main_Table[nFromPlClr(pl.color)].hp = main_Table[nFromPlClr(pl.color)].hpMax end
+function setCharHP(pl, vl, thisID)
+    local playerIndex = nFromPlClr(pl.color)
+    if tonumber(vl) == nil then return end
 
-        local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
-        main_Table[playerIndex].ui_update_flags.basic_stats = true
-        main_Table[playerIndex].ui_update_flags.team_bar = true
-        singleColor_UI_update_optimized(playerIndex)
+    local playerIndex, numStrEnd = playerIndex, extractNumberFromString(thisID, "end")
+    if numStrEnd == 1 then
+        main_Table[playerIndex].hp = tonumber(vl)
+    else
+        main_Table[playerIndex].hpMax = tonumber(vl)
     end
+    if main_Table[playerIndex].hp < 0 then main_Table[playerIndex].hp = 0 end
+    if main_Table[playerIndex].hpMax < 0 then main_Table[playerIndex].hpMax = 0 end
+    if main_Table[playerIndex].hp > main_Table[playerIndex].hpMax then main_Table[playerIndex].hp = main_Table[playerIndex].hpMax end
+    main_Table[playerIndex].ui_update_flags.basic_stats = true
+    main_Table[playerIndex].ui_update_flags.team_bar = true
+    singleColor_UI_update_optimized(playerIndex)
 end
 
-function setCharHPvisibility(pl,vl,thisID)
-    main_Table[nFromPlClr(pl.color)].hpVisibleToPlayers = not main_Table[nFromPlClr(pl.color)].hpVisibleToPlayers
-    singleColor_UI_update(nFromPlClr(pl.color))
+function setCharHPvisibility(pl, vl, thisID)
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].hpVisibleToPlayers = not main_Table[playerIndex].hpVisibleToPlayers
+    singleColor_UI_update(playerIndex)
 end
 
 function setNumericField(pl, value, thisID)
@@ -707,7 +770,7 @@ function setNumericField(pl, value, thisID)
     local config = configs[fieldType]
     if not config then return end
     
-    local fieldName = string.format(config.field, catchNameParameter(thisID) or numFromStrEnd(thisID))
+    local fieldName = string.format(config.field, catchNameParameter(thisID) or extractNumberFromString(thisID, "end"))
     modifyNumericValue(pl, value, config.changeType, fieldName, config.min, config.max, config.flag)
 end
 
@@ -746,16 +809,16 @@ local function charSaveButton(pl, vl, idName, MTId, textName, plColHex)
 end
 
 local function skillButtonMain(pl, vl, id, textName, plColHex)
-    local playerIndex, ending = numFromStr(id), numFromStrEnd(id)
+    local playerIndex, numStrEnd = extractNumberFromString(id, "start"), extractNumberFromString(id, "end")
     if editModeVisibility[playerIndex] then
-        main_Table[playerIndex].skills[ending].proficient = main_Table[playerIndex].skills[ending].proficient + 1
-        if main_Table[playerIndex].skills[ending].proficient > #PROFICIENCY_LEVELS then main_Table[playerIndex].skills[ending].proficient = 1 end
+        main_Table[playerIndex].skills[numStrEnd].proficient = main_Table[playerIndex].skills[numStrEnd].proficient + 1
+        if main_Table[playerIndex].skills[numStrEnd].proficient > #PROFICIENCY_LEVELS then main_Table[playerIndex].skills[numStrEnd].proficient = 1 end
         main_Table[playerIndex].ui_update_flags.skills = true
         main_Table[playerIndex].ui_update_flags.basic_stats = true
         singleColor_UI_update_optimized(playerIndex)
     else
-        local modifier = modFromAttr(main_Table[playerIndex].attributes[SKILL_ATTRIBUTES[ending]]) + main_Table[playerIndex].skills[ending].mod
-        local profBonus = main_Table[playerIndex].charProfBonus*(main_Table[playerIndex].skills[ending].proficient - 1)
+        local modifier = modFromAttr(main_Table[playerIndex].attributes[SKILL_ATTRIBUTES[numStrEnd]]) + main_Table[playerIndex].skills[numStrEnd].mod
+        local profBonus = main_Table[playerIndex].charProfBonus*(main_Table[playerIndex].skills[numStrEnd].proficient - 1)
         local modStr = "1d20" .. PoM(modifier + profBonus) .. modifier + profBonus
         if vl == "-1" then
             stringRoller(modStr,pl, plColHex..main_Table[playerIndex].charName.."[-]: "..textName..":",1,false)
@@ -768,7 +831,7 @@ local function skillButtonMain(pl, vl, id, textName, plColHex)
 end
 
 function rollAndEditValue(pl, vl, id)
-    local idName, MTId, textName = catchNameParameter(id), numFromStr(id), ""
+    local idName, MTId, textName = catchNameParameter(id), extractNumberFromString(id, "start"), ""
     local plColHex = "["..Color[pl.color]:toHex(false).."]"
     if id:lower():find("attr") then
         textName = self.UI.getAttribute("attrName_" .. idName, "text")
@@ -777,23 +840,23 @@ function rollAndEditValue(pl, vl, id)
         textName = self.UI.getAttribute(id, "tooltip"):match("^([^ ]+ [^ ]+)")
         charSaveButton(pl, vl, idName, MTId, textName, plColHex)
     elseif id:lower():find("skill") then
-        textName = lang_table[LANGUAGES[lang_set]][numFromStrEnd(id) + 14]:match("^([^ ]+)")
+        textName = lang_table[LANGUAGES[lang_set]][extractNumberFromString(id, "end") + 14]:match("^([^ ]+)")
         skillButtonMain(pl, vl, id, textName, plColHex)
     end
 end
 
 -------------------------   HP
 
-function setCharHealDmgVal(pl,vl,thisID)
+function setCharHealDmgVal(pl, vl, thisID)
     if tonumber(vl) ~= nil and vl ~= "" then
         healTempDmg_table[nFromPlClr(pl.color)] = math.abs(tonumber(vl))
     end
 end
 
-function takeDmg(pl,vl,thisID)
+function takeDmg(pl, vl, thisID)
     local playerIndex = nFromPlClr(pl.color)
     if healTempDmg_table[playerIndex] >= main_Table[playerIndex].hp + main_Table[playerIndex].hpTemp + main_Table[playerIndex].hpMax then
-        for d=1,3 do
+        for d = 1, 3 do
             main_Table[playerIndex].deathSaves[d] = 3
             main_Table[playerIndex].conditions.table[20] = true
         end
@@ -809,12 +872,12 @@ function takeDmg(pl,vl,thisID)
     miniMap_UI_update()
 end
 
-function healHP(pl,vl,thisID)
+function healHP(pl, vl, thisID)
     local playerIndex = nFromPlClr(pl.color)
     main_Table[playerIndex].hp = math.min(main_Table[playerIndex].hpMax, main_Table[playerIndex].hp + healTempDmg_table[playerIndex])
     healTempDmg_table[playerIndex] = 0
     self.UI.setAttribute(strFromNum(playerIndex).."_charHealDmgValueInput", "text", "")
-    for i=1,#main_Table[playerIndex].deathSaves do
+    for i = 1, #main_Table[playerIndex].deathSaves do
         main_Table[playerIndex].deathSaves[i] = 1
     end
     main_Table[playerIndex].ui_update_flags.basic_stats = true
@@ -823,7 +886,7 @@ function healHP(pl,vl,thisID)
     miniMap_UI_update()
 end
 
-function setTempHP(pl,vl,thisID)
+function setTempHP(pl, vl, thisID)
     local playerIndex = nFromPlClr(pl.color)
     if healTempDmg_table[playerIndex] ~= 0 and vl == "-1" then
         main_Table[playerIndex].hpTemp = healTempDmg_table[playerIndex]
@@ -836,22 +899,22 @@ function setTempHP(pl,vl,thisID)
     singleColor_UI_update_optimized(playerIndex)
 end
 
-function deathSaveButton(pl,vl,thisID)
-    local playerIndex = numFromStr(thisID)
-    main_Table[playerIndex].deathSaves[numFromStrEnd(thisID)] = main_Table[playerIndex].deathSaves[numFromStrEnd(thisID)] + 1
-    if main_Table[playerIndex].deathSaves[numFromStrEnd(thisID)] > 3 then main_Table[playerIndex].deathSaves[numFromStrEnd(thisID)] = 1 end
+function deathSaveButton(pl, vl, thisID)
+    local playerIndex, numStrEnd = extractNumberFromString(thisID, "start"), extractNumberFromString(thisID, "end")
+    main_Table[playerIndex].deathSaves[ending] = main_Table[playerIndex].deathSaves[ending] + 1
+    if main_Table[playerIndex].deathSaves[ending] > 3 then main_Table[playerIndex].deathSaves[ending] = 1 end
     main_Table[playerIndex].ui_update_flags.basic_stats = true
     singleColor_UI_update_optimized(playerIndex)
 end
 
 -------------------------   attacks
 
-function atkButton(pl,vl,thisID)
-    local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
+function atkButton(pl, vl, thisID)
+    local playerIndex, prefix, numStrEnd = nFromPlClr(pl.color), extractNumberFromString(thisID, "start"), extractNumberFromString(thisID, "end")
     local plColHex = "["..Color[pl.color]:toHex(false).."]"
     if editModeVisibility[playerIndex] then
         editModeSelectedAttack[playerIndex] = numStrEnd
-        for i=1,10 do
+        for i = 1, 10 do
             if editModeSelectedAttack[playerIndex] == i or not editModeVisibility[playerIndex] then atkButtonImg_color = "#ffffffff" else atkButtonImg_color = "#ffffff88" end
             UI_xmlElementUpdate(strFromNum(playerIndex).."_atkButtonImg_"..strFromNum(i),"color",atkButtonImg_color)
         end
@@ -881,20 +944,20 @@ function atkButton(pl,vl,thisID)
                 dmgRollType = 4
                 if vl == "-1" then
                     if main_Table[playerIndex].attacks[numStrEnd].dmgRolled then rTypeA = 2 else rTypeA = 1 end
-                    stringRoller("1d20"..PoM_add(atkRollMod),pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..main_Table[playerIndex].attacks[numStrEnd].atkName..resLeftStr..":",rTypeA,false)
+                    stringRoller("1d20"..PoM_add(atkRollMod),pl, plColHex..main_Table[prefix].charName.."[-]: "..main_Table[playerIndex].attacks[numStrEnd].atkName..resLeftStr..":",rTypeA,false)
                 elseif vl == "-2" then
                     rTypeA = 2
                     if main_Table[playerIndex].attacks[numStrEnd].dmgRolled then rTypeB = 3 else rTypeB = 4 end
                     doubleRoll = 2
-                    stringRoller("1d20"..PoM_add(atkRollMod),pl, plColHex..main_Table[numFromStr(thisID)].charName.."[-]: "..main_Table[playerIndex].attacks[numStrEnd].atkName..resLeftStr..":",rTypeA,false)
-                    stringRoller("1d20"..PoM_add(atkRollMod),pl, rollOutputHex..main_Table[numFromStr(thisID)].charName.."[-]: "..main_Table[playerIndex].attacks[numStrEnd].atkName..":",rTypeB,false)
+                    stringRoller("1d20"..PoM_add(atkRollMod),pl, plColHex..main_Table[prefix].charName.."[-]: "..main_Table[playerIndex].attacks[numStrEnd].atkName..resLeftStr..":",rTypeA,false)
+                    stringRoller("1d20"..PoM_add(atkRollMod),pl, rollOutputHex..main_Table[prefix].charName.."[-]: "..main_Table[playerIndex].attacks[numStrEnd].atkName..":",rTypeB,false)
                 end
             else
                 dmgRollType = 1
                 if diceRollsSneakyGM and pl.color == "Black" then
-                    printToColor("[b] ͡° ● "..main_Table[numFromStr(thisID)].charName.."[/b][-]: [cccccc]"..main_Table[playerIndex].attacks[numStrEnd].atkName..":[-]", pl.color, pl.color)
+                    printToColor("[b] ͡° ● "..main_Table[prefix].charName.."[/b][-]: [cccccc]"..main_Table[playerIndex].attacks[numStrEnd].atkName..":[-]", pl.color, pl.color)
                 else
-                    printToAll("[b]● "..main_Table[numFromStr(thisID)].charName.."[/b][-]: [cccccc]"..main_Table[playerIndex].attacks[numStrEnd].atkName..":[-]", pl.color)
+                    printToAll("[b]● "..main_Table[prefix].charName.."[/b][-]: [cccccc]"..main_Table[playerIndex].attacks[numStrEnd].atkName..":[-]", pl.color)
                 end
                 
             end
@@ -931,7 +994,7 @@ function atkButton(pl,vl,thisID)
     end
 end
 
-function atkSetIcon(pl,vl,thisID)
+function atkSetIcon(pl, vl, thisID)
     local playerIndex = nFromPlClr(pl.color)
     if vl == "-1" then
         main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].icon = main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].icon + 1
@@ -945,20 +1008,20 @@ function atkSetIcon(pl,vl,thisID)
     singleColor_UI_update_optimized(playerIndex)
 end
 
-function atkSetName(pl,vl,thisID)
+function atkSetName(pl, vl, thisID)
     local playerIndex = nFromPlClr(pl.color)
     main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkName = vl
     main_Table[playerIndex].ui_update_flags.attacks = true
     atkEdit_UI_update(playerIndex, editModeSelectedAttack[playerIndex])
 end
 
-function atkToggleRollAtk(pl,vl,thisID)
+function atkToggleRollAtk(pl, vl, thisID)
     local playerIndex = nFromPlClr(pl.color)
     main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkRolled = not main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkRolled
-    atkEdit_UI_update(playerIndex,editModeSelectedAttack[playerIndex])
+    atkEdit_UI_update(playerIndex, editModeSelectedAttack[playerIndex])
 end
 
-function atkSetAtkAttr(pl,vl,thisID)
+function atkSetAtkAttr(pl, vl, thisID)
     local playerIndex = nFromPlClr(pl.color)
     if vl == "-1" then
         main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkAttr = main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkAttr + 1
@@ -970,40 +1033,40 @@ function atkSetAtkAttr(pl,vl,thisID)
     atkEdit_UI_update(playerIndex,editModeSelectedAttack[playerIndex])
 end
 
-function atkToggleProf(pl,vl,thisID)
+function atkToggleProf(pl, vl, thisID)
     local playerIndex = nFromPlClr(pl.color)
     local locProf = main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].proficient
     main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].proficient = locProf < 5 and locProf + 1 or 1
     atkEdit_UI_update(playerIndex,editModeSelectedAttack[playerIndex])
 end
 
-function atkSetMinCrit(pl,vl,thisID)
+function atkSetMinCrit(pl, vl, thisID)
     local playerIndex = nFromPlClr(pl.color)
-    if tonumber(vl) ~= nil then
-        main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].minCrit = tonumber(vl)
-        if main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].minCrit > 20 then main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].minCrit = 20 end
-        if main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].minCrit < 1 then main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].minCrit = 1 end
-        atkEdit_UI_update(playerIndex,editModeSelectedAttack[playerIndex])
-    end
+    if tonumber(vl) == nil then return end
+
+    main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].minCrit = tonumber(vl)
+    if main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].minCrit > 20 then main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].minCrit = 20 end
+    if main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].minCrit < 1 then main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].minCrit = 1 end
+    atkEdit_UI_update(playerIndex,editModeSelectedAttack[playerIndex])
 end
 
-function atkSetAtkMod(pl,vl,thisID)
+function atkSetAtkMod(pl, vl, thisID)
     local playerIndex = nFromPlClr(pl.color)
-    if tonumber(vl) ~= nil then
-        main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkMod = tonumber(vl)
-        if main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkMod >  20 then main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkMod =  20 end
-        if main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkMod < -20 then main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkMod = -20 end
-        atkEdit_UI_update(playerIndex,editModeSelectedAttack[playerIndex])
-    end
+    if tonumber(vl) == nil then return end
+    
+    main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkMod = tonumber(vl)
+    if main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkMod >  20 then main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkMod =  20 end
+    if main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkMod < -20 then main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].atkMod = -20 end
+    atkEdit_UI_update(playerIndex,editModeSelectedAttack[playerIndex])
 end
 
-function atkToggleRollDmg(pl,vl,thisID)
+function atkToggleRollDmg(pl, vl, thisID)
     local playerIndex = nFromPlClr(pl.color)
     main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].dmgRolled = not main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].dmgRolled
     atkEdit_UI_update(playerIndex,editModeSelectedAttack[playerIndex])
 end
 
-function atkSetDmgAttr(pl,vl,thisID)
+function atkSetDmgAttr(pl, vl, thisID)
     local playerIndex = nFromPlClr(pl.color)
     if vl == "-1" then
         main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].dmgAttr = main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].dmgAttr + 1
@@ -1015,7 +1078,7 @@ function atkSetDmgAttr(pl,vl,thisID)
     atkEdit_UI_update(playerIndex,editModeSelectedAttack[playerIndex])
 end
 
-function atkSetResUsed(pl,vl,thisID)
+function atkSetResUsed(pl, vl, thisID)
     local playerIndex = nFromPlClr(pl.color)
     if vl == "-1" then
         main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].resUsed = main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].resUsed + 1
@@ -1044,8 +1107,8 @@ end
 
 -------------------------   spell slots
 
-function spellSlotButtonMain(pl,vl,thisID)
-    local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
+function spellSlotButtonMain(pl, vl, thisID)
+    local playerIndex, numStrEnd = nFromPlClr(pl.color), extractNumberFromString(thisID, "end")
     if editModeVisibility[playerIndex] then
         local locSSM = main_Table[playerIndex].splSlotsMax[numStrEnd]
         locSSM = locSSM + (vl == "-2" and 1 or -1)
@@ -1068,8 +1131,8 @@ function spellSlotButtonMain(pl,vl,thisID)
     singleColor_UI_update_optimized(playerIndex)
 end
 
-function spellSlotButtonMax(pl,vl,thisID)
-    local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
+function spellSlotButtonMax(pl, vl, thisID)
+    local playerIndex, numStrEnd = nFromPlClr(pl.color), extractNumberFromString(thisID, "end")
     if vl == "-2" then
         main_Table[playerIndex].splSlotsMax[numStrEnd] = main_Table[playerIndex].splSlotsMax[numStrEnd] + 1
         if main_Table[playerIndex].splSlotsMax[numStrEnd] > 10 then
@@ -1088,9 +1151,9 @@ function spellSlotButtonMax(pl,vl,thisID)
     singleColor_UI_update_optimized(playerIndex)
 end
 
-function spellSlotButtonMaxAll(pl,vl,thisID)
+function spellSlotButtonMaxAll(pl, vl, thisID)
     local playerIndex = nFromPlClr(pl.color)
-    for i=1,9 do
+    for i = 1, 9 do
         main_Table[playerIndex].splSlots[i] = main_Table[playerIndex].splSlotsMax[i]
     end
     main_Table[playerIndex].ui_update_flags.spell_slots = true
@@ -1099,15 +1162,15 @@ end
 
 -------------------------   ressourses
 
-function resSetName(pl,vl,thisID)
-    local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
+function resSetName(pl, vl, thisID)
+    local playerIndex, numStrEnd = nFromPlClr(pl.color), extractNumberFromString(thisID, "end")
     main_Table[playerIndex].resourses[numStrEnd].resName = vl
     main_Table[playerIndex].ui_update_flags.resources = true
     singleColor_UI_update_optimized(playerIndex)
 end
 
-function resSetValue(pl,vl,thisID)
-    local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
+function resSetValue(pl, vl, thisID)
+    local playerIndex, numStrEnd = nFromPlClr(pl.color), extractNumberFromString(thisID, "end")
     if tonumber(vl) ~= nil then
         main_Table[playerIndex].resourses[numStrEnd].resValue = tonumber(vl)
         if main_Table[playerIndex].resourses[numStrEnd].resMax > 0 then
@@ -1120,26 +1183,26 @@ function resSetValue(pl,vl,thisID)
     singleColor_UI_update_optimized(playerIndex)
 end
 
-function resSetMax(pl,vl,thisID)
-    local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
-    if tonumber(vl) ~= nil then
-        main_Table[playerIndex].resourses[numStrEnd].resMax = tonumber(vl)
-        if main_Table[playerIndex].resourses[numStrEnd].resMax >0 then
-            if main_Table[playerIndex].resourses[numStrEnd].resValue > main_Table[playerIndex].resourses[numStrEnd].resMax then
-                main_Table[playerIndex].resourses[numStrEnd].resValue = main_Table[playerIndex].resourses[numStrEnd].resMax
-            end
+function resSetMax(pl, vl, thisID)
+    local playerIndex, numStrEnd = nFromPlClr(pl.color), extractNumberFromString(thisID, "end")
+    if tonumber(vl) == nil then return end
+    
+    main_Table[playerIndex].resourses[numStrEnd].resMax = tonumber(vl)
+    if main_Table[playerIndex].resourses[numStrEnd].resMax > 0 then
+        if main_Table[playerIndex].resourses[numStrEnd].resValue > main_Table[playerIndex].resourses[numStrEnd].resMax then
+            main_Table[playerIndex].resourses[numStrEnd].resValue = main_Table[playerIndex].resourses[numStrEnd].resMax
         end
-        main_Table[playerIndex].ui_update_flags.resources = true
-        singleColor_UI_update_optimized(playerIndex)
     end
+    main_Table[playerIndex].ui_update_flags.resources = true
+    singleColor_UI_update_optimized(playerIndex)
 end
 
-function resSingleAdd(pl,vl,thisID)
-    local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
-    if numFromStr(thisID) == 1 then n_to_mult = -1 else n_to_mult = 1 end
+function resSingleAdd(pl, vl, thisID)
+    local playerIndex, numStrEnd = nFromPlClr(pl.color), extractNumberFromString(thisID, "end")
+    if extractNumberFromString(thisID, "start") == 1 then n_to_mult = -1 else n_to_mult = 1 end
     if vl == "-1" then n_to_add = 1 elseif vl == "-2" then n_to_add = 5 end
     main_Table[playerIndex].resourses[numStrEnd].resValue = main_Table[playerIndex].resourses[numStrEnd].resValue + (n_to_add * n_to_mult)
-    if main_Table[playerIndex].resourses[numStrEnd].resMax >0 then
+    if main_Table[playerIndex].resourses[numStrEnd].resMax > 0 then
         if main_Table[playerIndex].resourses[numStrEnd].resValue > main_Table[playerIndex].resourses[numStrEnd].resMax then
             main_Table[playerIndex].resourses[numStrEnd].resValue = main_Table[playerIndex].resourses[numStrEnd].resMax
         end
@@ -1153,9 +1216,9 @@ end
 
 -------------------------
 
-function setNotes(pl,vl,thisID)
+function setNotes(pl, vl, thisID)
     local playerIndex = nFromPlClr(pl.color)
-    if string.sub(thisID,#thisID,#thisID) == "A" then
+    if string.sub(thisID, #thisID, #thisID) == "A" then
         main_Table[playerIndex].notes_A = vl
     else
         main_Table[playerIndex].notes_B = vl
@@ -1166,15 +1229,15 @@ end
 
 -------------------------
 
-function setAssignedPlayer(pl,vl,thisID)
-    local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
+function setAssignedPlayer(pl, vl, thisID)
+    local playerIndex, numStrEnd = nFromPlClr(pl.color), extractNumberFromString(thisID, "end")
     main_Table[playerIndex].aColors[numStrEnd] = not main_Table[playerIndex].aColors[numStrEnd]
     main_Table[playerIndex].ui_update_flags.team_bar = true
     singleColor_UI_update_optimized(playerIndex)
-    getObjectFromGUID(lastPickedCharGUID_table[nFromPlClr(pl.color)]).call("hideThisChar")
+    getObjectFromGUID(lastPickedCharGUID_table[playerIndex]).call("hideThisChar")
 end
 
-function toggleInvisible(pl,vl,thisID)
+function toggleInvisible(pl, vl, thisID)
     local playerIndex = nFromPlClr(pl.color)
     main_Table[playerIndex].charHidden = not main_Table[playerIndex].charHidden
     main_Table[playerIndex].ui_update_flags.team_bar = true
@@ -1184,7 +1247,7 @@ end
 
 -------------------------   initiative
 
-function toggleInitEdit(pl,vl,thisID)
+function toggleInitEdit(pl, vl, thisID)
     if pl.color == "Black" then
         initEditPanelVisible = not initEditPanelVisible
         if initEditPanelVisible then
@@ -1195,33 +1258,34 @@ function toggleInitEdit(pl,vl,thisID)
     end
 end
 
-function initSetupButt(pl,vl,thisID)
-    if initEditPos == numFromStrEnd(thisID) then
+function initSetupButt(pl, vl, thisID)
+    local idInStr = extractNumberFromString(thisID, "end")
+    if initEditPos == idInStr then
         if vl == "-1" then
             initEditPos = 0
             UI_xmlElementUpdate("initSetupPanel", "active", "False")
-            UI_xmlElementUpdate("initSetupButton_"..strFromNum(numFromStrEnd(thisID)), "tooltip", "setup")
+            UI_xmlElementUpdate("initSetupButton_"..strFromNum(idInStr), "tooltip", "setup")
         elseif vl == "-2" then
-            table.remove(init_table, numFromStrEnd(thisID))
-            if initTurnPos > numFromStrEnd(thisID) then initTurnPos = initTurnPos - 1 end
-            if numFromStrEnd(thisID) > #init_table then initTurnPos = 1 end
+            table.remove(init_table, idInStr)
+            if initTurnPos > idInStr then initTurnPos = initTurnPos - 1 end
+            if idInStr > #init_table then initTurnPos = 1 end
             initEditPos = 0
             UI_xmlElementUpdate("initSetupPanel", "active", "False")
             initiative_UI_update()
         end
-    elseif initEditPos ~= numFromStrEnd(thisID) and numFromStrEnd(thisID) <= #init_table then
+    elseif initEditPos ~= idInStr and idInStr <= #init_table then
         UI_xmlElementUpdate("initSetupButton_"..strFromNum(initEditPos), "tooltip", "setup")
-        initEditPos = numFromStrEnd(thisID)
+        initEditPos = idInStr
         UI_xmlElementUpdate("initSetupPanel", "active", "True")
         UI_xmlElementUpdate("initSetupPanel", "offsetXY", "0 "..tostring(216 - 27 * initEditPos))
-        UI_xmlElementUpdate("initSetupButton_"..strFromNum(numFromStrEnd(thisID)), "tooltip", "Right click:\nremove from initiative!")
+        UI_xmlElementUpdate("initSetupButton_"..strFromNum(idInStr), "tooltip", "Right click:\nremove from initiative!")
 
-        UI_xmlElementUpdate("initSetupRezInput", "text", init_table[numFromStrEnd(thisID)].rollRez)
-        UI_xmlElementUpdate("initSetupNameInput", "text", init_table[numFromStrEnd(thisID)].charName)
-        UI_xmlElementUpdate("initSetupModInput", "text", init_table[numFromStrEnd(thisID)].initMod)
-        UI_xmlElementUpdate("initSetupColButton", "tooltip", plColors[init_table[numFromStrEnd(thisID)].aColor])
+        UI_xmlElementUpdate("initSetupRezInput", "text", init_table[idInStr].rollRez)
+        UI_xmlElementUpdate("initSetupNameInput", "text", init_table[idInStr].charName)
+        UI_xmlElementUpdate("initSetupModInput", "text", init_table[idInStr].initMod)
+        UI_xmlElementUpdate("initSetupColButton", "tooltip", PLAYER_COLOR[init_table[idInStr].aColor])
         
-    elseif #init_table < 15 and numFromStrEnd(thisID) == #init_table + 1 then
+    elseif #init_table < 15 and idInStr == #init_table + 1 then
         table.insert(init_table, #init_table + 1, {
             charName = "",
             rollRez = 0,
@@ -1233,11 +1297,11 @@ function initSetupButt(pl,vl,thisID)
     end
 end
 
-function addCharToInitiative(pl,vl,thisID)
-    local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
+function addCharToInitiative(pl, vl, thisID)
+    local playerIndex = nFromPlClr(pl.color)
     if #init_table < 15 then
         alreadyInInitiative = false
-        for i=1,#init_table do
+        for i = 1, #init_table do
             if lastPickedCharGUID_table[playerIndex] == init_table[i].tokenGUID then
                 alreadyInInitiative = true
             end
@@ -1258,10 +1322,10 @@ function addCharToInitiative(pl,vl,thisID)
     end
 end
 
-function initiative_UI_update()   -------------
+function initiative_UI_update()
     UI_xmlElementUpdate("initTitleText", "text", lang_table[LANGUAGES[lang_set]][47])
     UI_xmlElementUpdate("initRoundCounter", "text", lang_table[LANGUAGES[lang_set]][48]..initRound)
-    for i=1,15 do
+    for i = 1, 15 do
         if i <= #init_table then
             if i == initTurnPos then
                 UI_xmlElementUpdate("initText_A_"..strFromNum(i), "color", "#ffff00")
@@ -1277,8 +1341,8 @@ function initiative_UI_update()   -------------
             UI_xmlElementUpdate("initSetupButton_"..strFromNum(i), "text", "*")
             UI_xmlElementUpdate("initSetupButton_"..strFromNum(i), "tooltip", "setup")
 
-            UI_xmlElementUpdate("initColor_"..strFromNum(i), "color", plColorsHexTable[init_table[i].aColor])
-            UI_xmlElementUpdate("initColor_"..strFromNum(i), "outline", plColorsHexTable[init_table[i].aColor])
+            UI_xmlElementUpdate("initColor_"..strFromNum(i), "color", PLAYER_COLOR_CODES[init_table[i].aColor])
+            UI_xmlElementUpdate("initColor_"..strFromNum(i), "outline", PLAYER_COLOR_CODES[init_table[i].aColor])
         else
             UI_xmlElementUpdate("initText_A_"..strFromNum(i), "text", "")
             UI_xmlElementUpdate("initText_B_"..strFromNum(i), "text", "")
@@ -1301,7 +1365,7 @@ function initiative_UI_update()   -------------
     end
     if #init_table > 0 then
         UI_xmlElementUpdate("initCol_01", "tooltip", init_table[initTurnPos].charName.."\n"..init_table[initTurnPos].rollRez.." ("..PoM_add(init_table[initTurnPos].initMod)..")")
-        UI_xmlElementUpdate("initCol_01", "color", plColorsHexTable[init_table[initTurnPos].aColor])
+        UI_xmlElementUpdate("initCol_01", "color", PLAYER_COLOR_CODES[init_table[initTurnPos].aColor])
         UI_xmlElementUpdate("initImage_01", "color", "#ffffff")
         if getObjectFromGUID(init_table[initTurnPos].tokenGUID) ~= nil then
             UI_xmlElementUpdate("initImage_01", "image", getObjectFromGUID(init_table[initTurnPos].tokenGUID).getTable("charSave_table").portraitUrl)
@@ -1311,11 +1375,11 @@ function initiative_UI_update()   -------------
             UI_xmlElementUpdate("initImage_01", "image", "https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/")
         end
         initImgUpdatePos = initTurnPos
-        for i=2,6 do
+        for i = 2, 6 do
             initImgUpdatePos = initImgUpdatePos + 1
             if initImgUpdatePos > #init_table then initImgUpdatePos = 1 end
             UI_xmlElementUpdate("initCol_"..strFromNum(i), "tooltip", init_table[initImgUpdatePos].charName.."\n"..init_table[initImgUpdatePos].rollRez.." ("..PoM_add(init_table[initImgUpdatePos].initMod)..")")
-            UI_xmlElementUpdate("initCol_"..strFromNum(i), "color", plColorsHexTable[init_table[initImgUpdatePos].aColor])
+            UI_xmlElementUpdate("initCol_"..strFromNum(i), "color", PLAYER_COLOR_CODES[init_table[initImgUpdatePos].aColor])
             UI_xmlElementUpdate("initImage_"..strFromNum(i), "color", "#ffffff")
             if getObjectFromGUID(init_table[initImgUpdatePos].tokenGUID) ~= nil then
                 UI_xmlElementUpdate("initImage_"..strFromNum(i), "image", getObjectFromGUID(init_table[initImgUpdatePos].tokenGUID).getTable("charSave_table").portraitUrl)
@@ -1326,7 +1390,7 @@ function initiative_UI_update()   -------------
             end
         end
     else
-        for i=1,6 do
+        for i = 1, 6 do
             UI_xmlElementUpdate("initCol_"..strFromNum(i), "tooltip", "")
             UI_xmlElementUpdate("initCol_"..strFromNum(i), "color", "#aaaaaa")
             UI_xmlElementUpdate("initImage_"..strFromNum(i), "color", "#aaaaaa00")
@@ -1336,14 +1400,14 @@ function initiative_UI_update()   -------------
         if init_table[initTurnPos].aColor == 1 then
             UI_xmlElementUpdate("initPassButton", "visibility", "Black")
         else
-            UI_xmlElementUpdate("initPassButton", "visibility", "Black|"..plColors[init_table[initTurnPos].aColor])
+            UI_xmlElementUpdate("initPassButton", "visibility", "Black|"..PLAYER_COLOR[init_table[initTurnPos].aColor])
         end
     else
         UI_xmlElementUpdate("initPassButton", "visibility", "Black")
     end
 end
 
-function initMoveActive(pl,vl,thisID)
+function initMoveActive(pl, vl, thisID)
     if vl == "-2" then
         initTurnPos = initTurnPos + 1
         if initTurnPos > #init_table then initTurnPos = 1 initRound = initRound + 1 end
@@ -1354,23 +1418,23 @@ function initMoveActive(pl,vl,thisID)
     initiative_UI_update()
 end
 
-function initPass(pl,vl,thisID)
-    initMoveActive(pl,"-2",thisID)
+function initPass(pl, vl, thisID)
+    initMoveActive(pl, "-2", thisID)
 end
 
-function initSetupRezInp(pl,vl,thisID)
+function initSetupRezInp(pl, vl, thisID)
     if tonumber(vl) ~= nil then
         init_table[initEditPos].rollRez = tonumber(vl)
         initiative_UI_update()
     end
 end
 
-function initSetupNameInp(pl,vl,thisID)
+function initSetupNameInp(pl, vl, thisID)
     init_table[initEditPos].charName = vl
     initiative_UI_update()
 end
 
-function initToggleColor(pl,vl,thisID)
+function initToggleColor(pl, vl, thisID)
     if vl == "-1" then
         init_table[initEditPos].aColor = init_table[initEditPos].aColor + 1
         if init_table[initEditPos].aColor > #main_Table then init_table[initEditPos].aColor = 1 end
@@ -1378,26 +1442,26 @@ function initToggleColor(pl,vl,thisID)
         init_table[initEditPos].aColor = init_table[initEditPos].aColor - 1
         if init_table[initEditPos].aColor < 1 then init_table[initEditPos].aColor = #main_Table end
     end
-    UI_xmlElementUpdate("initSetupColButton", "tooltip", plColors[init_table[initEditPos].aColor])
+    UI_xmlElementUpdate("initSetupColButton", "tooltip", PLAYER_COLOR[init_table[initEditPos].aColor])
     initiative_UI_update()
 end
 
-function initSetupModInp(pl,vl,thisID)
+function initSetupModInp(pl, vl, thisID)
     if tonumber(vl) ~= nil then
         init_table[initEditPos].initMod = tonumber(vl)
         initiative_UI_update()
     end
 end
 
-function initRollAll(pl,vl,thisID)
+function initRollAll(pl, vl, thisID)
     math.randomseed(os.clock()*10000)
-    for i=1,#init_table do
-        init_table[i].rollRez = math.random(1,20) + init_table[i].initMod
+    for i = 1, #init_table do
+        init_table[i].rollRez = math.random(1, 20) + init_table[i].initMod
     end
     initiative_UI_update()
 end
 
-function setInitCharPortrait(pl,vl)
+function setInitCharPortrait(pl, vl)
     if vl ~= "" then
         init_table[initEditPos].portraitUrl = vl
     else
@@ -1408,12 +1472,12 @@ end
 
 function initRollSingle()
     math.randomseed(os.clock()*10000)
-    init_table[initEditPos].rollRez = math.random(1,20) + init_table[initEditPos].initMod
+    init_table[initEditPos].rollRez = math.random(1, 20) + init_table[initEditPos].initMod
     UI_xmlElementUpdate("initSetupRezInput", "text", init_table[initEditPos].rollRez)
     initiative_UI_update()
 end
 
-function initSortAll(pl,vl,thisID)
+function initSortAll(pl, vl, thisID)
     if #init_table > 1 then
         table.sort(init_table, function (k1, k2)
             return k1.rollRez > k2.rollRez
@@ -1422,51 +1486,54 @@ function initSortAll(pl,vl,thisID)
     end
 end
 
-function initRoundsReset(pl,vl,thisID)
+function initRoundsReset(pl, vl, thisID)
     initRound = 1
     initiative_UI_update()
 end
 -------------------------   conditions
 
-function contitionButt(pl,vl,thisID)
-    if numFromStrEnd(thisID) ~= 18 then
-        main_Table[nFromPlClr(pl.color)].conditions.table[numFromStrEnd(thisID)] = not main_Table[nFromPlClr(pl.color)].conditions.table[numFromStrEnd(thisID)]
+function contitionButt(pl, vl, thisID)
+    local playerIndex, numStrEnd = nFromPlClr(pl.color), extractNumberFromString(thisID, "end")
+    if numStrEnd ~= 18 then
+        main_Table[playerIndex].conditions.table[numStrEnd] = not main_Table[playerIndex].conditions.table[numStrEnd]
     else
         if vl == "-1" then
-            main_Table[nFromPlClr(pl.color)].conditions.exhaustion = main_Table[nFromPlClr(pl.color)].conditions.exhaustion + 1
-            if main_Table[nFromPlClr(pl.color)].conditions.exhaustion > 5 then main_Table[nFromPlClr(pl.color)].conditions.exhaustion = 0 end
+            main_Table[playerIndex].conditions.exhaustion = main_Table[playerIndex].conditions.exhaustion + 1
+            if main_Table[playerIndex].conditions.exhaustion > 5 then main_Table[playerIndex].conditions.exhaustion = 0 end
         elseif vl == "-2" then
-            main_Table[nFromPlClr(pl.color)].conditions.exhaustion = main_Table[nFromPlClr(pl.color)].conditions.exhaustion - 1
-            if main_Table[nFromPlClr(pl.color)].conditions.exhaustion < 0 then main_Table[nFromPlClr(pl.color)].conditions.exhaustion = 5 end
+            main_Table[playerIndex].conditions.exhaustion = main_Table[playerIndex].conditions.exhaustion - 1
+            if main_Table[playerIndex].conditions.exhaustion < 0 then main_Table[playerIndex].conditions.exhaustion = 5 end
         end
-        if main_Table[nFromPlClr(pl.color)].conditions.exhaustion ~= 0 then
-            main_Table[nFromPlClr(pl.color)].conditions.table[numFromStrEnd(thisID)] = true
+        if main_Table[playerIndex].conditions.exhaustion ~= 0 then
+            main_Table[playerIndex].conditions.table[numStrEnd] = true
         else
-            main_Table[nFromPlClr(pl.color)].conditions.table[numFromStrEnd(thisID)] = false
+            main_Table[playerIndex].conditions.table[numStrEnd] = false
         end
     end
-    local playerIndex, numStrEnd = nFromPlClr(pl.color), numFromStrEnd(thisID)
     main_Table[playerIndex].ui_update_flags.conditions = true
     singleColor_UI_update_optimized(playerIndex)
 end
 
 -------------------------   char 3d UI settings
 
-function tokenGUI_slider(pl,vl,thisID)
-    main_Table[numFromStr(thisID)].tokenGUI_settings[numFromStrEnd(thisID)] = tonumber(vl)
+function tokenGUI_slider(pl, vl, thisID)
+    main_Table[extractNumberFromString(thisID, "start")].tokenGUI_settings[extractNumberFromString(thisID, "end")] = tonumber(vl)
     singleColor_UI_update(nFromPlClr(pl.color))
 end
 
-function tokenGUI_reset(pl,vl,thisID)
-    main_Table[nFromPlClr(pl.color)].tokenGUI_settings = {0,0,0,0,5}
-    singleColor_UI_update(nFromPlClr(pl.color))
+function tokenGUI_reset(pl, vl, thisID)
+    local playerIndex = nFromPlClr(pl.color)
+    main_Table[playerIndex].tokenGUI_settings = {0,0,0,0,5}
+    singleColor_UI_update(playerIndex)
 end
 
 -------------------------   UI updates
 
-function colorToggleEditMode(pl,vl,thisID)
+function colorToggleEditMode(pl, vl, thisID)
+    local playerIndex = nFromPlClr(pl.color)
+    local prefix = strFromNum(playerIndex)
     if vl == "-1" then
-        editModeVisibility[nFromPlClr(pl.color)] = not editModeVisibility[nFromPlClr(pl.color)]
+        editModeVisibility[playerIndex] = not editModeVisibility[playerIndex]
         
         local elementsToUpdate = {
             "charPortraitNameInputsPanel", "charLvlEdit", "charACedit", "charSpeedEdit",
@@ -1484,28 +1551,28 @@ function colorToggleEditMode(pl,vl,thisID)
         for i=1, 6 do
             UI_xmlElementUpdate("charAttrEdit_"..i,"visibility",editModeVisibilityStr)
         end
-        for i = 1, #main_Table[nFromPlClr(pl.color)].skills do
+        for i = 1, #main_Table[playerIndex].skills do
             UI_xmlElementUpdate("charSkillEditButtons_"..strFromNum(i),"visibility",editModeVisibilityStr)
         end
 
-        UI_xmlElementUpdate(strFromNum(nFromPlClr(pl.color)).."_charPortraitUrlInput", "text", main_Table[nFromPlClr(pl.color)].portraitUrl)
+        UI_xmlElementUpdate(prefix.."_charPortraitUrlInput", "text", main_Table[playerIndex].portraitUrl)
 
         for i=1,10 do
-            if editModeSelectedAttack[nFromPlClr(pl.color)] == i or not editModeVisibility[nFromPlClr(pl.color)] then
+            if editModeSelectedAttack[playerIndex] == i or not editModeVisibility[playerIndex] then
                 atkButtonImg_color = "#ffffffff"
             else
                 atkButtonImg_color = "#ffffff88"
             end
-            UI_xmlElementUpdate(strFromNum(nFromPlClr(pl.color)).."_atkButtonImg_"..strFromNum(i),"color",atkButtonImg_color)
+            UI_xmlElementUpdate(prefix.."_atkButtonImg_"..strFromNum(i),"color",atkButtonImg_color)
         end
-        if editModeVisibility[nFromPlClr(pl.color)] then
-            atkEdit_UI_update(nFromPlClr(pl.color), editModeSelectedAttack[nFromPlClr(pl.color)])
+        if editModeVisibility[playerIndex] then
+            atkEdit_UI_update(playerIndex, editModeSelectedAttack[playerIndex])
         end
 
         local flagVis = editModeVisibilityStr:find(pl.color) and "true" or "false"
-        UI_xmlElementUpdate(strFromNum(nFromPlClr(pl.color)) .. "_notesInput_A", "interactable", flagVis)
-        UI_xmlElementUpdate(strFromNum(nFromPlClr(pl.color)) .. "_notesInput_B", "interactable", flagVis)
-    elseif vl == "-2" and editModeVisibility[nFromPlClr(pl.color)] and getObjectFromGUID(lastPickedCharGUID_table[nFromPlClr(pl.color)]) ~= nil then
+        UI_xmlElementUpdate(prefix .. "_notesInput_A", "interactable", flagVis)
+        UI_xmlElementUpdate(prefix .. "_notesInput_B", "interactable", flagVis)
+    elseif vl == "-2" and editModeVisibility[playerIndex] and getObjectFromGUID(lastPickedCharGUID_table[playerIndex]) ~= nil then
         --resetCounter
         if resetCounter < 4 then
             resetCounter = resetCounter + 1
@@ -1517,8 +1584,8 @@ function colorToggleEditMode(pl,vl,thisID)
                 end, 3)
             end
         else
-            getObjectFromGUID(lastPickedCharGUID_table[nFromPlClr(pl.color)]).call("resetChar")
-            GetStatsFromToken(nFromPlClr(pl.color), getObjectFromGUID(lastPickedCharGUID_table[nFromPlClr(pl.color)]))
+            getObjectFromGUID(lastPickedCharGUID_table[playerIndex]).call("resetChar")
+            GetStatsFromToken(playerIndex, getObjectFromGUID(lastPickedCharGUID_table[playerIndex]))
             UI_xmlElementUpdate("charSheetUtilButton_08","color","#ffffff")
             resetCounter = 0
         end
@@ -1537,74 +1604,62 @@ end
 -- Consolidated panel toggle function - reduces code duplication
 local function togglePanelVisibility(pl, panel, extraAction)
     local visibilityArray = panelVisibilityMap[panel]
-    if visibilityArray then
-        local playerIndex = nFromPlClr(pl.color)
-        visibilityArray[playerIndex] = not visibilityArray[playerIndex]
-        UI_xmlElementUpdate("panel_"..panel, "visibility", buildVisibilityString(visibilityArray))
-        if extraAction then extraAction() end
-    end
+    if not visibilityArray then return end
+
+    local playerIndex = nFromPlClr(pl.color)
+    visibilityArray[playerIndex] = not visibilityArray[playerIndex]
+    UI_xmlElementUpdate("panel_"..panel, "visibility", buildVisibilityString(visibilityArray))
+    if extraAction then extraAction() end
 end
 
 -- Simplified toggle functions using the consolidated function
-function colorToggleShowAttacks(pl,_,thisID)
-    togglePanelVisibility(pl, "attacks")
+local tableShow = {"attacks", "resourses", "spellSlots", "notes", "conditions", "UIset", "lookChar"}
+function colorToggleShow(pl, _, thisID)
+    local panel, playerIndex = tableShow[extractNumberFromString(thisID, "end")], nFromPlClr(pl.color)
+    if panel == "lookChar" then
+        if lastPickedCharGUID_table[playerIndex] ~= "" and getObjectFromGUID(lastPickedCharGUID_table[playerIndex]) ~= nil then
+            pl.lookAt({position = getObjectFromGUID(lastPickedCharGUID_table[playerIndex]).getPosition(), pitch = 65, yaw = 0, distance = 25})
+        end
+    else
+        togglePanelVisibility(pl, panel)
+    end
 end
 
-function colorToggleShowSpellSlots(pl,_,thisID)
-    togglePanelVisibility(pl, "spellSlots")
-end
-
-function colorToggleShowResourses(pl,_,thisID)
-    togglePanelVisibility(pl, "resourses")
-end
-
-function colorToggleShowNotes(pl,_,thisID)
-    togglePanelVisibility(pl, "notes")
-end
-
-function colorToggleConditions(pl,_,thisID)
-    togglePanelVisibility(pl, "conditions")
-end
-
-function colorToggleUIsetup(pl,_,thisID)
-    togglePanelVisibility(pl, "UIset")
-end
-
-function colorToggleShowMain(pl,vl,thisID)
+function colorToggleShowMain(pl, vl, thisID)
+    local playerIndex = nFromPlClr(pl.color)
     togglePanelVisibility(pl, "main", function()
-        if not panelVisibility_main[nFromPlClr(pl.color)] and vl == "-2" then
+        if vl == "-2" then
             -- Show all panels when main is hidden
-            panelVisibility_attacks[nFromPlClr(pl.color)] = true
-            colorToggleShowAttacks(pl,_,_)
-            panelVisibility_spellSlots[nFromPlClr(pl.color)] = true
-            colorToggleShowSpellSlots(pl,_,_)
-            panelVisibility_resourses[nFromPlClr(pl.color)] = true
-            colorToggleShowResourses(pl,_,_)
-            panelVisibility_notes[nFromPlClr(pl.color)] = true
-            colorToggleShowNotes(pl,_,_)
-            panelVisibility_conditions[nFromPlClr(pl.color)] = true
-            colorToggleConditions(pl,_,_)
-            panelVisibility_UIset[nFromPlClr(pl.color)] = true
-            colorToggleUIsetup(pl,_,_)
+            panelVisibility_attacks[playerIndex] = not panelVisibility_main[playerIndex]
+            panelVisibility_spellSlots[playerIndex] = not panelVisibility_main[playerIndex]
+            panelVisibility_resourses[playerIndex] = not panelVisibility_main[playerIndex]
+            panelVisibility_notes[playerIndex] = not panelVisibility_main[playerIndex]
+            panelVisibility_conditions[playerIndex] = not panelVisibility_main[playerIndex]
+            panelVisibility_UIset[playerIndex] = not panelVisibility_main[playerIndex]
+            for i = 1, #tableShow - 1 do
+                colorToggleShow(pl, nil, "charSheetUtilButton_0"..i)
+            end
         end
     end)
 end
 
-function colorToggleShowMiniMap(pl,vl,thisID)
-    togglePanelVisibility(pl, "miniMap", "miniMap", function()
+function colorToggleShowMiniMap(pl, vl, thisID)
+    togglePanelVisibility(pl, "miniMap", function()
         miniMap_UI_update()
     end)
 end
 
-function colorToggleShowInitiative(pl,vl,thisID)
-    panelVisibility_init[nFromPlClr(pl.color)] = not panelVisibility_init[nFromPlClr(pl.color)]
+function colorToggleShowInitiative(pl, vl, thisID)
+    local playerIndex = nFromPlClr(pl.color)
+    panelVisibility_init[playerIndex] = not panelVisibility_init[playerIndex]
     local editModeVisibilityStr = buildVisibilityString(panelVisibility_init)
     UI_xmlElementUpdate("init_panel", "visibility", editModeVisibilityStr)
 end
 
-function colorToggleProjector(pl,vl,thisID)
-    if nFromPlClr(pl.color) == 1 and vl == "-2" then
-        panelVisibility_projector[nFromPlClr(pl.color)] = not panelVisibility_projector[nFromPlClr(pl.color)]
+function colorToggleProjector(pl, vl, thisID)
+    local playerIndex = nFromPlClr(pl.color)
+    if playerIndex == 1 and vl == "-2" then
+        panelVisibility_projector[playerIndex] = not panelVisibility_projector[playerIndex]
         if panelVisibility_projector[1] then
             panelVisibility_projector = {true,true,true,true,true,true,true,true,true,true,true}
             UI_xmlElementUpdate("projectorImage", "visibility", "Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink")
@@ -1613,39 +1668,40 @@ function colorToggleProjector(pl,vl,thisID)
             UI_xmlElementUpdate("projectorImage", "visibility", "noone")
         end
     else
-        panelVisibility_projector[nFromPlClr(pl.color)] = not panelVisibility_projector[nFromPlClr(pl.color)]
+        panelVisibility_projector[playerIndex] = not panelVisibility_projector[playerIndex]
         local editModeVisibilityStr = buildVisibilityString(panelVisibility_projector)
         UI_xmlElementUpdate("projectorImage", "visibility", editModeVisibilityStr)
     end
 end
 
-function colorToggleBigPortrait(pl,vl,thisID)
+function colorToggleBigPortrait(pl, vl, thisID)
+    local playerIndex = nFromPlClr(pl.color)
     if thisID == "bigPortraitBigClose" then
-        panelVisibility_bigPortrait[nFromPlClr(pl.color)] = false
+        panelVisibility_bigPortrait[playerIndex] = false
     elseif thisID == "bigPortraitSelf" or (string.sub(thisID, 1, 15) == "bigPortraitInit" and #init_table > 0) or string.sub(thisID, 4, #thisID) == "bigPortraitTeam" then
-        panelVisibility_bigPortrait[nFromPlClr(pl.color)] = true
+        panelVisibility_bigPortrait[playerIndex] = true
         if thisID == "bigPortraitSelf" then
-            UI_xmlElementUpdate(strFromNum(nFromPlClr(pl.color)).."_bigPortraitImage","image",main_Table[nFromPlClr(pl.color)].portraitUrl)
+            UI_xmlElementUpdate(strFromNum(playerIndex).."_bigPortraitImage","image",main_Table[playerIndex].portraitUrl)
         elseif string.sub(thisID, 1, 15) == "bigPortraitInit" and #init_table > 0 then
             local bigPortraitInitPos = initTurnPos
-            for i=1,numFromStrEnd(thisID)-1 do
+            for i=1,extractNumberFromString(thisID, "end")-1 do
                 bigPortraitInitPos = bigPortraitInitPos + 1
                 if bigPortraitInitPos > #init_table then bigPortraitInitPos = 1 end
             end
             if vl == "-1" then
                 if thisID:find("Init") then
-                    UI_xmlElementUpdate(strFromNum(nFromPlClr(pl.color)).."_bigPortraitImage","image",self.UI.getAttribute("initImage_"..thisID:match("^[^_]+_([^_]+)"), "image"))
+                    UI_xmlElementUpdate(strFromNum(playerIndex).."_bigPortraitImage","image",self.UI.getAttribute("initImage_"..thisID:match("^[^_]+_([^_]+)"), "image"))
                 else
-                    UI_xmlElementUpdate(strFromNum(nFromPlClr(pl.color)).."_bigPortraitImage","image",getObjectFromGUID(init_table[bigPortraitInitPos].tokenGUID).getTable("charSave_table").portraitUrl)
+                    UI_xmlElementUpdate(strFromNum(playerIndex).."_bigPortraitImage","image",getObjectFromGUID(init_table[bigPortraitInitPos].tokenGUID).getTable("charSave_table").portraitUrl)
                 end
             elseif vl == "-2" then
-                panelVisibility_bigPortrait[nFromPlClr(pl.color)] = false
+                panelVisibility_bigPortrait[playerIndex] = false
                 if getObjectFromGUID(init_table[bigPortraitInitPos].tokenGUID) ~= nil then
-                    Player[plColors[nFromPlClr(pl.color)]].pingTable( getObjectFromGUID(init_table[bigPortraitInitPos].tokenGUID).getPosition() )
+                    Player[PLAYER_COLOR[playerIndex]].pingTable( getObjectFromGUID(init_table[bigPortraitInitPos].tokenGUID).getPosition() )
                 end
             end
         elseif string.sub(thisID, 4, #thisID) == "bigPortraitTeam" then
-            UI_xmlElementUpdate(strFromNum(nFromPlClr(pl.color)).."_bigPortraitImage","image",main_Table[numFromStr(thisID)].portraitUrl)
+            UI_xmlElementUpdate(strFromNum(playerIndex).."_bigPortraitImage","image",main_Table[extractNumberFromString(thisID, "start")].portraitUrl)
         end
     end
     local editModeVisibilityStr = buildVisibilityString(panelVisibility_bigPortrait)
@@ -1712,22 +1768,24 @@ function atkEdit_UI_update(pl_N,atk_N)
 end
 
 function colorToggleAtkIconsMenu(pl,_,thisID)
-    panelVisibility_atkIconsMenu[nFromPlClr(pl.color)] = not panelVisibility_atkIconsMenu[nFromPlClr(pl.color)]
+    local playerIndex = nFromPlClr(pl.color)
+    panelVisibility_atkIconsMenu[playerIndex] = not panelVisibility_atkIconsMenu[playerIndex]
     local editModeVisibilityStr = buildVisibilityString(panelVisibility_atkIconsMenu)
     UI_xmlElementUpdate("atkIconsMenu", "visibility", editModeVisibilityStr)
 end
 
-function atkIconsMenuButton(pl,vl,thisID)
-    if numFromStrEnd(thisID) <= #ATTACK_ICONS_URL then
-        main_Table[nFromPlClr(pl.color)].attacks[editModeSelectedAttack[nFromPlClr(pl.color)]].icon = numFromStrEnd(thisID)
+function atkIconsMenuButton(pl, vl, thisID)
+    local playerIndex, strEnd = nFromPlClr(pl.color), extractNumberFromString(thisID, "end")
+    if strEnd <= #ATTACK_ICONS_URL then
+        main_Table[playerIndex].attacks[editModeSelectedAttack[playerIndex]].icon = strEnd
         colorToggleAtkIconsMenu(pl,_,thisID)
-        atkEdit_UI_update(nFromPlClr(pl.color),editModeSelectedAttack[nFromPlClr(pl.color)])
+        atkEdit_UI_update(playerIndex,editModeSelectedAttack[playerIndex])
     end
 end
 
 function colorToggleScreenRoller(pl,_,thisID)
     for i = 1, #main_Table do
-        if pl.color == plColors[i] then
+        if pl.color == PLAYER_COLOR[i] then
             screenRollerVisibility[i] = not screenRollerVisibility[i]
         end
     end
@@ -1801,7 +1859,7 @@ function UI_upd(i)
     end
     for ii = 1, 5 do
         UI_xmlElementUpdate(prefix.."_charDeathSaveButton_"..strFromNum(ii), "active", dSavesActive)
-        UI_xmlElementUpdate(prefix.."_charDeathSaveButton_"..strFromNum(ii), "text", dSavesStr_table[char.deathSaves[ii]])
+        UI_xmlElementUpdate(prefix.."_charDeathSaveButton_"..strFromNum(ii), "text", DEATH_SAVE_SYMBOLS[char.deathSaves[ii]])
     end
 
     for _, name in ipairs(ATTRIBUTE_LIST) do
@@ -1909,10 +1967,10 @@ end
 function teamBar_UI_update()
     nPlayers = 0
     for i=2,11 do
-        if Player[plColors[i]].seated and lastPickedCharGUID_table[i] ~= "" and getObjectFromGUID(lastPickedCharGUID_table[i]) ~= nil and not getObjectFromGUID(lastPickedCharGUID_table[i]).getTable("charSave_table").charHidden then
+        if Player[PLAYER_COLOR[i]].seated and lastPickedCharGUID_table[i] ~= "" and getObjectFromGUID(lastPickedCharGUID_table[i]) ~= nil and not getObjectFromGUID(lastPickedCharGUID_table[i]).getTable("charSave_table").charHidden then
             nPlayers = nPlayers + 1
             UI_xmlElementUpdate(strFromNum(i).."_teamBarSegment", "active", "True")
-            UI_xmlElementUpdate(strFromNum(i).."_teamBarColor", "color", plColorsHexTable[i])
+            UI_xmlElementUpdate(strFromNum(i).."_teamBarColor", "color", PLAYER_COLOR_CODES[i])
             if lastPickedCharGUID_table[i] ~= "" and getObjectFromGUID(lastPickedCharGUID_table[i]) ~= nil then
                 UI_xmlElementUpdate(strFromNum(i).."_teamBarImage", "image", main_Table[i].portraitUrl)
             else
@@ -1937,7 +1995,7 @@ function teamBar_UI_update()
             else
                 teamBarHpStr = ""
                 for ii=1,5 do
-                    teamBarHpStr = teamBarHpStr.. dSavesStrTeamBar_table[main_Table[i].deathSaves[ii]]
+                    teamBarHpStr = teamBarHpStr.. DEATH_SAVE_SYMBOLS_TEAM_BAR[main_Table[i].deathSaves[ii]]
                 end
                 UI_xmlElementUpdate(strFromNum(i).."_teamBarHPsaves", "text", teamBarHpStr)
             end
@@ -1956,12 +2014,6 @@ function teamBar_UI_update()
     
 end
 
-function lookAtChar(pl,_,thisID)
-    if lastPickedCharGUID_table[nFromPlClr(pl.color)] ~= "" and getObjectFromGUID(lastPickedCharGUID_table[nFromPlClr(pl.color)]) ~= nil then
-        pl.lookAt({position = getObjectFromGUID(lastPickedCharGUID_table[nFromPlClr(pl.color)]).getPosition(), pitch = 65, yaw = 0, distance = 25})
-    end
-end
-
 --------------------------------------------------------    GM settings panel
 
 function toggleGMsettingsPanel()
@@ -1973,7 +2025,7 @@ function toggleGMsettingsPanel()
     GM_settingsPanel_UI_update()
 end
 
-function set_UI_Language(pl,vl,thisID)
+function set_UI_Language(pl, vl, thisID)
     local countLang = 0
     for _,_ in pairs(lang_table) do countLang = countLang + 1 end
     if vl == "-1" then
@@ -2095,7 +2147,7 @@ function toggleCharBaseSpin()
     GM_settingsPanel_UI_update()
 end
 
-function toggleAddCharMode(pl,vl,thisID)
+function toggleAddCharMode(pl, vl, thisID)
     if vl == "-1" then
         if copyCharMode then
             toggleCopyCharMode(pl,"-1",thisID)
@@ -2112,7 +2164,7 @@ function toggleAddCharMode(pl,vl,thisID)
     GM_settingsPanel_UI_update()
 end
 
-function toggleCopyCharMode(pl,vl,thisID)
+function toggleCopyCharMode(pl, vl, thisID)
     if getObjectFromGUID(lastPickedCharGUID_table[1]) ~= nil then
         if addCharMode then
             toggleAddCharMode(pl,"-1",thisID)
@@ -2180,73 +2232,10 @@ function onPlayerChangeColor(player_color)
     end
 end
 
-function makeMeGM(pl,vl,thisID)
+function makeMeGM(pl, vl, thisID)
     if vl == "-2" then
         pl.changeColor("Black")
     end
-end
-
-function GM_settingsPanel_UI_update()
-    if charBaseSpin then
-        UI_xmlElementUpdate("GM_toolsButton_02", "textOutline", "#ff000088")
-        UI_xmlElementUpdate("GM_toolsButton_02", "color", "#ffffffff")
-    else
-        UI_xmlElementUpdate("GM_toolsButton_02", "textOutline", "#ff000000")
-        UI_xmlElementUpdate("GM_toolsButton_02", "color", "#cccccccc")
-    end
-    if addCharMode then
-        UI_xmlElementUpdate("GM_toolsButton_03", "textOutline", "#0000aa88")
-        UI_xmlElementUpdate("GM_toolsButton_03", "color", "#ffffffff")
-    else
-        UI_xmlElementUpdate("GM_toolsButton_03", "textOutline", "#0000aa00")
-        UI_xmlElementUpdate("GM_toolsButton_03", "color", "#cccccccc")
-    end
-    if diceRollsShowEveryDie then
-        UI_xmlElementUpdate("GM_toolsButton_05", "textOutline", "#0000aa88")
-        UI_xmlElementUpdate("GM_toolsButton_05", "text", "●   ●\n●\n●   ●")
-        UI_xmlElementUpdate("GM_toolsButton_05", "color", "#ffffffff")
-    else
-        UI_xmlElementUpdate("GM_toolsButton_05", "textOutline", "#0000aa00")
-        UI_xmlElementUpdate("GM_toolsButton_05", "text", "○   ○\n○\n○   ○")
-        UI_xmlElementUpdate("GM_toolsButton_05", "color", "#cccccccc")
-    end
-
-    if diceRollsSneakyGM then
-        UI_xmlElementUpdate("GM_toolsButton_06", "textOutline", "#0000aa88")
-        UI_xmlElementUpdate("GM_toolsButton_06", "color", "#ffffffff")
-    else
-        UI_xmlElementUpdate("GM_toolsButton_06", "textOutline", "#0000aa00")
-        UI_xmlElementUpdate("GM_toolsButton_06", "color", "#cccccccc")
-    end
-
-    if autoPromote then
-        UI_xmlElementUpdate("GM_toolsButton_07", "textOutline", "#0000aa88")
-        UI_xmlElementUpdate("GM_toolsButton_07", "text", "★")
-        UI_xmlElementUpdate("GM_toolsButton_07", "color", "#ffffffff")
-    else
-        UI_xmlElementUpdate("GM_toolsButton_07", "textOutline", "#0000aa00")
-        UI_xmlElementUpdate("GM_toolsButton_07", "text", "☆")
-        UI_xmlElementUpdate("GM_toolsButton_07", "color", "#cccccccc")
-    end
-
-    if copyCharMode then
-        UI_xmlElementUpdate("GM_toolsButton_08", "textOutline", "#ffff0088")
-        UI_xmlElementUpdate("GM_toolsButton_08", "color", "#ffffffff")
-    else
-        UI_xmlElementUpdate("GM_toolsButton_08", "textOutline", "#ffff0000")
-        UI_xmlElementUpdate("GM_toolsButton_08", "color", "#cccccccc")
-    end
-
-    if saveLastPick then
-        UI_xmlElementUpdate("GM_toolsButton_09", "fontStyle", "bold")
-        UI_xmlElementUpdate("GM_toolsButton_09", "textOutline", "#ff000088")
-        UI_xmlElementUpdate("GM_toolsButton_09", "color", "#ffffffff")
-    else
-        UI_xmlElementUpdate("GM_toolsButton_09", "fontStyle", "normal")
-        UI_xmlElementUpdate("GM_toolsButton_09", "textOutline", "#ff000000")
-        UI_xmlElementUpdate("GM_toolsButton_09", "color", "#cccccccc")
-    end
-
 end
 
 --------------------------------------------------------    minimap
@@ -2295,10 +2284,10 @@ function miniMap_UI_update()
                 unitScale = ((all_chars[i].getBoundsNormalized().size[1] + all_chars[i].getBoundsNormalized().size[1] + all_chars[i].getBoundsNormalized().size[1]) / 3) * 0.15 * miniMap_zoom
                 UI_xmlElementUpdate("miniMap_unit_"..strFromNum(i), "scale", unitScale.." "..unitScale.." 1")
 
-                unitColor = plColorsHexTable[1]
+                unitColor = PLAYER_COLOR_CODES[1]
                 for ii=2,11 do
                     if all_chars[i].getTable("charSave_table").aColors[ii] then
-                        unitColor = plColorsHexTable[ii]
+                        unitColor = PLAYER_COLOR_CODES[ii]
                     end
                 end
                 UI_xmlElementUpdate("miniMap_text_"..strFromNum(i), "color", unitColor)
@@ -2308,7 +2297,7 @@ function miniMap_UI_update()
                 showToStr = "Black"
                 for ii=2,11 do
                     if all_chars[i].getTable("charSave_table").aColors[ii] then
-                        addColStr = plColors[ii]
+                        addColStr = PLAYER_COLOR[ii]
                         showToStr = showToStr.."|"..addColStr
                     end
                 end
@@ -2338,7 +2327,7 @@ function onObjectDrop(player_color, dropped_object)
     end
 end
 
-function set_miniMap_unit(pl,vl,thisID)
+function set_miniMap_unit(pl, vl, thisID)
     defineMiniMapUnit(vl)
 end
 
@@ -2348,25 +2337,27 @@ function defineMiniMapUnit(inpStr)
     end
 end
 
-function minimapControl(pl,vl,thisID)
-    if numFromStrEnd(thisID) == 1 then
-        if vl == "-2" then miniMap_zoom = miniMap_zoom + 1 elseif vl == "-1" then miniMap_zoom = miniMap_zoom + 2 end
-    elseif numFromStrEnd(thisID) == 2 then
-        if vl == "-2" then miniMap_offset[2] = miniMap_offset[2] + 1 elseif vl == "-1" then miniMap_offset[2] = miniMap_offset[2] + 5 end
-    elseif numFromStrEnd(thisID) == 3 then
-        if vl == "-2" then miniMap_zoom = miniMap_zoom - 1 elseif vl == "-1" then miniMap_zoom = miniMap_zoom - 2 end
-    elseif numFromStrEnd(thisID) == 4 then
-        if vl == "-2" then miniMap_offset[1] = miniMap_offset[1] - 1 elseif vl == "-1" then miniMap_offset[1] = miniMap_offset[1] - 5 end
-    elseif numFromStrEnd(thisID) == 5 then
-        if vl == "-2" then miniMap_offset[2] = miniMap_offset[2] - 1 elseif vl == "-1" then miniMap_offset[2] = miniMap_offset[2] - 5 end
-    elseif numFromStrEnd(thisID) == 6 then
-        if vl == "-2" then miniMap_offset[1] = miniMap_offset[1] + 1 elseif vl == "-1" then miniMap_offset[1] = miniMap_offset[1] + 5 end
+local tableMiniMapChanger = {
+    {["-2"] = 1, ["-1"] = 2},
+    {["-2"] = 1, ["-1"] = 5},
+    {["-2"] = -1, ["-1"] = -2},
+    {["-2"] = -1, ["-1"] = -5},
+    {["-2"] = -1, ["-1"] = -5},
+    {["-2"] = 1, ["-1"] = 5}
+}
+function minimapControl(pl, vl, thisID)
+    local numStrEnd = extractNumberFromString(thisID, "end")
+    if numStrEnd == 1 or numStrEnd == 3 then
+        miniMap_zoom = miniMap_zoom + tableMiniMapChanger[numStrEnd][vl]
+    elseif numStrEnd == 2 or numStrEnd == 5 then
+        miniMap_offset[2] = miniMap_offset[2] + tableMiniMapChanger[numStrEnd][vl]
+    elseif numStrEnd == 4 or numStrEnd == 6 then
+        miniMap_offset[1] = miniMap_offset[1] + tableMiniMapChanger[numStrEnd][vl]
     end
-
     miniMap_UI_update()
 end
 
-function miniMap_pingBorder(pl,vl,thisID)
+function miniMap_pingBorder(pl, vl, thisID)
     Player[pl.color].pingTable({miniMap_offset[1] - 140 / miniMap_zoom ,0,miniMap_offset[2] - 140 / miniMap_zoom})
     Player[pl.color].pingTable({miniMap_offset[1] - 140 / miniMap_zoom ,0,miniMap_offset[2] - 70 / miniMap_zoom})
     Player[pl.color].pingTable({miniMap_offset[1] - 140 / miniMap_zoom ,0,miniMap_offset[2]})
@@ -2393,20 +2384,21 @@ function modFromAttr(inpAttr)
     return math.floor((inpAttr - 10) / 2)
 end
 
-function numFromStr(inpStr)
-    if string.sub(inpStr,1,1) == "0" then
-        return tonumber(string.sub(inpStr,2,2))
+function extractNumberFromString(inpStr, position)
+    -- position: "start" или "end"
+    if not inpStr or #inpStr < 2 then return 0 end
+
+    local startPos, endPos
+    if position == "start" then
+        startPos, endPos = string.sub(inpStr, 1, 1) == "0" and 2 or 1, 2
+    elseif position == "end" then
+        startPos = string.sub(inpStr, #inpStr - 1, #inpStr - 1) == "0" and #inpStr or #inpStr - 1
+        endPos = #inpStr
     else
-        return tonumber(string.sub(inpStr,1,2))
+        return 0 -- Неверная позиция
     end
-end
-  
-function numFromStrEnd(inpStr)
-    if string.sub(inpStr,#inpStr-1,#inpStr-1) == "0" then
-        return tonumber(string.sub(inpStr,#inpStr,#inpStr))
-    else
-        return tonumber(string.sub(inpStr,#inpStr-1,#inpStr))
-    end
+    
+    return tonumber(string.sub(inpStr, startPos, endPos)) or 0
 end
   
 function strFromNum(inpNum)
@@ -2429,7 +2421,7 @@ function PoM_add(inpNum)
     return PoM(inpNum)..inpNum
 end
 
-function screenRoller(pl,vl,thisID)
+function screenRoller(pl, vl, thisID)
     if vl == "-1" then
         stringRoller(string.sub(thisID,6,#thisID),pl,"",1,false)
     elseif vl == "-2" then
@@ -2439,9 +2431,9 @@ function screenRoller(pl,vl,thisID)
     end
 end
 
-function setScreenRollerStrings(pl,vl,thisID)
+function setScreenRollerStrings(pl, vl, thisID)
     for i = 1, #main_Table do
-        if pl.color == plColors[i] then
+        if pl.color == PLAYER_COLOR[i] then
             pl_N = i
         end
     end
