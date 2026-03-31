@@ -63,6 +63,12 @@ local ATTACK_ICONS_URL = {
 }
 
 -- Built-in functionality --
+local function PoM(mod)
+    return (mod >= 0 and "+" or "")
+end
+local function formatModifier(mod)
+    return PoM(mod) .. mod
+end
 local function buildVisibilityString(conditionArray)
     local result = {}
     for i = 1, #main_Table do
@@ -351,16 +357,22 @@ function onSave()
         lastPickedCharGUID_table = {"","","","","","","","","","",""}
         resetGlobalLuaSave = false
         print("Global Lua lastPickedCharGUID_table reset")
-        print("Use XML emergency reset")
     end
-    data_to_save = {}
-    data_to_save.lang_set = lang_set
-    data_to_save.saveLastPick = saveLastPick
-    data_to_save.lastPickedCharGUID_table = Global.getTable("lastPickedCharGUID_table")
-    data_to_save.initTurnPos = initTurnPos
-    data_to_save.initRound = initRound
-    data_to_save.init_table = {}
-    for s = 1,#init_table do
+    local data_to_save = {
+        lang_set = lang_set,
+        saveLastPick = saveLastPick,
+        lastPickedCharGUID_table = Global.getTable("lastPickedCharGUID_table"),
+        initTurnPos = initTurnPos,
+        initRound = initRound,
+        init_table = {},
+        charBaseSpin = charBaseSpin,
+        charAutosaveDelay = charAutosaveDelay,
+        diceRollsShowEveryDie = diceRollsShowEveryDie,
+        diceRollsSneakyGM = diceRollsSneakyGM,
+        autoPromote = autoPromote,
+        miniMap_offset = { miniMap_offset[1], miniMap_offset[2] }
+    }
+    for s = 1, #init_table do
         data_to_save.init_table[s] = {
             charName    = init_table[s].charName,
             rollRez     = init_table[s].rollRez,
@@ -370,12 +382,6 @@ function onSave()
             portraitUrl = init_table[s].portraitUrl
         }
     end
-    data_to_save.charBaseSpin = charBaseSpin
-    data_to_save.charAutosaveDelay = charAutosaveDelay
-    data_to_save.diceRollsShowEveryDie = diceRollsShowEveryDie
-    data_to_save.diceRollsSneakyGM = diceRollsSneakyGM
-    data_to_save.autoPromote = autoPromote
-    data_to_save.miniMap_offset = {miniMap_offset[1],miniMap_offset[2]}
     return JSON.encode(data_to_save)
 end
 
@@ -683,7 +689,7 @@ end
 
 local function GetStatsFromToken(pl_N, obj)
     main_Table[pl_N] = obj.getTable("charSave_table")
-    UI_upd(pl_N)
+    fullUIUpdate(pl_N)
     atkEdit_UI_update(pl_N,editModeSelectedAttack[pl_N])
 end
 
@@ -986,13 +992,13 @@ function atkButton(pl, vl, thisID)
                 dmgRollType = 4
                 if vl == "-1" then
                     if main_Table[playerIndex].attacks[numStrEnd].dmgRolled then rTypeA = 2 else rTypeA = 1 end
-                    stringRoller("1d20"..PoM_add(atkRollMod),pl, plColHex..main_Table[prefix].charName.."[-]: "..main_Table[playerIndex].attacks[numStrEnd].atkName..resLeftStr..":",rTypeA,false)
+                    stringRoller("1d20"..formatModifier(atkRollMod),pl, plColHex..main_Table[prefix].charName.."[-]: "..main_Table[playerIndex].attacks[numStrEnd].atkName..resLeftStr..":",rTypeA,false)
                 elseif vl == "-2" then
                     rTypeA = 2
                     if main_Table[playerIndex].attacks[numStrEnd].dmgRolled then rTypeB = 3 else rTypeB = 4 end
                     doubleRoll = 2
-                    stringRoller("1d20"..PoM_add(atkRollMod),pl, plColHex..main_Table[prefix].charName.."[-]: "..main_Table[playerIndex].attacks[numStrEnd].atkName..resLeftStr..":",rTypeA,false)
-                    stringRoller("1d20"..PoM_add(atkRollMod),pl, rollOutputHex..main_Table[prefix].charName.."[-]: "..main_Table[playerIndex].attacks[numStrEnd].atkName..":",rTypeB,false)
+                    stringRoller("1d20"..formatModifier(atkRollMod),pl, plColHex..main_Table[prefix].charName.."[-]: "..main_Table[playerIndex].attacks[numStrEnd].atkName..resLeftStr..":",rTypeA,false)
+                    stringRoller("1d20"..formatModifier(atkRollMod),pl, rollOutputHex..main_Table[prefix].charName.."[-]: "..main_Table[playerIndex].attacks[numStrEnd].atkName..":",rTypeB,false)
                 end
             else
                 dmgRollType = 1
@@ -1006,7 +1012,7 @@ function atkButton(pl, vl, thisID)
 
             if main_Table[playerIndex].attacks[numStrEnd].dmgRolled then
                 if main_Table[playerIndex].attacks[numStrEnd].dmgAttr ~= 0 then
-                    dmgAttrStr = PoM_add(modFromAttr(main_Table[playerIndex].attributes[ATTRIBUTE_LIST[main_Table[playerIndex].attacks[numStrEnd].dmgAttr]]))
+                    dmgAttrStr = formatModifier(modFromAttr(main_Table[playerIndex].attributes[ATTRIBUTE_LIST[main_Table[playerIndex].attacks[numStrEnd].dmgAttr]]))
                     dmgAttrStrText = " + ".. lang_table[LANGUAGES[lang_set]][main_Table[playerIndex].attacks[numStrEnd].dmgAttr + 7]
                 else
                     dmgAttrStr = ""
@@ -1378,7 +1384,7 @@ function initiative_UI_update()
             end
             UI_xmlElementUpdate("initText_A_"..strFromNum(i), "text", init_table[i].rollRez)
             UI_xmlElementUpdate("initText_B_"..strFromNum(i), "text", init_table[i].charName)
-            UI_xmlElementUpdate("initText_C_"..strFromNum(i), "text", PoM_add(init_table[i].initMod))
+            UI_xmlElementUpdate("initText_C_"..strFromNum(i), "text", formatModifier(init_table[i].initMod))
             UI_xmlElementUpdate("initSetupButton_"..strFromNum(i), "color", "#ffffff")
             UI_xmlElementUpdate("initSetupButton_"..strFromNum(i), "text", "*")
             UI_xmlElementUpdate("initSetupButton_"..strFromNum(i), "tooltip", "setup")
@@ -1406,7 +1412,7 @@ function initiative_UI_update()
         end, 0.1)
     end
     if #init_table > 0 then
-        UI_xmlElementUpdate("initCol_01", "tooltip", init_table[initTurnPos].charName.."\n"..init_table[initTurnPos].rollRez.." ("..PoM_add(init_table[initTurnPos].initMod)..")")
+        UI_xmlElementUpdate("initCol_01", "tooltip", init_table[initTurnPos].charName.."\n"..init_table[initTurnPos].rollRez.." ("..formatModifier(init_table[initTurnPos].initMod)..")")
         UI_xmlElementUpdate("initCol_01", "color", PLAYER_COLOR_CODES[init_table[initTurnPos].aColor])
         UI_xmlElementUpdate("initImage_01", "color", "#ffffff")
         if getObjectFromGUID(init_table[initTurnPos].tokenGUID) ~= nil then
@@ -1420,7 +1426,7 @@ function initiative_UI_update()
         for i = 2, 6 do
             initImgUpdatePos = initImgUpdatePos + 1
             if initImgUpdatePos > #init_table then initImgUpdatePos = 1 end
-            UI_xmlElementUpdate("initCol_"..strFromNum(i), "tooltip", init_table[initImgUpdatePos].charName.."\n"..init_table[initImgUpdatePos].rollRez.." ("..PoM_add(init_table[initImgUpdatePos].initMod)..")")
+            UI_xmlElementUpdate("initCol_"..strFromNum(i), "tooltip", init_table[initImgUpdatePos].charName.."\n"..init_table[initImgUpdatePos].rollRez.." ("..formatModifier(init_table[initImgUpdatePos].initMod)..")")
             UI_xmlElementUpdate("initCol_"..strFromNum(i), "color", PLAYER_COLOR_CODES[init_table[initImgUpdatePos].aColor])
             UI_xmlElementUpdate("initImage_"..strFromNum(i), "color", "#ffffff")
             if getObjectFromGUID(init_table[initImgUpdatePos].tokenGUID) ~= nil then
@@ -1629,6 +1635,7 @@ function colorToggleEditMode(pl, vl, thisID)
             getObjectFromGUID(lastPickedCharGUID_table[playerIndex]).call("resetChar")
             GetStatsFromToken(playerIndex, getObjectFromGUID(lastPickedCharGUID_table[playerIndex]))
             UI_xmlElementUpdate("charSheetUtilButton_08","color","#ffffff")
+            resetGlobalLuaSave = false
             resetCounter = 0
         end
     end
@@ -1760,51 +1767,64 @@ function onObjectRandomize(object, player_color)
     end
 end
 
-function atkEdit_UI_update(pl_N,atk_N)
-    UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditNameText","text"," "..atk_N..". "..main_Table[pl_N].attacks[atk_N].atkName)
-    if main_Table[pl_N].attacks[atk_N].atkRolled then tempColorStr = "#8888ffff" else tempColorStr = "#ffffff00" end
-    UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditRollAtkButton","textOutline",tempColorStr)
-    if main_Table[pl_N].attacks[atk_N].atkAttr ~= 0 then
-        UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditAtkAttrButton","text",lang_table[LANGUAGES[lang_set]][main_Table[pl_N].attacks[atk_N].atkAttr + 7])
+function atkEdit_UI_update(pl_N, atk_N)
+    local char = main_Table[pl_N]
+    local attack = char.attacks[atk_N]
+    local prefix = strFromNum(pl_N)
+    local lang = lang_table[LANGUAGES[lang_set]]
+    local updates = {}
+
+    -- Основная информация
+    updates[prefix.."_atkEditNameText"] = { text = " " .. atk_N .. ". " .. attack.atkName }
+    updates[prefix.."_atkEditRollAtkButton"] = { textOutline = attack.atkRolled and "#8888ffff" or "#ffffff00" }
+
+    if attack.atkAttr ~= 0 then
+        updates[prefix.."_atkEditAtkAttrButton"] = { text = lang[attack.atkAttr + 7] }
     else
-        UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditAtkAttrButton","text","")
+        updates[prefix.."_atkEditAtkAttrButton"] = { text = "" }
     end
-    UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditProfButton","textOutline",PROFICIENCY_COLORS[main_Table[pl_N].attacks[atk_N].proficient])
-    UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditMinCritText","text",lang_table[LANGUAGES[lang_set]][41]..main_Table[pl_N].attacks[atk_N].minCrit)
-    UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditAtkModText","text",lang_table[LANGUAGES[lang_set]][42]..PoM_add(main_Table[pl_N].attacks[atk_N].atkMod))
-    if main_Table[pl_N].attacks[atk_N].dmgRolled then tempColorStr = "#8888ffff" else tempColorStr = "#ffffff00" end
-    UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditRollDmgButton","textOutline",tempColorStr)
-    if main_Table[pl_N].attacks[atk_N].dmgAttr ~= 0 then
-        UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditDmgAttrButton","text",lang_table[LANGUAGES[lang_set]][main_Table[pl_N].attacks[atk_N].dmgAttr + 7])
+
+    updates[prefix.."_atkEditProfButton"] = { textOutline = PROFICIENCY_COLORS[attack.proficient] }
+    updates[prefix.."_atkEditMinCritText"] = { text = lang[41] .. attack.minCrit }
+    updates[prefix.."_atkEditAtkModText"] = { text = lang[42] .. formatModifier(attack.atkMod) }
+
+    updates[prefix.."_atkEditRollDmgButton"] = { textOutline = attack.dmgRolled and "#8888ffff" or "#ffffff00" }
+
+    if attack.dmgAttr ~= 0 then
+        updates[prefix.."_atkEditDmgAttrButton"] = { text = lang[attack.dmgAttr + 7] }
     else
-        UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditDmgAttrButton","text","")
+        updates[prefix.."_atkEditDmgAttrButton"] = { text = "" }
     end
 
-    if main_Table[pl_N].attacks[atk_N].resUsed ~= 0 then
-        UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditResUsedButton","text", main_Table[pl_N].attacks[atk_N].resUsed..". "..main_Table[pl_N].resourses[main_Table[pl_N].attacks[atk_N].resUsed].resName)
+    if attack.resUsed ~= 0 then
+        updates[prefix.."_atkEditResUsedButton"] = { text = attack.resUsed .. ". " .. char.resourses[attack.resUsed].resName }
     else
-        UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditResUsedButton","text","")
+        updates[prefix.."_atkEditResUsedButton"] = { text = "" }
     end
 
-    UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditDmgStrText","text",lang_table[LANGUAGES[lang_set]][43]..main_Table[pl_N].attacks[atk_N].dmgStr)
-    UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditCritDmgStrText","text",lang_table[LANGUAGES[lang_set]][44]..main_Table[pl_N].attacks[atk_N].dmgStrCrit)
-    
-    UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditIconImg","image",ATTACK_ICONS_URL[main_Table[pl_N].attacks[atk_N].icon])
+    updates[prefix.."_atkEditDmgStrText"] = { text = lang[43] .. attack.dmgStr }
+    updates[prefix.."_atkEditCritDmgStrText"] = { text = lang[44] .. attack.dmgStrCrit }
+    updates[prefix.."_atkEditIconImg"] = { image = ATTACK_ICONS_URL[attack.icon] }
 
-    for ii=1,10 do
-        UI_xmlElementUpdate(strFromNum(pl_N).."_atkButtonImg_"..strFromNum(ii),"image",ATTACK_ICONS_URL[main_Table[pl_N].attacks[ii].icon])
-        UI_xmlElementUpdate(strFromNum(pl_N).."_atkButton_"..strFromNum(ii),"tooltip",main_Table[pl_N].attacks[ii].atkName)
+    -- Обновление кнопок атак (все 10)
+    for ii = 1, 10 do
+        local atk = char.attacks[ii]
+        updates[prefix.."_atkButtonImg_"..strFromNum(ii)] = { image = ATTACK_ICONS_URL[atk.icon] }
+        updates[prefix.."_atkButton_"..strFromNum(ii)] = { tooltip = atk.atkName }
     end
 
-    for ii=1,50 do
-        if main_Table[pl_N].attacks[editModeSelectedAttack[pl_N]].icon == ii then
-            UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditIconsGridButton_"..strFromNum(ii),"color","#ffffff02")
-        else
-            UI_xmlElementUpdate(strFromNum(pl_N).."_atkEditIconsGridButton_"..strFromNum(ii),"color","#ffffff44")
-        end
+    -- Обновление сетки иконок (50 кнопок)
+    local selectedIcon = attack.icon
+    for ii = 1, 50 do
+        local color = (selectedIcon == ii) and "#ffffff02" or "#ffffff44"
+        updates[prefix.."_atkEditIconsGridButton_"..strFromNum(ii)] = { color = color }
     end
 
-    if lastPickedCharGUID_table[pl_N] ~= "" and getObjectFromGUID(lastPickedCharGUID_table[pl_N]) ~= nil and not firstLoad then
+    batchUIUpdate(updates)
+
+    -- Обновление токена, если он привязан
+    local token = getObjectFromGUID(lastPickedCharGUID_table[pl_N])
+    if token and not firstLoad then
         SetStatsIntoToken(pl_N)
     end
 end
@@ -1845,159 +1865,147 @@ function mainSheet_UI_update()
     firstLoad = false
 end
 
-function singleColor_UI_update(n)
-    UI_upd(n)
-    if lastPickedCharGUID_table[n] ~= "" and getObjectFromGUID(lastPickedCharGUID_table[n]) ~= nil and not firstLoad then
-        SetStatsIntoToken(n)
+function fullUIUpdate(n)
+    local char = main_Table[n]
+    local updates = {}
+    local prefix = strFromNum(n)
+    local lang = lang_table[LANGUAGES[lang_set]]
+    -- 1. Базовые характеристики
+    updates[prefix.."_charPortrait"] = { image = char.portraitUrl }
+    updates[prefix.."_charPortraitUrlInput"] = { text = char.portraitUrl }
+    updates[prefix.."_charName"] = { text = char.charName }
+    updates[prefix.."_charLvl"] = { text = lang[2] .. char.charLvl }
+    updates[prefix.."_charAC"] = { text = char.AC }
+    updates[prefix.."_charSpeed"] = { text = char.speed }
+
+    local initModStr = char.initMod ~= 0 and " (" .. PoM(char.initMod) .. char.initMod .. ")" or ""
+    local locInitMod = modFromAttr(char.attributes["WIS"]) + char.skills[19].mod + char.initMod + char.charProfBonus * (char.skills[19].proficient - 1)
+    updates["charInitAddButton_"..prefix] = { text = lang[6] .. PoM(locInitMod) .. locInitMod .. initModStr }
+
+    local pPerceptionBase = 10 + modFromAttr(char.attributes["WIS"]) + char.skills[19].mod + char.charProfBonus * (char.skills[19].proficient - 1)
+    local ppModStr = char.pPerceptionMod ~= 0 and " (" .. PoM(char.pPerceptionMod) .. char.pPerceptionMod .. ")" or ""
+    updates[prefix.."_charPassivePerception"] = { text = lang[7] .. (char.pPerceptionMod + pPerceptionBase) .. ppModStr }
+
+    updates[prefix.."_charHPbar"] = { percentage = char.hp * 100 / char.hpMax }
+    updates[prefix.."_charHPtext"] = { text = char.hp .. " / " .. char.hpMax }
+    updates[prefix.."_charTempHPtext"] = { text = char.hpTemp > 0 and "+" .. char.hpTemp or "" }
+
+    if n == 1 then
+        updates["charHPsetVisibilityButton"] = { text = char.hpVisibleToPlayers and "<O>" or "GM" }
     end
-    for i = 1, #main_Table do
-        if lastPickedCharGUID_table[i] ~= "" and i ~= n and lastPickedCharGUID_table[i] == lastPickedCharGUID_table[n] then
-            if getObjectFromGUID(lastPickedCharGUID_table[i]) ~= nil then
-                GetStatsFromToken(i, getObjectFromGUID(lastPickedCharGUID_table[i]))
-            end
-        end
-    end
-end
-
-function UI_upd(i)
-    local prefix, char = strFromNum(i), main_Table[i]
-    UI_xmlElementUpdate(prefix.."_charPortrait", "image", char.portraitUrl)
-    UI_xmlElementUpdate(prefix.."_charPortraitUrlInput", "text", char.portraitUrl)
-
-    UI_xmlElementUpdate(prefix.."_charName", "text", char.charName)
-    UI_xmlElementUpdate(prefix.."_charLvl", "text", lang_table[LANGUAGES[lang_set]][2]..char.charLvl)
-    UI_xmlElementUpdate(prefix.."_charAC", "text", char.AC)
-    UI_xmlElementUpdate(prefix.."_charSpeed", "text", char.speed)
-
-    local initModStr = ""
-    if char.initMod ~= 0 then initModStr = " ("..PoM(char.initMod)..char.initMod..")" end
-    local locInitMod = modFromAttr(char.attributes["WIS"]) + char.skills[19].mod + char.initMod + char.charProfBonus*(char.skills[19].proficient - 1)
-    UI_xmlElementUpdate("charInitAddButton_"..prefix, "text", lang_table[LANGUAGES[lang_set]][6]..PoM(locInitMod) .. locInitMod .. initModStr)
-
-    local pPerseptionBase = 10 + modFromAttr(char.attributes["WIS"]) + char.skills[19].mod + char.charProfBonus*(char.skills[19].proficient - 1)
-    if char.pPerceptionMod ~= 0 then ppModStr = " ("..PoM(char.pPerceptionMod)..char.pPerceptionMod..")" else ppModStr = "" end
-    if char.pPerceptionMod ~= 0 then ppModStr = " ("..PoM(char.pPerceptionMod)..char.pPerceptionMod..")" else ppModStr = "" end
-    UI_xmlElementUpdate(prefix.."_charPassivePerception", "text", lang_table[LANGUAGES[lang_set]][7]..(char.pPerceptionMod + pPerseptionBase)..ppModStr)
-
-    UI_xmlElementUpdate(prefix.."_charHPbar", "percentage", (char.hp * 100 / char.hpMax))
-
-    UI_xmlElementUpdate(prefix.."_charHPtext", "text", char.hp.." / "..char.hpMax)
-    if char.hpTemp > 0 then
-        UI_xmlElementUpdate(prefix.."_charTempHPtext", "text", "+"..char.hpTemp)
-    else
-        UI_xmlElementUpdate(prefix.."_charTempHPtext", "text", "")
-    end
-    
-    if i == 1 and char.hpVisibleToPlayers then
-        UI_xmlElementUpdate("charHPsetVisibilityButton", "text", "<O>") --●◘ ◯
-    elseif i == 1 and not char.hpVisibleToPlayers then
-        UI_xmlElementUpdate("charHPsetVisibilityButton", "text", "GM")
-    end
-
-    if char.hp < 1 then
-        dSavesActive = "True"
-    else
-        dSavesActive = "False"
-    end
-    for ii = 1, 5 do
-        UI_xmlElementUpdate(prefix.."_charDeathSaveButton_"..strFromNum(ii), "active", dSavesActive)
-        UI_xmlElementUpdate(prefix.."_charDeathSaveButton_"..strFromNum(ii), "text", DEATH_SAVE_SYMBOLS[char.deathSaves[ii]])
-    end
-
+    -- 2. Спасброски и атрибуты
     for _, name in ipairs(ATTRIBUTE_LIST) do
-        UI_xmlElementUpdate(prefix.."_charAttrValue_" .. name, "text", char.attributes[name])
-        UI_xmlElementUpdate(prefix.."_charAttrMod_" .. name, "text", PoM(modFromAttr(char.attributes[name]))..modFromAttr(char.attributes[name]))
+        updates[prefix.."_charAttrValue_"..name] = { text = char.attributes[name] }
+        updates[prefix.."_charAttrMod_"..name] = { text = PoM(modFromAttr(char.attributes[name])) .. modFromAttr(char.attributes[name]) }
     end
 
     local typeST = 1
     for smN, smV in pairs(char.savesMod) do
         local index = char.saves[smN]
-        local colorStr = PROFICIENCY_COLORS[index]
-        local tooltipText = lang_table[LANGUAGES[lang_set]][61 + typeST] .. " " .. lang_table[LANGUAGES[lang_set]][77 + index]; typeST = typeST + 1
-        UI_xmlElementUpdate(prefix.."_charSaveButton_"..smN, "tooltip", tooltipText)
-        if smV ~= 0 then saveModStr = "\n"..PoM(smV)..smV else saveModStr = "" end
-        UI_xmlElementUpdate(prefix.."_charSaveButton_"..smN, "text", lang_table[LANGUAGES[lang_set]][14]..saveModStr)
-        UI_xmlElementUpdate(prefix.."_charSaveButton_"..smN, "color", colorStr)
+        local color = PROFICIENCY_COLORS[index]
+        local tooltip = lang[61 + typeST] .. " " .. lang[77 + index]
+        typeST = typeST + 1
+        local saveModStr = smV ~= 0 and "\n" .. PoM(smV) .. smV or ""
+        updates[prefix.."_charSaveButton_"..smN] = {
+            tooltip = tooltip,
+            text = lang[14] .. saveModStr,
+            color = color
+        }
     end
-
+    -- 3. Навыки
     for ii = 1, #char.skills do
-        local sklModStr, index = "", char.skills[ii].proficient
-        local colorStr = PROFICIENCY_COLORS[index]
-        if char.skills[ii].mod ~= 0 then sklModStr = " "..PoM(char.skills[ii].mod)..char.skills[ii].mod end
-        UI_xmlElementUpdate(prefix.."_charSkillButton_"..strFromNum(ii), "text", lang_table[LANGUAGES[lang_set]][14 + ii]..sklModStr)
-        UI_xmlElementUpdate(prefix.."_charSkillButton_"..strFromNum(ii), "color", colorStr)
-
-        local proficientSkill = char.charProfBonus*(index - 1)
-        local thisSkillMod = modFromAttr(char.attributes[SKILL_ATTRIBUTES[ii]]) + char.skills[ii].mod + proficientSkill
-        UI_xmlElementUpdate(prefix.."_charSkillButton_"..strFromNum(ii), "tooltip", "d20"..PoM(thisSkillMod) .. thisSkillMod .. " " .. lang_table[LANGUAGES[lang_set]][77 + index])
+        local idx = char.skills[ii].proficient
+        local color = PROFICIENCY_COLORS[idx]
+        local modStr = char.skills[ii].mod ~= 0 and " " .. PoM(char.skills[ii].mod) .. char.skills[ii].mod or ""
+        updates[prefix.."_charSkillButton_"..strFromNum(ii)] = {
+            text = lang[14 + ii] .. modStr,
+            color = color
+        }
+        local profBonus = char.charProfBonus * (idx - 1)
+        local totalMod = modFromAttr(char.attributes[SKILL_ATTRIBUTES[ii]]) + char.skills[ii].mod + profBonus
+        updates[prefix.."_charSkillButton_"..strFromNum(ii)].tooltip = "d20" .. PoM(totalMod) .. totalMod .. " " .. lang[77 + idx]
     end
-
+    -- 4. Атаки
     for ii = 1, 10 do
-        UI_xmlElementUpdate(prefix.."_atkButtonImg_"..strFromNum(ii),"image",ATTACK_ICONS_URL[char.attacks[ii].icon])
-        UI_xmlElementUpdate(prefix.."_atkButton_"..strFromNum(ii),"tooltip",char.attacks[ii].atkName)
+        updates[prefix.."_atkButtonImg_"..strFromNum(ii)] = { image = ATTACK_ICONS_URL[char.attacks[ii].icon] }
+        updates[prefix.."_atkButton_"..strFromNum(ii)] = { tooltip = char.attacks[ii].atkName }
     end
-
+    -- 5. Слоты заклинаний
     for ii = 1, 9 do
-        spellButtonStr = ""
-        for iii=1,char.splSlotsMax[ii] do
-            if iii <= char.splSlots[ii] then
-                spellButtonStr = spellButtonStr.."●"
-            else
-                spellButtonStr = spellButtonStr.."○"
-            end
+        local slotsStr = ""
+        for iii = 1, char.splSlotsMax[ii] do
+            slotsStr = slotsStr .. (iii <= char.splSlots[ii] and "●" or "○")
         end
-        UI_xmlElementUpdate(prefix.."_spellSlotButton_"..strFromNum(ii),"text", " "..ii..". "..spellButtonStr)
+        updates[prefix.."_spellSlotButton_"..strFromNum(ii)] = { text = " " .. ii .. ". " .. slotsStr }
     end
-
-    for ii=1,10 do
-        UI_xmlElementUpdate(prefix.."_resTextName_"..strFromNum(ii),"text", " "..ii..". "..char.resourses[ii].resName)
+    -- 6. Ресурсы
+    for ii = 1, 10 do
+        updates[prefix.."_resTextName_"..strFromNum(ii)] = { text = " " .. ii .. ". " .. char.resourses[ii].resName }
         if char.resourses[ii].resMax > 0 then
-            UI_xmlElementUpdate(prefix.."_resTextNum_"..strFromNum(ii),"text", char.resourses[ii].resValue.." / "..char.resourses[ii].resMax)
+            updates[prefix.."_resTextNum_"..strFromNum(ii)] = { text = char.resourses[ii].resValue .. " / " .. char.resourses[ii].resMax }
         else
-            UI_xmlElementUpdate(prefix.."_resTextNum_"..strFromNum(ii),"text", char.resourses[ii].resValue)
+            updates[prefix.."_resTextNum_"..strFromNum(ii)] = { text = char.resourses[ii].resValue }
         end
     end
-
-    UI_xmlElementUpdate(prefix.."_notesText_B","text", char.notes_B)
-    UI_xmlElementUpdate(prefix.."_notesInput_B","text", char.notes_B)
-
-    if i == 1 then
-        for ii=2,11 do
-            if char.aColors[ii] then
-                UI_xmlElementUpdate("assighedPlayerButton_"..strFromNum(ii),"text", "●")
-            else
-                UI_xmlElementUpdate("assighedPlayerButton_"..strFromNum(ii),"text", "")
-            end
+    -- 7. Заметки
+    updates[prefix.."_notesText_B"] = { text = char.notes_B }
+    updates[prefix.."_notesInput_B"] = { text = char.notes_B }
+    -- 8. Назначенные игроки (только для GM)
+    if n == 1 then
+        for ii = 2, 11 do
+            updates["assighedPlayerButton_"..strFromNum(ii)] = { text = char.aColors[ii] and "●" or "" }
         end
     end
-
-    for ii=1,20 do
-        if char.conditions.table[ii] then condButtColor = "#ffffff02" else condButtColor = "#ffffff88" end
-        UI_xmlElementUpdate(prefix.."_conditionButton_"..strFromNum(ii),"color", condButtColor)
+    -- 9. Состояния
+    for ii = 1, 20 do
+        local color = char.conditions.table[ii] and "#ffffff02" or "#ffffff88"
+        updates[prefix.."_conditionButton_"..strFromNum(ii)] = { color = color }
     end
 
-    for ii=1,5 do
+    for ii = 1, 5 do
         local conditionTable = {}
-        for iii=1,11 do
+        for iii = 1, 11 do
             conditionTable[iii] = (main_Table[iii].conditions.exhaustion == ii)
         end
-        local editModeVisibilityStr = buildVisibilityString(conditionTable)
-        UI_xmlElementUpdate("exhaustionIcon_"..strFromNum(ii), "visibility", editModeVisibilityStr)
+        updates["exhaustionIcon_"..strFromNum(ii)] = { visibility = buildVisibilityString(conditionTable) }
+    end
+    -- 10. Настройки UI для токена
+    for ii = 1, 5 do
+        updates[prefix.."_UIsetSlider_"..strFromNum(ii)] = { value = char.tokenGUI_settings[ii] }
     end
 
-    UI_xmlElementUpdate(prefix.."_UIsetSlider_"..strFromNum(1),"value",char.tokenGUI_settings[1])
-    UI_xmlElementUpdate(prefix.."_UIsetSlider_"..strFromNum(2),"value",char.tokenGUI_settings[2])
-    UI_xmlElementUpdate(prefix.."_UIsetSlider_"..strFromNum(3),"value",char.tokenGUI_settings[3])
-    UI_xmlElementUpdate(prefix.."_UIsetSlider_"..strFromNum(4),"value",char.tokenGUI_settings[4])
-    UI_xmlElementUpdate(prefix.."_UIsetSlider_"..strFromNum(5),"value",char.tokenGUI_settings[5])
-    
-    if char.charHidden then
-        UI_xmlElementUpdate("setInvisButton","color","#000022")
-    else
-        UI_xmlElementUpdate("setInvisButton","color","#cccccc")
-    end
-
+    updates["setInvisButton"] = { color = char.charHidden and "#000022" or "#cccccc" }
+    -- Применяем все обновления одним пакетом
+    batchUIUpdate(updates)
+    -- Дополнительное обновление team bar (требует отдельной логики, так как влияет на всех)
     teamBar_UI_update()
+end
+
+-- Переработанная функция singleColor_UI_update, использующая полное пакетное обновление
+function singleColor_UI_update(n)
+    local char = main_Table[n]
+    local tokenGUID = lastPickedCharGUID_table[n]
+    local token = tokenGUID ~= "" and getObjectFromGUID(tokenGUID) or nil
+    local needTokenUpdate = (token ~= nil and not firstLoad)
+
+    fullUIUpdate(n)
+
+    -- Обновление токена, если он привязан
+    if needTokenUpdate then
+        SetStatsIntoToken(n)
+    end
+
+    -- Синхронизация с другими персонажами, имеющими тот же GUID
+    if tokenGUID and tokenGUID ~= "" then
+        for i = 1, #main_Table do
+            if i ~= n and lastPickedCharGUID_table[i] == tokenGUID then
+                local otherToken = getObjectFromGUID(tokenGUID)
+                if otherToken then
+                    GetStatsFromToken(i, otherToken)
+                end
+            end
+        end
+    end
 end
 
 function onPlayerChangeColor(player_color)
@@ -2024,12 +2032,12 @@ function teamBar_UI_update()
             UI_xmlElementUpdate(strFromNum(i).."_bigPortraitTeam", "tooltip", main_Table[i].charName.."\n"..
             lang_table[LANGUAGES[lang_set]][2]..main_Table[i].charLvl.."  "..lang_table[LANGUAGES[lang_set]][3]..main_Table[i].AC.."  "..lang_table[LANGUAGES[lang_set]][4]..main_Table[i].speed.."\n"..
             lang_table[LANGUAGES[lang_set]][7]..(main_Table[i].pPerceptionMod + pPerseptionBase)..ppModStr.."\n"..
-            lang_table[LANGUAGES[lang_set]][8].." ".. main_Table[i].attributes["STR"].."("..PoM_add(modFromAttr(main_Table[i].attributes["STR"]))..")   "..
-            lang_table[LANGUAGES[lang_set]][9].." ".. main_Table[i].attributes["DEX"].."("..PoM_add(modFromAttr(main_Table[i].attributes["DEX"]))..")   \n"..
-            lang_table[LANGUAGES[lang_set]][10].." "..main_Table[i].attributes["CON"].."("..PoM_add(modFromAttr(main_Table[i].attributes["CON"]))..")   "..
-            lang_table[LANGUAGES[lang_set]][11].." "..main_Table[i].attributes["INT"].."("..PoM_add(modFromAttr(main_Table[i].attributes["INT"]))..")   \n"..
-            lang_table[LANGUAGES[lang_set]][12].." "..main_Table[i].attributes["WIS"].."("..PoM_add(modFromAttr(main_Table[i].attributes["WIS"]))..")   "..
-            lang_table[LANGUAGES[lang_set]][13].." "..main_Table[i].attributes["CHA"].."("..PoM_add(modFromAttr(main_Table[i].attributes["CHA"]))..")   "
+            lang_table[LANGUAGES[lang_set]][8].." ".. main_Table[i].attributes["STR"].."("..formatModifier(modFromAttr(main_Table[i].attributes["STR"]))..")   "..
+            lang_table[LANGUAGES[lang_set]][9].." ".. main_Table[i].attributes["DEX"].."("..formatModifier(modFromAttr(main_Table[i].attributes["DEX"]))..")   \n"..
+            lang_table[LANGUAGES[lang_set]][10].." "..main_Table[i].attributes["CON"].."("..formatModifier(modFromAttr(main_Table[i].attributes["CON"]))..")   "..
+            lang_table[LANGUAGES[lang_set]][11].." "..main_Table[i].attributes["INT"].."("..formatModifier(modFromAttr(main_Table[i].attributes["INT"]))..")   \n"..
+            lang_table[LANGUAGES[lang_set]][12].." "..main_Table[i].attributes["WIS"].."("..formatModifier(modFromAttr(main_Table[i].attributes["WIS"]))..")   "..
+            lang_table[LANGUAGES[lang_set]][13].." "..main_Table[i].attributes["CHA"].."("..formatModifier(modFromAttr(main_Table[i].attributes["CHA"]))..")   "
             )
             UI_xmlElementUpdate(strFromNum(i).."_teamBarHP", "percentage", math.floor(main_Table[i].hp / main_Table[i].hpMax * 100))
             if main_Table[i].hp > 0 then
@@ -2442,18 +2450,6 @@ function strFromNum(inpNum)
     else
         return tostring(inpNum)
     end
-end
-
-function PoM(inpNum)
-    if inpNum < 0 then
-        return ""
-    else
-        return "+"
-    end
-end
-
-function PoM_add(inpNum)
-    return PoM(inpNum)..inpNum
 end
 
 function screenRoller(pl, vl, thisID)

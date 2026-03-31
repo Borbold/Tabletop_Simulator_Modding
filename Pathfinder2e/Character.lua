@@ -62,14 +62,12 @@ function onLoad(saved_data)
         charData = loaded_data.charSave_table
         self.setVar("Selected", loaded_data.Selected or 0)
     end
-    
     -- Устанавливаем имя объекта как имя персонажа для новых
     if not charData.charName or charData.charName == "" then
         charData.charName = self.getName()
     end
 
     self.setTable("charSave_table", charData)
-    
     -- Устанавливаем XML и обновляем состояние
     self.UI.setXml(charXml())
     hideThisChar()
@@ -108,7 +106,6 @@ function UI_update()
     local allUpdates = {}
     local settings = charData.tokenGUI_settings
     local scale = 1.1 ^ (settings[5] - 6)
-
     -- 1. Обновление базового UI (позиция, масштаб, портрет)
     allUpdates["tokenUIbase"] = {
         position = string.format("%s,%s,%s", settings[3] * 10, settings[1] * 10, settings[2] * -10),
@@ -116,7 +113,6 @@ function UI_update()
         scale = string.format("%s,%s,%s", scale, scale, scale)
     }
     allUpdates["bigPortrait"] = { image = charData.portraitUrl }
-
     -- 2. Обновление видимости элементов
     local visibleToStr = buildVisibilityString(charData)
     local allColorsStr = table.concat(CONFIG.PLAYER_COLORS.NAMES, "|") .. "|Grey"
@@ -132,7 +128,6 @@ function UI_update()
         allUpdates["hpBar"] = { visibility = charData.hpVisibleToPlayers and allColorsStr or visibleToStr }
         allUpdates["hiddenMarker"] = { active = "False" }
     end
-
     -- 3. Обновление полоски здоровья
     local hpSegments = math.floor(charData.hp / charData.hpMax * CONFIG.UI.HP_BAR_SEGMENTS)
     local hpColors = CONFIG.UI.HP_BAR_COLORS
@@ -145,28 +140,25 @@ function UI_update()
             outline = (charData.hpTemp > 0 and i > 1 and i < CONFIG.UI.HP_BAR_SEGMENTS) and hpColors.TEMP_HP_OUTLINE or hpColors.NO_TEMP_HP_OUTLINE
         }
     end
-
     -- 4. Обновление маркера выделения
     local selectedPlayerIndex = self.getVar("Selected")
     if selectedPlayerIndex ~= 0 then
         local selectedColorHex = CONFIG.PLAYER_COLORS.HEX[selectedPlayerIndex] .. "ff"
-        allUpdates["selectedMarker"] = { active = "True" }
+        allUpdates["selectedMarker"]["active"] = "True"
         allUpdates["selectedMarker_00"] = { color = selectedColorHex }
         allUpdates["selectedMarker_10"] = { color = selectedColorHex }
         for i = 1, 4 do
             allUpdates["selectedMarker_" .. string.format("%02d", i)] = { outline = selectedColorHex }
         end
     else
-        allUpdates["selectedMarker"] = { active = "False" }
+        allUpdates["selectedMarker"]["active"] = "False"
     end
-
     -- 5. Обновление иконок состояний (conditions)
     for i = 1, CONFIG.DEFAULT_CHARACTER.CONDITIONS_COUNT do
         allUpdates["conditionPanel_" .. string.format("%02d", i)] = {
             active = charData.conditions.table[i] and "True" or "False"
         }
     end
-
     -- 6. Обновление уровней истощения (Exhaustion)
     if charData.conditions.table[18] then
         for i = 1, CONFIG.DEFAULT_CHARACTER.EXHAUSTION_LEVELS do
@@ -175,10 +167,8 @@ function UI_update()
             }
         end
     end
-    
     -- Применяем все обновления одним вызовом
     batchUIUpdate(allUpdates)
-    
     -- Сохраняем изменения
     updateSave()
 end
