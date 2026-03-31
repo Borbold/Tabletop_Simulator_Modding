@@ -1,249 +1,216 @@
-local function updateSave()
-    local data_to_save = {}
-    data_to_save.charSave_table = self.getTable("charSave_table")
-    data_to_save.Selected = Selected
+-- =================================================================
+-- КОНФИГУРАЦИОННЫЙ МОДУЛЬ
+-- =================================================================
+local CONFIG = {
+    -- Цвета игроков
+    PLAYER_COLORS = {
+        HEX = {"#3f3f3f", "#ffffff", "#703a16", "#da1917", "#f3631c", "#e6e42b", "#30b22a", "#20b09a", "#1e87ff", "#9f1fef", "#f46fcd"},
+        NAMES = {"Black", "White", "Brown", "Red", "Orange", "Yellow", "Green", "Teal", "Blue", "Purple", "Pink"}
+    },
+    
+    -- Настройки по умолчанию для нового персонажа
+    DEFAULT_CHARACTER = {
+        PORTRAIT_URL = "https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/",
+        HP = 1,
+        HP_MAX = 1,
+        LVL = 1,
+        AC = 10,
+        SPEED = 30,
+        PROF_BONUS = 2,
+        ATTRIBUTES = {STR = 10, DEX = 10, CON = 10, INT = 10, WIS = 10, CHA = 10},
+        SKILLS_COUNT = 19,
+        ATTACKS_COUNT = 10,
+        RESOURCES_COUNT = 10,
+        CONDITIONS_COUNT = 20,
+        EXHAUSTION_LEVELS = 5,
+        DEATH_SAVES_COUNT = 5,
+        UI_SETTINGS = {0, 0, 0, 0, 5}
+    },
 
-    local saved_data = JSON.encode(data_to_save)
-    self.script_state = saved_data
+    -- Настройки UI
+    UI = {
+        HP_BAR_SEGMENTS = 20,
+        HP_BAR_COLORS = {
+            FILLED = "#aa2222",
+            EMPTY = "#662222",
+            TEMP_HP_OUTLINE = "#ffaa0022",
+            NO_TEMP_HP_OUTLINE = "#66004400"
+        }
+    }
+}
+
+-- =================================================================
+-- ОСНОВНЫЕ ФУНКЦИИ ЖИЗНЕННОГО ЦИКЛА
+-- =================================================================
+
+-- Сохранение данных персонажа
+local function updateSave()
+    local data_to_save = {
+        charSave_table = self.getTable("charSave_table"),
+        Selected = self.getVar("Selected")
+    }
+    self.script_state = JSON.encode(data_to_save)
 end
--- Функция для загрузки данных персонажа
+
+-- Загрузка данных персонажа
 function onLoad(saved_data)
-    SCRIPTED_PF2E_CHARACTER = true
-    if saved_data ~= "" then
+    self.setVar("SCRIPTED_PF2E_CHARACTER", true)
+    
+    local charData
+    if saved_data and saved_data ~= "" then
         local loaded_data = JSON.decode(saved_data)
-        self.setTable("charSave_table", loaded_data.charSave_table)
-        Selected = loaded_data.Selected
-    else
-        Selected = 0 -- Индекс выбора, 0 - idle
-        resetChar()
+        charData = loaded_data.charSave_table
+        self.setVar("Selected", loaded_data.Selected or 0)
     end
-    -- Настройка цветов и интерфейса
-    plColorsHexTable = {"#3f3f3f","#ffffff","#703a16","#da1917","#f3631c","#e6e42b","#30b22a","#20b09a","#1e87ff","#9f1fef","#f46fcd"}
-    plColors_Table = {"Black","White","Brown","Red","Orange","Yellow","Green","Teal","Blue","Purple","Pink"}
-    self.UI:setXml(charXml())
+    
+    -- Устанавливаем имя объекта как имя персонажа для новых
+    if not charData.charName or charData.charName == "" then
+        charData.charName = self.getName()
+    end
+
+    self.setTable("charSave_table", charData)
+    
+    -- Устанавливаем XML и обновляем состояние
+    self.UI.setXml(charXml())
     hideThisChar()
 end
--- Функция для скрытия персонажа
-function hideThisChar()
-    if charSave_table.charHidden then
-        local hideFromTbl = {"Grey"}
-        for i = 2, 11 do
-            if not charSave_table.aColors[i] then
-                table.insert(hideFromTbl, plColors_Table[i])
-            end
-        end
-        self:setInvisibleTo(hideFromTbl)
-    else
-        self:setInvisibleTo({})
-    end
 
-    Wait.time(function()
-        UI_update()
-    end, 0.2)
+-- =================================================================
+-- ОСНОВНЫЕ ФУНКЦИИ УПРАВЛЕНИЯ ИНТЕРФЕЙСОМ (UI)
+-- =================================================================
+
+-- Пакетное обновление UI для повышения производительности
+local function batchUIUpdate(updateTable)
+    if not updateTable or not next(updateTable) then return end
+    for id, attributes in pairs(updateTable) do
+        for attr, value in pairs(attributes) do
+            self.UI.setAttribute(id, attr, value)
+        end
+    end
 end
--- Функция для обновления интерфейса
+
+-- Формирует строку видимости для игроков на основе данных персонажа
+local function buildVisibilityString(charData)
+    local visibleToStr = "Black"
+    for i = 2, #CONFIG.PLAYER_COLORS.NAMES do
+        if charData.aColors[i] then
+            visibleToStr = visibleToStr .. "|" .. CONFIG.PLAYER_COLORS.NAMES[i]
+        end
+    end
+    return visibleToStr
+end
+
+-- Главная функция обновления UI
 function UI_update()
-    if not charSave_table or not charSave_table.tokenGUI_settings then return end
-    -- Обновление позиции, ротации и масштаба интерфейса
-    UI_xmlElementUpdate("tokenUIbase", "position", (charSave_table.tokenGUI_settings[3] * 10)..","..(charSave_table.tokenGUI_settings[1] * 10)..","..(charSave_table.tokenGUI_settings[2] * (-10)))
-    UI_xmlElementUpdate("tokenUIbase", "rotation", "0,0,"..charSave_table.tokenGUI_settings[4] * 15 + 90)
-    UI_xmlElementUpdate("tokenUIbase", "scale", (1.1 ^ (charSave_table.tokenGUI_settings[5] - 6))..","..(1.1 ^ (charSave_table.tokenGUI_settings[5] - 6))..","..(1.1 ^ (charSave_table.tokenGUI_settings[5] - 6)))
+    local charData = self.getTable("charSave_table")
+    if not charData or not charData.tokenGUI_settings then return end
+    
+    local allUpdates = {}
+    local settings = charData.tokenGUI_settings
+    local scale = 1.1 ^ (settings[5] - 6)
 
-    -- Обновление состояния здоровья
-    local HP_i = math.floor(charSave_table.hp / charSave_table.hpMax * 20)
+    -- 1. Обновление базового UI (позиция, масштаб, портрет)
+    allUpdates["tokenUIbase"] = {
+        position = string.format("%s,%s,%s", settings[3] * 10, settings[1] * 10, settings[2] * -10),
+        rotation = "0,0," .. (settings[4] * 15 + 90),
+        scale = string.format("%s,%s,%s", scale, scale, scale)
+    }
+    allUpdates["bigPortrait"] = { image = charData.portraitUrl }
 
-    -- Формирование строки видимости
-    local function buildShowToStr()
-        local showToStrLocal = "Black"
-        for i = 2, 11 do
-            if charSave_table.aColors[i] then
-                showToStrLocal = showToStrLocal.."|"..plColors_Table[i]
-            end
-        end
-        return showToStrLocal
-    end
-    local showToStr = buildShowToStr()
+    -- 2. Обновление видимости элементов
+    local visibleToStr = buildVisibilityString(charData)
+    local allColorsStr = table.concat(CONFIG.PLAYER_COLORS.NAMES, "|") .. "|Grey"
 
-    -- Обновление видимости элементов интерфейса
-    if charSave_table.charHidden then
-        UI_xmlElementUpdate("conditionsPanel", "visibility", showToStr)
-        UI_xmlElementUpdate("selectedMarker", "visibility", showToStr)
-        UI_xmlElementUpdate("hpBar", "visibility", showToStr)
-        UI_xmlElementUpdate("hiddenMarker", "active", "True")
-        UI_xmlElementUpdate("hiddenMarker", "visibility", showToStr)
+    if charData.charHidden then
+        allUpdates["conditionsPanel"] = { visibility = visibleToStr }
+        allUpdates["selectedMarker"] = { visibility = visibleToStr }
+        allUpdates["hpBar"] = { visibility = visibleToStr }
+        allUpdates["hiddenMarker"] = { active = "True", visibility = visibleToStr }
     else
-        local function getAllColorsStr()
-            return "Black|White|Brown|Red|Orange|Yellow|Green|Teal|Blue|Purple|Pink|Grey"
-        end
-        UI_xmlElementUpdate("conditionsPanel", "visibility", getAllColorsStr())
-        UI_xmlElementUpdate("selectedMarker", "visibility", getAllColorsStr())
-        if charSave_table.hpVisibleToPlayers then
-            UI_xmlElementUpdate("hpBar", "visibility", getAllColorsStr())
-        else
-            UI_xmlElementUpdate("hpBar", "visibility", showToStr)
-        end
-        UI_xmlElementUpdate("hiddenMarker", "active", "False")
+        allUpdates["conditionsPanel"] = { visibility = allColorsStr }
+        allUpdates["selectedMarker"] = { visibility = allColorsStr }
+        allUpdates["hpBar"] = { visibility = charData.hpVisibleToPlayers and allColorsStr or visibleToStr }
+        allUpdates["hiddenMarker"] = { active = "False" }
     end
 
-    -- Обновление цвета элементов здоровья
-    for i = 1, 20 do
-        if i <= HP_i or (i == 1 and charSave_table.hp > 0) then
-            UI_xmlElementUpdate("hpBarText_"..strFromNum(i), "color", "#aa2222")
-        else
-            UI_xmlElementUpdate("hpBarText_"..strFromNum(i), "color", "#662222")
-        end
-        if charSave_table.hpTemp > 0 and i > 1 and i < 20 then
-            UI_xmlElementUpdate("hpBarText_"..strFromNum(i), "outline", "#ffaa0022")
-        elseif charSave_table.hpTemp == 0 and i > 1 and i < 20 then
-            UI_xmlElementUpdate("hpBarText_"..strFromNum(i), "outline", "#66004400")
-        end
+    -- 3. Обновление полоски здоровья
+    local hpSegments = math.floor(charData.hp / charData.hpMax * CONFIG.UI.HP_BAR_SEGMENTS)
+    local hpColors = CONFIG.UI.HP_BAR_COLORS
+    for i = 1, CONFIG.UI.HP_BAR_SEGMENTS do
+        local id = "hpBarText_" .. string.format("%02d", i)
+        local isFilled = (i <= hpSegments or (i == 1 and charData.hp > 0))
+        
+        allUpdates[id] = {
+            color = isFilled and hpColors.FILLED or hpColors.EMPTY,
+            outline = (charData.hpTemp > 0 and i > 1 and i < CONFIG.UI.HP_BAR_SEGMENTS) and hpColors.TEMP_HP_OUTLINE or hpColors.NO_TEMP_HP_OUTLINE
+        }
     end
 
-    -- Обновление выделения
-    if Selected ~= 0 then
-        UI_xmlElementUpdate("selectedMarker", "active", "True")
+    -- 4. Обновление маркера выделения
+    local selectedPlayerIndex = self.getVar("Selected")
+    if selectedPlayerIndex ~= 0 then
+        local selectedColorHex = CONFIG.PLAYER_COLORS.HEX[selectedPlayerIndex] .. "ff"
+        allUpdates["selectedMarker"] = { active = "True" }
+        allUpdates["selectedMarker_00"] = { color = selectedColorHex }
+        allUpdates["selectedMarker_10"] = { color = selectedColorHex }
         for i = 1, 4 do
-            UI_xmlElementUpdate("selectedMarker_"..strFromNum(i), "outline", plColorsHexTable[Selected].."ff")
+            allUpdates["selectedMarker_" .. string.format("%02d", i)] = { outline = selectedColorHex }
         end
-        UI_xmlElementUpdate("selectedMarker_00", "color", plColorsHexTable[Selected].."ff")
-        UI_xmlElementUpdate("selectedMarker_10", "color", plColorsHexTable[Selected].."ff")
     else
-        UI_xmlElementUpdate("selectedMarker", "active", "False")
+        allUpdates["selectedMarker"] = { active = "False" }
     end
 
-    -- Обновление состояний
-    for i = 1, 20 do
-        if charSave_table.conditions.table[i] then
-            UI_xmlElementUpdate("conditionPanel_"..strFromNum(i), "active", "True")
-        else
-            UI_xmlElementUpdate("conditionPanel_"..strFromNum(i), "active", "False")
-        end
+    -- 5. Обновление иконок состояний (conditions)
+    for i = 1, CONFIG.DEFAULT_CHARACTER.CONDITIONS_COUNT do
+        allUpdates["conditionPanel_" .. string.format("%02d", i)] = {
+            active = charData.conditions.table[i] and "True" or "False"
+        }
     end
 
-    if charSave_table.conditions.table[18] then
-        for i = 1, 5 do
-            if i == charSave_table.conditions.exhaustion then
-                UI_xmlElementUpdate("exhaustion_"..strFromNum(i), "active", "True")
-            else
-                UI_xmlElementUpdate("exhaustion_"..strFromNum(i), "active", "False")
-            end
+    -- 6. Обновление уровней истощения (Exhaustion)
+    if charData.conditions.table[18] then
+        for i = 1, CONFIG.DEFAULT_CHARACTER.EXHAUSTION_LEVELS do
+            allUpdates["exhaustion_" .. string.format("%02d", i)] = {
+                active = (i == charData.conditions.exhaustion) and "True" or "False"
+            }
         end
     end
-    -- Обновление портрета
-    UI_xmlElementUpdate("bigPortrait", "image", charSave_table.portraitUrl)
+    
+    -- Применяем все обновления одним вызовом
+    batchUIUpdate(allUpdates)
+    
+    -- Сохраняем изменения
     updateSave()
 end
--- Функция для сброса состояния персонажа
+
+-- Функция для скрытия/отображения персонажа от определенных игроков
+function hideThisChar()
+    local charData = self.getTable("charSave_table")
+    if not charData then return end
+
+    if charData.charHidden then
+        local hideFromTable = {"Grey"}
+        for i = 2, #CONFIG.PLAYER_COLORS.NAMES do
+            if not charData.aColors[i] then
+                table.insert(hideFromTable, CONFIG.PLAYER_COLORS.NAMES[i])
+            end
+        end
+        self.setInvisibleTo(hideFromTable)
+    else
+        self.setInvisibleTo({})
+    end
+end
+
+-- Сброс персонажа к состоянию по умолчанию
 function resetChar()
-    charSave_table = {}
-    charSave_table.aColors = {true,false,false,false,false,false,false,false,false,false,false}
-    charSave_table.portraitUrl = "https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/"
-    charSave_table.charName = self:getName()
-    charSave_table.hp = 1
-    charSave_table.hpMax = 1
-    charSave_table.hpTemp = 0
-    charSave_table.deathSaves = {1,1,1,1,1}
-    charSave_table.charLvl = 1
-    charSave_table.charProfBonus = 2
-    charSave_table.AC = 10
-    charSave_table.speed = 30
-    charSave_table.initMod = 0
-    charSave_table.pPerceptionMod = 0
-    charSave_table.attributes = {STR = 10, DEX = 10, CON = 10, INT = 10, WIS = 10, CHA = 10}
-    charSave_table.saves = {Fortitude = 1, Reflex = 1, Will = 1}
-    charSave_table.savesMod = {Fortitude = 0, Reflex = 0, Will = 0}
-    charSave_table.skills = {}
-    for ii = 1, 19 do
-        charSave_table.skills[ii] = {
-            proficient = 1,
-            mod = 0
-        }
-    end
-    charSave_table.attacks = {}
-    for ii = 1, 10 do
-        charSave_table.attacks[ii] = {
-            atkName = "unarmed",
-            atkRolled = true,
-            atkAttr = 1,
-            proficient = 1,
-            minCrit = 20,
-            atkMod = 0,
-            dmgRolled = true,
-            dmgAttr = 1,
-            dmgStr = "1",
-            dmgStrCrit = "0",
-            resUsed = 0,
-            icon = 1
-        }
-    end
-    charSave_table.splSlots = {0,0,0,0,0,0,0,0,0}
-    charSave_table.splSlotsMax = {0,0,0,0,0,0,0,0,0}
-    charSave_table.resourses = {}
-    for ii = 1, 10 do
-        charSave_table.resourses[ii] = {}
-        charSave_table.resourses[ii].resName = ""
-        charSave_table.resourses[ii].resValue = 0
-        charSave_table.resourses[ii].resMax = 0
-    end
-    charSave_table.notes_A = ""
-    charSave_table.notes_B = ""
-    charSave_table.figurineUI_scale = 1
-    charSave_table.figurineUI_xyzMods = {0,0,0}
-
-    charSave_table.conditions = {}
-    charSave_table.conditions.table = {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false}
-    charSave_table.conditions.exhaustion = 0
-    charSave_table.hpVisibleToPlayers = true
-    charSave_table.tokenGUI_settings = {0,0,0,0,5}
-
-    charSave_table.charHidden = false
-
-    charSave_table.ui_update_flags = {
-        basic_stats = false, -- hp, name, lvl, ac, speed
-        attributes = false,
-        saves = false,
-        skills = false,
-        attacks = false,
-        spell_slots = false,
-        resources = false,
-        conditions = false,
-        team_bar = false,
-        notes = false
-    }
-end
--- Функция для обновления XML элемента интерфейса
-function UI_xmlElementUpdate(xml_ID, xml_attribute, input_string)
-    if self.UI.getAttribute(xml_ID, xml_attribute) ~= input_string then
-        self.UI.setAttribute(xml_ID, xml_attribute, input_string)
-    end
-end
--- Функция для преобразования строки в число
-function numFromStr(inpStr)
-    if string.sub(inpStr, 1, 1) == "0" then
-        return tonumber(string.sub(inpStr, 2, 2))
-    else
-        return tonumber(string.sub(inpStr, 1, 2))
-    end
-end
--- Функция для преобразования строки в число (конец строки)
-function numFromStrEnd(inpStr)
-    if string.sub(inpStr, #inpStr-1, #inpStr-1) == "0" then
-        return tonumber(string.sub(inpStr, #inpStr, #inpStr))
-    else
-        return tonumber(string.sub(inpStr, #inpStr-1, #inpStr))
-    end
-end
--- Функция для преобразования числа в строку
-function strFromNum(inpNum)
-    if inpNum < 10 then
-        return "0"..tostring(inpNum)
-    else
-        return tostring(inpNum)
-    end
+    local newCharData = Global.call("createNewCharacterData")
+    newCharData.charName = self.getName() -- Сохраняем имя объекта
+    self.setTable("charSave_table", newCharData)
+    UI_update()
 end
 
 function charXml()
-    local xmlStr = [[<Defaults>
+    return [[<Defaults>
         <Text  class="HP_text" color="#aa2222" fontSize="60" fontStyle="bold" text="●" /> <!-- ● ◉ -->
         <Text  class="tokenUIbaseText" color="#ffffffee" shadow="#22222288" />
         <Image class="conditionImage" height="15" width="15" position="0,-40,0" />
@@ -395,5 +362,4 @@ function charXml()
         <!-- PORTRAIT -->
         <Image active="False" id="bigPortrait" height="200" width="200" preserveAspect="true" position="0,0,-450" rotation="0,-90,90" color="#ffffffdd" image="https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/" />
     </Panel>]]
-    return xmlStr
 end
