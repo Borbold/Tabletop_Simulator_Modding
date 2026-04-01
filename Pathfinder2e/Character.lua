@@ -103,7 +103,7 @@ function UI_update()
     local charData = self.getTable("charSave_table")
     if not charData or not charData.tokenGUI_settings then return end
     
-    local currentHash = charData.hp .. charData.hpTemp .. charData.hpMax .. table.concat(charData.conditions)
+    local currentHash = charData.hp .. charData.hpTemp .. charData.hpMax .. (charData.charHidden and "True" or "False") .. table.concat(charData.conditions)
     if currentHash == lastDataHash then return end
     lastDataHash = currentHash
 

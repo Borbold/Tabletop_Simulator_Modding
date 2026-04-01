@@ -715,48 +715,47 @@ local function GetStatsFromToken(pl_N, obj)
 end
 local itPickedUp = false
 function onObjectPickUp(plCl, pObj)
-    if not itPickedUp and pObj.getVar("SCRIPTED_PF2E_CHARACTER") ~= nil and not copyCharMode then
+    if itPickedUp then return end
+    
+    if pObj.getVar("SCRIPTED_PF2E_CHARACTER") ~= nil and not copyCharMode and
+        pObj.getTable("charSave_table").aColors[nFromPlClr(plCl)] then
         itPickedUp = true
-        if pObj.getTable("charSave_table").aColors[nFromPlClr(plCl)] then
-            local idx = nFromPlClr(plCl)
-            local previousTokenGUID = lastPickedCharGUID_table[idx]
-            if lastPickedCharGUID_table[idx] ~= pObj.getGUID() then
-                lastPickedCharGUID_table[idx] = pObj.getGUID()
-                updateGuidCache()
-            end
-            GetStatsFromToken(idx, pObj)
-            pObj.setVar("Selected", idx)
-            -- Отложенное обновление текущего токена (чтобы не блокировать)
-            Wait.time(function()
-                itPickedUp = false
-                pObj.call("UI_update")
-            end, 0.1)
-            -- Обновление предыдущего токена, если он существует и отличается
-            if previousTokenGUID ~= "" and previousTokenGUID ~= lastPickedCharGUID_table[idx] then
-                local prevObj = getObjectFromGUID(previousTokenGUID)
-                if prevObj then
-                    prevObj.setVar("Selected", tokenSelectionCheck(previousTokenGUID))
-                    Wait.time(function()
-                        prevObj.call("UI_update")
-                    end, 0.15)
-                end
-            end
-            noCharSelectedPanelCheck()
+        local idx = nFromPlClr(plCl)
+        local previousTokenGUID = lastPickedCharGUID_table[idx]
+        if lastPickedCharGUID_table[idx] ~= pObj.getGUID() then
+            lastPickedCharGUID_table[idx] = pObj.getGUID()
+            updateGuidCache()
         end
+        GetStatsFromToken(idx, pObj)
+        pObj.setVar("Selected", idx)
+        -- Отложенное обновление текущего токена (чтобы не блокировать)
+        Wait.time(function()
+            itPickedUp = false
+            pObj.call("UI_update")
+        end, 0.1)
+        -- Обновление предыдущего токена, если он существует и отличается
+        if previousTokenGUID ~= "" and previousTokenGUID ~= lastPickedCharGUID_table[idx] then
+            local prevObj = getObjectFromGUID(previousTokenGUID)
+            if prevObj then
+                prevObj.setVar("Selected", tokenSelectionCheck(previousTokenGUID))
+                Wait.time(function()
+                    prevObj.call("UI_update")
+                end, 0.15)
+            end
+        end
+        noCharSelectedPanelCheck()
     elseif pObj.getVar("SCRIPTED_PF2E_CHARACTER") ~= nil and copyCharMode then
         pObj.setTable("charSave_table", main_Table[nFromPlClr(plCl)])
         pObj.call("UI_update")
         copyCharMode = false
         UI.setAttribute("copyCharModePanel", "active", "False")
         GM_settingsPanel_UI_update()
-    else
-        if plCl == "Black" and addCharMode then
-            pObj.setLuaScript(charLua)
-            pObj.reload()
-            addCharMode = false
-            self.UI.setAttribute("addCharModePanel", "active", "False")
-            GM_settingsPanel_UI_update()
-        end
+    elseif plCl == "Black" and addCharMode then
+        pObj.setLuaScript(charLua)
+        pObj.reload()
+        addCharMode = false
+        self.UI.setAttribute("addCharModePanel", "active", "False")
+        GM_settingsPanel_UI_update()
     end
 end
 
