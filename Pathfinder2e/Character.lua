@@ -103,6 +103,10 @@ function UI_update()
     local charData = self.getTable("charSave_table")
     if not charData or not charData.tokenGUI_settings then return end
     
+    local currentHash = charData.hp .. charData.hpTemp .. charData.hpMax .. table.concat(charData.conditions)
+    if currentHash == lastDataHash then return end
+    lastDataHash = currentHash
+
     local allUpdates = {}
     local settings = charData.tokenGUI_settings
     local scale = 1.1 ^ (settings[5] - 6)

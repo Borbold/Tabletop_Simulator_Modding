@@ -63,6 +63,22 @@ local ATTACK_ICONS_URL = {
 }
 
 -- Built-in functionality --
+local guidToIndex = {}
+local function tokenSelectionCheck(previousTokenGUID)
+    return guidToIndex[guid] or 0
+end
+local function updateGuidCache()
+    for i, guid in ipairs(lastPickedCharGUID_table) do
+        guidToIndex[guid] = i
+    end
+end
+local function updateAttackIcons(n, updates)
+    local prefix = strFromNum(n)
+    for i = 1, 10 do
+        updates[prefix.."_atkButtonImg_"..strFromNum(i)] = { image = ATTACK_ICONS_URL[main_Table[n].attacks[i].icon] }
+        updates[prefix.."_atkButton_"..strFromNum(i)] = { tooltip = main_Table[n].attacks[i].atkName }
+    end
+end
 local function PoM(mod)
     return (mod >= 0 and "+" or "")
 end
@@ -112,6 +128,7 @@ local function checkGUIDtable()
     for i = 1, #main_Table do
         if getObjectFromGUID(lastPickedCharGUID_table[i]) == nil then
             lastPickedCharGUID_table[i] = ""
+            updateGuidCache()
         end
     end
 end
@@ -137,18 +154,18 @@ local function singleColor_UI_update_optimized(n)
     if flags.basic_stats then
         allUpdates[prefix.."_charPortrait"] = {image = playerData.portraitUrl}
         allUpdates[prefix.."_charName"] = {text = playerData.charName}
-        allUpdates[prefix.."_charLvl"] = {text = lang_table[LANGUAGES[lang_set]][2]..playerData.charLvl}
+        allUpdates[prefix.."_charLvl"] = {text = currentLang[2]..playerData.charLvl}
         allUpdates[prefix.."_charAC"] = {text = playerData.AC}
         
         local initModStr = ""
         if playerData.initMod ~= 0 then initModStr = " ("..PoM(playerData.initMod)..playerData.initMod..")" end
         local locInitMod = modFromAttr(playerData.attributes["WIS"]) + playerData.skills[19].mod + playerData.initMod + playerData.charProfBonus*(playerData.skills[19].proficient - 1)
-        allUpdates["charInitAddButton_"..prefix] = {text = lang_table[LANGUAGES[lang_set]][6]..PoM(locInitMod) .. locInitMod .. initModStr}
+        allUpdates["charInitAddButton_"..prefix] = {text = currentLang[6]..PoM(locInitMod) .. locInitMod .. initModStr}
         
         local pPerseptionBase = 10 + modFromAttr(playerData.attributes["WIS"]) + playerData.skills[19].mod + playerData.charProfBonus*(playerData.skills[19].proficient - 1)
         local ppModStr = ""
         if playerData.pPerceptionMod ~= 0 then ppModStr = " ("..PoM(playerData.pPerceptionMod)..playerData.pPerceptionMod..")" end
-        allUpdates[prefix.."_charPassivePerception"] = {text = lang_table[LANGUAGES[lang_set]][7]..(playerData.pPerceptionMod + pPerseptionBase)..ppModStr}
+        allUpdates[prefix.."_charPassivePerception"] = {text = currentLang[7]..(playerData.pPerceptionMod + pPerseptionBase)..ppModStr}
         
         allUpdates[prefix.."_charSpeed"] = {text = playerData.speed}
         allUpdates[prefix.."_charHPbar"] = {percentage = (playerData.hp * 100 / playerData.hpMax)}
@@ -176,7 +193,7 @@ local function singleColor_UI_update_optimized(n)
         for smN, smV in pairs(playerData.savesMod) do
             local index = playerData.saves[smN]
             local colorStr = PROFICIENCY_COLORS[index]
-            local tooltipText = lang_table[LANGUAGES[lang_set]][61 + typeST] .. " " .. lang_table[LANGUAGES[lang_set]][77 + index]
+            local tooltipText = currentLang[61 + typeST] .. " " .. currentLang[77 + index]
             typeST = typeST + 1
             
             local saveModStr = ""
@@ -184,7 +201,7 @@ local function singleColor_UI_update_optimized(n)
             
             allUpdates[prefix.."_charSaveButton_"..smN] = {
                 tooltip = tooltipText,
-                text = lang_table[LANGUAGES[lang_set]][14]..saveModStr,
+                text = currentLang[14]..saveModStr,
                 color = colorStr
             }
         end
@@ -199,22 +216,19 @@ local function singleColor_UI_update_optimized(n)
             local colorStr = PROFICIENCY_COLORS[index]
             
             allUpdates[prefix.."_charSkillButton_"..strFromNum(ii)] = {
-                text = lang_table[LANGUAGES[lang_set]][14 + ii]..sklModStr,
+                text = currentLang[14 + ii]..sklModStr,
                 color = colorStr
             }
 
             local proficientSkill = playerData.charProfBonus*(index - 1)
             local thisSkillMod = modFromAttr(playerData.attributes[SKILL_ATTRIBUTES[ii]]) + playerData.skills[ii].mod + proficientSkill
-            allUpdates[prefix.."_charSkillButton_"..strFromNum(ii)].tooltip = "d20"..PoM(thisSkillMod) .. thisSkillMod .. " " .. lang_table[LANGUAGES[lang_set]][77 + index]
+            allUpdates[prefix.."_charSkillButton_"..strFromNum(ii)].tooltip = "d20"..PoM(thisSkillMod) .. thisSkillMod .. " " .. currentLang[77 + index]
         end
         flags.skills = false
     end
 
     if flags.attacks then
-        for ii = 1, 10 do
-            allUpdates[prefix.."_atkButtonImg_"..strFromNum(ii)] = {image = ATTACK_ICONS_URL[playerData.attacks[ii].icon]}
-            allUpdates[prefix.."_atkButton_"..strFromNum(ii)] = {tooltip = playerData.attacks[ii].atkName}
-        end
+        updateAttackIcons(n, allUpdates)
         flags.attacks = false
     end
     
@@ -277,6 +291,23 @@ local function singleColor_UI_update_optimized(n)
     if lastPickedCharGUID_table[n] ~= "" and getObjectFromGUID(lastPickedCharGUID_table[n]) ~= nil and not firstLoad then
         SetStatsIntoToken(n)
     end
+end
+local function clamp(value, minVal, maxVal)
+    if maxVal == nil then maxVal = math.huge end
+    return math.max(minVal, math.min(maxVal, value))
+end
+local function modifyResource(playerIndex, resourceIndex, delta, newValue, newMax)
+    local res = main_Table[playerIndex].resourses[resourceIndex]
+    if newValue ~= nil then
+        res.resValue = clamp(newValue, 0, res.resMax > 0 and res.resMax or math.huge)
+    elseif newMax ~= nil then
+        res.resMax = math.max(0, newMax)
+        if res.resValue > res.resMax then res.resValue = res.resMax end
+    elseif delta ~= nil then
+        res.resValue = clamp(res.resValue + delta, 0, res.resMax > 0 and res.resMax or math.huge)
+    end
+    main_Table[playerIndex].ui_update_flags.resources = true
+    singleColor_UI_update_optimized(playerIndex)
 end
 local function getNestedValue(obj, path)
     local keys = {}
@@ -341,15 +372,6 @@ local function catchFieldType(elementId)
     if elementId:find("PassPerc") then return "pPerceptionMod" end
     return nil
 end
-local function getRollTypeFromID(elementId)
-    if elementId:lower():find("attr") then return "attribute" end
-    if elementId:lower():find("save") then return "save" end
-    if elementId:lower():find("skill") then return "skill" end
-    return nil
-end
-local function getPanelTypeFromID(elementId)
-    return elementId:match("Show(%a+)$") or elementId:match("Toggle(%a+)$")
-end
 -- Built-in functionality --
 
 function onSave()
@@ -370,7 +392,8 @@ function onSave()
         diceRollsShowEveryDie = diceRollsShowEveryDie,
         diceRollsSneakyGM = diceRollsSneakyGM,
         autoPromote = autoPromote,
-        miniMap_offset = { miniMap_offset[1], miniMap_offset[2] }
+        miniMap_offset = { miniMap_offset[1], miniMap_offset[2] },
+        miniMap_zoom = miniMap_zoom
     }
     for s = 1, #init_table do
         data_to_save.init_table[s] = {
@@ -538,6 +561,7 @@ function onLoad(saved_data)
         miniMap_zoom = 10
         miniMap_offset = {0,0}
     end
+    updateGuidCache()
     resetGlobalLuaSave = false
     ------------------------------------------
 
@@ -608,9 +632,9 @@ function onLoad(saved_data)
     charLua = ""
     WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/Pathfinder2e/Character.lua",
         function(request) charLua = request.text end)
-    lang_table = {}
+    lang_table, currentLang = {}, {}
     WebRequest.get("https://raw.githubusercontent.com/Borbold/Fallout_System/refs/heads/main/Pathfinder2e/DefineLangTable.json",
-        function(request) lang_table = JSON.decode(request.text) end)
+        function(request) lang_table = JSON.decode(request.text) currentLang = lang_table[LANGUAGES[lang_set]] end)
     Wait.time(function()
         language_UI_update()
         mainSheet_UI_update()
@@ -626,88 +650,96 @@ end
 -----------------------------   sheet <-> figurine interactions
 
 local function GM_settingsPanel_UI_update()
+    local updates = {}
+    -- Button 02 (charBaseSpin)
     if charBaseSpin then
-        UI_xmlElementUpdate("GM_toolsButton_02", "textOutline", "#ff000088")
-        UI_xmlElementUpdate("GM_toolsButton_02", "color", "#ffffffff")
+        updates["GM_toolsButton_02"] = { textOutline = "#ff000088", color = "#ffffffff" }
     else
-        UI_xmlElementUpdate("GM_toolsButton_02", "textOutline", "#ff000000")
-        UI_xmlElementUpdate("GM_toolsButton_02", "color", "#cccccccc")
+        updates["GM_toolsButton_02"] = { textOutline = "#ff000000", color = "#cccccccc" }
     end
+    -- Button 03 (addCharMode)
     if addCharMode then
-        UI_xmlElementUpdate("GM_toolsButton_03", "textOutline", "#0000aa88")
-        UI_xmlElementUpdate("GM_toolsButton_03", "color", "#ffffffff")
+        updates["GM_toolsButton_03"] = { textOutline = "#0000aa88", color = "#ffffffff" }
     else
-        UI_xmlElementUpdate("GM_toolsButton_03", "textOutline", "#0000aa00")
-        UI_xmlElementUpdate("GM_toolsButton_03", "color", "#cccccccc")
+        updates["GM_toolsButton_03"] = { textOutline = "#0000aa00", color = "#cccccccc" }
     end
+    -- Button 05 (diceRollsShowEveryDie)
     if diceRollsShowEveryDie then
-        UI_xmlElementUpdate("GM_toolsButton_05", "textOutline", "#0000aa88")
-        UI_xmlElementUpdate("GM_toolsButton_05", "text", "●   ●\n●\n●   ●")
-        UI_xmlElementUpdate("GM_toolsButton_05", "color", "#ffffffff")
+        updates["GM_toolsButton_05"] = {
+            textOutline = "#0000aa88",
+            text = "●   ●\n●\n●   ●",
+            color = "#ffffffff"
+        }
     else
-        UI_xmlElementUpdate("GM_toolsButton_05", "textOutline", "#0000aa00")
-        UI_xmlElementUpdate("GM_toolsButton_05", "text", "○   ○\n○\n○   ○")
-        UI_xmlElementUpdate("GM_toolsButton_05", "color", "#cccccccc")
+        updates["GM_toolsButton_05"] = {
+            textOutline = "#0000aa00",
+            text = "○   ○\n○\n○   ○",
+            color = "#cccccccc"
+        }
     end
-
+    -- Button 06 (diceRollsSneakyGM)
     if diceRollsSneakyGM then
-        UI_xmlElementUpdate("GM_toolsButton_06", "textOutline", "#0000aa88")
-        UI_xmlElementUpdate("GM_toolsButton_06", "color", "#ffffffff")
+        updates["GM_toolsButton_06"] = { textOutline = "#0000aa88", color = "#ffffffff" }
     else
-        UI_xmlElementUpdate("GM_toolsButton_06", "textOutline", "#0000aa00")
-        UI_xmlElementUpdate("GM_toolsButton_06", "color", "#cccccccc")
+        updates["GM_toolsButton_06"] = { textOutline = "#0000aa00", color = "#cccccccc" }
     end
-
+    -- Button 07 (autoPromote)
     if autoPromote then
-        UI_xmlElementUpdate("GM_toolsButton_07", "textOutline", "#0000aa88")
-        UI_xmlElementUpdate("GM_toolsButton_07", "text", "★")
-        UI_xmlElementUpdate("GM_toolsButton_07", "color", "#ffffffff")
+        updates["GM_toolsButton_07"] = { textOutline = "#0000aa88", text = "★", color = "#ffffffff" }
     else
-        UI_xmlElementUpdate("GM_toolsButton_07", "textOutline", "#0000aa00")
-        UI_xmlElementUpdate("GM_toolsButton_07", "text", "☆")
-        UI_xmlElementUpdate("GM_toolsButton_07", "color", "#cccccccc")
+        updates["GM_toolsButton_07"] = { textOutline = "#0000aa00", text = "☆", color = "#cccccccc" }
     end
-
+    -- Button 08 (copyCharMode)
     if copyCharMode then
-        UI_xmlElementUpdate("GM_toolsButton_08", "textOutline", "#ffff0088")
-        UI_xmlElementUpdate("GM_toolsButton_08", "color", "#ffffffff")
+        updates["GM_toolsButton_08"] = { textOutline = "#ffff0088", color = "#ffffffff" }
     else
-        UI_xmlElementUpdate("GM_toolsButton_08", "textOutline", "#ffff0000")
-        UI_xmlElementUpdate("GM_toolsButton_08", "color", "#cccccccc")
+        updates["GM_toolsButton_08"] = { textOutline = "#ffff0000", color = "#cccccccc" }
+    end
+    -- Button 09 (saveLastPick)
+    if saveLastPick then
+        updates["GM_toolsButton_09"] = { fontStyle = "bold", textOutline = "#ff000088", color = "#ffffffff" }
+    else
+        updates["GM_toolsButton_09"] = { fontStyle = "normal", textOutline = "#ff000000", color = "#cccccccc" }
     end
 
-    if saveLastPick then
-        UI_xmlElementUpdate("GM_toolsButton_09", "fontStyle", "bold")
-        UI_xmlElementUpdate("GM_toolsButton_09", "textOutline", "#ff000088")
-        UI_xmlElementUpdate("GM_toolsButton_09", "color", "#ffffffff")
-    else
-        UI_xmlElementUpdate("GM_toolsButton_09", "fontStyle", "normal")
-        UI_xmlElementUpdate("GM_toolsButton_09", "textOutline", "#ff000000")
-        UI_xmlElementUpdate("GM_toolsButton_09", "color", "#cccccccc")
-    end
+    batchUIUpdate(updates)
 end
 
 local function GetStatsFromToken(pl_N, obj)
     main_Table[pl_N] = obj.getTable("charSave_table")
-    fullUIUpdate(pl_N)
-    atkEdit_UI_update(pl_N,editModeSelectedAttack[pl_N])
+    for flag, _ in pairs(main_Table[pl_N].ui_update_flags) do
+        main_Table[pl_N].ui_update_flags[flag] = true
+    end
+    singleColor_UI_update_optimized(pl_N)
+    atkEdit_UI_update(pl_N, editModeSelectedAttack[pl_N])
 end
-
+local itPickedUp = false
 function onObjectPickUp(plCl, pObj)
-    if pObj.getVar("SCRIPTED_PF2E_CHARACTER") ~= nil and not copyCharMode then
+    if not itPickedUp and pObj.getVar("SCRIPTED_PF2E_CHARACTER") ~= nil and not copyCharMode then
+        itPickedUp = true
         if pObj.getTable("charSave_table").aColors[nFromPlClr(plCl)] then
-            previousTokenGUID = lastPickedCharGUID_table[nFromPlClr(plCl)]
-            lastPickedCharGUID_table[nFromPlClr(plCl)] = pObj.getGUID()
-            GetStatsFromToken(nFromPlClr(plCl),pObj)
-            pObj.setVar("Selected", nFromPlClr(plCl))
+            local idx = nFromPlClr(plCl)
+            local previousTokenGUID = lastPickedCharGUID_table[idx]
+            if lastPickedCharGUID_table[idx] ~= pObj.getGUID() then
+                lastPickedCharGUID_table[idx] = pObj.getGUID()
+                updateGuidCache()
+            end
+            GetStatsFromToken(idx, pObj)
+            pObj.setVar("Selected", idx)
+            -- Отложенное обновление текущего токена (чтобы не блокировать)
             Wait.time(function()
+                itPickedUp = false
                 pObj.call("UI_update")
             end, 0.1)
-            if previousTokenGUID ~= "" and getObjectFromGUID(previousTokenGUID) ~= nil and previousTokenGUID ~= lastPickedCharGUID_table[nFromPlClr(plCl)] then
-                getObjectFromGUID(previousTokenGUID).setVar("Selected", tokenSelectionCheck(previousTokenGUID))
-                Wait.time(function()
-                    getObjectFromGUID(previousTokenGUID).call("UI_update")
-                end, 0.1)
+            -- Обновление предыдущего токена, если он существует и отличается
+            if previousTokenGUID ~= "" and previousTokenGUID ~= lastPickedCharGUID_table[idx] then
+                local prevObj = getObjectFromGUID(previousTokenGUID)
+                if prevObj then
+                    prevObj.setVar("Selected", tokenSelectionCheck(previousTokenGUID))
+                    Wait.time(function()
+                        prevObj.call("UI_update")
+                    end, 0.15)
+                end
             end
             noCharSelectedPanelCheck()
         end
@@ -732,24 +764,13 @@ function onObjectDestroy(dying_object)
     noCharSelectedPanelCheck()
 end
 
-function tokenSelectionCheck(previousTokenGUID)
-    local selectedUpdate = 0
-    for i = #main_Table, 1, -1 do
-        if lastPickedCharGUID_table[i] ~= "" and getObjectFromGUID(lastPickedCharGUID_table[i]) ~= nil then
-            if lastPickedCharGUID_table[i] == previousTokenGUID then
-                selectedUpdate = i
-            end
-        end
-    end
-    return selectedUpdate
-end
-
 function SetStatsIntoToken(pl_N)
     if getObjectFromGUID(lastPickedCharGUID_table[pl_N]) ~= nil then
         getObjectFromGUID(lastPickedCharGUID_table[pl_N]).setTable("charSave_table", main_Table[pl_N])
         getObjectFromGUID(lastPickedCharGUID_table[pl_N]).call("UI_update")
     else
         lastPickedCharGUID_table[pl_N] = ""
+        updateGuidCache()
     end
 end
 
@@ -888,7 +909,7 @@ function rollAndEditValue(pl, vl, id)
         textName = self.UI.getAttribute(id, "tooltip"):match("^([^ ]+ [^ ]+)")
         charSaveButton(pl, vl, idName, MTId, textName, plColHex)
     elseif id:lower():find("skill") then
-        textName = lang_table[LANGUAGES[lang_set]][extractNumberFromString(id, "end") + 14]:match("^([^ ]+)")
+        textName = currentLang[extractNumberFromString(id, "end") + 14]:match("^([^ ]+)")
         skillButtonMain(pl, vl, id, textName, plColHex)
     end
 end
@@ -896,150 +917,211 @@ end
 -------------------------   HP
 
 function setCharHealDmgVal(pl, vl, thisID)
-    if tonumber(vl) ~= nil and vl ~= "" then
-        healTempDmg_table[nFromPlClr(pl.color)] = math.abs(tonumber(vl))
+    local num = tonumber(vl)
+    if num ~= nil and vl ~= "" then
+        local idx = nFromPlClr(pl.color)
+        healTempDmg_table[idx] = math.abs(num)
     end
 end
 
 function takeDmg(pl, vl, thisID)
-    local playerIndex = nFromPlClr(pl.color)
-    if healTempDmg_table[playerIndex] >= main_Table[playerIndex].hp + main_Table[playerIndex].hpTemp + main_Table[playerIndex].hpMax then
+    local idx = nFromPlClr(pl.color)
+    local char = main_Table[idx]
+    local dmgValue = healTempDmg_table[idx]
+    -- Проверка на мгновенную смерть
+    if dmgValue >= char.hp + char.hpTemp + char.hpMax then
         for d = 1, 3 do
-            main_Table[playerIndex].deathSaves[d] = 3
-            main_Table[playerIndex].conditions.table[20] = true
+            char.deathSaves[d] = 3
         end
+        char.conditions.table[20] = true
     end
-    dmgLeftAfterTemp = math.max(0, healTempDmg_table[playerIndex] - main_Table[playerIndex].hpTemp)
-    main_Table[playerIndex].hpTemp = math.max(0, main_Table[playerIndex].hpTemp - healTempDmg_table[playerIndex])
-    main_Table[playerIndex].hp     = math.max(0, main_Table[playerIndex].hp - dmgLeftAfterTemp)
-    healTempDmg_table[playerIndex] = 0
-    self.UI.setAttribute(strFromNum(playerIndex).."_charHealDmgValueInput", "text", "")
-    main_Table[playerIndex].ui_update_flags.basic_stats = true
-    main_Table[playerIndex].ui_update_flags.team_bar = true
-    singleColor_UI_update_optimized(playerIndex)
+    -- Расчёт урона: сначала временные HP, потом основные
+    local dmgAfterTemp = math.max(0, dmgValue - char.hpTemp)
+    char.hpTemp = math.max(0, char.hpTemp - dmgValue)
+    char.hp = math.max(0, char.hp - dmgAfterTemp)
+    -- Сброс значения поля ввода и таблицы временного урона
+    healTempDmg_table[idx] = 0
+    self.UI.setAttribute(strFromNum(idx) .. "_charHealDmgValueInput", "text", "")
+    -- Обновление UI
+    char.ui_update_flags.basic_stats = true
+    char.ui_update_flags.team_bar = true
+    singleColor_UI_update_optimized(idx)
+    -- Обновление мини-карты (если открыта)
     miniMap_UI_update()
 end
 
 function healHP(pl, vl, thisID)
-    local playerIndex = nFromPlClr(pl.color)
-    main_Table[playerIndex].hp = math.min(main_Table[playerIndex].hpMax, main_Table[playerIndex].hp + healTempDmg_table[playerIndex])
-    healTempDmg_table[playerIndex] = 0
-    self.UI.setAttribute(strFromNum(playerIndex).."_charHealDmgValueInput", "text", "")
-    for i = 1, #main_Table[playerIndex].deathSaves do
-        main_Table[playerIndex].deathSaves[i] = 1
+    local idx = nFromPlClr(pl.color)
+    local char = main_Table[idx]
+    local healAmount = healTempDmg_table[idx]
+
+    char.hp = clamp(char.hp + healAmount, 0, char.hpMax)
+    -- Сброс временных данных
+    healTempDmg_table[idx] = 0
+    self.UI.setAttribute(strFromNum(idx) .. "_charHealDmgValueInput", "text", "")
+    -- Сброс смертельных спасбросков
+    for i = 1, #char.deathSaves do
+        char.deathSaves[i] = 1
     end
-    main_Table[playerIndex].ui_update_flags.basic_stats = true
-    main_Table[playerIndex].ui_update_flags.team_bar = true
-    singleColor_UI_update_optimized(playerIndex)
+
+    char.ui_update_flags.basic_stats = true
+    char.ui_update_flags.team_bar = true
+    singleColor_UI_update_optimized(idx)
+
     miniMap_UI_update()
 end
 
 function setTempHP(pl, vl, thisID)
-    local playerIndex = nFromPlClr(pl.color)
-    if healTempDmg_table[playerIndex] ~= 0 and vl == "-1" then
-        main_Table[playerIndex].hpTemp = healTempDmg_table[playerIndex]
+    local idx = nFromPlClr(pl.color)
+    local char = main_Table[idx]
+    local tempValue = healTempDmg_table[idx]
+
+    if tempValue ~= 0 and vl == "-1" then
+        char.hpTemp = tempValue
     elseif vl == "-2" then
-        main_Table[playerIndex].hpTemp = 0
+        char.hpTemp = 0
     end
-    healTempDmg_table[playerIndex] = 0
-    self.UI.setAttribute(strFromNum(playerIndex).."_charHealDmgValueInput", "text", "")
-    main_Table[playerIndex].ui_update_flags.basic_stats = true
-    singleColor_UI_update_optimized(playerIndex)
+    -- Очистка
+    healTempDmg_table[idx] = 0
+    self.UI.setAttribute(strFromNum(idx) .. "_charHealDmgValueInput", "text", "")
+
+    char.ui_update_flags.basic_stats = true
+    singleColor_UI_update_optimized(idx)
 end
 
 function deathSaveButton(pl, vl, thisID)
-    local playerIndex, numStrEnd = extractNumberFromString(thisID, "start"), extractNumberFromString(thisID, "end")
-    main_Table[playerIndex].deathSaves[ending] = main_Table[playerIndex].deathSaves[ending] + 1
-    if main_Table[playerIndex].deathSaves[ending] > 3 then main_Table[playerIndex].deathSaves[ending] = 1 end
-    main_Table[playerIndex].ui_update_flags.basic_stats = true
-    singleColor_UI_update_optimized(playerIndex)
+    local idx = extractNumberFromString(thisID, "start")
+    local saveNum = extractNumberFromString(thisID, "end")
+    local char = main_Table[idx]
+    -- Защита от выхода за пределы массива (deathSaves имеет размер 5)
+    if saveNum < 1 or saveNum > #char.deathSaves then return end
+    -- Циклическое переключение: 1 -> 2 -> 3 -> 1
+    char.deathSaves[saveNum] = (char.deathSaves[saveNum] % 3) + 1
+
+    char.ui_update_flags.basic_stats = true
+    singleColor_UI_update_optimized(idx)
 end
 
 -------------------------   attacks
 
 function atkButton(pl, vl, thisID)
-    local playerIndex, prefix, numStrEnd = nFromPlClr(pl.color), extractNumberFromString(thisID, "start"), extractNumberFromString(thisID, "end")
+    local playerIndex = nFromPlClr(pl.color)
+    local atkNum = extractNumberFromString(thisID, "end")
+    local attack = main_Table[playerIndex].attacks[atkNum]
     local plColHex = "["..Color[pl.color]:toHex(false).."]"
+    local prefix = strFromNum(playerIndex)
+
     if editModeVisibility[playerIndex] then
-        editModeSelectedAttack[playerIndex] = numStrEnd
+        -- Режим редактирования
+        editModeSelectedAttack[playerIndex] = atkNum
+        local updates = {}
         for i = 1, 10 do
-            if editModeSelectedAttack[playerIndex] == i or not editModeVisibility[playerIndex] then atkButtonImg_color = "#ffffffff" else atkButtonImg_color = "#ffffff88" end
-            UI_xmlElementUpdate(strFromNum(playerIndex).."_atkButtonImg_"..strFromNum(i),"color",atkButtonImg_color)
+            local color = (editModeSelectedAttack[playerIndex] == i or not editModeVisibility[playerIndex])
+                          and "#ffffffff" or "#ffffff88"
+            updates[prefix.."_atkButtonImg_"..strFromNum(i)] = { color = color }
         end
-        atkEdit_UI_update(playerIndex,editModeSelectedAttack[playerIndex])
-    else
-        if main_Table[playerIndex].attacks[numStrEnd].resUsed == 0 or (main_Table[playerIndex].attacks[numStrEnd].resUsed ~= 0 and main_Table[playerIndex].resourses[main_Table[playerIndex].attacks[numStrEnd].resUsed].resValue > 0) then
-            if main_Table[playerIndex].attacks[numStrEnd].resUsed ~= 0 then
-                if main_Table[playerIndex].resourses[main_Table[playerIndex].attacks[numStrEnd].resUsed].resMax ~= 0 then
-                    resLeftStr = " / "..main_Table[playerIndex].resourses[main_Table[playerIndex].attacks[numStrEnd].resUsed].resMax
-                else
-                    resLeftStr = ""
-                end
-                resLeftStr = " [aaaaff]("..main_Table[playerIndex].resourses[main_Table[playerIndex].attacks[numStrEnd].resUsed].resValue..resLeftStr..")[-]"
-                main_Table[playerIndex].resourses[main_Table[playerIndex].attacks[numStrEnd].resUsed].resValue = main_Table[playerIndex].resourses[main_Table[playerIndex].attacks[numStrEnd].resUsed].resValue -1
-                singleColor_UI_update(playerIndex)
-            else
-                resLeftStr = ""
-            end
+        batchUIUpdate(updates)
+        atkEdit_UI_update(playerIndex, editModeSelectedAttack[playerIndex])
+        return
+    end
 
-            local atkRollMod = main_Table[playerIndex].attacks[numStrEnd].atkMod
-            if main_Table[playerIndex].attacks[numStrEnd].atkAttr ~= 0 then atkRollMod = atkRollMod + modFromAttr(main_Table[playerIndex].attributes[ATTRIBUTE_LIST[main_Table[playerIndex].attacks[numStrEnd].atkAttr]]) end
-            if main_Table[playerIndex].attacks[numStrEnd].proficient > 1 then atkRollMod = atkRollMod + main_Table[playerIndex].charProfBonus*(main_Table[playerIndex].attacks[numStrEnd].proficient - 1) end
-            atkClicked = numStrEnd
-            critRolled = false
-
-            if main_Table[playerIndex].attacks[numStrEnd].atkRolled then
-                dmgRollType = 4
-                if vl == "-1" then
-                    if main_Table[playerIndex].attacks[numStrEnd].dmgRolled then rTypeA = 2 else rTypeA = 1 end
-                    stringRoller("1d20"..formatModifier(atkRollMod),pl, plColHex..main_Table[prefix].charName.."[-]: "..main_Table[playerIndex].attacks[numStrEnd].atkName..resLeftStr..":",rTypeA,false)
-                elseif vl == "-2" then
-                    rTypeA = 2
-                    if main_Table[playerIndex].attacks[numStrEnd].dmgRolled then rTypeB = 3 else rTypeB = 4 end
-                    doubleRoll = 2
-                    stringRoller("1d20"..formatModifier(atkRollMod),pl, plColHex..main_Table[prefix].charName.."[-]: "..main_Table[playerIndex].attacks[numStrEnd].atkName..resLeftStr..":",rTypeA,false)
-                    stringRoller("1d20"..formatModifier(atkRollMod),pl, rollOutputHex..main_Table[prefix].charName.."[-]: "..main_Table[playerIndex].attacks[numStrEnd].atkName..":",rTypeB,false)
-                end
-            else
-                dmgRollType = 1
-                if diceRollsSneakyGM and pl.color == "Black" then
-                    printToColor("[b] ͡° ● "..main_Table[prefix].charName.."[/b][-]: [cccccc]"..main_Table[playerIndex].attacks[numStrEnd].atkName..":[-]", pl.color, pl.color)
-                else
-                    printToAll("[b]● "..main_Table[prefix].charName.."[/b][-]: [cccccc]"..main_Table[playerIndex].attacks[numStrEnd].atkName..":[-]", pl.color)
-                end
-                
-            end
-
-            if main_Table[playerIndex].attacks[numStrEnd].dmgRolled then
-                if main_Table[playerIndex].attacks[numStrEnd].dmgAttr ~= 0 then
-                    dmgAttrStr = formatModifier(modFromAttr(main_Table[playerIndex].attributes[ATTRIBUTE_LIST[main_Table[playerIndex].attacks[numStrEnd].dmgAttr]]))
-                    dmgAttrStrText = " + ".. lang_table[LANGUAGES[lang_set]][main_Table[playerIndex].attacks[numStrEnd].dmgAttr + 7]
-                else
-                    dmgAttrStr = ""
-                    dmgAttrStrText = ""
-                end
-
-                if critRolled then
-                    stringRoller(main_Table[playerIndex].attacks[numStrEnd].dmgStr..dmgAttrStr,pl, lang_table[LANGUAGES[lang_set]][45]..main_Table[playerIndex].attacks[numStrEnd].dmgStr..dmgAttrStrText.." :",3,false)
-                    stringRoller(main_Table[playerIndex].attacks[numStrEnd].dmgStrCrit,pl, lang_table[LANGUAGES[lang_set]][46]..main_Table[playerIndex].attacks[numStrEnd].dmgStrCrit.." :",4,true)
-                else
-                    stringRoller(main_Table[playerIndex].attacks[numStrEnd].dmgStr..dmgAttrStr,pl, lang_table[LANGUAGES[lang_set]][45]..main_Table[playerIndex].attacks[numStrEnd].dmgStr.. dmgAttrStrText.." :",dmgRollType,false)
-                end
-
-            end
-            atkClicked = 0
-
-            if not main_Table[playerIndex].attacks[numStrEnd].atkRolled and not main_Table[playerIndex].attacks[numStrEnd].dmgRolled then
-                if diceRollsSneakyGM and pl.color == "Black" then
-                    printToColor(" ͡° ● "..main_Table[playerIndex].charName..": "..rollOutputHex..main_Table[playerIndex].attacks[numStrEnd].atkName..resLeftStr.."[-]", pl.color, pl.color)
-                else
-                    printToAll("● "..main_Table[playerIndex].charName..": "..rollOutputHex..main_Table[playerIndex].attacks[numStrEnd].atkName..resLeftStr.."[-]", pl.color)
-                end
-            end
-        elseif main_Table[playerIndex].attacks[numStrEnd].resUsed ~= 0 and main_Table[playerIndex].resourses[main_Table[playerIndex].attacks[numStrEnd].resUsed].resValue == 0 then
-            printToAll("► [cccccc]".. main_Table[playerIndex].resourses[main_Table[playerIndex].attacks[numStrEnd].resUsed].resName..": [ff8888]"..main_Table[playerIndex].resourses[main_Table[playerIndex].attacks[numStrEnd].resUsed].resValue.." / "..main_Table[playerIndex].resourses[main_Table[playerIndex].attacks[numStrEnd].resUsed].resMax .."[-]", pl.color)
+    -- Режим использования атаки
+    local resIdx = attack.resUsed
+    if resIdx ~= 0 then
+        local resource = main_Table[playerIndex].resourses[resIdx]
+        if resource.resValue <= 0 then
+            printToAll("► [cccccc]".. resource.resName ..": [ff8888]".. resource.resValue .." / ".. resource.resMax .."[-]", pl.color)
+            return
         end
     end
+
+    -- Расход ресурса (если используется)
+    if resIdx ~= 0 then
+        modifyResource(playerIndex, resIdx, -1)
+    end
+
+    -- Формирование строки с остатком ресурса для вывода
+    local resLeftStr = ""
+    if resIdx ~= 0 then
+        local resource = main_Table[playerIndex].resourses[resIdx]
+        if resource.resMax > 0 then
+            resLeftStr = " [aaaaff](" .. resource.resValue .. " / " .. resource.resMax .. ")[-]"
+        else
+            resLeftStr = " [aaaaff](" .. resource.resValue .. ")[-]"
+        end
+    end
+
+    -- Расчёт модификатора атаки
+    local atkRollMod = attack.atkMod
+    if attack.atkAttr ~= 0 then
+        atkRollMod = atkRollMod + modFromAttr(main_Table[playerIndex].attributes[ATTRIBUTE_LIST[attack.atkAttr]])
+    end
+    if attack.proficient > 1 then
+        atkRollMod = atkRollMod + main_Table[playerIndex].charProfBonus * (attack.proficient - 1)
+    end
+
+    atkClicked = atkNum
+    critRolled = false
+
+    -- Бросок атаки
+    if attack.atkRolled then
+        local dmgRollType = 4
+        if vl == "-1" then
+            local rType = attack.dmgRolled and 2 or 1
+            stringRoller("1d20"..formatModifier(atkRollMod), pl,
+                plColHex..main_Table[playerIndex].charName.."[-]: "..attack.atkName..resLeftStr..":",
+                rType, false)
+        elseif vl == "-2" then
+            doubleRoll = 2
+            local rTypeA = 2
+            local rTypeB = attack.dmgRolled and 3 or 4
+            stringRoller("1d20"..formatModifier(atkRollMod), pl,
+                plColHex..main_Table[playerIndex].charName.."[-]: "..attack.atkName..resLeftStr..":",
+                rTypeA, false)
+            stringRoller("1d20"..formatModifier(atkRollMod), pl,
+                rollOutputHex..main_Table[playerIndex].charName.."[-]: "..attack.atkName..":",
+                rTypeB, false)
+        end
+    else
+        if diceRollsSneakyGM and pl.color == "Black" then
+            printToColor("[b] ͡° ● "..main_Table[playerIndex].charName.."[/b][-]: [cccccc]"..attack.atkName..":[-]", pl.color, pl.color)
+        else
+            printToAll("[b]● "..main_Table[playerIndex].charName.."[/b][-]: [cccccc]"..attack.atkName..":[-]", pl.color)
+        end
+    end
+
+    -- Бросок урона
+    if attack.dmgRolled then
+        local dmgAttrStr = ""
+        local dmgAttrStrText = ""
+        if attack.dmgAttr ~= 0 then
+            local dmgAttrMod = modFromAttr(main_Table[playerIndex].attributes[ATTRIBUTE_LIST[attack.dmgAttr]])
+            dmgAttrStr = formatModifier(dmgAttrMod)
+            dmgAttrStrText = " + " .. currentLang[attack.dmgAttr + 7]
+        end
+
+        if critRolled then
+            stringRoller(attack.dmgStr..dmgAttrStr, pl,
+                currentLang[45]..attack.dmgStr..dmgAttrStrText.." :", 3, false)
+            stringRoller(attack.dmgStrCrit, pl,
+                currentLang[46]..attack.dmgStrCrit.." :", 4, true)
+        else
+            local dmgRollType = 1
+            stringRoller(attack.dmgStr..dmgAttrStr, pl,
+                currentLang[45]..attack.dmgStr..dmgAttrStrText.." :", dmgRollType, false)
+        end
+    end
+
+    -- Если ни атака, ни урон не бросались, выводим просто имя
+    if not attack.atkRolled and not attack.dmgRolled then
+        if diceRollsSneakyGM and pl.color == "Black" then
+            printToColor(" ͡° ● "..main_Table[playerIndex].charName..": "..rollOutputHex..attack.atkName..resLeftStr.."[-]", pl.color, pl.color)
+        else
+            printToAll("● "..main_Table[playerIndex].charName..": "..rollOutputHex..attack.atkName..resLeftStr.."[-]", pl.color)
+        end
+    end
+
+    atkClicked = 0
 end
 
 function atkSetIcon(pl, vl, thisID)
@@ -1218,48 +1300,30 @@ function resSetName(pl, vl, thisID)
 end
 
 function resSetValue(pl, vl, thisID)
-    local playerIndex, numStrEnd = nFromPlClr(pl.color), extractNumberFromString(thisID, "end")
-    if tonumber(vl) ~= nil then
-        main_Table[playerIndex].resourses[numStrEnd].resValue = tonumber(vl)
-        if main_Table[playerIndex].resourses[numStrEnd].resMax > 0 then
-            if main_Table[playerIndex].resourses[numStrEnd].resValue > main_Table[playerIndex].resourses[numStrEnd].resMax then
-                main_Table[playerIndex].resourses[numStrEnd].resValue = main_Table[playerIndex].resourses[numStrEnd].resMax
-            end
-        end
+    local playerIndex = nFromPlClr(pl.color)
+    local resourceIndex = extractNumberFromString(thisID, "end")
+    local newValue = tonumber(vl)
+    if newValue then
+        modifyResource(playerIndex, resourceIndex, nil, newValue)
     end
-    main_Table[playerIndex].ui_update_flags.resources = true
-    singleColor_UI_update_optimized(playerIndex)
 end
 
 function resSetMax(pl, vl, thisID)
-    local playerIndex, numStrEnd = nFromPlClr(pl.color), extractNumberFromString(thisID, "end")
-    if tonumber(vl) == nil then return end
-    
-    main_Table[playerIndex].resourses[numStrEnd].resMax = tonumber(vl)
-    if main_Table[playerIndex].resourses[numStrEnd].resMax > 0 then
-        if main_Table[playerIndex].resourses[numStrEnd].resValue > main_Table[playerIndex].resourses[numStrEnd].resMax then
-            main_Table[playerIndex].resourses[numStrEnd].resValue = main_Table[playerIndex].resourses[numStrEnd].resMax
-        end
-    end
-    main_Table[playerIndex].ui_update_flags.resources = true
-    singleColor_UI_update_optimized(playerIndex)
+    local playerIndex = nFromPlClr(pl.color)
+    local resourceIndex = extractNumberFromString(thisID, "end")
+    local newMax = tonumber(vl)
+    if newMax == nil then return end
+    modifyResource(playerIndex, resourceIndex, nil, nil, newMax)
 end
 
 function resSingleAdd(pl, vl, thisID)
-    local playerIndex, numStrEnd = nFromPlClr(pl.color), extractNumberFromString(thisID, "end")
-    if extractNumberFromString(thisID, "start") == 1 then n_to_mult = -1 else n_to_mult = 1 end
-    if vl == "-1" then n_to_add = 1 elseif vl == "-2" then n_to_add = 5 end
-    main_Table[playerIndex].resourses[numStrEnd].resValue = main_Table[playerIndex].resourses[numStrEnd].resValue + (n_to_add * n_to_mult)
-    if main_Table[playerIndex].resourses[numStrEnd].resMax > 0 then
-        if main_Table[playerIndex].resourses[numStrEnd].resValue > main_Table[playerIndex].resourses[numStrEnd].resMax then
-            main_Table[playerIndex].resourses[numStrEnd].resValue = main_Table[playerIndex].resourses[numStrEnd].resMax
-        end
-        if main_Table[playerIndex].resourses[numStrEnd].resValue < 0 then
-            main_Table[playerIndex].resourses[numStrEnd].resValue = 0
-        end
-    end
-    main_Table[playerIndex].ui_update_flags.resources = true
-    singleColor_UI_update_optimized(playerIndex)
+    local playerIndex = nFromPlClr(pl.color)
+    local resourceIndex = extractNumberFromString(thisID, "end")
+    -- Определяем направление: start == 1 -> левая кнопка (минус), иначе правая (плюс)
+    local direction = (extractNumberFromString(thisID, "start") == 1) and -1 or 1
+    local amount = (vl == "-1") and 1 or 5  -- маленькое или большое изменение
+    local delta = direction * amount
+    modifyResource(playerIndex, resourceIndex, delta)
 end
 
 -------------------------
@@ -1371,88 +1435,81 @@ function addCharToInitiative(pl, vl, thisID)
 end
 
 function initiative_UI_update()
-    UI_xmlElementUpdate("initTitleText", "text", lang_table[LANGUAGES[lang_set]][47])
-    UI_xmlElementUpdate("initRoundCounter", "text", lang_table[LANGUAGES[lang_set]][48]..initRound)
+    local updates = {}
+    updates["initTitleText"] = { text = currentLang[47] }
+    updates["initRoundCounter"] = { text = currentLang[48] .. initRound }
     for i = 1, 15 do
         if i <= #init_table then
-            if i == initTurnPos then
-                UI_xmlElementUpdate("initText_A_"..strFromNum(i), "color", "#ffff00")
-                UI_xmlElementUpdate("initText_A_"..strFromNum(i), "outline", "#888800")
-            else
-                UI_xmlElementUpdate("initText_A_"..strFromNum(i), "color", "#000000")
-                UI_xmlElementUpdate("initText_A_"..strFromNum(i), "outline", "#00000000")
-            end
-            UI_xmlElementUpdate("initText_A_"..strFromNum(i), "text", init_table[i].rollRez)
-            UI_xmlElementUpdate("initText_B_"..strFromNum(i), "text", init_table[i].charName)
-            UI_xmlElementUpdate("initText_C_"..strFromNum(i), "text", formatModifier(init_table[i].initMod))
-            UI_xmlElementUpdate("initSetupButton_"..strFromNum(i), "color", "#ffffff")
-            UI_xmlElementUpdate("initSetupButton_"..strFromNum(i), "text", "*")
-            UI_xmlElementUpdate("initSetupButton_"..strFromNum(i), "tooltip", "setup")
-
-            UI_xmlElementUpdate("initColor_"..strFromNum(i), "color", PLAYER_COLOR_CODES[init_table[i].aColor])
-            UI_xmlElementUpdate("initColor_"..strFromNum(i), "outline", PLAYER_COLOR_CODES[init_table[i].aColor])
+            local entry = init_table[i]
+            local prefix = strFromNum(i)
+            local isCurrent = (i == initTurnPos)
+            updates["initText_A_"..prefix] = {
+                color = isCurrent and "#ffff00" or "#000000",
+                outline = isCurrent and "#888800" or "#00000000",
+                text = entry.rollRez
+            }
+            updates["initText_B_"..prefix] = { text = entry.charName }
+            updates["initText_C_"..prefix] = { text = formatModifier(entry.initMod) }
+            updates["initSetupButton_"..prefix] = {
+                color = "#ffffff",
+                text = "*",
+                tooltip = "setup"
+            }
+            updates["initColor_"..prefix] = {
+                color = PLAYER_COLOR_CODES[entry.aColor],
+                outline = PLAYER_COLOR_CODES[entry.aColor]
+            }
         else
-            UI_xmlElementUpdate("initText_A_"..strFromNum(i), "text", "")
-            UI_xmlElementUpdate("initText_B_"..strFromNum(i), "text", "")
-            UI_xmlElementUpdate("initText_C_"..strFromNum(i), "text", "")
-            UI_xmlElementUpdate("initSetupButton_"..strFromNum(i), "color", "#ffffff00")
-            UI_xmlElementUpdate("initSetupButton_"..strFromNum(i), "text", "")
-            UI_xmlElementUpdate("initSetupButton_"..strFromNum(i), "tooltip", "")
-
-            UI_xmlElementUpdate("initColor_"..strFromNum(i), "color",   "#00000000")
-            UI_xmlElementUpdate("initColor_"..strFromNum(i), "outline", "#00000000")
+            updates["initText_A_"..strFromNum(i)] = { text = "" }
+            updates["initText_B_"..strFromNum(i)] = { text = "" }
+            updates["initText_C_"..strFromNum(i)] = { text = "" }
+            updates["initSetupButton_"..strFromNum(i)] = { color = "#ffffff00", text = "", tooltip = "" }
+            updates["initColor_"..strFromNum(i)] = { color = "#00000000", outline = "#00000000" }
         end
     end
-    
     if #init_table < 15 then
-        Wait.time(function()
-            UI_xmlElementUpdate("initSetupButton_"..strFromNum(#init_table + 1), "color", "#aaaaaa")
-            UI_xmlElementUpdate("initSetupButton_"..strFromNum(#init_table + 1), "text", "+")
-            UI_xmlElementUpdate("initSetupButton_"..strFromNum(#init_table + 1), "tooltip", "add char")
-        end, 0.1)
+        local nextIndex = #init_table + 1
+        updates["initSetupButton_"..strFromNum(nextIndex)] = {
+            color = "#aaaaaa",
+            text = "+",
+            tooltip = "add char"
+        }
     end
     if #init_table > 0 then
-        UI_xmlElementUpdate("initCol_01", "tooltip", init_table[initTurnPos].charName.."\n"..init_table[initTurnPos].rollRez.." ("..formatModifier(init_table[initTurnPos].initMod)..")")
-        UI_xmlElementUpdate("initCol_01", "color", PLAYER_COLOR_CODES[init_table[initTurnPos].aColor])
-        UI_xmlElementUpdate("initImage_01", "color", "#ffffff")
-        if getObjectFromGUID(init_table[initTurnPos].tokenGUID) ~= nil then
-            UI_xmlElementUpdate("initImage_01", "image", getObjectFromGUID(init_table[initTurnPos].tokenGUID).getTable("charSave_table").portraitUrl)
-        elseif init_table[initTurnPos].portraitUrl then
-            UI_xmlElementUpdate("initImage_01", "image", init_table[initTurnPos].portraitUrl)
-        else
-            UI_xmlElementUpdate("initImage_01", "image", "https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/")
-        end
-        initImgUpdatePos = initTurnPos
+        local cur = init_table[initTurnPos]
+        updates["initCol_01"] = {
+            tooltip = cur.charName.."\n"..cur.rollRez.." ("..formatModifier(cur.initMod)..")",
+            color = PLAYER_COLOR_CODES[cur.aColor]
+        }
+        updates["initImage_01"] = { color = "#ffffff" }
+        local token = getObjectFromGUID(cur.tokenGUID)
+        updates["initImage_01"].image = token and token.getTable("charSave_table").portraitUrl
+            or (cur.portraitUrl and cur.portraitUrl)
+            or "https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/"
+        local imgPos = initTurnPos
         for i = 2, 6 do
-            initImgUpdatePos = initImgUpdatePos + 1
-            if initImgUpdatePos > #init_table then initImgUpdatePos = 1 end
-            UI_xmlElementUpdate("initCol_"..strFromNum(i), "tooltip", init_table[initImgUpdatePos].charName.."\n"..init_table[initImgUpdatePos].rollRez.." ("..formatModifier(init_table[initImgUpdatePos].initMod)..")")
-            UI_xmlElementUpdate("initCol_"..strFromNum(i), "color", PLAYER_COLOR_CODES[init_table[initImgUpdatePos].aColor])
-            UI_xmlElementUpdate("initImage_"..strFromNum(i), "color", "#ffffff")
-            if getObjectFromGUID(init_table[initImgUpdatePos].tokenGUID) ~= nil then
-                UI_xmlElementUpdate("initImage_"..strFromNum(i), "image", getObjectFromGUID(init_table[initImgUpdatePos].tokenGUID).getTable("charSave_table").portraitUrl)
-            elseif init_table[initImgUpdatePos].portraitUrl then
-                UI_xmlElementUpdate("initImage_"..strFromNum(i), "image", init_table[initImgUpdatePos].portraitUrl)
-            else
-                UI_xmlElementUpdate("initImage_"..strFromNum(i), "image", "https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/")
-            end
+            imgPos = imgPos + 1
+            if imgPos > #init_table then imgPos = 1 end
+            local other = init_table[imgPos]
+            updates["initCol_"..strFromNum(i)] = {
+                tooltip = other.charName.."\n"..other.rollRez.." ("..formatModifier(other.initMod)..")",
+                color = PLAYER_COLOR_CODES[other.aColor]
+            }
+            updates["initImage_"..strFromNum(i)] = { color = "#ffffff" }
+            local tok = getObjectFromGUID(other.tokenGUID)
+            updates["initImage_"..strFromNum(i)].image = tok and tok.getTable("charSave_table").portraitUrl
+                or (other.portraitUrl and other.portraitUrl)
+                or "https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/"
         end
     else
         for i = 1, 6 do
-            UI_xmlElementUpdate("initCol_"..strFromNum(i), "tooltip", "")
-            UI_xmlElementUpdate("initCol_"..strFromNum(i), "color", "#aaaaaa")
-            UI_xmlElementUpdate("initImage_"..strFromNum(i), "color", "#aaaaaa00")
+            updates["initCol_"..strFromNum(i)] = { tooltip = "", color = "#aaaaaa" }
+            updates["initImage_"..strFromNum(i)] = { color = "#aaaaaa00" }
         end
     end
-    if #init_table > 0 then
-        if init_table[initTurnPos].aColor == 1 then
-            UI_xmlElementUpdate("initPassButton", "visibility", "Black")
-        else
-            UI_xmlElementUpdate("initPassButton", "visibility", "Black|"..PLAYER_COLOR[init_table[initTurnPos].aColor])
-        end
-    else
-        UI_xmlElementUpdate("initPassButton", "visibility", "Black")
-    end
+    local passVis = (#init_table > 0) and (init_table[initTurnPos].aColor == 1 and "Black" or "Black|"..PLAYER_COLOR[init_table[initTurnPos].aColor]) or "Black"
+    updates["initPassButton"] = { visibility = passVis }
+    batchUIUpdate(updates)
 end
 
 function initMoveActive(pl, vl, thisID)
@@ -1578,65 +1635,85 @@ end
 -------------------------   UI updates
 
 function colorToggleEditMode(pl, vl, thisID)
-    local playerIndex = nFromPlClr(pl.color)
-    local prefix = strFromNum(playerIndex)
+    local idx = nFromPlClr(pl.color)
+    local prefix = strFromNum(idx)
+
     if vl == "-1" then
-        editModeVisibility[playerIndex] = not editModeVisibility[playerIndex]
-        
+        -- Переключение режима редактирования
+        editModeVisibility[idx] = not editModeVisibility[idx]
+        local visibilityStr = buildVisibilityString(editModeVisibility)
+        local updates = {}
+
+        -- Панели, которые показываются/скрываются при редактировании
         local elementsToUpdate = {
             "charPortraitNameInputsPanel", "charLvlEdit", "charACedit", "charSpeedEdit",
             "charProfBonusEdit", "assignedPlayersPanel", "charInitEdit", "charPassPercEdit",
             "charHPinputs", "atkEditPanel", "spellSlotsEditMaxButtons", "spellSlotMaxAllButton",
             "resoursesEditInputsPanel", "savesModsButtons"
         }
-        updateMultipleElementsVisibility(elementsToUpdate, editModeVisibility)
+        for _, elem in ipairs(elementsToUpdate) do
+            updates[elem] = { visibility = visibilityStr }
+        end
+
+        -- Специальные панели, видимые только для GM (Black)
         if editModeVisibility[1] then
-            UI_xmlElementUpdate("charProfBonusEdit", "visibility", "Black")
-            UI_xmlElementUpdate("assignedPlayersPanel", "visibility", "Black")
-        end
-        
-        local editModeVisibilityStr = buildVisibilityString(editModeVisibility)
-        for i=1, 6 do
-            UI_xmlElementUpdate("charAttrEdit_"..i,"visibility",editModeVisibilityStr)
-        end
-        for i = 1, #main_Table[playerIndex].skills do
-            UI_xmlElementUpdate("charSkillEditButtons_"..strFromNum(i),"visibility",editModeVisibilityStr)
+            updates["charProfBonusEdit"] = { visibility = "Black" }
+            updates["assignedPlayersPanel"] = { visibility = "Black" }
         end
 
-        UI_xmlElementUpdate(prefix.."_charPortraitUrlInput", "text", main_Table[playerIndex].portraitUrl)
-
-        for i=1,10 do
-            if editModeSelectedAttack[playerIndex] == i or not editModeVisibility[playerIndex] then
-                atkButtonImg_color = "#ffffffff"
-            else
-                atkButtonImg_color = "#ffffff88"
-            end
-            UI_xmlElementUpdate(prefix.."_atkButtonImg_"..strFromNum(i),"color",atkButtonImg_color)
-        end
-        if editModeVisibility[playerIndex] then
-            atkEdit_UI_update(playerIndex, editModeSelectedAttack[playerIndex])
+        -- Кнопки редактирования атрибутов
+        for i = 1, 6 do
+            updates["charAttrEdit_" .. i] = { visibility = visibilityStr }
         end
 
-        local flagVis = editModeVisibilityStr:find(pl.color) and "true" or "false"
-        UI_xmlElementUpdate(prefix .. "_notesInput_A", "interactable", flagVis)
-        UI_xmlElementUpdate(prefix .. "_notesInput_B", "interactable", flagVis)
-    elseif vl == "-2" and editModeVisibility[playerIndex] and getObjectFromGUID(lastPickedCharGUID_table[playerIndex]) ~= nil then
-        --resetCounter
+        -- Кнопки редактирования навыков
+        for i = 1, #main_Table[idx].skills do
+            updates["charSkillEditButtons_" .. strFromNum(i)] = { visibility = visibilityStr }
+        end
+
+        -- Текст портрета
+        updates[prefix .. "_charPortraitUrlInput"] = { text = main_Table[idx].portraitUrl }
+
+        -- Подсветка кнопок атак в зависимости от выбранной атаки
+        for i = 1, 10 do
+            local color = (editModeSelectedAttack[idx] == i or not editModeVisibility[idx])
+                        and "#ffffffff" or "#ffffff88"
+            updates[prefix .. "_atkButtonImg_" .. strFromNum(i)] = { color = color }
+        end
+
+        -- Интерактивность полей заметок
+        local flagVis = visibilityStr:find(pl.color) and "true" or "false"
+        updates[prefix .. "_notesInput_A"] = { interactable = flagVis }
+        updates[prefix .. "_notesInput_B"] = { interactable = flagVis }
+
+        -- Применяем все обновления
+        batchUIUpdate(updates)
+
+        -- Если режим редактирования включён, обновляем панель редактирования атак
+        if editModeVisibility[idx] then
+            atkEdit_UI_update(idx, editModeSelectedAttack[idx])
+        end
+
+    elseif vl == "-2" and editModeVisibility[idx] and getObjectFromGUID(lastPickedCharGUID_table[idx]) then
+        -- Обработка сброса персонажа (счётчик нажатий)
         if resetCounter < 4 then
             resetCounter = resetCounter + 1
-            UI_xmlElementUpdate("charSheetUtilButton_08","color","#ff8888")
+            UI_xmlElementUpdate("charSheetUtilButton_08", "color", "#ff8888")
             if resetCounter == 1 then
                 Wait.time(function()
                     resetCounter = 0
-                    UI_xmlElementUpdate("charSheetUtilButton_08","color","#ffffff")
+                    UI_xmlElementUpdate("charSheetUtilButton_08", "color", "#ffffff")
                 end, 3)
             end
         else
-            getObjectFromGUID(lastPickedCharGUID_table[playerIndex]).call("resetChar")
-            GetStatsFromToken(playerIndex, getObjectFromGUID(lastPickedCharGUID_table[playerIndex]))
-            UI_xmlElementUpdate("charSheetUtilButton_08","color","#ffffff")
-            resetGlobalLuaSave = false
-            resetCounter = 0
+            local token = getObjectFromGUID(lastPickedCharGUID_table[idx])
+            if token then
+                token.call("resetChar")
+                GetStatsFromToken(idx, token)
+                UI_xmlElementUpdate("charSheetUtilButton_08", "color", "#ffffff")
+                resetGlobalLuaSave = false
+                resetCounter = 0
+            end
         end
     end
 end
@@ -1771,7 +1848,7 @@ function atkEdit_UI_update(pl_N, atk_N)
     local char = main_Table[pl_N]
     local attack = char.attacks[atk_N]
     local prefix = strFromNum(pl_N)
-    local lang = lang_table[LANGUAGES[lang_set]]
+    local lang = currentLang
     local updates = {}
 
     -- Основная информация
@@ -1807,11 +1884,7 @@ function atkEdit_UI_update(pl_N, atk_N)
     updates[prefix.."_atkEditIconImg"] = { image = ATTACK_ICONS_URL[attack.icon] }
 
     -- Обновление кнопок атак (все 10)
-    for ii = 1, 10 do
-        local atk = char.attacks[ii]
-        updates[prefix.."_atkButtonImg_"..strFromNum(ii)] = { image = ATTACK_ICONS_URL[atk.icon] }
-        updates[prefix.."_atkButton_"..strFromNum(ii)] = { tooltip = atk.atkName }
-    end
+    updateAttackIcons(pl_N, updates)
 
     -- Обновление сетки иконок (50 кнопок)
     local selectedIcon = attack.icon
@@ -1857,7 +1930,7 @@ end
 
 function mainSheet_UI_update()
     for i, name in ipairs(ATTRIBUTE_LIST) do
-        UI_xmlElementUpdate("attrName_" .. name, "text", lang_table[LANGUAGES[lang_set]][7 + i])
+        UI_xmlElementUpdate("attrName_" .. name, "text", currentLang[7 + i])
     end
     for i = 1, 11 do
         singleColor_UI_update(i)
@@ -1866,42 +1939,42 @@ function mainSheet_UI_update()
 end
 
 function fullUIUpdate(n)
-    local char = main_Table[n]
+    local playerData = main_Table[n]
     local updates = {}
     local prefix = strFromNum(n)
-    local lang = lang_table[LANGUAGES[lang_set]]
+    local lang = currentLang
     -- 1. Базовые характеристики
-    updates[prefix.."_charPortrait"] = { image = char.portraitUrl }
-    updates[prefix.."_charPortraitUrlInput"] = { text = char.portraitUrl }
-    updates[prefix.."_charName"] = { text = char.charName }
-    updates[prefix.."_charLvl"] = { text = lang[2] .. char.charLvl }
-    updates[prefix.."_charAC"] = { text = char.AC }
-    updates[prefix.."_charSpeed"] = { text = char.speed }
+    updates[prefix.."_charPortrait"] = { image = playerData.portraitUrl }
+    updates[prefix.."_charPortraitUrlInput"] = { text = playerData.portraitUrl }
+    updates[prefix.."_charName"] = { text = playerData.charName }
+    updates[prefix.."_charLvl"] = { text = lang[2] .. playerData.charLvl }
+    updates[prefix.."_charAC"] = { text = playerData.AC }
+    updates[prefix.."_charSpeed"] = { text = playerData.speed }
 
-    local initModStr = char.initMod ~= 0 and " (" .. PoM(char.initMod) .. char.initMod .. ")" or ""
-    local locInitMod = modFromAttr(char.attributes["WIS"]) + char.skills[19].mod + char.initMod + char.charProfBonus * (char.skills[19].proficient - 1)
+    local initModStr = playerData.initMod ~= 0 and " (" .. PoM(playerData.initMod) .. playerData.initMod .. ")" or ""
+    local locInitMod = modFromAttr(playerData.attributes["WIS"]) + playerData.skills[19].mod + playerData.initMod + playerData.charProfBonus * (playerData.skills[19].proficient - 1)
     updates["charInitAddButton_"..prefix] = { text = lang[6] .. PoM(locInitMod) .. locInitMod .. initModStr }
 
-    local pPerceptionBase = 10 + modFromAttr(char.attributes["WIS"]) + char.skills[19].mod + char.charProfBonus * (char.skills[19].proficient - 1)
-    local ppModStr = char.pPerceptionMod ~= 0 and " (" .. PoM(char.pPerceptionMod) .. char.pPerceptionMod .. ")" or ""
-    updates[prefix.."_charPassivePerception"] = { text = lang[7] .. (char.pPerceptionMod + pPerceptionBase) .. ppModStr }
+    local pPerceptionBase = 10 + modFromAttr(playerData.attributes["WIS"]) + playerData.skills[19].mod + playerData.charProfBonus * (playerData.skills[19].proficient - 1)
+    local ppModStr = playerData.pPerceptionMod ~= 0 and " (" .. PoM(playerData.pPerceptionMod) .. playerData.pPerceptionMod .. ")" or ""
+    updates[prefix.."_charPassivePerception"] = { text = lang[7] .. (playerData.pPerceptionMod + pPerceptionBase) .. ppModStr }
 
-    updates[prefix.."_charHPbar"] = { percentage = char.hp * 100 / char.hpMax }
-    updates[prefix.."_charHPtext"] = { text = char.hp .. " / " .. char.hpMax }
-    updates[prefix.."_charTempHPtext"] = { text = char.hpTemp > 0 and "+" .. char.hpTemp or "" }
+    updates[prefix.."_charHPbar"] = { percentage = playerData.hp * 100 / playerData.hpMax }
+    updates[prefix.."_charHPtext"] = { text = playerData.hp .. " / " .. playerData.hpMax }
+    updates[prefix.."_charTempHPtext"] = { text = playerData.hpTemp > 0 and "+" .. playerData.hpTemp or "" }
 
     if n == 1 then
-        updates["charHPsetVisibilityButton"] = { text = char.hpVisibleToPlayers and "<O>" or "GM" }
+        updates["charHPsetVisibilityButton"] = { text = playerData.hpVisibleToPlayers and "<O>" or "GM" }
     end
     -- 2. Спасброски и атрибуты
     for _, name in ipairs(ATTRIBUTE_LIST) do
-        updates[prefix.."_charAttrValue_"..name] = { text = char.attributes[name] }
-        updates[prefix.."_charAttrMod_"..name] = { text = PoM(modFromAttr(char.attributes[name])) .. modFromAttr(char.attributes[name]) }
+        updates[prefix.."_charAttrValue_"..name] = { text = playerData.attributes[name] }
+        updates[prefix.."_charAttrMod_"..name] = { text = PoM(modFromAttr(playerData.attributes[name])) .. modFromAttr(playerData.attributes[name]) }
     end
 
     local typeST = 1
-    for smN, smV in pairs(char.savesMod) do
-        local index = char.saves[smN]
+    for smN, smV in pairs(playerData.savesMod) do
+        local index = playerData.saves[smN]
         local color = PROFICIENCY_COLORS[index]
         local tooltip = lang[61 + typeST] .. " " .. lang[77 + index]
         typeST = typeST + 1
@@ -1913,52 +1986,49 @@ function fullUIUpdate(n)
         }
     end
     -- 3. Навыки
-    for ii = 1, #char.skills do
-        local idx = char.skills[ii].proficient
+    for ii = 1, #playerData.skills do
+        local idx = playerData.skills[ii].proficient
         local color = PROFICIENCY_COLORS[idx]
-        local modStr = char.skills[ii].mod ~= 0 and " " .. PoM(char.skills[ii].mod) .. char.skills[ii].mod or ""
+        local modStr = playerData.skills[ii].mod ~= 0 and " " .. PoM(playerData.skills[ii].mod) .. playerData.skills[ii].mod or ""
         updates[prefix.."_charSkillButton_"..strFromNum(ii)] = {
             text = lang[14 + ii] .. modStr,
             color = color
         }
-        local profBonus = char.charProfBonus * (idx - 1)
-        local totalMod = modFromAttr(char.attributes[SKILL_ATTRIBUTES[ii]]) + char.skills[ii].mod + profBonus
+        local profBonus = playerData.charProfBonus * (idx - 1)
+        local totalMod = modFromAttr(playerData.attributes[SKILL_ATTRIBUTES[ii]]) + playerData.skills[ii].mod + profBonus
         updates[prefix.."_charSkillButton_"..strFromNum(ii)].tooltip = "d20" .. PoM(totalMod) .. totalMod .. " " .. lang[77 + idx]
     end
     -- 4. Атаки
-    for ii = 1, 10 do
-        updates[prefix.."_atkButtonImg_"..strFromNum(ii)] = { image = ATTACK_ICONS_URL[char.attacks[ii].icon] }
-        updates[prefix.."_atkButton_"..strFromNum(ii)] = { tooltip = char.attacks[ii].atkName }
-    end
+    updateAttackIcons(n, updates)
     -- 5. Слоты заклинаний
     for ii = 1, 9 do
         local slotsStr = ""
-        for iii = 1, char.splSlotsMax[ii] do
-            slotsStr = slotsStr .. (iii <= char.splSlots[ii] and "●" or "○")
+        for iii = 1, playerData.splSlotsMax[ii] do
+            slotsStr = slotsStr .. (iii <= playerData.splSlots[ii] and "●" or "○")
         end
         updates[prefix.."_spellSlotButton_"..strFromNum(ii)] = { text = " " .. ii .. ". " .. slotsStr }
     end
     -- 6. Ресурсы
     for ii = 1, 10 do
-        updates[prefix.."_resTextName_"..strFromNum(ii)] = { text = " " .. ii .. ". " .. char.resourses[ii].resName }
-        if char.resourses[ii].resMax > 0 then
-            updates[prefix.."_resTextNum_"..strFromNum(ii)] = { text = char.resourses[ii].resValue .. " / " .. char.resourses[ii].resMax }
+        updates[prefix.."_resTextName_"..strFromNum(ii)] = { text = " " .. ii .. ". " .. playerData.resourses[ii].resName }
+        if playerData.resourses[ii].resMax > 0 then
+            updates[prefix.."_resTextNum_"..strFromNum(ii)] = { text = playerData.resourses[ii].resValue .. " / " .. playerData.resourses[ii].resMax }
         else
-            updates[prefix.."_resTextNum_"..strFromNum(ii)] = { text = char.resourses[ii].resValue }
+            updates[prefix.."_resTextNum_"..strFromNum(ii)] = { text = playerData.resourses[ii].resValue }
         end
     end
     -- 7. Заметки
-    updates[prefix.."_notesText_B"] = { text = char.notes_B }
-    updates[prefix.."_notesInput_B"] = { text = char.notes_B }
+    updates[prefix.."_notesText_B"] = { text = playerData.notes_B }
+    updates[prefix.."_notesInput_B"] = { text = playerData.notes_B }
     -- 8. Назначенные игроки (только для GM)
     if n == 1 then
         for ii = 2, 11 do
-            updates["assighedPlayerButton_"..strFromNum(ii)] = { text = char.aColors[ii] and "●" or "" }
+            updates["assighedPlayerButton_"..strFromNum(ii)] = { text = playerData.aColors[ii] and "●" or "" }
         end
     end
     -- 9. Состояния
     for ii = 1, 20 do
-        local color = char.conditions.table[ii] and "#ffffff02" or "#ffffff88"
+        local color = playerData.conditions.table[ii] and "#ffffff02" or "#ffffff88"
         updates[prefix.."_conditionButton_"..strFromNum(ii)] = { color = color }
     end
 
@@ -1971,10 +2041,10 @@ function fullUIUpdate(n)
     end
     -- 10. Настройки UI для токена
     for ii = 1, 5 do
-        updates[prefix.."_UIsetSlider_"..strFromNum(ii)] = { value = char.tokenGUI_settings[ii] }
+        updates[prefix.."_UIsetSlider_"..strFromNum(ii)] = { value = playerData.tokenGUI_settings[ii] }
     end
 
-    updates["setInvisButton"] = { color = char.charHidden and "#000022" or "#cccccc" }
+    updates["setInvisButton"] = { color = playerData.charHidden and "#000022" or "#cccccc" }
     -- Применяем все обновления одним пакетом
     batchUIUpdate(updates)
     -- Дополнительное обновление team bar (требует отдельной логики, так как влияет на всех)
@@ -1983,7 +2053,6 @@ end
 
 -- Переработанная функция singleColor_UI_update, использующая полное пакетное обновление
 function singleColor_UI_update(n)
-    local char = main_Table[n]
     local tokenGUID = lastPickedCharGUID_table[n]
     local token = tokenGUID ~= "" and getObjectFromGUID(tokenGUID) or nil
     local needTokenUpdate = (token ~= nil and not firstLoad)
@@ -2015,53 +2084,58 @@ function onPlayerChangeColor(player_color)
 end
 
 function teamBar_UI_update()
-    nPlayers = 0
-    for i=2,11 do
-        if Player[PLAYER_COLOR[i]].seated and lastPickedCharGUID_table[i] ~= "" and getObjectFromGUID(lastPickedCharGUID_table[i]) ~= nil and not getObjectFromGUID(lastPickedCharGUID_table[i]).getTable("charSave_table").charHidden then
-            nPlayers = nPlayers + 1
-            UI_xmlElementUpdate(strFromNum(i).."_teamBarSegment", "active", "True")
-            UI_xmlElementUpdate(strFromNum(i).."_teamBarColor", "color", PLAYER_COLOR_CODES[i])
-            if lastPickedCharGUID_table[i] ~= "" and getObjectFromGUID(lastPickedCharGUID_table[i]) ~= nil then
-                UI_xmlElementUpdate(strFromNum(i).."_teamBarImage", "image", main_Table[i].portraitUrl)
-            else
-                UI_xmlElementUpdate(strFromNum(i).."_teamBarImage", "image", "https://steamusercontent-a.akamaihd.net/ugc/2497882400488031468/9585602862E83BBAAB9F8D513692B207D21F7874/")
-            end
-            local pPerseptionBase = 10 + modFromAttr(main_Table[i].attributes["WIS"]) + main_Table[i].skills[19].mod + main_Table[i].charProfBonus*(main_Table[i].skills[19].proficient - 1)
-            if main_Table[i].pPerceptionMod ~= 0 then ppModStr = " ("..PoM(main_Table[i].pPerceptionMod)..main_Table[i].pPerceptionMod..")" else ppModStr = "" end
-            
-            UI_xmlElementUpdate(strFromNum(i).."_bigPortraitTeam", "tooltip", main_Table[i].charName.."\n"..
-            lang_table[LANGUAGES[lang_set]][2]..main_Table[i].charLvl.."  "..lang_table[LANGUAGES[lang_set]][3]..main_Table[i].AC.."  "..lang_table[LANGUAGES[lang_set]][4]..main_Table[i].speed.."\n"..
-            lang_table[LANGUAGES[lang_set]][7]..(main_Table[i].pPerceptionMod + pPerseptionBase)..ppModStr.."\n"..
-            lang_table[LANGUAGES[lang_set]][8].." ".. main_Table[i].attributes["STR"].."("..formatModifier(modFromAttr(main_Table[i].attributes["STR"]))..")   "..
-            lang_table[LANGUAGES[lang_set]][9].." ".. main_Table[i].attributes["DEX"].."("..formatModifier(modFromAttr(main_Table[i].attributes["DEX"]))..")   \n"..
-            lang_table[LANGUAGES[lang_set]][10].." "..main_Table[i].attributes["CON"].."("..formatModifier(modFromAttr(main_Table[i].attributes["CON"]))..")   "..
-            lang_table[LANGUAGES[lang_set]][11].." "..main_Table[i].attributes["INT"].."("..formatModifier(modFromAttr(main_Table[i].attributes["INT"]))..")   \n"..
-            lang_table[LANGUAGES[lang_set]][12].." "..main_Table[i].attributes["WIS"].."("..formatModifier(modFromAttr(main_Table[i].attributes["WIS"]))..")   "..
-            lang_table[LANGUAGES[lang_set]][13].." "..main_Table[i].attributes["CHA"].."("..formatModifier(modFromAttr(main_Table[i].attributes["CHA"]))..")   "
+    local updates = {}
+    local activeCount = 0
+    for i = 2, 11 do
+        local playerData = main_Table[i]
+        local token = getObjectFromGUID(lastPickedCharGUID_table[i])
+        local isActive = Player[PLAYER_COLOR[i]].seated and token and not playerData.charHidden
+        if isActive then
+            activeCount = activeCount + 1
+            updates[strFromNum(i).."_teamBarSegment"] = { active = "True" }
+            updates[strFromNum(i).."_teamBarColor"] = { color = PLAYER_COLOR_CODES[i] }
+            updates[strFromNum(i).."_teamBarImage"] = { image = playerData.portraitUrl }
+            -- tooltip строится один раз
+            local pPerceptionBase = 10 + modFromAttr(playerData.attributes["WIS"]) + playerData.skills[19].mod + playerData.charProfBonus*(playerData.skills[19].proficient - 1)
+            local ppModStr = playerData.pPerceptionMod ~= 0 and " ("..PoM(playerData.pPerceptionMod)..playerData.pPerceptionMod..")" or ""
+            local attrMod = {
+                STR = modFromAttr(playerData.attributes["STR"]),
+                DEX = modFromAttr(playerData.attributes["DEX"]),
+                CON = modFromAttr(playerData.attributes["CON"]),
+                INT = modFromAttr(playerData.attributes["INT"]),
+                WIS = modFromAttr(playerData.attributes["WIS"]),
+                CHA = modFromAttr(playerData.attributes["CHA"])
+            }
+            local tooltip = string.format("%s\n%s%d  %s%d  %s%d\n%s%d%s\n%s %s(%s)   %s %s(%s)   \n%s %s(%s)   %s %s(%s)   \n%s %s(%s)   %s %s(%s)   ",
+                playerData.charName,
+                currentLang[2], playerData.charLvl, currentLang[3], playerData.AC, currentLang[4], playerData.speed,
+                currentLang[7], playerData.pPerceptionMod + pPerceptionBase, ppModStr,
+                currentLang[8], playerData.attributes["STR"], formatModifier(attrMod.STR),
+                currentLang[9], playerData.attributes["DEX"], formatModifier(attrMod.DEX),
+                currentLang[10], playerData.attributes["CON"], formatModifier(attrMod.CON),
+                currentLang[11], playerData.attributes["INT"], formatModifier(attrMod.INT),
+                currentLang[12], playerData.attributes["WIS"], formatModifier(attrMod.WIS),
+                currentLang[13], playerData.attributes["CHA"], formatModifier(attrMod.CHA)
             )
-            UI_xmlElementUpdate(strFromNum(i).."_teamBarHP", "percentage", math.floor(main_Table[i].hp / main_Table[i].hpMax * 100))
-            if main_Table[i].hp > 0 then
-                UI_xmlElementUpdate(strFromNum(i).."_teamBarHPsaves", "text", main_Table[i].hp.." / "..main_Table[i].hpMax)
+            updates[strFromNum(i).."_bigPortraitTeam"] = { tooltip = tooltip }
+
+            local hpPercent = math.floor(playerData.hp / playerData.hpMax * 100)
+            updates[strFromNum(i).."_teamBarHP"] = { percentage = hpPercent }
+
+            if playerData.hp > 0 then
+                updates[strFromNum(i).."_teamBarHPsaves"] = { text = playerData.hp.." / "..playerData.hpMax }
             else
-                teamBarHpStr = ""
-                for ii=1,5 do
-                    teamBarHpStr = teamBarHpStr.. DEATH_SAVE_SYMBOLS_TEAM_BAR[main_Table[i].deathSaves[ii]]
-                end
-                UI_xmlElementUpdate(strFromNum(i).."_teamBarHPsaves", "text", teamBarHpStr)
+                local savesStr = ""
+                for s = 1, 5 do savesStr = savesStr .. DEATH_SAVE_SYMBOLS_TEAM_BAR[playerData.deathSaves[s]] end
+                updates[strFromNum(i).."_teamBarHPsaves"] = { text = savesStr }
             end
-            
         else
-            UI_xmlElementUpdate(strFromNum(i).."_teamBarSegment", "active", "False")
+            updates[strFromNum(i).."_teamBarSegment"] = { active = "False" }
         end
     end
-
-    if nPlayers > 0 then
-        UI_xmlElementUpdate("teamBarPanel", "active", "True")
-    else
-        UI_xmlElementUpdate("teamBarPanel", "active", "False")
-    end
-    UI_xmlElementUpdate("teamBarPanel", "width", 60*nPlayers)
-    
+    batchUIUpdate(updates)
+    UI_xmlElementUpdate("teamBarPanel", "active", activeCount > 0 and "True" or "False")
+    UI_xmlElementUpdate("teamBarPanel", "width", 60 * activeCount)
 end
 
 --------------------------------------------------------    GM settings panel
@@ -2085,111 +2159,118 @@ function set_UI_Language(pl, vl, thisID)
         lang_set = lang_set - 1
         if lang_set < 1 then lang_set = countLang end
     end
+    currentLang = lang_table[LANGUAGES[lang_set]]
     mainSheet_UI_update()
     initiative_UI_update()
     language_UI_update()
 end
 
 function language_UI_update()
-    UI_xmlElementUpdate("noCharSelectedBlockText", "text", lang_table[LANGUAGES[lang_set]][1])
-    for i = 1, #main_Table do
-        UI_xmlElementUpdate(strFromNum(i).."_charPortraitUrlInput", "tooltip", lang_table[LANGUAGES[lang_set]][49])
-    end
-    UI_xmlElementUpdate("charNameInput", "tooltip", lang_table[LANGUAGES[lang_set]][50])
-    UI_xmlElementUpdate("charHPsetInput_01", "tooltip", lang_table[LANGUAGES[lang_set]][51])
-    UI_xmlElementUpdate("charHPsetInput_02", "tooltip", lang_table[LANGUAGES[lang_set]][52])
-    UI_xmlElementUpdate("charHPsetVisibilityButton", "tooltip", lang_table[LANGUAGES[lang_set]][53])
-    
-    UI_xmlElementUpdate("charHP_dmgButton", "text", lang_table[LANGUAGES[lang_set]][54])
-    UI_xmlElementUpdate("charHP_dmgButton", "tooltip", lang_table[LANGUAGES[lang_set]][55])
-    for i = 1, #main_Table do
-        UI_xmlElementUpdate(strFromNum(i).."_charHealDmgValueInput", "tooltip", lang_table[LANGUAGES[lang_set]][56])
-    end
-    UI_xmlElementUpdate("charHP_healButton", "text", lang_table[LANGUAGES[lang_set]][57])
-    UI_xmlElementUpdate("charHP_healButton", "tooltip", lang_table[LANGUAGES[lang_set]][58])
-    UI_xmlElementUpdate("charHP_tempButton", "text", lang_table[LANGUAGES[lang_set]][59])
-    UI_xmlElementUpdate("charHP_tempButton", "tooltip", lang_table[LANGUAGES[lang_set]][60])
+    local updates = {}
+    local lang = currentLang
 
-    for i=1, 11 do
-        for ii=1, 5 do
-            UI_xmlElementUpdate(strFromNum(i).."_charDeathSaveButton_"..strFromNum(ii), "tooltip", lang_table[LANGUAGES[lang_set]][61])
+    updates["noCharSelectedBlockText"] = { text = lang[1] }
+    for i = 1, #main_Table do
+        updates[strFromNum(i) .. "_charPortraitUrlInput"] = { tooltip = lang[49] }
+    end
+
+    updates["charNameInput"] = { tooltip = lang[50] }
+    updates["charHPsetInput_01"] = { tooltip = lang[51] }
+    updates["charHPsetInput_02"] = { tooltip = lang[52] }
+    updates["charHPsetVisibilityButton"] = { tooltip = lang[53] }
+
+    updates["charHP_dmgButton"] = { text = lang[54], tooltip = lang[55] }
+    for i = 1, #main_Table do
+        updates[strFromNum(i) .. "_charHealDmgValueInput"] = { tooltip = lang[56] }
+    end
+    updates["charHP_healButton"] = { text = lang[57], tooltip = lang[58] }
+    updates["charHP_tempButton"] = { text = lang[59], tooltip = lang[60] }
+    -- Death saves
+    for i = 1, 11 do
+        for ii = 1, 5 do
+            updates[strFromNum(i) .. "_charDeathSaveButton_" .. strFromNum(ii)] = { tooltip = lang[61] }
         end
     end
-    for i=1, 11 do
-        for ii=1, 6 do
-            UI_xmlElementUpdate(strFromNum(i).."_charAttrMod_"..strFromNum(ii), "tooltip", lang_table[LANGUAGES[lang_set]][33 + ii])
+    -- Attribute modifiers tooltips
+    for i = 1, 11 do
+        for ii = 1, 6 do
+            updates[strFromNum(i) .. "_charAttrMod_" .. strFromNum(ii)] = { tooltip = lang[33 + ii] }
         end
     end
-    for i=1, 18 do
-        UI_xmlElementUpdate("charSkillButtonE_"..strFromNum(i), "tooltip", lang_table[LANGUAGES[lang_set]][65])
-        UI_xmlElementUpdate("charSkillButtonE_"..strFromNum(i), "text", lang_table[LANGUAGES[lang_set]][33])
-        UI_xmlElementUpdate("charSkillButtonM_"..strFromNum(i), "tooltip", lang_table[LANGUAGES[lang_set]][79])
-        UI_xmlElementUpdate("charSkillButtonM_"..strFromNum(i), "text", lang_table[LANGUAGES[lang_set]][78])
-        UI_xmlElementUpdate("charSkillButtonL_"..strFromNum(i), "tooltip", lang_table[LANGUAGES[lang_set]][81])
-        UI_xmlElementUpdate("charSkillButtonL_"..strFromNum(i), "text", lang_table[LANGUAGES[lang_set]][80])
+    -- Skill edit buttons (E, M, L)
+    for i = 1, 18 do
+        updates["charSkillButtonE_" .. strFromNum(i)] = { tooltip = lang[65], text = lang[33] }
+        updates["charSkillButtonM_" .. strFromNum(i)] = { tooltip = lang[79], text = lang[78] }
+        updates["charSkillButtonL_" .. strFromNum(i)] = { tooltip = lang[81], text = lang[80] }
     end
-    for i=1, 8 do
-        UI_xmlElementUpdate("charSheetUtilButton_"..strFromNum(i), "text", lang_table[LANGUAGES[lang_set]][65+i])
+    -- Utility buttons
+    for i = 1, 8 do
+        updates["charSheetUtilButton_" .. strFromNum(i)] = { text = lang[65 + i] }
     end
-    UI_xmlElementUpdate("charSheetUtilButton_06", "tooltip", lang_table[LANGUAGES[lang_set]][74])
-    UI_xmlElementUpdate("charSheetUtilButton_07", "tooltip", lang_table[LANGUAGES[lang_set]][75])
-    UI_xmlElementUpdate("charSheetUtilButton_08", "tooltip", lang_table[LANGUAGES[lang_set]][76])
-    UI_xmlElementUpdate("charSheetUtilButton_09", "tooltip", lang_table[LANGUAGES[lang_set]][77])
-
-    for i=2,11 do
-        UI_xmlElementUpdate("assighedPlayerButton_"..strFromNum(i), "tooltip", lang_table[LANGUAGES[lang_set]][85])
+    updates["charSheetUtilButton_06"] = { tooltip = lang[74] }
+    updates["charSheetUtilButton_07"] = { tooltip = lang[75] }
+    updates["charSheetUtilButton_08"] = { tooltip = lang[76] }
+    updates["charSheetUtilButton_09"] = { tooltip = lang[77] }
+    -- Assigned players
+    for i = 2, 11 do
+        updates["assighedPlayerButton_" .. strFromNum(i)] = { tooltip = lang[85] }
     end
-
+    -- Initiative add buttons
     for i = 1, #main_Table do
-        UI_xmlElementUpdate("charInitAddButton_"..strFromNum(i), "tooltip", lang_table[LANGUAGES[lang_set]][86])
+        updates["charInitAddButton_" .. strFromNum(i)] = { tooltip = lang[86] }
     end
 
-    UI_xmlElementUpdate("initPassButton", "text", lang_table[LANGUAGES[lang_set]][84])
-
-    UI_xmlElementUpdate("atkEditIconSetButton", "tooltip", lang_table[LANGUAGES[lang_set]][87])
+    updates["initPassButton"] = { text = lang[84] }
+    -- Attack edit panel tooltips
+    updates["atkEditIconSetButton"] = { tooltip = lang[87] }
     for i = 1, #main_Table do
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditRollAtkButton", "tooltip", lang_table[LANGUAGES[lang_set]][88])
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditAtkAttrButton", "tooltip", lang_table[LANGUAGES[lang_set]][89])
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditProfButton", "tooltip", lang_table[LANGUAGES[lang_set]][90])
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditRollDmgButton", "tooltip", lang_table[LANGUAGES[lang_set]][91])
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditDmgAttrButton", "tooltip", lang_table[LANGUAGES[lang_set]][92])
-        UI_xmlElementUpdate(strFromNum(i).."_atkEditResUsedButton", "tooltip", lang_table[LANGUAGES[lang_set]][93])
+        updates[strFromNum(i) .. "_atkEditRollAtkButton"] = { tooltip = lang[88] }
+        updates[strFromNum(i) .. "_atkEditAtkAttrButton"] = { tooltip = lang[89] }
+        updates[strFromNum(i) .. "_atkEditProfButton"] = { tooltip = lang[90] }
+        updates[strFromNum(i) .. "_atkEditRollDmgButton"] = { tooltip = lang[91] }
+        updates[strFromNum(i) .. "_atkEditDmgAttrButton"] = { tooltip = lang[92] }
+        updates[strFromNum(i) .. "_atkEditResUsedButton"] = { tooltip = lang[93] }
     end
+
+    -- Spell slots
     for i = 1, #main_Table do
-        for ii=1,9 do
-            UI_xmlElementUpdate(strFromNum(i).."_spellSlotButton_"..strFromNum(ii), "tooltip", lang_table[LANGUAGES[lang_set]][94])
+        for ii = 1, 9 do
+            updates[strFromNum(i) .. "_spellSlotButton_" .. strFromNum(ii)] = { tooltip = lang[94] }
         end
-        UI_xmlElementUpdate("spellSlotButtonMax_"..strFromNum(i), "tooltip", lang_table[LANGUAGES[lang_set]][94])
+        updates["spellSlotButtonMax_" .. strFromNum(i)] = { tooltip = lang[94] }
     end
-    UI_xmlElementUpdate("notesPanelTitle", "text", lang_table[LANGUAGES[lang_set]][95])
-    
+    updates["notesPanelTitle"] = { text = lang[95] }
+
+    -- Conditions
     for i = 1, #main_Table do
-        for ii=1,20 do
-            UI_xmlElementUpdate(strFromNum(i).."_conditionButton_"..strFromNum(ii), "tooltip", lang_table[LANGUAGES[lang_set]][96+ii])
+        for ii = 1, 20 do
+            updates[strFromNum(i) .. "_conditionButton_" .. strFromNum(ii)] = { tooltip = lang[96 + ii] }
         end
     end
 
-    UI_xmlElementUpdate("UIset_text_01", "text", lang_table[LANGUAGES[lang_set]][117])
-    UI_xmlElementUpdate("UIset_text_02", "text", lang_table[LANGUAGES[lang_set]][118])
+    -- UI settings
+    updates["UIset_text_01"] = { text = lang[117] }
+    updates["UIset_text_02"] = { text = lang[118] }
 
-    UI_xmlElementUpdate("addCharModeText", "text", lang_table[LANGUAGES[lang_set]][120])
-    
-    UI_xmlElementUpdate("GM_toolsButton_01", "tooltip", lang_table[LANGUAGES[lang_set]][120])
-    UI_xmlElementUpdate("GM_toolsButton_03", "tooltip", lang_table[LANGUAGES[lang_set]][122])
-    UI_xmlElementUpdate("GM_toolsButton_05", "tooltip", lang_table[LANGUAGES[lang_set]][124])
-    UI_xmlElementUpdate("GM_toolsButton_06", "tooltip", lang_table[LANGUAGES[lang_set]][125])
-    UI_xmlElementUpdate("GM_toolsButton_07", "tooltip", lang_table[LANGUAGES[lang_set]][126])
+    -- Mode panels
+    updates["addCharModeText"] = { text = lang[120] }
 
-    UI_xmlElementUpdate("projectorToggleButton", "tooltip", lang_table[LANGUAGES[lang_set]][127])
+    -- GM tools
+    updates["GM_toolsButton_01"] = { tooltip = lang[120] }
+    updates["GM_toolsButton_03"] = { tooltip = lang[122] }
+    updates["GM_toolsButton_05"] = { tooltip = lang[124] }
+    updates["GM_toolsButton_06"] = { tooltip = lang[125] }
+    updates["GM_toolsButton_07"] = { tooltip = lang[126] }
 
-    UI_xmlElementUpdate("screenRollerMinimizer", "tooltip", lang_table[LANGUAGES[lang_set]][128])
-    
-    UI_xmlElementUpdate("setInvisButton", "text", lang_table[LANGUAGES[lang_set]][129])
-    UI_xmlElementUpdate("setInvisButton", "tooltip", lang_table[LANGUAGES[lang_set]][130])
+    updates["projectorToggleButton"] = { tooltip = lang[127] }
+    updates["screenRollerMinimizer"] = { tooltip = lang[128] }
 
-    UI_xmlElementUpdate("copyCharModeText", "text", lang_table[LANGUAGES[lang_set]][131])
-    UI_xmlElementUpdate("GM_toolsButton_08", "tooltip", lang_table[LANGUAGES[lang_set]][132])
-    UI_xmlElementUpdate("GM_toolsButton_09", "tooltip", lang_table[LANGUAGES[lang_set]][133])
+    updates["setInvisButton"] = { text = lang[129], tooltip = lang[130] }
+    updates["copyCharModeText"] = { text = lang[131] }
+    updates["GM_toolsButton_08"] = { tooltip = lang[132] }
+    updates["GM_toolsButton_09"] = { tooltip = lang[133] }
+
+    batchUIUpdate(updates)
 end
 
 function toggleCharBaseSpin()
