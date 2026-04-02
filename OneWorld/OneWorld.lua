@@ -58,7 +58,7 @@ function onLoad(savedData)
     wpx, pxy, nl, linkToMap, activeEdit = nil, nil, nil, nil, nil
     treeMap = {}
     currentBase = "x"
-    toggleMapBuild = false
+    toggleMapBuild, firstChangeTZone = false, false
     if OWEnable then Wait.time(|| ContinueUnit(), 1) end
     Wait.condition(
         function() CONFIG = JSON.decode(vBase.getVar("CONFIG")) end,
@@ -237,7 +237,7 @@ function reStart(what)
         if zoneObj[i].getName():find(CONFIG.ZONE_PREFIX) then
         if(what == "END") then
             Wait.time(function()
-                if(tZone) then tZone.destruct() tZone = nil end
+                if(tZone) then tZone.destruct() tZone = nil firstChangeTZone = false end
                 aBag.putObject(zoneObj[i])
             end, 1)
         end
@@ -255,17 +255,24 @@ function reStart(what)
     UpdateSave()
 end
 
+local function CheckInteractable()
+    if not tBag then return false end
+    for word in prs:gmatch("%-%-([^,\n]+)") do
+        if not getObjectFromGUID(word).interactable then return true end
+    end
+end
 function SetUI()
     self.UI.setAttribute("b5", "active", aBase and true or false)
     self.UI.setAttribute("b1", "text", not vBaseOn and "Init" or wBase.getDescription() == "" and "END" or "CLR")
     self.UI.setAttribute("b6", "text", (wpx or pxy) and "*" or "")
-    self.UI.setAttribute("b10", "text", toggleMapBuild and "F" or "S")
+    self.UI.setAttribute("b11", "text", toggleMapBuild and "F" or "S")
     for i = 1, 8 do
         self.UI.setAttribute("EMP"..i, "active", aBase and (i <= 6) or not aBase and (i >= 7))
     end
     self.UI.setAttribute("b9", "active",
         aBase and aBase.getLuaScript() != "" and not pxy and string.sub(aBase.getName(), 5) == self.UI.getAttribute("mTxt", "text") and not tBag or false
     )
+    self.UI.setAttribute("b10", "active", CheckInteractable())
     self.UI.setAttribute("EMP1", "text", linkToMap and "unLink" or "Link")
 end
 
@@ -308,7 +315,10 @@ local function cbTObj()
             rotBase()
             local sizeZone = {vBase.getBoundsNormalized().size.x, 10, vBase.getBoundsNormalized().size.z}
             local posZone = vBase.getPosition() + {x=0, y=5.09, z=0}
-            tZone.setPosition(posZone) tZone.setScale(sizeZone) tZone.setRotation(vBase.getRotation())
+            if not firstChangeTZone then
+                tZone.setPosition(posZone) tZone.setScale(sizeZone) tZone.setRotation(vBase.getRotation())
+                firstChangeTZone = true
+            end
         end,
         function() return wBase.getBoundsNormalized().size.x > 0 end
     )
@@ -632,6 +642,12 @@ function ButtonBuild()
     })
     mapIsBuild = true
     UpdateSave()
+end
+
+function ClearNoInteract()
+    for word in prs:gmatch("%-%-([^,\n]+)") do
+        getObjectFromGUID(word).interactable = true
+    end
 end
 
 function ButtonLink()
