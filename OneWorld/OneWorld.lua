@@ -470,17 +470,15 @@ function CbImport()
     aBase.setPosition(selfPos)
     local bagName = string.sub(iBag.getName(), 5)
     local desc = iBag.getDescription() aBase.setName(CONFIG.ZONE_PREFIX..bagName)
-    if(#desc == 6) then
-        desc = desc.."{1.85;1;1.85},{25.0;1.0;25.0},0,0,2,0"
-        iBag.setDescription(desc)
-    elseif(not desc:find("{")) then
-        desc = desc:sub(1, 6).."{1.85;1;1.85},{25.0;1.0;25.0},0,0,2,0"
+    print(bagName)
+    if not desc:find("},{") then
+        desc = desc:sub(1, 6)..",{1.85;1;1.85},{25.0;1.0;25.0},0,0,2,0"
         iBag.setDescription(desc)
     end
     local scr = aBag.getLuaScript()
     scr = scr.."\n--"..aBase.getGUID()..","..string.sub(aBase.getName(), 5)..string.sub(desc, 7)..",".."\n" aBag.setLuaScript(scr)
     iBag.setDescription("") iBag.setName("") aBase.setDescription(iBag.guid)  
-    getObjectFromGUID(getObjectFromGUID(currentBase).getDescription()).destruct() getObjectFromGUID(currentBase).destruct()  currentBase = nil
+    getObjectFromGUID(getObjectFromGUID(currentBase).getDescription()).destruct() getObjectFromGUID(currentBase).destruct() currentBase = nil
     broadcastToAll("Import Complete.", CONFIG.UI_COLORS.YELLOW) nl = aBase.getGUID() wBase.call("MakeLink")
     aBase.unlock() aBag.putObject(aBase) aBase = nil iBag.unlock() mBag.putObject(iBag) iBag = nil
 end
