@@ -258,7 +258,8 @@ end
 local function CheckInteractable()
     if not tBag then return false end
     for word in prs:gmatch("%-%-([^,\n]+)") do
-        if not getObjectFromGUID(word).interactable then return true end
+        local getObj = getObjectFromGUID(word)
+        if getObj and not getObj.interactable then return true end
     end
 end
 function SetUI()
@@ -373,7 +374,7 @@ function GetBase(bGuid)
     if getObjectFromGUID(bGuid) then cbGetBase(getObjectFromGUID(bGuid)) return end
 
     aBag.takeObject({
-        guid = bGuid, position = {0,-3, 0}, rotation = {0, 0, 0},
+        guid = bGuid, position = {0, -3, 0}, rotation = {0, 0, 0},
         smooth = false, callback = "cbGetBase", callback_owner = self
     })
     UpdateSave()
@@ -626,7 +627,7 @@ function ButtonBuild()
     end
     if #tZone.getObjects() > 0 then
         for _, item in ipairs(tZone.getObjects()) do
-            if item.getName() ~= CONFIG.OBJECT_NAMES.VBASE then
+            if item.getName() ~= CONFIG.OBJECT_NAMES.VBASE and not item.hasTag("noInteract") then
                 local iPos = item.getPosition()
                 item.setPosition({iPos[1], tZone.getBoundsNormalized().size.y, iPos[3]})
             end
