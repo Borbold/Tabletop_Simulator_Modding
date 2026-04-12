@@ -54,7 +54,7 @@ function onLoad(savedData)
 
     r1, r2, r3, r90 = 0, 0, 0, 0
     lnk, ss, prs = "", "", ""
-    sizeVPlate, sizeWPlate = 25, 1.9
+    sizeVPlate, sizeWPlate = 25, 1.85
     wpx, pxy, nl, linkToMap, activeEdit = nil, nil, nil, nil, nil
     treeMap = {}
     currentBase = "x"
@@ -278,10 +278,19 @@ function SetUI()
 end
 
 local function FitImageToLimits(imgWidth, imgHeight, limitW, limitH, r90)
-    local aspectRatio = r90 == 0 and imgWidth/imgHeight or imgHeight/imgWidth
-    local scaleX = r90 == 0 and limitW/imgWidth or limitH/imgWidth
-    local scaleY = r90 == 0 and limitH/imgHeight or limitW/imgHeight
-    return r90 == 0 and {width = imgWidth*aspectRatio, height = imgHeight*aspectRatio} or {width = imgHeight*aspectRatio, height = imgWidth*aspectRatio}
+    -- Защита от деления на ноль
+    if imgWidth == 0 or imgHeight == 0 or limitW == 0 or limitH == 0 then
+        return {width = 0, height = 0}
+    end
+    -- Учитываем поворот: если r90 == 1, эффективные ширина и высота меняются местами
+    local effWidth = (r90 == 0) and imgWidth or imgHeight
+    local effHeight = (r90 == 0) and imgHeight or imgWidth
+    -- Вычисляем коэффициент масштабирования, чтобы вписать в лимиты
+    local scale = math.min(limitW / effWidth, limitH / effHeight)
+    -- Новые размеры после масштабирования
+    local newWidth = effWidth * scale
+    local newHeight = effHeight * scale
+    return {width = newWidth, height = newHeight}
 end
 local function FitBase(limitW, limitH, baseSize, base)
     if isPVw() or not aBase or activeEdit then return end
