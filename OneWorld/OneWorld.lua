@@ -7,7 +7,8 @@ function UpdateSave()
         ["vBaseGUID"] = safeGetGUID(vBase), ["wBaseGUID"] = safeGetGUID(wBase),
         ["tZoneGUID"] = safeGetGUID(tZone),
         ["OWEnable"] = OWEnable, ["mapIsBuild"] = mapIsBuild, ["tBag"] = tBag,
-        ["baseVGUID"] = baseVGUID, ["baseWGUID"] = baseWGUID
+        ["baseVGUID"] = baseVGUID, ["baseWGUID"] = baseWGUID,
+        ["toggleMapBuild"] = toggleMapBuild, ["toggleZoneSpawn"] = toggleZoneSpawn
     })
 end
 
@@ -38,19 +39,19 @@ local function ContinueUnit()
 end
 function onLoad(savedData)
     local loadedData = JSON.decode(savedData or "")
-    if loadedData then
-        baseVGUID = loadedData.baseVGUID or ""
-        baseWGUID = loadedData.baseWGUID or ""
-        OWEnable = loadedData.OWEnable or false
-        mapIsBuild = loadedData.mapIsBuild or false
-        tBag = loadedData.tBag or false
-        aBag = loadedData.aBagGUID and getObjectFromGUID(loadedData.aBagGUID)
-        mBag = loadedData.mBagGUID and getObjectFromGUID(loadedData.mBagGUID)
-        vBase = loadedData.vBaseGUID and getObjectFromGUID(loadedData.vBaseGUID)
-        wBase = loadedData.wBaseGUID and getObjectFromGUID(loadedData.wBaseGUID)
-        tZone = loadedData.tZoneGUID and getObjectFromGUID(loadedData.tZoneGUID)
-        if wBase then aBase = getObjectFromGUID(wBase.getDescription()) end
-    end
+    baseVGUID =         loadedData and loadedData.baseVGUID or ""
+    baseWGUID =         loadedData and loadedData.baseWGUID or ""
+    OWEnable =          loadedData and loadedData.OWEnable or false
+    mapIsBuild =        loadedData and loadedData.mapIsBuild or false
+    tBag =              loadedData and loadedData.tBag or false
+    aBag =              loadedData and loadedData.aBagGUID and getObjectFromGUID(loadedData.aBagGUID)
+    mBag =              loadedData and loadedData.mBagGUID and getObjectFromGUID(loadedData.mBagGUID)
+    vBase =             loadedData and loadedData.vBaseGUID and getObjectFromGUID(loadedData.vBaseGUID)
+    wBase =             loadedData and loadedData.wBaseGUID and getObjectFromGUID(loadedData.wBaseGUID)
+    tZone =             loadedData and loadedData.tZoneGUID and getObjectFromGUID(loadedData.tZoneGUID)
+    toggleMapBuild =    loadedData and loadedData.toggleMapBuild or false
+    toggleZoneSpawn =   loadedData and loadedData.toggleZoneSpawn or false
+    if wBase then aBase = getObjectFromGUID(wBase.getDescription()) end
 
     r1, r2, r3, r90 = 0, 0, 0, 0
     lnk, ss, prs = "", "", ""
@@ -58,7 +59,7 @@ function onLoad(savedData)
     wpx, pxy, nl, linkToMap, activeEdit = nil, nil, nil, nil, nil
     treeMap = {}
     currentBase = "x"
-    toggleMapBuild, firstChangeTZone = false, false
+    firstChangeTZone = false
     if OWEnable then Wait.time(|| ContinueUnit(), 1) end
     Wait.condition(
         function() CONFIG = JSON.decode(vBase.getVar("CONFIG")) end,
@@ -187,13 +188,20 @@ local function positionObjectsForMode(selfPos, isEnabled)
     positionObject(vBase, vBasePos, vBaseScale, not isEnabled)
     positionObject(wBase, wBasePos, wBaseScale, not isEnabled)
 end
+local function normalizeAngle(angle)
+    angle = angle % 360
+    if angle < 0 then angle = angle + 360 end
+    return angle
+end
 function TogleEnable()
     if activeEdit then EditMode() return end
     if treeMap[1] != string.sub(aBag.getDescription(), 10) then reStart() end
 
     local selfPos = self.getPosition()
     if not vBaseOn then
-        self.setRotation({x=0, y=0, z=0})
+        local currentY = normalizeAngle(self.getRotation().y)
+        local targetY = (math.abs(currentY - 0) <= math.abs(currentY - 180)) and 0 or 180
+        self.setRotation({x = 0, y = targetY, z = 0})
         Wait.time(function()
             self.UI.setAttribute("mainPanel", "active", true)
             calculateRotationDirection()
@@ -267,6 +275,7 @@ function SetUI()
     self.UI.setAttribute("b1", "text", not vBaseOn and "Init" or wBase.getDescription() == "" and "END" or "CLR")
     self.UI.setAttribute("b6", "text", (wpx or pxy) and "*" or "")
     self.UI.setAttribute("b11", "text", toggleMapBuild and "F" or "S")
+    self.UI.setAttribute("b12", "text", toggleZoneSpawn and "C" or "S")
     for i = 1, 8 do
         self.UI.setAttribute("EMP"..i, "active", aBase and (i <= 6) or not aBase and (i >= 7))
     end
@@ -275,6 +284,7 @@ function SetUI()
     )
     self.UI.setAttribute("b10", "active", CheckInteractable())
     self.UI.setAttribute("EMP1", "text", linkToMap and "unLink" or "Link")
+    UpdateSave()
 end
 
 local function FitImageToLimits(imgWidth, imgHeight, limitW, limitH, r90)
@@ -325,7 +335,7 @@ local function cbTObj()
             rotBase()
             local sizeZone = {vBase.getBoundsNormalized().size.x, 10, vBase.getBoundsNormalized().size.z}
             local posZone = vBase.getPosition() + {x=0, y=5.09, z=0}
-            if not firstChangeTZone then
+            if toggleZoneSpawn or not firstChangeTZone then
                 tZone.setPosition(posZone) tZone.setScale(sizeZone) tZone.setRotation(vBase.getRotation())
                 firstChangeTZone = true
             end
@@ -913,5 +923,9 @@ end
 --- Callback functions ---
 function toggleBuildMap()
     toggleMapBuild = not toggleMapBuild
+    Wait.time(|| SetUI(), 0.1)
+end
+function toggleSpawnZone()
+    toggleZoneSpawn = not toggleZoneSpawn
     Wait.time(|| SetUI(), 0.1)
 end

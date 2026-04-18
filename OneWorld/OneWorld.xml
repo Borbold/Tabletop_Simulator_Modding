@@ -28,7 +28,7 @@
 
     <Button id='b5' class='workButton' width='40' height='40' offsetXY='-180 -445' onClick='SettingSizeBase' tooltipPosition='Right' tooltip='You can change size base'
         icon='uiOneWorld_b5' active='false' />
-    <Button id='b6' class='workButton' width='40' height='40' offsetXY='-340 -280' rotation='0 0 270' onClick='ButtonParent' tooltipPosition='Left' tooltip='Parent' />
+    <Button id='b6' class='workButton' width='40' height='40' offsetXY='-340 -280' rotation='0 0 270' onClick='ButtonParent' tooltipPosition='Below' tooltip='Parent' />
 
     <Button id='b7' class='workButton' width='50' height='80' offsetXY='280 360' onClick='ButtonHome' tooltip='Next' color='#ffffff00' />
     <Button id='b8' class='workButton' width='50' height='80' offsetXY='220 360' onClick='ButtonBack' tooltip='Last' color='#ffffff00' />
@@ -36,8 +36,10 @@
     <Button id='b9' text='BUILD' class='workButton' width='120' height='80' offsetXY='390 400' onClick='ButtonBuild' active='false' />
     <Button id='b10' text='CNI' class='workButton' width='120' height='80' offsetXY='390 400' onClick='ClearNoInteract' active='false' tooltip='Interactable any object with no_interact' />
 
-    <Button id='b11' class='workButton' width='40' height='40' offsetXY='-340 -220' rotation='0 0 270' onClick='toggleBuildMap' tooltipPosition='Left' tooltip='Toggle map build' />
+    <Button id='b11' class='workButton' width='40' height='40' offsetXY='-340 -220' rotation='0 0 270' onClick='toggleBuildMap' tooltipPosition='Below' tooltip='Toggle map build' />
     
+    <Button id='b12' class='workButton' width='40' height='40' offsetXY='-340 -160' rotation='0 0 270' onClick='toggleSpawnZone' tooltipPosition='Below' tooltip='Toggle zone spawn' />
+
     <TableLayout id='editMenuPanel' width='300' height='850' offsetXY='-570 0' active='false'>
         <Row>
             <Cell>
