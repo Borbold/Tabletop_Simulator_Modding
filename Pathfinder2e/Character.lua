@@ -56,12 +56,9 @@ end
 function onLoad(saved_data)
     self.setVar("SCRIPTED_PF2E_CHARACTER", true)
     
-    local charData
-    if saved_data and saved_data ~= "" then
-        local loaded_data = JSON.decode(saved_data)
-        charData = loaded_data.charSave_table
-        self.setVar("Selected", loaded_data.Selected or 0)
-    end
+    local loaded_data = saved_data and JSON.decode(saved_data)
+    local charData = loaded_data and loaded_data.charSave_table
+    self.setVar("Selected", loaded_data and loaded_data.Selected or 0)
     -- Устанавливаем имя объекта как имя персонажа для новых
     if not charData.charName or charData.charName == "" then
         charData.charName = self.getName()
