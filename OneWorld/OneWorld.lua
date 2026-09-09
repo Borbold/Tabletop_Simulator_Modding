@@ -550,6 +550,20 @@ function SelectMap()
     if activeEdit then EditMode() return end
     if not vBaseOn or not aBase then return end
     if linkToMap then GetBase(linkToMap) linkToMap = nil Wait.time(|| SetUI(), 0.1) return end
+
+    local idx = treeMap[-1]
+    if idx == nil then
+        broadcastToAll("Map not initialized yet", CONFIG.UI_COLORS.YELLOW)
+        return
+    end
+    if idx ~= treeMap[0] then
+        local guid = treeMap[idx]
+        if guid then
+            GetBase(guid)
+        else
+            broadcastToAll("Invalid map entry", CONFIG.UI_COLORS.YELLOW)
+        end
+    end
     if treeMap[-1] != treeMap[0] then GetBase(treeMap[treeMap[-1]]) end
 end
 
