@@ -660,7 +660,7 @@ function ButtonBuild()
     end
     if #tZone.getObjects() > 0 then
         for _, item in ipairs(tZone.getObjects()) do
-            if item.getName() ~= CONFIG.OBJECT_NAMES.VBASE and not item.hasTag("noInteract") then
+            if item.getName() ~= CONFIG.OBJECT_NAMES.VBASE and not item.hasTag("noInteract") and not item.hasTag("noLift") then
                 local iPos = item.getPosition()
                 item.setPosition({iPos[1], tZone.getBoundsNormalized().size.y, iPos[3]})
             end
