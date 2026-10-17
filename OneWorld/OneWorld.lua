@@ -8,7 +8,8 @@ function UpdateSave()
         ["tZoneGUID"] = safeGetGUID(tZone),
         ["OWEnable"] = OWEnable, ["mapIsBuild"] = mapIsBuild, ["tBag"] = tBag,
         ["baseVGUID"] = baseVGUID, ["baseWGUID"] = baseWGUID,
-        ["toggleMapBuild"] = toggleMapBuild, ["toggleZoneSpawn"] = toggleZoneSpawn
+        ["toggleMapBuild"] = toggleMapBuild, ["toggleZoneSpawn"] = toggleZoneSpawn,
+        ["isLiftObjects"] = isLiftObjects, ["isStandartSize"] = isStandartSize
     })
 end
 
@@ -51,6 +52,8 @@ function onLoad(savedData)
     tZone =             loadedData and loadedData.tZoneGUID and getObjectFromGUID(loadedData.tZoneGUID)
     toggleMapBuild =    loadedData and loadedData.toggleMapBuild or false
     toggleZoneSpawn =   loadedData and loadedData.toggleZoneSpawn or false
+    isLiftObjects =     loadedData and loadedData.isLiftObjects or false
+    isStandartSize =    loadedData and loadedData.isStandartSize or false
     if wBase then aBase = getObjectFromGUID(wBase.getDescription()) end
 
     r1, r2, r3, r90 = 0, 0, 0, 0
@@ -276,6 +279,8 @@ function SetUI()
     self.UI.setAttribute("b6", "text", (wpx or pxy) and "*" or "")
     self.UI.setAttribute("b11", "text", toggleMapBuild and "F" or "S")
     self.UI.setAttribute("b12", "text", toggleZoneSpawn and "C" or "S")
+    self.UI.setAttribute("b13", "text", isLiftObjects and "L" or "NL")
+    self.UI.setAttribute("b14", "text", isStandartSize and "O" or "N")
     for i = 1, 8 do
         self.UI.setAttribute("EMP"..i, "active", aBase and (i <= 6) or not aBase and (i >= 7))
     end
@@ -492,7 +497,8 @@ function CbImport()
     local desc = iBag.getDescription() aBase.setName(CONFIG.ZONE_PREFIX..bagName)
     print(bagName)
     if not desc:find("},{") then
-        desc = desc:sub(1, 6)..",{1.85;1;1.85},{25.0;1.0;25.0},0,0,2,0"
+        local sizeMap = isStandartSize and "{18.0;1.0;18.0}" or "{25.0;1.0;25.0}"
+        desc = desc:sub(1, 6)..",{1.85;1;1.85},"..sizeMap..",0,0,2,0"
         iBag.setDescription(desc)
     end
     local scr = aBag.getLuaScript()
@@ -660,7 +666,8 @@ function ButtonBuild()
     end
     if #tZone.getObjects() > 0 then
         for _, item in ipairs(tZone.getObjects()) do
-            if item.getName() ~= CONFIG.OBJECT_NAMES.VBASE and not item.hasTag("noInteract") and not item.hasTag("noLift") then
+            if isLiftObjects and item.getName() ~= CONFIG.OBJECT_NAMES.VBASE and
+                    not item.hasTag("noInteract") and not item.hasTag("noLift") then
                 local iPos = item.getPosition()
                 item.setPosition({iPos[1], tZone.getBoundsNormalized().size.y, iPos[3]})
             end
@@ -873,6 +880,16 @@ function TMBaseSize()
         self.UI.setAttribute("b1", "text", "UPD")
         UpdateSave()
     end, 0.1)
+end
+
+function toggleLiftObjects()
+    isLiftObjects = not isLiftObjects
+    SetUI()
+end
+
+function toggleSizeMap()
+    isStandartSize = not isStandartSize
+    SetUI()
 end
 --- Buttons ---
 --- Input ---

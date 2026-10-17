@@ -40,6 +40,10 @@
     
     <Button id='b12' class='workButton' width='40' height='40' offsetXY='-340 -160' rotation='0 0 270' onClick='toggleSpawnZone' tooltipPosition='Below' tooltip='Toggle zone spawn' />
 
+    <Button id='b13' class='workButton' width='40' height='40' offsetXY='-340 -100' rotation='0 0 270' onClick='toggleLiftObjects' tooltipPosition='Below' tooltip='Toggle lift objects in build zone' />
+    
+    <Button id='b14' class='workButton' width='40' height='40' offsetXY='-340 -40' rotation='0 0 270' onClick='toggleSizeMap' tooltipPosition='Below' tooltip='Toggle general size map\nOld 18*18 - New 25*25' />
+
     <TableLayout id='editMenuPanel' width='300' height='850' offsetXY='-570 0' active='false'>
         <Row>
             <Cell>
