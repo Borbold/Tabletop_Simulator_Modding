@@ -56,7 +56,7 @@ local function processHitObject(hitTable, object)
             object.reload()
         end
     else
-        error("Invalid rotation.")
+        print("Invalid rotation.")
     end
 end
 
@@ -76,13 +76,14 @@ local function handleCollisionInfo(collision_info)
 end
 
 local function getOneWorldScriptingZone()
-    if OW_tZone then return end
+    if OW_tZone ~= nil then return end
     for _, obj in ipairs(getAllObjects()) do
         if obj.getName() == "_OW_tZone" then
             OW_tZone = obj
+            return
         end
     end
-    print("Warning: OW scripting zone not found!", "#b15959")
+    printToColor("Warning: OW scripting zone not found!", "#b15959")
 end
 
 local function getInjectingMiniatures()
@@ -325,7 +326,7 @@ end
 
 function injectToken(object)
     local assets = self.UI.getCustomAssets()
-    local xml = injectMiniXML
+    local xml = injectMiniXML or {}
     local stats = {}
     local xmlStats = ""
     for _, asset in pairs(assets) do
@@ -353,7 +354,7 @@ end
 function getInitiativeFigures()
     initFigures = {}
     getOneWorldScriptingZone()
-    if checkSZ == nil then return end
+    if OW_tZone == nil or tostring(OW_tZone) == "null" then return end
     for _, objZone in ipairs(OW_tZone.getObjects()) do
         if objZone.getVar("className") == "InjectTokenMini" then
             handleInitMiniature(objZone)

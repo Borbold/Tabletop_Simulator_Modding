@@ -453,7 +453,7 @@ end
 
 function calibrateScale()
     currentScale = self.getScale()
-    scaleMultiplier = {currentScale.x/Grid.sizeX, currentScale.y/Grid.sizeX, currentScale.z/Grid.sizeX}
+    scaleMultiplier = {currentScale.x/Grid.sizeX, currentScale.y/Grid.sizeY, currentScale.z/Grid.sizeX}
     calibratedOnce = true
     rebuildContextMenu()
     updateSave()
@@ -463,7 +463,7 @@ function resetScale()
     if calibratedOnce == false then
         return
     end
-    newScaleMultiplier = {Grid.sizeX*scaleMultiplierX, Grid.sizeX*scaleMultiplierY, Grid.sizeX*scaleMultiplierZ}
+    newScaleMultiplier = {Grid.sizeX*scaleMultiplierX, Grid.sizeY*scaleMultiplierY, Grid.sizeX*scaleMultiplierZ}
     self.setScale(newScaleMultiplier)
     onUpdateGridSize = Grid.sizeX
     updateSave()
