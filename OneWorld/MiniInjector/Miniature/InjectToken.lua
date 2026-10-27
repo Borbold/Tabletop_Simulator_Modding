@@ -463,7 +463,7 @@ function resetScale()
     if calibratedOnce == false then
         return
     end
-    newScaleMultiplier = {Grid.sizeX*scaleMultiplierX, Grid.sizeY*scaleMultiplierY, Grid.sizeX*scaleMultiplierZ}
+    newScaleMultiplier = {Grid.sizeX*scaleMultiplier[1], Grid.sizeY*scaleMultiplier[2], Grid.sizeX*scaleMultiplier[3]}
     self.setScale(newScaleMultiplier)
     onUpdateGridSize = Grid.sizeX
     updateSave()

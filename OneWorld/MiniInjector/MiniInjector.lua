@@ -76,22 +76,19 @@ local function handleCollisionInfo(collision_info)
 end
 
 local function getOneWorldScriptingZone()
-    if OW_tZone ~= nil then return end
-    for _, obj in ipairs(getAllObjects()) do
-        if obj.getName() == "_OW_tZone" then
-            OW_tZone = obj
-            return
-        end
+    if OW_tZone == nil then
+        OW_tZone = getObjectFromGUID(self.getGMNotes()).getVar("tZone")
+        printToAll("Zone found!", {r=0.3, g=1, b=0.8})
     end
-    printToColor("Warning: OW scripting zone not found!", "#b15959")
 end
 
 local function getInjectingMiniatures()
     local miniatures = {}
     getOneWorldScriptingZone()
-    if OW_tZone == nil then return end
-    for _, objZone in ipairs(OW_tZone.getObjects()) do
-        if objZone.getName() ~= "_OW_vBase" then
+    if OW_tZone == nil then return miniatures end
+    for _, objZone in ipairs(zone.getObjects()) do
+        local name = objZone.getName()
+        if name:sub(1, 4) ~= "_OW_" and not isExcludedClassName(objZone.getVar("className")) then
             table.insert(miniatures, objZone)
         end
     end
@@ -325,6 +322,10 @@ local function setMiniVariable(object, stats, xml)
 end
 
 function injectToken(object)
+    if injectMiniLua == nil or injectMiniXML == nil then
+        printToAll("Assets not load.", {r=1, g=0.5, b=0.5})
+        return
+    end
     local assets = self.UI.getCustomAssets()
     local xml = injectMiniXML or {}
     local stats = {}

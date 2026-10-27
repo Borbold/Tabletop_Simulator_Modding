@@ -13,9 +13,15 @@ function UpdateSave()
     })
 end
 
+local function angularDistance(a, b)
+    local d = math.abs(a - b) % 360
+    return d > 180 and (360 - d) or d
+end
 local function calculateRotationDirection()
-    local selfRot = self.getRotation()
-    r2 = selfRot[2] >= 180 and -1 or 1
+    r2 = (angularDistance(self.getRotation().y, 180) <= 90) and -1 or 1
+end
+local function nearestAxisRotation(currentY)
+    return angularDistance(currentY, 0) <= angularDistance(currentY, 180) and 0 or 180
 end
 local function rotBase()
     local rotation = r90 == 0 and {0, r1, r3} or {r3, 90, r1}
@@ -191,19 +197,13 @@ local function positionObjectsForMode(selfPos, isEnabled)
     positionObject(vBase, vBasePos, vBaseScale, not isEnabled)
     positionObject(wBase, wBasePos, wBaseScale, not isEnabled)
 end
-local function normalizeAngle(angle)
-    angle = angle % 360
-    if angle < 0 then angle = angle + 360 end
-    return angle
-end
 function TogleEnable()
     if activeEdit then EditMode() return end
     if treeMap[1] != string.sub(aBag.getDescription(), 10) then reStart() end
 
     local selfPos = self.getPosition()
     if not vBaseOn then
-        local currentY = normalizeAngle(self.getRotation().y)
-        local targetY = (math.abs(currentY - 0) <= math.abs(currentY - 180)) and 0 or 180
+        local targetY = nearestAxisRotation(self.getRotation().y)
         self.setRotation({x = 0, y = targetY, z = 0})
         Wait.time(function()
             self.UI.setAttribute("mainPanel", "active", true)
