@@ -2,6 +2,10 @@ itemCost, itemCostDiscount = nil, nil
 thingsInBasket, countItem = {}, 0
 coinPouch = nil
 
+local BUTTON_SIZE   = 250    -- мировой размер кнопки
+local BUTTON_MARGIN = 0.08   -- отступ кнопки от края предмета
+local BUTTON_LIFT   = 0.1    -- подъём кнопки над поверхностью
+
 local function isAlive(obj)
     return obj ~= nil and tostring(obj) ~= "null"
 end
@@ -17,27 +21,42 @@ local function availableMoney()
     return tonumber(value)
 end
 
+-- Кнопка всегда в углу предмета и всегда одного мирового размера:
+-- позиция берётся от габаритов, размер делится на масштаб объекта.
+-- cornerSign = 1 — угол (+X +Z), cornerSign = -1 — противоположный.
+local function createCornerButton(cornerSign, handler, tooltip, color)
+    local scale = self.getScale()
+    local sx = (scale.x ~= 0) and scale.x or 1
+    local sz = (scale.z ~= 0) and scale.z or 1
+
+    local bounds = self.getBoundsNormalized()
+    local size = bounds and bounds.size or nil
+
+    local halfX = ((size and size.x) or 1.5) * 0.5 + BUTTON_MARGIN
+    local halfZ = ((size and size.z) or 1.5) * 0.5 + BUTTON_MARGIN
+    local topY  = ((size and size.y) or 0) + BUTTON_LIFT
+    local side  = BUTTON_SIZE / ((sx + sz) * 0.5)
+
+    self.createButton({
+        click_function = handler,
+        function_owner = self,
+        position = {halfX * cornerSign, topY, halfZ * cornerSign},
+        width = side,
+        height = side,
+        color = color,
+        tooltip = tooltip,
+    })
+end
+
 function CreateButton(itemC)
     itemCost = tonumber(itemC)
     itemCostDiscount = nil
     if(itemCost == nil) then return end
 
-    -- getCustomObject() может быть nil у не-кастомных объектов
-    local custom = self.getCustomObject()
-    local thickness = custom and custom["thickness"]
-    local offsetY = (thickness and thickness + 0.05) or 0.15
-
     self.clearButtons()
-    self.createButton({
-        click_function = "SelectItem", function_owner = self,
-        position = {0.75, offsetY, 0.75}, height = 250, width = 250,
-        color = {1, 0.9, 0.9, 1}, tooltip = "Buy for "..itemCost
-    })
-    self.createButton({
-        click_function = "ClearLuaScript", function_owner = self,
-        position = {-0.75, offsetY, -0.75}, height = 250, width = 250,
-        color = {1, 0, 0, 0.5}, tooltip = "Remove a script from this object"
-    })
+    -- индекс 0 — кнопка покупки, её tooltip правят GiveDiscountItem и EndTrade
+    createCornerButton(1, "SelectItem", "Buy for "..itemCost, {1, 0.9, 0.9, 1})
+    createCornerButton(-1, "ClearLuaScript", "Remove a script from this object", {1, 0, 0, 0.5})
 end
 
 function ClearLuaScript(obj, color, altClick)
@@ -128,14 +147,15 @@ local function Buy(playerColor)
     local cost = price()
     if(cost == nil) then return end
 
-    local availableMoney = availableMoney()
-    if(availableMoney == nil) then
+    -- локальная переменная переименована, чтобы не перекрывать функцию availableMoney()
+    local money = availableMoney()
+    if(money == nil) then
         broadcastToColor("{ru}Кошелёк не отвечает{en}The pouch is not responding", playerColor)
         return
     end
 
     -- проверяем по той же цене, по которой списываем
-    if(cost > availableMoney) then
+    if(cost > money) then
         broadcastToColor("{ru}Вам не хватает средств{en}You're short on funds", playerColor)
         return
     end

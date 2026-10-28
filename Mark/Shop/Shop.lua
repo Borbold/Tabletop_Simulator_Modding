@@ -2,15 +2,27 @@ local function isAlive(obj)
     return obj ~= nil and tostring(obj) ~= "null"
 end
 
-local function findNodeById(node, id)
+local function findNodeById(node, id, depth)
     if type(node) ~= "table" then return nil end
-    if type(node.attributes) == "table" and node.attributes.id == id then return node end
+    depth = (depth or 0) + 1
+    if depth > 30 then return nil end
+
+    if type(node.attributes) == "table" and node.attributes.id == id then
+        return node
+    end
+
     if type(node.children) == "table" then
         for _, child in ipairs(node.children) do
-            local found = findNodeById(child, id)
+            local found = findNodeById(child, id, depth)
             if found ~= nil then return found end
         end
     end
+
+    for i = 1, #node do
+        local found = findNodeById(node[i], id, depth)
+        if found ~= nil then return found end
+    end
+
     return nil
 end
 
@@ -93,7 +105,7 @@ function CreateGlobalVariable()
 end
 
 function AddNewItem(_, _, id)
-    CreateBag(nil, nil, nil, StringInNumber(id))
+    CreateBag(nil, nil, nil, id)
 end
 
 function PercentageSubjects(_, _, id)
@@ -261,6 +273,42 @@ function SetObjMeta(bag, objGUID, locBoardObjectsPos, locBoardObjectsRot)
   bag.call("SetObjMetaBag", parametrs)
 end
 
+local warnedAboutBagData = false
+
+-- GUID'ы предметов, которые сейчас лежат в мешке.
+-- Bag.getObjects() часто отдаёт nil, поэтому основной путь — getData().
+local function getBagContentGuids(bag)
+    local guids = {}
+
+    local ok, data = pcall(function() return bag.getData() end)
+    if ok and type(data) == "table" then
+        local contained = data.ContainedObjects or data.containedObjects
+        if type(contained) == "table" then
+            for _, obj in ipairs(contained) do
+                if obj ~= nil then
+                    local guid = obj.GUID or obj.guid
+                    if guid ~= nil then guids[guid] = true end
+                end
+            end
+            return guids
+        end
+
+        if not warnedAboutBagData then
+            warnedAboutBagData = true
+            print("[Shop] в getData() нет ContainedObjects. Ключи:")
+            for k in pairs(data) do print("  " .. tostring(k)) end
+        end
+    end
+
+    -- запасной путь: предмет считается «в мешке», если он больше не лежит в мире
+    for _, meta in ipairs(bag.call("GetObjectMetaBag") or {}) do
+        if meta[1] ~= nil and not isAlive(getObjectFromGUID(meta[1])) then
+            guids[meta[1]] = true
+        end
+    end
+    return guids
+end
+
 function ShowcaseMerchandise(_, _, id)
   local storeIndex = StringInNumber(id)
   local store = getObjectFromGUID(allStoresGUID[storeIndex] or "")
@@ -282,10 +330,7 @@ function ShowcaseMerchandise(_, _, id)
   end
 
   -- что реально лежит в мешке
-  local inBag = {}
-  for _, obj in ipairs(store.getObjects()) do
-    if obj ~= nil then inBag[obj.getGUID()] = true end
-  end
+  local inBag = getBagContentGuids(store)
 
   local pool = {}
   for i = 1, #allObjMeta do
@@ -412,12 +457,49 @@ function GiveDiscount(_, input)
   end
 end
 
--- Полная пересборка строк: id всегда совпадает с индексом в allStoresGUID
-function RebuildStoreRows()
+local function DumpUiIds(node, depth, seen)
+    if type(node) ~= "table" then return end
+    depth = depth or 0
+    seen = seen or {}
+    if depth > 30 or seen[node] then return end
+    seen[node] = true
+
+    if type(node.attributes) == "table" and node.attributes.id ~= nil then
+        print("[Shop] id=" .. tostring(node.attributes.id) .. "  tag=" .. tostring(node.tag))
+    end
+    if type(node.children) == "table" then
+        for _, child in ipairs(node.children) do DumpUiIds(child, depth + 1, seen) end
+    end
+    for i = 1, #node do DumpUiIds(node[i], depth + 1, seen) end
+end
+
+function RebuildStoreRows(attempt)
+    attempt = attempt or 1
+
     local xmlTable = self.UI.getXmlTable()
     local tableLayoutShop = findNodeById(xmlTable, "tableLayoutShop")
+
+    -- запасной путь: ровно так, как было в прежней версии
     if tableLayoutShop == nil then
-        print("[Shop] в Shop.xml не найден узел id='tableLayoutShop'")
+        local ok, legacy = pcall(function()
+            return xmlTable[3].children[1].children[1]
+        end)
+        if ok and type(legacy) == "table" and type(legacy.children) == "table" then
+            tableLayoutShop = legacy
+        end
+    end
+
+    if tableLayoutShop == nil then
+        if attempt < 5 then
+            Wait.time(|| RebuildStoreRows(attempt + 1), 0.5)
+        else
+            local ok, height = pcall(function()
+                return self.UI.getAttribute("tableLayoutShop", "height")
+            end)
+            print("[Shop] узел tableLayoutShop не найден. height по id: "
+                .. tostring(ok and height or "ошибка"))
+            DumpUiIds(xmlTable)
+        end
         return
     end
 
