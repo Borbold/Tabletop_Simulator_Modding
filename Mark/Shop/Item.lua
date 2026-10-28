@@ -3,7 +3,7 @@ thingsInBasket, countItem = {}, 0
 coinPouch = nil
 
 local BUTTON_SIZE   = 250    -- размер кнопки
-local BUTTON_OUT    = 0.16   -- вынос кнопки за угол предмета (мировые единицы)
+local BUTTON_OUT    = -0.2   -- вынос кнопки за угол предмета (мировые единицы)
 local BUTTON_LIFT   = 0.05   -- подъём кнопки над предметом
 
 local function isAlive(obj)
@@ -68,7 +68,7 @@ function CreateButton(itemC)
     self.clearButtons()
     -- индекс 0 — кнопка покупки, её tooltip правят GiveDiscountItem и EndTrade
     createCornerButton(1, "SelectItem", "Buy for "..itemCost, {1, 0.9, 0.9, 1})
-    createCornerButton(-1, "ClearLuaScript", "Remove a script from this object", {1, 0, 0, 0.5})
+    --createCornerButton(-1, "ClearLuaScript", "Remove a script from this object", {1, 0, 0, 0.5})
 end
 
 function ClearLuaScript(obj, color, altClick)
