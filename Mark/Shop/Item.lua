@@ -2,9 +2,9 @@ itemCost, itemCostDiscount = nil, nil
 thingsInBasket, countItem = {}, 0
 coinPouch = nil
 
-local BUTTON_SIZE   = 250    -- мировой размер кнопки
-local BUTTON_MARGIN = 0.08   -- отступ кнопки от края предмета
-local BUTTON_LIFT   = 0.1    -- подъём кнопки над поверхностью
+local BUTTON_SIZE   = 250    -- размер кнопки
+local BUTTON_OUT    = 0.16   -- вынос кнопки за угол предмета (мировые единицы)
+local BUTTON_LIFT   = 0.05   -- подъём кнопки над предметом
 
 local function isAlive(obj)
     return obj ~= nil and tostring(obj) ~= "null"
@@ -21,26 +21,38 @@ local function availableMoney()
     return tonumber(value)
 end
 
--- Кнопка всегда в углу предмета и всегда одного мирового размера:
--- позиция берётся от габаритов, размер делится на масштаб объекта.
--- cornerSign = 1 — угол (+X +Z), cornerSign = -1 — противоположный.
+-- Угол предмета: считаем в мировых координатах, затем переводим в локальные
+-- (снимаем поворот и масштаб). cornerSign = 1 — угол (+X +Z), -1 — противоположный.
+local function cornerLocalPosition(cornerSign)
+    local bounds = self.getBounds()
+    local rot    = self.getRotation()
+    local scale  = self.getScale()
+
+    local sx = (scale.x ~= 0) and scale.x or 1
+    local sy = (scale.y ~= 0) and scale.y or 1
+    local sz = (scale.z ~= 0) and scale.z or 1
+
+    local worldCorner = bounds.center + Vector(
+        (bounds.size.x * 0.5 + BUTTON_OUT) * cornerSign,
+         bounds.size.y * 0.5 + BUTTON_LIFT,
+        (bounds.size.z * 0.5 + BUTTON_OUT) * cornerSign)
+
+    local offset = worldCorner - self.getPosition()
+    offset = offset:rotateOver("y", -rot.y)
+
+    return {offset.x / sx, offset.y / sy, offset.z / sz}
+end
+
 local function createCornerButton(cornerSign, handler, tooltip, color)
     local scale = self.getScale()
     local sx = (scale.x ~= 0) and scale.x or 1
     local sz = (scale.z ~= 0) and scale.z or 1
-
-    local bounds = self.getBoundsNormalized()
-    local size = bounds and bounds.size or nil
-
-    local halfX = ((size and size.x) or 1.5) * 0.5 + BUTTON_MARGIN
-    local halfZ = ((size and size.z) or 1.5) * 0.5 + BUTTON_MARGIN
-    local topY  = ((size and size.y) or 0) + BUTTON_LIFT
-    local side  = BUTTON_SIZE / ((sx + sz) * 0.5)
+    local side = BUTTON_SIZE / ((sx + sz) * 0.5)
 
     self.createButton({
         click_function = handler,
         function_owner = self,
-        position = {halfX * cornerSign, topY, halfZ * cornerSign},
+        position = cornerLocalPosition(cornerSign),
         width = side,
         height = side,
         color = color,
@@ -102,10 +114,16 @@ end
 
 local function SpawnNewItemObject(paid)
     local selfPosition = coinPouch.getPosition()
+    local selfScale    = self.getScale()
+    local sx = (selfScale.x ~= 0) and selfScale.x or 1
+    local sy = (selfScale.y ~= 0) and selfScale.y or 1
+    local sz = (selfScale.z ~= 0) and selfScale.z or 1
+
     local spawnParametrs = {
         json = self.getJSON(),
-        position = {x = selfPosition.x - 2.5, y = selfPosition.y + countItem + 2, z = selfPosition.z},
-        scale = {x = 1, y = 1, z = 1},
+        position = {x = selfPosition.x - 2.5 * sx, y = selfPosition.y + 2 + countItem * sy, z = selfPosition.z},
+        -- масштаб покупаемого предмета, а не сброс в 1
+        scale = {x = sx, y = sy, z = sz},
         sound = false,
         snap_to_grid = true,
     }
@@ -147,7 +165,6 @@ local function Buy(playerColor)
     local cost = price()
     if(cost == nil) then return end
 
-    -- локальная переменная переименована, чтобы не перекрывать функцию availableMoney()
     local money = availableMoney()
     if(money == nil) then
         broadcastToColor("{ru}Кошелёк не отвечает{en}The pouch is not responding", playerColor)
