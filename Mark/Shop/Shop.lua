@@ -114,6 +114,7 @@ function PercentageSubjects(_, _, id)
     percent = percent - 25
     if percent <= 0 then percent = 100 end
     self.UI.setAttribute(id, "text", percent.."%")
+    self.UI.setAttribute(id, "textColor", "#FFFFFF")
 end
 
 function onCollisionEnter(info)
@@ -528,6 +529,7 @@ function BuildStoreNameRow(storeId, storeName)
         {
           tag = "Cell",
           attributes = {
+            columnSpan = "4",
           },
           children = {
             {
@@ -552,39 +554,56 @@ function BuildStoreNameRow(storeId, storeName)
 end
 
 function BuildStoreButtonRow(storeId)
-    local function makeButton(name, label, handler, extra)
-        local attributes = {id = name..storeId, text = label, onClick = handler}
+    local function makeButton(name, text, image, handler, extra)
+        local attributes = {
+            id = name..storeId,
+            text = text,
+            image = image,
+            onClick = handler,
+            fontSize = 24,
+            alignment = "MiddleCenter",
+            textColor = "#FFFFFF"
+        }
         for k, v in pairs(extra or {}) do attributes[k] = v end
         return {tag = "Button", attributes = attributes}
+    end
+
+    -- Создаем ячейку с ЖЕСТКОЙ шириной и высотой
+    local function makeSquareCell(buttonNode)
+        return {
+            tag = "Cell",
+            attributes = {
+                width = ROW_HEIGHT,           -- жесткая ширина ячейки (80px)
+                height = ROW_HEIGHT,          -- жесткая высота ячейки (80px)
+                flexibleWidth = 0,            -- запрещаем растягивание по ширине
+                flexibleHeight = 0            -- запрещаем растягивание по высоте
+            },
+            children = { buttonNode }
+        }
     end
 
     return {
       tag = "Row",
       attributes = {
-        preferredHeight = ROW_HEIGHT
+        preferredHeight = ROW_HEIGHT,
+        alignment = "MiddleLeft" -- прижимаем весь ряд влево
       },
       children = {
-        {
-          tag = "Cell",
-          attributes = {
-          },
-          children = {
-            makeButton("up", "↑", "ShowcaseMerchandise"),
-            makeButton("down", "↓", "HidecaseMerchandise"),
-            makeButton("add", "+", "AddNewItem", {
-                tooltip = "Add new items to the store",
-                tooltipPosition = "Right",
-                tooltipOffset = "160",
-                visibility = "Black"
-            }),
-            makeButton("percent", "100%", "PercentageSubjects", {
-                tooltip = "Percentage of the number of items that will be laid out in random order",
-                tooltipPosition = "Right",
-                tooltipOffset = "60",
-                visibility = "Black"
-            }),
-          },
-        }
+        makeSquareCell(makeButton("up", "", "Decompose", "ShowcaseMerchandise")),
+        makeSquareCell(makeButton("down", "", "Fold", "HidecaseMerchandise")),
+        makeSquareCell(makeButton("add", "", "Add", "AddNewItem", {
+            tooltip = "Add new items to the store",
+            tooltipPosition = "Right",
+            tooltipOffset = "160",
+            visibility = "Black"
+        })),
+        makeSquareCell(makeButton("percent", "100%", "Procent", "PercentageSubjects", {
+            tooltip = "Percentage of the number of items that will be laid out in random order",
+            tooltipPosition = "Right",
+            tooltipOffset = "60",
+            visibility = "Black",
+            resizeTextMaxSize = "12"
+        })),
       }
     }
 end

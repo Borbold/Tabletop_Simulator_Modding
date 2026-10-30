@@ -1,11 +1,12 @@
 <Defaults>
-    <Button font='Fonts/Hanzi' resizeTextForBestFit='True' resizeTextMaxSize='60' resizeTextMinSize='20'
+    <Button font='Fonts/Hanzi' resizeTextForBestFit='True' resizeTextMaxSize='60' resizeTextMinSize='10'
         tooltipFont='Fonts/Allods' tooltipFontSize='35' tooltipWidth='400' tooltipOffset='50' color='#948773' />
-    <InputField textAlignment='MiddleCenter' font='Fonts/Hanzi' resizeTextForBestFit='True' resizeTextMaxSize='60' resizeTextMinSize='20'
+    <InputField textAlignment='MiddleCenter' font='Fonts/Hanzi' resizeTextForBestFit='True' resizeTextMaxSize='60' resizeTextMinSize='10'
         tooltipFont='Fonts/Allods' tooltipFontSize='35' tooltipWidth='400' tooltipOffset='50' color='#948773' />
+	<Cell dontUseTableCellBackground='true' />
 </Defaults>
 
-<Panel position='641 850 -65' height='80' width='365' visibility='Black'>
+<Panel position='650 850 -65' height='80' width='300' visibility='Black'>
 	<TableLayout cellSpacing='1'>
 		<Row>
 			<Cell>
@@ -18,8 +19,8 @@
 </Panel>
 
 <Panel position='650 80 -63'>
-	<VerticalScrollView height='510' width='400' verticalScrollbarVisibility='AutoHideAndExpandViewport' horizontalScrollbarVisibility='Permanent'
-		color='black' offsetXY='0 490'>
+	<VerticalScrollView height='510' width='270' verticalScrollbarVisibility='AutoHideAndExpandViewport' horizontalScrollbarVisibility='Permanent'
+		color='black' offsetXY='0 480'>
 		<TableLayout id='tableLayoutShop' height='510' cellSpacing='5'>
 			<!--Здесь вставляется код из lua-->
 		</TableLayout>
