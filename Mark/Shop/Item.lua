@@ -121,7 +121,7 @@ local function SpawnNewItemObject(paid)
 
     local spawnParametrs = {
         json = self.getJSON(),
-        position = {x = selfPosition.x - 2.5 * sx, y = selfPosition.y + 2 + countItem * sy, z = selfPosition.z},
+        position = {x = selfPosition.x, y = selfPosition.y + 2 + countItem * sy, z = selfPosition.z - coinPouch.getBounds().size.z - 2.5 * sz},
         -- масштаб покупаемого предмета, а не сброс в 1
         scale = {x = sx, y = sy, z = sz},
         sound = false,

@@ -43,6 +43,7 @@ function onLoad(savedData)
     Wait.time(function()
         ValidateStores()
         RebuildStoreRows()
+        startScript = true
     end, 0.3)
     StartHousekeeping()
 end
@@ -117,7 +118,7 @@ end
 
 function onCollisionEnter(info)
     local obj = info and info.collision_object
-    if obj == nil or tostring(obj) == "null" then return end
+    if obj == nil or tostring(obj) == "null" or not startScript then return end
     if(obj.getPosition().y < self.getPosition().y) then return end
 
     if(obj.hasTag(watchTag[1])) then
