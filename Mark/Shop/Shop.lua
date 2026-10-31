@@ -430,11 +430,22 @@ function HidecaseMerchandise(_, _, id)
   self.UI.setAttribute("discountField", "text", "")
 end
 
+local rebuilding = false
 function UpdateNameStore(player, input, id)
-  if(player == nil or player.color ~= "Black") then return end
-  self.UI.setAttribute(id, "text", input)
-  local detachedBag = getObjectFromGUID(allStoresGUID[StringInNumber(id)] or "")
-  if isAlive(detachedBag) then detachedBag.setName(input) end
+    if(rebuilding) then return end
+    if(player == nil or player.color ~= "Black") then return end
+    if(id == nil) then return end
+
+    local storeId = tonumber(id:gsub("%D", ""))
+    if(storeId == nil) then return end
+
+    local storeGUID = allStoresGUID[storeId]
+    if(storeGUID == nil) then return end
+
+    local detachedBag = getObjectFromGUID(storeGUID)
+    if(detachedBag == nil or tostring(detachedBag) == "null") then return end
+
+    detachedBag.setName(input or "")
 end
 
 function GiveDiscount(_, input)
@@ -475,6 +486,91 @@ local function DumpUiIds(node, depth, seen)
     for i = 1, #node do DumpUiIds(node[i], depth + 1, seen) end
 end
 
+local function BuildStoreNameRow(storeId, storeName)
+    local CELL_W = 258
+
+    return {
+      tag = "Row",
+      attributes = {
+        preferredHeight = ROW_HEIGHT
+      },
+      children = {
+        {
+          tag = "Cell",
+          attributes = {
+            columnSpan = "4",
+            height = ROW_HEIGHT,
+            flexibleHeight = 0
+          },
+          children = {
+            {
+              tag = "Panel",
+              attributes = {
+                width = CELL_W,
+                height = ROW_HEIGHT,
+                color = "#FFFFFF00",
+                raycastTarget = false
+              },
+              children = {
+                -- нижний слой: видимая надпись, color здесь — цвет текста
+                {
+                  tag = "Text",
+                  attributes = {
+                    id = "storelabel"..storeId,
+                    rectAlignment = "MiddleCenter",
+                    offsetXY = "0 0",
+                    width = CELL_W,
+                    height = ROW_HEIGHT,
+                    raycastTarget = false,
+                    font = "Fonts/Hanzi",
+                    alignment = "MiddleCenter",
+                    color = "#FFFFFF",
+                    resizeTextForBestFit = true,
+                    resizeTextMaxSize = 60,
+                    resizeTextMinSize = 10
+                  }
+                },
+                -- верхний слой: прозрачное поле, ловит клик и ввод
+                {
+                  tag = "InputField",
+                  attributes = {
+                    id = "storename"..storeId,
+                    rectAlignment = "MiddleCenter",
+                    offsetXY = "0 0",
+                    width = CELL_W,
+                    height = ROW_HEIGHT,
+                    placeholder = "storename",
+                    text = storeName or "plug text",
+                    colors = "clear",
+                    color = "#FFFFFF00",
+                    textColor = "#FFFFFF00",
+                    placeholderColor = "#FFFFFF00",
+                    caretColor = "#FFFFFF",
+                    onValueChanged = "SyncStoreNameLabel",
+                    onEndEdit = "UpdateNameStore",
+                    tooltip = "Shop name",
+                    tooltipPosition = "Above",
+                    tooltipOffset = "90",
+                    tooltipWidth = "180",
+                    selectionColor = "rgba(0.65,0.8,1,0.1)"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+end
+
+-- Поле прозрачное: видимый слой — Text под ним, он обновляется на каждый символ.
+function SyncStoreNameLabel(_, input, id)
+    if(rebuilding or id == nil) then return end
+    local labelId = id:gsub("^storename", "storelabel")
+    local text = (input == nil or input == "") and "storename" or input
+    pcall(function() self.UI.setValue(labelId, text) end)
+end
+
 function RebuildStoreRows(attempt)
     attempt = attempt or 1
 
@@ -505,6 +601,7 @@ function RebuildStoreRows(attempt)
         return
     end
 
+    rebuilding = true
     tableLayoutShop.children = {}
 
     for storeId, storeGUID in ipairs(allStoresGUID) do
@@ -516,41 +613,16 @@ function RebuildStoreRows(attempt)
     end
 
     self.UI.setXmlTable(xmlTable)
+    Wait.frames(function()
+        for storeId, storeGUID in ipairs(allStoresGUID) do
+            local store = getObjectFromGUID(storeGUID)
+            if isAlive(store) then
+                self.UI.setValue("storelabel"..storeId, store.getName())
+            end
+        end
+        rebuilding = false 
+    end, 2)
     Wait.time(|| FitPanelHeight(#allStoresGUID), 0.2)
-end
-
-function BuildStoreNameRow(storeId, storeName)
-    return {
-      tag = "Row",
-      attributes = {
-        preferredHeight = ROW_HEIGHT
-      },
-      children = {
-        {
-          tag = "Cell",
-          attributes = {
-            columnSpan = "4",
-          },
-          children = {
-            {
-              tag = "InputField",
-              attributes = {
-                id = "storename"..storeId,
-                placeholder = "storename",
-                text = storeName or "",
-                color = "#1f1f1fda",
-                textColor = "#ffffff",
-                onEndEdit = "UpdateNameStore",
-                tooltip = "Shop name",
-                tooltipPosition = "Above",
-                tooltipOffset = "90",
-                tooltipWidth='180'
-              }
-            }
-          },
-        }
-      }
-    }
 end
 
 function BuildStoreButtonRow(storeId)
