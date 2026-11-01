@@ -30,16 +30,25 @@ local ROW_HEIGHT, ROW_SPACING = 80, 5
 
 function UpdateSave()
     local dataToSave = {
-        ["allStoresGUID"] = allStoresGUID
+        ["allStoresGUID"] = allStoresGUID,
+        ["allObjectsItemGUID"] = allObjectsItemGUID
     }
     local savedData = JSON.encode(dataToSave)
     self.script_state = savedData
+end
+
+local saveQueued = false
+function RequestSave()
+    if saveQueued then return end
+    saveQueued = true
+    Wait.time(function() saveQueued = false UpdateSave() end, 0.5)
 end
 
 function onLoad(savedData)
     CreateGlobalVariable()
     local loadedData = (savedData ~= nil and savedData ~= "") and JSON.decode(savedData) or nil
     allStoresGUID = (loadedData and loadedData.allStoresGUID) or {}
+    allObjectsItemGUID = (loadedData and loadedData.allObjectsItemGUID) or {}
     Wait.time(function()
         ValidateStores()
         RebuildStoreRows()
@@ -175,6 +184,7 @@ function DeleteItem(guid)
     for i, v in ipairs(allObjectsItemGUID) do
       if(v == guid) then
         table.remove(allObjectsItemGUID, i)
+        RequestSave()
         break
       end
     end
@@ -239,6 +249,7 @@ function PutObjectsInBag(id)
   end
 
   local boardPos = self.getPosition()
+  local boardRotY = self.getRotation().y
   local locBoardObjectsPos, locBoardObjectsRot, locObjGUID = {}, {}, {}
   for _, v in ipairs(allObjectsItemGUID) do
     local locObj = getObjectFromGUID(v)
@@ -246,6 +257,7 @@ function PutObjectsInBag(id)
       -- координаты снимаем ДО перемещения в мешок
       local locPos = locObj.getPosition() - boardPos
       local locRot = locObj.getRotation()
+      locRot = {x = locRot.x, y = locRot.y - boardRotY, z = locRot.z}
 
       table.insert(locObjGUID, v)
       table.insert(locBoardObjectsPos, {x = locPos.x, y = locPos.y, z = locPos.z})
@@ -261,6 +273,7 @@ function PutObjectsInBag(id)
 
   -- список больше не «залипает» на уже упакованных предметах
   allObjectsItemGUID = {}
+  RequestSave()
 end
 
 function CreateScriptInBag(bag)
@@ -367,11 +380,12 @@ function ShowcaseMerchandise(_, _, id)
       table.insert(objRot, tonumber(digital))
     end
 
+    local worldOffset = Vector(objPos[1], objPos[2], objPos[3]):rotateOver("y", self.getRotation().y)
     local takeParametrs = {
       smooth = false,
       guid = objGUID,
-      position = {x = objPos[1] + boardPos.x, y = objPos[2] + boardPos.y, z = objPos[3] + boardPos.z},
-      rotation = {x = objRot[1], y = objRot[2], z = objRot[3]},
+      position = {x = worldOffset.x + boardPos.x, y = worldOffset.y + boardPos.y, z = worldOffset.z + boardPos.z},
+      rotation = {x = objRot[1], y = objRot[2] + self.getRotation().y, z = objRot[3]},
     }
     store.takeObject(takeParametrs)
     AddItemGuid(objGUID)
@@ -400,7 +414,7 @@ function ItemLeaveContainer(container, guid)
         end
 
         if(itemCost == nil or itemCost < 0) then
-            print([[{ru}Предмету не задана стоимость(либо стоимость предмета ниже нуля) После задания стоимости пересоздайте магазин, дабы цена вступила в силу{en}The item has no value set (or the value of the item is below zero) After setting the value, recreate the store so that the price takes effect.]])
+            broadcastToColor("{ru}Предмету не задана стоимость{en}The item has no value set", "Black")
         else
           item.call("CreateButton", itemCost)
         end
@@ -427,6 +441,7 @@ function HidecaseMerchandise(_, _, id)
     end
   end
   allObjectsItemGUID = remaining
+  RequestSave()
   self.UI.setAttribute("discountField", "text", "")
 end
 
@@ -707,7 +722,10 @@ function ValidateItems()
     for _, objGUID in ipairs(allObjectsItemGUID) do
         if isAlive(getObjectFromGUID(objGUID)) then table.insert(cleaned, objGUID) end
     end
-    allObjectsItemGUID = cleaned
+    if(#cleaned ~= #allObjectsItemGUID) then
+        allObjectsItemGUID = cleaned
+        RequestSave()
+    end
 end
 
 function AddItemGuid(guid)
@@ -715,6 +733,7 @@ function AddItemGuid(guid)
         if(v == guid) then return end
     end
     table.insert(allObjectsItemGUID, guid)
+    RequestSave()
 end
 
 -- Страховка: onObjectDestroy в объектном скрипте срабатывает не на все объекты
