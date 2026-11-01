@@ -21,26 +21,24 @@ end
 --   Название предмета
 --   строка описания (сколько угодно)
 --   cost: 12.5
+--   stock: 4
 local function buildPriceIndex()
     priceIndex = {}
-    if(priceRaw == "") then return end
+    if priceRaw == "" then return end
 
-    local name, desc = nil, {}
-    for line in priceRaw:gmatch("[^\r\n]+") do
-        local trimmed = line:gsub("^%s+", ""):gsub("%s+$", "")
-        if(trimmed ~= "") then
-            local costValue = trimmed:match("^cost:%s*(-?%d+%.?%d*)")
-            if(costValue ~= nil and name ~= nil) then
-                priceIndex[name] = {
-                    itemCost = tonumber(costValue),
-                    descObj = table.concat(desc, "\n"),
-                }
-                name, desc = nil, {}
-            elseif(name == nil) then
-                name, desc = trimmed, {}
-            else
-                table.insert(desc, trimmed)
-            end
+    local ok, data = pcall(JSON.decode, priceRaw)
+    if not ok or type(data) ~= "table" or type(data.items) ~= "table" then
+        print("[Shop] Ошибка: прайс-лист не является корректным JSON с полем 'items'")
+        return
+    end
+
+    for _, item in ipairs(data.items) do
+        if item.name and item.price then
+            priceIndex[item.name] = {
+                itemCost = tonumber(item.price),
+                itemStack = tonumber(item.stock or 1),
+                descObj = item.desc or ""
+            }
         end
     end
 end

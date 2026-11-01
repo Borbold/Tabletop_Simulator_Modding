@@ -1,0 +1,17 @@
+{
+  "shopName": "Синяя вода",
+  "currency": "gp",
+  "defaultDiscount": 0,
+  "items": [
+    {"name":"Кружка эля","price":0.04,"stock":20},
+    {"name":"Бокал вина","price":0.02,"stock":15},
+    {"name":"Ужин","price":0.05,"stock":12},
+    {"name":"Завтрак","price":0.03,"stock":12},
+    {"name":"Комната в общем зале","price":1,"stock":3},
+    {"name":"Отдельная комната","price":2,"stock":1},
+    {"name":"Место у очага","price":0.02,"stock":8},
+    {"name":"Бутылка вина","price":1,"stock":6},
+    {"name":"Слух","price":1,"stock":5},
+    {"name":"Конюшня","price":0.05,"stock":4}
+  ]
+}
