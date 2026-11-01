@@ -1,5 +1,5 @@
 local DEFAULT_PRICE_URL =
-    "https://raw.githubusercontent.com/Borbold/Sugule-shop/refs/heads/main/Test.txt"
+    "https://raw.githubusercontent.com/Borbold/Tabletop_Simulator_Modding/refs/heads/main/Mark/Shop/Tavern.json"
 
 allObjMeta = {}
 
