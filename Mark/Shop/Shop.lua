@@ -409,6 +409,7 @@ function ItemLeaveContainer(container, guid)
             local info = container.call("GetInfoItem", item.getName())
             if(info ~= nil and info.itemCost ~= nil) then
                 itemCost = info.itemCost
+                stockLeft = info.stock
                 if(info.descObj ~= nil and info.descObj ~= "") then
                     item.setDescription(info.descObj)
                 end
