@@ -254,8 +254,8 @@ function PutObjectsInBag(id)
   for _, v in ipairs(allObjectsItemGUID) do
     local locObj = getObjectFromGUID(v)
     if isAlive(locObj) then
-      -- координаты снимаем ДО перемещения в мешок
-      local locPos = locObj.getPosition() - boardPos
+      -- снимаем поворот доски, чтобы раскладка не зависела от её ориентации
+      local locPos = (locObj.getPosition() - boardPos):rotateOver("y", -boardRotY)
       local locRot = locObj.getRotation()
       locRot = {x = locRot.x, y = locRot.y - boardRotY, z = locRot.z}
 
