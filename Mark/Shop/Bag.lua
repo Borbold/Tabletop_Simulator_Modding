@@ -65,7 +65,7 @@ local function loadPriceList(attempt)
             if(attempt < 3) then
                 Wait.time(|| loadPriceList(attempt + 1), 2)
             else
-                print("[Shop] не удалось загрузить прайс: "..webSite)
+                log("[Shop] не удалось загрузить прайс: "..webSite)
             end
             return
         end
@@ -75,7 +75,7 @@ local function loadPriceList(attempt)
 
         local count = 0
         for _ in pairs(priceIndex) do count = count + 1 end
-        print("[Shop] прайс загружен, позиций: "..count)
+        log("[Shop] прайс загружен, позиций: "..count)
     end)
 end
 

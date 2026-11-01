@@ -411,8 +411,8 @@ function ItemLeaveContainer(container, guid)
                 itemCost = info.itemCost
                 if(info.descObj ~= nil and info.descObj ~= "") then
                     item.setDescription(info.descObj)
-                    item.setGMNotes("Add info site")
                 end
+                item.setGMNotes("Add info site")
             end
         end
 
