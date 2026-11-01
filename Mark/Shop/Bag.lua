@@ -114,8 +114,8 @@ function GetPriceListSize()
 end
 
 -- nil, если позиции нет в прайсе — вызывающая сторона обязана это проверить
-function GetCostItem(nameItem)
+function GetInfoItem(nameItem)
     local entry = priceIndex[stripTags(nameItem)]
     if(entry == nil or entry.itemCost == nil) then return nil end
-    return {itemCost = entry.itemCost, descObj = entry.descObj}
+    return {itemCost = entry.itemCost, stock = entry.stock descObj = entry.descObj}
 end

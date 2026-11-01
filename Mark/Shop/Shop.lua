@@ -406,11 +406,12 @@ function ItemLeaveContainer(container, guid)
             itemCost = value and tonumber(value) or nil
             stockLeft = m and tonumber(m) or nil
         else
-            local info = container.call("GetCostItem", item.getName())
+            local info = container.call("GetInfoItem", item.getName())
             if(info ~= nil and info.itemCost ~= nil) then
                 itemCost = info.itemCost
                 if(info.descObj ~= nil and info.descObj ~= "") then
                     item.setDescription(info.descObj)
+                    item.setGMNotes("Add info site")
                 end
             end
         end
