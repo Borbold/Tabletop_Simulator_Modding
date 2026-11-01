@@ -132,13 +132,25 @@ function GiveDiscountItem(parametrs)
 end
 
 function EndTrade()
-    thingsInBasket, countItem = {}, 0
-    itemCostDiscount = nil
-    if(itemCost ~= nil) then
-        self.editButton({index = 0, tooltip = "Buy for "..itemCost})
-        createCornerButton(1, "SelectItem", "Buy for "..itemCost, {1, 0.9, 0.9, 1})
-    end
-    SaveItemState()
+    Wait.frames(function()
+        local item = self
+        if item == nil or item.isDestroyed then return end
+
+        local guid = item.getGUID()  -- GUID берём ДО любых удалений
+        local shop = getObjectFromGUID(SHOP_GUID)
+        if shop == nil then
+            log("shop gone, skip cleanup")
+            return
+        end
+
+        thingsInBasket, countItem = {}, 0
+        itemCostDiscount = nil
+        if(itemCost ~= nil) then
+            self.editButton({index = 0, tooltip = "Buy for "..itemCost})
+            createCornerButton(1, "SelectItem", "Buy for "..itemCost, {1, 0.9, 0.9, 1})
+        end
+        SaveItemState()
+    end, 2)
 end
 
 function SetCoinPouchGUID(parametrs)
