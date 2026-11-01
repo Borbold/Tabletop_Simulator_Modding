@@ -68,12 +68,12 @@ local function createCornerButton(cornerSign, handler, tooltip, color)
     })
 end
 
-function CreateButton(itemC)
-    itemCost = tonumber(itemC)
+function CreateButton(data)
+    itemCost = tonumber(data.c)
     itemCostDiscount = nil
     if(itemCost == nil) then return end
 
-    stockLeft = tonumber(itemStock)
+    stockLeft = tonumber(data.s)
     if stockLeft == nil then
         local m = (self.getGMNotes() or ""):match("stock:%s*(%d+)")
         stockLeft = m and tonumber(m) or 1

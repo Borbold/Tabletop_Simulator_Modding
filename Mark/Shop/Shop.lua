@@ -398,11 +398,13 @@ function ItemLeaveContainer(container, guid)
         local item = getObjectFromGUID(guid)
         if not isAlive(item) then return end
 
-        local itemCost = nil
+        local itemCost, stockLeft = nil, nil
         local notes = item.getGMNotes() or ""
         if(notes:find("cost:")) then
             local value = notes:match("cost:%s*(-?%d+%.?%d*)")
+            local m = (self.getGMNotes() or ""):match("stock:%s*(%d+)")
             itemCost = value and tonumber(value) or nil
+            stockLeft = m and tonumber(m) or nil
         else
             local info = container.call("GetCostItem", item.getName())
             if(info ~= nil and info.itemCost ~= nil) then
@@ -416,7 +418,7 @@ function ItemLeaveContainer(container, guid)
         if(itemCost == nil or itemCost < 0) then
             broadcastToColor("{ru}Предмету не задана стоимость{en}The item has no value set", "Black")
         else
-          item.call("CreateButton", itemCost)
+          item.call("CreateButton", {c = itemCost, s = stockLeft})
         end
     end, 0.5)
 end
