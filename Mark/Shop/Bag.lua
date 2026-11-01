@@ -117,5 +117,5 @@ end
 function GetInfoItem(nameItem)
     local entry = priceIndex[stripTags(nameItem)]
     if(entry == nil or entry.itemCost == nil) then return nil end
-    return {itemCost = entry.itemCost, stock = entry.stock, descObj = entry.descObj}
+    return {itemCost = entry.itemCost, stock = entry.itemStack, descObj = entry.descObj}
 end
